@@ -1,0 +1,4 @@
+rfc_core:
+    resource: "@RFCCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+

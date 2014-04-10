@@ -1,0 +1,7 @@
+parameters:
+#    rfc_core.example.class: RFC\CoreBundle\Example
+
+services:
+#    rfc_core.example:
+#        class: %rfc_core.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
