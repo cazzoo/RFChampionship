@@ -5,3 +5,7 @@
 !app/logs/.gitkeep
 /build/
 /bin/
+/vendor/
+/web/bundles/
+/app/bootstrap*
+/app/config/parameters.yml

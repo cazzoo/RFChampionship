@@ -1,0 +1,28 @@
+{# src/RFC/CoreBundle/Resources/views/Admin/index.html.twig #}
+
+{% extends "RFCCoreBundle::layout.html.twig" %}
+
+{% block title %}
+  Admin - {{ parent() }}
+{% endblock %}
+
+{% block rfccore_body %}
+
+  <h2>Accès à l'administration</h2>
+
+  <ul>
+      <li>
+        <a href="{{ path('rfcCore_admin_addGame') }}">Ajouter un jeu</a>
+      </li>
+  </ul>
+  
+  <h2>Liste des jeux</h2>
+  <ul>
+  	{% for game in games %}
+      <li>
+        {{ game.id }} : {{ game.name }}
+      </li>
+     {% endfor %}
+  </ul>
+
+{% endblock %}
