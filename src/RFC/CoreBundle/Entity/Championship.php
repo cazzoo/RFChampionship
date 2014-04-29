@@ -2,6 +2,8 @@
 
 namespace RFC\CoreBundle\Entity;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +14,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Championship
 {
+    /**
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
+    
     /**
      * @var integer
      *
@@ -39,13 +47,6 @@ class Championship
     /**
      * @var array
      *
-     * @ORM\Column(name="list_events", type="array")
-     */
-    private $listEvents;
-
-    /**
-     * @var array
-     *
      * @ORM\Column(name="list_managers", type="array")
      */
     private $listManagers;
@@ -53,14 +54,14 @@ class Championship
     /**
      * @var array
      *
-     * @ORM\Column(name="meta_rule", type="array")
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\MetaRule"), cascade={"persist"}
      */
     private $metaRule;
 
     /**
      * @var array
      *
-     * @ORM\Column(name="list_rules", type="array")
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Rule"), cascade={"persist"}
      */
     private $listRules;
 
@@ -96,29 +97,6 @@ class Championship
     public function getIsAgreed()
     {
         return $this->isAgreed;
-    }
-
-    /**
-     * Set listEvents
-     *
-     * @param array $listEvents
-     * @return Championship
-     */
-    public function setListEvents($listEvents)
-    {
-        $this->listEvents = $listEvents;
-    
-        return $this;
-    }
-
-    /**
-     * Get listEvents
-     *
-     * @return array 
-     */
-    public function getListEvents()
-    {
-        return $this->listEvents;
     }
 
     /**
@@ -211,5 +189,59 @@ class Championship
     public function getGame()
     {
         return $this->game;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->metaRule = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add metaRule
+     *
+     * @param \RFC\CoreBundle\Entity\MetaRule $metaRule
+     * @return Championship
+     */
+    public function addMetaRule(\RFC\CoreBundle\Entity\MetaRule $metaRule)
+    {
+        $this->metaRule[] = $metaRule;
+    
+        return $this;
+    }
+
+    /**
+     * Remove metaRule
+     *
+     * @param \RFC\CoreBundle\Entity\MetaRule $metaRule
+     */
+    public function removeMetaRule(\RFC\CoreBundle\Entity\MetaRule $metaRule)
+    {
+        $this->metaRule->removeElement($metaRule);
+    }
+
+    /**
+     * Add listRules
+     *
+     * @param \RFC\CoreBundle\Entity\Rule $listRules
+     * @return Championship
+     */
+    public function addListRule(\RFC\CoreBundle\Entity\Rule $listRules)
+    {
+        $this->listRules[] = $listRules;
+    
+        return $this;
+    }
+
+    /**
+     * Remove listRules
+     *
+     * @param \RFC\CoreBundle\Entity\Rule $listRules
+     */
+    public function removeListRule(\RFC\CoreBundle\Entity\Rule $listRules)
+    {
+        $this->listRules->removeElement($listRules);
     }
 }

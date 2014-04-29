@@ -1,8 +1,10 @@
 <?php
-
 namespace RFC\CoreBundle\Entity;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use RFC\CoreBundle\Entity\KnowledgeData;
 
 /**
  * Rule
@@ -10,36 +12,38 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\RuleRepository")
  */
-class Rule
+class Rule extends KnowledgeData
 {
     /**
-     * @var integer
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
+
+    /**
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer @ORM\Column(name="id", type="integer")
+     *      @ORM\Id
+     *      @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @var string @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="value", type="text")
+     * @var string @ORM\Column(name="value", type="text")
      */
     private $value;
-
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -49,20 +53,20 @@ class Rule
     /**
      * Set name
      *
-     * @param string $name
+     * @param string $name            
      * @return Rule
      */
     public function setName($name)
     {
         $this->name = $name;
-    
+        
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -72,20 +76,20 @@ class Rule
     /**
      * Set value
      *
-     * @param string $value
+     * @param string $value            
      * @return Rule
      */
     public function setValue($value)
     {
         $this->value = $value;
-    
+        
         return $this;
     }
 
     /**
      * Get value
      *
-     * @return string 
+     * @return string
      */
     public function getValue()
     {

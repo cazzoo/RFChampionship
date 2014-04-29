@@ -2,7 +2,10 @@
 
 namespace RFC\CoreBundle\Entity;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use RFC\CoreBundle\Entity\Session;
 
 /**
  * Result
@@ -12,6 +15,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Result
 {
+    /**
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
+    
     /**
      * @var integer
      *
@@ -34,6 +43,12 @@ class Result
      * @ORM\Column(name="value", type="string", length=255)
      */
     private $value;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Session")
+  	 * @ORM\JoinColumn(nullable=false)
+     */
+    private $session;
 
 
     /**
@@ -90,5 +105,28 @@ class Result
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Set session
+     *
+     * @param \RFC\CoreBundle\Entity\Session $session
+     * @return Result
+     */
+    public function setSession(\RFC\CoreBundle\Entity\Session $session)
+    {
+        $this->session = $session;
+    
+        return $this;
+    }
+
+    /**
+     * Get session
+     *
+     * @return \RFC\CoreBundle\Entity\Session 
+     */
+    public function getSession()
+    {
+        return $this->session;
     }
 }
