@@ -1,23 +1,19 @@
-{# src/RFC/CoreBundle/Resources/views/Core/index.html.twig #}
+{# src/RFC/CoreBundle/Resources/views/Core/index.html.twig #} {% extends
+"RFCCoreBundle::layout.html.twig" %} {% block title %} Accueil - {{
+parent() }} {% endblock %} {% block rfccore_body %}
 
-{% extends "RFCCoreBundle::layout.html.twig" %}
+<h2>Liste des jeux</h2>
 
-{% block title %}
-  Accueil - {{ parent() }}
-{% endblock %}
-
-{% block rfccore_body %}
-
-  <h2>Liste des jeux</h2>
-
-  <ul>
-    {% for game in games %}
-      <li>
-        <a href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}">{{ game.name }}</a>
-      </li>
-    {% else %}
-      <li>Pas (encore !) de jeux</li>
-    {% endfor %}
-  </ul>
+<ul class="list-inline">
+	{% for game in games %}
+	<li><a
+		href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}"><div
+				class="text-center">
+				<img alt="game.name" src="{{ game.imageurl }}" class="img-rounded"
+					width="200px" /><br />
+				<span class="label label-default">{{ game.name }}</span></a>
+		</div></li> {% else %}
+	<li>Pas (encore !) de jeux</li> {% endfor %}
+</ul>
 
 {% endblock %}

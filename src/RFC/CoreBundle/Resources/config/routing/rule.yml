@@ -1,0 +1,30 @@
+admin_rule:
+    pattern:  /
+    defaults: { _controller: "RFCCoreBundle:Rule:index" }
+
+admin_rule_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "RFCCoreBundle:Rule:show" }
+
+admin_rule_new:
+    pattern:  /new
+    defaults: { _controller: "RFCCoreBundle:Rule:new" }
+
+admin_rule_create:
+    pattern:  /create
+    defaults: { _controller: "RFCCoreBundle:Rule:create" }
+    requirements: { _method: post }
+
+admin_rule_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "RFCCoreBundle:Rule:edit" }
+
+admin_rule_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "RFCCoreBundle:Rule:update" }
+    requirements: { _method: post|put }
+
+admin_rule_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "RFCCoreBundle:Rule:delete" }
+    requirements: { _method: post|delete }

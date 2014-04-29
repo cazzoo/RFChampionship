@@ -1,0 +1,30 @@
+admin_session:
+    pattern:  /
+    defaults: { _controller: "RFCCoreBundle:Session:index" }
+
+admin_session_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "RFCCoreBundle:Session:show" }
+
+admin_session_new:
+    pattern:  /new
+    defaults: { _controller: "RFCCoreBundle:Session:new" }
+
+admin_session_create:
+    pattern:  /create
+    defaults: { _controller: "RFCCoreBundle:Session:create" }
+    requirements: { _method: post }
+
+admin_session_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "RFCCoreBundle:Session:edit" }
+
+admin_session_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "RFCCoreBundle:Session:update" }
+    requirements: { _method: post|put }
+
+admin_session_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "RFCCoreBundle:Session:delete" }
+    requirements: { _method: post|delete }

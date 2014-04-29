@@ -2,14 +2,10 @@
 
 {% extends "::layout.html.twig" %}
 
-{% block title %}
-  RFC - {{ parent() }}
-{% endblock %}
-
 {% block body %}
 
   {# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}
-  <h1>RF Championship</h1>
+  {% block header %}<h1>RF Championship</h1>{% endblock %}
 
   <hr>
 

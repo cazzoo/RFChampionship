@@ -36,14 +36,6 @@ class Game
     private $image_url;
 
     /**
-     * @var \array
-     *
-     * @ORM\Column(name="list_championships", type="array")
-     */
-    private $listChampionships;
-
-
-    /**
      * Get id
      *
      * @return integer 
@@ -100,25 +92,25 @@ class Game
     }
 
     /**
-     * Set listChampionships
+     * Set image_url
      *
-     * @param array $listChampionships
+     * @param string $imageUrl
      * @return Game
      */
-    public function setListChampionships($listChampionships)
+    public function setImageUrl($imageUrl)
     {
-        $this->listChampionships = $listChampionships;
+        $this->image_url = $imageUrl;
     
         return $this;
     }
 
     /**
-     * Get listChampionships
+     * Get image_url
      *
-     * @return array 
+     * @return string 
      */
-    public function getListChampionships()
+    public function getImageUrl()
     {
-        return $this->listChampionships;
+        return $this->image_url;
     }
 }

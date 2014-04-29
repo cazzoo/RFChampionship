@@ -1,0 +1,30 @@
+admin_vehicle:
+    pattern:  /
+    defaults: { _controller: "RFCCoreBundle:Vehicle:index" }
+
+admin_vehicle_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "RFCCoreBundle:Vehicle:show" }
+
+admin_vehicle_new:
+    pattern:  /new
+    defaults: { _controller: "RFCCoreBundle:Vehicle:new" }
+
+admin_vehicle_create:
+    pattern:  /create
+    defaults: { _controller: "RFCCoreBundle:Vehicle:create" }
+    requirements: { _method: post }
+
+admin_vehicle_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "RFCCoreBundle:Vehicle:edit" }
+
+admin_vehicle_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "RFCCoreBundle:Vehicle:update" }
+    requirements: { _method: post|put }
+
+admin_vehicle_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "RFCCoreBundle:Vehicle:delete" }
+    requirements: { _method: post|delete }
