@@ -1,0 +1,30 @@
+admin_track:
+    pattern:  /
+    defaults: { _controller: "RFCCoreBundle:Track:index" }
+
+admin_track_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "RFCCoreBundle:Track:show" }
+
+admin_track_new:
+    pattern:  /new
+    defaults: { _controller: "RFCCoreBundle:Track:new" }
+
+admin_track_create:
+    pattern:  /create
+    defaults: { _controller: "RFCCoreBundle:Track:create" }
+    requirements: { _method: post }
+
+admin_track_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "RFCCoreBundle:Track:edit" }
+
+admin_track_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "RFCCoreBundle:Track:update" }
+    requirements: { _method: post|put }
+
+admin_track_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "RFCCoreBundle:Track:delete" }
+    requirements: { _method: post|delete }

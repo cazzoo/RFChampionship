@@ -27,6 +27,14 @@ class Championship
      * @ORM\Column(name="isAgreed", type="boolean")
      */
     private $isAgreed;
+    
+    /**
+     * @var RFC\CoreBundle\Entity\Game
+     * 
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
+  	 * @ORM\JoinColumn(nullable=false)
+     */
+    private $game;
 
     /**
      * @var array
@@ -180,5 +188,28 @@ class Championship
     public function getListRules()
     {
         return $this->listRules;
+    }
+
+    /**
+     * Set game
+     *
+     * @param \RFC\CoreBundle\Entity\Game $game
+     * @return Championship
+     */
+    public function setGame(\RFC\CoreBundle\Entity\Game $game)
+    {
+        $this->game = $game;
+    
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return \RFC\CoreBundle\Entity\Game 
+     */
+    public function getGame()
+    {
+        return $this->game;
     }
 }

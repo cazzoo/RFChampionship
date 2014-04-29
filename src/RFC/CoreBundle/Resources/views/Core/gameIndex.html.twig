@@ -1,23 +1,58 @@
-{# src/RFC/CoreBundle/Resources/views/Core/gameIndex.html.twig #}
+{# src/RFC/CoreBundle/Resources/views/Core/gameIndex.html.twig #} {%
+extends "RFCCoreBundle::layout.html.twig" %} {% block title %} {{
+parent() }} - {{ game.name }} {% endblock %} {% block header %} {{
+parent() }}
+<div class="dropdown">
+	<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+		Liste des jeux<span class="caret"></span>
+	</button>
+	<span class="dropdown-arrow dropdown-arrow-inverse"></span>
+	<ul class="dropdown-menu dropdown-inverse">
+		{% for gamedd in games %} {% if (game.id != gamedd.id) %}
+		<li><a
+			href="{{ path('rfcCore_gameSelection', {'gameId': gamedd.id}) }}">{{
+				gamedd.name }}</a></li> {% endif %}{% endfor %}
+	</ul>
+	<a href="{{ path('rfcCore_accueil') }}" class="btn btn-inverse btn-xs"
+		role="button">Sélectionner un autre jeu</a>
 
-{% extends "RFCCoreBundle::layout.html.twig" %}
+</div>
+{% endblock %} {% block rfccore_body %}
+<div id="menu" class="span3">
+	<nav class="navbar navbar-inverse" role="navigation">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#navbar-collapse-01">
+				<span class="sr-only">Toggle navigation</span>
+			</button>
+			<a class="navbar-brand"
+				href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}">Accueil
+				du jeu</a>
+		</div>
+		<div class="collapse navbar-collapse" id="navbar-collapse-01">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#fakelink">Championships</a></li>
+				<li><a href="#fakelink">Calendar</a></li>
+			</ul>
+			<form class="navbar-form navbar-right" action="#" role="search">
+				<div class="form-group">
+					<div class="input-group">
+						<input class="form-control" id="navbarInput-01" type="search"
+							placeholder="Search"> <span class="input-group-btn">
+							<button type="submit" class="btn">
+								<span class="fui-search"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</nav>
+</div>
 
-{% block title %}
-  Jeu - {{ parent() }}
-{% endblock %}
-
-{% block rfccore_body %}
-<h2>Modifier un article</h2>
-
-  <p>
-    Bienvenue sur le jeu {{ gameId }}
-  </p>
-
-  <p>
-    <a href="{{ path('rfcCore_accueil') }}" class="btn">
-      <i class="icon-chevron-left"></i>
-      Retour à l'accueil
-    </a>
-  </p>
+<h2>Bienvenue sur {{ game.name }}</h2>
+<p>
+	<img alt="{{ game.name }}" src="{{ game.imageurl }}" />
+</p>
 
 {% endblock %}
