@@ -21,11 +21,9 @@ class CoreController extends Controller
 
     public function menuAction($number)
     {
-        $gameList = array(
-            array('id' => 1, 'name' => 'Jeu 1'),
-            array('id' => 2, 'name' => 'Jeu 2'),
-            array('id' => 3, 'name' => 'Jeu 3')
-        );
+    	$em = $this->getDoctrine()->getManager();
+    	
+    	$gameList = $em->getRepository('RFCCoreBundle:Game')->findAll();
 
         return $this->render('RFCCoreBundle:Core:menu.html.twig', array(
             'gameList' => $gameList
