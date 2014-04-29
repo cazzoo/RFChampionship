@@ -9,3 +9,9 @@
 /web/bundles/
 /app/bootstrap*
 /app/config/parameters.yml
+## generic files to ignore
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
