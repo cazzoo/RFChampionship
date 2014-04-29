@@ -1,7 +1,8 @@
 <?php
-
 namespace RFC\CoreBundle\Entity;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,32 +14,39 @@ use Doctrine\ORM\Mapping as ORM;
 class Game
 {
     /**
-     * @var integer
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
+
+    /**
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer @ORM\Column(name="id", type="integer")
+     *      @ORM\Id
+     *      @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
+    private $shortName;
+
     /**
-     * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @var string @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
+    private $description;
+
     /**
-     * @var \string
      *
-     * @ORM\Column(name="image_url", type="string", length=255)
+     * @var \string @ORM\Column(name="image_url", type="string", length=255)
      */
     private $image_url;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -48,20 +56,20 @@ class Game
     /**
      * Set name
      *
-     * @param string $name
+     * @param string $name            
      * @return Game
      */
     public function setName($name)
     {
         $this->name = $name;
-    
+        
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -71,20 +79,20 @@ class Game
     /**
      * Set image
      *
-     * @param \string $image_url
+     * @param \string $image_url            
      * @return Game
      */
     public function setImage($image)
     {
         $this->image = $image;
-    
+        
         return $this;
     }
 
     /**
      * Get image
      *
-     * @return \stdClass 
+     * @return \stdClass
      */
     public function getImage()
     {
@@ -94,20 +102,20 @@ class Game
     /**
      * Set image_url
      *
-     * @param string $imageUrl
+     * @param string $imageUrl            
      * @return Game
      */
     public function setImageUrl($imageUrl)
     {
         $this->image_url = $imageUrl;
-    
+        
         return $this;
     }
 
     /**
      * Get image_url
      *
-     * @return string 
+     * @return string
      */
     public function getImageUrl()
     {

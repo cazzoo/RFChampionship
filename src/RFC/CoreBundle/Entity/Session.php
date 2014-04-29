@@ -2,7 +2,10 @@
 
 namespace RFC\CoreBundle\Entity;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use RFC\CoreBundle\Entity\Event;
 
 /**
  * Session
@@ -12,6 +15,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Session
 {
+    /**
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
+    
     /**
      * @var integer
      *
@@ -41,13 +50,12 @@ class Session
      * @ORM\Column(name="type", type="integer")
      */
     private $type;
-
+    
     /**
-     * @var array
-     *
-     * @ORM\Column(name="list_results", type="array")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Event")
+  	 * @ORM\JoinColumn(nullable=false)
      */
-    private $listResults;
+    private $event;
 
 
     /**
@@ -130,25 +138,25 @@ class Session
     }
 
     /**
-     * Set listResults
+     * Set event
      *
-     * @param array $listResults
+     * @param \RFC\CoreBundle\Entity\Event $event
      * @return Session
      */
-    public function setListResults($listResults)
+    public function setEvent(\RFC\CoreBundle\Entity\Event $event)
     {
-        $this->listResults = $listResults;
+        $this->event = $event;
     
         return $this;
     }
 
     /**
-     * Get listResults
+     * Get event
      *
-     * @return array 
+     * @return \RFC\CoreBundle\Entity\Event 
      */
-    public function getListResults()
+    public function getEvent()
     {
-        return $this->listResults;
+        return $this->event;
     }
 }

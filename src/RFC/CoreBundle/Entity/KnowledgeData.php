@@ -1,5 +1,4 @@
 <?php
-
 namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -13,27 +12,25 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class KnowledgeData
 {
+
     /**
-     * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer @ORM\Column(name="id", type="integer")
+     *      @ORM\Id
+     *      @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @var string @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -43,20 +40,20 @@ class KnowledgeData
     /**
      * Set name
      *
-     * @param string $name
+     * @param string $name            
      * @return KnowledgeData
      */
     public function setName($name)
     {
         $this->name = $name;
-    
+        
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {

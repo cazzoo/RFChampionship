@@ -1,16 +1,15 @@
-{# src/RFC/CoreBundle/Resources/views/layout.html.twig #}
+{# src/RFC/CoreBundle/Resources/views/layout.html.twig #} {% extends
+"::layout.html.twig" %} {% block body %} {# On définit un sous-titre
+commun à toutes les pages du bundle, par exemple #} {% block header %}
+<h1>RF Championship</h1>
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %} Connecté en tant que
+{{ app.user.username }} -
+<a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+{% else %}
+<a href="{{ path('fos_user_security_login') }}">Connexion</a>
+{% endif %}{% endblock %}
 
-{% extends "::layout.html.twig" %}
+<hr>
 
-{% block body %}
-
-  {# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}
-  {% block header %}<h1>RF Championship</h1>{% endblock %}
-
-  <hr>
-
-  {# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
-  {% block rfccore_body %}
-  {% endblock %}
-
-{% endblock %}
+{# On définit un nouveau bloc, que les vues du bundle pourront remplir
+#} {% block rfccore_body %} {% endblock %} {% endblock %}

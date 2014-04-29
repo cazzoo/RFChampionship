@@ -6,6 +6,7 @@ rfcCore_gameSelection:
     defaults: { _controller: RFCCoreBundle:Core:accessGame }
     requirements:
         gameId: \d*
+        
 rfcCore_admin_index:
     path:   /admin/
     defaults: { _controller: RFCCoreBundle:Admin:index }
