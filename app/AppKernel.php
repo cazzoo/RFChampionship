@@ -22,7 +22,8 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             
             new RFC\CoreBundle\RFCCoreBundle(),
-            new RFC\UserBundle\RFCUserBundle()
+            new RFC\UserBundle\RFCUserBundle(),
+            new RFC\AdminBundle\RFCAdminBundle(),
         );
         
         if (in_array($this->getEnvironment(), array(

@@ -1,0 +1,30 @@
+admin_event:
+    pattern:  /
+    defaults: { _controller: "RFCAdminBundle:Event:index" }
+
+admin_event_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "RFCAdminBundle:Event:show" }
+
+admin_event_new:
+    pattern:  /new
+    defaults: { _controller: "RFCAdminBundle:Event:new" }
+
+admin_event_create:
+    pattern:  /create
+    defaults: { _controller: "RFCAdminBundle:Event:create" }
+    requirements: { _method: post }
+
+admin_event_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "RFCAdminBundle:Event:edit" }
+
+admin_event_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "RFCAdminBundle:Event:update" }
+    requirements: { _method: post|put }
+
+admin_event_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "RFCAdminBundle:Event:delete" }
+    requirements: { _method: post|delete }
