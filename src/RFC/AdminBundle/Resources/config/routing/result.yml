@@ -1,0 +1,30 @@
+admin_result:
+    pattern:  /
+    defaults: { _controller: "RFCAdminBundle:Result:index" }
+
+admin_result_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "RFCAdminBundle:Result:show" }
+
+admin_result_new:
+    pattern:  /new
+    defaults: { _controller: "RFCAdminBundle:Result:new" }
+
+admin_result_create:
+    pattern:  /create
+    defaults: { _controller: "RFCAdminBundle:Result:create" }
+    requirements: { _method: post }
+
+admin_result_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "RFCAdminBundle:Result:edit" }
+
+admin_result_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "RFCAdminBundle:Result:update" }
+    requirements: { _method: post|put }
+
+admin_result_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "RFCAdminBundle:Result:delete" }
+    requirements: { _method: post|delete }

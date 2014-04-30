@@ -1,0 +1,33 @@
+RFCAdmin_index:
+    path:   /admin/
+    defaults: { _controller: RFCAdminBundle:Admin:index }
+RFCAdmin_game:
+    resource: "@RFCAdminBundle/Resources/config/routing/game.yml"
+    prefix:   /admin/game
+RFCAdmin_rule:
+     resource: "@RFCAdminBundle/Resources/config/routing/rule.yml"
+     prefix:   /admin/rule
+RFCAdmin_championship:
+    resource: "@RFCAdminBundle/Resources/config/routing/championship.yml"
+    prefix:   /admin/championship
+RFCAdmin_event:
+    resource: "@RFCAdminBundle/Resources/config/routing/event.yml"
+    prefix:   /admin/event
+RFCAdmin_session:
+    resource: "@RFCAdminBundle/Resources/config/routing/session.yml"
+    prefix:   /admin/session
+RFCAdmin_result:
+    resource: "@RFCAdminBundle/Resources/config/routing/result.yml"
+    prefix:   /admin/result
+RFCAdmin_track:
+    resource: "@RFCAdminBundle/Resources/config/routing/track.yml"
+    prefix:   /admin/track
+RFCAdmin_vehicle:
+    resource: "@RFCAdminBundle/Resources/config/routing/vehicle.yml"
+    prefix:   /admin/vehicle
+RFCAdmin_category:
+    resource: "@RFCAdminBundle/Resources/config/routing/category.yml"
+    prefix:   /admin/category
+RFCAdmin_metaRule:
+    resource: "@RFCAdminBundle/Resources/config/routing/metarule.yml"
+    prefix:   /admin/metaRule

@@ -1,0 +1,30 @@
+admin_championship:
+    pattern:  /
+    defaults: { _controller: "RFCAdminBundle:Championship:index" }
+
+admin_championship_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "RFCAdminBundle:Championship:show" }
+
+admin_championship_new:
+    pattern:  /new
+    defaults: { _controller: "RFCAdminBundle:Championship:new" }
+
+admin_championship_create:
+    pattern:  /create
+    defaults: { _controller: "RFCAdminBundle:Championship:create" }
+    requirements: { _method: post }
+
+admin_championship_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "RFCAdminBundle:Championship:edit" }
+
+admin_championship_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "RFCAdminBundle:Championship:update" }
+    requirements: { _method: post|put }
+
+admin_championship_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "RFCAdminBundle:Championship:delete" }
+    requirements: { _method: post|delete }

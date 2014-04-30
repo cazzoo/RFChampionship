@@ -1,0 +1,30 @@
+admin_track:
+    pattern:  /
+    defaults: { _controller: "RFCAdminBundle:Track:index" }
+
+admin_track_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "RFCAdminBundle:Track:show" }
+
+admin_track_new:
+    pattern:  /new
+    defaults: { _controller: "RFCAdminBundle:Track:new" }
+
+admin_track_create:
+    pattern:  /create
+    defaults: { _controller: "RFCAdminBundle:Track:create" }
+    requirements: { _method: post }
+
+admin_track_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "RFCAdminBundle:Track:edit" }
+
+admin_track_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "RFCAdminBundle:Track:update" }
+    requirements: { _method: post|put }
+
+admin_track_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "RFCAdminBundle:Track:delete" }
+    requirements: { _method: post|delete }
