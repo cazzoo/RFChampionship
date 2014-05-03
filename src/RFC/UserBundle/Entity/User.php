@@ -84,20 +84,20 @@ class User extends BaseUser
     /**
      * Set firstName
      *
-     * @param string $firstName
+     * @param string $firstName            
      * @return User
      */
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
-    
+        
         return $this;
     }
 
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -107,20 +107,20 @@ class User extends BaseUser
     /**
      * Set lastName
      *
-     * @param string $lastName
+     * @param string $lastName            
      * @return User
      */
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
-    
+        
         return $this;
     }
 
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
@@ -130,20 +130,20 @@ class User extends BaseUser
     /**
      * Set age
      *
-     * @param integer $age
+     * @param integer $age            
      * @return User
      */
     public function setAge($age)
     {
         $this->age = $age;
-    
+        
         return $this;
     }
 
     /**
      * Get age
      *
-     * @return integer 
+     * @return integer
      */
     public function getAge()
     {
@@ -153,20 +153,20 @@ class User extends BaseUser
     /**
      * Set avatarUrl
      *
-     * @param string $avatarUrl
+     * @param string $avatarUrl            
      * @return User
      */
     public function setAvatarUrl($avatarUrl)
     {
         $this->avatarUrl = $avatarUrl;
-    
+        
         return $this;
     }
 
     /**
      * Get avatarUrl
      *
-     * @return string 
+     * @return string
      */
     public function getAvatarUrl()
     {
@@ -176,20 +176,20 @@ class User extends BaseUser
     /**
      * Set steamId
      *
-     * @param string $steamId
+     * @param string $steamId            
      * @return User
      */
     public function setSteamId($steamId)
     {
         $this->steamId = $steamId;
-    
+        
         return $this;
     }
 
     /**
      * Get steamId
      *
-     * @return string 
+     * @return string
      */
     public function getSteamId()
     {
@@ -199,20 +199,20 @@ class User extends BaseUser
     /**
      * Set mentor
      *
-     * @param \RFC\UserBundle\Entity\User $mentor
+     * @param \RFC\UserBundle\Entity\User $mentor            
      * @return User
      */
     public function setMentor(\RFC\UserBundle\Entity\User $mentor = null)
     {
         $this->mentor = $mentor;
-    
+        
         return $this;
     }
 
     /**
      * Get mentor
      *
-     * @return \RFC\UserBundle\Entity\User 
+     * @return \RFC\UserBundle\Entity\User
      */
     public function getMentor()
     {
@@ -222,20 +222,20 @@ class User extends BaseUser
     /**
      * Add listChampionships
      *
-     * @param \RFC\CoreBundle\Entity\Championship $listChampionships
+     * @param \RFC\CoreBundle\Entity\Championship $listChampionships            
      * @return User
      */
     public function addListChampionship(\RFC\CoreBundle\Entity\Championship $listChampionships)
     {
         $this->listChampionships[] = $listChampionships;
-    
+        
         return $this;
     }
 
     /**
      * Remove listChampionships
      *
-     * @param \RFC\CoreBundle\Entity\Championship $listChampionships
+     * @param \RFC\CoreBundle\Entity\Championship $listChampionships            
      */
     public function removeListChampionship(\RFC\CoreBundle\Entity\Championship $listChampionships)
     {
@@ -245,7 +245,7 @@ class User extends BaseUser
     /**
      * Get listChampionships
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getListChampionships()
     {

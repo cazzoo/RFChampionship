@@ -4,38 +4,47 @@ namespace RFC\AdminBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-use RFC\CoreBundle\Entity\Game;
-use RFC\CoreBundle\Form\GameType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use RFC\UserBundle\Entity\User;
+use RFC\UserBundle\Form\UserFormType;
 
 /**
- * Game controller.
+ * User controller.
  *
+ * @Route("/admin/user")
  */
-class GameController extends Controller
+class UserController extends Controller
 {
 
     /**
-     * Lists all Game entities.
+     * Lists all User entities.
      *
+     * @Route("/", name="admin_user")
+     * @Method("GET")
+     * @Template()
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('RFCCoreBundle:Game')->findAll();
+        $entities = $em->getRepository('RFCUserBundle:User')->findAll();
 
-        return $this->render('RFCAdminBundle:Game:index.html.twig', array(
+        return array(
             'entities' => $entities,
-        ));
+        );
     }
     /**
-     * Creates a new Game entity.
+     * Creates a new User entity.
      *
+     * @Route("/", name="admin_user_create")
+     * @Method("POST")
+     * @Template("Bundle:Admin:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new Game();
+        $entity = new User();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -44,26 +53,26 @@ class GameController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_game_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('admin_user_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('RFCAdminBundle:Game:new.html.twig', array(
+        return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        ));
+        );
     }
 
     /**
-    * Creates a form to create a Game entity.
+    * Creates a form to create a User entity.
     *
-    * @param Game $entity The entity
+    * @param User $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(Game $entity)
+    private function createCreateForm(User $entity)
     {
-        $form = $this->createForm(new GameType(), $entity, array(
-            'action' => $this->generateUrl('admin_game_create'),
+        $form = $this->createForm(new UserType('RFC\UserBundle\Entity\User'), $entity, array(
+            'action' => $this->generateUrl('admin_user_create'),
             'method' => 'POST',
         ));
 
@@ -73,76 +82,86 @@ class GameController extends Controller
     }
 
     /**
-     * Displays a form to create a new Game entity.
+     * Displays a form to create a new User entity.
      *
+     * @Route("/new", name="admin_user_new")
+     * @Method("GET")
+     * @Template()
      */
     public function newAction()
     {
-        $entity = new Game();
+        $entity = new User();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('RFCAdminBundle:Game:new.html.twig', array(
+        return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        ));
+        );
     }
 
     /**
-     * Finds and displays a Game entity.
+     * Finds and displays a User entity.
      *
+     * @Route("/{id}", name="admin_user_show")
+     * @Method("GET")
+     * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RFCCoreBundle:Game')->find($id);
+        $entity = $em->getRepository('RFCUserBundle:User')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Game entity.');
+            throw $this->createNotFoundException('Unable to find User entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('RFCAdminBundle:Game:show.html.twig', array(
+        return array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+            'delete_form' => $deleteForm->createView(),
+        );
     }
 
     /**
-     * Displays a form to edit an existing Game entity.
+     * Displays a form to edit an existing User entity.
      *
+     * @Route("/{id}/edit", name="admin_user_edit")
+     * @Method("GET")
+     * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RFCCoreBundle:Game')->find($id);
+        $entity = $em->getRepository('RFCUserBundle:User')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Game entity.');
+            throw $this->createNotFoundException('Unable to find User entity.');
         }
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('RFCAdminBundle:Game:edit.html.twig', array(
+        return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        );
     }
 
     /**
-    * Creates a form to edit a Game entity.
+    * Creates a form to edit a User entity.
     *
-    * @param Game $entity The entity
+    * @param User $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Game $entity)
+    private function createEditForm(User $entity)
     {
-        $form = $this->createForm(new GameType(), $entity, array(
-            'action' => $this->generateUrl('admin_game_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new UserFormType('RFC\UserBundle\Entity\User'), $entity, array(
+            'action' => $this->generateUrl('admin_user_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -151,17 +170,20 @@ class GameController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Game entity.
+     * Edits an existing User entity.
      *
+     * @Route("/{id}", name="admin_user_update")
+     * @Method("PUT")
+     * @Template("RFCAdminBundle:Admin:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RFCCoreBundle:Game')->find($id);
+        $entity = $em->getRepository('RFCUserBundle:User')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Game entity.');
+            throw $this->createNotFoundException('Unable to find User entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -171,18 +193,20 @@ class GameController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_game_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_user_edit', array('id' => $id)));
         }
 
-        return $this->render('RFCAdminBundle:Game:edit.html.twig', array(
+        return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        );
     }
     /**
-     * Deletes a Game entity.
+     * Deletes a User entity.
      *
+     * @Route("/{id}", name="admin_user_delete")
+     * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
     {
@@ -191,21 +215,21 @@ class GameController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Game')->find($id);
+            $entity = $em->getRepository('RFCUserBundle:User')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Game entity.');
+                throw $this->createNotFoundException('Unable to find User entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('admin_game'));
+        return $this->redirect($this->generateUrl('admin_user'));
     }
 
     /**
-     * Creates a form to delete a Game entity by id.
+     * Creates a form to delete a User entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -214,7 +238,7 @@ class GameController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_game_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('admin_user_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
