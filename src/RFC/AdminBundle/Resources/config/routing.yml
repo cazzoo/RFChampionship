@@ -31,3 +31,6 @@ RFCAdmin_category:
 RFCAdmin_metaRule:
     resource: "@RFCAdminBundle/Resources/config/routing/metarule.yml"
     prefix:   /admin/metaRule
+RFCAdmin_user:
+    resource: "@RFCAdminBundle/Resources/config/routing/user.yml"
+    prefix:   /admin/user
