@@ -1,15 +1,10 @@
-{% extends '::base.html.twig' %}
+{% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
+- {{ parent() }} {% endblock %} {% block rfccore_body %}
+<h1>User creation</h1>
 
-{% block body -%}
-    <h1>User creation</h1>
+{{ form(form) }}
 
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_user') }}">
-            Back to the list
-        </a>
-    </li>
+<ul class="record_actions">
+	<li><a href="{{ path('admin_user') }}"> Back to the list </a></li>
 </ul>
 {% endblock %}
