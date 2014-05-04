@@ -2,6 +2,11 @@ parameters:
 #    rfc_user.example.class: RFC\UserBundle\Example
 
 services:
+    rfc_user.registration.form.type:
+        class: RFC\UserBundle\Form\RegistrationFormType
+        arguments: [%fos_user.model.user.class%] 
+        tags:
+            - { name: form.type, alias: rfc_user_registration }
 #    rfc_user.example:
 #        class: %rfc_user.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]

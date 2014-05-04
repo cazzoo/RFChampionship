@@ -71,7 +71,7 @@ class UserController extends Controller
     */
     private function createCreateForm(User $entity)
     {
-        $form = $this->createForm(new UserType('RFC\UserBundle\Entity\User'), $entity, array(
+        $form = $this->createForm(new UserFormType('RFC\UserBundle\Entity\User'), $entity, array(
             'action' => $this->generateUrl('admin_user_create'),
             'method' => 'POST',
         ));

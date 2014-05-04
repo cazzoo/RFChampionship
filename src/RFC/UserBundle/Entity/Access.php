@@ -7,6 +7,7 @@ namespace RFC\UserBundle\Entity;
  */
 class Access
 {
+    
     /**
      * @var integer
      */
