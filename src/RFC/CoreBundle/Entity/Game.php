@@ -1,7 +1,6 @@
 <?php
 namespace RFC\CoreBundle\Entity;
 
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,35 +12,50 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Game
 {
-    /**
-     * Hook timestampable behavior
-     * updates createdAt, updatedAt fields
-     */
-    use TimestampableEntity;
 
     /**
-     *
-     * @var integer @ORM\Column(name="id", type="integer")
-     *      @ORM\Id
-     *      @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
+    /**
+     * @ORM\Column(name="shortName", type="string", length=255)
+     */
     private $shortName;
 
     /**
-     *
-     * @var string @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
+    /**
+     * @ORM\Column(name="description", type="text", length=255, nullable=true)
+     */
     private $description;
 
     /**
-     *
-     * @var \string @ORM\Column(name="image_url", type="string", length=255)
+     * @ORM\Column(name="image_url", type="string", length=255)
      */
     private $image_url;
+
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
+    
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     /**
      * Get id
@@ -120,5 +134,97 @@ class Game
     public function getImageUrl()
     {
         return $this->image_url;
+    }
+
+    /**
+     * Set shortName
+     *
+     * @param string $shortName            
+     * @return Game
+     */
+    public function setShortName($shortName)
+    {
+        $this->shortName = $shortName;
+        
+        return $this;
+    }
+
+    /**
+     * Get shortName
+     *
+     * @return string
+     */
+    public function getShortName()
+    {
+        return $this->shortName;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description            
+     * @return Game
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt            
+     * @return Game
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt            
+     * @return Game
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+        
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

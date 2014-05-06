@@ -1,0 +1,19 @@
+{% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
+- {{ parent() }} {% endblock %} {% block rfccore_body %}
+<h1>{{ entity.name }}</h1>
+
+<h2>Oraganisation</h2>
+
+<a href="{{ path('admin_championship', {'gameId' : entity.id}) }}">Gérer
+	les Championnats</a>
+
+<h2>Gestion des Données</h2>
+
+<ul>
+	<li><a href="{{ path('admin_track', {'gameId' : entity.id}) }}">Gérer les Circuits</a></li>
+	<li><a href="{{ path('admin_vehicle', {'gameId' : entity.id}) }}">Gérer les Voitures</a></li>
+	<li><a href="{{ path('admin_category', {'gameId' : entity.id}) }}">Gérer les Categories</a></li>
+	<li><a href="{{ path('admin_metaRule', { 'gameId': entity.id }) }}">Gérer les Règles</a></li>
+</ul>
+
+{% endblock %}

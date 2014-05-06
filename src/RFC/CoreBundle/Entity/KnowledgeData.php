@@ -2,40 +2,26 @@
 namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use RFC\CoreBundle\Entity\Game;
 
 /**
  * KnowledgeData
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\KnowledgeDataRepository")
  * @ORM\MappedSuperclass
  */
-class KnowledgeData
+abstract class KnowledgeData
 {
 
     /**
-     *
-     * @var integer @ORM\Column(name="id", type="integer")
-     *      @ORM\Id
-     *      @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    private $id;
+    protected $name;
 
     /**
-     *
-     * @var string @ORM\Column(name="name", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $name;
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    protected $game;
 
     /**
      * Set name
@@ -58,5 +44,28 @@ class KnowledgeData
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set game
+     *
+     * @param \RFC\CoreBundle\Entity\Game $game            
+     * @return KnowledgeData
+     */
+    public function setGame(Game $game)
+    {
+        $this->game = $game;
+        
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return \RFC\CoreBundle\Entity\Game
+     */
+    public function getGame()
+    {
+        return $this->game;
     }
 }

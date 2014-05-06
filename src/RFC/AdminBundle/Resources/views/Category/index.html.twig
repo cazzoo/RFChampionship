@@ -1,6 +1,5 @@
-{% extends '::base.html.twig' %}
-
-{% block body -%}
+{% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
+- {{ parent() }} {% endblock %} {% block rfccore_body %}
     <h1>Category list</h1>
 
     <table class="records_list">

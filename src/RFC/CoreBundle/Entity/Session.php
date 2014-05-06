@@ -1,8 +1,6 @@
 <?php
-
 namespace RFC\CoreBundle\Entity;
 
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\Event;
@@ -15,53 +13,55 @@ use RFC\CoreBundle\Entity\Event;
  */
 class Session
 {
+
     /**
-     * Hook timestampable behavior
-     * updates createdAt, updatedAt fields
-     */
-    use TimestampableEntity;
-    
-    /**
-     * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer @ORM\Column(name="id", type="integer")
+     *      @ORM\Id
+     *      @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var \DateTime
      *
-     * @ORM\Column(name="begin_date", type="date")
+     * @var \DateTime @ORM\Column(name="begin_date", type="date")
      */
     private $beginDate;
 
     /**
-     * @var \DateTime
      *
-     * @ORM\Column(name="end_date", type="date")
+     * @var \DateTime @ORM\Column(name="end_date", type="date")
      */
     private $endDate;
 
     /**
-     * @var integer
      *
-     * @ORM\Column(name="type", type="integer")
+     * @var integer @ORM\Column(name="type", type="integer")
      */
     private $type;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Event")
-  	 * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $event;
 
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -71,20 +71,20 @@ class Session
     /**
      * Set beginDate
      *
-     * @param \DateTime $beginDate
+     * @param \DateTime $beginDate            
      * @return Session
      */
     public function setBeginDate($beginDate)
     {
         $this->beginDate = $beginDate;
-    
+        
         return $this;
     }
 
     /**
      * Get beginDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getBeginDate()
     {
@@ -94,20 +94,20 @@ class Session
     /**
      * Set endDate
      *
-     * @param \DateTime $endDate
+     * @param \DateTime $endDate            
      * @return Session
      */
     public function setEndDate($endDate)
     {
         $this->endDate = $endDate;
-    
+        
         return $this;
     }
 
     /**
      * Get endDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndDate()
     {
@@ -117,20 +117,20 @@ class Session
     /**
      * Set type
      *
-     * @param integer $type
+     * @param integer $type            
      * @return Session
      */
     public function setType($type)
     {
         $this->type = $type;
-    
+        
         return $this;
     }
 
     /**
      * Get type
      *
-     * @return integer 
+     * @return integer
      */
     public function getType()
     {
@@ -140,23 +140,69 @@ class Session
     /**
      * Set event
      *
-     * @param \RFC\CoreBundle\Entity\Event $event
+     * @param \RFC\CoreBundle\Entity\Event $event            
      * @return Session
      */
     public function setEvent(\RFC\CoreBundle\Entity\Event $event)
     {
         $this->event = $event;
-    
+        
         return $this;
     }
 
     /**
      * Get event
      *
-     * @return \RFC\CoreBundle\Entity\Event 
+     * @return \RFC\CoreBundle\Entity\Event
      */
     public function getEvent()
     {
         return $this->event;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt            
+     * @return Session
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt            
+     * @return Session
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+        
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

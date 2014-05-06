@@ -1,43 +1,55 @@
-{% extends '::base.html.twig' %}
+{% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
+- {{ parent() }} {% endblock %} {% block rfccore_body %}
 
-{% block body -%}
-    <h1>MetaRule list</h1>
+<div class="row">
+	<div class="col-md-4">
+		<h1>Meta Rules</h1>
 
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Listrules</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('admin_metaRule_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.name }}</td>
-                <td>{{ entity.listRules }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('admin_metaRule_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_metaRule_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+		{% for metaRule in metaRules %}
+		<div class="list-group">
+			<div class="row">
+				<a href="#" class="list-group-item">
+					<h4 class="list-group-item-heading">{{ metaRule.name }}</h4>
+					<p class="list-group-item-text">{{ metaRule.description }}
+					<div class="col-md-6">
+						<a class="btn btn-default btn-xs" role="button"
+							href="{{ path(
+		'admin_metaRule_show', {'id' : metaRule.id, 'gameId' : gameId }) }}">show</a>
+						<a class="btn btn-default btn-xs" role="button"
+							href="{{ path('admin_metaRule_edit', {'id' : metaRule.id, 'gameId' : gameId}) }}">edit</a>
+					</div>
+					</p>
+				</a>
+			</div>
+		</div>
+		{% endfor %} <a class="btn btn-default btn-xs" role="button"
+			href="{{ path('admin_metaRule_new', {'gameId' : gameId}) }}"> Create
+			a new metaRule </a>
+	</div>
+	<div class="col-md-8">
+		<h1>Rules</h1>
 
-        <ul>
-        <li>
-            <a href="{{ path('admin_metaRule_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+		{% for rule in rules %}
+		<div class="list-group">
+			<div class="row">
+				<a href="#" class="list-group-item">
+					<h4 class="list-group-item-heading">{{ rule.name }}</h4>
+					<p class="list-group-item-text">{{ rule.name }}
+					
+					<div class="col-md-6">
+						<a class="btn btn-default btn-xs" role="button"
+							href="{{ path(
+		'admin_rule_show', {'id' : rule.id, 'gameId' : gameId }) }}">show</a>
+						<a class="btn btn-default btn-xs" role="button"
+							href="{{ path('admin_rule_edit', {'id' : rule.id, 'gameId' : gameId}) }}">edit</a>
+					</div>
+					</p>
+				</a>
+			</div>
+			{% endfor %} <a class="btn btn-default btn-xs" role="button"
+				href="{{ path('admin_rule_new', {'gameId' : gameId}) }}"> Create a
+				new rule </a>
+		</div>
+	</div>
+</div>
+{% endblock %}

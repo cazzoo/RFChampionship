@@ -16,6 +16,8 @@ class GameType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('shortName')
+            ->add('description')
             ->add('image_url')
         ;
     }
