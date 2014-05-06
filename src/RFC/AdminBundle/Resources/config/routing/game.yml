@@ -6,6 +6,10 @@ admin_game_show:
     pattern:  /{id}/show
     defaults: { _controller: "RFCAdminBundle:Game:show" }
 
+admin_game_manage:
+    pattern:  /{id}/manage
+    defaults: { _controller: "RFCAdminBundle:Game:manage" }
+
 admin_game_new:
     pattern:  /new
     defaults: { _controller: "RFCAdminBundle:Game:new" }

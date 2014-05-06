@@ -1,7 +1,6 @@
 <?php
 namespace RFC\CoreBundle\Entity;
 
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\KnowledgeData;
@@ -14,25 +13,45 @@ use RFC\CoreBundle\Entity\KnowledgeData;
  */
 class MetaRule extends KnowledgeData
 {
-    /**
-     * Hook timestampable behavior
-     * updates createdAt, updatedAt fields
-     */
-    use TimestampableEntity;
 
     /**
-     *
-     * @var integer @ORM\Column(name="id", type="integer")
-     *      @ORM\Id
-     *      @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     *
-     * @var \array @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Rule"), cascade={"persist"}
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(name="isAgreed", type="boolean")
+     */
+    private $isAgreed;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Rule")
      */
     private $listRules;
+
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
+
+    public function __construct()
+    {
+        $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -65,5 +84,120 @@ class MetaRule extends KnowledgeData
     public function getListRules()
     {
         return $this->listRules;
+    }
+
+    /**
+     * Add listRules
+     *
+     * @param \RFC\CoreBundle\Entity\Rule $listRules            
+     * @return MetaRule
+     */
+    public function addListRule(\RFC\CoreBundle\Entity\Rule $listRules)
+    {
+        $this->listRules[] = $listRules;
+        
+        return $this;
+    }
+
+    /**
+     * Remove listRules
+     *
+     * @param \RFC\CoreBundle\Entity\Rule $listRules            
+     */
+    public function removeListRule(\RFC\CoreBundle\Entity\Rule $listRules)
+    {
+        $this->listRules->removeElement($listRules);
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description            
+     * @return MetaRule
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set isAgreed
+     *
+     * @param boolean $isAgreed            
+     * @return MetaRule
+     */
+    public function setIsAgreed($isAgreed)
+    {
+        $this->isAgreed = $isAgreed;
+        
+        return $this;
+    }
+
+    /**
+     * Get isAgreed
+     *
+     * @return boolean
+     */
+    public function getIsAgreed()
+    {
+        return $this->isAgreed;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt            
+     * @return MetaRule
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt            
+     * @return MetaRule
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+        
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

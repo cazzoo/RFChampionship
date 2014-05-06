@@ -17,6 +17,7 @@ messages %}
 <div class="flash-{{ type }}">{{ message }}</div>
 {% endfor %} {% endfor %}
 
-<div>{% block fos_user_content %} {% endblock fos_user_content %}</div>
+<div>{% block header %} {% block fos_user_content %} {% endblock
+	fos_user_content %} {% endblock header %}</div> <hr />
 
 {% block rfccore_body %} {% endblock %} {% endblock %}

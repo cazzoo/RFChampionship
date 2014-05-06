@@ -30,7 +30,7 @@ RFCAdmin_category:
     prefix:   /admin/category
 RFCAdmin_metaRule:
     resource: "@RFCAdminBundle/Resources/config/routing/metarule.yml"
-    prefix:   /admin/metaRule
+    prefix:   /admin/game/{gameId}/metaRule
 RFCAdmin_user:
     resource: "@RFCAdminBundle/Resources/config/routing/user.yml"
     prefix:   /admin/user
