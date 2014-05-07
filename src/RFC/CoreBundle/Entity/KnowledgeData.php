@@ -17,10 +17,6 @@ abstract class KnowledgeData
      */
     protected $name;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
-     * @ORM\JoinColumn(nullable=false)
-     */
     protected $game;
 
     /**

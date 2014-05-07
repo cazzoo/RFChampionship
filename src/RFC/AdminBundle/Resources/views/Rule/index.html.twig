@@ -1,43 +1,33 @@
-{% extends '::base.html.twig' %}
+{% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
+- {{ parent() }} {% endblock %} {% block rfccore_body %}
 
-{% block body -%}
-    <h1>Rule list</h1>
+<div class="row">
+	<div class="col-md-12">
+		<h1>
+			Rules <a class="btn btn-default btn-xs" role="button"
+				href="{{ path('admin_rule_new', {'gameId' : gameId}) }}"> Create a
+				new rule </a>
+		</h1>
 
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Value</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('admin_rule_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.name }}</td>
-                <td>{{ entity.value }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('admin_rule_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_rule_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('admin_rule_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+		{% for rule in rules %}
+		<div class="list-group">
+			<div class="row">
+				<a href="#" class="list-group-item">
+					<h4 class="list-group-item-heading">{{ rule.name }}</h4>
+					<p class="list-group-item-text">{{ rule.value}}
+					
+					<div class="col-md-6">
+						<a class="btn btn-default btn-xs" role="button"
+							href="{{ path(
+		'admin_rule_show', {'id' : rule.id, 'gameId' : gameId }) }}">show</a>
+						<a class="btn btn-default btn-xs" role="button"
+							href="{{ path('admin_rule_edit', {'id' : rule.id, 'gameId' : gameId}) }}">edit</a>
+					</div>
+					</p>
+				</a>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}

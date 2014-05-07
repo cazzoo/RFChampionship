@@ -22,6 +22,12 @@ class MetaRule extends KnowledgeData
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game", inversedBy="listMetaRules")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $game;
+
+    /**
      * @ORM\Column(name="description", type="text")
      */
     private $description;

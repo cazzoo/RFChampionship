@@ -22,8 +22,13 @@ class Rule extends KnowledgeData
     private $id;
 
     /**
-     *
-     * @var string @ORM\Column(name="value", type="text")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game", inversedBy="listRules")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $game;
+
+    /**
+     * @ORM\Column(name="value", type="text")
      */
     private $value;
 
@@ -38,28 +43,20 @@ class Rule extends KnowledgeData
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
-
-    /**
-     * Set name
-     *
-     * @param string $name            
-     * @return Rule
-     */
-    public function setName($name)
+    
+    public function __toString()
     {
-        $this->name = $name;
-        
-        return $this;
+        return $this->name;
     }
 
     /**
-     * Get name
+     * Get id
      *
-     * @return string
+     * @return integer
      */
-    public function getName()
+    public function getId()
     {
-        return $this->name;
+        return $this->id;
     }
 
     /**

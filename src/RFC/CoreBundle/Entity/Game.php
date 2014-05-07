@@ -36,9 +36,19 @@ class Game
     private $description;
 
     /**
-     * @ORM\Column(name="image_url", type="string", length=255)
+     * @ORM\Column(name="imageUrl", type="string", length=255)
      */
-    private $image_url;
+    private $imageUrl;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\MetaRule", mappedBy="game")
+     */
+    private $listMetaRules;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Rule", mappedBy="game")
+     */
+    private $listRules;
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -47,11 +57,20 @@ class Game
     private $createdAt;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->listMetaRules = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
-    
+
     public function __toString()
     {
         return $this->name;
@@ -121,7 +140,7 @@ class Game
      */
     public function setImageUrl($imageUrl)
     {
-        $this->image_url = $imageUrl;
+        $this->imageUrl = $imageUrl;
         
         return $this;
     }
@@ -133,7 +152,7 @@ class Game
      */
     public function getImageUrl()
     {
-        return $this->image_url;
+        return $this->imageUrl;
     }
 
     /**
@@ -226,5 +245,71 @@ class Game
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Add listMetaRules
+     *
+     * @param \RFC\CoreBundle\Entity\MetaRule $listMetaRules            
+     * @return Game
+     */
+    public function addListMetaRule(\RFC\CoreBundle\Entity\MetaRule $listMetaRules)
+    {
+        $this->listMetaRules[] = $listMetaRules;
+        
+        return $this;
+    }
+
+    /**
+     * Remove listMetaRules
+     *
+     * @param \RFC\CoreBundle\Entity\MetaRule $listMetaRules            
+     */
+    public function removeListMetaRule(\RFC\CoreBundle\Entity\MetaRule $listMetaRules)
+    {
+        $this->listMetaRules->removeElement($listMetaRules);
+    }
+
+    /**
+     * Get listMetaRules
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getListMetaRules()
+    {
+        return $this->listMetaRules;
+    }
+
+    /**
+     * Add listRules
+     *
+     * @param \RFC\CoreBundle\Entity\Rule $listRules            
+     * @return Game
+     */
+    public function addListRule(\RFC\CoreBundle\Entity\Rule $listRules)
+    {
+        $this->listRules[] = $listRules;
+        
+        return $this;
+    }
+
+    /**
+     * Remove listRules
+     *
+     * @param \RFC\CoreBundle\Entity\Rule $listRules            
+     */
+    public function removeListRule(\RFC\CoreBundle\Entity\Rule $listRules)
+    {
+        $this->listRules->removeElement($listRules);
+    }
+
+    /**
+     * Get listRules
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getListRules()
+    {
+        return $this->listRules;
     }
 }

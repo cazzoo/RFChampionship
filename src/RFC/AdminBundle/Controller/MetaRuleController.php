@@ -27,7 +27,8 @@ class MetaRuleController extends Controller
         return $this->render('RFCAdminBundle:MetaRule:index.html.twig', array(
             'metaRules' => $metaRules,
             'rules' => $rules,
-            'gameId' => $gameId
+            'gameId' => $gameId,
+            'game' => $game
         ));
     }
 
@@ -53,7 +54,8 @@ class MetaRuleController extends Controller
         
         return $this->render('RFCAdminBundle:MetaRule:new.html.twig', array(
             'entity' => $entity,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'gameId' => $gameId
         ));
     }
 
@@ -177,7 +179,7 @@ class MetaRuleController extends Controller
     /**
      * Edits an existing MetaRule entity.
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $id, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
@@ -195,7 +197,8 @@ class MetaRuleController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_metaRule_edit', array(
-                'id' => $id
+                'id' => $id,
+                'gameId' => $gameId
             )));
         }
         

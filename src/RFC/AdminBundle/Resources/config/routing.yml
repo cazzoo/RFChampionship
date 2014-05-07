@@ -4,9 +4,6 @@ RFCAdmin_index:
 RFCAdmin_game:
     resource: "@RFCAdminBundle/Resources/config/routing/game.yml"
     prefix:   /admin/game
-RFCAdmin_rule:
-     resource: "@RFCAdminBundle/Resources/config/routing/rule.yml"
-     prefix:   /admin/rule
 RFCAdmin_championship:
     resource: "@RFCAdminBundle/Resources/config/routing/championship.yml"
     prefix:   /admin/championship
@@ -31,6 +28,9 @@ RFCAdmin_category:
 RFCAdmin_metaRule:
     resource: "@RFCAdminBundle/Resources/config/routing/metarule.yml"
     prefix:   /admin/game/{gameId}/metaRule
+RFCAdmin_rule:
+     resource: "@RFCAdminBundle/Resources/config/routing/rule.yml"
+     prefix:   /admin/game/{gameId}/rule
 RFCAdmin_user:
     resource: "@RFCAdminBundle/Resources/config/routing/user.yml"
     prefix:   /admin/user
