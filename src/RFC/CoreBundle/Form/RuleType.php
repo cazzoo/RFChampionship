@@ -1,5 +1,4 @@
 <?php
-
 namespace RFC\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -8,20 +7,24 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RuleType extends AbstractType
 {
-        /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+
+    /**
+     *
+     * @param FormBuilderInterface $builder            
+     * @param array $options            
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name')
+        $builder->add('name')
             ->add('value')
-        ;
+            ->add('game', 'entity', array(
+            'class' => 'RFC\CoreBundle\Entity\Game'
+        ));
     }
-    
+
     /**
-     * @param OptionsResolverInterface $resolver
+     *
+     * @param OptionsResolverInterface $resolver            
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -31,6 +34,7 @@ class RuleType extends AbstractType
     }
 
     /**
+     *
      * @return string
      */
     public function getName()
