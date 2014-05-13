@@ -31,6 +31,14 @@ class RuleType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'RFC\CoreBundle\Entity\Rule'
         ));
+        
+        $resolver->setRequired(array(
+            'em'
+        ));
+        
+        $resolver->setAllowedTypes(array(
+            'em' => 'Doctrine\Common\Persistence\ObjectManager'
+        ));
     }
 
     /**

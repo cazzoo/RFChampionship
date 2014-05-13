@@ -1,12 +1,12 @@
 {% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
 - {{ parent() }} {% endblock %} {% block rfccore_body %}
-<h1>Vehicle edit</h1>
+<h1>Type Session edit</h1>
 
 {{ form(edit_form) }}
 
 <ul class="record_actions">
-	<li><a href="{{ path('admin_vehicle', {'gameId' : gameId}) }}"> Back to
-			the list </a></li>
+	<li><a href="{{ path('admin_typeSession', {'gameId' : gameId}) }}">
+			Back to the list </a></li>
 	<li>{{ form(delete_form) }}</li>
 </ul>
 {% endblock %}

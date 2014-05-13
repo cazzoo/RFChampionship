@@ -15,28 +15,25 @@ class Session
 {
 
     /**
-     *
-     * @var integer @ORM\Column(name="id", type="integer")
-     *      @ORM\Id
-     *      @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     *
-     * @var \DateTime @ORM\Column(name="begin_date", type="date")
+     * @ORM\Column(name="begin_date", type="date")
      */
     private $beginDate;
 
     /**
-     *
-     * @var \DateTime @ORM\Column(name="end_date", type="date")
+     * @ORM\Column(name="end_date", type="date")
      */
     private $endDate;
 
     /**
-     *
-     * @var integer @ORM\Column(name="type", type="integer")
+     * @ORM\OneToOne(targetEntity="RFC\CoreBundle\Entity\TypeSession")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $type;
 

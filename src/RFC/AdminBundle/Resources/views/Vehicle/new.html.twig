@@ -5,6 +5,7 @@
 {{ form(form) }}
 
 <ul class="record_actions">
-	<li><a href="{{ path('admin_vehicle') }}"> Back to the list </a></li>
+	<li><a href="{{ path('admin_vehicle', {'gameId' : gameId}) }}"> Back to
+			the list </a></li>
 </ul>
 {% endblock %}

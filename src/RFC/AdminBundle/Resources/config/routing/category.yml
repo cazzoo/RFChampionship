@@ -1,30 +1,30 @@
 admin_category:
     pattern:  /
-    defaults: { _controller: "RFCCoreBundle:Category:index" }
+    defaults: { _controller: "RFCAdminBundle:Category:index" }
 
 admin_category_show:
     pattern:  /{id}/show
-    defaults: { _controller: "RFCCoreBundle:Category:show" }
+    defaults: { _controller: "RFCAdminBundle:Category:show" }
 
 admin_category_new:
     pattern:  /new
-    defaults: { _controller: "RFCCoreBundle:Category:new" }
+    defaults: { _controller: "RFCAdminBundle:Category:new" }
 
 admin_category_create:
     pattern:  /create
-    defaults: { _controller: "RFCCoreBundle:Category:create" }
+    defaults: { _controller: "RFCAdminBundle:Category:create" }
     requirements: { _method: post }
 
 admin_category_edit:
     pattern:  /{id}/edit
-    defaults: { _controller: "RFCCoreBundle:Category:edit" }
+    defaults: { _controller: "RFCAdminBundle:Category:edit" }
 
 admin_category_update:
     pattern:  /{id}/update
-    defaults: { _controller: "RFCCoreBundle:Category:update" }
+    defaults: { _controller: "RFCAdminBundle:Category:update" }
     requirements: { _method: post|put }
 
 admin_category_delete:
     pattern:  /{id}/delete
-    defaults: { _controller: "RFCCoreBundle:Category:delete" }
+    defaults: { _controller: "RFCAdminBundle:Category:delete" }
     requirements: { _method: post|delete }

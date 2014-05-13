@@ -4,8 +4,9 @@ namespace RFC\CoreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use RFC\CoreBundle\Form\DataTransformer\GameToIntTransformer;
 
-class CategoryType extends AbstractType
+class TypeSessionType extends AbstractType
 {
 
     /**
@@ -15,8 +16,11 @@ class CategoryType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $gameTransformer = new GameToIntTransformer($options['em']);
+        
         $builder->add('name')
-            ->add('listVehicles')
+            /*->add($builder->create('game', 'hidden')
+            ->addModelTransformer($gameTransformer))*/
             ->add('game', 'entity', array(
             'class' => 'RFC\CoreBundle\Entity\Game'
         ));
@@ -29,7 +33,7 @@ class CategoryType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'RFC\CoreBundle\Entity\Category'
+            'data_class' => 'RFC\CoreBundle\Entity\TypeSession'
         ));
         
         $resolver->setRequired(array(
@@ -47,6 +51,6 @@ class CategoryType extends AbstractType
      */
     public function getName()
     {
-        return 'rfc_corebundle_category';
+        return 'rfc_corebundle_typesession';
     }
 }

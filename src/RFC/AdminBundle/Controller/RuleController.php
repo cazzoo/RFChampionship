@@ -20,10 +20,12 @@ class RuleController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entities = $em->getRepository('RFCCoreBundle:Rule')->findAll();
+        $rules = $em->getRepository('RFCCoreBundle:Rule')->findBy(array(
+            'game' => $gameId
+        ));
         
         return $this->render('RFCAdminBundle:Rule:index.html.twig', array(
-            'rules' => $entities,
+            'rules' => $rules,
             'gameId' => $gameId
         ));
     }
@@ -132,14 +134,14 @@ class RuleController extends Controller
             throw $this->createNotFoundException('Unable to find Rule entity.');
         }
         
-        $editForm = $this->createEditForm($entity,$gameId);
+        $editForm = $this->createEditForm($entity, $gameId);
         $deleteForm = $this->createDeleteForm($id, $gameId);
         
         return $this->render('RFCAdminBundle:Rule:edit.html.twig', array(
             'entity' => $entity,
+            'gameId' => $gameId,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-            'gameId' => $gameId
+            'delete_form' => $deleteForm->createView()
         ));
     }
 
@@ -154,7 +156,8 @@ class RuleController extends Controller
     private function createEditForm(Rule $entity, $gameId)
     {
         $form = $this->createForm(new RuleType(), $entity, array(
-            'action' => $this->generateUrl('admin_rule_update', array(
+            'em' => $this->getDoctrine()
+                ->getManager(),'action' => $this->generateUrl('admin_rule_update', array(
                 'id' => $entity->getId(),
                 'gameId' => $gameId
             )),
@@ -188,8 +191,7 @@ class RuleController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_rule_edit', array(
-                'id' => $id,
+            return $this->redirect($this->generateUrl('admin_metaRule', array(
                 'gameId' => $gameId
             )));
         }

@@ -3,41 +3,41 @@ namespace RFC\AdminBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use RFC\CoreBundle\Entity\Vehicle;
+use RFC\CoreBundle\Entity\TypeSession;
 use RFC\CoreBundle\Entity\Game;
-use RFC\CoreBundle\Form\VehicleType;
+use RFC\CoreBundle\Form\TypeSessionType;
 
 /**
- * Vehicle controller.
+ * TypeSession controller.
  */
-class VehicleController extends Controller
+class TypeSessionController extends Controller
 {
 
     /**
-     * Lists all Vehicle entities.
+     * Lists all TypeSession entities.
      */
     public function indexAction($gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $vehicles = $em->getRepository('RFCCoreBundle:Vehicle')->findBy(array(
+        $typeSessions = $em->getRepository('RFCCoreBundle:TypeSession')->findBy(array(
             'game' => $gameId
         ));
         $game = $em->getRepository('RFCCoreBundle:Game')->findById($gameId);
         
-        return $this->render('RFCAdminBundle:Vehicle:index.html.twig', array(
-            'vehicles' => $vehicles,
+        return $this->render('RFCAdminBundle:TypeSession:index.html.twig', array(
+            'typeSessions' => $typeSessions,
             'gameId' => $gameId,
             'game' => $game
         ));
     }
 
     /**
-     * Creates a new Vehicle entity.
+     * Creates a new TypeSession entity.
      */
     public function createAction(Request $request, $gameId)
     {
-        $entity = new Vehicle();
+        $entity = new TypeSession();
         $form = $this->createCreateForm($entity, $gameId);
         $form->handleRequest($request);
         
@@ -46,32 +46,33 @@ class VehicleController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_vehicle_show', array(
+            return $this->redirect($this->generateUrl('admin_typeSession_show', array(
                 'id' => $entity->getId(),
                 'gameId' => $gameId
             )));
         }
         
-        return $this->render('RFCAdminBundle:Vehicle:new.html.twig', array(
+        return $this->render('RFCAdminBundle:TypeSession:new.html.twig', array(
             'entity' => $entity,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'gameId' => $gameId
         ));
     }
 
     /**
-     * Creates a form to create a Vehicle entity.
+     * Creates a form to create a TypeSession entity.
      *
-     * @param Vehicle $entity
+     * @param TypeSession $entity
      *            The entity
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Vehicle $entity, $gameId)
+    private function createCreateForm(TypeSession $entity, $gameId)
     {
-        $form = $this->createForm(new VehicleType(), $entity, array(
+        $form = $this->createForm(new TypeSessionType(), $entity, array(
             'em' => $this->getDoctrine()
                 ->getManager(),
-            'action' => $this->generateUrl('admin_vehicle_create', array(
+            'action' => $this->generateUrl('admin_typeSession_create', array(
                 'gameId' => $gameId
             )),
             'method' => 'POST'
@@ -85,17 +86,17 @@ class VehicleController extends Controller
     }
 
     /**
-     * Displays a form to create a new Vehicle entity.
+     * Displays a form to create a new TypeSession entity.
      */
     public function newAction($gameId)
     {
-        $entity = new Vehicle();
+        $entity = new TypeSession();
         $em = $this->getDoctrine()->getManager();
         $entityGame = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
         $entity->setGame($entityGame);
         $form = $this->createCreateForm($entity, $gameId);
         
-        return $this->render('RFCAdminBundle:Vehicle:new.html.twig', array(
+        return $this->render('RFCAdminBundle:TypeSession:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
             'gameId' => $gameId
@@ -103,21 +104,21 @@ class VehicleController extends Controller
     }
 
     /**
-     * Finds and displays a Vehicle entity.
+     * Finds and displays a TypeSession entity.
      */
     public function showAction($id, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($id);
         
         if (! $entity) {
-            throw $this->createNotFoundException('Unable to find Vehicle entity.');
+            throw $this->createNotFoundException('Unable to find TypeSession entity.');
         }
         
         $deleteForm = $this->createDeleteForm($id, $gameId);
         
-        return $this->render('RFCAdminBundle:Vehicle:show.html.twig', array(
+        return $this->render('RFCAdminBundle:TypeSession:show.html.twig', array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
             'gameId' => $gameId
@@ -125,22 +126,22 @@ class VehicleController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Vehicle entity.
+     * Displays a form to edit an existing TypeSession entity.
      */
     public function editAction($id, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($id);
         
         if (! $entity) {
-            throw $this->createNotFoundException('Unable to find Vehicle entity.');
+            throw $this->createNotFoundException('Unable to find TypeSession entity.');
         }
         
         $editForm = $this->createEditForm($entity, $gameId);
         $deleteForm = $this->createDeleteForm($id, $gameId);
         
-        return $this->render('RFCAdminBundle:Vehicle:edit.html.twig', array(
+        return $this->render('RFCAdminBundle:TypeSession:edit.html.twig', array(
             'entity' => $entity,
             'gameId' => $gameId,
             'edit_form' => $editForm->createView(),
@@ -149,19 +150,19 @@ class VehicleController extends Controller
     }
 
     /**
-     * Creates a form to edit a Vehicle entity.
+     * Creates a form to edit a TypeSession entity.
      *
-     * @param Vehicle $entity
+     * @param TypeSession $entity
      *            The entity
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createEditForm(Vehicle $entity, $gameId)
+    private function createEditForm(TypeSession $entity, $gameId)
     {
-        $form = $this->createForm(new VehicleType(), $entity, array(
+        $form = $this->createForm(new TypeSessionType(), $entity, array(
             'em' => $this->getDoctrine()
                 ->getManager(),
-            'action' => $this->generateUrl('admin_vehicle_update', array(
+            'action' => $this->generateUrl('admin_typeSession_update', array(
                 'id' => $entity->getId(),
                 'gameId' => $gameId
             )),
@@ -176,16 +177,16 @@ class VehicleController extends Controller
     }
 
     /**
-     * Edits an existing Vehicle entity.
+     * Edits an existing TypeSession entity.
      */
     public function updateAction(Request $request, $id, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($id);
         
         if (! $entity) {
-            throw $this->createNotFoundException('Unable to find Vehicle entity.');
+            throw $this->createNotFoundException('Unable to find TypeSession entity.');
         }
         
         $deleteForm = $this->createDeleteForm($id, $gameId);
@@ -195,13 +196,13 @@ class VehicleController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_vehicle_edit', array(
+            return $this->redirect($this->generateUrl('admin_typeSession_edit', array(
                 'id' => $id,
                 'gameId' => $gameId
             )));
         }
         
-        return $this->render('RFCAdminBundle:Vehicle:edit.html.twig', array(
+        return $this->render('RFCAdminBundle:TypeSession:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -210,7 +211,7 @@ class VehicleController extends Controller
     }
 
     /**
-     * Deletes a Vehicle entity.
+     * Deletes a TypeSession entity.
      */
     public function deleteAction(Request $request, $id, $gameId)
     {
@@ -219,23 +220,23 @@ class VehicleController extends Controller
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($id);
+            $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($id);
             
             if (! $entity) {
-                throw $this->createNotFoundException('Unable to find Vehicle entity.');
+                throw $this->createNotFoundException('Unable to find TypeSession entity.');
             }
             
             $em->remove($entity);
             $em->flush();
         }
         
-        return $this->redirect($this->generateUrl('admin_vehicle', array(
+        return $this->redirect($this->generateUrl('admin_typeSession', array(
             'gameId' => $gameId
         )));
     }
 
     /**
-     * Creates a form to delete a Vehicle entity by id.
+     * Creates a form to delete a TypeSession entity by id.
      *
      * @param mixed $id
      *            The entity id
@@ -245,7 +246,7 @@ class VehicleController extends Controller
     private function createDeleteForm($id, $gameId)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_vehicle_delete', array(
+            ->setAction($this->generateUrl('admin_typeSession_delete', array(
             'id' => $id,
             'gameId' => $gameId
         )))

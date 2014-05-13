@@ -20,8 +20,8 @@ class MetaRuleController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $metaRules = $em->getRepository('RFCCoreBundle:MetaRule')->findAll();
-        $rules = $em->getRepository('RFCCoreBundle:Rule')->findAll();
+        $metaRules = $em->getRepository('RFCCoreBundle:MetaRule')->findBy(array('game' => $gameId));
+        $rules = $em->getRepository('RFCCoreBundle:Rule')->findBy(array('game' => $gameId));
         $game = $em->getRepository('RFCCoreBundle:Game')->findById($gameId);
         
         return $this->render('RFCAdminBundle:MetaRule:index.html.twig', array(

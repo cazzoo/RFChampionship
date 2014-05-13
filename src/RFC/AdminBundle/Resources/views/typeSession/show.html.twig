@@ -1,6 +1,6 @@
 {% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
 - {{ parent() }} {% endblock %} {% block rfccore_body %}
-<h1>Category</h1>
+<h1>Type Session</h1>
 
 <table class="record_properties">
 	<tbody>
@@ -12,21 +12,14 @@
 			<th>Name</th>
 			<td>{{ entity.name }}</td>
 		</tr>
-		<tr>
-			<th>Listvehicles</th>
-			<td><ul>
-					{% for vehicle in entity.listVehicles %}
-					<li>{{ vehicle.name }}</li> {% endfor %}
-				</ul></td>
-		</tr>
 	</tbody>
 </table>
 
 <ul class="record_actions">
-	<li><a href="{{ path('admin_category', {'gameId' : gameId}) }}"> Back
-			to the list </a></li>
+	<li><a href="{{ path('admin_typeSession', {'gameId' : gameId}) }}">
+			Back to the list </a></li>
 	<li><a
-		href="{{ path('admin_category_edit', { 'id': entity.id, 'gameId' : gameId }) }}">
+		href="{{ path('admin_typeSession_edit', { 'id': entity.id, 'gameId' : gameId }) }}">
 			Edit </a></li>
 	<li>{{ form(delete_form) }}</li>
 </ul>

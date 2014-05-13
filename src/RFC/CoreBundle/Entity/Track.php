@@ -22,6 +22,12 @@ class Track extends KnowledgeData
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game", inversedBy="listTracks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $game;
+
+    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
