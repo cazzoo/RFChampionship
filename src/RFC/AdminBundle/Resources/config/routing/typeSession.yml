@@ -1,0 +1,30 @@
+admin_typeSession:
+    pattern:  /
+    defaults: { _controller: "RFCAdminBundle:TypeSession:index" }
+
+admin_typeSession_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "RFCAdminBundle:TypeSession:show" }
+
+admin_typeSession_new:
+    pattern:  /new
+    defaults: { _controller: "RFCAdminBundle:TypeSession:new" }
+
+admin_typeSession_create:
+    pattern:  /create
+    defaults: { _controller: "RFCAdminBundle:TypeSession:create" }
+    requirements: { _method: post }
+
+admin_typeSession_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "RFCAdminBundle:TypeSession:edit" }
+
+admin_typeSession_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "RFCAdminBundle:TypeSession:update" }
+    requirements: { _method: post|put }
+
+admin_typeSession_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "RFCAdminBundle:TypeSession:delete" }
+    requirements: { _method: post|delete }

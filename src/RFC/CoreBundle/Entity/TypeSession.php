@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\KnowledgeData;
 
 /**
- * Vehicle
+ * TypeSession
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\VehicleRepository")
+ * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\TypeSessionRepository")
  */
-class Vehicle extends KnowledgeData
+class TypeSession extends KnowledgeData
 {
 
     /**
@@ -22,7 +22,7 @@ class Vehicle extends KnowledgeData
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game", inversedBy="listVehicles")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game", inversedBy="listRules")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $game;
@@ -38,11 +38,6 @@ class Vehicle extends KnowledgeData
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
-    
-    public function __toString()
-    {
-        return $this->name;
-    }
 
     /**
      * Get id
@@ -58,7 +53,7 @@ class Vehicle extends KnowledgeData
      * Set createdAt
      *
      * @param \DateTime $createdAt            
-     * @return Vehicle
+     * @return Track
      */
     public function setCreatedAt($createdAt)
     {
@@ -81,7 +76,7 @@ class Vehicle extends KnowledgeData
      * Set updatedAt
      *
      * @param \DateTime $updatedAt            
-     * @return Vehicle
+     * @return Track
      */
     public function setUpdatedAt($updatedAt)
     {

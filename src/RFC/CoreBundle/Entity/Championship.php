@@ -14,18 +14,37 @@ class Championship
 {
 
     /**
-     *
-     * @var integer @ORM\Column(name="id", type="integer")
-     *      @ORM\Id
-     *      @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     *
-     * @var boolean @ORM\Column(name="isAgreed", type="boolean")
+     * @ORM\Column(name="isAgreed", type="boolean")
      */
     private $isAgreed;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $game;
+
+    /**
+     * @ORM\Column(name="list_managers", type="array")
+     */
+    private $listManagers;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\MetaRule"), cascade={"persist"}
+     */
+    private $metaRule;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Rule"), cascade={"persist"}
+     */
+    private $listRules;
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -38,31 +57,6 @@ class Championship
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
-
-    /**
-     *
-     * @var RFC\CoreBundle\Entity\Game @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
-     *      @ORM\JoinColumn(nullable=false)
-     */
-    private $game;
-
-    /**
-     *
-     * @var array @ORM\Column(name="list_managers", type="array")
-     */
-    private $listManagers;
-
-    /**
-     *
-     * @var array @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\MetaRule"), cascade={"persist"}
-     */
-    private $metaRule;
-
-    /**
-     *
-     * @var array @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Rule"), cascade={"persist"}
-     */
-    private $listRules;
 
     /**
      * Get id

@@ -51,25 +51,42 @@ class Game
     private $listRules;
 
     /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Track", mappedBy="game")
+     */
+    private $listTracks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Vehicle", mappedBy="game")
+     */
+    private $listVehicles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Category", mappedBy="game")
+     */
+    private $listCategories;
+
+    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->listMetaRules = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
+
+    /**
+     * Constructor
+     */
+    public 
+
+    function __construct()
+    {
+        $this->listMetaRules = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     public function __toString()
     {

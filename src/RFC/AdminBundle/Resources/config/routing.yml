@@ -1,6 +1,9 @@
 RFCAdmin_index:
     path:   /admin/
     defaults: { _controller: RFCAdminBundle:Admin:index }
+RFCAdmin_user:
+    resource: "@RFCAdminBundle/Resources/config/routing/user.yml"
+    prefix:   /admin/user
 RFCAdmin_game:
     resource: "@RFCAdminBundle/Resources/config/routing/game.yml"
     prefix:   /admin/game
@@ -18,19 +21,19 @@ RFCAdmin_result:
     prefix:   /admin/result
 RFCAdmin_track:
     resource: "@RFCAdminBundle/Resources/config/routing/track.yml"
-    prefix:   /admin/track
+    prefix:   /admin/game/{gameId}/track
 RFCAdmin_vehicle:
     resource: "@RFCAdminBundle/Resources/config/routing/vehicle.yml"
-    prefix:   /admin/vehicle
+    prefix:   /admin/game/{gameId}/vehicle
 RFCAdmin_category:
     resource: "@RFCAdminBundle/Resources/config/routing/category.yml"
-    prefix:   /admin/category
+    prefix:   /admin/game/{gameId}/category
 RFCAdmin_metaRule:
     resource: "@RFCAdminBundle/Resources/config/routing/metarule.yml"
     prefix:   /admin/game/{gameId}/metaRule
 RFCAdmin_rule:
      resource: "@RFCAdminBundle/Resources/config/routing/rule.yml"
      prefix:   /admin/game/{gameId}/rule
-RFCAdmin_user:
-    resource: "@RFCAdminBundle/Resources/config/routing/user.yml"
-    prefix:   /admin/user
+RFCAdmin_typeSession:
+     resource: "@RFCAdminBundle/Resources/config/routing/typeSession.yml"
+     prefix:   /admin/game/{gameId}/typeSession

@@ -10,25 +10,25 @@
 
 <div>
 	<h1>
-		Vehicles <a class="btn btn-inverse btn-xs" role="button"
-			href="{{ path('admin_vehicle_new', {'gameId' : gameId}) }}"> <span
+		Type sessions <a class="btn btn-inverse btn-xs" role="button"
+			href="{{ path('admin_typeSession_new', {'gameId' : gameId}) }}"> <span
 			class="glyphicon glyphicon-plus"></span>
 		</a>
 	</h1>
 	<ul class="list-group">
-		{% for vehicle in vehicles %}
+		{% for typeSession in typeSessions %}
 		<div class="row">
 			<div class="col-md-10">
-				<li class="list-group-item">{{ vehicle.name }}</li>
+				<li class="list-group-item">{{ typeSession.name }}</li>
 			</div>
 			<div class="col-md-2">
 				<ul class="list-unstyled list-inline">
 					<li><a class="btn btn-info btn-xs" role="button"
 						href="{{ path(
-		'admin_vehicle_show', {'id' : vehicle.id, 'gameId' : gameId }) }}"><span
+		'admin_typeSession_show', {'id' : typeSession.id, 'gameId' : gameId }) }}"><span
 							class="glyphicon glyphicon-eye-open"></span></a></li>
 					<li><a class="btn btn-primary btn-xs" role="button"
-						href="{{ path('admin_vehicle_edit', {'id' : vehicle.id, 'gameId' : gameId}) }}"><span
+						href="{{ path('admin_typeSession_edit', {'id' : typeSession.id, 'gameId' : gameId}) }}"><span
 							class="glyphicon glyphicon-edit"></span></a></li>
 				</ul>
 			</div>

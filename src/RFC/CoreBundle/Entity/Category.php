@@ -22,6 +22,12 @@ class Category extends KnowledgeData
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game", inversedBy="listCategories")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $game;
+
+    /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Vehicle"), cascade={"persist"}
      */
     private $listVehicles;

@@ -1,5 +1,4 @@
 <?php
-
 namespace RFC\CoreBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,10 +13,8 @@ use RFC\CoreBundle\Entity\Championship;
  */
 class Event
 {
-    
+
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -25,50 +22,38 @@ class Event
     private $id;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="begin_date", type="date")
      */
     private $beginDate;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="end_date", type="date")
      */
     private $endDate;
 
     /**
-     * @var array
-     *
      * @ORM\Column(name="list_broadcast", type="array")
      */
     private $listBroadcast;
 
     /**
-     * @var \stdClass
-     *
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Track"), cascade={"persist"}
      */
     private $track;
 
     /**
-     * @var \stdClass
-     *
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Vehicle"), cascade={"persist"}
      */
     private $vehicle;
 
     /**
-     * @var \stdClass
-     *
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Category"), cascade={"persist"}
      */
     private $category;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship")
-  	 * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $championship;
 
@@ -84,11 +69,10 @@ class Event
      */
     private $updatedAt;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -98,20 +82,20 @@ class Event
     /**
      * Set beginDate
      *
-     * @param \DateTime $beginDate
+     * @param \DateTime $beginDate            
      * @return Event
      */
     public function setBeginDate($beginDate)
     {
         $this->beginDate = $beginDate;
-    
+        
         return $this;
     }
 
     /**
      * Get beginDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getBeginDate()
     {
@@ -121,20 +105,20 @@ class Event
     /**
      * Set endDate
      *
-     * @param \DateTime $endDate
+     * @param \DateTime $endDate            
      * @return Event
      */
     public function setEndDate($endDate)
     {
         $this->endDate = $endDate;
-    
+        
         return $this;
     }
 
     /**
      * Get endDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndDate()
     {
@@ -144,20 +128,20 @@ class Event
     /**
      * Set listBroadcast
      *
-     * @param array $listBroadcast
+     * @param array $listBroadcast            
      * @return Event
      */
     public function setListBroadcast($listBroadcast)
     {
         $this->listBroadcast = $listBroadcast;
-    
+        
         return $this;
     }
 
     /**
      * Get listBroadcast
      *
-     * @return array 
+     * @return array
      */
     public function getListBroadcast()
     {
@@ -167,20 +151,20 @@ class Event
     /**
      * Set track
      *
-     * @param \stdClass $track
+     * @param \stdClass $track            
      * @return Event
      */
     public function setTrack($track)
     {
         $this->track = $track;
-    
+        
         return $this;
     }
 
     /**
      * Get track
      *
-     * @return \stdClass 
+     * @return \stdClass
      */
     public function getTrack()
     {
@@ -190,20 +174,20 @@ class Event
     /**
      * Set vehicle
      *
-     * @param \stdClass $vehicle
+     * @param \stdClass $vehicle            
      * @return Event
      */
     public function setVehicle($vehicle)
     {
         $this->vehicle = $vehicle;
-    
+        
         return $this;
     }
 
     /**
      * Get vehicle
      *
-     * @return \stdClass 
+     * @return \stdClass
      */
     public function getVehicle()
     {
@@ -213,25 +197,26 @@ class Event
     /**
      * Set category
      *
-     * @param \stdClass $category
+     * @param \stdClass $category            
      * @return Event
      */
     public function setCategory($category)
     {
         $this->category = $category;
-    
+        
         return $this;
     }
 
     /**
      * Get category
      *
-     * @return \stdClass 
+     * @return \stdClass
      */
     public function getCategory()
     {
         return $this->category;
     }
+
     /**
      * Constructor
      */
@@ -245,20 +230,20 @@ class Event
     /**
      * Add track
      *
-     * @param \RFC\CoreBundle\Entity\Track $track
+     * @param \RFC\CoreBundle\Entity\Track $track            
      * @return Event
      */
     public function addTrack(\RFC\CoreBundle\Entity\Track $track)
     {
         $this->track[] = $track;
-    
+        
         return $this;
     }
 
     /**
      * Remove track
      *
-     * @param \RFC\CoreBundle\Entity\Track $track
+     * @param \RFC\CoreBundle\Entity\Track $track            
      */
     public function removeTrack(\RFC\CoreBundle\Entity\Track $track)
     {
@@ -268,20 +253,20 @@ class Event
     /**
      * Add vehicle
      *
-     * @param \RFC\CoreBundle\Entity\Vehicle $vehicle
+     * @param \RFC\CoreBundle\Entity\Vehicle $vehicle            
      * @return Event
      */
     public function addVehicle(\RFC\CoreBundle\Entity\Vehicle $vehicle)
     {
         $this->vehicle[] = $vehicle;
-    
+        
         return $this;
     }
 
     /**
      * Remove vehicle
      *
-     * @param \RFC\CoreBundle\Entity\Vehicle $vehicle
+     * @param \RFC\CoreBundle\Entity\Vehicle $vehicle            
      */
     public function removeVehicle(\RFC\CoreBundle\Entity\Vehicle $vehicle)
     {
@@ -291,20 +276,20 @@ class Event
     /**
      * Add category
      *
-     * @param \RFC\CoreBundle\Entity\Category $category
+     * @param \RFC\CoreBundle\Entity\Category $category            
      * @return Event
      */
     public function addCategory(\RFC\CoreBundle\Entity\Category $category)
     {
         $this->category[] = $category;
-    
+        
         return $this;
     }
 
     /**
      * Remove category
      *
-     * @param \RFC\CoreBundle\Entity\Category $category
+     * @param \RFC\CoreBundle\Entity\Category $category            
      */
     public function removeCategory(\RFC\CoreBundle\Entity\Category $category)
     {
@@ -314,44 +299,43 @@ class Event
     /**
      * Set championship
      *
-     * @param \RFC\CoreBundle\Entity\Championship $championship
+     * @param \RFC\CoreBundle\Entity\Championship $championship            
      * @return Event
      */
     public function setChampionship(\RFC\CoreBundle\Entity\Championship $championship)
     {
         $this->championship = $championship;
-    
+        
         return $this;
     }
 
     /**
      * Get championship
      *
-     * @return \RFC\CoreBundle\Entity\Championship 
+     * @return \RFC\CoreBundle\Entity\Championship
      */
     public function getChampionship()
     {
         return $this->championship;
     }
 
-
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param \DateTime $createdAt            
      * @return Event
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+        
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -361,20 +345,20 @@ class Event
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param \DateTime $updatedAt            
      * @return Event
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+        
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {

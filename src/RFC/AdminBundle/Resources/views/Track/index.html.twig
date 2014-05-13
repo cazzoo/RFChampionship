@@ -1,35 +1,39 @@
 {% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
 - {{ parent() }} {% endblock %} {% block rfccore_body %}
-<h1>Track list</h1>
 
-<table class="records_list">
-	<thead>
-		<tr>
-			<th>Id</th>
-			<th>Name</th>
-			<th>Actions</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for entity in entities %}
-		<tr>
-			<td><a href="{{ path('admin_track_show', { 'id': entity.id }) }}">{{
-					entity.id }}</a></td>
-			<td>{{ entity.name }}</td>
-			<td>
-				<ul>
-					<li><a href="{{ path('admin_track_show', { 'id': entity.id }) }}">show</a>
-					</li>
-					<li><a href="{{ path('admin_track_edit', { 'id': entity.id }) }}">edit</a>
-					</li>
+<ol class="breadcrumb">
+	<li><a href="{{ path('RFCAdmin_index') }}">Admin</a></li>
+	<li><a href="{{ path('admin_game_manage', {'id' : game[0].id}) }}">{{
+			game[0].name }}</a></li>
+	<li class="active">Rules</li>
+</ol>
+
+<div>
+	<h1>
+		Tracks <a class="btn btn-inverse btn-xs" role="button"
+			href="{{ path('admin_track_new', {'gameId' : gameId}) }}"> <span
+			class="glyphicon glyphicon-plus"></span>
+		</a>
+	</h1>
+	<ul class="list-group">
+		{% for track in tracks %}
+		<div class="row">
+			<div class="col-md-10">
+				<li class="list-group-item">{{ track.name }}</li>
+			</div>
+			<div class="col-md-2">
+				<ul class="list-unstyled list-inline">
+					<li><a class="btn btn-info btn-xs" role="button"
+						href="{{ path(
+		'admin_track_show', {'id' : track.id, 'gameId' : gameId }) }}"><span
+							class="glyphicon glyphicon-eye-open"></span></a></li>
+					<li><a class="btn btn-primary btn-xs" role="button"
+						href="{{ path('admin_track_edit', {'id' : track.id, 'gameId' : gameId}) }}"><span
+							class="glyphicon glyphicon-edit"></span></a></li>
 				</ul>
-			</td>
-		</tr>
+			</div>
+		</div>
 		{% endfor %}
-	</tbody>
-</table>
-
-<ul>
-	<li><a href="{{ path('admin_track_new') }}"> Create a new entry </a></li>
-</ul>
+	</ul>
+</div>
 {% endblock %}

@@ -1,5 +1,4 @@
 <?php
-
 namespace RFC\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -8,20 +7,20 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ResultType extends AbstractType
 {
-        /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+
+    /**
+     *
+     * @param FormBuilderInterface $builder            
+     * @param array $options            
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('user')
-            ->add('value')
-        ;
+        $builder->add('user')->add('value');
     }
-    
+
     /**
-     * @param OptionsResolverInterface $resolver
+     *
+     * @param OptionsResolverInterface $resolver            
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -31,6 +30,7 @@ class ResultType extends AbstractType
     }
 
     /**
+     *
      * @return string
      */
     public function getName()
