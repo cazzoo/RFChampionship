@@ -5,9 +5,15 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use RFC\CoreBundle\Form\DataTransformer\GameToIntTransformer;
+use RFC\CoreBundle\Entity\RuleRepository;
 
 class MetaRuleType extends AbstractType
 {
+
+    public function __construct($id)
+    {
+        $this->id = $id;
+    }
 
     /**
      *
@@ -16,13 +22,21 @@ class MetaRuleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $id = $this->id;
         $gameTransformer = new GameToIntTransformer($options['em']);
         
         $builder->add('name')
             ->add('description')
             ->add('isAgreed')
             ->add('listRules', null, array(
-            'required' => false
+            'required' => false,
+            'class' => 'RFCCoreBundle:Rule',
+            'query_builder' => function (RuleRepository $er) use($id)
+            {
+                return $er->createQueryBuilder('r')
+                    ->where('r.game = :id')
+                    ->setParameter('id', $id);
+            }
         ))
             /*->add($builder->create('game', 'hidden')
             ->addModelTransformer($gameTransformer))*/
