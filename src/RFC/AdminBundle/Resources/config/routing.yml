@@ -9,10 +9,10 @@ RFCAdmin_game:
     prefix:   /admin/game
 RFCAdmin_championship:
     resource: "@RFCAdminBundle/Resources/config/routing/championship.yml"
-    prefix:   /admin/championship
+    prefix:   /admin/game/{gameId}/championship
 RFCAdmin_event:
     resource: "@RFCAdminBundle/Resources/config/routing/event.yml"
-    prefix:   /admin/event
+    prefix:   /admin/game/{gameId}/championship/{championshipId}/event
 RFCAdmin_session:
     resource: "@RFCAdminBundle/Resources/config/routing/session.yml"
     prefix:   /admin/session

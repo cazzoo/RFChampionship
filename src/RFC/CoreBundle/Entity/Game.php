@@ -80,9 +80,7 @@ class Game
     /**
      * Constructor
      */
-    public 
-
-    function __construct()
+    public function __construct()
     {
         $this->listMetaRules = new \Doctrine\Common\Collections\ArrayCollection();
         $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();

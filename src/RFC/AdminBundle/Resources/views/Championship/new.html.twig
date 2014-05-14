@@ -1,15 +1,11 @@
-{% extends '::base.html.twig' %}
+{% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
+- {{ parent() }} {% endblock %} {% block rfccore_body %}
+<h1>Championship creation</h1>
 
-{% block body -%}
-    <h1>Championship creation</h1>
+{{ form(form) }}
 
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_championship') }}">
-            Back to the list
-        </a>
-    </li>
+<ul class="record_actions">
+	<li><a href="{{ path('admin_championship', { 'gameId': gameId }) }}">
+			Back to the list </a></li>
 </ul>
 {% endblock %}

@@ -38,7 +38,7 @@ class Session
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Event")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Event", inversedBy="listSessions")
      * @ORM\JoinColumn(nullable=false)
      */
     private $event;

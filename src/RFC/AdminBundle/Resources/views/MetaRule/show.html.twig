@@ -14,7 +14,7 @@
 		</tr>
 		<tr>
 			<th>Listrules</th>
-			<td>{% for rule in entity.listRules %} {{ rule.name }} {% endfor %}</td>
+			<td><ul>{% for rule in entity.listRules %} <li>{{ rule.name }}</li> {% endfor %}</ul></td>
 		</tr>
 	</tbody>
 </table>

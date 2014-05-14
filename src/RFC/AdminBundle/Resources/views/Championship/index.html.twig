@@ -1,49 +1,74 @@
-{% extends '::base.html.twig' %}
+{% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
+- {{ parent() }} {% endblock %} {% block rfccore_body %}
 
-{% block body -%}
-    <h1>Championship list</h1>
+<ol class="breadcrumb">
+	<li><a href="{{ path('RFCAdmin_index') }}">Admin</a></li>
+	<li><a href="{{ path('admin_game_manage', {'id' : game[0].id}) }}">{{
+			game[0].name }}</a></li>
+	<li class="active">Championships</li>
+</ol>
 
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Isagreed</th>
-                <th>Listevents</th>
-                <th>Listmanagers</th>
-                <th>Metarule</th>
-                <th>Listrules</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('admin_championship_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.isAgreed }}</td>
-                <td>{{ entity.listEvents }}</td>
-                <td>{{ entity.listManagers }}</td>
-                <td>{{ entity.metaRule }}</td>
-                <td>{{ entity.listRules }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('admin_championship_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_championship_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('admin_championship_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+<div>
+	<h1>
+		Championship list <a class="btn btn-inverse btn-xs" role="button"
+			href="{{ path('admin_championship_new', {'gameId' : gameId}) }}"><span
+			class="glyphicon glyphicon-plus"></span> </a>
+	</h1>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Isagreed</th>
+				<th>Listevents</th>
+				<th>Listmanagers</th>
+				<th>Metarule</th>
+				<th>Listrules</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody class="table-striped">
+			{% for entity in entities %}
+			<tr>
+				<td><a
+					href="{{ path('admin_championship_show', { 'id': entity.id, 'gameId': gameId }) }}">{{
+						entity.id }}</a></td>
+				<td>{{ entity.name }}</td>
+				<td>{{ entity.description }}</td>
+				<td>{{ entity.isAgreed }}</td>
+				<td>{% if entity.listEvents is empty %} <a
+					class="btn btn-inverse btn-xs" role="button"
+					href="{{ path('admin_event_new', {'gameId' : gameId, 'championshipId' : entity.id}) }}">Add
+						an Event <span class="glyphicon glyphicon-plus"></span>
+				</a> {% else %}
+					<ul>
+						{% for event in entity.listEvents %}
+						<li>{{ event.id }}</li> {% endfor %}
+					</ul> {% endif %}
+				</td>
+				<td><ul>
+						{% for manager in entity.listManagers %}
+						<li>{{ manager.username }}</li> {% endfor %}
+					</ul></td>
+				<td>{{ entity.metaRule }}</td>
+				<td><ul>
+						{% for rule in entity.listRules %}
+						<li>{{ rule.name }}</li> {% endfor %}
+					</ul></td>
+				<td>
+					<ul class="list-unstyled">
+						<li><a class="btn btn-info btn-xs" role="button"
+							href="{{ path('admin_championship_show', { 'id': entity.id, 'gameId': gameId  }) }}"><span
+								class="glyphicon glyphicon-eye-open"></span></a></li>
+						<li><a class="btn btn-primary btn-xs" role="button"
+							href="{{ path('admin_championship_edit', { 'id': entity.id, 'gameId': gameId  }) }}"><span
+								class="glyphicon glyphicon-edit"></span></a></li>
+					</ul>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

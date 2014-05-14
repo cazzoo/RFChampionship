@@ -44,6 +44,19 @@ class Category extends KnowledgeData
      */
     private $updatedAt;
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->listVehicles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * Get id
      *
@@ -75,14 +88,6 @@ class Category extends KnowledgeData
     public function getListVehicles()
     {
         return $this->listVehicles;
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->listVehicles = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

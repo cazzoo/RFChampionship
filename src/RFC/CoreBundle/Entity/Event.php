@@ -22,40 +22,45 @@ class Event
     private $id;
 
     /**
-     * @ORM\Column(name="begin_date", type="date")
+     * @ORM\Column(name="beginDate", type="date")
      */
     private $beginDate;
 
     /**
-     * @ORM\Column(name="end_date", type="date")
+     * @ORM\Column(name="endDate", type="date")
      */
     private $endDate;
 
     /**
-     * @ORM\Column(name="list_broadcast", type="array")
+     * @ORM\Column(name="listBroadcast", type="array")
      */
     private $listBroadcast;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Track"), cascade={"persist"}
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Track")
      */
     private $track;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Vehicle"), cascade={"persist"}
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Vehicle")
      */
     private $vehicle;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Category"), cascade={"persist"}
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Category")
      */
     private $category;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship", inversedBy="listEvents")
      * @ORM\JoinColumn(nullable=false)
      */
     private $championship;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Session", mappedBy="event")
+     */
+    private $listSessions;
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -68,6 +73,19 @@ class Event
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->listSessions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    public function __toString()
+    {
+        return (String) $this->id;
+    }
 
     /**
      * Get id
@@ -218,85 +236,6 @@ class Event
     }
 
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->track = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->vehicle = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->category = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add track
-     *
-     * @param \RFC\CoreBundle\Entity\Track $track            
-     * @return Event
-     */
-    public function addTrack(\RFC\CoreBundle\Entity\Track $track)
-    {
-        $this->track[] = $track;
-        
-        return $this;
-    }
-
-    /**
-     * Remove track
-     *
-     * @param \RFC\CoreBundle\Entity\Track $track            
-     */
-    public function removeTrack(\RFC\CoreBundle\Entity\Track $track)
-    {
-        $this->track->removeElement($track);
-    }
-
-    /**
-     * Add vehicle
-     *
-     * @param \RFC\CoreBundle\Entity\Vehicle $vehicle            
-     * @return Event
-     */
-    public function addVehicle(\RFC\CoreBundle\Entity\Vehicle $vehicle)
-    {
-        $this->vehicle[] = $vehicle;
-        
-        return $this;
-    }
-
-    /**
-     * Remove vehicle
-     *
-     * @param \RFC\CoreBundle\Entity\Vehicle $vehicle            
-     */
-    public function removeVehicle(\RFC\CoreBundle\Entity\Vehicle $vehicle)
-    {
-        $this->vehicle->removeElement($vehicle);
-    }
-
-    /**
-     * Add category
-     *
-     * @param \RFC\CoreBundle\Entity\Category $category            
-     * @return Event
-     */
-    public function addCategory(\RFC\CoreBundle\Entity\Category $category)
-    {
-        $this->category[] = $category;
-        
-        return $this;
-    }
-
-    /**
-     * Remove category
-     *
-     * @param \RFC\CoreBundle\Entity\Category $category            
-     */
-    public function removeCategory(\RFC\CoreBundle\Entity\Category $category)
-    {
-        $this->category->removeElement($category);
-    }
-
-    /**
      * Set championship
      *
      * @param \RFC\CoreBundle\Entity\Championship $championship            
@@ -363,5 +302,38 @@ class Event
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Add listSessions
+     *
+     * @param \RFC\CoreBundle\Entity\Session $listSessions
+     * @return Event
+     */
+    public function addListSession(\RFC\CoreBundle\Entity\Session $listSessions)
+    {
+        $this->listSessions[] = $listSessions;
+    
+        return $this;
+    }
+
+    /**
+     * Remove listSessions
+     *
+     * @param \RFC\CoreBundle\Entity\Session $listSessions
+     */
+    public function removeListSession(\RFC\CoreBundle\Entity\Session $listSessions)
+    {
+        $this->listSessions->removeElement($listSessions);
+    }
+
+    /**
+     * Get listSessions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getListSessions()
+    {
+        return $this->listSessions;
     }
 }

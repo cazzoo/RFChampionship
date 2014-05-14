@@ -3,6 +3,7 @@ namespace RFC\CoreBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use RFC\CoreBundle\Entity\KnowledgeData;
 
 /**
  * Championship
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\ChampionshipRepository")
  */
-class Championship
+class Championship extends KnowledgeData
 {
 
     /**
@@ -21,6 +22,11 @@ class Championship
     private $id;
 
     /**
+     * @ORM\Column(name="description", type="text", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
      * @ORM\Column(name="isAgreed", type="boolean")
      */
     private $isAgreed;
@@ -29,20 +35,25 @@ class Championship
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $game;
+    protected $game;
 
     /**
-     * @ORM\Column(name="list_managers", type="array")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Event", mappedBy="championship")
+     */
+    private $listEvents;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="RFC\UserBundle\Entity\User")
      */
     private $listManagers;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\MetaRule"), cascade={"persist"}
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\MetaRule")
      */
     private $metaRule;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Rule"), cascade={"persist"}
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Rule")
      */
     private $listRules;
 
@@ -59,6 +70,21 @@ class Championship
     private $updatedAt;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->listEvents = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listManagers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    public function __toString()
+    {
+        return $this->name;
+    } 
+
+    /**
      * Get id
      *
      * @return integer
@@ -66,6 +92,29 @@ class Championship
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description            
+     * @return Game
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**
@@ -89,6 +138,29 @@ class Championship
     public function getIsAgreed()
     {
         return $this->isAgreed;
+    }
+
+    /**
+     * Set listEvents
+     *
+     * @param array $listEvents            
+     * @return Championship
+     */
+    public function setListEvents($listEvents)
+    {
+        $this->listEvents = $listEvents;
+        
+        return $this;
+    }
+
+    /**
+     * Get listEvents
+     *
+     * @return array
+     */
+    public function getListEvents()
+    {
+        return $this->listEvents;
     }
 
     /**
@@ -158,38 +230,6 @@ class Championship
     public function getListRules()
     {
         return $this->listRules;
-    }
-
-    /**
-     * Set game
-     *
-     * @param \RFC\CoreBundle\Entity\Game $game            
-     * @return Championship
-     */
-    public function setGame(\RFC\CoreBundle\Entity\Game $game)
-    {
-        $this->game = $game;
-        
-        return $this;
-    }
-
-    /**
-     * Get game
-     *
-     * @return \RFC\CoreBundle\Entity\Game
-     */
-    public function getGame()
-    {
-        return $this->game;
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->metaRule = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -282,5 +322,51 @@ class Championship
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Add listEvents
+     *
+     * @param \RFC\CoreBundle\Entity\Event $listEvents
+     * @return Championship
+     */
+    public function addListEvent(\RFC\CoreBundle\Entity\Event $listEvents)
+    {
+        $this->listEvents[] = $listEvents;
+    
+        return $this;
+    }
+
+    /**
+     * Remove listEvents
+     *
+     * @param \RFC\CoreBundle\Entity\Event $listEvents
+     */
+    public function removeListEvent(\RFC\CoreBundle\Entity\Event $listEvents)
+    {
+        $this->listEvents->removeElement($listEvents);
+    }
+
+    /**
+     * Add listManagers
+     *
+     * @param \RFC\UserBundle\Entity\User $listManagers
+     * @return Championship
+     */
+    public function addListManager(\RFC\UserBundle\Entity\User $listManagers)
+    {
+        $this->listManagers[] = $listManagers;
+    
+        return $this;
+    }
+
+    /**
+     * Remove listManagers
+     *
+     * @param \RFC\UserBundle\Entity\User $listManagers
+     */
+    public function removeListManager(\RFC\UserBundle\Entity\User $listManagers)
+    {
+        $this->listManagers->removeElement($listManagers);
     }
 }

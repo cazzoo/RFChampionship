@@ -1,48 +1,55 @@
-{% extends '::base.html.twig' %}
+{% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
+- {{ parent() }} {% endblock %} {% block rfccore_body %}
 
-{% block body -%}
-    <h1>Championship</h1>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Description</th>
+			<th>Isagreed</th>
+			<th>Listevents</th>
+			<th>Listmanagers</th>
+			<th>Metarule</th>
+			<th>Listrules</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody class="table-striped">
+		<tr>
+			<td><a
+				href="{{ path('admin_championship_show', { 'id': entity.id, 'gameId': gameId }) }}">{{
+					entity.id }}</a></td>
+			<td>{{ entity.name }}</td>
+			<td>{{ entity.description }}</td>
+			<td>{{ entity.isAgreed }}</td>
+			<td><ul>
+					{% for event in entity.listEvents %}
+					<li>{{ event.name }}</li> {% endfor %}
+				</ul></td>
+			<td><ul>
+					{% for manager in entity.listManagers %}
+					<li>{{ manager.username }}</li> {% endfor %}
+				</ul></td>
+			<td>{{ entity.metaRule }}</td>
+			<td><ul>
+					{% for rule in entity.listRules %}
+					<li>{{ rule.name }}</li> {% endfor %}
+				</ul></td>
+			<td>
+				<ul class="list-unstyled">
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Isagreed</th>
-                <td>{{ entity.isAgreed }}</td>
-            </tr>
-            <tr>
-                <th>Listevents</th>
-                <td>{{ entity.listEvents }}</td>
-            </tr>
-            <tr>
-                <th>Listmanagers</th>
-                <td>{{ entity.listManagers }}</td>
-            </tr>
-            <tr>
-                <th>Metarule</th>
-                <td>{{ entity.metaRule }}</td>
-            </tr>
-            <tr>
-                <th>Listrules</th>
-                <td>{{ entity.listRules }}</td>
-            </tr>
-        </tbody>
-    </table>
+					<li><a class="btn btn-default btn-xs" role="button"
+						href="{{ path('admin_championship', { 'gameId': gameId  }) }}"><span
+							class="glyphicon glyphicon-step-backward"></span></a></li>
+					<li><a class="btn btn-primary btn-xs" role="button"
+						href="{{ path('admin_championship_edit', { 'id': entity.id, 'gameId': gameId  }) }}"><span
+							class="glyphicon glyphicon-edit"></span></a></li>
+					<li>{{ form(delete_form) }}</li>
+				</ul>
+			</td>
+		</tr>
+	</tbody>
+</table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_championship') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('admin_championship_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
 {% endblock %}
