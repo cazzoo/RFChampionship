@@ -31,6 +31,12 @@ class Rule extends KnowledgeData
      * @ORM\Column(name="value", type="text")
      */
     private $value;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="RFC\CoreBundle\Entity\TypeSession")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $typeSession;
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -82,6 +88,17 @@ class Rule extends KnowledgeData
         return $this->value;
     }
 
+    public function getTypeSession()
+    {
+        return $this->typeSession;
+    }
+
+    public function setTypeSession($typeSession)
+    {
+        $this->typeSession = $typeSession;
+        return $this;
+    }
+	
     /**
      * Set createdAt
      *

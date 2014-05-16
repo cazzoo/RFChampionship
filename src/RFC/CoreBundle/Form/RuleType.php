@@ -4,9 +4,15 @@ namespace RFC\CoreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use RFC\CoreBundle\Entity\TypeSessionRepository;
 
 class RuleType extends AbstractType
 {
+
+    public function __construct($id)
+    {
+        $this->id = $id;
+    }
 
     /**
      *
@@ -15,8 +21,20 @@ class RuleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $id = $this->id;
+        
         $builder->add('name')
             ->add('value')
+            ->add('typeSession', null, array(
+            'required' => true,
+            'class' => 'RFCCoreBundle:TypeSession',
+            'query_builder' => function (TypeSessionRepository $er) use($id)
+            {
+                return $er->createQueryBuilder('t')
+                    ->where('t.game = :id')
+                    ->setParameter('id', $id);
+            }
+        ))
             ->add('game', 'entity', array(
             'class' => 'RFC\CoreBundle\Entity\Game'
         ));
