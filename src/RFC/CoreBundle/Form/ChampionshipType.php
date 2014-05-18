@@ -5,6 +5,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use RFC\CoreBundle\Form\DataTransformer\GameToIntTransformer;
+use RFC\CoreBundle\Entity\MetaRuleRepository;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class ChampionshipType extends AbstractType
 {
