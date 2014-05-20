@@ -37,6 +37,7 @@ class Game
 
     /**
      * @ORM\Column(name="imageUrl", type="string", length=255)
+<<<<<<< HEAD
      */
     private $imageUrl;
 
@@ -86,6 +87,59 @@ class Game
         $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+=======
+     */
+    private $imageUrl;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\MetaRule", mappedBy="game")
+     */
+    private $listMetaRules;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Rule", mappedBy="game")
+     */
+    private $listRules;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Track", mappedBy="game")
+     */
+    private $listTracks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Vehicle", mappedBy="game")
+     */
+    private $listVehicles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Category", mappedBy="game")
+     */
+    private $listCategories;
+
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
+
+    /**
+     * Constructor
+     */
+    public 
+
+    function __construct()
+    {
+        $this->listMetaRules = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+>>>>>>> WorkingBundles
     public function __toString()
     {
         return $this->name;

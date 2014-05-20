@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
 - {{ parent() }} {% endblock %} {% block rfccore_body %}
 
@@ -52,4 +53,53 @@
 	</tbody>
 </table>
 
+=======
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Championship</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Isagreed</th>
+                <td>{{ entity.isAgreed }}</td>
+            </tr>
+            <tr>
+                <th>Listevents</th>
+                <td>{{ entity.listEvents }}</td>
+            </tr>
+            <tr>
+                <th>Listmanagers</th>
+                <td>{{ entity.listManagers }}</td>
+            </tr>
+            <tr>
+                <th>Metarule</th>
+                <td>{{ entity.metaRule }}</td>
+            </tr>
+            <tr>
+                <th>Listrules</th>
+                <td>{{ entity.listRules }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_championship') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('admin_championship_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+>>>>>>> WorkingBundles
 {% endblock %}

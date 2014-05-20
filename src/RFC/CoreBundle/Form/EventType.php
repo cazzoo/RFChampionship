@@ -1,9 +1,14 @@
 <?php
+<<<<<<< HEAD
+=======
+
+>>>>>>> WorkingBundles
 namespace RFC\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+<<<<<<< HEAD
 use RFC\CoreBundle\Entity\TrackRepository;
 use RFC\CoreBundle\Entity\VehicleRepository;
 use RFC\CoreBundle\Entity\CategoryRepository;
@@ -76,6 +81,30 @@ class EventType extends AbstractType
     /**
      *
      * @param OptionsResolverInterface $resolver            
+=======
+
+class EventType extends AbstractType
+{
+        /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('listSessions')
+            ->add('beginDate')
+            ->add('endDate')
+            ->add('listBroadcast')
+            ->add('track')
+            ->add('vehicle')
+            ->add('category')
+        ;
+    }
+    
+    /**
+     * @param OptionsResolverInterface $resolver
+>>>>>>> WorkingBundles
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -85,7 +114,10 @@ class EventType extends AbstractType
     }
 
     /**
+<<<<<<< HEAD
      *
+=======
+>>>>>>> WorkingBundles
      * @return string
      */
     public function getName()

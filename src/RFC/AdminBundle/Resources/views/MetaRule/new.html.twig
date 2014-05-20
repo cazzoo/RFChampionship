@@ -1,5 +1,6 @@
 {% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
 - {{ parent() }} {% endblock %} {% block rfccore_body %}
+<<<<<<< HEAD
 <h1>MetaRule creation</h1>
 
 {{ form(form) }}
@@ -7,5 +8,17 @@
 <ul class="record_actions">
 	<li><a href="{{ path('admin_metaRule', { 'gameId': gameId }) }}"> Back
 			to the list </a></li>
+=======
+    <h1>MetaRule creation</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_metaRule', { 'gameId': gameId }) }}">
+            Back to the list
+        </a>
+    </li>
+>>>>>>> WorkingBundles
 </ul>
 {% endblock %}

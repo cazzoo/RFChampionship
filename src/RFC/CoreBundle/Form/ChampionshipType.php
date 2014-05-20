@@ -1,9 +1,14 @@
 <?php
+<<<<<<< HEAD
+=======
+
+>>>>>>> WorkingBundles
 namespace RFC\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+<<<<<<< HEAD
 use RFC\CoreBundle\Form\DataTransformer\GameToIntTransformer;
 use RFC\CoreBundle\Entity\MetaRuleRepository;
 use Symfony\Component\Form\FormEvent;
@@ -59,12 +64,35 @@ class ChampionshipType extends AbstractType
     /**
      *
      * @param OptionsResolverInterface $resolver            
+=======
+
+class ChampionshipType extends AbstractType
+{
+        /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('isAgreed')
+            ->add('listEvents')
+            ->add('listManagers')
+            ->add('metaRule')
+            ->add('listRules')
+        ;
+    }
+    
+    /**
+     * @param OptionsResolverInterface $resolver
+>>>>>>> WorkingBundles
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'RFC\CoreBundle\Entity\Championship'
         ));
+<<<<<<< HEAD
         
         $resolver->setRequired(array(
             'em'
@@ -77,6 +105,11 @@ class ChampionshipType extends AbstractType
 
     /**
      *
+=======
+    }
+
+    /**
+>>>>>>> WorkingBundles
      * @return string
      */
     public function getName()

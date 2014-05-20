@@ -4,17 +4,23 @@ namespace RFC\CoreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+<<<<<<< HEAD
 use RFC\CoreBundle\Form\DataTransformer\GameToIntTransformer;
 use RFC\CoreBundle\Entity\VehicleRepository;
+=======
+>>>>>>> WorkingBundles
 
 class CategoryType extends AbstractType
 {
 
+<<<<<<< HEAD
     public function __construct($id)
     {
         $this->id = $id;
     }
 
+=======
+>>>>>>> WorkingBundles
     /**
      *
      * @param FormBuilderInterface $builder            
@@ -22,6 +28,7 @@ class CategoryType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+<<<<<<< HEAD
         $id = $this->id;
         $gameTransformer = new GameToIntTransformer($options['em']);
         
@@ -36,6 +43,10 @@ class CategoryType extends AbstractType
                     ->setParameter('id', $id);
             }
         ))
+=======
+        $builder->add('name')
+            ->add('listVehicles')
+>>>>>>> WorkingBundles
             ->add('game', 'entity', array(
             'class' => 'RFC\CoreBundle\Entity\Game'
         ));

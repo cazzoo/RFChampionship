@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <buildpath>
+<<<<<<< HEAD
 	<buildpathentry kind="src" path="vendor/stof/doctrine-extensions-bundle"/>
 	<buildpathentry kind="src" path="vendor/swiftmailer/swiftmailer/lib"/>
 	<buildpathentry kind="src" path="vendor/twig/twig/lib"/>
@@ -27,6 +28,9 @@
 	<buildpathentry kind="src" path="vendor/symfony/monolog-bundle"/>
 	<buildpathentry kind="src" path="vendor/incenteev/composer-parameter-handler"/>
 	<buildpathentry kind="src" path="vendor/twig/extensions/lib"/>
+=======
+	<buildpathentry excluding="app/cache/|vendor/sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton/" kind="src" path=""/>
+>>>>>>> WorkingBundles
 	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
 	<buildpathentry kind="src" path="vendor/doctrine/orm/lib"/>
 	<buildpathentry kind="src" path="src"/>

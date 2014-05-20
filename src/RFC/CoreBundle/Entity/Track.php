@@ -38,11 +38,14 @@ class Track extends KnowledgeData
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
+<<<<<<< HEAD
     
     public function __toString()
     {
         return $this->name;
     }
+=======
+>>>>>>> WorkingBundles
 
     /**
      * Get id
