@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
 - {{ parent() }} {% endblock %} {% block rfccore_body %}
 
@@ -62,58 +61,3 @@
 			Create a new entry </a></li>
 </ul>
 {% endblock %}
-=======
-{% extends '::base.html.twig' %}
-
-{% block body -%}
-    <h1>Event list</h1>
-
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Listsessions</th>
-                <th>Begindate</th>
-                <th>Enddate</th>
-                <th>Listbroadcast</th>
-                <th>Track</th>
-                <th>Vehicle</th>
-                <th>Category</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('admin_event_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.listSessions }}</td>
-                <td>{% if entity.beginDate %}{{ entity.beginDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.endDate %}{{ entity.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.listBroadcast }}</td>
-                <td>{{ entity.track }}</td>
-                <td>{{ entity.vehicle }}</td>
-                <td>{{ entity.category }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('admin_event_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_event_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('admin_event_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
->>>>>>> WorkingBundles

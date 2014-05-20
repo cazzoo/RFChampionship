@@ -43,7 +43,6 @@ class Category extends KnowledgeData
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
-<<<<<<< HEAD
 
     public function __toString()
     {
@@ -57,8 +56,6 @@ class Category extends KnowledgeData
     {
         $this->listVehicles = new \Doctrine\Common\Collections\ArrayCollection();
     }
-=======
->>>>>>> WorkingBundles
 
     /**
      * Get id
@@ -94,17 +91,6 @@ class Category extends KnowledgeData
     }
 
     /**
-<<<<<<< HEAD
-=======
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->listVehicles = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
->>>>>>> WorkingBundles
      * Add listVehicles
      *
      * @param \RFC\CoreBundle\Entity\Vehicle $listVehicles            

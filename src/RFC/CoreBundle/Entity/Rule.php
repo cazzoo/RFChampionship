@@ -45,15 +45,6 @@ class Rule extends KnowledgeData
     private $createdAt;
 
     /**
-<<<<<<< HEAD
-=======
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
->>>>>>> WorkingBundles
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
@@ -95,14 +86,11 @@ class Rule extends KnowledgeData
     public function getValue()
     {
         return $this->value;
-<<<<<<< HEAD
     }
 
     public function getTypeSession()
     {
         return $this->typeSession;
-=======
->>>>>>> WorkingBundles
     }
 
     public function setTypeSession($typeSession)

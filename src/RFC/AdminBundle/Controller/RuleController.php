@@ -67,13 +67,9 @@ class RuleController extends Controller
      */
     private function createCreateForm(Rule $entity, $gameId)
     {
-<<<<<<< HEAD
         $form = $this->createForm(new RuleType($gameId), $entity, array(
             'em' => $this->getDoctrine()
                 ->getManager(),
-=======
-        $form = $this->createForm(new RuleType(), $entity, array(
->>>>>>> WorkingBundles
             'action' => $this->generateUrl('admin_rule_create', array(
                 'gameId' => $gameId
             )),
@@ -161,16 +157,10 @@ class RuleController extends Controller
      */
     private function createEditForm(Rule $entity, $gameId)
     {
-<<<<<<< HEAD
         $form = $this->createForm(new RuleType($gameId), $entity, array(
             'em' => $this->getDoctrine()
                 ->getManager(),
             'action' => $this->generateUrl('admin_rule_update', array(
-=======
-        $form = $this->createForm(new RuleType(), $entity, array(
-            'em' => $this->getDoctrine()
-                ->getManager(),'action' => $this->generateUrl('admin_rule_update', array(
->>>>>>> WorkingBundles
                 'id' => $entity->getId(),
                 'gameId' => $gameId
             )),

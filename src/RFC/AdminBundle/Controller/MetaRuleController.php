@@ -69,11 +69,7 @@ class MetaRuleController extends Controller
      */
     private function createCreateForm(MetaRule $entity, $gameId)
     {
-<<<<<<< HEAD
         $form = $this->createForm(new MetaRuleType($gameId), $entity, array(
-=======
-        $form = $this->createForm(new MetaRuleType(), $entity, array(
->>>>>>> WorkingBundles
             'em' => $this->getDoctrine()
                 ->getManager(),
             'action' => $this->generateUrl('admin_metaRule_create', array(
@@ -163,11 +159,7 @@ class MetaRuleController extends Controller
      */
     private function createEditForm(MetaRule $entity, $gameId)
     {
-<<<<<<< HEAD
         $form = $this->createForm(new MetaRuleType($gameId), $entity, array(
-=======
-        $form = $this->createForm(new MetaRuleType(), $entity, array(
->>>>>>> WorkingBundles
             'em' => $this->getDoctrine()
                 ->getManager(),
             'action' => $this->generateUrl('admin_metaRule_update', array(

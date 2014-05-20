@@ -39,14 +39,11 @@ class TypeSession extends KnowledgeData
      */
     private $updatedAt;
 
-<<<<<<< HEAD
     public function __toString()
     {
         return $this->name;
     }
 
-=======
->>>>>>> WorkingBundles
     /**
      * Get id
      *

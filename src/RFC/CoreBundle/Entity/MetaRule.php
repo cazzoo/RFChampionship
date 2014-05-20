@@ -58,14 +58,11 @@ class MetaRule extends KnowledgeData
     {
         $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
     }
-<<<<<<< HEAD
 
     public function __toString()
     {
         return $this->name;
     }
-=======
->>>>>>> WorkingBundles
 
     /**
      * Get id

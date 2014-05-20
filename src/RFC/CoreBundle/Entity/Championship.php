@@ -22,14 +22,11 @@ class Championship extends KnowledgeData
     private $id;
 
     /**
-<<<<<<< HEAD
      * @ORM\Column(name="description", type="text", length=255, nullable=true)
      */
     private $description;
 
     /**
-=======
->>>>>>> WorkingBundles
      * @ORM\Column(name="isAgreed", type="boolean")
      */
     private $isAgreed;
@@ -37,41 +34,26 @@ class Championship extends KnowledgeData
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
      * @ORM\JoinColumn(nullable=false)
-<<<<<<< HEAD
      */
     protected $game;
 
     /**
      * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Event", mappedBy="championship")
-=======
->>>>>>> WorkingBundles
      */
-    private $game;
+    private $listEvents;
 
     /**
-<<<<<<< HEAD
      * @ORM\ManyToMany(targetEntity="RFC\UserBundle\Entity\User")
-=======
-     * @ORM\Column(name="list_managers", type="array")
->>>>>>> WorkingBundles
      */
     private $listManagers;
 
     /**
-<<<<<<< HEAD
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\MetaRule")
-=======
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\MetaRule"), cascade={"persist"}
->>>>>>> WorkingBundles
      */
     private $metaRule;
 
     /**
-<<<<<<< HEAD
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Rule")
-=======
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Rule"), cascade={"persist"}
->>>>>>> WorkingBundles
      */
     private $listRules;
 
@@ -86,7 +68,6 @@ class Championship extends KnowledgeData
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
-<<<<<<< HEAD
 
     /**
      * Constructor
@@ -102,8 +83,6 @@ class Championship extends KnowledgeData
     {
         return $this->name;
     } 
-=======
->>>>>>> WorkingBundles
 
     /**
      * Get id
@@ -162,7 +141,6 @@ class Championship extends KnowledgeData
     }
 
     /**
-<<<<<<< HEAD
      * Set listEvents
      *
      * @param array $listEvents            
@@ -186,8 +164,6 @@ class Championship extends KnowledgeData
     }
 
     /**
-=======
->>>>>>> WorkingBundles
      * Set listManagers
      *
      * @param array $listManagers            
@@ -257,41 +233,6 @@ class Championship extends KnowledgeData
     }
 
     /**
-<<<<<<< HEAD
-=======
-     * Set game
-     *
-     * @param \RFC\CoreBundle\Entity\Game $game            
-     * @return Championship
-     */
-    public function setGame(\RFC\CoreBundle\Entity\Game $game)
-    {
-        $this->game = $game;
-        
-        return $this;
-    }
-
-    /**
-     * Get game
-     *
-     * @return \RFC\CoreBundle\Entity\Game
-     */
-    public function getGame()
-    {
-        return $this->game;
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->metaRule = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
->>>>>>> WorkingBundles
      * Add metaRule
      *
      * @param \RFC\CoreBundle\Entity\MetaRule $metaRule            
@@ -382,7 +323,6 @@ class Championship extends KnowledgeData
     {
         return $this->updatedAt;
     }
-<<<<<<< HEAD
 
     /**
      * Add listEvents
@@ -429,6 +369,4 @@ class Championship extends KnowledgeData
     {
         $this->listManagers->removeElement($listManagers);
     }
-=======
->>>>>>> WorkingBundles
 }

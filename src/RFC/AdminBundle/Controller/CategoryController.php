@@ -68,11 +68,7 @@ class CategoryController extends Controller
      */
     private function createCreateForm(Category $entity, $gameId)
     {
-<<<<<<< HEAD
         $form = $this->createForm(new CategoryType($gameId), $entity, array(
-=======
-        $form = $this->createForm(new CategoryType(), $entity, array(
->>>>>>> WorkingBundles
             'em' => $this->getDoctrine()
                 ->getManager(),
             'action' => $this->generateUrl('admin_category_create', array(
@@ -162,11 +158,7 @@ class CategoryController extends Controller
      */
     private function createEditForm(Category $entity, $gameId)
     {
-<<<<<<< HEAD
         $form = $this->createForm(new CategoryType($gameId), $entity, array(
-=======
-        $form = $this->createForm(new CategoryType(), $entity, array(
->>>>>>> WorkingBundles
             'em' => $this->getDoctrine()
                 ->getManager(),
             'action' => $this->generateUrl('admin_category_update', array(

@@ -22,61 +22,36 @@ class Event
     private $id;
 
     /**
-<<<<<<< HEAD
      * @ORM\Column(name="beginDate", type="date")
-=======
-     * @ORM\Column(name="begin_date", type="date")
->>>>>>> WorkingBundles
      */
     private $beginDate;
 
     /**
-<<<<<<< HEAD
      * @ORM\Column(name="endDate", type="date")
-=======
-     * @ORM\Column(name="end_date", type="date")
->>>>>>> WorkingBundles
      */
     private $endDate;
 
     /**
-<<<<<<< HEAD
      * @ORM\Column(name="listBroadcast", type="array")
-=======
-     * @ORM\Column(name="list_broadcast", type="array")
->>>>>>> WorkingBundles
      */
     private $listBroadcast;
 
     /**
-<<<<<<< HEAD
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Track")
-=======
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Track"), cascade={"persist"}
->>>>>>> WorkingBundles
      */
     private $track;
 
     /**
-<<<<<<< HEAD
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Vehicle")
-=======
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Vehicle"), cascade={"persist"}
->>>>>>> WorkingBundles
      */
     private $vehicle;
 
     /**
-<<<<<<< HEAD
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Category")
-=======
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Category"), cascade={"persist"}
->>>>>>> WorkingBundles
      */
     private $category;
 
     /**
-<<<<<<< HEAD
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship", inversedBy="listEvents")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -86,12 +61,6 @@ class Event
      * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Session", mappedBy="event")
      */
     private $listSessions;
-=======
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $championship;
->>>>>>> WorkingBundles
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -104,7 +73,6 @@ class Event
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
-<<<<<<< HEAD
     
     /**
      * Constructor
@@ -118,8 +86,6 @@ class Event
     {
         return (String) $this->id;
     }
-=======
->>>>>>> WorkingBundles
 
     /**
      * Get id
@@ -270,88 +236,6 @@ class Event
     }
 
     /**
-<<<<<<< HEAD
-=======
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->track = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->vehicle = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->category = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add track
-     *
-     * @param \RFC\CoreBundle\Entity\Track $track            
-     * @return Event
-     */
-    public function addTrack(\RFC\CoreBundle\Entity\Track $track)
-    {
-        $this->track[] = $track;
-        
-        return $this;
-    }
-
-    /**
-     * Remove track
-     *
-     * @param \RFC\CoreBundle\Entity\Track $track            
-     */
-    public function removeTrack(\RFC\CoreBundle\Entity\Track $track)
-    {
-        $this->track->removeElement($track);
-    }
-
-    /**
-     * Add vehicle
-     *
-     * @param \RFC\CoreBundle\Entity\Vehicle $vehicle            
-     * @return Event
-     */
-    public function addVehicle(\RFC\CoreBundle\Entity\Vehicle $vehicle)
-    {
-        $this->vehicle[] = $vehicle;
-        
-        return $this;
-    }
-
-    /**
-     * Remove vehicle
-     *
-     * @param \RFC\CoreBundle\Entity\Vehicle $vehicle            
-     */
-    public function removeVehicle(\RFC\CoreBundle\Entity\Vehicle $vehicle)
-    {
-        $this->vehicle->removeElement($vehicle);
-    }
-
-    /**
-     * Add category
-     *
-     * @param \RFC\CoreBundle\Entity\Category $category            
-     * @return Event
-     */
-    public function addCategory(\RFC\CoreBundle\Entity\Category $category)
-    {
-        $this->category[] = $category;
-        
-        return $this;
-    }
-
-    /**
-     * Remove category
-     *
-     * @param \RFC\CoreBundle\Entity\Category $category            
-     */
-    public function removeCategory(\RFC\CoreBundle\Entity\Category $category)
-    {
-        $this->category->removeElement($category);
-    }
-
-    /**
->>>>>>> WorkingBundles
      * Set championship
      *
      * @param \RFC\CoreBundle\Entity\Championship $championship            
@@ -419,7 +303,6 @@ class Event
     {
         return $this->updatedAt;
     }
-<<<<<<< HEAD
 
     /**
      * Add listSessions
@@ -453,6 +336,4 @@ class Event
     {
         return $this->listSessions;
     }
-=======
->>>>>>> WorkingBundles
 }
