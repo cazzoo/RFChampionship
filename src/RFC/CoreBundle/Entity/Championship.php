@@ -13,7 +13,7 @@ use RFC\CoreBundle\Entity\KnowledgeData;
  */
 class Championship extends KnowledgeData
 {
-
+    
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,17 +22,12 @@ class Championship extends KnowledgeData
     private $id;
 
     /**
-     * @ORM\Column(name="description", type="text", length=255, nullable=true)
-     */
-    private $description;
-
-    /**
      * @ORM\Column(name="isAgreed", type="boolean")
      */
     private $isAgreed;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game" , inversedBy="listChampionships")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $game;
