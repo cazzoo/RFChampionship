@@ -41,6 +41,11 @@ class Game
     private $imageUrl;
 
     /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Championship", mappedBy="game")
+     */
+    private $listChampionships;
+
+    /**
      * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\MetaRule", mappedBy="game")
      */
     private $listMetaRules;
@@ -82,6 +87,7 @@ class Game
      */
     public function __construct()
     {
+        $this->listChampionships = new \Doctrine\Common\Collections\ArrayCollection();
         $this->listMetaRules = new \Doctrine\Common\Collections\ArrayCollection();
         $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -260,6 +266,39 @@ class Game
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Add listChampionships
+     *
+     * @param \RFC\CoreBundle\Entity\Championship $listChampionships            
+     * @return Game
+     */
+    public function addListChampionship(\RFC\CoreBundle\Entity\Championship $listChampionships)
+    {
+        $this->listChampionships[] = $listChampionships;
+        
+        return $this;
+    }
+
+    /**
+     * Remove listChampionships
+     *
+     * @param \RFC\CoreBundle\Entity\MetaRule $listChampionships            
+     */
+    public function removeListChampionship(\RFC\CoreBundle\Entity\Championship $listChampionships)
+    {
+        $this->listChampionships->removeElement($listChampionships);
+    }
+
+    /**
+     * Get listChampionships
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getListChampionships()
+    {
+        return $this->listChampionships;
     }
 
     /**
