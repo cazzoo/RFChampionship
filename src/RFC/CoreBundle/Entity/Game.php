@@ -3,6 +3,7 @@ namespace RFC\CoreBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use RFC\CoreBundle\Entity\DescriptorTrait;
 
 /**
  * Game
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Game
 {
+    use DescriptorTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -24,16 +26,6 @@ class Game
      * @ORM\Column(name="shortName", type="string", length=255)
      */
     private $shortName;
-
-    /**
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(name="description", type="text", length=255, nullable=true)
-     */
-    private $description;
 
     /**
      * @ORM\Column(name="imageUrl", type="string", length=255)
@@ -108,29 +100,6 @@ class Game
     }
 
     /**
-     * Set name
-     *
-     * @param string $name            
-     * @return Game
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-        
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * Set image
      *
      * @param \string $image_url            
@@ -197,29 +166,6 @@ class Game
     public function getShortName()
     {
         return $this->shortName;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description            
-     * @return Game
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-        
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     /**

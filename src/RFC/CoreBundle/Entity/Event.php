@@ -4,6 +4,7 @@ namespace RFC\CoreBundle\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\Championship;
+use RFC\CoreBundle\Entity\DescriptorTrait;
 
 /**
  * Event
@@ -13,6 +14,7 @@ use RFC\CoreBundle\Entity\Championship;
  */
 class Event
 {
+    use DescriptorTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")

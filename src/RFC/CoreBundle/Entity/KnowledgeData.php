@@ -3,6 +3,7 @@ namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\Game;
+use RFC\CoreBundle\Entity\DescriptorTrait;
 
 /**
  * KnowledgeData
@@ -12,35 +13,9 @@ use RFC\CoreBundle\Entity\Game;
 abstract class KnowledgeData
 {
 
-    /**
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    protected $name;
+    use DescriptorTrait;
 
     protected $game;
-
-    /**
-     * Set name
-     *
-     * @param string $name            
-     * @return KnowledgeData
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-        
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
 
     /**
      * Set game

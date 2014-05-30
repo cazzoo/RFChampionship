@@ -33,7 +33,7 @@ class Rule extends KnowledgeData
     private $value;
     
     /**
-     * @ORM\OneToOne(targetEntity="RFC\CoreBundle\Entity\TypeSession")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\TypeSession")
      * @ORM\JoinColumn(nullable=false)
      */
     private $typeSession;

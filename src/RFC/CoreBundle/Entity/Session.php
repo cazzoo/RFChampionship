@@ -32,10 +32,10 @@ class Session
     private $endDate;
 
     /**
-     * @ORM\OneToOne(targetEntity="RFC\CoreBundle\Entity\TypeSession")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\TypeSession")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $type;
+    private $typeSession;
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Event", inversedBy="listSessions")

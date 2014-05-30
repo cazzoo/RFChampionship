@@ -1,6 +1,5 @@
 {# src/RFC/UserBundle/Resources/views/layout.html.twig #} {# On étend
-notre layout #} {% extends "::layout.html.twig" %} {# Dans notre layout,
-il faut définir le block body #} {% block body %}
+notre layout #} {% extends "::layout.html.twig" %} {% block body %}
 
 <div>
 	<h1>RF Championship</h1>
@@ -18,6 +17,7 @@ messages %}
 {% endfor %} {% endfor %}
 
 <div>{% block header %} {% block fos_user_content %} {% endblock
-	fos_user_content %} {% endblock header %}</div> <hr />
+	fos_user_content %} {% endblock header %}</div>
+<hr />
 
 {% block rfccore_body %} {% endblock %} {% endblock %}

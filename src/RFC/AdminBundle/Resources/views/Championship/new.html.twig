@@ -1,10 +1,14 @@
-{% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
-- {{ parent() }} {% endblock %} {% block rfccore_body %} {% block
-javascripts %} {{ parent() }} {% javascripts 'specifics' %}
-<script src="{{ asset('js/forms.behiavior.js') }}"
-	type="text/javascript"></script> {% endjavascripts %}
+{% extends "RFCCoreBundle::layout.html.twig" %} 
+{% block title %} 
+    {% block javascripts %}
+        {{ parent() }}
+        {% javascripts 'RFCAdminJS' %} 
+            <script src="{{asset('js/forms.behiavior.js') }}"></script> 
+        {% endjavascripts %}
+    {% endblock %}
+    Admin - {{ parent() }}
 {% endblock %}
-
+{% block rfccore_body %}
 
 <h1>Championship creation</h1>
 

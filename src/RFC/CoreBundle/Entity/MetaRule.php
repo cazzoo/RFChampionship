@@ -28,11 +28,6 @@ class MetaRule extends KnowledgeData
     protected $game;
 
     /**
-     * @ORM\Column(name="description", type="text")
-     */
-    private $description;
-
-    /**
      * @ORM\Column(name="isAgreed", type="boolean")
      */
     private $isAgreed;
