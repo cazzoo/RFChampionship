@@ -1,0 +1,6 @@
+admin_session_search:
+    pattern: /search
+    defaults: { _controller: "RFCAdminBundle:Session:search"}
+    requirements: { _method: post|get }
+    options:
+        expose: true

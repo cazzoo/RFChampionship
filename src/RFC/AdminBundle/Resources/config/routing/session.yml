@@ -1,7 +1,3 @@
-admin_session:
-    pattern:  /
-    defaults: { _controller: "RFCAdminBundle:Session:index" }
-
 admin_session_show:
     pattern:  /{id}/show
     defaults: { _controller: "RFCAdminBundle:Session:show" }

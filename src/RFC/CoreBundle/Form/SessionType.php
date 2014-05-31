@@ -1,5 +1,4 @@
 <?php
-
 namespace RFC\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -8,22 +7,25 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SessionType extends AbstractType
 {
-        /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+
+    /**
+     *
+     * @param FormBuilderInterface $builder            
+     * @param array $options            
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
+        $builder->add('name')
+            ->add('description')
             ->add('beginDate')
             ->add('endDate')
-            ->add('type')
-            ->add('listResults')
-        ;
+            ->add('typeSession')
+            ->add('event');
     }
-    
+
     /**
-     * @param OptionsResolverInterface $resolver
+     *
+     * @param OptionsResolverInterface $resolver            
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -33,6 +35,7 @@ class SessionType extends AbstractType
     }
 
     /**
+     *
      * @return string
      */
     public function getName()

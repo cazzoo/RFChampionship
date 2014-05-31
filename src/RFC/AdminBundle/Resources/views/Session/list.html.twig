@@ -1,0 +1,10 @@
+{% if sessions %}
+	{% for session in sessions %}
+	 <li class="list-group-item">{{ session.name }} : {{ session.typeSession.name }}</li>
+	{% endfor %}
+{% else %}
+  Ajouter une session <a class="btn btn-inverse btn-xs" role="button"
+href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : 1}) }}"><span
+	class="glyphicon glyphicon-plus"></span>
+</a>
+{% endif %}

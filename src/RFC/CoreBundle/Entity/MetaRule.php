@@ -116,29 +116,6 @@ class MetaRule extends KnowledgeData
     }
 
     /**
-     * Set description
-     *
-     * @param string $description            
-     * @return MetaRule
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-        
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
      * Set isAgreed
      *
      * @param boolean $isAgreed            

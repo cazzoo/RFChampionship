@@ -12,7 +12,7 @@
 			<th>Listsessions</th>
 			<td>{% if entity.listSessions is empty %} <a
 				class="btn btn-inverse btn-xs" role="button"
-				href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : entity.id}) }}">Add
+				href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId ,'eventId' : entity.id}) }}">Add
 					a Session <span class="glyphicon glyphicon-plus"></span>
 			</a> {% else %}
 				<ul>

@@ -25,7 +25,9 @@ class EventType extends AbstractType
     {
         $gameId = $this->gameId;
         
-        $builder->add('listSessions', 'entity', array(
+        $builder->add('name')
+            ->add('description')
+            ->add('listSessions', 'entity', array(
             'required' => false,
             'class' => 'RFCCoreBundle:Session',
             'multiple' => true

@@ -15,7 +15,7 @@ RFCAdmin_event:
     prefix:   /admin/game/{gameId}/championship/{championshipId}/event
 RFCAdmin_session:
     resource: "@RFCAdminBundle/Resources/config/routing/session.yml"
-    prefix:   /admin/session
+    prefix:   /admin/game/{gameId}/championship/{championshipId}/event/{eventId}/session
 RFCAdmin_result:
     resource: "@RFCAdminBundle/Resources/config/routing/result.yml"
     prefix:   /admin/result
@@ -37,3 +37,6 @@ RFCAdmin_rule:
 RFCAdmin_typeSession:
      resource: "@RFCAdminBundle/Resources/config/routing/typeSession.yml"
      prefix:   /admin/game/{gameId}/typeSession
+RFCAjax:
+     resource: "@RFCAdminBundle/Resources/config/routing/ajax.yml"
+     prefix:   /

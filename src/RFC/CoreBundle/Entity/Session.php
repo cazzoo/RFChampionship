@@ -4,6 +4,7 @@ namespace RFC\CoreBundle\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\Event;
+use RFC\CoreBundle\Entity\DescriptorTrait;
 
 /**
  * Session
@@ -13,6 +14,8 @@ use RFC\CoreBundle\Entity\Event;
  */
 class Session
 {
+    
+    use DescriptorTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -54,6 +57,11 @@ class Session
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     /**
      * Get id
@@ -117,9 +125,9 @@ class Session
      * @param integer $type            
      * @return Session
      */
-    public function setType($type)
+    public function setTypeSession($typeSession)
     {
-        $this->type = $type;
+        $this->typeSession = $typeSession;
         
         return $this;
     }
@@ -129,9 +137,9 @@ class Session
      *
      * @return integer
      */
-    public function getType()
+    public function getTypeSession()
     {
-        return $this->type;
+        return $this->typeSession;
     }
 
     /**

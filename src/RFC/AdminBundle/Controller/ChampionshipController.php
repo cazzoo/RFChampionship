@@ -110,6 +110,7 @@ class ChampionshipController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $entity = $em->getRepository('RFCCoreBundle:Championship')->find($id);
+        $game = $em->getRepository('RFCCoreBundle:Game')->findById($gameId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Championship entity.');
@@ -118,9 +119,10 @@ class ChampionshipController extends Controller
         $deleteForm = $this->createDeleteForm($id, $gameId);
         
         return $this->render('RFCAdminBundle:Championship:show.html.twig', array(
+            'sessions' => null,
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
-            'gameId' => $gameId
+            'game' => $game
         ));
     }
 

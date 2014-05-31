@@ -10,6 +10,14 @@
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
+                <th>Name</th>
+                <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ entity.description }}</td>
+            </tr>
+            <tr>
                 <th>Begindate</th>
                 <td>{{ entity.beginDate|date('Y-m-d H:i:s') }}</td>
             </tr>
@@ -18,24 +26,17 @@
                 <td>{{ entity.endDate|date('Y-m-d H:i:s') }}</td>
             </tr>
             <tr>
-                <th>Type</th>
-                <td>{{ entity.type }}</td>
-            </tr>
-            <tr>
-                <th>Listresults</th>
-                <td>{{ entity.listResults }}</td>
+                <th>TypeSession</th>
+                <td>{{ entity.typeSession }}</td>
             </tr>
         </tbody>
     </table>
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('admin_session') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('admin_session_edit', { 'id': entity.id }) }}">
+        <a href="{{ path('admin_session_edit', { 'id': entity.id, 'gameId' : gameId,
+            'championshipId' : championshipId,
+            'eventId' : entity.id }) }}">
             Edit
         </a>
     </li>

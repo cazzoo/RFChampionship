@@ -1,11 +1,11 @@
 {% extends "RFCCoreBundle::layout.html.twig" %} 
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts 'RFCAdminJS' %} 
+        <script src="{{asset('js/forms.behiavior.js') }}"></script> 
+    {% endjavascripts %}
+{% endblock %}
 {% block title %} 
-    {% block javascripts %}
-        {{ parent() }}
-        {% javascripts 'RFCAdminJS' %} 
-            <script src="{{asset('js/forms.behiavior.js') }}"></script> 
-        {% endjavascripts %}
-    {% endblock %}
     Admin - {{ parent() }}
 {% endblock %}
 {% block rfccore_body %}

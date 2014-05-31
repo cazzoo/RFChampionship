@@ -15,7 +15,9 @@ class VehicleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('game', 'entity', array(
+        $builder->add('name')
+            ->add('description')
+            ->add('game', 'entity', array(
             'class' => 'RFC\CoreBundle\Entity\Game'
         ));
     }
