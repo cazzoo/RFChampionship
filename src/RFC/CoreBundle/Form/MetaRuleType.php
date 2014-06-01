@@ -28,7 +28,8 @@ class MetaRuleType extends AbstractType
         $builder->add('name')
             ->add('description')
             ->add('isAgreed')
-            ->add('listRules', null, array(
+            ->add('listRules', 'entity', array(
+            'multiple' => true,
             'required' => false,
             'class' => 'RFCCoreBundle:Rule',
             'query_builder' => function (RuleRepository $er) use($id)

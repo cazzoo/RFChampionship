@@ -1,0 +1,18 @@
+{% if metaRuleId is null %}
+    Aucune MetaRule sélectionné. Veuillez sélectionner une MetaRule.
+{% else %}
+    {% if rules %}
+    	{% for rule in rules %}
+    	<li class="list-group-item">
+            <h4 class="list-group-item-heading">{{ rule.name }}</h4>
+            <p class="list-group-item-text">{{ rule.value }}</p>
+        </li>
+    	{% endfor %}
+    {% else %}
+        Rien a afficher
+    {% endif %}
+      Ajouter une Rule <a id="list_add" class="btn btn-inverse btn-xs" role="button"
+    href="{{ path('admin_rule_new', {'gameId' : gameId, 'metaRuleId' : metaRuleId}) }}"><span
+    	class="glyphicon glyphicon-plus"></span>
+    </a>
+{% endif %}

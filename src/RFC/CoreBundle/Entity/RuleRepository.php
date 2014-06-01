@@ -1,5 +1,4 @@
 <?php
-
 namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
@@ -12,4 +11,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class RuleRepository extends EntityRepository
 {
+
+    public function getForMetaRule($metaRuleId)
+    {
+        return $this->createQueryBuilder('r')
+            ->innerJoin('r.listMetaRules', 'm')
+            ->where('m.id = :metaRuleId')
+            ->setParameter('metaRuleId', $metaRuleId)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -16,14 +16,16 @@ $(function() {
 			$('#rfc_corebundle_championship_listRules').parent('div')
 					.show(time);
 		}
-	}
-	;
+	};
 
 	$(".eventItem").click(function() {
 		$('.eventItem').removeClass('active');
 		$(this).addClass("active")
+		var entityData = $(this).attr('id').split(';');
 		var data = {
-			eventId : $(this).attr('id').substr(6)
+			eventId : entityData[0].substr(6),
+			gameId : entityData[1].substr(5),
+			championshipId : entityData[2].substr(13)
 		};
 		$.ajax({
 			type : "POST",
@@ -41,7 +43,32 @@ $(function() {
 		return false;
 	});
 
+	$(".metaRuleItem").click(function() {
+		$('.metaRuleItem').removeClass('active');
+		$(this).addClass("active")
+		var entityData = $(this).attr('id').split(';');
+		var data = {
+			metaRuleId : entityData[0].substr(9),
+			gameId : entityData[1].substr(5)
+		};
+		$.ajax({
+			type : "POST",
+			url : Routing.generate('admin_rule_search'),
+			data : data,
+			cache : false,
+			beforeSend : function() {
+				$('#listRules').html("Chargement des règles...");
+			}
+		}).done(function(data) {
+			$('#listRules').html(data);
+		}).fail(function() {
+			$('#listRules').html("Impossible de récupérer un résultat");
+		});
+		return false;
+	});
+
 	// Init phase
 	toggleRules(0);
 	$(".eventItem:first").trigger("click");
+	$(".metaRuleItem:first").trigger("click");
 });

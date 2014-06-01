@@ -25,7 +25,8 @@ class RuleController extends Controller
         ));
         
         return $this->render('RFCAdminBundle:Rule:index.html.twig', array(
-            'rules' => $rules,
+            'rules' => null,
+            'metaRuleId' => null,
             'gameId' => $gameId
         ));
     }
@@ -252,5 +253,30 @@ class RuleController extends Controller
             'label' => 'Delete'
         ))
             ->getForm();
+    }
+
+    public function searchAction()
+    {
+        $request = Request::createFromGlobals();
+        
+        if ($request->isXmlHttpRequest()) {
+            
+            $gameId = $request->request->get('gameId');
+            $metaRuleId = $request->request->get('metaRuleId');
+            
+            $rules = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('RFCCoreBundle:Rule')
+                ->getForMetaRule($metaRuleId);
+            
+            return $this->render('RFCAdminBundle:Rule:list.html.twig', array(
+                'gameId' => $gameId,
+                'rules' => $rules,
+                'metaRuleId' => $metaRuleId
+            ));
+        } else
+            return $this->render('RFCAdminBundle:Rule:list.html.twig', array(
+                'rules' => null
+            ));
     }
 }

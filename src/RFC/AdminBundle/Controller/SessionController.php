@@ -264,15 +264,18 @@ class SessionController extends Controller
             $championshipId = $request->request->get('championshipId');
             $eventId = $request->request->get('eventId');
             
+            $form = $this->createCreateForm(new Session(), $gameId, $championshipId, $eventId);
+            
             $em = $this->getDoctrine()->getManager();
             $sessions = $em->getRepository('RFCCoreBundle:Session')->findBy(array(
                 'event' => $eventId
             ));
             return $this->render('RFCAdminBundle:Session:list.html.twig', array(
-                'sessions' => $sessions,
                 'gameId' => $gameId,
                 'championshipId' => $championshipId,
-                'eventId' => $eventId
+                'sessions' => $sessions,
+                'eventId' => $eventId,
+                'form' => $form->createView()
             ));
         } else
             return $this->render('RFCAdminBundle:Session:list.html.twig', array(

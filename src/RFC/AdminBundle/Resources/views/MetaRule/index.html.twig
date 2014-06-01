@@ -1,5 +1,8 @@
-{% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
-- {{ parent() }} {% endblock %} {% block rfccore_body %}
+{% extends "RFCCoreBundle::layout.html.twig" %} {% block javascripts %}
+{{ parent() }} {% javascripts 'RFCAdminJS' %}
+<script src="{{asset('js/forms.behiavior.js') }}"></script>
+{% endjavascripts %} {% endblock %} {% block title %} Admin - {{
+parent() }} {% endblock %} {% block rfccore_body %}
 
 <ol class="breadcrumb">
 	<li><a href="{{ path('RFCAdmin_index') }}">Admin</a></li>
@@ -21,7 +24,7 @@
 			{% for metaRule in metaRules %}
 			<div class="row">
 				<div class="col-md-10">
-					<a href="#{{ metaRule.id }}" class="list-group-item">
+					<a id="metaRule_{{ metaRule.id }};game_{{ game[0].id }}" href="#metaRule_{{ metaRule.id }}" class="metaRuleItem list-group-item">
 						<h4 class="list-group-item-heading">{{ metaRule.name }}</h4>
 						<p class="list-group-item-text">{{ metaRule.description }}</p>
 					</a>
@@ -44,10 +47,9 @@
 	<div class="col-md-7">
 		<h3>List Rules</h3>
 
-		<ul class="list-group">
-			{% for rule in rules %}
-			<li class="list-group-item">{{ rule.name }} : {{ rule.value }}</li>
-			{% endfor %}
+		<ul class="list-group" id="listRules">{# Colonne 2 : Rules #} {%
+			include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' :
+			rules, 'game' : game, 'metaRuleId' : metaRuleId} %}
 		</ul>
 	</div>
 </div>

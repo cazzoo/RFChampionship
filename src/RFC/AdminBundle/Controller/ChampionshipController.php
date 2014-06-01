@@ -120,6 +120,7 @@ class ChampionshipController extends Controller
         
         return $this->render('RFCAdminBundle:Championship:show.html.twig', array(
             'sessions' => null,
+            'eventId' => null,
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
             'game' => $game

@@ -33,7 +33,7 @@ class MetaRule extends KnowledgeData
     private $isAgreed;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Rule")
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Rule", inversedBy="listMetaRules")
      */
     private $listRules;
 

@@ -21,12 +21,12 @@ class MetaRuleController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $metaRules = $em->getRepository('RFCCoreBundle:MetaRule')->findBy(array('game' => $gameId));
-        $rules = $em->getRepository('RFCCoreBundle:Rule')->findBy(array('game' => $gameId));
         $game = $em->getRepository('RFCCoreBundle:Game')->findById($gameId);
         
         return $this->render('RFCAdminBundle:MetaRule:index.html.twig', array(
             'metaRules' => $metaRules,
-            'rules' => $rules,
+            'metaRuleId' => null,
+            'rules' => null,
             'gameId' => $gameId,
             'game' => $game
         ));

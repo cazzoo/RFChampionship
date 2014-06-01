@@ -1,10 +1,16 @@
-{% if sessions %}
-	{% for session in sessions %}
-	 <li class="list-group-item">{{ session.name }} : {{ session.typeSession.name }}</li>
-	{% endfor %}
+{% if eventId is null %}
+    Aucun Event sélectionné. Veuillez sélectionner un Event.
 {% else %}
-  Ajouter une session <a class="btn btn-inverse btn-xs" role="button"
-href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : 1}) }}"><span
-	class="glyphicon glyphicon-plus"></span>
-</a>
+    {% if sessions %}
+    	{% for session in sessions %}
+    	<li class="list-group-item">
+            <h4 class="list-group-item-heading">{{ session.name }}</h4>
+            <p class="list-group-item-text">{{ session.typeSession.name }}</p>
+        </li>
+    	{% endfor %}
+    {% endif %}
+      Ajouter une session <a id="session_add" class="btn btn-inverse btn-xs" role="button"
+    href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : eventId}) }}"><span
+    	class="glyphicon glyphicon-plus"></span>
+    </a>
 {% endif %}

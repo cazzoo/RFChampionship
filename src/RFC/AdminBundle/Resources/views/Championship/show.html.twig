@@ -43,7 +43,7 @@ parent() }} {% endblock %} {% block rfccore_body %}
 			<div class="row">
 				{# Colonne 1 : Events #}
 				<div class="col-md-10">
-					<a id="event_{{ event.id }}" href="#event_{{ event.id }}"
+					<a id="event_{{ event.id }};game_{{ game[0].id }};championship_{{ entity.id }}" href="#event_{{ event.id }}"
 						class="eventItem list-group-item">
 						<h4 class="list-group-item-heading">{{ event.name }}</h4>
 						<p class="list-group-item-text">{{ event.description }}</p>
@@ -69,7 +69,7 @@ parent() }} {% endblock %} {% block rfccore_body %}
 
 		<ul class="list-group" id="listSessions">{# Colonne 2 : Sessions #} {%
 			include 'RFCAdminBundle:Session:list.html.twig' with {'sessions' :
-			sessions, 'gameId' : game[0].id, 'championshipId' : entity.id} %}
+			sessions, 'game' : game, 'championshipId' : entity.id, 'eventId' : eventId} %}
 		</ul>
 	</div>
 </div>

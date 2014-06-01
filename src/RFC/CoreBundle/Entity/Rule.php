@@ -31,6 +31,11 @@ class Rule extends KnowledgeData
      * @ORM\Column(name="value", type="text")
      */
     private $value;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\MetaRule", mappedBy="listRules")
+     */
+    private $listMetaRules;
     
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\TypeSession")
@@ -49,6 +54,14 @@ class Rule extends KnowledgeData
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->listMetaRules = new \Doctrine\Common\Collections\ArrayCollection();
+    }
     
     public function __toString()
     {
@@ -86,6 +99,39 @@ class Rule extends KnowledgeData
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Add listMetaRules
+     *
+     * @param \RFC\CoreBundle\Entity\MetaRule $listMetaRules            
+     * @return Game
+     */
+    public function addListMetaRule(\RFC\CoreBundle\Entity\MetaRule $listMetaRules)
+    {
+        $this->listMetaRules[] = $listMetaRules;
+        
+        return $this;
+    }
+
+    /**
+     * Remove listMetaRules
+     *
+     * @param \RFC\CoreBundle\Entity\MetaRule $listMetaRules            
+     */
+    public function removeListMetaRule(\RFC\CoreBundle\Entity\MetaRule $listMetaRules)
+    {
+        $this->listMetaRules->removeElement($listMetaRules);
+    }
+
+    /**
+     * Get listMetaRules
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getListMetaRules()
+    {
+        return $this->listMetaRules;
     }
 
     public function getTypeSession()

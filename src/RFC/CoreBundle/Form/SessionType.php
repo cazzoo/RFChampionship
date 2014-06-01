@@ -17,8 +17,8 @@ class SessionType extends AbstractType
     {
         $builder->add('name')
             ->add('description')
-            ->add('beginDate')
-            ->add('endDate')
+            ->add('beginDate', 'datetime')
+            ->add('endDate', 'datetime')
             ->add('typeSession')
             ->add('event');
     }
