@@ -3,7 +3,7 @@ admin_championship:
     defaults: { _controller: "RFCAdminBundle:Championship:index" }
 
 admin_championship_show:
-    pattern:  /{id}/show
+    pattern:  /{championshipId}/show
     defaults: { _controller: "RFCAdminBundle:Championship:show" }
 
 admin_championship_new:
@@ -16,15 +16,15 @@ admin_championship_create:
     requirements: { _method: post }
 
 admin_championship_edit:
-    pattern:  /{id}/edit
+    pattern:  /{championshipId}/edit
     defaults: { _controller: "RFCAdminBundle:Championship:edit" }
 
 admin_championship_update:
-    pattern:  /{id}/update
+    pattern:  /{championshipId}/update
     defaults: { _controller: "RFCAdminBundle:Championship:update" }
     requirements: { _method: post|put }
 
 admin_championship_delete:
-    pattern:  /{id}/delete
+    pattern:  /{championshipId}/delete
     defaults: { _controller: "RFCAdminBundle:Championship:delete" }
     requirements: { _method: post|delete }

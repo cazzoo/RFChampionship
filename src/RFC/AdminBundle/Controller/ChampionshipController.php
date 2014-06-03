@@ -105,18 +105,18 @@ class ChampionshipController extends Controller
     /**
      * Finds and displays a Championship entity.
      */
-    public function showAction($id, $gameId)
+    public function showAction($championshipId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Championship')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Championship')->find($championshipId);
         $game = $em->getRepository('RFCCoreBundle:Game')->findById($gameId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Championship entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($championshipId, $gameId);
         
         return $this->render('RFCAdminBundle:Championship:show.html.twig', array(
             'sessions' => null,
@@ -130,18 +130,18 @@ class ChampionshipController extends Controller
     /**
      * Displays a form to edit an existing Championship entity.
      */
-    public function editAction($id, $gameId)
+    public function editAction($championshipId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Championship')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Championship')->find($championshipId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Championship entity.');
         }
         
         $editForm = $this->createEditForm($entity, $gameId);
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($championshipId, $gameId);
         
         return $this->render('RFCAdminBundle:Championship:edit.html.twig', array(
             'entity' => $entity,
@@ -181,17 +181,17 @@ class ChampionshipController extends Controller
     /**
      * Edits an existing Championship entity.
      */
-    public function updateAction(Request $request, $id, $gameId)
+    public function updateAction(Request $request, $championshipId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Championship')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Championship')->find($championshipId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Championship entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($championshipId, $gameId);
         $editForm = $this->createEditForm($entity, $gameId);
         $editForm->handleRequest($request);
         
@@ -199,7 +199,7 @@ class ChampionshipController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_championship_edit', array(
-                'id' => $id,
+                'id' => $championshipId,
                 'gameId' => $gameId
             )));
         }
@@ -215,14 +215,14 @@ class ChampionshipController extends Controller
     /**
      * Deletes a Championship entity.
      */
-    public function deleteAction(Request $request, $id, $gameId)
+    public function deleteAction(Request $request, $championshipId, $gameId)
     {
-        $form = $this->createDeleteForm($id, $gameId);
+        $form = $this->createDeleteForm($championshipId, $gameId);
         $form->handleRequest($request);
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Championship')->find($id);
+            $entity = $em->getRepository('RFCCoreBundle:Championship')->find($championshipId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find Championship entity.');
@@ -240,16 +240,16 @@ class ChampionshipController extends Controller
     /**
      * Creates a form to delete a Championship entity by id.
      *
-     * @param mixed $id
+     * @param mixed $championshipId
      *            The entity id
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id, $gameId)
+    private function createDeleteForm($championshipId, $gameId)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_championship_delete', array(
-            'id' => $id,
+            'championshipId' => $championshipId,
             'gameId' => $gameId
         )))
             ->setMethod('DELETE')

@@ -28,7 +28,7 @@ class SessionController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_session_show', array(
+            return $this->redirect($this->generateUrl('admin_championship_show', array(
                 'id' => $entity->getId(),
                 'gameId' => $gameId,
                 'championshipId' => $championshipId,
