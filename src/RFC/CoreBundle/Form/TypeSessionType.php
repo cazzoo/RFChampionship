@@ -19,7 +19,7 @@ class TypeSessionType extends AbstractType
         $gameTransformer = new GameToIntTransformer($options['em']);
         
         $builder->add('name')
-            ->add('description')
+            ->add('description', 'textarea')
             /*->add($builder->create('game', 'hidden')
             ->addModelTransformer($gameTransformer))*/
             ->add('game', 'entity', array(

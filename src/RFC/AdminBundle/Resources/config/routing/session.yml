@@ -1,5 +1,5 @@
 admin_session_show:
-    pattern:  /{id}/show
+    pattern:  /{sessionId}/show
     defaults: { _controller: "RFCAdminBundle:Session:show" }
 
 admin_session_new:
@@ -12,15 +12,15 @@ admin_session_create:
     requirements: { _method: post }
 
 admin_session_edit:
-    pattern:  /{id}/edit
+    pattern:  /{sessionId}/edit
     defaults: { _controller: "RFCAdminBundle:Session:edit" }
 
 admin_session_update:
-    pattern:  /{id}/update
+    pattern:  /{sessionId}/update
     defaults: { _controller: "RFCAdminBundle:Session:update" }
     requirements: { _method: post|put }
 
 admin_session_delete:
-    pattern:  /{id}/delete
+    pattern:  /{sessionId}/delete
     defaults: { _controller: "RFCAdminBundle:Session:delete" }
     requirements: { _method: post|delete }

@@ -19,7 +19,7 @@
 		{% for entity in entities %}
 		<tr>
 			<td><a
-				href="{{ path('admin_event_show', { 'id': entity.id, 'gameId': gameId, 'championshipId' : championshipId }) }}">{{
+				href="{{ path('admin_event_show', { 'eventId': entity.id, 'gameId': gameId, 'championshipId' : championshipId }) }}">{{
 					entity.id }}</a></td>
 			<td>{% if entity.listSessions is empty %} <a
 				class="btn btn-inverse btn-xs" role="button"
@@ -43,10 +43,10 @@
 			<td>
 				<ul>
 					<li><a
-						href="{{ path('admin_event_show', { 'id': entity.id, 'gameId': gameId, 'championshipId' : championshipId }) }}">show</a>
+						href="{{ path('admin_event_show', { 'eventId': entity.id, 'gameId': gameId, 'championshipId' : championshipId }) }}">show</a>
 					</li>
 					<li><a
-						href="{{ path('admin_event_edit', { 'id': entity.id, 'gameId': gameId, 'championshipId' : championshipId }) }}">edit</a>
+						href="{{ path('admin_event_edit', { 'eventId': entity.id, 'gameId': gameId, 'championshipId' : championshipId }) }}">edit</a>
 					</li>
 				</ul>
 			</td>

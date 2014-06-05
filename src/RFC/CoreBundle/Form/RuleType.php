@@ -24,6 +24,7 @@ class RuleType extends AbstractType
         $id = $this->id;
         
         $builder->add('name')
+            ->add('description', 'textarea')
             ->add('value')
             ->add('typeSession', null, array(
             'required' => true,

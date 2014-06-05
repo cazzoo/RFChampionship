@@ -47,7 +47,7 @@ class TrackController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_track_show', array(
-                'id' => $entity->getId(),
+                'trackId' => $entity->getId(),
                 'gameId' => $gameId
             )));
         }
@@ -105,17 +105,17 @@ class TrackController extends Controller
     /**
      * Finds and displays a Track entity.
      */
-    public function showAction($id, $gameId)
+    public function showAction($trackId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Track')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Track')->find($trackId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Track entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($trackId, $gameId);
         
         return $this->render('RFCAdminBundle:Track:show.html.twig', array(
             'entity' => $entity,
@@ -127,18 +127,18 @@ class TrackController extends Controller
     /**
      * Displays a form to edit an existing Track entity.
      */
-    public function editAction($id, $gameId)
+    public function editAction($trackId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Track')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Track')->find($trackId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Track entity.');
         }
         
         $editForm = $this->createEditForm($entity, $gameId);
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($trackId, $gameId);
         
         return $this->render('RFCAdminBundle:Track:edit.html.twig', array(
             'entity' => $entity,
@@ -162,7 +162,7 @@ class TrackController extends Controller
             'em' => $this->getDoctrine()
                 ->getManager(),
             'action' => $this->generateUrl('admin_track_update', array(
-                'id' => $entity->getId(),
+                'trackId' => $entity->getId(),
                 'gameId' => $gameId
             )),
             'method' => 'PUT'
@@ -178,17 +178,17 @@ class TrackController extends Controller
     /**
      * Edits an existing Track entity.
      */
-    public function updateAction(Request $request, $id, $gameId)
+    public function updateAction(Request $request, $trackId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Track')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Track')->find($trackId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Track entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($trackId, $gameId);
         $editForm = $this->createEditForm($entity, $gameId);
         $editForm->handleRequest($request);
         
@@ -196,7 +196,7 @@ class TrackController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_track_edit', array(
-                'id' => $id,
+                'trackId' => $trackId,
                 'gameId' => $gameId
             )));
         }
@@ -212,14 +212,14 @@ class TrackController extends Controller
     /**
      * Deletes a Track entity.
      */
-    public function deleteAction(Request $request, $id, $gameId)
+    public function deleteAction(Request $request, $trackId, $gameId)
     {
-        $form = $this->createDeleteForm($id, $gameId);
+        $form = $this->createDeleteForm($trackId, $gameId);
         $form->handleRequest($request);
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Track')->find($id);
+            $entity = $em->getRepository('RFCCoreBundle:Track')->find($trackId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find Track entity.');
@@ -237,16 +237,16 @@ class TrackController extends Controller
     /**
      * Creates a form to delete a Track entity by id.
      *
-     * @param mixed $id
+     * @param mixed $trackId
      *            The entity id
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id, $gameId)
+    private function createDeleteForm($trackId, $gameId)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_track_delete', array(
-            'id' => $id,
+            'trackId' => $trackId,
             'gameId' => $gameId
         )))
             ->setMethod('DELETE')

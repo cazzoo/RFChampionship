@@ -45,7 +45,7 @@ class EventController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_event_show', array(
-                'id' => $entity->getId(),
+                'eventId' => $entity->getId(),
                 'gameId' => $gameId,
                 'championshipId' => $championshipId
             )));
@@ -103,17 +103,17 @@ class EventController extends Controller
     /**
      * Finds and displays a Event entity.
      */
-    public function showAction($id, $gameId, $championshipId)
+    public function showAction($eventId, $gameId, $championshipId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Event')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Event')->find($eventId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Event entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId, $championshipId);
+        $deleteForm = $this->createDeleteForm($eventId, $gameId, $championshipId);
         
         return $this->render('RFCAdminBundle:Event:show.html.twig', array(
             'entity' => $entity,
@@ -126,18 +126,18 @@ class EventController extends Controller
     /**
      * Displays a form to edit an existing Event entity.
      */
-    public function editAction($id, $gameId, $championshipId)
+    public function editAction($eventId, $gameId, $championshipId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Event')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Event')->find($eventId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Event entity.');
         }
         
         $editForm = $this->createEditForm($entity, $gameId, $championshipId);
-        $deleteForm = $this->createDeleteForm($id, $gameId, $championshipId);
+        $deleteForm = $this->createDeleteForm($eventId, $gameId, $championshipId);
         
         return $this->render('RFCAdminBundle:Event:edit.html.twig', array(
             'entity' => $entity,
@@ -160,7 +160,7 @@ class EventController extends Controller
     {
         $form = $this->createForm(new EventType($gameId), $entity, array(
             'action' => $this->generateUrl('admin_event_update', array(
-                'id' => $entity->getId(),
+                'eventId' => $entity->getId(),
                 'gameId' => $gameId,
                 'championshipId' => $championshipId
             )),
@@ -177,17 +177,17 @@ class EventController extends Controller
     /**
      * Edits an existing Event entity.
      */
-    public function updateAction(Request $request, $id, $gameId, $championshipId)
+    public function updateAction(Request $request, $eventId, $gameId, $championshipId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Event')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Event')->find($eventId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Event entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId, $championshipId);
+        $deleteForm = $this->createDeleteForm($eventId, $gameId, $championshipId);
         $editForm = $this->createEditForm($entity, $gameId, $championshipId);
         $editForm->handleRequest($request);
         
@@ -195,7 +195,7 @@ class EventController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_event_edit', array(
-                'id' => $id,
+                'eventId' => $eventId,
                 'gameId' => $gameId,
                 'championshipId' => $championshipId
             )));
@@ -213,14 +213,14 @@ class EventController extends Controller
     /**
      * Deletes a Event entity.
      */
-    public function deleteAction(Request $request, $id, $gameId, $championshipId)
+    public function deleteAction(Request $request, $eventId, $gameId, $championshipId)
     {
-        $form = $this->createDeleteForm($id, $gameId, $championshipId);
+        $form = $this->createDeleteForm($eventId, $gameId, $championshipId);
         $form->handleRequest($request);
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Event')->find($id);
+            $entity = $em->getRepository('RFCCoreBundle:Event')->find($eventId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find Event entity.');
@@ -239,16 +239,16 @@ class EventController extends Controller
     /**
      * Creates a form to delete a Event entity by id.
      *
-     * @param mixed $id
+     * @param mixed $eventId
      *            The entity id
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id, $gameId, $championshipId)
+    private function createDeleteForm($eventId, $gameId, $championshipId)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_event_delete', array(
-            'id' => $id,
+            'eventId' => $eventId,
             'gameId' => $gameId,
             'championshipId' => $championshipId
         )))

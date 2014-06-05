@@ -47,7 +47,7 @@ class TypeSessionController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_typeSession_show', array(
-                'id' => $entity->getId(),
+                'typeSessionId' => $entity->getId(),
                 'gameId' => $gameId
             )));
         }
@@ -106,17 +106,17 @@ class TypeSessionController extends Controller
     /**
      * Finds and displays a TypeSession entity.
      */
-    public function showAction($id, $gameId)
+    public function showAction($typeSessionId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find TypeSession entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($typeSessionId, $gameId);
         
         return $this->render('RFCAdminBundle:TypeSession:show.html.twig', array(
             'entity' => $entity,
@@ -128,18 +128,18 @@ class TypeSessionController extends Controller
     /**
      * Displays a form to edit an existing TypeSession entity.
      */
-    public function editAction($id, $gameId)
+    public function editAction($typeSessionId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find TypeSession entity.');
         }
         
         $editForm = $this->createEditForm($entity, $gameId);
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($typeSessionId, $gameId);
         
         return $this->render('RFCAdminBundle:TypeSession:edit.html.twig', array(
             'entity' => $entity,
@@ -163,7 +163,7 @@ class TypeSessionController extends Controller
             'em' => $this->getDoctrine()
                 ->getManager(),
             'action' => $this->generateUrl('admin_typeSession_update', array(
-                'id' => $entity->getId(),
+                'typeSessionId' => $entity->getId(),
                 'gameId' => $gameId
             )),
             'method' => 'PUT'
@@ -179,17 +179,17 @@ class TypeSessionController extends Controller
     /**
      * Edits an existing TypeSession entity.
      */
-    public function updateAction(Request $request, $id, $gameId)
+    public function updateAction(Request $request, $typeSessionId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find TypeSession entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($typeSessionId, $gameId);
         $editForm = $this->createEditForm($entity, $gameId);
         $editForm->handleRequest($request);
         
@@ -197,7 +197,7 @@ class TypeSessionController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_typeSession_edit', array(
-                'id' => $id,
+                'typeSessionId' => $typeSessionId,
                 'gameId' => $gameId
             )));
         }
@@ -213,14 +213,14 @@ class TypeSessionController extends Controller
     /**
      * Deletes a TypeSession entity.
      */
-    public function deleteAction(Request $request, $id, $gameId)
+    public function deleteAction(Request $request, $typeSessionId, $gameId)
     {
-        $form = $this->createDeleteForm($id, $gameId);
+        $form = $this->createDeleteForm($typeSessionId, $gameId);
         $form->handleRequest($request);
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($id);
+            $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find TypeSession entity.');
@@ -238,16 +238,16 @@ class TypeSessionController extends Controller
     /**
      * Creates a form to delete a TypeSession entity by id.
      *
-     * @param mixed $id
+     * @param mixed $typeSessionId
      *            The entity id
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id, $gameId)
+    private function createDeleteForm($typeSessionId, $gameId)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_typeSession_delete', array(
-            'id' => $id,
+            'typeSessionId' => $typeSessionId,
             'gameId' => $gameId
         )))
             ->setMethod('DELETE')

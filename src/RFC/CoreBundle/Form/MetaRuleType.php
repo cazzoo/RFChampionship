@@ -26,8 +26,10 @@ class MetaRuleType extends AbstractType
         $gameTransformer = new GameToIntTransformer($options['em']);
         
         $builder->add('name')
-            ->add('description')
-            ->add('isAgreed')
+            ->add('description', 'textarea')
+            ->add('isAgreed', 'checkbox', array(
+            'required' => false
+        ))
             ->add('listRules', 'entity', array(
             'multiple' => true,
             'required' => false,

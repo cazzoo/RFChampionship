@@ -46,8 +46,8 @@ class ChampionshipController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_championship_show', array(
-                'id' => $entity->getId(),
-                'gameId' => $gameId
+                'championshipId' => $entity->getId(),
+                'gameId' => $gameId,
             )));
         }
         
@@ -165,7 +165,7 @@ class ChampionshipController extends Controller
             'em' => $this->getDoctrine()
                 ->getManager(),
             'action' => $this->generateUrl('admin_championship_update', array(
-                'id' => $entity->getId(),
+                'championshipId' => $entity->getId(),
                 'gameId' => $gameId
             )),
             'method' => 'PUT'
@@ -199,7 +199,7 @@ class ChampionshipController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_championship_edit', array(
-                'id' => $championshipId,
+                'championshipId' => $championshipId,
                 'gameId' => $gameId
             )));
         }

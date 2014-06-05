@@ -16,7 +16,7 @@ class SessionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name')
-            ->add('description')
+            ->add('description', 'textarea')
             ->add('beginDate', 'datetime')
             ->add('endDate', 'datetime')
             ->add('typeSession')

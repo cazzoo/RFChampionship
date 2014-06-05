@@ -21,7 +21,7 @@
 	<tbody>
 		{% for entity in entities %}
 		<tr>
-			<td><a href="{{ path('admin_user_show', { 'id': entity.id }) }}">{{
+			<td><a href="{{ path('admin_user_show', { 'userId': entity.id }) }}">{{
 					entity.username }}</a></td>
 			<td>{{ entity.usernameCanonical }}</td>
 			<td>{{ entity.email }}</td>
@@ -42,9 +42,9 @@
 			<td>{{ entity.steamId }}</td>
 			<td>
 				<ul>
-					<li><a href="{{ path('admin_user_show', { 'id': entity.id }) }}">show</a>
+					<li><a href="{{ path('admin_user_show', { 'userId': entity.id }) }}">show</a>
 					</li>
-					<li><a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">edit</a>
+					<li><a href="{{ path('admin_user_edit', { 'userId': entity.id }) }}">edit</a>
 					</li>
 				</ul>
 			</td>

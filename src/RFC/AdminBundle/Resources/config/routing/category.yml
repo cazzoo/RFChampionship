@@ -3,7 +3,7 @@ admin_category:
     defaults: { _controller: "RFCAdminBundle:Category:index" }
 
 admin_category_show:
-    pattern:  /{id}/show
+    pattern:  /{categoryId}/show
     defaults: { _controller: "RFCAdminBundle:Category:show" }
 
 admin_category_new:
@@ -16,15 +16,15 @@ admin_category_create:
     requirements: { _method: post }
 
 admin_category_edit:
-    pattern:  /{id}/edit
+    pattern:  /{categoryId}/edit
     defaults: { _controller: "RFCAdminBundle:Category:edit" }
 
 admin_category_update:
-    pattern:  /{id}/update
+    pattern:  /{categoryId}/update
     defaults: { _controller: "RFCAdminBundle:Category:update" }
     requirements: { _method: post|put }
 
 admin_category_delete:
-    pattern:  /{id}/delete
+    pattern:  /{categoryId}/delete
     defaults: { _controller: "RFCAdminBundle:Category:delete" }
     requirements: { _method: post|delete }

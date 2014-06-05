@@ -32,7 +32,7 @@
 
 <ul class="record_actions">
 	<li><a href="{{ path('admin_game') }}"> Back to the list </a></li>
-	<li><a href="{{ path('admin_game_edit', { 'id': entity.id }) }}"> Edit
+	<li><a href="{{ path('admin_game_edit', { 'gameId': entity.id }) }}"> Edit
 	</a></li>
 	<li>{{ form(delete_form) }}</li>
 </ul>

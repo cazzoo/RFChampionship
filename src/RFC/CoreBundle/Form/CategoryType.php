@@ -26,7 +26,7 @@ class CategoryType extends AbstractType
         $gameTransformer = new GameToIntTransformer($options['em']);
         
         $builder->add('name')
-            ->add('description')
+            ->add('description', 'textarea')
             ->add('listVehicles', null, array(
             'required' => false,
             'class' => 'RFCCoreBundle:Vehicle',

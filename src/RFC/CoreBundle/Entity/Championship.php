@@ -205,29 +205,6 @@ class Championship extends KnowledgeData
     }
 
     /**
-     * Add metaRule
-     *
-     * @param \RFC\CoreBundle\Entity\MetaRule $metaRule            
-     * @return Championship
-     */
-    public function addMetaRule(\RFC\CoreBundle\Entity\MetaRule $metaRule)
-    {
-        $this->metaRule[] = $metaRule;
-        
-        return $this;
-    }
-
-    /**
-     * Remove metaRule
-     *
-     * @param \RFC\CoreBundle\Entity\MetaRule $metaRule            
-     */
-    public function removeMetaRule(\RFC\CoreBundle\Entity\MetaRule $metaRule)
-    {
-        $this->metaRule->removeElement($metaRule);
-    }
-
-    /**
      * Add listRules
      *
      * @param \RFC\CoreBundle\Entity\Rule $listRules            

@@ -54,7 +54,7 @@
 		href="{{ path('admin_event', { 'gameId': gameId, 'championshipId' : championshipId }) }}">
 			Back to the list </a></li>
 	<li><a
-		href="{{ path('admin_event_edit', { 'id': entity.id, 'gameId': gameId, 'championshipId' : championshipId }) }}">
+		href="{{ path('admin_event_edit', { 'eventId': entity.id, 'gameId': gameId, 'championshipId' : championshipId }) }}">
 			Edit </a></li>
 	<li>{{ form(delete_form) }}</li>
 </ul>

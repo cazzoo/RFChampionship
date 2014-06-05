@@ -47,7 +47,7 @@ class VehicleController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_vehicle_show', array(
-                'id' => $entity->getId(),
+                'vehicleId' => $entity->getId(),
                 'gameId' => $gameId
             )));
         }
@@ -105,17 +105,17 @@ class VehicleController extends Controller
     /**
      * Finds and displays a Vehicle entity.
      */
-    public function showAction($id, $gameId)
+    public function showAction($vehicleId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Vehicle entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($vehicleId, $gameId);
         
         return $this->render('RFCAdminBundle:Vehicle:show.html.twig', array(
             'entity' => $entity,
@@ -127,18 +127,18 @@ class VehicleController extends Controller
     /**
      * Displays a form to edit an existing Vehicle entity.
      */
-    public function editAction($id, $gameId)
+    public function editAction($vehicleId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Vehicle entity.');
         }
         
         $editForm = $this->createEditForm($entity, $gameId);
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($vehicleId, $gameId);
         
         return $this->render('RFCAdminBundle:Vehicle:edit.html.twig', array(
             'entity' => $entity,
@@ -162,7 +162,7 @@ class VehicleController extends Controller
             'em' => $this->getDoctrine()
                 ->getManager(),
             'action' => $this->generateUrl('admin_vehicle_update', array(
-                'id' => $entity->getId(),
+                'vehicleId' => $entity->getId(),
                 'gameId' => $gameId
             )),
             'method' => 'PUT'
@@ -178,17 +178,17 @@ class VehicleController extends Controller
     /**
      * Edits an existing Vehicle entity.
      */
-    public function updateAction(Request $request, $id, $gameId)
+    public function updateAction(Request $request, $vehicleId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Vehicle entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($vehicleId, $gameId);
         $editForm = $this->createEditForm($entity, $gameId);
         $editForm->handleRequest($request);
         
@@ -196,7 +196,7 @@ class VehicleController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_vehicle_edit', array(
-                'id' => $id,
+                'vehicleId' => $vehicleId,
                 'gameId' => $gameId
             )));
         }
@@ -212,14 +212,14 @@ class VehicleController extends Controller
     /**
      * Deletes a Vehicle entity.
      */
-    public function deleteAction(Request $request, $id, $gameId)
+    public function deleteAction(Request $request, $vehicleId, $gameId)
     {
-        $form = $this->createDeleteForm($id, $gameId);
+        $form = $this->createDeleteForm($vehicleId, $gameId);
         $form->handleRequest($request);
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($id);
+            $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find Vehicle entity.');
@@ -237,16 +237,16 @@ class VehicleController extends Controller
     /**
      * Creates a form to delete a Vehicle entity by id.
      *
-     * @param mixed $id
+     * @param mixed $vehicleId
      *            The entity id
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id, $gameId)
+    private function createDeleteForm($vehicleId, $gameId)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_vehicle_delete', array(
-            'id' => $id,
+            'vehicleId' => $vehicleId,
             'gameId' => $gameId
         )))
             ->setMethod('DELETE')

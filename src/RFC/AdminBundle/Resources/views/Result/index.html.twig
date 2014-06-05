@@ -15,16 +15,16 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('admin_result_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('admin_result_show', { 'resultId': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.user }}</td>
                 <td>{{ entity.value }}</td>
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('admin_result_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('admin_result_show', { 'resultId': entity.id }) }}">show</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_result_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('admin_result_edit', { 'resultId': entity.id }) }}">edit</a>
                     </li>
                 </ul>
                 </td>

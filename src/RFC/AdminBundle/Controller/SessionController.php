@@ -29,7 +29,7 @@ class SessionController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_championship_show', array(
-                'id' => $entity->getId(),
+                'sessionId' => $entity->getId(),
                 'gameId' => $gameId,
                 'championshipId' => $championshipId,
                 'eventId' => $eventId
@@ -76,7 +76,10 @@ class SessionController extends Controller
      */
     public function newAction($gameId, $championshipId, $eventId)
     {
+        $em = $this->getDoctrine()->getManager();
         $entity = new Session();
+        $event = $em->getRepository('RFCCoreBundle:Event')->findById($eventId);
+        $entity->setEvent($event[0]);
         $form = $this->createCreateForm($entity, $gameId, $championshipId, $eventId);
         
         return $this->render('RFCAdminBundle:Session:new.html.twig', array(
@@ -91,17 +94,17 @@ class SessionController extends Controller
     /**
      * Finds and displays a Session entity.
      */
-    public function showAction($id, $gameId, $championshipId, $eventId)
+    public function showAction($sessionId, $gameId, $championshipId, $eventId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Session')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Session')->find($sessionId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Session entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId, $championshipId, $eventId);
+        $deleteForm = $this->createDeleteForm($sessionId, $gameId, $championshipId, $eventId);
         
         return $this->render('RFCAdminBundle:Session:show.html.twig', array(
             'entity' => $entity,
@@ -115,18 +118,18 @@ class SessionController extends Controller
     /**
      * Displays a form to edit an existing Session entity.
      */
-    public function editAction($id, $gameId, $championshipId, $eventId)
+    public function editAction($sessionId, $gameId, $championshipId, $eventId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Session')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Session')->find($sessionId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Session entity.');
         }
         
         $editForm = $this->createEditForm($entity, $gameId, $championshipId, $eventId);
-        $deleteForm = $this->createDeleteForm($id, $gameId, $championshipId, $eventId);
+        $deleteForm = $this->createDeleteForm($sessionId, $gameId, $championshipId, $eventId);
         
         return $this->render('RFCAdminBundle:Session:edit.html.twig', array(
             'entity' => $entity,
@@ -150,7 +153,7 @@ class SessionController extends Controller
     {
         $form = $this->createForm(new SessionType(), $entity, array(
             'action' => $this->generateUrl('admin_session_update', array(
-                'id' => $entity->getId(),
+                'sessionId' => $entity->getId(),
                 'gameId' => $gameId,
                 'championshipId' => $championshipId,
                 'eventId' => $eventId
@@ -168,17 +171,17 @@ class SessionController extends Controller
     /**
      * Edits an existing Session entity.
      */
-    public function updateAction(Request $request, $id, $gameId, $championshipId, $eventId)
+    public function updateAction(Request $request, $sessionId, $gameId, $championshipId, $eventId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Session')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Session')->find($sessionId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Session entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId, $championshipId, $eventId);
+        $deleteForm = $this->createDeleteForm($sessionId, $gameId, $championshipId, $eventId);
         $editForm = $this->createEditForm($entity, $gameId, $championshipId, $eventId);
         $editForm->handleRequest($request);
         
@@ -186,7 +189,7 @@ class SessionController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_session_edit', array(
-                'id' => $id,
+                'sessionId' => $sessionId,
                 'gameId' => $gameId,
                 'championshipId' => $championshipId,
                 'eventId' => $eventId
@@ -206,14 +209,14 @@ class SessionController extends Controller
     /**
      * Deletes a Session entity.
      */
-    public function deleteAction(Request $request, $id, $gameId, $championshipId, $eventId)
+    public function deleteAction(Request $request, $sessionId, $gameId, $championshipId, $eventId)
     {
-        $form = $this->createDeleteForm($id, $gameId, $championshipId, $eventId);
+        $form = $this->createDeleteForm($sessionId, $gameId, $championshipId, $eventId);
         $form->handleRequest($request);
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Session')->find($id);
+            $entity = $em->getRepository('RFCCoreBundle:Session')->find($sessionId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find Session entity.');
@@ -233,16 +236,16 @@ class SessionController extends Controller
     /**
      * Creates a form to delete a Session entity by id.
      *
-     * @param mixed $id
+     * @param mixed $sessionId
      *            The entity id
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id, $gameId, $championshipId, $eventId)
+    private function createDeleteForm($sessionId, $gameId, $championshipId, $eventId)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_session_delete', array(
-            'id' => $id,
+            'sessionId' => $sessionId,
             'gameId' => $gameId,
             'championshipId' => $championshipId,
             'eventId' => $eventId

@@ -46,7 +46,7 @@ class RuleController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_rule_show', array(
-                'id' => $entity->getId(),
+                'ruleId' => $entity->getId(),
                 'gameId' => $gameId
             )));
         }
@@ -105,17 +105,17 @@ class RuleController extends Controller
     /**
      * Finds and displays a Rule entity.
      */
-    public function showAction($id, $gameId)
+    public function showAction($ruleId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Rule')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Rule')->find($ruleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Rule entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($ruleId, $gameId);
         
         return $this->render('RFCAdminBundle:Rule:show.html.twig', array(
             'entity' => $entity,
@@ -127,18 +127,18 @@ class RuleController extends Controller
     /**
      * Displays a form to edit an existing Rule entity.
      */
-    public function editAction($id, $gameId)
+    public function editAction($ruleId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Rule')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Rule')->find($ruleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Rule entity.');
         }
         
         $editForm = $this->createEditForm($entity, $gameId);
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($ruleId, $gameId);
         
         return $this->render('RFCAdminBundle:Rule:edit.html.twig', array(
             'entity' => $entity,
@@ -162,7 +162,7 @@ class RuleController extends Controller
             'em' => $this->getDoctrine()
                 ->getManager(),
             'action' => $this->generateUrl('admin_rule_update', array(
-                'id' => $entity->getId(),
+                'ruleId' => $entity->getId(),
                 'gameId' => $gameId
             )),
             'method' => 'PUT'
@@ -178,17 +178,17 @@ class RuleController extends Controller
     /**
      * Edits an existing Rule entity.
      */
-    public function updateAction(Request $request, $id, $gameId)
+    public function updateAction(Request $request, $ruleId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Rule')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Rule')->find($ruleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Rule entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($ruleId, $gameId);
         $editForm = $this->createEditForm($entity, $gameId);
         $editForm->handleRequest($request);
         
@@ -211,14 +211,14 @@ class RuleController extends Controller
     /**
      * Deletes a Rule entity.
      */
-    public function deleteAction(Request $request, $id, $gameId)
+    public function deleteAction(Request $request, $ruleId, $gameId)
     {
-        $form = $this->createDeleteForm($id, $gameId);
+        $form = $this->createDeleteForm($ruleId, $gameId);
         $form->handleRequest($request);
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Rule')->find($id);
+            $entity = $em->getRepository('RFCCoreBundle:Rule')->find($ruleId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find Rule entity.');
@@ -236,16 +236,16 @@ class RuleController extends Controller
     /**
      * Creates a form to delete a Rule entity by id.
      *
-     * @param mixed $id
+     * @param mixed $ruleId
      *            The entity id
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id, $gameId)
+    private function createDeleteForm($ruleId, $gameId)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_rule_delete', array(
-            'id' => $id,
+            'ruleId' => $ruleId,
             'gameId' => $gameId
         )))
             ->setMethod('DELETE')

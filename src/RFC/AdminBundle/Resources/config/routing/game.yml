@@ -3,11 +3,11 @@ admin_game:
     defaults: { _controller: "RFCAdminBundle:Game:index" }
 
 admin_game_show:
-    pattern:  /{id}/show
+    pattern:  /{gameId}/show
     defaults: { _controller: "RFCAdminBundle:Game:show" }
 
 admin_game_manage:
-    pattern:  /{id}/manage
+    pattern:  /{gameId}/manage
     defaults: { _controller: "RFCAdminBundle:Game:manage" }
 
 admin_game_new:
@@ -20,15 +20,15 @@ admin_game_create:
     requirements: { _method: post }
 
 admin_game_edit:
-    pattern:  /{id}/edit
+    pattern:  /{gameId}/edit
     defaults: { _controller: "RFCAdminBundle:Game:edit" }
 
 admin_game_update:
-    pattern:  /{id}/update
+    pattern:  /{gameId}/update
     defaults: { _controller: "RFCAdminBundle:Game:update" }
     requirements: { _method: post|put }
 
 admin_game_delete:
-    pattern:  /{id}/delete
+    pattern:  /{gameId}/delete
     defaults: { _controller: "RFCAdminBundle:Game:delete" }
     requirements: { _method: post|delete }

@@ -3,7 +3,7 @@ admin_rule:
     defaults: { _controller: "RFCAdminBundle:Rule:index" }
 
 admin_rule_show:
-    pattern:  /{id}/show
+    pattern:  /{ruleId}/show
     defaults: { _controller: "RFCAdminBundle:Rule:show" }
 
 admin_rule_new:
@@ -16,15 +16,15 @@ admin_rule_create:
     requirements: { _method: post }
 
 admin_rule_edit:
-    pattern:  /{id}/edit
+    pattern:  /{ruleId}/edit
     defaults: { _controller: "RFCAdminBundle:Rule:edit" }
 
 admin_rule_update:
-    pattern:  /{id}/update
+    pattern:  /{ruleId}/update
     defaults: { _controller: "RFCAdminBundle:Rule:update" }
     requirements: { _method: post|put }
 
 admin_rule_delete:
-    pattern:  /{id}/delete
+    pattern:  /{ruleId}/delete
     defaults: { _controller: "RFCAdminBundle:Rule:delete" }
     requirements: { _method: post|delete }

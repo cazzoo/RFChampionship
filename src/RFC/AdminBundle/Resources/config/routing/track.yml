@@ -3,7 +3,7 @@ admin_track:
     defaults: { _controller: "RFCAdminBundle:Track:index" }
 
 admin_track_show:
-    pattern:  /{id}/show
+    pattern:  /{trackId}/show
     defaults: { _controller: "RFCAdminBundle:Track:show" }
 
 admin_track_new:
@@ -16,15 +16,15 @@ admin_track_create:
     requirements: { _method: post }
 
 admin_track_edit:
-    pattern:  /{id}/edit
+    pattern:  /{trackId}/edit
     defaults: { _controller: "RFCAdminBundle:Track:edit" }
 
 admin_track_update:
-    pattern:  /{id}/update
+    pattern:  /{trackId}/update
     defaults: { _controller: "RFCAdminBundle:Track:update" }
     requirements: { _method: post|put }
 
 admin_track_delete:
-    pattern:  /{id}/delete
+    pattern:  /{trackId}/delete
     defaults: { _controller: "RFCAdminBundle:Track:delete" }
     requirements: { _method: post|delete }

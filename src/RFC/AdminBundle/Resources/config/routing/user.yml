@@ -3,7 +3,7 @@ admin_user:
     defaults: { _controller: "RFCAdminBundle:User:index" }
 
 admin_user_show:
-    pattern:  /{id}/show
+    pattern:  /{userId}/show
     defaults: { _controller: "RFCAdminBundle:User:show" }
 
 admin_user_new:
@@ -16,15 +16,15 @@ admin_user_create:
     requirements: { _method: post }
 
 admin_user_edit:
-    pattern:  /{id}/edit
+    pattern:  /{userId}/edit
     defaults: { _controller: "RFCAdminBundle:User:edit" }
 
 admin_user_update:
-    pattern:  /{id}/update
+    pattern:  /{userId}/update
     defaults: { _controller: "RFCAdminBundle:User:update" }
     requirements: { _method: post|put }
 
 admin_user_delete:
-    pattern:  /{id}/delete
+    pattern:  /{userId}/delete
     defaults: { _controller: "RFCAdminBundle:User:delete" }
     requirements: { _method: post|delete }

@@ -47,7 +47,7 @@ class CategoryController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_category_show', array(
-                'id' => $entity->getId(),
+                'categoryId' => $entity->getId(),
                 'gameId' => $gameId
             )));
         }
@@ -105,17 +105,17 @@ class CategoryController extends Controller
     /**
      * Finds and displays a Category entity.
      */
-    public function showAction($id, $gameId)
+    public function showAction($categoryId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Category')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Category')->find($categoryId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($categoryId, $gameId);
         
         return $this->render('RFCAdminBundle:Category:show.html.twig', array(
             'entity' => $entity,
@@ -127,18 +127,18 @@ class CategoryController extends Controller
     /**
      * Displays a form to edit an existing Category entity.
      */
-    public function editAction($id, $gameId)
+    public function editAction($categoryId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Category')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Category')->find($categoryId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
         
         $editForm = $this->createEditForm($entity, $gameId);
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($categoryId, $gameId);
         
         return $this->render('RFCAdminBundle:Category:edit.html.twig', array(
             'entity' => $entity,
@@ -162,7 +162,7 @@ class CategoryController extends Controller
             'em' => $this->getDoctrine()
                 ->getManager(),
             'action' => $this->generateUrl('admin_category_update', array(
-                'id' => $entity->getId(),
+                'categoryId' => $entity->getId(),
                 'gameId' => $gameId
             )),
             'method' => 'PUT'
@@ -178,17 +178,17 @@ class CategoryController extends Controller
     /**
      * Edits an existing Category entity.
      */
-    public function updateAction(Request $request, $id, $gameId)
+    public function updateAction(Request $request, $categoryId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Category')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Category')->find($categoryId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($categoryId, $gameId);
         $editForm = $this->createEditForm($entity, $gameId);
         $editForm->handleRequest($request);
         
@@ -196,7 +196,7 @@ class CategoryController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_category_edit', array(
-                'id' => $id,
+                'categoryId' => $categoryId,
                 'gameId' => $gameId
             )));
         }
@@ -212,14 +212,14 @@ class CategoryController extends Controller
     /**
      * Deletes a Category entity.
      */
-    public function deleteAction(Request $request, $id, $gameId)
+    public function deleteAction(Request $request, $categoryId, $gameId)
     {
-        $form = $this->createDeleteForm($id, $gameId);
+        $form = $this->createDeleteForm($categoryId, $gameId);
         $form->handleRequest($request);
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Category')->find($id);
+            $entity = $em->getRepository('RFCCoreBundle:Category')->find($categoryId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find Category entity.');
@@ -237,16 +237,16 @@ class CategoryController extends Controller
     /**
      * Creates a form to delete a Category entity by id.
      *
-     * @param mixed $id
+     * @param mixed $categoryId
      *            The entity id
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id, $gameId)
+    private function createDeleteForm($categoryId, $gameId)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_category_delete', array(
-            'id' => $id,
+            'categoryId' => $categoryId,
             'gameId' => $gameId
         )))
             ->setMethod('DELETE')

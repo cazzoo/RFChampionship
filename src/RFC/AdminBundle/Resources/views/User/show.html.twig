@@ -63,7 +63,7 @@
 
 <ul class="record_actions">
 	<li><a href="{{ path('admin_user') }}"> Back to the list </a></li>
-	<li><a href="{{ path('admin_user_edit', { 'id': entity.id }) }}"> Edit
+	<li><a href="{{ path('admin_user_edit', { 'userId': entity.id }) }}"> Edit
 	</a></li>
 	<li>{{ form(delete_form) }}</li>
 </ul>

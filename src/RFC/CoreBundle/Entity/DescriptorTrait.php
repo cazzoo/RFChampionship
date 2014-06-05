@@ -10,7 +10,7 @@ trait DescriptorTrait
     protected $name;
 
     /**
-     * @ORM\Column(name="description", type="text", length=255, nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 

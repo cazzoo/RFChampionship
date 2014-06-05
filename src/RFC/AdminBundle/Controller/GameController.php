@@ -41,7 +41,7 @@ class GameController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_game_show', array(
-                'id' => $entity->getId()
+                'gameId' => $entity->getId()
             )));
         }
         
@@ -90,17 +90,17 @@ class GameController extends Controller
     /**
      * Finds and displays a Game entity.
      */
-    public function showAction($id)
+    public function showAction($gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Game')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Game entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($gameId);
         
         return $this->render('RFCAdminBundle:Game:show.html.twig', array(
             'entity' => $entity,
@@ -111,18 +111,18 @@ class GameController extends Controller
     /**
      * Displays a form to edit an existing Game entity.
      */
-    public function editAction($id)
+    public function editAction($gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Game')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Game entity.');
         }
         
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($gameId);
         
         return $this->render('RFCAdminBundle:Game:edit.html.twig', array(
             'entity' => $entity,
@@ -143,7 +143,7 @@ class GameController extends Controller
     {
         $form = $this->createForm(new GameType(), $entity, array(
             'action' => $this->generateUrl('admin_game_update', array(
-                'id' => $entity->getId()
+                'gameId' => $entity->getId()
             )),
             'method' => 'PUT'
         ));
@@ -158,17 +158,17 @@ class GameController extends Controller
     /**
      * Edits an existing Game entity.
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Game')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Game entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($gameId);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
         
@@ -176,7 +176,7 @@ class GameController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_game_edit', array(
-                'id' => $id
+                'gameId' => $gameId
             )));
         }
         
@@ -190,14 +190,14 @@ class GameController extends Controller
     /**
      * Deletes a Game entity.
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, $gameId)
     {
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($gameId);
         $form->handleRequest($request);
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Game')->find($id);
+            $entity = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find Game entity.');
@@ -213,16 +213,16 @@ class GameController extends Controller
     /**
      * Creates a form to delete a Game entity by id.
      *
-     * @param mixed $id
+     * @param mixed $gameId
      *            The entity id
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    private function createDeleteForm($gameId)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_game_delete', array(
-            'id' => $id
+            'gameId' => $gameId
         )))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array(
@@ -231,11 +231,11 @@ class GameController extends Controller
             ->getForm();
     }
 
-    public function manageAction($id)
+    public function manageAction($gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Game')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Game entity.');

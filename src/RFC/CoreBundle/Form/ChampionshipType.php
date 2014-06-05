@@ -5,9 +5,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use RFC\CoreBundle\Form\DataTransformer\GameToIntTransformer;
-use RFC\CoreBundle\Entity\MetaRuleRepository;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use RFC\CoreBundle\Entity\RuleRepository;
+use RFC\CoreBundle\Entity\MetaRuleRepository;
 
 class ChampionshipType extends AbstractType
 {
@@ -28,12 +29,9 @@ class ChampionshipType extends AbstractType
         $gameTransformer = new GameToIntTransformer($options['em']);
         
         $builder->add('name')
-            ->add('description')
-            ->add('isAgreed')
-            ->add('listEvents', 'entity', array(
-            'required' => false,
-            'class' => 'RFCCoreBundle:Event',
-            'multiple' => true
+            ->add('description', 'textarea')
+            ->add('isAgreed', 'checkbox', array(
+            'required' => false
         ))
             ->add('listManagers', 'entity', array(
             'required' => false,
@@ -42,12 +40,24 @@ class ChampionshipType extends AbstractType
         ))
             ->add('metaRule', 'entity', array(
             'required' => false,
-            'class' => 'RFCCoreBundle:MetaRule'
+            'class' => 'RFCCoreBundle:MetaRule',
+            'query_builder' => function (MetaRuleRepository $mr) use($id)
+            {
+                return $mr->createQueryBuilder('m')
+                    ->where('m.game = :id')
+                    ->setParameter('id', $id);
+            }
         ))
             ->add('listRules', 'entity', array(
             'required' => false,
             'class' => 'RFCCoreBundle:Rule',
-            'multiple' => true
+            'multiple' => true,
+            'query_builder' => function (RuleRepository $er) use($id)
+            {
+                return $er->createQueryBuilder('r')
+                    ->where('r.game = :id')
+                    ->setParameter('id', $id);
+            }
         ))
             /*->add($builder->create('game', 'hidden')
             ->addModelTransformer($gameTransformer))*/

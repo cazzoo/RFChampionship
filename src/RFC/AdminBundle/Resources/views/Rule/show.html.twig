@@ -23,7 +23,7 @@
 	<li><a href="{{ path('admin_rule', {'gameId' : gameId}) }}"> Back to
 			the list </a></li>
 	<li><a
-		href="{{ path('admin_rule_edit', { 'id': entity.id, 'gameId' : gameId }) }}">
+		href="{{ path('admin_rule_edit', { 'ruleId': entity.id, 'gameId' : gameId }) }}">
 			Edit </a></li>
 	<li>{{ form(delete_form) }}</li>
 </ul>

@@ -53,7 +53,7 @@ class UserController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_user_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('admin_user_show', array('userId' => $entity->getId())));
         }
 
         return array(
@@ -106,17 +106,17 @@ class UserController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction($userId)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RFCUserBundle:User')->find($id);
+        $entity = $em->getRepository('RFCUserBundle:User')->find($userId);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($userId);
 
         return array(
             'entity'      => $entity,
@@ -131,18 +131,18 @@ class UserController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($userId)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RFCUserBundle:User')->find($id);
+        $entity = $em->getRepository('RFCUserBundle:User')->find($userId);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($userId);
 
         return array(
             'entity'      => $entity,
@@ -161,7 +161,7 @@ class UserController extends Controller
     private function createEditForm(User $entity)
     {
         $form = $this->createForm(new UserFormType('RFC\UserBundle\Entity\User'), $entity, array(
-            'action' => $this->generateUrl('admin_user_update', array('id' => $entity->getId())),
+            'action' => $this->generateUrl('admin_user_update', array('userId' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -176,24 +176,24 @@ class UserController extends Controller
      * @Method("PUT")
      * @Template("RFCAdminBundle:Admin:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $userId)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RFCUserBundle:User')->find($id);
+        $entity = $em->getRepository('RFCUserBundle:User')->find($userId);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($userId);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_user_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_user_edit', array('userId' => $userId)));
         }
 
         return array(
@@ -208,14 +208,14 @@ class UserController extends Controller
      * @Route("/{id}", name="admin_user_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, $userId)
     {
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($userId);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCUserBundle:User')->find($id);
+            $entity = $em->getRepository('RFCUserBundle:User')->find($userId);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find User entity.');
@@ -231,14 +231,14 @@ class UserController extends Controller
     /**
      * Creates a form to delete a User entity by id.
      *
-     * @param mixed $id The entity id
+     * @param mixed $userId The entity id
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    private function createDeleteForm($userId)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_user_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('admin_user_delete', array('userId' => $userId)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

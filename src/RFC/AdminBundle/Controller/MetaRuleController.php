@@ -21,12 +21,13 @@ class MetaRuleController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $metaRules = $em->getRepository('RFCCoreBundle:MetaRule')->findBy(array('game' => $gameId));
+        $rules = $em->getRepository('RFCCoreBundle:Rule')->findBy(array('game' => $gameId));
         $game = $em->getRepository('RFCCoreBundle:Game')->findById($gameId);
         
         return $this->render('RFCAdminBundle:MetaRule:index.html.twig', array(
             'metaRules' => $metaRules,
             'metaRuleId' => null,
-            'rules' => null,
+            'rules' => $rules,
             'gameId' => $gameId,
             'game' => $game
         ));
@@ -47,7 +48,7 @@ class MetaRuleController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_metaRule_show', array(
-                'id' => $entity->getId(),
+                'metaRuleId' => $entity->getId(),
                 'gameId' => $gameId
             )));
         }
@@ -106,17 +107,17 @@ class MetaRuleController extends Controller
     /**
      * Finds and displays a MetaRule entity.
      */
-    public function showAction($id, $gameId)
+    public function showAction($metaRuleId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:MetaRule')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find MetaRule entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($metaRuleId, $gameId);
         
         return $this->render('RFCAdminBundle:MetaRule:show.html.twig', array(
             'entity' => $entity,
@@ -128,18 +129,18 @@ class MetaRuleController extends Controller
     /**
      * Displays a form to edit an existing MetaRule entity.
      */
-    public function editAction($id, $gameId)
+    public function editAction($metaRuleId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:MetaRule')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find MetaRule entity.');
         }
         
         $editForm = $this->createEditForm($entity, $gameId);
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($metaRuleId, $gameId);
         
         return $this->render('RFCAdminBundle:MetaRule:edit.html.twig', array(
             'entity' => $entity,
@@ -163,7 +164,7 @@ class MetaRuleController extends Controller
             'em' => $this->getDoctrine()
                 ->getManager(),
             'action' => $this->generateUrl('admin_metaRule_update', array(
-                'id' => $entity->getId(),
+                'metaRuleId' => $entity->getId(),
                 'gameId' => $gameId
             )),
             'method' => 'PUT'
@@ -179,17 +180,17 @@ class MetaRuleController extends Controller
     /**
      * Edits an existing MetaRule entity.
      */
-    public function updateAction(Request $request, $id, $gameId)
+    public function updateAction(Request $request, $metaRuleId, $gameId)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:MetaRule')->find($id);
+        $entity = $em->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find MetaRule entity.');
         }
         
-        $deleteForm = $this->createDeleteForm($id, $gameId);
+        $deleteForm = $this->createDeleteForm($metaRuleId, $gameId);
         $editForm = $this->createEditForm($entity, $gameId);
         $editForm->handleRequest($request);
         
@@ -197,7 +198,7 @@ class MetaRuleController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_metaRule_edit', array(
-                'id' => $id,
+                'metaRuleId' => $metaRuleId,
                 'gameId' => $gameId
             )));
         }
@@ -213,14 +214,14 @@ class MetaRuleController extends Controller
     /**
      * Deletes a MetaRule entity.
      */
-    public function deleteAction(Request $request, $id, $gameId)
+    public function deleteAction(Request $request, $metaRuleId, $gameId)
     {
-        $form = $this->createDeleteForm($id, $gameId);
+        $form = $this->createDeleteForm($metaRuleId, $gameId);
         $form->handleRequest($request);
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:MetaRule')->find($id);
+            $entity = $em->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find MetaRule entity.');
@@ -238,16 +239,16 @@ class MetaRuleController extends Controller
     /**
      * Creates a form to delete a MetaRule entity by id.
      *
-     * @param mixed $id
+     * @param mixed $metaRuleId
      *            The entity id
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id, $gameId)
+    private function createDeleteForm($metaRuleId, $gameId)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_metaRule_delete', array(
-            'id' => $id,
+            'metaRuleId' => $metaRuleId,
             'gameId' => $gameId
         )))
             ->setMethod('DELETE')
