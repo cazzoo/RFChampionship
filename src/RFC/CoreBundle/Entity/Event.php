@@ -4,6 +4,7 @@ namespace RFC\CoreBundle\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\Championship;
+use RFC\CoreBundle\Entity\Session;
 use RFC\CoreBundle\Entity\DescriptorTrait;
 
 /**
@@ -22,16 +23,6 @@ class Event
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @ORM\Column(name="beginDate", type="date")
-     */
-    private $beginDate;
-
-    /**
-     * @ORM\Column(name="endDate", type="date")
-     */
-    private $endDate;
 
     /**
      * @ORM\Column(name="listBroadcast", type="array")
@@ -58,7 +49,7 @@ class Event
      * @ORM\JoinColumn(nullable=false)
      */
     private $championship;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Session", mappedBy="event")
      */
@@ -75,7 +66,7 @@ class Event
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
-    
+
     /**
      * Constructor
      */
@@ -83,10 +74,10 @@ class Event
     {
         $this->listSessions = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     public function __toString()
     {
-        return (String) $this->id;
+        return (string) $this->id;
     }
 
     /**
@@ -100,49 +91,51 @@ class Event
     }
 
     /**
-     * Set beginDate
-     *
-     * @param \DateTime $beginDate            
-     * @return Event
-     */
-    public function setBeginDate($beginDate)
-    {
-        $this->beginDate = $beginDate;
-        
-        return $this;
-    }
-
-    /**
-     * Get beginDate
+     * Get Earlyer Date Form Sessions
      *
      * @return \DateTime
      */
     public function getBeginDate()
     {
-        return $this->beginDate;
+        $template = new \DateTime('01/01/1900');
+        $template->format('Y-m-d H:i:s');
+        if ($this->listSessions[0] != null) {
+            $beginDate = $this->listSessions[0]->getBeginDate();
+        } else
+            $beginDate = $template;
+        foreach ($this->listSessions as $session) {
+            if ($beginDate > $session->getBeginDate()) {
+                $beginDate = $session->getBeginDate();
+            }
+        }
+        if ($beginDate != $template)
+            return $beginDate;
+        else
+            return null;
     }
 
     /**
-     * Set endDate
-     *
-     * @param \DateTime $endDate            
-     * @return Event
-     */
-    public function setEndDate($endDate)
-    {
-        $this->endDate = $endDate;
-        
-        return $this;
-    }
-
-    /**
-     * Get endDate
+     * Get Lastest Date From Sessions
      *
      * @return \DateTime
      */
     public function getEndDate()
     {
-        return $this->endDate;
+        $template = new \DateTime('01/01/2100');
+        $template->format('Y-m-d H:i:s');
+        if ($this->listSessions[0] != null) {
+            $endDate = $this->listSessions[0]->getEndDate();
+        } else
+            $endDate = $template;
+        foreach ($this->listSessions as $session) {
+            if ($endDate < $session->getEndDate()) {
+                $endDate = $session->getEndDate();
+            }
+        }
+        if ($endDate != $template)
+            return $endDate;
+        else
+            return null;
     }
 
     /**
@@ -309,20 +302,20 @@ class Event
     /**
      * Add listSessions
      *
-     * @param \RFC\CoreBundle\Entity\Session $listSessions
+     * @param \RFC\CoreBundle\Entity\Session $listSessions            
      * @return Event
      */
     public function addListSession(\RFC\CoreBundle\Entity\Session $listSessions)
     {
         $this->listSessions[] = $listSessions;
-    
+        
         return $this;
     }
 
     /**
      * Remove listSessions
      *
-     * @param \RFC\CoreBundle\Entity\Session $listSessions
+     * @param \RFC\CoreBundle\Entity\Session $listSessions            
      */
     public function removeListSession(\RFC\CoreBundle\Entity\Session $listSessions)
     {
@@ -332,7 +325,7 @@ class Event
     /**
      * Get listSessions
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getListSessions()
     {

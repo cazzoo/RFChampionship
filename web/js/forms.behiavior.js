@@ -16,8 +16,10 @@ $(function() {
 			$('#rfc_corebundle_championship_listRules').parent('div')
 					.show(time);
 		}
-	};
+	}
+	;
 
+	// Screen Championship
 	$(".eventItem").click(function() {
 		$('.eventItem').removeClass('active');
 		$(this).addClass("active")
@@ -43,6 +45,7 @@ $(function() {
 		return false;
 	});
 
+	// Screen MetaRule
 	$(".metaRuleItem").click(function() {
 		$('.metaRuleItem').removeClass('active');
 		$(this).addClass("active")

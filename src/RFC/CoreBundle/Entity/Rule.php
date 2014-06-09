@@ -33,7 +33,7 @@ class Rule extends KnowledgeData
     private $value;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\MetaRule", mappedBy="listRules")
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\MetaRule", mappedBy="listRules")
      */
     private $listMetaRules;
     

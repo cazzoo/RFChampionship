@@ -12,22 +12,34 @@ parent() }} {% endblock %} {% block rfccore_body %}
 </ol>
 
 <div class="row">
-	<h1>{{ entity.name }}</h1>
+	<h1>
+		{{ entity.name }} <a class="btn btn-primary btn-xs" role="button"
+			href="{{ path('admin_championship_edit', { 'championshipId': entity.id, 'gameId': game[0].id  }) }}">
+			<span class="glyphicon glyphicon-edit"> Edit</span>
+		</a>
+	</h1>
 
 	<dl class="dl-horizontal">
 		<dt>Description</dt>
-		<dd>{% if entity.description %}{{ entity.description }}{% else %}<i>Aucune description</i>{% endif %}</dd>
+		<dd>
+			{% if entity.description %}{{ entity.description }}{% else %}<i>Aucune
+				description</i>{% endif %}
+		</dd>
 		<dt>Championnat Agrée?</dt>
 		<dd>{% if entity.isAgreed %}True{% else %}False{% endif %}</dd>
 		<dt>MetaRule</dt>
-		<dd>{% if entity.metaRule %}{{ entity.metaRule.name }}{% else %}<i>Aucune metaRule</i>{% endif %}</dd>
+		<dd>
+			{% if entity.metaRule %}{{ entity.metaRule.name }}{% else %}<i>Aucune
+				metaRule</i>{% endif %}
+		</dd>
 		<dt>Organisateurs</dt>
 		<dd>
-			{% if entity.metaRule %}<ul>
+			{% if entity.metaRule %}
+			<ul>
 				{% for manager in entity.listManagers %}
-				    <li>{{ manager.username }}</li>
-				{% endfor %}
-			</ul>{% else %}<i>Aucun organisateur(s) défini(s)</i>{% endif %}
+				<li>{{ manager.username }}</li> {% endfor %}
+			</ul>
+			{% else %}<i>Aucun organisateur(s) défini(s)</i>{% endif %}
 		</dd>
 	</dl>
 </div>
@@ -42,25 +54,31 @@ parent() }} {% endblock %} {% block rfccore_body %}
 					<span class="glyphicon glyphicon-plus"></span>
 				</a>
 			</h3>
-			{% if entity.listEvents is empty %}
-                Aucun Event n'est présent. Il faut en créer.
-        	{% else %}
-			<ul>{% for event in entity.listEvents %}</ul>
+			{% if entity.listEvents is empty %} Aucun Event n'est présent. Il
+			faut en créer. {% else %}
+			<ul>{% for event in entity.listEvents %}
+			</ul>
 			<div class="row">
 				{# Colonne 1 : Events #}
 				<div class="col-md-10">
-					<a id="event_{{ event.id }};game_{{ game[0].id }};championship_{{ entity.id }}" href="#event_{{ event.id }}"
-						class="eventItem list-group-item">
+					<a
+						id="event_{{ event.id }};game_{{ game[0].id }};championship_{{ entity.id }}"
+						href="#event_{{ event.id }}" class="eventItem list-group-item">
 						<h4 class="list-group-item-heading">{{ event.name }}</h4>
-						<p class="list-group-item-text">{{ event.description }}</p>
+						<p class="list-group-item-text">
+						
+						<div>{{ event.description }}</div>
+						<div>
+							<small><span class="label label-primary">{{
+									event.beginDate|date("Y/m/Y H:i") }}</span> > <span
+								class="label label-primary">{{ event.endDate|date("Y/m/Y H:i")
+									}}</span></small>
+						</div>
+						</p>
 					</a>
 				</div>
 				<div class="col-md-2">
 					<ul class="list-unstyled">
-						<li><a class="btn btn-info btn-xs" role="button"
-							href="{{ path(
-		'admin_event_show', {'eventId' : event.id, 'gameId' : game[0].id, 'championshipId' : entity.id }) }}"><span
-								class="glyphicon glyphicon-eye-open"></span></a></li>
 						<li><a class="btn btn-primary btn-xs" role="button"
 							href="{{ path('admin_event_edit', {'eventId' : event.id, 'gameId' : game[0].id, 'championshipId' : entity.id}) }}"><span
 								class="glyphicon glyphicon-edit"></span></a></li>
@@ -72,10 +90,11 @@ parent() }} {% endblock %} {% block rfccore_body %}
 	</div>
 	<div class="col-md-7">
 		<h3>Sessions</h3>
-
-		<ul class="list-group" id="listSessions">{# Colonne 2 : Sessions #} {%
-			include 'RFCAdminBundle:Session:list.html.twig' with {'sessions' :
-			sessions, 'gameId' : game[0].id, 'championshipId' : entity.id, 'eventId' : eventId} %}
+		{# Colonne 2 : Sessions #}
+		<ul class="list-group" id="listSessions">{% include
+			'RFCAdminBundle:Session:list.html.twig' with {'sessions' : sessions,
+			'gameId' : game[0].id, 'championshipId' : entity.id, 'eventId' :
+			eventId} %}
 		</ul>
 	</div>
 	{% endif %}
@@ -83,18 +102,16 @@ parent() }} {% endblock %} {% block rfccore_body %}
 <hr />
 <div>
 	<h1>
-		Rules {% if entity.isAgreed != true %}<a class="btn btn-inverse btn-xs" role="button"
+		Rules {% if entity.isAgreed != true %}<a
+			class="btn btn-inverse btn-xs" role="button"
 			href="{{ path('admin_rule_new', {'gameId' : game[0].id}) }}"> <span
 			class="glyphicon glyphicon-plus"></span>
 		</a>{% endif %}
 	</h1>
 	<div class="list-group">
-    	{% if entity.isAgreed %}
-    	   {% set rules = entity.metaRule.listRules %}
-    	{% else %}
-		   {% set rules = entity.listRules %}
-    	{% endif %}
-    	{% for rule in rules %}
+		{% if entity.isAgreed %} {% set rules = entity.metaRule.listRules %}
+		{% else %} {% set rules = entity.listRules %} {% endif %} {% for rule
+		in rules %}
 		<div class="row">
 			<div class="col-md-10">
 				<a href="#" class="list-group-item">

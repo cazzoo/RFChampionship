@@ -27,16 +27,7 @@ class EventType extends AbstractType
         
         $builder->add('name')
             ->add('description', 'textarea')
-            ->add('listSessions', 'entity', array(
-            'required' => false,
-            'class' => 'RFCCoreBundle:Session',
-            'multiple' => true
-        ))
-            ->add('beginDate')
-            ->add('endDate')
-            ->add('listBroadcast', 'collection', array(
-            'allow_add' => true
-        ))
+            ->add('listBroadcast', 'text', array('required' => false))
             ->add('track', 'entity', array(
             'required' => false,
             'class' => 'RFCCoreBundle:Track',

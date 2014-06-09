@@ -6,12 +6,11 @@ parent() }} {% endblock %} {% block rfccore_body %}
 
 <ul class="list-inline">
 	{% for game in games %}
-	<li><a
-		href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}"><div
+	<li><a href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}"><div
 				class="text-center">
-				<img alt="game.name" src="{{ game.imageurl }}" class="img-rounded"
-					width="200px" /><br />
-				<span class="label label-default">{{ game.name }}</span></a>
+				<img alt="{{ game.shortName }}" src="{{ game.imageurl }}"
+					class="img-rounded" width="200px" /><br /> <span
+					class="label label-default">{{ game.name }}</span></a>
 		</div></li> {% else %}
 	<li>Pas (encore !) de jeux</li> {% endfor %}
 </ul>

@@ -25,12 +25,12 @@ class Session
     private $id;
 
     /**
-     * @ORM\Column(name="begin_date", type="date")
+     * @ORM\Column(name="begin_date", type="datetime")
      */
     private $beginDate;
 
     /**
-     * @ORM\Column(name="end_date", type="date")
+     * @ORM\Column(name="end_date", type="datetime")
      */
     private $endDate;
 

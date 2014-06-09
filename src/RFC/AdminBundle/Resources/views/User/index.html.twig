@@ -5,10 +5,8 @@
 <table class="records_list">
 	<thead>
 		<tr>
-			<th>Link</th>
 			<th>Username</th>
 			<th>Email</th>
-			<th>Password</th>
 			<th>Roles</th>
 			<th>Firstname</th>
 			<th>Lastname</th>
@@ -23,11 +21,9 @@
 		<tr>
 			<td><a href="{{ path('admin_user_show', { 'userId': entity.id }) }}">{{
 					entity.username }}</a></td>
-			<td>{{ entity.usernameCanonical }}</td>
 			<td>{{ entity.email }}</td>
-			<td>{{ entity.password }}</td>
 			<td>
-				<ul>
+				<ul class='list-unstyled'>
 					{% for role in entity.roles %}
 					<li>{{ role }}
 					
@@ -42,10 +38,8 @@
 			<td>{{ entity.steamId }}</td>
 			<td>
 				<ul>
-					<li><a href="{{ path('admin_user_show', { 'userId': entity.id }) }}">show</a>
-					</li>
-					<li><a href="{{ path('admin_user_edit', { 'userId': entity.id }) }}">edit</a>
-					</li>
+					<li><a href="{{ path('admin_user_show', { 'userId': entity.id }) }}">show</a></li>
+					<li><a href="{{ path('admin_user_edit', { 'userId': entity.id }) }}">edit</a></li>
 				</ul>
 			</td>
 		</tr>

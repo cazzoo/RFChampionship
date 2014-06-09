@@ -17,7 +17,7 @@ extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin -
 	<span class="dropdown-arrow dropdown-arrow-inverse"></span>
 	<ul class="dropdown-menu dropdown-inverse">
 		{% for game in games %}
-		<li><a href="{{ path('admin_game_manage', {'id': game.id}) }}">{{
+		<li><a href="{{ path('admin_game_manage', {'gameId': game.id}) }}">{{
 				game.name }}</a></li> {% endfor %}
 	</ul>
 </div>

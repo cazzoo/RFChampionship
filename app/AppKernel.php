@@ -21,7 +21,6 @@ class AppKernel extends Kernel
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-            new JMS\SerializerBundle\JMSSerializerBundle(),
             
             new RFC\CoreBundle\RFCCoreBundle(),
             new RFC\UserBundle\RFCUserBundle(),

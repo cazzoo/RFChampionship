@@ -29,7 +29,9 @@ class ChampionshipType extends AbstractType
         $gameTransformer = new GameToIntTransformer($options['em']);
         
         $builder->add('name')
-            ->add('description', 'textarea')
+            ->add('description', 'textarea', array(
+            'required' => false
+        ))
             ->add('isAgreed', 'checkbox', array(
             'required' => false
         ))
@@ -52,6 +54,7 @@ class ChampionshipType extends AbstractType
             'required' => false,
             'class' => 'RFCCoreBundle:Rule',
             'multiple' => true,
+            'expanded' => true,
             'query_builder' => function (RuleRepository $er) use($id)
             {
                 return $er->createQueryBuilder('r')
@@ -61,7 +64,9 @@ class ChampionshipType extends AbstractType
         ))
             /*->add($builder->create('game', 'hidden')
             ->addModelTransformer($gameTransformer))*/
-            ->add('game', 'entity', array(
+            ->
+        
+        add('game', 'entity', array(
             'class' => 'RFC\CoreBundle\Entity\Game'
         ));
     }
