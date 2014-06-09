@@ -80,3 +80,11 @@ fos_user:
     registration:
         form:
             type: rfc_user_registration
+
+services:
+    calendar_listener:
+        class:    RFC\CoreBundle\EventListener\CalendarEventListener
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: kernel.event_listener, event: calendar.load_events, method: loadEvents }
+            

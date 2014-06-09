@@ -1,8 +1,15 @@
 rfcCore_accueil:
     path:   /
     defaults: { _controller: RFCCoreBundle:Core:index }
+    
 rfcCore_gameSelection:
     path:   /{gameId}/
     defaults: { _controller: RFCCoreBundle:Core:accessGame }
+    requirements:
+        gameId: \d*
+
+rfcCore_calendar:
+    path:   /{gameId}/Calendar
+    defaults: { _controller: RFCCoreBundle:Calendar:index }
     requirements:
         gameId: \d*
