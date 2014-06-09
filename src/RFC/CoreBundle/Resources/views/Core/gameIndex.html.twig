@@ -34,7 +34,7 @@ parent() }}
 				<li class="active"><a
 					href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}">Accueil
 						du jeu</a></li>
-				<li><a href="#fakelink">Championships</a></li>
+				<li><a href="{{ path('rfcCore_championships', {'gameId': game.id}) }}">Championships</a></li>
 				<li><a href="{{ path('rfcCore_calendar', {'gameId': game.id}) }}">Calendar</a></li>
 			</ul>
 			<form class="navbar-form navbar-right" action="#" role="search">

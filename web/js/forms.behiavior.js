@@ -38,7 +38,7 @@ $(function() {
 				$('#listSessions').html("Chargement des sessions...");
 			}
 		}).done(function(data) {
-			$('#listSessions').html(data);
+			$('#listSessions').replaceWith(data);
 		}).fail(function() {
 			$('#listSessions').html("Impossible de récupérer un résultat");
 		});

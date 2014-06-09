@@ -1,5 +1,4 @@
 <?php
-
 namespace RFC\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -8,22 +7,25 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class GameType extends AbstractType
 {
-        /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+
+    /**
+     *
+     * @param FormBuilderInterface $builder            
+     * @param array $options            
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name')
+        $builder->add('name')
             ->add('shortName')
-            ->add('description', 'textarea')
-            ->add('image_url')
-        ;
+            ->add('description', 'textarea', array(
+            'required' => false
+        ))
+            ->add('image_url', 'url');
     }
-    
+
     /**
-     * @param OptionsResolverInterface $resolver
+     *
+     * @param OptionsResolverInterface $resolver            
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -33,6 +35,7 @@ class GameType extends AbstractType
     }
 
     /**
+     *
      * @return string
      */
     public function getName()

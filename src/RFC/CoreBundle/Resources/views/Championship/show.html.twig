@@ -1,0 +1,146 @@
+{# src/RFC/CoreBundle/Resources/views/Core/gameIndex.html.twig #} {%
+extends "RFCCoreBundle::layout.html.twig" %} {% block javascripts %}
+{{ parent() }} {% javascripts 'RFCAdminJS' %}
+<script src="{{asset('js/forms.behiavior.js') }}"></script>
+{% endjavascripts %} {% endblock %} {% block title %} {{
+parent() }} - {{ game.name }} {% endblock %} {% block header %} {{
+parent() }}
+<div class="dropdown">
+	<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+		Liste des jeux<span class="caret"></span>
+	</button>
+	<span class="dropdown-arrow dropdown-arrow-inverse"></span>
+	<ul class="dropdown-menu dropdown-inverse">
+		{% for gamedd in games %} {% if (game.id != gamedd.id) %}
+		<li><a
+			href="{{ path('rfcCore_gameSelection', {'gameId': gamedd.id}) }}">{{
+				gamedd.name }}</a></li> {% endif %}{% endfor %}
+	</ul>
+</div>
+<a href="{{ path('rfcCore_accueil') }}" class="btn btn-inverse btn-xs"
+	role="button">Sélectionner un autre jeu</a>
+{% if is_granted('ROLE_ADMIN') %}
+<a href="{{ path('RFCAdmin_index') }}" class="btn btn-danger btn-xs"
+	role="button">Administration</a>
+{% endif %} {% endblock %} {% block rfccore_body %}
+<div id="menu" class="span3">
+	<nav class="navbar navbar-inverse" role="navigation">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#navbar-collapse-01">
+				<span class="sr-only">Toggle navigation</span>
+			</button>
+		</div>
+		<div class="collapse navbar-collapse" id="navbar-collapse-01">
+			<ul class="nav navbar-nav">
+				<li><a
+					href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}">Accueil
+						du jeu</a></li>
+				<li class="active"><a
+					href="{{ path('rfcCore_championships', {'gameId': game.id}) }}">Championships</a></li>
+				<li><a href="{{ path('rfcCore_calendar', {'gameId': game.id}) }}">Calendar</a></li>
+			</ul>
+			<form class="navbar-form navbar-right" action="#" role="search">
+				<div class="form-group">
+					<div class="input-group">
+						<input class="form-control" id="navbarInput-01" type="search"
+							placeholder="Search"> <span class="input-group-btn">
+							<button type="submit" class="btn">
+								<span class="fui-search"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</nav>
+</div>
+
+<div class="row">
+	<h1>{{ entity.name }}</h1>
+
+	<dl class="dl-horizontal">
+		<dt>Description</dt>
+		<dd>
+			{% if entity.description %}{{ entity.description }}{% else %}<i>Aucune
+				description</i>{% endif %}
+		</dd>
+		<dt>Championnat Agrée?</dt>
+		<dd>{% if entity.isAgreed %}True{% else %}False{% endif %}</dd>
+		<dt>MetaRule</dt>
+		<dd>
+			{% if entity.metaRule %}{{ entity.metaRule.name }}{% else %}<i>Aucune
+				metaRule</i>{% endif %}
+		</dd>
+		<dt>Organisateurs</dt>
+		<dd>
+			{% if entity.metaRule %}
+			<ul>
+				{% for manager in entity.listManagers %}
+				<li>{{ manager.username }}</li> {% endfor %}
+			</ul>
+			{% else %}<i>Aucun organisateur(s) défini(s)</i>{% endif %}
+		</dd>
+	</dl>
+</div>
+<hr />
+<div class="row">
+	{# Liste les événements et les sessions #}
+	<div class="col-md-5">
+		<div class="list-group">
+			<h3>
+				Events
+			</h3>
+			{% if entity.listEvents is empty %} Aucun Event n'est présent. Il
+			faut en créer. {% else %}
+			<ul>{% for event in entity.listEvents %}
+			</ul>
+			<div class="row">
+				{# Colonne 1 : Events #}
+				<a
+					id="event_{{ event.id }};game_{{ game.id }};championship_{{ entity.id }}"
+					href="#event_{{ event.id }}" class="eventItem list-group-item">
+					<h4 class="list-group-item-heading">{{ event.name }}</h4>
+					<p class="list-group-item-text">
+					
+					<div>{{ event.description }}</div>
+					<div>
+						<small><span class="label label-primary">{{
+								event.beginDate|date("Y/m/d H:i") }}</span> > <span
+							class="label label-primary">{{ event.endDate|date("Y/m/d H:i")
+								}}</span></small>
+					</div>
+					</p>
+				</a>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="col-md-7">
+		<h3>Sessions</h3>
+		{# Colonne 2 : Sessions #}
+		<ul class="list-group" id="listSessions">
+		</ul>
+	</div>
+	{% endif %}
+</div>
+<hr />
+<div>
+	<h1>
+		Rules
+	</h1>
+	<div class="list-group">
+		{% if entity.isAgreed %} {% set rules = entity.metaRule.listRules %}
+		{% else %} {% set rules = entity.listRules %} {% endif %} {% for rule
+		in rules %}
+		<div class="row">
+			<a href="#" class="list-group-item">
+				<h4 class="list-group-item-heading">{{ rule.name }}</h4>
+				<p class="list-group-item-text">{{ rule.value }}</p>
+			</a>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+{% endblock %}

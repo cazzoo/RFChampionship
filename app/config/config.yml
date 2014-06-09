@@ -33,7 +33,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ 'RFCAdminBundle' ]
+    bundles:        [ 'RFCAdminBundle', 'RFCCoreBundle' ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~

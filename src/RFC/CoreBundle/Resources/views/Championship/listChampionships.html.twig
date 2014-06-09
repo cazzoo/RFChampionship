@@ -1,0 +1,60 @@
+<div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Isagreed</th>
+				<th>Listevents</th>
+				<th>Listmanagers</th>
+				<th>Metarule</th>
+				<th>Listrules</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody class="table-striped">
+			{% for championship in championships %}
+			<tr>
+				<td>{{ championship.name }}</td>
+				<td>{{ championship.description }}</td>
+				<td>{{ championship.isAgreed }}</td>
+				<td>{% if championship.listEvents is empty %} Aucun Event
+					pour le moment {% else %}
+					<ul class="list-unstyled">
+						{% for event in championship.listEvents %}
+						<li>{{ event.name }}
+							<div>
+								<small><span class="label label-primary">{{
+										event.beginDate|date("Y/m/d H:i") }}</span> > <span
+									class="label label-primary">{{ event.endDate|date("Y/m/d H:i")
+										}}</span></small>
+							</div>
+						</li> {% endfor %}
+					</ul> {% endif %}
+				</td>
+				<td><ul>
+						{% for manager in championship.listManagers %}
+						<li>{{ manager.username }}</li> {% endfor %}
+					</ul></td>
+				<td>{{ championship.metaRule }}</td>
+				<td>
+					<ul class="list-unstyled">
+						{% if championship.isAgreed %} {% for rule in
+						championship.metaRule.listRules %}
+						<li>{{ rule.name }}</li> {% endfor %} {% else %} {% for rule in
+						championship.listRules %}
+						<li>{{ rule.name }}</li> {% endfor %} {% endif %}
+					</ul>
+				</td>
+				<td>
+					<ul class="list-unstyled">
+						<li><a class="btn btn-info btn-xs" role="button"
+							href="{{ path('rfcCore_championship_show', { 'championshipId': championship.id, 'gameId': game.id  }) }}"><span
+								class="glyphicon glyphicon-eye-open"></span></a></li>
+					</ul>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
