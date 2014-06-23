@@ -19,8 +19,7 @@ class GameType extends AbstractType
             ->add('shortName')
             ->add('description', 'textarea', array(
             'required' => false
-        ))
-            ->add('image_url', 'url');
+        ));
     }
 
     /**

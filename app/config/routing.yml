@@ -29,4 +29,10 @@ fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
 adesigns_calendar:
-  resource: "@ADesignsCalendarBundle/Resources/config/routing.xml"
+    resource: "@ADesignsCalendarBundle/Resources/config/routing.xml"
+
+fos_comment_api:
+    type: rest
+    resource: "@FOSCommentBundle/Resources/config/routing.yml"
+    prefix: /api
+    defaults: { _format: html }

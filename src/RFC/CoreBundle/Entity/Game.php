@@ -28,11 +28,6 @@ class Game
     private $shortName;
 
     /**
-     * @ORM\Column(name="imageUrl", type="string", length=255)
-     */
-    private $imageUrl;
-
-    /**
      * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Championship", mappedBy="game")
      */
     private $listChampionships;
@@ -97,52 +92,6 @@ class Game
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set image
-     *
-     * @param \string $image_url            
-     * @return Game
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-        
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \stdClass
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * Set image_url
-     *
-     * @param string $imageUrl            
-     * @return Game
-     */
-    public function setImageUrl($imageUrl)
-    {
-        $this->imageUrl = $imageUrl;
-        
-        return $this;
-    }
-
-    /**
-     * Get image_url
-     *
-     * @return string
-     */
-    public function getImageUrl()
-    {
-        return $this->imageUrl;
     }
 
     /**

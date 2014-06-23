@@ -22,6 +22,10 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
+        		
+        	new FOS\RestBundle\FOSRestBundle(),
+        	new FOS\CommentBundle\FOSCommentBundle(),
+        	new JMS\SerializerBundle\JMSSerializerBundle($this),
             
             new RFC\CoreBundle\RFCCoreBundle(),
             new RFC\UserBundle\RFCUserBundle(),

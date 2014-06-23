@@ -28,27 +28,27 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\Column(name="$firstName", type="string", length=255, nullable=true)
+     * @ORM\Column(name="firstName", type="string", length=255, nullable=true)
      */
     protected $firstName;
 
     /**
-     * @ORM\Column(name="$lastName", type="string", length=255, nullable=true)
+     * @ORM\Column(name="lastName", type="string", length=255, nullable=true)
      */
     protected $lastName;
 
     /**
-     * @ORM\Column(name="$age", type="integer", nullable=true)
+     * @ORM\Column(name="age", type="integer", nullable=true)
      */
     protected $age;
 
     /**
-     * @ORM\Column(name="$avatarUrl", type="string", length=255, nullable=true)
+     * @ORM\Column(name="avatarUrl", type="string", length=255, nullable=true)
      */
     protected $avatarUrl;
 
     /**
-     * @ORM\Column(name="$steamId", type="string", length=255, nullable=true)
+     * @ORM\Column(name="steamId", type="string", length=255, nullable=true)
      */
     protected $steamId;
 

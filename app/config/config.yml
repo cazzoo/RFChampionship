@@ -33,7 +33,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ 'RFCAdminBundle', 'RFCCoreBundle' ]
+    bundles:        [ 'RFCAdminBundle', 'RFCCoreBundle', 'FOSCommentBundle' ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -80,6 +80,16 @@ fos_user:
     registration:
         form:
             type: rfc_user_registration
+
+fos_comment:
+    db_driver: orm
+    class:
+        model:
+            comment: RFC\RFCCoreBundle\Entity\Comment
+            thread: RFC\RFCCoreBundle\Entity\Thread
+
+assetic:
+    bundles: [ "FOSCommentBundle" ]  
 
 services:
     calendar_listener:

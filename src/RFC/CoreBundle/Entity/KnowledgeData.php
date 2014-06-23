@@ -12,7 +12,7 @@ use RFC\CoreBundle\Entity\DescriptorTrait;
  */
 abstract class KnowledgeData
 {
-
+    
     use DescriptorTrait;
 
     protected $game;
