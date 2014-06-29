@@ -15,10 +15,15 @@
 	<!-- Loading Flat UI -->
 	<link href="{{ asset('FlatUI/css/flat-ui.css') }}" rel="stylesheet"
 		type="text/css" />
+		
 	<!-- Loading jquery calendar -->
 	<link
 		href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}"
 		rel="stylesheet" />
+		
+	<!-- Loading Custom CSS-->
+	<link href="{{ asset('css/adminStyle.css') }}" rel="stylesheet"
+		type="text/css" />
 {% endblock %}
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
@@ -66,6 +71,10 @@
 			<script type="text/javascript"
 				src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>
 		{% endjavascripts %}
+		{% javascripts 'RFCAdminJS' %}
+            <script type="text/javascript"
+                src="{{asset('js/forms.behiavior.js') }}"></script>
+        {% endjavascripts %}
 	{% endblock %}
 
 </body>

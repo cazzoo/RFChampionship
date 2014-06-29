@@ -36,6 +36,9 @@ class RuleType extends AbstractType
                     ->setParameter('id', $id);
             }
         ))
+            ->add('commentsActive', 'checkbox', array(
+            'required' => false
+        ))
             ->add('game', 'entity', array(
             'class' => 'RFC\CoreBundle\Entity\Game'
         ));

@@ -20,6 +20,9 @@ class TypeSessionType extends AbstractType
         
         $builder->add('name')
             ->add('description', 'textarea')
+            ->add('commentsActive', 'checkbox', array(
+            'required' => false
+        ))
             /*->add($builder->create('game', 'hidden')
             ->addModelTransformer($gameTransformer))*/
             ->add('game', 'entity', array(

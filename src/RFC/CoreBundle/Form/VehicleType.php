@@ -17,6 +17,9 @@ class VehicleType extends AbstractType
     {
         $builder->add('name')
             ->add('description', 'textarea')
+            ->add('commentsActive', 'checkbox', array(
+            'required' => false
+        ))
             ->add('game', 'entity', array(
             'class' => 'RFC\CoreBundle\Entity\Game'
         ));

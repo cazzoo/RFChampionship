@@ -3,17 +3,18 @@
 {% extends "RFCCoreBundle::layout.html.twig" %}
 
 {% block rfccore_body %}
-<h2>Bienvenue sur {{ game.name }}</h2>
-<p>
-	{{ game.description }}
-</p>
-{% if game.listImages is not empty %}
-    <h4>Galerie</h4>
-    <img alt="{{ game.listImages[0].name }}" src="{{ game.listImages[0].url }}" />
-{% endif %}
 
-{% if game.commentsActive %}
-    <h4>Commentaires</h4>
-{% endif %}
+    <h2>Bienvenue sur {{ game.name }}</h2>
+    <p>
+    	{{ game.description }}
+    </p>
+    {% if game.listImages is not empty %}
+        <h4>Galerie</h4>
+        <img alt="{{ game.listImages[0].name }}" src="{{ game.listImages[0].url }}" />
+    {% endif %}
+    
+    {% if game.commentsActive %}
+        <h4>Commentaires</h4>
+    {% endif %}
 
 {% endblock %}

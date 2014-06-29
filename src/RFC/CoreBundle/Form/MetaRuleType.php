@@ -41,6 +41,9 @@ class MetaRuleType extends AbstractType
                     ->setParameter('id', $id);
             }
         ))
+            ->add('commentsActive', 'checkbox', array(
+            'required' => false
+        ))
             /*->add($builder->create('game', 'hidden')
             ->addModelTransformer($gameTransformer))*/
             ->add('game', 'entity', array(

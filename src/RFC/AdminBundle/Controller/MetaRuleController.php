@@ -197,7 +197,7 @@ class MetaRuleController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_metaRule_edit', array(
+            return $this->redirect($this->generateUrl('admin_metaRule', array(
                 'metaRuleId' => $metaRuleId,
                 'gameId' => $gameId
             )));

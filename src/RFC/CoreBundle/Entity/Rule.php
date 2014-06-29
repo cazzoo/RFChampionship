@@ -36,7 +36,7 @@ class Rule extends KnowledgeData
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\MetaRule", mappedBy="listRules")
      */
     private $listMetaRules;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\TypeSession")
      * @ORM\JoinColumn(nullable=false)
@@ -67,7 +67,7 @@ class Rule extends KnowledgeData
     {
         $this->listMetaRules = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     public function __toString()
     {
         return $this->getName();
@@ -183,7 +183,7 @@ class Rule extends KnowledgeData
     {
         $this->listImages->removeElement($listImages);
     }
-	
+
     /**
      * Set createdAt
      *
