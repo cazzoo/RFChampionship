@@ -58,6 +58,11 @@ class Game
     private $listCategories;
 
     /**
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image",cascade={"persist"})
+     */
+    private $listImages;
+
+    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
@@ -77,6 +82,7 @@ class Game
         $this->listChampionships = new \Doctrine\Common\Collections\ArrayCollection();
         $this->listMetaRules = new \Doctrine\Common\Collections\ArrayCollection();
         $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listImages = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -115,52 +121,6 @@ class Game
     public function getShortName()
     {
         return $this->shortName;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt            
-     * @return Game
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-        
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt            
-     * @return Game
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-        
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
     }
 
     /**
@@ -260,5 +220,85 @@ class Game
     public function getListRules()
     {
         return $this->listRules;
+    }
+
+    public function getListImages()
+    {
+        return $this->listImages;
+    }
+
+    public function setListImages($listImages)
+    {
+        $this->listImages = $listImages;
+        return $this;
+    }
+
+    /**
+     * Add listImages
+     *
+     * @param \RFC\CoreBundle\Entity\Image $listImages            
+     * @return Image
+     */
+    public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
+    {
+        $this->listImages[] = $listImages;
+        
+        return $this;
+    }
+
+    /**
+     * Remove listImages
+     *
+     * @param \RFC\CoreBundle\Entity\Image $listImages            
+     */
+    public function removeListImage(\RFC\CoreBundle\Entity\Image $listImages)
+    {
+        $this->listImages->removeElement($listImages);
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt            
+     * @return Game
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt            
+     * @return Game
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+        
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

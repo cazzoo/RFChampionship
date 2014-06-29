@@ -9,7 +9,7 @@ parent() }} {% endblock %} {% block rfccore_body %}
 	<li><a href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}"><div
 				class="text-center">
 				{% if game.listImages is not empty %}
-				<img alt="{{ game.shortName }}" src="{{ game.listImages[0] }}"
+				<img alt="{{ game.shortName }}" src="{{ game.listImages[0].url }}"
 					class="img-rounded" width="200px" /><br /> {% endif %}<span
 					class="label label-default">{{ game.name }}</span></a>
 		</div></li> {% else %}

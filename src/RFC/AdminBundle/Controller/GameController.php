@@ -5,6 +5,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use RFC\CoreBundle\Entity\Game;
 use RFC\CoreBundle\Form\GameType;
+use RFC\CoreBundle\Entity\Image;
 
 /**
  * Game controller.
@@ -66,10 +67,6 @@ class GameController extends Controller
             'method' => 'POST'
         ));
         
-        $form->add('submit', 'submit', array(
-            'label' => 'Create'
-        ));
-        
         return $form;
     }
 
@@ -79,6 +76,7 @@ class GameController extends Controller
     public function newAction()
     {
         $entity = new Game();
+        
         $form = $this->createCreateForm($entity);
         
         return $this->render('RFCAdminBundle:Game:new.html.twig', array(
@@ -148,10 +146,6 @@ class GameController extends Controller
             'method' => 'PUT'
         ));
         
-        $form->add('submit', 'submit', array(
-            'label' => 'Update'
-        ));
-        
         return $form;
     }
 
@@ -175,7 +169,7 @@ class GameController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_game_edit', array(
+            return $this->redirect($this->generateUrl('admin_game_show', array(
                 'gameId' => $gameId
             )));
         }

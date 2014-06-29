@@ -1,0 +1,20 @@
+{% block fos_user_content %} {% endblock fos_user_content %}
+{% if games|length > 1 %}
+    <div class="dropdown">
+    	<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    		Liste des jeux<span class="caret"></span>
+    	</button>
+    	<span class="dropdown-arrow dropdown-arrow-inverse"></span>
+    	<ul class="dropdown-menu dropdown-inverse">
+    		{% for gamedd in games %} {% if (game.id != gamedd.id) %}
+    		<li><a
+    			href="{{ path('rfcCore_gameSelection', {'gameId': gamedd.id}) }}">{{
+    				gamedd.name }}</a></li> {% endif %}{% endfor %}
+    	</ul>
+    </div>
+<a href="{{ path('rfcCore_accueil') }}" class="btn btn-inverse btn-xs" role="button">Sélectionner un autre jeu</a>
+{% endif %}
+
+{% if is_granted('ROLE_ADMIN') %}
+   <a href="{{ path('RFCAdmin_index') }}" class="btn btn-danger btn-xs" role="button">Administration</a>
+{% endif %}

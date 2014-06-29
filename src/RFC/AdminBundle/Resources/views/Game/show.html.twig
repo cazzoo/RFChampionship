@@ -1,4 +1,4 @@
-{% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
+{% extends "RFCAdminBundle::layout.html.twig" %} {% block title %} Admin
 - {{ parent() }} {% endblock %} {% block rfccore_body %}
 <h1>Game</h1>
 
@@ -21,8 +21,19 @@
 			<td>{{ entity.description }}</td>
 		</tr>
 		<tr>
+			<th>Comments active?</th>
+			<td>{{ entity.commentsActive }}</td>
+		</tr>
+		<tr>
 			<th>Image_url</th>
-			<td>{{ entity.imageurl }}</td>
+			<td>
+			 {% for image in entity.listImages %}
+                <li>{{ image.name }}
+                {{ image.description }}
+                {{ image.url }}
+                {{ image.alt }}</li>
+            {% endfor %}
+           </td>
 		</tr>
 		<tr>
 			<th>Listchampionships</th>

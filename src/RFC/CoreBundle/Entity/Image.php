@@ -23,12 +23,12 @@ class Image
     private $name;
 
     /**
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
     /**
-     * @ORM\Column(name="url", type="string", length=255)
+     * @ORM\Column(name="url", type="string", length=255, nullable=true)
      */
     private $url;
 
@@ -107,4 +107,5 @@ class Image
         $this->description = $description;
         return $this;
     }
+ 
 }

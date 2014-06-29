@@ -53,6 +53,11 @@ class Championship extends KnowledgeData
     private $listRules;
 
     /**
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image",cascade={"persist"})
+     */
+    private $listImages;
+
+    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
@@ -228,52 +233,6 @@ class Championship extends KnowledgeData
     }
 
     /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt            
-     * @return Championship
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-        
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt            
-     * @return Championship
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-        
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
      * Add listEvents
      *
      * @param \RFC\CoreBundle\Entity\Event $listEvents
@@ -317,5 +276,85 @@ class Championship extends KnowledgeData
     public function removeListManager(\RFC\UserBundle\Entity\User $listManagers)
     {
         $this->listManagers->removeElement($listManagers);
+    }
+
+    public function getListImages()
+    {
+        return $this->listImages;
+    }
+
+    public function setListImages($listImages)
+    {
+        $this->listImages = $listImages;
+        return $this;
+    }
+
+    /**
+     * Add listImages
+     *
+     * @param \RFC\CoreBundle\Entity\Image $listImages            
+     * @return Image
+     */
+    public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
+    {
+        $this->listImages[] = $listImages;
+        
+        return $this;
+    }
+
+    /**
+     * Remove listImages
+     *
+     * @param \RFC\CoreBundle\Entity\Image $listImages            
+     */
+    public function removeListImage(\RFC\CoreBundle\Entity\Image $listImages)
+    {
+        $this->listImages->removeElement($listImages);
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt            
+     * @return Championship
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt            
+     * @return Championship
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+        
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

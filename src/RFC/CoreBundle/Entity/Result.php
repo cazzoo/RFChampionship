@@ -15,22 +15,19 @@ class Result
 {
 
     /**
-     *
-     * @var integer @ORM\Column(name="id", type="integer")
-     *      @ORM\Id
-     *      @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     *
-     * @var \stdClass @ORM\Column(name="user", type="object")
+     * @ORM\Column(name="user", type="object")
      */
     private $user;
 
     /**
-     *
-     * @var string @ORM\Column(name="value", type="string", length=255)
+     * @ORM\Column(name="value", type="string", length=255)
      */
     private $value;
 
@@ -39,6 +36,11 @@ class Result
      * @ORM\JoinColumn(nullable=false)
      */
     private $session;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image",cascade={"persist"})
+     */
+    private $listImages;
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -129,6 +131,40 @@ class Result
     public function getSession()
     {
         return $this->session;
+    }
+
+    public function getListImages()
+    {
+        return $this->listImages;
+    }
+
+    public function setListImages($listImages)
+    {
+        $this->listImages = $listImages;
+        return $this;
+    }
+
+    /**
+     * Add listImages
+     *
+     * @param \RFC\CoreBundle\Entity\Image $listImages            
+     * @return Image
+     */
+    public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
+    {
+        $this->listImages[] = $listImages;
+        
+        return $this;
+    }
+
+    /**
+     * Remove listImages
+     *
+     * @param \RFC\CoreBundle\Entity\Image $listImages            
+     */
+    public function removeListImage(\RFC\CoreBundle\Entity\Image $listImages)
+    {
+        $this->listImages->removeElement($listImages);
     }
 
     /**

@@ -38,6 +38,11 @@ class MetaRule extends KnowledgeData
     private $listRules;
 
     /**
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image",cascade={"persist"})
+     */
+    private $listImages;
+
+    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
@@ -56,7 +61,7 @@ class MetaRule extends KnowledgeData
 
     public function __toString()
     {
-        return $this->name;
+        return $this->getName();
     }
 
     /**
@@ -136,6 +141,40 @@ class MetaRule extends KnowledgeData
     public function getIsAgreed()
     {
         return $this->isAgreed;
+    }
+
+    public function getListImages()
+    {
+        return $this->listImages;
+    }
+
+    public function setListImages($listImages)
+    {
+        $this->listImages = $listImages;
+        return $this;
+    }
+
+    /**
+     * Add listImages
+     *
+     * @param \RFC\CoreBundle\Entity\Image $listImages            
+     * @return Image
+     */
+    public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
+    {
+        $this->listImages[] = $listImages;
+        
+        return $this;
+    }
+
+    /**
+     * Remove listImages
+     *
+     * @param \RFC\CoreBundle\Entity\Image $listImages            
+     */
+    public function removeListImage(\RFC\CoreBundle\Entity\Image $listImages)
+    {
+        $this->listImages->removeElement($listImages);
     }
 
     /**

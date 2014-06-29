@@ -28,9 +28,14 @@ class Category extends KnowledgeData
     protected $game;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Vehicle"), cascade={"persist"}
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Vehicle", cascade={"persist"})
      */
     private $listVehicles;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image",cascade={"persist"})
+     */
+    private $listImages;
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -114,52 +119,6 @@ class Category extends KnowledgeData
     }
 
     /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt            
-     * @return Category
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-        
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt            
-     * @return Category
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-        
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
      * Set name
      *
      * @param string $name            
@@ -203,5 +162,85 @@ class Category extends KnowledgeData
     public function getGame()
     {
         return $this->game;
+    }
+
+    public function getListImages()
+    {
+        return $this->listImages;
+    }
+
+    public function setListImages($listImages)
+    {
+        $this->listImages = $listImages;
+        return $this;
+    }
+
+    /**
+     * Add listImages
+     *
+     * @param \RFC\CoreBundle\Entity\Image $listImages            
+     * @return Image
+     */
+    public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
+    {
+        $this->listImages[] = $listImages;
+        
+        return $this;
+    }
+
+    /**
+     * Remove listImages
+     *
+     * @param \RFC\CoreBundle\Entity\Image $listImages            
+     */
+    public function removeListImage(\RFC\CoreBundle\Entity\Image $listImages)
+    {
+        $this->listImages->removeElement($listImages);
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt            
+     * @return Category
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt            
+     * @return Category
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+        
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }
