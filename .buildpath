@@ -37,6 +37,7 @@
 	<buildpathentry kind="src" path="vendor/incenteev/composer-parameter-handler"/>
 	<buildpathentry kind="src" path="vendor/twig/extensions/lib"/>
 	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+	<buildpathentry kind="src" path="vendor/knplabs/knp-menu/src"/>
 	<buildpathentry kind="src" path="vendor/doctrine/orm/lib"/>
 	<buildpathentry kind="src" path="vendor/jms/serializer-bundle"/>
 	<buildpathentry kind="src" path="src"/>
@@ -44,6 +45,7 @@
 	<buildpathentry kind="src" path="vendor/jms/serializer/src"/>
 	<buildpathentry kind="src" path="vendor/jdorn/sql-formatter/lib"/>
 	<buildpathentry kind="src" path="vendor/kriswallsmith/assetic/src"/>
+	<buildpathentry kind="src" path="vendor/knplabs/knp-menu-bundle"/>
 	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Component/HttpFoundation/Resources/stubs"/>
 	<buildpathentry kind="src" path="vendor/symfony/icu"/>
 </buildpath>

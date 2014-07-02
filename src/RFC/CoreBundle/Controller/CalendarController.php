@@ -10,6 +10,7 @@ class CalendarController extends Controller
 
     public function indexAction($gameId)
     {
+        
         $em = $this->getDoctrine()->getManager();
         
         $g = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);

@@ -4,6 +4,7 @@ namespace RFC\CoreBundle\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\KnowledgeData;
+use Doctrine\ORM\Mapping\JoinTable;
 
 /**
  * Championship
@@ -39,6 +40,7 @@ class Championship extends KnowledgeData
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\UserBundle\Entity\User")
+     * @JoinTable(name="championship_managers")
      */
     private $listManagers;
 
@@ -51,6 +53,11 @@ class Championship extends KnowledgeData
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Rule")
      */
     private $listRules;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="RFC\UserBundle\Entity\User", inversedBy="listChampionships")
+     */
+    private $listUsers;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image",cascade={"persist"})
@@ -278,6 +285,17 @@ class Championship extends KnowledgeData
         $this->listManagers->removeElement($listManagers);
     }
 
+    public function getListUsers()
+    {
+        return $this->listUsers;
+    }
+
+    public function setListUsers($listUsers)
+    {
+        $this->listUsers = $listUsers;
+        return $this;
+    }
+ 
     public function getListImages()
     {
         return $this->listImages;

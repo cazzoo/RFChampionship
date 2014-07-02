@@ -20,7 +20,7 @@ rfcCore_championships:
     requirements:
         gameId: \d*
         
-rfcCore_championship_show:
+rfcCore_championships_show:
     path:   /{gameId}/Championship_{championshipId}/
     defaults: { _controller: RFCCoreBundle:Championship:show }
     requirements:

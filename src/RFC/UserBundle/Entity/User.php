@@ -58,7 +58,7 @@ class User extends BaseUser
     protected $mentor;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Championship"), cascade={"persist"}
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Championship", mappedBy="listUsers", cascade={"persist"})
      */
     protected $listChampionships;
 

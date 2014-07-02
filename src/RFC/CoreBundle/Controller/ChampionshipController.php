@@ -7,9 +7,10 @@ use RFC\CoreBundle\Entity\Championship;
 
 class ChampionshipController extends Controller
 {
-
+    
     public function indexAction($gameId)
     {
+        
         $em = $this->getDoctrine()->getManager();
         
         $currentChampionships = $em->getRepository('RFCCoreBundle:Championship')
@@ -47,11 +48,16 @@ class ChampionshipController extends Controller
      */
     public function showAction($championshipId, $gameId)
     {
+        
         $em = $this->getDoctrine()->getManager();
         
         $entity = $em->getRepository('RFCCoreBundle:Championship')->find($championshipId);
         $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
+        
+        //Ajout de la miette de pain 
+        $menu = $this->get('rfc_core.menu.breadcrumb');
+        $menu->addChild($entity->getName())->setCurrent(true);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Championship entity.');
