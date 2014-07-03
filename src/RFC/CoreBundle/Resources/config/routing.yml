@@ -1,10 +1,10 @@
 rfcCore_accueil:
     path:   /
-    defaults: { _controller: RFCCoreBundle:Core:index }
+    defaults: { _controller: RFCCoreBundle:Core:index } 
     
 rfcCore_gameSelection:
     path:   /{gameId}/
-    defaults: { _controller: RFCCoreBundle:Core:accessGame }
+    defaults: { _controller: RFCCoreBundle:Core:accessGame } 
     requirements:
         gameId: \d*
 

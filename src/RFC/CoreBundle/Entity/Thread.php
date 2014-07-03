@@ -1,7 +1,7 @@
 <?php
-// src/RFC/RFCCoreBundle/Entity/Thread.php
+// src/RFC/CoreBundle/Entity/Thread.php
 
-namespace RFC\RFCCoreBundle\Entity;
+namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\CommentBundle\Entity\Thread as BaseThread;

@@ -1,6 +1,6 @@
 <?php
-// src/RFC/RFCCoreBundle/Entity/Comment.php
-namespace RFC\RFCCoreBundle\Entity;
+// src/RFC/CoreBundle/Entity/Comment.php
+namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\CommentBundle\Entity\Comment as BaseComment;
@@ -18,7 +18,7 @@ class Comment extends BaseComment {
 	protected $id;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="RFC\RFCCoreBundle\Entity\Thread")
+	 * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Thread")
 	 */
 	protected $thread;
 }

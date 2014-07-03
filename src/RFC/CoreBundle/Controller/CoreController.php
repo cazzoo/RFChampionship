@@ -31,9 +31,12 @@ class CoreController extends Controller
         $em = $this->getDoctrine()->getManager();
         $g = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
+        
+        $threadId = substr(strrchr(get_class($g), "\\"), 1) . '_' . $g->getName();
         return $this->render('RFCCoreBundle:Core:gameIndex.html.twig', array(
             'game' => $g,
-            'games' => $games
+            'games' => $games,
+            'threadId' => $threadId
         ));
     }
 }
