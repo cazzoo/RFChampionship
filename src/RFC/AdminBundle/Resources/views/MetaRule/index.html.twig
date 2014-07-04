@@ -24,26 +24,24 @@ parent() }} {% endblock %} {% block rfccore_body %}
 			{% for metaRule in metaRules %}
 			<div class="row">
 				<div class="col-md-10">
-					<a id="A#metaRule_{{ metaRule.id }};game_{{ game[0].id }}" href="#metaRule_{{ metaRule.id }}" class="metaRuleItem list-group-item">
+					<div id="metaRule_{{ metaRule.id }};game_{{ game[0].id }}"
+						class="metaRuleItem list-group-item active">
 						<h4 class="list-group-item-heading">{{ metaRule.name }}</h4>
 						<p class="list-group-item-text">{{ metaRule.description }}</p>
-					</a>
-					<div id="metaRule_{{ metaRule.id }};game_{{ game[0].id }}" class="metaRuleItem list-group-item active">
-					   <h4 class="list-group-item-heading">{{ metaRule.name }}</h4>
-					   <p class="list-group-item-text">{{ metaRule.description }}</p>
-					   <div class="editZone">
-					       <a href="{{ path('admin_metaRule_edit', {'metaRuleId' : metaRule.id, 'gameId' : gameId}) }}">
-					           <span class="glyphicon glyphicon-edit"></span>&nbsp;Editer
-					       </a>
-					   </div>
+						<div class="editZone">
+							<a
+								href="{{ path('admin_metaRule_edit', {'metaRuleId' : metaRule.id, 'gameId' : gameId}) }}">
+								<span class="glyphicon glyphicon-edit"></span>&nbsp;Editer
+							</a>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-2">
 					<ul class="list-unstyled">
 						<li><a class="btn btn-info btn-xs" role="button"
-							href="{{ path(
-		'admin_metaRule_show', {'metaRuleId' : metaRule.id, 'gameId' : gameId }) }}"><span
-								class="glyphicon glyphicon-eye-open"></span></a></li>
+							href="{{ path('admin_metaRule_show', {'metaRuleId' : metaRule.id, 'gameId' : gameId }) }}">
+								<span class="glyphicon glyphicon-eye-open"></span>
+						</a></li>
 						<li><a class="btn btn-primary btn-xs" role="button"
 							href="{{ path('admin_metaRule_edit', {'metaRuleId' : metaRule.id, 'gameId' : gameId}) }}"><span
 								class="glyphicon glyphicon-edit"></span></a></li>
@@ -57,8 +55,8 @@ parent() }} {% endblock %} {% block rfccore_body %}
 		<h3>List Rules for selected MetaRule</h3>
 
 		<ul class="list-group" id="listRules">{# Colonne 2 : Rules #} {%
-			include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' :
-			rules, 'game' : game, 'metaRuleId' : metaRuleId} %}
+			include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules,
+			'game' : game, 'metaRuleId' : metaRuleId} %}
 		</ul>
 	</div>
 </div>

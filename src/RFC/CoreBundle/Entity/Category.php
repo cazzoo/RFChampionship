@@ -51,7 +51,7 @@ class Category extends KnowledgeData
 
     public function __toString()
     {
-        return $this->name;
+        return $this->getName();
     }
 
     /**
@@ -116,29 +116,6 @@ class Category extends KnowledgeData
     public function removeListVehicle(\RFC\CoreBundle\Entity\Vehicle $listVehicles)
     {
         $this->listVehicles->removeElement($listVehicles);
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name            
-     * @return Category
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-        
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**

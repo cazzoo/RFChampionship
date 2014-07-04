@@ -1,1 +1,3 @@
-{% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': threadId} %}
+{% if threadId is defined %}
+    {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': threadId} %}
+{% endif %}

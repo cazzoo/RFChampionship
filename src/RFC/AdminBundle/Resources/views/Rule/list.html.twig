@@ -2,12 +2,34 @@
     Aucune MetaRule sélectionné. Veuillez sélectionner une MetaRule.
 {% else %}
     {% if rules %}
-    	{% for rule in rules %}
-    	<li class="list-group-item">
-            <h4 class="list-group-item-heading">{{ rule.name }}</h4>
-            <p class="list-group-item-text">{{ rule.value }}</p>
-        </li>
-    	{% endfor %}
+    <table class="table table-striped">
+        <thead>
+           <tr>
+               <th>Name</th>
+               <th>Value</th>
+           </tr>
+        </thead>
+        <tbody>
+        {% set typeSession = '' %}
+        {% for rule in rules %}
+            {% if rule.typeSession != typeSession %}
+                {% set typeSession = rule.typeSession %}
+                <tr class="info"><td colspan="2">{{ typeSession }}</td></tr>
+            {% endif %}
+            <tr>
+               <td>
+                   <span data-toggle="tooltip" data-placement="bottom" title="{{ rule.description }}">
+                       {{ rule.name }}
+                       <span class="glyphicon glyphicon-info-sign"></span>
+                   </span>
+               </td>
+               <td>
+                   {{ rule.value }}
+               </td>
+            </tr>
+        {% endfor %}
+	   </tbody>
+   </table>
     {% else %}
         Rien a afficher
     {% endif %}

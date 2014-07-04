@@ -18,7 +18,8 @@ class ChampionshipController extends Controller
             ->join('c.listEvents', 'e')
             ->join('e.listSessions', 's')
             ->where('s.endDate > :sysdate')
-            ->setParameter('sysdate', new \DateTime())
+            ->andWhere('c.game = :gameId')
+            ->setParameters(array('sysdate' => new \DateTime(), 'gameId' => $gameId))
             ->getQuery()
             ->getResult();
         
@@ -27,13 +28,14 @@ class ChampionshipController extends Controller
             ->join('c.listEvents', 'e')
             ->join('e.listSessions', 's')
             ->where('s.endDate < :sysdate')
-            ->setParameter('sysdate', new \DateTime())
+            ->andWhere('c.game = :gameId')
+            ->setParameters(array('sysdate' => new \DateTime(), 'gameId' => $gameId))
             ->getQuery()
             ->getResult();
         
         $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
-        
+
         return $this->render('RFCCoreBundle:Championship:index.html.twig', array(
             'currentChampionships' => $currentChampionships,
             'pastChampionships' => $pastChampionships,
@@ -62,13 +64,15 @@ class ChampionshipController extends Controller
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Championship entity.');
         }
-        
+
+        $threadId = substr(strrchr(get_class($entity), "\\"), 1) . '_' .$entity->getName();
         return $this->render('RFCCoreBundle:Championship:show.html.twig', array(
             'sessions' => null,
             'eventId' => null,
             'entity' => $entity,
             'game' => $game,
-            'games' => $games
+            'games' => $games,
+            'threadId' => $threadId
         ));
     }
 }

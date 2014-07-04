@@ -15,7 +15,7 @@ class CalendarController extends Controller
         
         $g = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
-        
+
         return $this->render('RFCCoreBundle:Calendar:index.html.twig', array(
             'game' => $g,
             'games' => $games

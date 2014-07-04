@@ -3,12 +3,16 @@
 
 	<div>
 		<h1>RF Championship</h1>
-		{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %} {{
-		'layout.logged_in_as'|trans({'%username%': app.user.username},
-		'FOSUserBundle') }} | <a href="{{ path('fos_user_security_logout') }}">
-			{{ 'layout.logout'|trans({}, 'FOSUserBundle') }} </a> {% else %} <a
-			href="{{ path('fos_user_security_login') }}">{{
-			'layout.login'|trans({}, 'FOSUserBundle') }}</a> {% endif %}
+		{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+            | <a href="{{ path('fos_user_security_logout') }}">
+                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+            </a>
+        {% else %}
+            <a href="{{ path('fos_user_security_login') }}">
+                {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
+            </a>
+		{% endif %}
 	</div>
 	
 	{% for type, messages in app.session.flashbag.all() %} {% for message in
@@ -16,19 +20,21 @@
 	<div class="flash-{{ type }}">{{ message }}</div>
 	{% endfor %} {% endfor %}
 	
-	<div>
-		{% block header %}
-			{% include 'RFCCoreBundle::Structure/header.html.twig' %}
-		{% endblock header %}
-	</div>
-	<hr />
+	{% if game is defined %}
+    	<div>
+    		{% block header %}
+    			{% include 'RFCCoreBundle::Structure/header.html.twig' %}
+    		{% endblock header %}
+    	</div>
+    	<hr />
 	
-	{% block rfccore_menu %}{% include 'RFCCoreBundle::Structure/menu.html.twig' %}{% endblock %}
-	{% block rfccore_breadcrumbs %}{% include 'RFCCoreBundle::Structure/breadcrumbs.html.twig' %}{% endblock %}
+	   {% block rfccore_menu %}{% include 'RFCCoreBundle::Structure/menu.html.twig' %}{% endblock %}
+	   {% block rfccore_breadcrumbs %}{% include 'RFCCoreBundle::Structure/breadcrumbs.html.twig' %}{% endblock %}
+    {% endif %}
 	{% block rfccore_body %}{% endblock %}
-	
-{% endblock %}
 
-{% block footer %}
-	{% include 'RFCCoreBundle::Structure/footer.html.twig' %}
+    {% block footer %}
+    	{% include 'RFCCoreBundle::Structure/footer.html.twig' %}
+    {% endblock %}
+	
 {% endblock %}

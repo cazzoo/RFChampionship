@@ -1,4 +1,5 @@
-{% block fos_user_content %} {% endblock fos_user_content %}
+{% block fos_user_content %}
+{% endblock fos_user_content %}
 {% if games|length > 1 %}
     <div class="dropdown">
     	<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -6,10 +7,13 @@
     	</button>
     	<span class="dropdown-arrow dropdown-arrow-inverse"></span>
     	<ul class="dropdown-menu dropdown-inverse">
-    		{% for gamedd in games %} {% if (game.id != gamedd.id) %}
-    		<li><a
-    			href="{{ path('rfcCore_gameSelection', {'gameId': gamedd.id}) }}">{{
-    				gamedd.name }}</a></li> {% endif %}{% endfor %}
+    		{% for gamedd in games %}
+    		  {% if (game.id != gamedd.id) %}
+    		      <li>
+    		          <a href="{{ path('rfcCore_gameSelection', {'gameId': gamedd.id}) }}">{{ gamedd.name }}</a>
+    			  </li>
+    			{% endif %}
+    		{% endfor %}
     	</ul>
     </div>
 <a href="{{ path('rfcCore_accueil') }}" class="btn btn-inverse btn-xs" role="button">Sélectionner un autre jeu</a>

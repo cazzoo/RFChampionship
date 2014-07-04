@@ -46,7 +46,7 @@ $(function() {
 	});
 
 	// Screen MetaRule
-	$(".metaRuleItem").click(function() {
+	$("div.metaRuleItem").click(function() {
 		$('.metaRuleItem').removeClass('active');
 		$(this).addClass("active")
 		var entityData = $(this).attr('id').split(';');
@@ -70,7 +70,7 @@ $(function() {
 		return false;
 	});
 
-	$(".metaRuleItem").hover(function() {
+	$("div.metaRuleItem").hover(function() {
 		$(this).children(".editZone").show();
 	}, function() {
 		$(this).children(".editZone").hide();
@@ -141,5 +141,5 @@ $(function() {
 	// $(".metaRuleItem:first").trigger("click");
 
 	// CSS Init
-	$(".metaRuleItem .editZone").hide();
+	$("div.metaRuleItem .editZone").hide();
 });

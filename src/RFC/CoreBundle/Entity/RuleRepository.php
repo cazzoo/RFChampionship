@@ -17,6 +17,8 @@ class RuleRepository extends EntityRepository
         return $this->createQueryBuilder('r')
             ->innerJoin('r.listMetaRules', 'm')
             ->where('m.id = :metaRuleId')
+            ->orderBy('r.typeSession', 'ASC')
+            ->addOrderBy('r.name','ASC')
             ->setParameter('metaRuleId', $metaRuleId)
             ->getQuery()
             ->getResult();
