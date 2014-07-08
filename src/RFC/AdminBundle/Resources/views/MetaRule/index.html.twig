@@ -56,7 +56,7 @@ parent() }} {% endblock %} {% block rfccore_body %}
 
 		<ul class="list-group" id="listRules">{# Colonne 2 : Rules #} {%
 			include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules,
-			'game' : game, 'metaRuleId' : metaRuleId} %}
+			'game' : game, 'metaRuleId' : null} %}
 		</ul>
 	</div>
 </div>
@@ -68,28 +68,6 @@ parent() }} {% endblock %} {% block rfccore_body %}
 			class="glyphicon glyphicon-plus"></span>
 		</a>
 	</h1>
-	<div class="list-group">
-		{% for rule in rules %}
-		<div class="row">
-			<div class="col-md-10">
-				<a href="#" class="list-group-item">
-					<h4 class="list-group-item-heading">{{ rule.name }}</h4>
-					<p class="list-group-item-text">{{ rule.value }}</p>
-				</a>
-			</div>
-			<div class="col-md-2">
-				<ul class="list-unstyled">
-					<li><a class="btn btn-info btn-xs" role="button"
-						href="{{ path(
-		'admin_rule_show', {'ruleId' : rule.id, 'gameId' : gameId }) }}"><span
-							class="glyphicon glyphicon-eye-open"></span></a></li>
-					<li><a class="btn btn-primary btn-xs" role="button"
-						href="{{ path('admin_rule_edit', {'ruleId' : rule.id, 'gameId' : gameId}) }}"><span
-							class="glyphicon glyphicon-edit"></span></a></li>
-				</ul>
-			</div>
-		</div>
-		{% endfor %}
-	</div>
+	{% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}
 </div>
 {% endblock %}

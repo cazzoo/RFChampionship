@@ -20,6 +20,7 @@ $(function() {
 	;
 
 	// Screen Championship
+	// Show events
 	$(".eventItem").click(function() {
 		$('.eventItem').removeClass('active');
 		$(this).addClass("active")
@@ -41,6 +42,28 @@ $(function() {
 			$('#listSessions').replaceWith(data);
 		}).fail(function() {
 			$('#listSessions').html("Impossible de récupérer un résultat");
+		});
+		return false;
+	});
+
+	// Register/unregister
+	$(".actionRegisterUnregister").click(function() {
+		var entityData = $(this).attr('id').split(';');
+		var data = {
+			action : entityData[0].substr(7),
+			gameId : entityData[1].substr(5),
+			championshipId : entityData[2].substr(13),
+			userId : entityData[3].substr(5),
+		};
+		$.ajax({
+			type : "POST",
+			url : Routing.generate('championship_register_user'),
+			data : data,
+			cache : false
+		}).done(function(data) {
+			$('#registrationStatus').html(data);
+		}).fail(function() {
+			$('#registrationStatus').html("Impossible d'éffectuer une action");
 		});
 		return false;
 	});

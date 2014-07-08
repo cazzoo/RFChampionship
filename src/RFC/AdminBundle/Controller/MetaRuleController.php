@@ -32,7 +32,6 @@ class MetaRuleController extends Controller
         
         return $this->render('RFCAdminBundle:MetaRule:index.html.twig', array(
             'metaRules' => $metaRules,
-            'metaRuleId' => null,
             'rules' => $rules,
             'gameId' => $gameId,
             'game' => $game

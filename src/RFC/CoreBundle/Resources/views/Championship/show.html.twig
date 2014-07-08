@@ -96,6 +96,10 @@
         Participants
     </h1>
     
+    <div id="registrationStatus">
+        {% include 'RFCCoreBundle:Championship:championshipRegistration.html.twig' with {'gameId' : game.id, 'championshipId' : entity.id} %}
+    </div>
+    
     {% for participant in entity.listUsers %}
         {{ participant.username }}
     {% endfor %}

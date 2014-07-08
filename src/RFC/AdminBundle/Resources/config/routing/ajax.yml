@@ -10,3 +10,9 @@ admin_rule_search:
     requirements: { _method: post }
     options:
         expose: true
+championship_register_user:
+    pattern: /registerChampionshipUser
+    defaults: { _controlle: "RFCCoreBundle:Championship:registerUser"}
+    requirements: { _method: post }
+    options:
+        expose: true
