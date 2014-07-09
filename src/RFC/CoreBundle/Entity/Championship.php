@@ -295,6 +295,29 @@ class Championship extends KnowledgeData
         $this->listUsers = $listUsers;
         return $this;
     }
+
+    /**
+     * Add User to list of participants
+     *
+     * @param \RFC\UserBundle\Entity\User $listUsers
+     * @return Championship
+     */
+    public function registerUser(\RFC\UserBundle\Entity\User $user)
+    {
+        $this->listUsers[] = $user;
+    
+        return $this;
+    }
+    
+    /**
+     * Remove User from list of participants
+     *
+     * @param \RFC\UserBundle\Entity\User $listManagers
+     */
+    public function unregisterUser(\RFC\UserBundle\Entity\User $user)
+    {
+        $this->listUsers->removeElement($user);
+    }
  
     public function getListImages()
     {

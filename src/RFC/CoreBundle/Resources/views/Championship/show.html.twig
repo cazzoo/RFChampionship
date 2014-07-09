@@ -97,12 +97,9 @@
     </h1>
     
     <div id="registrationStatus">
-        {% include 'RFCCoreBundle:Championship:championshipRegistration.html.twig' with {'gameId' : game.id, 'championshipId' : entity.id} %}
+        {% include 'RFCCoreBundle:Championship:registration.html.twig' with {'gameId' : game.id, 'championshipId' : entity.id, 'status' : ''} %}
     </div>
     
-    {% for participant in entity.listUsers %}
-        {{ participant.username }}
-    {% endfor %}
 </div>
 
 {% endblock %}

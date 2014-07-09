@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use RFC\CoreBundle\Entity\Championship;
 use RFC\UserBundle\Entity\User;
 
+/**
+ * Championship controller.
+ */
 class ChampionshipController extends Controller
 {
 
@@ -82,7 +85,7 @@ class ChampionshipController extends Controller
         ));
     }
 
-    public function registerUserAction()
+    public function userRegistrationAction()
     {
         $request = Request::createFromGlobals();
         
@@ -91,29 +94,33 @@ class ChampionshipController extends Controller
             $championshipId = $request->request->get('championshipId');
             $userId = $request->request->get('userId');
             $action = $request->request->get('action');
-            
-            var_dump($championshipId);
+            $gameId = $request->request->get('gameId');
             
             $em = $this->getDoctrine()->getManager();
             
             $user = $em->getRepository('RFCUserBundle:User')->find($userId);
-            $championship = $em->getRepository('RFCCoreBundle:Championship')->findBy($championshipId);
+            $championship = $em->getRepository('RFCCoreBundle:Championship')->find($championshipId);
             
             switch ($action) {
                 case 'register':
-                    $user->addListChampionship($championship);
+                    $championship->registerUser($user);
                     $em->flush();
                     break;
                 case 'unregister':
-                    $user->removeListChampionship($championship);
+                    $championship->unregisterUser($user);
                     $em->flush();
                     break;
             }
             // Returning the status of the action : 0 = nothing done, 1 = registered, 2 = unregistered
-            return $this->render('RFCCoreBundle:Championship:championshipRegistration.html.twig');
-        } else
-            return $this->render('RFCCoreBundle:Championship:championshipRegistration.html.twig', array(
-                'status' => null
+            return $this->render('RFCCoreBundle:Championship:registration.html.twig', array(
+                'status' => $action,
+                'entity' => $championship,
+                'gameId' => $gameId
             ));
+        } else {
+            return $this->render('RFCCoreBundle:Championship:registration.html.twig', array(
+                'status' => ''
+            ));
+        }
     }
 }

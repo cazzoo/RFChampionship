@@ -1,0 +1,14 @@
+.list-group-item div.editZone{
+	padding: 2px 4px;
+	border: 1px dotted grey;
+	background-color: white;
+	float: right;
+	color: red;
+	font-size: 0.5em;
+}
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+	color: #fff;
+	background-color: #428bca;
+	border-color: #428bca;
+}

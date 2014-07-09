@@ -1,18 +1,12 @@
 admin_session_search:
     pattern: /searchSession
-    defaults: { _controller: "RFCAdminBundle:Session:search"}
+    defaults: { _controller: "RFCAdminBundle:Session:search" }
     requirements: { _method: post }
     options:
         expose: true
 admin_rule_search:
     pattern: /searchRule
-    defaults: { _controller: "RFCAdminBundle:Rule:search"}
-    requirements: { _method: post }
-    options:
-        expose: true
-championship_register_user:
-    pattern: /registerChampionshipUser
-    defaults: { _controlle: "RFCCoreBundle:Championship:registerUser"}
+    defaults: { _controller: "RFCAdminBundle:Rule:search" }
     requirements: { _method: post }
     options:
         expose: true

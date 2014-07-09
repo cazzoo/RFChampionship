@@ -1,0 +1,6 @@
+ajax_user_register_championship:
+    pattern: /userRegisterChampionship
+    defaults: { _controller: "RFCCoreBundle:Championship:userRegistration" }
+    requirements: { _method: post }
+    options:
+        expose: true

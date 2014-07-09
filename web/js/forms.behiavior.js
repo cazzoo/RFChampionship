@@ -16,8 +16,29 @@ $(function() {
 			$('#rfc_corebundle_championship_listRules').parent('div')
 					.show(time);
 		}
+	};
+	
+	function registerChampionshipBehiavior() {
+		var entityData = $(this).attr('id').split(';');
+		var data = {
+			action : entityData[0].substr(7),
+			gameId : entityData[1].substr(5),
+			championshipId : entityData[2].substr(13),
+			userId : entityData[3].substr(5),
+		};
+		$.ajax({
+			type : "POST",
+			url : Routing.generate('ajax_user_register_championship'),
+			data : data,
+			cache : false
+		}).done(function(data) {
+			$('#registrationStatus').html(data);
+		}).fail(function( jqXHR, textStatus, errorThrown ) {
+			alert(jqXHR.status, errorThrown);
+			$('#registrationStatus').html("Impossible d'éffectuer l'action");
+		});
+		return false;
 	}
-	;
 
 	// Screen Championship
 	// Show events
@@ -47,26 +68,7 @@ $(function() {
 	});
 
 	// Register/unregister
-	$(".actionRegisterUnregister").click(function() {
-		var entityData = $(this).attr('id').split(';');
-		var data = {
-			action : entityData[0].substr(7),
-			gameId : entityData[1].substr(5),
-			championshipId : entityData[2].substr(13),
-			userId : entityData[3].substr(5),
-		};
-		$.ajax({
-			type : "POST",
-			url : Routing.generate('championship_register_user'),
-			data : data,
-			cache : false
-		}).done(function(data) {
-			$('#registrationStatus').html(data);
-		}).fail(function() {
-			$('#registrationStatus').html("Impossible d'éffectuer une action");
-		});
-		return false;
-	});
+	$("#registrationStatus").on('click', '.actionRegisterUnregister', registerChampionshipBehiavior);
 
 	// Screen MetaRule
 	$("div.metaRuleItem").click(function() {

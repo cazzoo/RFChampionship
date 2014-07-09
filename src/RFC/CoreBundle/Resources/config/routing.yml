@@ -1,28 +1,32 @@
 rfcCore_accueil:
     path:   /
-    defaults: { _controller: RFCCoreBundle:Core:index } 
+    defaults: { _controller: "RFCCoreBundle:Core:index" } 
     
 rfcCore_gameSelection:
     path:   /{gameId}/
-    defaults: { _controller: RFCCoreBundle:Core:accessGame } 
+    defaults: { _controller: "RFCCoreBundle:Core:accessGame" } 
     requirements:
         gameId: \d*
 
 rfcCore_calendar:
     path:   /{gameId}/Calendar
-    defaults: { _controller: RFCCoreBundle:Calendar:index }
+    defaults: { _controller: "RFCCoreBundle:Calendar:index" }
     requirements:
         gameId: \d*
         
 rfcCore_championships:
     path:   /{gameId}/Championships
-    defaults: { _controller: RFCCoreBundle:Championship:index }
+    defaults: { _controller: "RFCCoreBundle:Championship:index" }
     requirements:
         gameId: \d*
         
 rfcCore_championships_show:
     path:   /{gameId}/Championship_{championshipId}/
-    defaults: { _controller: RFCCoreBundle:Championship:show }
+    defaults: { _controller: "RFCCoreBundle:Championship:show" }
     requirements:
         gameId: \d*
         championshipId: \d*
+
+RFCAjax:
+     resource: "@RFCCoreBundle/Resources/config/routing/ajax.yml"
+     prefix:   /
