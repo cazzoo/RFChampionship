@@ -16,8 +16,9 @@ $(function() {
 			$('#rfc_corebundle_championship_listRules').parent('div')
 					.show(time);
 		}
-	};
-	
+	}
+	;
+
 	function registerChampionshipBehiavior() {
 		var entityData = $(this).attr('id').split(';');
 		var data = {
@@ -33,7 +34,7 @@ $(function() {
 			cache : false
 		}).done(function(data) {
 			$('#registrationStatus').html(data);
-		}).fail(function( jqXHR, textStatus, errorThrown ) {
+		}).fail(function(jqXHR, textStatus, errorThrown) {
 			alert(jqXHR.status, errorThrown);
 			$('#registrationStatus').html("Impossible d'éffectuer l'action");
 		});
@@ -68,7 +69,8 @@ $(function() {
 	});
 
 	// Register/unregister
-	$("#registrationStatus").on('click', '.actionRegisterUnregister', registerChampionshipBehiavior);
+	$("#registrationStatus").on('click', '.actionRegisterUnregister',
+			registerChampionshipBehiavior);
 
 	// Screen MetaRule
 	$("div.metaRuleItem").click(function() {
@@ -101,6 +103,10 @@ $(function() {
 		$(this).children(".editZone").hide();
 	})
 
+	// --------------------------------------------
+	// ----------------- Image collection behiavior
+	// --------------------------------------------
+
 	// Comportement pour les images dans les formulaires
 	// Récupère le div qui contient la collection de tags
 	var collectionHolder = $('ul.images');
@@ -109,56 +115,67 @@ $(function() {
 	var $addImageLink = $('<a href="#" class="add_image_link">Ajouter une image</a>');
 	var $newLinkLi = $('<li></li>').append($addImageLink);
 
-	jQuery(document).ready(function() {
-		// ajoute un lien de suppression à tous les éléments li de
-		// formulaires de tag existants
-		collectionHolder.find('li').each(function() {
-			addImageFormDeleteLink($(this));
-		});
+	jQuery(document)
+			.ready(
+					function() {
+						// ajoute un lien de suppression à tous les éléments li
+						// de
+						// formulaires de tag existants
+						collectionHolder.find('li').each(function() {
+							addImageFormDeleteLink($(this));
+						});
 
-		// ajoute l'ancre « ajouter un tag » et li à la balise ul
-		collectionHolder.append($newLinkLi);
+						// ajoute l'ancre « ajouter un tag » et li à la balise
+						// ul
+						collectionHolder.append($newLinkLi);
 
-		$addImageLink.on('click', function(e) {
-			// empêche le lien de créer un « # » dans l'URL
-			e.preventDefault();
+						$addImageLink.on('click', function(e) {
+							// empêche le lien de créer un « # » dans l'URL
+							e.preventDefault();
 
-			// ajoute un nouveau formulaire tag (voir le prochain bloc de code)
-			addImageForm(collectionHolder, $newLinkLi);
-		});
-	});
+							// ajoute un nouveau formulaire tag (voir le
+							// prochain bloc de code)
+							addImageForm(collectionHolder, $newLinkLi);
+						});
 
-	function addImageForm(collectionHolder, $newLinkLi) {
-		// Récupère l'élément ayant l'attribut data-prototype comme expliqué
-		// plus tôt
-		var prototype = collectionHolder.attr('data-prototype');
+						function addImageForm(collectionHolder, $newLinkLi) {
+							// Récupère l'élément ayant l'attribut
+							// data-prototype comme expliqué
+							// plus tôt
+							var prototype = collectionHolder
+									.attr('data-prototype');
 
-		// Remplace '__name__' dans le HTML du prototype par un nombre basé sur
-		// la longueur de la collection courante
-		var newForm = prototype.replace(/__name__/g, collectionHolder
-				.children().length);
+							// Remplace '__name__' dans le HTML du prototype par
+							// un nombre basé sur
+							// la longueur de la collection courante
+							var newForm = prototype.replace(/__name__/g,
+									collectionHolder.children().length);
 
-		// Affiche le formulaire dans la page dans un li, avant le lien "ajouter
-		// une image"
-		var $newFormLi = $('<li></li>').append(newForm);
-		$newLinkLi.before($newFormLi);
+							// Affiche le formulaire dans la page dans un li,
+							// avant le lien "ajouter
+							// une image"
+							var $newFormLi = $('<li></li>').append(newForm);
+							$newLinkLi.before($newFormLi);
 
-		// ajoute un lien de suppression au nouveau formulaire
-		addImageFormDeleteLink($newFormLi);
-	}
+							// ajoute un lien de suppression au nouveau
+							// formulaire
+							addImageFormDeleteLink($newFormLi);
+						}
 
-	function addImageFormDeleteLink($imageFormLi) {
-		var $removeFormA = $('<a href="#">Supprimer cette image</a>');
-		$imageFormLi.append($removeFormA);
+						function addImageFormDeleteLink($imageFormLi) {
+							var $removeFormA = $('<a href="#">Supprimer cette image</a>');
+							$imageFormLi.append($removeFormA);
 
-		$removeFormA.on('click', function(e) {
-			// empêche le lien de créer un « # » dans l'URL
-			e.preventDefault();
+							$removeFormA.on('click', function(e) {
+								// empêche le lien de créer un « # » dans l'URL
+								e.preventDefault();
 
-			// supprime l'élément li pour le formulaire de tag
-			$imageFormLi.remove();
-		});
-	}
+								// supprime l'élément li pour le formulaire de
+								// tag
+								$imageFormLi.remove();
+							});
+						}
+					});
 
 	// Init phase
 	toggleRules(0);
