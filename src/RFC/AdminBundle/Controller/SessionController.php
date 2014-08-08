@@ -273,6 +273,7 @@ class SessionController extends Controller
             $sessions = $em->getRepository('RFCCoreBundle:Session')->findBy(array(
                 'event' => $eventId
             ));
+            
             return $this->render('RFCAdminBundle:Session:list.html.twig', array(
                 'gameId' => $gameId,
                 'championshipId' => $championshipId,

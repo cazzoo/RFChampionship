@@ -14,12 +14,14 @@
         {% for rule in rules %}
             {% if rule.typeSession != typeSession %}
                 {% set typeSession = rule.typeSession %}
-                <tr class="info"><td colspan="2">{{ typeSession }}</td></tr>
+                <tr class="info">
+                    <td colspan="2"><strong>{{ typeSession }}</strong></td>
+                </tr>
             {% endif %}
             <tr>
                <td>
                    <span data-toggle="tooltip" data-placement="bottom" title="{{ rule.description }}">
-                       {{ rule.name }}
+                       &nbsp; &nbsp; {{ rule.name }}
                        <span class="glyphicon glyphicon-info-sign"></span>
                    </span>
                </td>

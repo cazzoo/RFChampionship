@@ -27,7 +27,9 @@ class EventType extends AbstractType
         
         $builder->add('name')
             ->add('description', 'textarea')
-            ->add('listBroadcast', 'text', array('required' => false))
+            ->add('listBroadcast', 'text', array(
+            'required' => false
+        ))
             ->add('track', 'entity', array(
             'required' => false,
             'class' => 'RFCCoreBundle:Track',
@@ -60,6 +62,9 @@ class EventType extends AbstractType
                     ->where('c.game = :gameId')
                     ->setParameter('gameId', $gameId);
             }
+        ))
+            ->add('commentsActive', 'checkbox', array(
+            'required' => false
         ))
             ->add('championship', 'entity', array(
             'class' => 'RFC\CoreBundle\Entity\Championship'
