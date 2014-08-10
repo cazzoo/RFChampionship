@@ -13,6 +13,12 @@ rfcCore_calendar:
     defaults: { _controller: "RFCCoreBundle:Calendar:index" }
     requirements:
         gameId: \d*
+
+rfcCore_user:
+    path:   /{gameId}/User
+    defaults: { _controller: "RFCCoreBundle:User:index" }
+    requirements:
+        gameId: \d*
         
 rfcCore_championships:
     path:   /{gameId}/Championships

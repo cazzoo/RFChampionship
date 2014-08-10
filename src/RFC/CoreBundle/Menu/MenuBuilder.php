@@ -48,6 +48,12 @@ class MenuBuilder
                 'routeParameters' => array(
                     'gameId' => $request->get('gameId')
                 )
+            ),
+            'User' => array(
+                'route' => 'rfcCore_user',
+                'routeParameters' => array(
+                    'gameId' => $request->get('gameId')
+                )
             )
         );
         
@@ -93,6 +99,22 @@ class MenuBuilder
             case 'rfcCore_championships_show':
                 $menu->addChild('Championships', array(
                     'route' => 'rfcCore_championships',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
+            case 'rfcCore_calendar':
+                $menu->addChild('Calendar', array(
+                    'route' => 'rfcCore_calendar',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
+            case 'rfcCore_user':
+                $menu->addChild('User', array(
+                    'route' => 'rfcCore_user',
                     'routeParameters' => array(
                         'gameId' => $request->get('gameId')
                     )

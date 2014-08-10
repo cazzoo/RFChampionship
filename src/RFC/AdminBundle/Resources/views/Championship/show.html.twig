@@ -113,13 +113,13 @@ parent() }} {% endblock %} {% block rfccore_body %}
 </div>
 <hr />
 <div>
-	<h1>
+	<h3>
 		Rules {% if entity.isAgreed != true %}<a
 			class="btn btn-inverse btn-xs" role="button"
 			href="{{ path('admin_rule_new', {'gameId' : game[0].id}) }}"> <span
 			class="glyphicon glyphicon-plus"></span>
 		</a>{% endif %}
-	</h1>
+	</h3>
 	<div class="list-group">
 		{% if entity.isAgreed %}
 		  {% set rules = entity.metaRule.listRules %}
@@ -128,6 +128,17 @@ parent() }} {% endblock %} {% block rfccore_body %}
 		{% endif %}
 		{% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}
 	</div>
+</div>
+<hr />
+<div>
+	<h3>
+		Participants
+	</h3>
+	
+    {% for participant in entity.listUsers %}
+        {{ participant.username }}
+    {% endfor %}
+
 </div>
 
 {% endblock %}

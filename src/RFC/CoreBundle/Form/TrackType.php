@@ -16,7 +16,9 @@ class TrackType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name')
-            ->add('description', 'textarea')
+            ->add('description', 'textarea', array(
+            'required' => false
+        ))
             ->add('commentsActive', 'checkbox', array(
             'required' => false
         ))

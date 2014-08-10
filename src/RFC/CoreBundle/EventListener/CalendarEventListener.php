@@ -63,6 +63,9 @@ class CalendarEventListener
                 }
             // $eventEntity->setUrl('http://www.google.com'); // url to send user to when event label is clicked
             // $eventEntity->setCssClass('my-custom-class'); // a custom class you may want to apply to event labels
+            $game = $session->getEvent()->getChampionship()->getGame();
+            $event = $session->getEvent();
+            $eventEntity->setUrl('http://127.0.0.1/RFChampionship/web/app_dev.php/'. $game->getId() .'/Championship_'.$event->getId());
             
             // finally, add the event to the CalendarEvent for displaying on the calendar
             $calendarEvent->addEvent($eventEntity);
