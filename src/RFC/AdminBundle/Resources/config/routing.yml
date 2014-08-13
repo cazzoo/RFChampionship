@@ -7,6 +7,9 @@ RFCAdmin_user:
 RFCAdmin_game:
     resource: "@RFCAdminBundle/Resources/config/routing/game.yml"
     prefix:   /admin/game
+RFCAdmin_system:
+    resource: "@RFCAdminBundle/Resources/config/routing/system.yml"
+    prefix:   /admin/system
 RFCAdmin_championship:
     resource: "@RFCAdminBundle/Resources/config/routing/championship.yml"
     prefix:   /admin/game/{gameId}/championship

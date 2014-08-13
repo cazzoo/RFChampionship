@@ -1,0 +1,3 @@
+admin_system:
+    pattern:  /
+    defaults: { _controller: "RFCAdminBundle:System:index" }
