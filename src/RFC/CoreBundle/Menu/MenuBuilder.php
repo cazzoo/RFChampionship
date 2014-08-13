@@ -70,6 +70,18 @@ class MenuBuilder
                 'routeParameters' => array(
                     'gameId' => $request->get('gameId')
                 )
+            ),
+            'Crew' => array(
+                'route' => 'rfcCore_crew',
+                'routeParameters' => array(
+                    'gameId' => $request->get('gameId')
+                )
+            ),
+            'Members' => array(
+                'route' => 'rfcCore_members',
+                'routeParameters' => array(
+                    'gameId' => $request->get('gameId')
+                )
             )
         );
         
@@ -131,6 +143,22 @@ class MenuBuilder
             case 'rfcCore_user':
                 $menu->addChild('User', array(
                     'route' => 'rfcCore_user',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
+            case 'rfcCore_crew':
+                $menu->addChild('Crew', array(
+                    'route' => 'rfcCore_crew',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
+            case 'rfcCore_members':
+                $menu->addChild('Members', array(
+                    'route' => 'rfcCore_members',
                     'routeParameters' => array(
                         'gameId' => $request->get('gameId')
                     )

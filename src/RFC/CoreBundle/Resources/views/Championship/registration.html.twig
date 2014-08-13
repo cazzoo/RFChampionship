@@ -14,24 +14,26 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% if status == '' %}
-    {% if app.user.username in entity.listUsers %}
-        <span class="info">Vous êtes déjà inscrit à ce championnat</span><br />
-        <a id="action_unregister;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" role="button" class="actionRegisterUnregister btn btn-inverse">Se désinscrire</a>
+{% if app.user %}
+    {% if status == '' %}
+        {% if app.user.username in entity.listUsers %}
+            <span class="info">Vous êtes déjà inscrit à ce championnat</span><br />
+            <a id="action_unregister;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" role="button" class="actionRegisterUnregister btn btn-inverse">Se désinscrire</a>
+        {% else %}
+            <span class="info">Vous n'êtes pas inscrit à ce championnat</span><br />
+            <a id="action_register;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" role="button" class="actionRegisterUnregister btn btn-inverse">S'inscrire</a>
+        {% endif %}
     {% else %}
-        <span class="info">Vous n'êtes pas inscrit à ce championnat</span><br />
-        <a id="action_register;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" role="button" class="actionRegisterUnregister btn btn-inverse">S'inscrire</a>
+        {% if status == 'register' %}
+            <span class="info">Vous êtes déjà inscrit à ce championnat</span><br />
+            <a id="action_unregister;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" role="button" class="actionRegisterUnregister btn btn-inverse">Se désinscrire</a>
+        {% elseif status == 'unregister' %}
+            <span class="info">Vous n'êtes pas inscrit à ce championnat</span><br />
+            <a id="action_register;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" role="button" class="actionRegisterUnregister btn btn-inverse">S'inscrire</a>
+        {% endif %}
     {% endif %}
-{% else %}
-    {% if status == 'register' %}
-        <span class="info">Vous êtes déjà inscrit à ce championnat</span><br />
-        <a id="action_unregister;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" role="button" class="actionRegisterUnregister btn btn-inverse">Se désinscrire</a>
-    {% elseif status == 'unregister' %}
-        <span class="info">Vous n'êtes pas inscrit à ce championnat</span><br />
-        <a id="action_register;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" role="button" class="actionRegisterUnregister btn btn-inverse">S'inscrire</a>
-    {% endif %}
+    <br />
 {% endif %}
-<br />
 {% for participant in entity.listUsers %}
     {{ participant.username }}
 {% endfor %}

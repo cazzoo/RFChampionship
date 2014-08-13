@@ -19,6 +19,25 @@ rfcCore_user:
     defaults: { _controller: "RFCCoreBundle:User:index" }
     requirements:
         gameId: \d*
+
+rfcCore_crew:
+    path:   /{gameId}/Crew
+    defaults: { _controller: "RFCCoreBundle:Crew:index" }
+    requirements:
+        gameId: \d*
+
+rfcCore_members:
+    path:   /{gameId}/Members
+    defaults: { _controller: "RFCCoreBundle:Members:index" }
+    requirements:
+        gameId: \d*
+
+rfcCore_members_show:
+    path:   /{gameId}/Members/{userId}
+    defaults: { _controller: "RFCCoreBundle:Members:show" }
+    requirements:
+        gameId: \d*
+        userId: \d*
         
 rfcCore_championships:
     path:   /{gameId}/Championships

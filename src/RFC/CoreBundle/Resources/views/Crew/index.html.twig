@@ -14,26 +14,28 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/CoreBundle/Resources/views/Core/gameIndex.html.twig #}
+{# src/RFC/CoreBundle/Resources/views/Crew/index.html.twig #}
 
 {% extends "RFCCoreBundle::layout.html.twig" %}
 
 {% block rfccore_body %}
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Championnats en cours / à venir</div>
-        <div class="panel-body">
-            {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with
-                {'championships' : currentChampionships, 'game' : game} %} 
-        </div>
-    </div>
-
-    <div class="panel panel-default">
-        <div class="panel-heading">Championnats passés</div>
-        <div class="panel-body">
-            {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with
-                {'championships' : pastChampionships, 'game' : game} %} 
-        </div>
-    </div>
+    <h2>My Crew</h2>
+    
+{% if app.user %}
+    {%  if app.user.mentor %} {# belonging to a crew as a mentor exists #}
+    You belong ton {{ app.user.mentor }}'s crew.
+    <br />Feel free to participate. 
+    {# import crew page #}
+    {# show crew infos #}
+    {# show crew quit button #}
+    {% else %}
+        You do not belong to any crew.<br />
+        Ask for it or get invited to any crew.
+        {# show form to become crew member #}
+    {% endif %}
+{% else %}
+    You need to log-in / register to belong a crew.
+{% endif %}
 
 {% endblock %}

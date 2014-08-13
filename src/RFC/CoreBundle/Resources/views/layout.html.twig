@@ -48,9 +48,10 @@
 	   {% block rfccore_breadcrumbs %}{% include 'RFCCoreBundle::Structure/breadcrumbs.html.twig' %}{% endblock %}
     {% endif %}
 	{% block rfccore_body %}{% endblock %}
-
-    {% block footer %}
-    	{% include 'RFCCoreBundle::Structure/footer.html.twig' %}
-    {% endblock %}
+	{% block rfccore_comments %}{% include 'RFCCoreBundle::Structure/comments.html.twig' %}{% endblock %}
 	
+{% endblock %}
+
+{% block footer %}
+    {% include 'RFCCoreBundle::Structure/footer.html.twig' %}
 {% endblock %}

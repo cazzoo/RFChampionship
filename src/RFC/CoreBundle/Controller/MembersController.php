@@ -15,14 +15,14 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
-// src/RFC/CoreBundle/Controller/UserController.php
+// src/RFC/CoreBundle/Controller/MembersController.php
 namespace RFC\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use RFC\CoreBundle\Entity\Game;
 
-class UserController extends Controller
+class MembersController extends Controller
 {
 
     public function indexAction($gameId)
@@ -31,10 +31,27 @@ class UserController extends Controller
         
         $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
+        $users = $em->getRepository('RFCUserBundle:User')->findAll();
         
-        return $this->render('RFCCoreBundle:User:index.html.twig', array(
+        return $this->render('RFCCoreBundle:Members:index.html.twig', array(
             'game' => $game,
-            'games' => $games
+            'games' => $games,
+            'users' => $users
+        ));
+    }
+    
+    public function showAction($gameId, $userId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
+        $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
+        $user = $em->getRepository('RFCUserBundle:User')->findOneById($userId);
+        
+        return $this->render('RFCCoreBundle:Members:show.html.twig', array(
+            'game' => $game,
+            'games' => $games,
+            'user' => $user
         ));
     }
 }

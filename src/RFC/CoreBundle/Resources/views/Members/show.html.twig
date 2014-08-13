@@ -1,0 +1,56 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# src/RFC/CoreBundle/Resources/views/Members/index.html.twig #}
+
+{% extends "RFCCoreBundle::layout.html.twig" %}
+
+{% block rfccore_body %}
+
+{% if user %}
+    <h2>You'r looking at {{ user.username }}'s profile</h2>
+    
+    <dl>
+        <dt>UserName</dt>
+        <dd>{{ user.username }}</dd>
+        <dt>First Name</dt>
+        <dd>{{ user.firstName }}</dd>
+        <dt>Last Name</dt>
+        <dd>{{ user.lastName }}</dd>
+        <dt>Age</dt>
+        <dd>{{ user.age }}</dd>
+        <dt>Steam Id</dt>
+        <dd>{{ user.steamId }}</dd>
+        <dt>Mentor</dt>
+        <dd>{% if user.mentor %}{{ user.mentor.username }}{% else %} - {% endif %}</dd>
+        <dt>Email</dt>
+        <dd>{{ user.email }}</dd>
+        <dt>Last login</dt>
+        <dd>{{ user.lastLogin|date('H:i:s - d-m-Y') }}</dd> {# TODO : |localizeddate('long', 'short') #}
+        <dt>Roles</dt>
+        <dd>
+            <ul class="list-inline">
+                {% for role in user.roles %}
+                    <li>{{ role }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+    </dl>
+{% else %}
+    No user for this ID ({{ app.request.get('userId') }}).
+{% endif %}
+
+{% endblock %}

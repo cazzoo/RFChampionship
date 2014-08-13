@@ -15,14 +15,14 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
-// src/RFC/CoreBundle/Controller/UserController.php
+// src/RFC/CoreBundle/Controller/CrewController.php
 namespace RFC\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use RFC\CoreBundle\Entity\Game;
 
-class UserController extends Controller
+class CrewController extends Controller
 {
 
     public function indexAction($gameId)
@@ -32,7 +32,7 @@ class UserController extends Controller
         $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
         
-        return $this->render('RFCCoreBundle:User:index.html.twig', array(
+        return $this->render('RFCCoreBundle:Crew:index.html.twig', array(
             'game' => $game,
             'games' => $games
         ));

@@ -14,33 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/CoreBundle/Resources/views/User/index.html.twig #}
-
-{% extends "RFCCoreBundle::layout.html.twig" %}
-
-{% block rfccore_body %}
-
-    <h2>Mon compte</h2>
-    
-    <div class="panel panel-default">
-        <div class="panel-heading">Mes infos</div>
-        <div class="panel-body">
-            Panel content
-        </div>
-    </div>
-    
-    <div class="panel panel-default">
-        <div class="panel-heading">Championnats</div>
-        <div class="panel-body">
-            Panel content
-        </div>
-    </div>
-    
-    <div class="panel panel-default">
-        <div class="panel-heading">Statistiques</div>
-        <div class="panel-body">
-            Panel content
-        </div>
-    </div>
-
-{% endblock %}
+{% if threadId is defined %}
+    <hr />
+    {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': threadId} %}
+{% endif %}

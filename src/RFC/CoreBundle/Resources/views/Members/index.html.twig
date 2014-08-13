@@ -14,26 +14,31 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/CoreBundle/Resources/views/Core/gameIndex.html.twig #}
+{# src/RFC/CoreBundle/Resources/views/Members/index.html.twig #}
 
 {% extends "RFCCoreBundle::layout.html.twig" %}
 
 {% block rfccore_body %}
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Championnats en cours / à venir</div>
-        <div class="panel-body">
-            {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with
-                {'championships' : currentChampionships, 'game' : game} %} 
-        </div>
-    </div>
-
-    <div class="panel panel-default">
-        <div class="panel-heading">Championnats passés</div>
-        <div class="panel-body">
-            {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with
-                {'championships' : pastChampionships, 'game' : game} %} 
-        </div>
-    </div>
+    <h2>Member list</h2>
+    
+    <table class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th>Username</th>
+				<th>Steam ID</th>
+				<th>Mentor</th>
+			</tr>
+		</thead>
+		<tbody data-link="row" class="rowlink">
+			{% for user in users %}
+                <tr>
+                    <td><a href="{{ path('rfcCore_members_show', { 'userId': user.id, 'gameId': game.id  }) }}">{{ user.username }}</a></td>
+                    <td>{% if user.steamId %}{{ user.steamId }}{% else %} - {% endif %}</td>
+                    <td>{% if user.mentor %}{{ user.mentor.username }}{% else %} - {% endif %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}
