@@ -1,0 +1,40 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{% block fos_user_content %}
+{% endblock fos_user_content %}
+{% if games|length > 1 %}
+    <div class="dropdown">
+    	<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    		Liste des jeux<span class="caret"></span>
+    	</button>
+    	<span class="dropdown-arrow dropdown-arrow-inverse"></span>
+    	<ul class="dropdown-menu dropdown-inverse">
+    		{% for gamedd in games %}
+    		  {% if (game.id != gamedd.id) %}
+    		      <li>
+    		          <a href="{{ path('rfcCore_gameSelection', {'gameId': gamedd.id}) }}">{{ gamedd.name }}</a>
+    			  </li>
+    			{% endif %}
+    		{% endfor %}
+    	</ul>
+    </div>
+<a href="{{ path('rfcCore_accueil') }}" class="btn btn-inverse btn-xs" role="button">Sélectionner un autre jeu</a>
+{% endif %}
+
+{% if is_granted('ROLE_ADMIN') %}
+   <a href="{{ path('RFCAdmin_index') }}" class="btn btn-danger btn-xs" role="button">Administration</a>
+{% endif %}

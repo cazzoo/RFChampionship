@@ -112,6 +112,7 @@ services:
         scope: request
         tags:
             - { name: knp_menu.menu, alias: main } # L'alias est très important, c'est avec lui que vous appellerez votre menu dans la vue
+    
     # le breadcrumbs
     rfc_core.menu.breadcrumb:
         class: Knp\Menu\MenuItem
@@ -121,3 +122,28 @@ services:
         scope: request
         tags:
             - { name: knp_menu.menu, alias: breadcrumb } # L'alias est utilisé dans le template
+            
+    # le service de constructeur de menus. Peut servir à créer plusieurs menus
+    rfc_admin.menu_builder:
+        class: RFC\AdminBundle\Menu\MenuBuilder
+        arguments: ["@knp_menu.factory"]
+
+    # le menu admin
+    rfc_admin.menu.main:
+        class: Knp\Menu\MenuItem
+        factory_service: rfc_admin.menu_builder
+        factory_method: createAdminMenu
+        arguments: ["@request"]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: main_admin } # L'alias est très important, c'est avec lui que vous appellerez votre menu dans la vue
+    
+    # le breadcrumbs admin
+    rfc_admin.menu.breadcrumb:
+        class: Knp\Menu\MenuItem
+        factory_service: rfc_admin.menu_builder # le service du constructeur vu juste au-dessus
+        factory_method: createAdminBreadcrumbMenu # la méthode appelée pour générer le menu
+        arguments: ["@request"]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: breadcrumb_admin } # L'alias est utilisé dans le template

@@ -16,7 +16,9 @@
 
 {% extends "RFCAdminBundle::layout.html.twig" %} {% block title %} Admin
 - {{ parent() }} {% endblock %} {% block rfccore_body %}
-<h1>User list</h1>
+<h1>User list <a class="btn btn-inverse btn-xs" role="button"
+			href="{{ path('admin_user_new') }}"><span
+			class="glyphicon glyphicon-plus"></span> </a></h1>
 
 <table class="records_list">
 	<thead>
@@ -62,8 +64,4 @@
 		{% endfor %}
 	</tbody>
 </table>
-
-<ul>
-	<li><a href="{{ path('admin_user_new') }}"> Create a new entry </a></li>
-</ul>
 {% endblock %}
