@@ -4,3 +4,10 @@ ajax_user_register_championship:
     requirements: { _method: post }
     options:
         expose: true
+        
+ajax_properties_update:
+    pattern: /updateProperties}
+    defaults: { _controller: "RFCAdminBundle:System:updateProperties" }
+    requirements: { _method: post }
+    options:
+        expose: true

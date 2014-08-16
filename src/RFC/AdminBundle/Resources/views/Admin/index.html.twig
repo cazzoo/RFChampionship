@@ -21,6 +21,7 @@ extends "RFCAdminBundle::layout.html.twig" %} {% block title %} Admin -
 <h2>Administration globale</h2>
 
 <ul>
+	<li><a href="{{ path('admin_system') }}">System</a></li>
 	<li><a href="{{ path('admin_game') }}">Gestion des jeux</a></li>
 	<li><a href="{{ path('admin_user') }}">Gestion des utilisateurs</a></li>
 </ul>

@@ -18,6 +18,7 @@
 namespace RFC\AdminBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use RFC\CoreBundle\Entity\Game;
 use RFC\CoreBundle\Form\GameType;
@@ -35,8 +36,38 @@ class SystemController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $properties = $em->getRepository("RFCCoreBundle:Property")->findAll();
         
         return $this->render('RFCAdminBundle:System:index.html.twig', array(
+            'properties' => $properties
         ));
+    }
+    
+    public function updatePropertiesAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $p = $em->getRepository("RFCCoreBundle:Property")->findAll();
+        
+        $params = array();
+        $content = $this->get("request")->getContent();
+        if (!empty($content))
+        {
+            $params = json_decode($content, true); // 2nd param to get as array
+        }
+        
+        for($i=0, $size = count($p); $i < $size; ++$i)
+        {
+            $p[$i]->setValue($params[$i][$i+1]);
+        }
+        
+        try{
+            $em->flush();
+            $jsonResponse = new JsonResponse($p, 200);
+        } catch (Exception $e){
+            $jsonResponse = new JsonResponse($p, 400);
+        }
+        
+        
+        return $jsonResponse;
     }
 }

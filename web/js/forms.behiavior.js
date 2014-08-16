@@ -1,3 +1,6 @@
+// JS Initialization
+$.fn.editable.defaults.mode = 'inline';
+
 $(function() {
 
 	// Behiavior
@@ -40,9 +43,73 @@ $(function() {
 		});
 		return false;
 	}
+    
+    // Screen Admin : System
+	// --------------------------------------------
+	// ----------------- Properties editing
+	// --------------------------------------------
+    $('.editable_property').editable();
+    
+    $('.editable_property').on('save', function(){
+        var that = this;
+        var oldItemValue = $(that)[0].innerHTML;
+        if (!$(that).attr('oldValue')) {
+            console.log('Persisting original value: ' + oldItemValue)
+            $(that).attr('oldValue', oldItemValue);
+        }
+    });
+    
+    $('#confirm-btn').click(function() {
+        var json = [];
+        $('#mainProperties').find('tbody tr').each(function() {
+            var obj = {},
+                $td = $(this).find('td'),
+                key = $td.eq(0).text(),
+                val = $td.eq(3).text();
+            obj[key] = val;
+            json.push(obj);
+        });
+        var jsonFormatted = JSON.stringify(json);
+        $('.editable_property').editable('submit', { 
+           url: Routing.generate('ajax_properties_update'),
+           ajaxOptions: {
+        	   data: jsonFormatted,
+               dataType: 'json' //assuming json response
+           },
+           success: function(data, config) {
+               //remove unsaved class
+               $(this).removeClass('editable-unsaved').removeAttr('oldValue');
+               //show messages
+               var msg = 'Properties updated!';
+               $('#msg').addClass('alert-success').removeClass('alert-error').html(msg).show();
+               $(this).off('save');
+           },
+           error: function(errors) {
+               var msg = '';
+               if(errors && errors.responseText) { //ajax error, errors = xhr object
+                   msg = errors.responseText;
+               } else { //validation error (client-side or server-side)
+                   $.each(errors, function(k, v) { msg += k+": "+v+"<br />"; });
+               } 
+               $('#msg').removeClass('alert-success').addClass('alert-error').html(msg).show();
+           }
+        });
+    });
+    
+    $('#reset-btn').click(function() {
+        $('.editable_property').each(function() {
+            var o = $(this);
+            o.editable('setValue', o.attr('oldValue'))	//clear values
+             .editable('option', 'pk', o.attr('pk'))	//clear pk
+             .removeClass('editable-unsaved')
+             .removeAttr('oldValue');
+        });
+    });
 
 	// Screen Championship
-	// Show events
+	// --------------------------------------------
+	// ----------------- Show events
+	// --------------------------------------------
 	$(".eventItem").click(function() {
 		$('.eventItem').removeClass('active');
 		$(this).addClass("active")
@@ -68,11 +135,16 @@ $(function() {
 		return false;
 	});
 
-	// Register/unregister
+	// --------------------------------------------
+	// ----------------- Register/unregister
+	// --------------------------------------------
 	$("#registrationStatus").on('click', '.actionRegisterUnregister',
 			registerChampionshipBehiavior);
 
 	// Screen MetaRule
+	// --------------------------------------------
+	// ----------------- Show rules / metaRules
+	// --------------------------------------------
 	$("div.metaRuleItem").click(function() {
 		$('.metaRuleItem').removeClass('active');
 		$(this).addClass("active")
