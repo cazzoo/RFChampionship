@@ -70,7 +70,7 @@ class MenuBuilder
         if ($request->get('gameId') != null) {
             $nav['Organization'] = array(
                 'route' => '',
-                'type' => 'item'
+                'type' => 'label'
             );
             $nav['Championships'] = array(
                 'route' => 'admin_championship',
@@ -124,10 +124,11 @@ class MenuBuilder
             $menu->addChild($name, $params);
             if (preg_match('/^' . $params['route'] . '/', $routeName)) {
                 $menu[$name]->setAttribute('class', 'active');
-            } else 
-                if (preg_match('/^' . $params['type'] . '/', 'label')) {
-                    $menu[$name]->setAttribute('class', 'disabled');
-                }
+            }
+            if (preg_match('/^' . $params['type'] . '/', 'label')) {
+                $menu[$name]->setAttribute('class', 'disabled');
+                $menu[$name]->setAttribute('style', 'border-bottom: 1px solid black;');
+            }
         }
         
         return $menu;
@@ -154,9 +155,109 @@ class MenuBuilder
         
         // crée le menu en fonction de la route
         switch ($routeName) {
-            case 'rfcCore_members':
-                $menu->addChild('Members', array(
-                    'route' => 'rfcCore_members',
+            case 'admin_system':
+                $menu->addChild('System', array(
+                    'route' => 'admin_system',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
+            case 'admin_user':
+                $menu->addChild('Users', array(
+                    'route' => 'admin_user',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
+            case 'admin_game':
+                $menu->addChild('Games', array(
+                    'route' => 'admin_game',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
+            case 'admin_championship':
+                $menu->addChild($request->get('gameId'), array(
+                    'route' => 'admin_championship',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                $menu->addChild('Championships', array(
+                    'route' => 'admin_championship',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
+            case 'admin_vehicle':
+                $menu->addChild($request->get('gameId'), array(
+                    'route' => 'admin_championship',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                $menu->addChild('Vehicles', array(
+                    'route' => 'admin_vehicle',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
+            case 'admin_track':
+                $menu->addChild($request->get('gameId'), array(
+                    'route' => 'admin_championship',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                $menu->addChild('Tracks', array(
+                    'route' => 'admin_track',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
+            case 'admin_category':
+                $menu->addChild($request->get('gameId'), array(
+                    'route' => 'admin_championship',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                $menu->addChild('Categories', array(
+                    'route' => 'admin_category',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
+            case 'admin_metaRule':
+                $menu->addChild($request->get('gameId'), array(
+                    'route' => 'admin_championship',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                $menu->addChild('Rules', array(
+                    'route' => 'admin_metaRule',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
+            case 'admin_typeSession':
+                $menu->addChild($request->get('gameId'), array(
+                    'route' => 'admin_championship',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                $menu->addChild('Session types', array(
+                    'route' => 'admin_typeSession',
                     'routeParameters' => array(
                         'gameId' => $request->get('gameId')
                     )

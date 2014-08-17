@@ -16,52 +16,52 @@
 
 {% extends "RFCAdminBundle::layout.html.twig" %} {% block title %} Admin
 - {{ parent() }} {% endblock %} {% block rfccore_body %}
-<h1>User list <a class="btn btn-inverse btn-xs" role="button"
-			href="{{ path('admin_user_new') }}"><span
-			class="glyphicon glyphicon-plus"></span> </a></h1>
 
-<table class="records_list">
-	<thead>
-		<tr>
-			<th>Username</th>
-			<th>Email</th>
-			<th>Roles</th>
-			<th>Firstname</th>
-			<th>Lastname</th>
-			<th>Age</th>
-			<th>Avatarurl</th>
-			<th>Steamid</th>
-			<th>Actions</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for entity in entities %}
-		<tr>
-			<td><a href="{{ path('admin_user_show', { 'userId': entity.id }) }}">{{
-					entity.username }}</a></td>
-			<td>{{ entity.email }}</td>
-			<td>
-				<ul class='list-unstyled'>
-					{% for role in entity.roles %}
-					<li>{{ role }}
-					
-					<li>{% endfor %}
-				
-				</ul>
-			</td>
-			<td>{{ entity.firstName }}</td>
-			<td>{{ entity.lastName }}</td>
-			<td>{{ entity.age }}</td>
-			<td>{{ entity.avatarUrl }}</td>
-			<td>{{ entity.steamId }}</td>
-			<td>
-				<ul>
-					<li><a href="{{ path('admin_user_show', { 'userId': entity.id }) }}">show</a></li>
-					<li><a href="{{ path('admin_user_edit', { 'userId': entity.id }) }}">edit</a></li>
-				</ul>
-			</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
+<div class="panel panel-default">
+    <div class="panel-heading">Informations</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>Number users</dt>
+          <dd>xxx</dd>
+          <dt>Last user</dt>
+          <dd>yyy</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Users &nbsp;
+        <a class="btn btn-inverse btn-xs" role="button"
+			href="{{ path('admin_user_new') }}">
+            <span class="glyphicon glyphicon-plus"></span>
+		</a>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-hover">
+    		<thead>
+    			<tr>
+    				<th>Username</th>
+    				<th>Email</th>
+    				<th>Roles</th>
+    			</tr>
+    		</thead>
+    		<tbody data-link="row" class="rowlink">
+    			{% for user in entities %}
+                    <tr>
+                        <td><a href="{{ path('admin_user_edit', { 'userId': user.id }) }}">{{ user.username }}</a></td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <ul class='list-unstyled'>
+            					{% for role in user.roles %}
+            					   <li>{{ role }}</li>
+            					{% endfor %}
+        				    </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

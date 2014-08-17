@@ -17,29 +17,45 @@
 {% extends "RFCAdminBundle::layout.html.twig" %} {% block title %} Admin
 - {{ parent() }} {% endblock %} {% block rfccore_body %}
 
-<h1>Game list <a class="btn btn-inverse btn-xs" role="button"
-			href="{{ path('admin_game_new') }}"><span
-			class="glyphicon glyphicon-plus"></span> </a></h1>
+<div class="panel panel-default">
+    <div class="panel-heading">Informations</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>Number games</dt>
+          <dd>xxx</dd>
+        </dl>
+    </div>
+</div>
 
-<ul class="list-inline">
-    {% for game in entities %}
-        <li>
-            <a href="{{ path('admin_game_manage', {'gameId': game.id}) }}">
-                <div class="text-center">
-                    {% if game.listImages is not empty %}
-                        <img alt="{{ game.shortName }}" src="{{ game.listImages[0].url }}"
-                    	   class="img-rounded" width="200px" /><br />
-                    {% endif %}
-                    <span class="label label-default">{{ game.name }}</span>
-                </div>
-            </a>
-            <div class="text-center">
-                <a href="{{ path('admin_game_show', { 'gameId': game.id }) }}"><span class="label label-default">show</span></a>
-                <br />
-                <a href="{{ path('admin_game_edit', { 'gameId': game.id }) }}"><span class="label label-default">edit</span></a>
-            </div>
-        </li>
-    {% endfor %}
-</ul>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Games &nbsp;
+        <a class="btn btn-inverse btn-xs" role="button"
+			href="{{ path('admin_game_new') }}"><span
+			class="glyphicon glyphicon-plus"></span> </a>
+	</div>
+    <div class="panel-body">
+        <ul class="list-inline">
+            {% for game in entities %}
+                <li>
+                    <a href="{{ path('admin_game_manage', {'gameId': game.id}) }}">
+                        <div class="text-center">
+                            {% if game.listImages is not empty %}
+                                <img alt="{{ game.shortName }}" src="{{ game.listImages[0].url }}"
+                            	   class="img-rounded" width="200px" /><br />
+                            {% endif %}
+                            <span class="label label-default">{{ game.name }}</span>
+                        </div>
+                    </a>
+                    <div class="text-center">
+                        <a href="{{ path('admin_game_show', { 'gameId': game.id }) }}"><span class="label label-default">show</span></a>
+                        <br />
+                        <a href="{{ path('admin_game_edit', { 'gameId': game.id }) }}"><span class="label label-default">edit</span></a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 
 {% endblock %}

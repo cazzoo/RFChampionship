@@ -18,68 +18,65 @@
 {% block title %} Admin - {{ parent() }} {% endblock %}
 {% block rfccore_body %}
 
-<h3>System</h3>
-
-    <div class="panel panel-default">
-        <div class="panel-heading">Informations</div>
-        <div class="panel-body">
-            <dl class="dl-horizontal">
-              <dt>Site version</dt>
-              <dd>xxx</dd>
-              <dt>Administrator</dt>
-              <dd>yyy</dd>
-              <dt>Site name</dt>
-              <dd>{{ properties[0].value }}</dd>                
-            </dl>
-        </div>
+<div class="panel panel-default">
+    <div class="panel-heading">Informations</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>Site version</dt>
+          <dd>xxx</dd>
+          <dt>Administrator</dt>
+          <dd>yyy</dd>
+          <dt>Site name</dt>
+          <dd>{{ properties[0].value }}</dd>                
+        </dl>
     </div>
+</div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Config</div>
-        <div class="panel-body">
-        <div id="msg"></div>
-            <table id="mainProperties" class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for property in properties %}
-                    <tr>
-                        <td>{{ property.id }}</td>
-                        <td>{{ property.name }}</td>
-                        <td class="small">{{ property.description }}</td>
-                        <td><span id="{{ property.id }}" class="editable_property"    
-                        {% if property.type == "text" %}
-                            data-type="text"
-                        {% elseif property.type == "boolean" %}
-                            data-type="checklist"
-                        {% elseif property.type == "number" %}
-                            data-type="number"
-                        {% elseif property.type == "date" %}
-                            data-type="date"
-                        {% elseif property.type == "datetime" %}
-                            data-type="datetime"
-                        {% elseif property.type == "textarea" %}
-                            data-type="textarea"
-                        {% elseif property.type == "select" %}
-                            data-type="select"
-                        {% elseif property.type == "checklist" %}
-                            data-type="checklist"
-                        {% endif %}
-                         >{{ property.value }}</span></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+<div class="panel panel-default">
+    <div class="panel-heading">System parameters</div>
+    <div class="panel-body">
+        <table id="mainProperties" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for property in properties %}
+                <tr>
+                    <td>{{ property.id }}</td>
+                    <td>{{ property.name }}</td>
+                    <td class="small">{{ property.description }}</td>
+                    <td><span id="{{ property.id }}" class="editable_property"    
+                    {% if property.type == "text" %}
+                        data-type="text"
+                    {% elseif property.type == "boolean" %}
+                        data-type="checklist"
+                    {% elseif property.type == "number" %}
+                        data-type="number"
+                    {% elseif property.type == "date" %}
+                        data-type="date"
+                    {% elseif property.type == "datetime" %}
+                        data-type="datetime"
+                    {% elseif property.type == "textarea" %}
+                        data-type="textarea"
+                    {% elseif property.type == "select" %}
+                        data-type="select"
+                    {% elseif property.type == "checklist" %}
+                        data-type="checklist"
+                    {% endif %}
+                     >{{ property.value }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-            <button id="confirm-btn">Confirm</button>
-            <button id="reset-btn">Reset</button>
-        </div>
+        <button id="confirm-btn">Confirm</button>
+        <button id="reset-btn">Reset</button>
     </div>
+</div>
 
 {% endblock %}

@@ -14,83 +14,82 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% extends "RFCAdminBundle::layout.html.twig" %} {% block title %} Admin
-- {{ parent() }} {% endblock %} {% block rfccore_body %}
+{% extends "RFCAdminBundle::layout.html.twig" %}
+    {% block title %} Admin - {{ parent() }}{% endblock %}
+{% block rfccore_body %}
 
-<ol class="breadcrumb">
-	<li><a href="{{ path('RFCAdmin_index') }}">Admin</a></li>
-	<li><a href="{{ path('admin_game_manage', {'gameId' : game[0].id}) }}">{{
-			game[0].name }}</a></li>
-	<li class="active">Championships</li>
-</ol>
-
-<div>
-	<h1>
-		Championship list <a class="btn btn-inverse btn-xs" role="button"
-			href="{{ path('admin_championship_new', {'gameId' : gameId}) }}"><span
-			class="glyphicon glyphicon-plus"></span> </a>
-	</h1>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Name</th>
-				<th>Description</th>
-				<th>Isagreed</th>
-				<th>Listevents</th>
-				<th>Listmanagers</th>
-				<th>Metarule</th>
-				<th>Listrules</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody class="table-striped">
-			{% for entity in entities %}
-			<tr>
-				<td><a
-					href="{{ path('admin_championship_show', { 'championshipId': entity.id, 'gameId': gameId }) }}">{{
-						entity.id }}</a></td>
-				<td>{{ entity.name }}</td>
-				<td>{{ entity.description }}</td>
-				<td>{{ entity.isAgreed }}</td>
-				<td>{% if entity.listEvents is empty %}
-				        Aucun Event pour le moment
-				    {% else %}
-					<ul class="list-unstyled">
-						{% for event in entity.listEvents %}
-						<li>{{ event.name }} <div><small><span class="label label-primary">{{ event.beginDate|date("Y/m/Y H:i") }}</span> > <span class="label label-primary">{{ event.endDate|date("Y/m/Y H:i") }}</span></small></div></li> {% endfor %}
-					</ul> {% endif %}
-				</td>
-				<td><ul>
-						{% for manager in entity.listManagers %}
-						<li>{{ manager.username }}</li> {% endfor %}
-					</ul></td>
-				<td>{{ entity.metaRule }}</td>
-				<td>
-				    <ul class="list-unstyled">
-				        {% if entity.isAgreed %}
-				            {% for rule in entity.metaRule.listRules %}
-    						  <li>{{ rule.name }}</li>
-    						{% endfor %}
-				        {% else %}
-    						{% for rule in entity.listRules %}
-    						  <li>{{ rule.name }}</li>
-    						{% endfor %}
-						{% endif %}
-					</ul></td>
-				<td>
-					<ul class="list-unstyled">
-						<li><a class="btn btn-info btn-xs" role="button"
-							href="{{ path('admin_championship_show', { 'championshipId': entity.id, 'gameId': game[0].id  }) }}"><span
-								class="glyphicon glyphicon-eye-open"></span></a></li>
-						<li><a class="btn btn-primary btn-xs" role="button"
-							href="{{ path('admin_championship_edit', { 'championshipId': entity.id, 'gameId': gameId  }) }}"><span
-								class="glyphicon glyphicon-edit"></span></a></li>
-					</ul>
-				</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Championships &nbsp;
+        <a class="btn btn-inverse btn-xs" role="button"
+			href="{{ path('admin_championship_new', {'gameId' : gameId}) }}">
+			<span class="glyphicon glyphicon-plus"></span>
+		</a>
+    </div>
+    <div class="panel-body">
+    <div id="msg">
+    	<table class="table">
+    		<thead>
+    			<tr>
+    				<th>Id</th>
+    				<th>Name</th>
+    				<th>Description</th>
+    				<th>Isagreed</th>
+    				<th>Listevents</th>
+    				<th>Listmanagers</th>
+    				<th>Metarule</th>
+    				<th>Listrules</th>
+    				<th>Actions</th>
+    			</tr>
+    		</thead>
+    		<tbody class="table-striped">
+    			{% for entity in entities %}
+    			<tr>
+    				<td><a
+    					href="{{ path('admin_championship_show', { 'championshipId': entity.id, 'gameId': gameId }) }}">{{
+    						entity.id }}</a></td>
+    				<td>{{ entity.name }}</td>
+    				<td>{{ entity.description }}</td>
+    				<td>{{ entity.isAgreed }}</td>
+    				<td>{% if entity.listEvents is empty %}
+    				        Aucun Event pour le moment
+    				    {% else %}
+    					<ul class="list-unstyled">
+    						{% for event in entity.listEvents %}
+    						<li>{{ event.name }} <div><small><span class="label label-primary">{{ event.beginDate|date("Y/m/Y H:i") }}</span> > <span class="label label-primary">{{ event.endDate|date("Y/m/Y H:i") }}</span></small></div></li> {% endfor %}
+    					</ul> {% endif %}
+    				</td>
+    				<td><ul>
+    						{% for manager in entity.listManagers %}
+    						<li>{{ manager.username }}</li> {% endfor %}
+    					</ul></td>
+    				<td>{{ entity.metaRule }}</td>
+    				<td>
+    				    <ul class="list-unstyled">
+    				        {% if entity.isAgreed %}
+    				            {% for rule in entity.metaRule.listRules %}
+        						  <li>{{ rule.name }}</li>
+        						{% endfor %}
+    				        {% else %}
+        						{% for rule in entity.listRules %}
+        						  <li>{{ rule.name }}</li>
+        						{% endfor %}
+    						{% endif %}
+    					</ul></td>
+    				<td>
+    					<ul class="list-unstyled">
+    						<li><a class="btn btn-info btn-xs" role="button"
+    							href="{{ path('admin_championship_show', { 'championshipId': entity.id, 'gameId': game[0].id  }) }}"><span
+    								class="glyphicon glyphicon-eye-open"></span></a></li>
+    						<li><a class="btn btn-primary btn-xs" role="button"
+    							href="{{ path('admin_championship_edit', { 'championshipId': entity.id, 'gameId': gameId  }) }}"><span
+    								class="glyphicon glyphicon-edit"></span></a></li>
+    					</ul>
+    				</td>
+    			</tr>
+    			{% endfor %}
+    		</tbody>
+    	</table>
+	</div>
 </div>
 {% endblock %}

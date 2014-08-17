@@ -14,45 +14,42 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% extends "RFCAdminBundle::layout.html.twig" %} {% block title %} Admin
-- {{ parent() }} {% endblock %} {% block rfccore_body %}
+{% extends "RFCAdminBundle::layout.html.twig" %}
+    {% block title %} Admin - {{ parent() }} {% endblock %}
+{% block rfccore_body %}
 
-<ol class="breadcrumb">
-	<li><a href="{{ path('RFCAdmin_index') }}">Admin</a></li>
-	<li><a href="{{ path('admin_game_manage', {'gameId' : game[0].id}) }}">{{
-			game[0].name }}</a></li>
-	<li class="active">Rules</li>
-</ol>
-
-<div>
-	<h1>
-		Tracks <a class="btn btn-inverse btn-xs" role="button"
-			href="{{ path('admin_track_new', {'gameId' : gameId}) }}"> <span
-			class="glyphicon glyphicon-plus"></span>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Tracks &nbsp;
+        <a class="btn btn-inverse btn-xs" role="button"
+			href="{{ path('admin_track_new', {'gameId' : gameId}) }}">
+            <span class="glyphicon glyphicon-plus"></span>
 		</a>
-	</h1>
-	<ul class="list-group">
-		{% for track in tracks %}
-		<div class="row">
-			<div class="col-md-10">
-                <li class="list-group-item">
-                    <h4 class="list-group-item-heading">{{ track.name }}</h4>
-                    <p class="list-group-item-text">{{ track.description }}</p>
-                </li>
-			</div>
-			<div class="col-md-2">
-				<ul class="list-unstyled list-inline">
-					<li><a class="btn btn-info btn-xs" role="button"
-						href="{{ path(
-		'admin_track_show', {'trackId' : track.id, 'gameId' : gameId }) }}"><span
-							class="glyphicon glyphicon-eye-open"></span></a></li>
-					<li><a class="btn btn-primary btn-xs" role="button"
-						href="{{ path('admin_track_edit', {'trackId' : track.id, 'gameId' : gameId}) }}"><span
-							class="glyphicon glyphicon-edit"></span></a></li>
-				</ul>
-			</div>
-		</div>
-		{% endfor %}
-	</ul>
+    </div>
+    <div class="panel-body">
+    	<ul class="list-group">
+    		{% for track in tracks %}
+    		<div class="row">
+    			<div class="col-md-10">
+                    <li class="list-group-item">
+                        <h4 class="list-group-item-heading">{{ track.name }}</h4>
+                        <p class="list-group-item-text">{{ track.description }}</p>
+                    </li>
+    			</div>
+    			<div class="col-md-2">
+    				<ul class="list-unstyled list-inline">
+    					<li><a class="btn btn-info btn-xs" role="button"
+    						href="{{ path(
+    		'admin_track_show', {'trackId' : track.id, 'gameId' : gameId }) }}"><span
+    							class="glyphicon glyphicon-eye-open"></span></a></li>
+    					<li><a class="btn btn-primary btn-xs" role="button"
+    						href="{{ path('admin_track_edit', {'trackId' : track.id, 'gameId' : gameId}) }}"><span
+    							class="glyphicon glyphicon-edit"></span></a></li>
+    				</ul>
+    			</div>
+    		</div>
+    		{% endfor %}
+    	</ul>
+    </div>
 </div>
 {% endblock %}
