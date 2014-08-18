@@ -1,20 +1,21 @@
 <?php
-/*  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
-    Copyright (C) 2014 - //Racing-France//
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
-
+/*
+ * //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+ * Copyright (C) 2014 - //Racing-France//
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 namespace RFC\AdminBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -245,14 +246,25 @@ class GameController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
+        $game = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
         
-        if (! $entity) {
+        if (! $game) {
             throw $this->createNotFoundException('Unable to find Game entity.');
         }
         
+        // Ajout du jeu sélectionné
+        $menu = $this->get('rfc_admin.menu.breadcrumb');
+        $menu->addChild($game->getName())
+            ->setUri($this->get("router")
+            ->generate('admin_game_manage', array(
+            'gameId' => $gameId
+        )))
+            ->setCurrent(true);
+        $manipulator = new \Knp\Menu\Util\MenuManipulator();
+        $manipulator->moveToPosition($menu->getChild($game->getName()), 1);
+        
         return $this->render('RFCAdminBundle:Game:manage.html.twig', array(
-            'entity' => $entity
+            'game' => $game
         ));
     }
 }

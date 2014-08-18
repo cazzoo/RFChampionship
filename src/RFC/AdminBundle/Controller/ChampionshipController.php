@@ -1,20 +1,21 @@
 <?php
-/*  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
-    Copyright (C) 2014 - //Racing-France//
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
-
+/*
+ * //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+ * Copyright (C) 2014 - //Racing-France//
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 namespace RFC\AdminBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +39,17 @@ class ChampionshipController extends Controller
         $entities = $em->getRepository('RFCCoreBundle:Championship')->findBy(array(
             'game' => $gameId
         ));
-        $game = $em->getRepository('RFCCoreBundle:Game')->findById($gameId);
+        $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
+        
+        // Ajout du jeu sélectionné
+        $menu = $this->get('rfc_admin.menu.breadcrumb');
+        $menu->addChild($game->getName())
+            ->setUri($this->get("router")
+            ->generate('admin_game_manage', array(
+            'gameId' => $gameId
+        )));
+        $manipulator = new \Knp\Menu\Util\MenuManipulator();
+        $manipulator->moveToPosition($menu->getChild($game->getName()), 1);
         
         return $this->render('RFCAdminBundle:Championship:index.html.twig', array(
             'entities' => $entities,
@@ -63,7 +74,7 @@ class ChampionshipController extends Controller
             
             return $this->redirect($this->generateUrl('admin_championship_show', array(
                 'championshipId' => $entity->getId(),
-                'gameId' => $gameId,
+                'gameId' => $gameId
             )));
         }
         

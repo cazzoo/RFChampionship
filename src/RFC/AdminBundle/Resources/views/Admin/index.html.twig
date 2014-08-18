@@ -18,24 +18,32 @@
 extends "RFCAdminBundle::layout.html.twig" %} {% block title %} Admin -
 {{ parent() }} {% endblock %} {% block rfccore_body %}
 
-<h2>Administration globale</h2>
-
-<ul>
-	<li><a href="{{ path('admin_system') }}">System</a></li>
-	<li><a href="{{ path('admin_game') }}">Gestion des jeux</a></li>
-	<li><a href="{{ path('admin_user') }}">Gestion des utilisateurs</a></li>
-</ul>
-
-<h2>Administration d'un jeu</h2>
-<div class="dropdown">
-	<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-		Liste des jeux<span class="caret"></span>
-	</button>
-	<span class="dropdown-arrow dropdown-arrow-inverse"></span>
-	<ul class="dropdown-menu dropdown-inverse">
-		{% for game in games %}
-		<li><a href="{{ path('admin_game_manage', {'gameId': game.id}) }}">{{
-				game.name }}</a></li> {% endfor %}
-	</ul>
+<div class="panel panel-default">
+    <div class="panel-heading">Global</div>
+    <div class="panel-body">
+        <ul>
+            <li><a href="{{ path('admin_system') }}">System</a></li>
+            <li><a href="{{ path('admin_game') }}">Gestion des jeux</a></li>
+            <li><a href="{{ path('admin_user') }}">Gestion des utilisateurs</a></li>
+        </ul>
+    </div>
 </div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Select a game</div>
+    <div class="panel-body">
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Game list<span class="caret"></span>
+            </button>
+            <span class="dropdown-arrow dropdown-arrow-inverse"></span>
+            <ul class="dropdown-menu dropdown-inverse">
+                {% for game in games %}
+                    <li><a href="{{ path('admin_game_manage', {'gameId': game.id}) }}">{{ game.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

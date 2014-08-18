@@ -39,7 +39,17 @@ class TrackController extends Controller
         $tracks = $em->getRepository('RFCCoreBundle:Track')->findBy(array(
             'game' => $gameId
         ));
-        $game = $em->getRepository('RFCCoreBundle:Game')->findById($gameId);
+        $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
+        
+        // Ajout du jeu sélectionné
+        $menu = $this->get('rfc_admin.menu.breadcrumb');
+        $menu->addChild($game->getName())
+            ->setUri($this->get("router")
+            ->generate('admin_game_manage', array(
+            'gameId' => $gameId
+        )));
+        $manipulator = new \Knp\Menu\Util\MenuManipulator();
+        $manipulator->moveToPosition($menu->getChild($game->getName()), 1);
         
         return $this->render('RFCAdminBundle:Track:index.html.twig', array(
             'tracks' => $tracks,

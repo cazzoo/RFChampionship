@@ -164,6 +164,14 @@ class MenuBuilder
                     )
                 ));
                 break;
+            case 'rfcCore_members_show':
+                $menu->addChild('Members', array(
+                    'route' => 'rfcCore_members',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
         }
         
         return $menu;

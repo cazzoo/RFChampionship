@@ -16,21 +16,39 @@
 
 {% extends "RFCAdminBundle::layout.html.twig" %} {% block title %} Admin
 - {{ parent() }} {% endblock %} {% block rfccore_body %}
-<h1>{{ entity.name }}</h1>
 
-<h2>Oraganisation</h2>
+<div class="panel panel-default">
+    <div class="panel-heading">Informations for the game : {{ game.name }}</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>Number championships</dt>
+          <dd>xxx</dd>
+          <dt>Number vehicles</dt>
+          <dd>xxx</dd>
+          <dt>Number tracks</dt>
+          <dd>xxx</dd>
+          <dt>Number categories</dt>
+          <dd>xxx</dd>
+          <dt>Number rules</dt>
+          <dd>xxx</dd>
+          <dt>Number session types</dt>
+          <dd>xxx</dd>
+        </dl>
+    </div>
+</div>
 
-<a href="{{ path('admin_championship', {'gameId' : entity.id}) }}">Gérer
-	les Championnats</a>
-
-<h2>Gestion des Données</h2>
-
-<ul>
-	<li><a href="{{ path('admin_track', {'gameId' : entity.id}) }}">Gérer les Circuits</a></li>
-	<li><a href="{{ path('admin_vehicle', {'gameId' : entity.id}) }}">Gérer les Voitures</a></li>
-	<li><a href="{{ path('admin_category', {'gameId' : entity.id}) }}">Gérer les Categories</a></li>
-	<li><a href="{{ path('admin_metaRule', { 'gameId': entity.id }) }}">Gérer les Règles</a></li>
-	<li><a href="{{ path('admin_typeSession', { 'gameId': entity.id }) }}">Gérer les Types de session</a></li>
-</ul>
+<div class="panel panel-default">
+    <div class="panel-heading">Actions</div>
+    <div class="panel-body">
+        <ul>
+            <li><a href="{{ path('admin_championship', {'gameId' : game.id}) }}">Gérer les Championnats</a></li>
+            <li><a href="{{ path('admin_track', {'gameId' : game.id}) }}">Gérer les Circuits</a></li>
+        	<li><a href="{{ path('admin_vehicle', {'gameId' : game.id}) }}">Gérer les Voitures</a></li>
+        	<li><a href="{{ path('admin_category', {'gameId' : game.id}) }}">Gérer les Categories</a></li>
+        	<li><a href="{{ path('admin_metaRule', { 'gameId': game.id }) }}">Gérer les Règles</a></li>
+        	<li><a href="{{ path('admin_typeSession', { 'gameId': game.id }) }}">Gérer les Types de session</a></li>
+        </ul>
+    </div>
+</div>
 
 {% endblock %}

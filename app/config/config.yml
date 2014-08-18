@@ -80,6 +80,8 @@ fos_user:
     registration:
         form:
             type: rfc_user_registration
+        confirmation:
+            enabled: false
 
 fos_comment:
     db_driver: orm
