@@ -20,23 +20,26 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>{% block title %}RFC{% endblock %}</title> 
 
 {% block stylesheets %}
-	<!-- Loading Bootstrap -->
-	<link href="{{ asset('FlatUI/bootstrap/css/bootstrap.css') }}"
+	<!-- Loading YALMcss -->
+	<link href="{{ asset('yaml/core/base.min.css') }}"
 		rel="stylesheet" type="text/css" />
-    
-    <link href="{{ asset('FlatUI/bootstrap/css/jasny-bootstrap.min.css') }}"
-        rel="stylesheet" media="screen">
-	
-	<!-- Loading Flat UI -->
-	<link href="{{ asset('FlatUI/css/flat-ui.css') }}" rel="stylesheet"
-		type="text/css" />
-    
-    <!-- X-editable -->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+    <link href="{{ asset('yaml/navigation/hlist.css') }}"
+            rel="stylesheet" type="text/css" />
+    <link href="{{ asset('yaml/forms/gray-theme.css') }}"
+            rel="stylesheet" type="text/css" />
+    <link href="{{ asset('yaml/screen/typography.css') }}"
+            rel="stylesheet" type="text/css" />
+    <link href="{{ asset('yaml/screen/screen-FULLPAGE-layout.css') }}"
+            rel="stylesheet" type="text/css" />
+    <link href="{{ asset('yaml/print/print.css') }}"
+            rel="stylesheet" type="text/css" />
+    <link href="{{ asset('yaml/add-ons/accessible-tabs/tabs.css') }}"
+            rel="stylesheet" type="text/css" />
 		
 	<!-- Loading jquery calendar -->
 	<link
@@ -44,6 +47,14 @@
 		rel="stylesheet" />
 		
 	<!-- Loading Custom CSS-->
+	<link href="{{ asset('css/jquery.dropdown.css') }}" rel="stylesheet"
+		type="text/css" />
+    <link href="{{ asset('css/jquery.rcrumbs.css') }}"
+            rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/jquery.editable.css') }}"
+            rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/jquery.camera.css') }}"
+            rel="stylesheet" type="text/css" />
 	<link href="{{ asset('css/adminStyle.css') }}" rel="stylesheet"
 		type="text/css" />
 {% endblock %}
@@ -52,41 +63,72 @@
     <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
 {% endstylesheets %}
 
+<!--[if lte IE 7]>
+  <link rel="stylesheet" href="{{ asset('yaml/core/iehacks.min.css') }}" type="text/css"/>
+  <![endif]-->
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
 <!--[if lt IE 9]>
       <script src="{{ asset('FlatUI/js/html5shiv.js') }}"></script>
-      <script src="{{ asset('FlatUI/js/respond.min.js') }}"></script>
     <![endif]-->
 </head>
 
 <body>
-	<div class="container">
-
-		<div class="row">
-			<div id="content" class="span9">{% block body %} {% endblock %}</div>
-		</div>
-
-		<hr>
-
-		<footer>
-			{% block footer %} {% endblock %}
-		</footer>
-	</div>
+    {% block body %}
+    <header>
+        <div class="ym-wrapper">
+            <div class="ym-wbox">
+                {% block header %}{% endblock %}
+            </div>
+        </div>
+    </header>
+    <nav>
+        <div class="ym-wrapper">
+            <div class="ym-hlist">
+                {% block nav %}{% endblock %}
+            </div>
+        </div>
+    </nav>
+    <breadcrumbs>
+        <div class="ym-wrapper">
+            <div class="ym-wbox">
+                {% block breadcrumbs %}{% endblock %}
+            </div>
+        </div>
+    </breadcrumbs>
+    <main>
+        <div class="ym-wrapper">
+            <div class="ym-wbox">
+                {% block main %}{% endblock %}
+            </div>
+        </div>
+    </main>
+    <comments>
+        <div class="ym-wrapper">
+            <div class="ym-wbox">
+                {% block comments %}{% endblock %}
+            </div>
+        </div>
+    </comments>
+    <footer>
+        <div class="ym-wrapper">
+            <div class="ym-wbox">
+                {% block footer %}{% endblock %}
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
 
 	{% block javascripts %}
-		{% javascripts 'FlatUI' %}
-			<script src="{{ asset('FlatUI/js/jquery-2.0.3.min.js') }}"></script>
-			<script src="{{ asset('FlatUI/js/jquery-ui-1.10.3.custom.min.js') }}"></script>
-			<script src="{{ asset('FlatUI/js/jquery.ui.touch-punch.min.js') }}"></script>
-			<script src="{{ asset('FlatUI/js/bootstrap.min.js') }}"></script>
-            <script src="{{ asset('FlatUI/js/jasny-bootstrap.min.js') }}"></script>
-			<script src="{{ asset('FlatUI/js/bootstrap-select.js') }}"></script>
-			<script src="{{ asset('FlatUI/js/bootstrap-switch.js') }}"></script>
-			<script src="{{ asset('FlatUI/js/flatui-checkbox.js') }}"></script>
-			<script src="{{ asset('FlatUI/js/flatui-radio.js') }}"></script>
-			<script src="{{ asset('FlatUI/js/jquery.tagsinput.js') }}"></script>
-			<script src="{{ asset('FlatUI/js/jquery.placeholder.js') }}"></script>
-            <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+		{% javascripts 'Jquery' %}
+			<script src="{{ asset('jquery/js/jquery-2.1.1.min.js') }}"></script>
+			<script src="{{ asset('jquery/js/jquery.dropdown.js') }}"></script>
+			<script src="{{ asset('yaml/add-ons/accessible-tabs/jquery.tabs.js') }}"></script>
+			<script src="{{ asset('jquery/js/jquery.rcrumbs.js') }}"></script>
+			<script src="{{ asset('jquery/js/jquery.editable.poshytip.js') }}"></script>
+			<script src="{{ asset('jquery/js/jquery-migrate-1.2.1.min.js') }}"></script>
+			<script src="{{ asset('jquery/js/jquery.easing.1.3.js') }}"></script>
+			<script src="{{ asset('jquery/js/jquery.mobile.customized.min.js') }}"></script>
+			<script src="{{ asset('jquery/js/jquery.camera.js') }}"></script>
 		{% endjavascripts %}
 		{% javascripts 'FosJS' %}
 			<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>

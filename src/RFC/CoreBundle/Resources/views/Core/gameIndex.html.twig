@@ -26,7 +26,16 @@
     </p>
     {% if game.listImages is not empty %}
         <h4>Galerie</h4>
-        <img alt="{{ game.listImages[0].name }}" src="{{ game.listImages[0].url }}" />
+        <div id="gameSlideshow" class="camera_wrap">
+            {% for image in game.listImages %}
+                <div data-src="{{ image.url }}">
+                    <div class="camera_caption">
+                        <strong>{{image.name}}</strong> <br />
+                        {{ image.description }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
     
     {% if game.commentsActive %}

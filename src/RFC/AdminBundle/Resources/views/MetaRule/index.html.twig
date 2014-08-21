@@ -15,21 +15,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
 {% extends "RFCAdminBundle::layout.html.twig" %}
-{% block javascripts %}
-    {{ parent() }} {% javascripts 'RFCAdminJS' %}
-    <script src="{{asset('js/forms.behiavior.js') }}"></script>
-    {% endjavascripts %}
-{% endblock %} 
 {% block title %} Admin - {{ parent() }}{% endblock %}
 
 {% block rfccore_body %}
 <div class="panel panel-default">
     <div class="panel-heading">
         Meta rules &nbsp;
-        <a class="btn btn-inverse btn-xs" role="button"
-			href="{{ path('admin_metaRule_new', {'gameId' : gameId}) }}">
-            <span class="glyphicon glyphicon-plus"></span>
-		</a>
+        <a class="ym-button ym-add" href="{{ path('admin_metaRule_new', {'gameId' : gameId}) }}">Add</a>
     </div>
     <div class="panel-body">
         <div class="row">
@@ -66,22 +58,18 @@
         		</div>
         	</div>
         	<div class="col-md-7">
-        		<ul class="list-group" id="listRules">{# Colonne 2 : Rules #} {%
-        			include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules,
-        			'game' : game, 'metaRuleId' : null} %}
+        		<ul class="list-group" id="listRules">{# Colonne 2 : Rules #}
+                    {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game, 'metaRuleId' : null} %}
         		</ul>
         	</div>
         </div>
     </div>
 </div>
-    <hr />
+<hr />
 <div class="panel panel-default">
     <div class="panel-heading">
         List all rules &nbsp;
-        <a class="btn btn-inverse btn-xs" role="button"
-			href="{{ path('admin_rule_new', {'gameId' : gameId}) }}">
-            <span class="glyphicon glyphicon-plus"></span>
-		</a>
+        <a class="ym-button ym-add" href="{{ path('admin_rule_new', {'gameId' : gameId}) }}">Add</a>
     </div>
     <div class="panel-body">
     	{% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}

@@ -1,0 +1,132 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# app/Resources/views/layout_admin.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>{% block title %}RFC{% endblock %}</title> 
+
+{% block stylesheets %}
+	<!-- Loading YALMcss -->
+	<link href="{{ asset('yaml/core/base.min.css') }}"
+		rel="stylesheet" type="text/css" />
+    <link href="{{ asset('yaml/navigation/vlist.css') }}"
+            rel="stylesheet" type="text/css" />
+    <link href="{{ asset('yaml/forms/gray-theme.css') }}"
+            rel="stylesheet" type="text/css" />
+    <link href="{{ asset('yaml/screen/typography.css') }}"
+            rel="stylesheet" type="text/css" />
+    <link href="{{ asset('yaml/screen/screen-FULLPAGE-layout.css') }}"
+            rel="stylesheet" type="text/css" />
+    <link href="{{ asset('yaml/print/print.css') }}"
+            rel="stylesheet" type="text/css" />
+    <link href="{{ asset('yaml/add-ons/accessible-tabs/tabs.css') }}"
+            rel="stylesheet" type="text/css" />
+		
+	<!-- Loading jquery calendar -->
+	<link
+		href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}"
+		rel="stylesheet" />
+		
+	<!-- Loading Custom CSS-->
+	<link href="{{ asset('css/jquery.dropdown.css') }}" rel="stylesheet"
+		type="text/css" />
+    <link href="{{ asset('css/jquery.rcrumbs.css') }}"
+            rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/jquery.editable.css') }}"
+            rel="stylesheet" type="text/css" />
+	<link href="{{ asset('css/adminStyle.css') }}" rel="stylesheet"
+		type="text/css" />
+{% endblock %}
+
+{% stylesheets '@FOSCommentBundle/Resources/assets/css/comments.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+{% endstylesheets %}
+
+<!--[if lte IE 7]>
+  <link rel="stylesheet" href="{{ asset('yaml/core/iehacks.min.css') }}" type="text/css"/>
+  <![endif]-->
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+<!--[if lt IE 9]>
+      <script src="{{ asset('FlatUI/js/html5shiv.js') }}"></script>
+    <![endif]-->
+</head>
+
+<body>
+    {% block body %}
+    <header>
+        <div class="ym-wrapper">
+            <div class="ym-wbox">
+                {% block header %}{% endblock %}
+            </div>
+        </div>
+    </header>
+    <breadcrumbs>
+        <div class="ym-wrapper">
+            <div class="ym-hlist">
+                {% block breadcrumbs %}{% endblock %}
+            </div>
+        </div>
+    </breadcrumbs>
+    <main>
+        {% block nav %}{% endblock %}
+        <div class="ym-wrapper">
+            <div class="ym-wbox">
+                {% block main %}{% endblock %}
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="ym-wrapper">
+            <div class="ym-wbox">
+                {% block footer %}{% endblock %}
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
+
+	{% block javascripts %}
+		{% javascripts 'Jquery' %}
+			<script src="{{ asset('jquery/js/jquery-2.1.1.min.js') }}"></script>
+			<script src="{{ asset('jquery/js/jquery.dropdown.js') }}"></script>
+			<script src="{{ asset('yaml/add-ons/accessible-tabs/jquery.tabs.js') }}"></script>
+			<script src="{{ asset('jquery/js/jquery.rcrumbs.js') }}"></script>
+			<script src="{{ asset('jquery/js/jquery.editable.poshytip.js') }}"></script>
+		{% endjavascripts %}
+		{% javascripts 'FosJS' %}
+			<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+			<script
+				src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+		{% endjavascripts %}
+		{% javascripts 'jQueryCalendar' %}
+			<script type="text/javascript"
+				src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
+			<script type="text/javascript"
+				src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>
+		{% endjavascripts %}
+		{% javascripts 'RFCAdminJS' %}
+            <script type="text/javascript"
+                src="{{asset('js/forms.behiavior.js') }}"></script>
+        {% endjavascripts %}
+	{% endblock %}
+
+</body>
+</html>

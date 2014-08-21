@@ -1,18 +1,10 @@
-// JS Initialization
-$.fn.editable.defaults.mode = 'inline';
-
 $(function() {
-
-	// Behiavior
-	$('#rfc_corebundle_championship_isAgreed').change(function() {
-		toggleRules(200);
-	});
 
 	// Functions
 	function toggleRules(time) {
 		if ($('#rfc_corebundle_championship_isAgreed').is(':checked')) {
 			$('#rfc_corebundle_championship_listRules').prop('selectedIndex',
-					-1)
+					-1);
 			$('#rfc_corebundle_championship_listRules').parent('div')
 					.hide(time);
 		} else {
@@ -20,7 +12,6 @@ $(function() {
 					.show(time);
 		}
 	}
-	;
 
 	function registerChampionshipBehiavior() {
 		var entityData = $(this).attr('id').split(';');
@@ -28,7 +19,7 @@ $(function() {
 			action : entityData[0].substr(7),
 			gameId : entityData[1].substr(5),
 			championshipId : entityData[2].substr(13),
-			userId : entityData[3].substr(5),
+			userId : entityData[3].substr(5)
 		};
 		$.ajax({
 			type : "POST",
@@ -48,8 +39,6 @@ $(function() {
 	// --------------------------------------------
 	// ----------------- Properties editing
 	// --------------------------------------------
-    $('.editable_property').editable();
-    
     $('.editable_property').on('save', function(){
         var that = this;
         var oldItemValue = $(that)[0].innerHTML;
@@ -81,7 +70,7 @@ $(function() {
                $(this).removeClass('editable-unsaved').removeAttr('oldValue');
                //show messages
                var msg = 'Properties updated!';
-               $('#msg').addClass('alert-success').removeClass('alert-error').html(msg).show();
+               $('#msg').addClass('messagebox-success').removeClass('messagebox-error').html(msg).show();;
                $(this).off('save');
            },
            error: function(errors) {
@@ -91,7 +80,7 @@ $(function() {
                } else { //validation error (client-side or server-side)
                    $.each(errors, function(k, v) { msg += k+": "+v+"<br />"; });
                } 
-               $('#msg').removeClass('alert-success').addClass('alert-error').html(msg).show();
+               $('#msg').removeClass('messagebox-success').addClass('messagebox-error').html(msg).show();;
            }
         });
     });
@@ -250,10 +239,33 @@ $(function() {
 					});
 
 	// Init phase
+    $("#msg").hide();
+    $("#msg").click(function() {
+        $(this).hide();   
+    });
+    $("#gameSlideshow").camera({
+        loader: 'bar',
+        fx: 'scrollLeft',
+        transPeriod: 750,
+        height: '350px',
+        playPause: true
+    });
 	toggleRules(0);
 	$(".eventItem:first").trigger("click");
 	// $(".metaRuleItem:first").trigger("click");
-
+    // X-editable default values
+    $.fn.editable.defaults.mode = 'inline';
+    // X-editable activation on each elements
+    $("table#mainProperties span.editable_property").editable();
+    
+	// Behiavior
+	$('#rfc_corebundle_championship_isAgreed').change(function() {
+		toggleRules(200);
+	});
+    
 	// CSS Init
+    $("#breadcrumbs li:not(:last)").append("<span class='divider'>></span>")
+    $("#breadcrumbs").rcrumbs();
 	$("div.metaRuleItem .editZone").hide();
-});
+    $(".jquery_tabs").accessibleTabs();
+})

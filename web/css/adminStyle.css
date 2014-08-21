@@ -12,3 +12,33 @@
 	background-color: #428bca;
 	border-color: #428bca;
 }
+
+.list-inline > li { display: inline; }
+
+.small { font-size: x-small; }
+
+.messagebox {
+margin: 10px 0px;
+padding:12px;
+}
+.messagebox i{
+    margin:10px 22px;
+    font-size:2em;
+    vertical-align:middle;
+}
+.messagebox-info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+.messagebox-success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.messagebox-warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.messagebox-error {
+    color: #D8000C;
+    background-color: #FFBABA;
+}

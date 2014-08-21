@@ -812,17 +812,17 @@
         },
         {
             "name": "friendsofsymfony/rest-bundle",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "target-dir": "FOS/RestBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "e3a28ebf74724a51a31d6142b002c0c9652f71a4"
+                "reference": "0649a4c1d8cecd27885b09c1cddddb497a0d3ca3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/e3a28ebf74724a51a31d6142b002c0c9652f71a4",
-                "reference": "e3a28ebf74724a51a31d6142b002c0c9652f71a4",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/0649a4c1d8cecd27885b09c1cddddb497a0d3ca3",
+                "reference": "0649a4c1d8cecd27885b09c1cddddb497a0d3ca3",
                 "shasum": ""
             },
             "require": {
@@ -838,7 +838,7 @@
                 "jms/serializer-bundle": "<0.11"
             },
             "require-dev": {
-                "jms/serializer-bundle": "0.12.*",
+                "jms/serializer-bundle": "~0.12",
                 "sensio/framework-extra-bundle": "~2.2",
                 "symfony/form": "~2.2",
                 "symfony/security": "~2.2",
@@ -847,7 +847,7 @@
                 "symfony/yaml": "~2.2"
             },
             "suggest": {
-                "jms/serializer-bundle": "Add support for advanced serialization capabilities, recommended, requires 0.12.*",
+                "jms/serializer-bundle": "Add support for advanced serialization capabilities, recommended, requires ~0.12",
                 "sensio/framework-extra-bundle": "Add support for route annotations and the view response listener",
                 "symfony/serializer": "Add support for basic serialization capabilities and xml decoding, requires ~2.2",
                 "symfony/validator": "Add support for validation capabilities in the ParamFetcher, requires ~2.2"
@@ -878,8 +878,7 @@
                 },
                 {
                     "name": "Konstantin Kudryashov",
-                    "email": "ever.zet@gmail.com",
-                    "homepage": "http://everzet.com"
+                    "email": "ever.zet@gmail.com"
                 }
             ],
             "description": "This Bundle provides various tools to rapidly develop RESTful API's with Symfony2",
@@ -887,7 +886,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-07-11 21:09:03"
+            "time": "2014-08-15 12:18:54"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1442,12 +1441,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpMenu.git",
-                "reference": "5758d0026d7ed00c8dd4727e413918cf2dc74c1a"
+                "reference": "4718be3b639d30d3ac1e4292bd7232faccceb962"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/5758d0026d7ed00c8dd4727e413918cf2dc74c1a",
-                "reference": "5758d0026d7ed00c8dd4727e413918cf2dc74c1a",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/4718be3b639d30d3ac1e4292bd7232faccceb962",
+                "reference": "4718be3b639d30d3ac1e4292bd7232faccceb962",
                 "shasum": ""
             },
             "require": {
@@ -1484,7 +1483,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "Knplabs",
+                    "name": "KnpLabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -1498,7 +1497,7 @@
                 "menu",
                 "tree"
             ],
-            "time": "2014-08-01 09:50:16"
+            "time": "2014-08-08 15:32:27"
         },
         {
             "name": "knplabs/knp-menu-bundle",
@@ -2650,6 +2649,7 @@
         "knplabs/knp-menu": 20,
         "knplabs/knp-menu-bundle": 20
     },
+    "prefer-stable": false,
     "platform": {
         "php": ">=5.3.3"
     },

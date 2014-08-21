@@ -29,20 +29,18 @@ extends "RFCAdminBundle::layout.html.twig" %} {% block title %} Admin -
     </div>
 </div>
 
-<div class="panel panel-default">
-    <div class="panel-heading">Select a game</div>
-    <div class="panel-body">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                Game list<span class="caret"></span>
-            </button>
-            <span class="dropdown-arrow dropdown-arrow-inverse"></span>
-            <ul class="dropdown-menu dropdown-inverse">
-                {% for game in games %}
-                    <li><a href="{{ path('admin_game_manage', {'gameId': game.id}) }}">{{ game.name }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
+<div>
+    <button href="#" data-dropdown="#dropdown-game" class="ym-button">
+        Select a game
+    </button>
+    <div id="dropdown-game" class="dropdown dropdown-tip">
+        <ul class="dropdown-menu">
+            {% for game in games %}
+              <li>
+                  <a href="{{ path('admin_game_manage', {'gameId': game.id}) }}">{{ game.name }}</a>
+              </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 

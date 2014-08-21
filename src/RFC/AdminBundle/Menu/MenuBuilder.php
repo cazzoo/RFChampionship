@@ -41,11 +41,6 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
         
-        // changement de l'affichage du menu
-        $menu->setChildrenAttributes(array(
-            'class' => 'nav nav-pills nav-stacked'
-        ));
-        
         $routeName = $request->get('_route');
         
         $nav = array(
@@ -68,6 +63,17 @@ class MenuBuilder
         );
         
         if ($request->get('gameId') != null) {
+            $nav['Selected Game'] = array(
+                'route' => '',
+                'type' => 'label'
+            );
+            $nav["Summary"] = array(
+                'route' => 'admin_game_manage',
+                'type' => 'item',
+                'routeParameters' => array(
+                    'gameId' => $request->get('gameId')
+                )
+            );
             $nav['Organization'] = array(
                 'route' => '',
                 'type' => 'label'
@@ -122,12 +128,11 @@ class MenuBuilder
         
         foreach ($nav as $name => $params) {
             $menu->addChild($name, $params);
-            if (preg_match('/^' . $params['route'] . '/', $routeName)) {
+            if (preg_match('/^' . $params['route'] . '$/', $routeName)) {
                 $menu[$name]->setAttribute('class', 'active');
             }
             if (preg_match('/^' . $params['type'] . '/', 'label')) {
                 $menu[$name]->setAttribute('class', 'disabled');
-                $menu[$name]->setAttribute('style', 'border-bottom: 1px solid black;');
             }
         }
         
@@ -137,11 +142,6 @@ class MenuBuilder
     public function createAdminBreadcrumbMenu(Request $request)
     {
         $menu = $this->factory->createItem('root');
-        
-        // changement de l'affichage du menu
-        $menu->setChildrenAttributes(array(
-            'class' => 'breadcrumb'
-        ));
         
         $routeName = $request->get('_route');
         

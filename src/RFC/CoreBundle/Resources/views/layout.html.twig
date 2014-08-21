@@ -15,11 +15,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
 {% extends "::layout.html.twig" %}
-{% block body %}
 
-	<div>
-		<h1>RF Championship</h1>
-		{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+{% block header %}
+
+    <div>
+        <h1>RF Championship</h1>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
             | <a href="{{ path('fos_user_security_logout') }}">
                 {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
@@ -28,30 +29,43 @@
             <a href="{{ path('fos_user_security_login') }}">
                 {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
             </a>
-		{% endif %}
-	</div>
-	
-	{% for type, messages in app.session.flashbag.all() %} {% for message in
-	messages %}
-	<div class="flash-{{ type }}">{{ message }}</div>
-	{% endfor %} {% endfor %}
-	
-	{% if game is defined %}
-    	<div>
-    		{% block header %}
-    			{% include 'RFCCoreBundle::Structure/header.html.twig' %}
-    		{% endblock header %}
-    	</div>
-    	<hr />
-	
-	   {% block rfccore_menu %}{% include 'RFCCoreBundle::Structure/menu.html.twig' %}{% endblock %}
-	   {% block rfccore_breadcrumbs %}{% include 'RFCCoreBundle::Structure/breadcrumbs.html.twig' %}{% endblock %}
+        {% endif %}
+    </div>
+    {% if game is defined %}
+        <div>
+            {% include 'RFCCoreBundle::Structure/header.html.twig' %}
+        </div>
     {% endif %}
-	{% block rfccore_body %}{% endblock %}
-	{% block rfccore_comments %}{% include 'RFCCoreBundle::Structure/comments.html.twig' %}{% endblock %}
-	
-{% endblock %}
 
+{% endblock %}
+{% block nav %}
+
+    {% include 'RFCCoreBundle::Structure/menu.html.twig' %}
+
+{% endblock %}
+{% block breadcrumbs %}
+
+    {% include 'RFCCoreBundle::Structure/breadcrumbs.html.twig' %}
+
+{% endblock %}
+{% block main %}
+
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="box {{ type }}">{{ message }}</div>
+        {% endfor %}
+    {% endfor %}
+
+    {% block rfccore_body %}{% endblock %}
+
+{% endblock %}
+{% block comments %}
+
+    {% include 'RFCCoreBundle::Structure/comments.html.twig' %}
+
+{% endblock %}
 {% block footer %}
+
     {% include 'RFCCoreBundle::Structure/footer.html.twig' %}
+
 {% endblock %}

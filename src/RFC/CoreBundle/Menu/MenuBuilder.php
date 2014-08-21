@@ -39,11 +39,6 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
         
-        // changement de l'affichage du menu
-        $menu->setChildrenAttributes(array(
-            'class' => 'nav navbar-nav'
-        ));
-        
         $routeName = $request->get('_route');
         
         $nav = array(
@@ -88,7 +83,7 @@ class MenuBuilder
         foreach ($nav as $name => $params) {
             $menu->addChild($name, $params);
             if (preg_match('/^' . $params['route'] . '/', $routeName)) {
-                $menu[$name]->setAttribute('class', 'active');
+                $menu[$name]->setAttribute('class', 'selected');
             }
         }
         
@@ -98,11 +93,6 @@ class MenuBuilder
     public function createBreadcrumbMenu(Request $request)
     {
         $menu = $this->factory->createItem('root');
-        
-        // changement de l'affichage du menu
-        $menu->setChildrenAttributes(array(
-            'class' => 'breadcrumb'
-        ));
         
         $routeName = $request->get('_route');
         

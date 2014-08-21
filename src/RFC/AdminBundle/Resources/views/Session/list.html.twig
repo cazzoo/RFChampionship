@@ -14,21 +14,24 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% if eventId is null %} Aucun Event sélectionné. Veuillez sélectionner
-un Event. {% else %} {% if sessions %} {% for session in sessions %}
-<li class="list-group-item">
-	<h4 class="list-group-item-heading">{{ session.name }}</h4>
-	<p class="list-group-item-text">
-    	<div>Type : {{ session.typeSession.name }}</div>
-    	<div>Dates : 
-    		<small><span class="label label-primary">{{
-    				session.beginDate|date("Y/m/Y H:i") }}</span> > <span
-    			class="label label-primary">{{ session.endDate|date("Y/m/Y H:i") }}</span></small>
-    	</div>
-	</p>
-</li>
-{% endfor %} {% endif %} Ajouter une session
-<a id="session_add" class="btn btn-inverse btn-xs" role="button"
-	href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : eventId}) }}"><span
-	class="glyphicon glyphicon-plus"></span> </a>
+{% if eventId is null %} 
+    Aucun Event sélectionné. Veuillez sélectionner un Event. 
+{% else %}
+    {% if sessions %}
+        {% for session in sessions %}
+            <li class="list-group-item">
+                <h4 class="list-group-item-heading">{{ session.name }}</h4>
+                <p class="list-group-item-text">
+                    <div>Type : {{ session.typeSession.name }}</div>
+                    <div>Dates : 
+                        <small><span class="label label-primary">{{
+                                session.beginDate|date("Y/m/Y H:i") }}</span> > <span
+                            class="label label-primary">{{ session.endDate|date("Y/m/Y H:i") }}</span></small>
+                    </div>
+                </p>
+            </li>
+        {% endfor %}
+    {% endif %}
+    Ajouter une session
+    <a class="ym-button ym-add" href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : eventId}) }}">Add</a>
 {% endif %}
