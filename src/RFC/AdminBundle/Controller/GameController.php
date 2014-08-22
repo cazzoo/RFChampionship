@@ -40,7 +40,7 @@ class GameController extends Controller
         $entities = $em->getRepository('RFCCoreBundle:Game')->findAll();
         
         return $this->render('RFCAdminBundle:Game:index.html.twig', array(
-            'entities' => $entities
+            'games' => $entities
         ));
     }
 

@@ -27,33 +27,29 @@
     </div>
 </div>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        Games &nbsp;
-        <a class="ym-button ym-add" href="{{ path('admin_game_new') }}">Add</a>
-	</div>
-    <div class="panel-body">
-        <ul class="list-inline">
-            {% for game in entities %}
-                <li>
-                    <a href="{{ path('admin_game_manage', {'gameId': game.id}) }}">
-                        <div class="text-center">
-                            {% if game.listImages is not empty %}
-                                <img alt="{{ game.shortName }}" src="{{ game.listImages[0].url }}"
-                            	   class="img-rounded" width="200px" /><br />
-                            {% endif %}
-                            <span class="label label-default">{{ game.name }}</span>
-                        </div>
-                    </a>
-                    <div class="text-center">
-                        <a href="{{ path('admin_game_show', { 'gameId': game.id }) }}"><span class="label label-default">show</span></a>
-                        <br />
-                        <a href="{{ path('admin_game_edit', { 'gameId': game.id }) }}"><span class="label label-default">edit</span></a>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-</div>
+Games &nbsp;
+<a class="ym-button ym-add" href="{{ path('admin_game_new') }}">Add</a>
+
+<ul class="list-inline">
+	{% for game in games %}
+	<li class="float-left">
+        <div class="center">
+            <a href="{{ path('admin_game_manage', {'gameId': game.id}) }}">
+				{% if game.listImages is not empty %}
+				<img alt="{{ game.shortName }}" src="{{ game.listImages[0].url }}" class="img-rounded" width="200px" />
+                <br />
+                {% endif %}
+                <span class="label label-default">{{ game.name }}</span>
+            </a>
+            <br />
+            <a href="{{ path('admin_game_show', { 'gameId': game.id }) }}"><span class="label label-default">show</span></a>
+            <br />
+            <a href="{{ path('admin_game_edit', { 'gameId': game.id }) }}"><span class="label label-default">edit</span></a>
+        </div>
+    </li>
+    {% else %}
+	   <li>Pas (encore !) de jeux</li> 
+    {% endfor %}
+</ul>
 
 {% endblock %}

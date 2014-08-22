@@ -55,6 +55,8 @@
             rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/jquery.camera.css') }}"
             rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/jquery.wysibb.wbbtheme.css') }}"
+            rel="stylesheet" type="text/css" />
 	<link href="{{ asset('css/adminStyle.css') }}" rel="stylesheet"
 		type="text/css" />
 {% endblock %}
@@ -96,19 +98,12 @@
         </div>
     </breadcrumbs>
     <main>
-        <div class="ym-wrapper">
+        <div class="ym-wrapper ym-clearfix">
             <div class="ym-wbox">
                 {% block main %}{% endblock %}
             </div>
         </div>
     </main>
-    <comments>
-        <div class="ym-wrapper">
-            <div class="ym-wbox">
-                {% block comments %}{% endblock %}
-            </div>
-        </div>
-    </comments>
     <footer>
         <div class="ym-wrapper">
             <div class="ym-wbox">
@@ -129,6 +124,7 @@
 			<script src="{{ asset('jquery/js/jquery.easing.1.3.js') }}"></script>
 			<script src="{{ asset('jquery/js/jquery.mobile.customized.min.js') }}"></script>
 			<script src="{{ asset('jquery/js/jquery.camera.js') }}"></script>
+			<script src="{{ asset('jquery/js/jquery.wysibb.min.js') }}"></script>
 		{% endjavascripts %}
 		{% javascripts 'FosJS' %}
 			<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>

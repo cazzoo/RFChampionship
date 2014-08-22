@@ -13,7 +13,7 @@
 	border-color: #428bca;
 }
 
-.list-inline > li { display: inline; }
+ul.list-inline > li { display: inline; }
 
 .small { font-size: x-small; }
 

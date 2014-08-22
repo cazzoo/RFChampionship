@@ -250,7 +250,8 @@ $(function() {
         height: '350px',
         playPause: true
     });
-	toggleRules(0);
+    $("textarea").wysibb();
+    toggleRules(0);
 	$(".eventItem:first").trigger("click");
 	// $(".metaRuleItem:first").trigger("click");
     // X-editable default values
@@ -262,6 +263,16 @@ $(function() {
 	$('#rfc_corebundle_championship_isAgreed').change(function() {
 		toggleRules(200);
 	});
+    // Table clickable
+    $('tr').has('td').has('a').hover(function() {
+        $(this).css('cursor', 'pointer');
+    });
+    $('tr').has('td').has('a').click(function() {
+        var href = $(this).find('a').attr('href');
+        if(href) {
+            window.location = href;
+        }
+    });
     
 	// CSS Init
     $("#breadcrumbs li:not(:last)").append("<span class='divider'>></span>")

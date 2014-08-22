@@ -24,7 +24,7 @@
         <a class="ym-button ym-add" href="{{ path('admin_championship_new', {'gameId' : gameId}) }}">Add</a>
     </div>
     <div class="panel-body">
-    <div id="msg">
+    <div id="msg"></div>
     	<table class="table">
     		<thead>
     			<tr>
@@ -40,35 +40,35 @@
     			</tr>
     		</thead>
     		<tbody class="table-striped">
-    			{% for entity in entities %}
+    			{% for championship in championships %}
     			<tr>
     				<td><a
-    					href="{{ path('admin_championship_show', { 'championshipId': entity.id, 'gameId': gameId }) }}">{{
-    						entity.id }}</a></td>
-    				<td>{{ entity.name }}</td>
-    				<td>{{ entity.description }}</td>
-    				<td>{{ entity.isAgreed }}</td>
-    				<td>{% if entity.listEvents is empty %}
+    					href="{{ path('admin_championship_show', { 'championshipId': championship.id, 'gameId': gameId }) }}">{{
+    						championship.id }}</a></td>
+    				<td>{{ championship.name }}</td>
+    				<td>{{ championship.description }}</td>
+    				<td>{{ championship.isAgreed }}</td>
+    				<td>{% if championship.listEvents is empty %}
     				        Aucun Event pour le moment
     				    {% else %}
     					<ul class="list-unstyled">
-    						{% for event in entity.listEvents %}
+    						{% for event in championship.listEvents %}
     						<li>{{ event.name }} <div><small><span class="label label-primary">{{ event.beginDate|date("Y/m/Y H:i") }}</span> > <span class="label label-primary">{{ event.endDate|date("Y/m/Y H:i") }}</span></small></div></li> {% endfor %}
     					</ul> {% endif %}
     				</td>
     				<td><ul>
-    						{% for manager in entity.listManagers %}
+    						{% for manager in championship.listManagers %}
     						<li>{{ manager.username }}</li> {% endfor %}
     					</ul></td>
-    				<td>{{ entity.metaRule }}</td>
+    				<td>{{ championship.metaRule }}</td>
     				<td>
     				    <ul class="list-unstyled">
-    				        {% if entity.isAgreed %}
-    				            {% for rule in entity.metaRule.listRules %}
+    				        {% if championship.isAgreed %}
+    				            {% for rule in championship.metaRule.listRules %}
         						  <li>{{ rule.name }}</li>
         						{% endfor %}
     				        {% else %}
-        						{% for rule in entity.listRules %}
+        						{% for rule in championship.listRules %}
         						  <li>{{ rule.name }}</li>
         						{% endfor %}
     						{% endif %}
@@ -76,10 +76,10 @@
     				<td>
     					<ul class="list-unstyled">
     						<li><a class="btn btn-info btn-xs" role="button"
-    							href="{{ path('admin_championship_show', { 'championshipId': entity.id, 'gameId': game.id  }) }}"><span
+    							href="{{ path('admin_championship_show', { 'championshipId': championship.id, 'gameId': game.id  }) }}"><span
     								class="glyphicon glyphicon-eye-open"></span></a></li>
     						<li><a class="btn btn-primary btn-xs" role="button"
-    							href="{{ path('admin_championship_edit', { 'championshipId': entity.id, 'gameId': gameId  }) }}"><span
+    							href="{{ path('admin_championship_edit', { 'championshipId': championship.id, 'gameId': gameId  }) }}"><span
     								class="glyphicon glyphicon-edit"></span></a></li>
     					</ul>
     				</td>

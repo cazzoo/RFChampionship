@@ -15,10 +15,8 @@ rfcCore_calendar:
         gameId: \d*
 
 rfcCore_user:
-    path:   /{gameId}/User
+    path:   /User
     defaults: { _controller: "RFCCoreBundle:User:index" }
-    requirements:
-        gameId: \d*
 
 rfcCore_crew:
     path:   /{gameId}/Crew

@@ -24,44 +24,37 @@
         <a class="ym-button ym-add" href="{{ path('admin_metaRule_new', {'gameId' : gameId}) }}">Add</a>
     </div>
     <div class="panel-body">
-        <div class="row">
-        	<div class="col-md-5">
-        		<div class="list-group">
-        			{% for metaRule in metaRules %}
-        			<div class="row">
-        				<div class="col-md-10">
-        					<div id="metaRule_{{ metaRule.id }};game_{{ game.id }}"
-        						class="metaRuleItem list-group-item active">
-        						<h4 class="list-group-item-heading">{{ metaRule.name }}</h4>
-        						<p class="list-group-item-text">{{ metaRule.description }}</p>
-        						<div class="editZone">
-        							<a
-        								href="{{ path('admin_metaRule_edit', {'metaRuleId' : metaRule.id, 'gameId' : gameId}) }}">
-        								<span class="glyphicon glyphicon-edit"></span>&nbsp;Editer
-        							</a>
-        						</div>
-        					</div>
-        				</div>
-        				<div class="col-md-2">
-        					<ul class="list-unstyled">
-        						<li><a class="btn btn-info btn-xs" role="button"
-        							href="{{ path('admin_metaRule_show', {'metaRuleId' : metaRule.id, 'gameId' : gameId }) }}">
-        								<span class="glyphicon glyphicon-eye-open"></span>
-        						</a></li>
-        						<li><a class="btn btn-primary btn-xs" role="button"
-        							href="{{ path('admin_metaRule_edit', {'metaRuleId' : metaRule.id, 'gameId' : gameId}) }}"><span
-        								class="glyphicon glyphicon-edit"></span></a></li>
-        					</ul>
-        				</div>
-        			</div>
-        			{% endfor %}
-        		</div>
-        	</div>
-        	<div class="col-md-7">
-        		<ul class="list-group" id="listRules">{# Colonne 2 : Rules #}
-                    {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game, 'metaRuleId' : null} %}
-        		</ul>
-        	</div>
+        <div class="ym-grid">
+          <div class="ym-g40">
+            <div class="ym-gbox">
+              {% for metaRule in metaRules %}
+    			<div id="metaRule_{{ metaRule.id }};game_{{ game.id }}" class="metaRuleItem list-group-item active">
+				<h4 class="list-group-item-heading">{{ metaRule.name }}</h4>
+				<p class="list-group-item-text">{{ metaRule.description }}</p>
+				<div class="editZone">
+					<a
+						href="{{ path('admin_metaRule_edit', {'metaRuleId' : metaRule.id, 'gameId' : gameId}) }}">
+						<span class="glyphicon glyphicon-edit"></span>&nbsp;Editer
+					</a>
+				</div>
+    				<ul class="list-unstyled">
+    					<li><a class="btn btn-info btn-xs" role="button"
+    						href="{{ path('admin_metaRule_show', {'metaRuleId' : metaRule.id, 'gameId' : gameId }) }}">
+    							<span class="glyphicon glyphicon-eye-open"></span>
+    					</a></li>
+    					<li><a class="btn btn-primary btn-xs" role="button"
+    						href="{{ path('admin_metaRule_edit', {'metaRuleId' : metaRule.id, 'gameId' : gameId}) }}"><span
+    							class="glyphicon glyphicon-edit"></span></a></li>
+    				</ul>
+    			{% endfor %}
+            </div>
+          </div>
+          <div class="ym-g40">
+            <div class="ym-gbox">
+               {# Colonne 2 : Rules #}
+               {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game, 'metaRuleId' : null} %}
+            </div>
+          </div>
         </div>
     </div>
 </div>

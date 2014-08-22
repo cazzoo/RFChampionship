@@ -14,31 +14,11 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/CoreBundle/Resources/views/Members/index.html.twig #}
+{% trans_default_domain 'FOSUserBundle' %}
 
-{% extends "RFCCoreBundle::layout.html.twig" %}
-
-{% block rfccore_body %}
-
-    <h2>Member list</h2>
-    
-    <table>
-		<thead>
-			<tr>
-				<th>Username</th>
-				<th>Steam ID</th>
-				<th>Mentor</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for user in users %}
-                <tr>
-                    <td><a href="{{ path('rfcCore_members_show', { 'userId': user.id, 'gameId': game.id  }) }}">{{ user.username }}</a></td>
-                    <td>{% if user.steamId %}{{ user.steamId }}{% else %} - {% endif %}</td>
-                    <td>{% if user.mentor %}{{ user.mentor.username }}{% else %} - {% endif %}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-{% endblock %}
+<div>
+    <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
+    <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+    <p>First name: {{ user.firstName }}</p>
+    <p>Last name: {{ user.lastName }}</p>
+</div>

@@ -23,15 +23,47 @@
     <div class="jquery_tabs">
         <h4>Infos</h4>
         <div class="tabbody">
-            Infos panel content
+            {% trans_default_domain 'FOSUserBundle' %}
+
+            <div>
+                <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
+                <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+                <p>First name: {{ user.firstName }}</p>
+                <p>Last name: {{ user.lastName }}</p>
+            </div>
         </div>
         <h4>Championships</h4>
         <div class="tabbody">
-            Championship list content
+            {% set cur_game = '' %}
+            <ul>
+                {% for championship in championships %}
+                {% if cur_game is null or cur_game != championship.game.name %}
+                    {% set cur_game = championship.game.name %}
+                    <li class="title">{{ cur_game }}</li>
+                {% endif %}
+                    <li>
+                        <a href="{{ path('rfcCore_championships_show', { 'championshipId': championship.id, 'gameId': championship.game.id  }) }}">{{ championship.name }}</a>
+                        {% if championship.isAgreed %}[Agreed!]{% endif %}
+                        <br />
+                        Number events : {{ championship.listEvents|length }}<br />
+                        <div>
+                            <small>
+                                <span class="label label-primary">
+                                    Begin : {{ championship.beginDate|date("Y/m/d H:i") }}
+                                </span>
+                                > 
+                                <span class="label label-primary">
+                                    End : {{ championship.endDate|date("Y/m/d H:i") }}
+                                </span>
+                            </small>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
         <h4>Statistics</h4>
         <div class="tabbody">
-            Statistics content
+            /!\ Under construction /!\
         </div>
     </div>
 

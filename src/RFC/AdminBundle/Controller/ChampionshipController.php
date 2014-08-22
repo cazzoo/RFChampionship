@@ -36,7 +36,7 @@ class ChampionshipController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entities = $em->getRepository('RFCCoreBundle:Championship')->findBy(array(
+        $championships = $em->getRepository('RFCCoreBundle:Championship')->findBy(array(
             'game' => $gameId
         ));
         $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
@@ -52,7 +52,7 @@ class ChampionshipController extends Controller
         $manipulator->moveToPosition($menu->getChild($game->getName()), 1);
         
         return $this->render('RFCAdminBundle:Championship:index.html.twig', array(
-            'entities' => $entities,
+            'championships' => $championships,
             'gameId' => $gameId,
             'game' => $game
         ));

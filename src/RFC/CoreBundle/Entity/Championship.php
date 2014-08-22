@@ -414,4 +414,52 @@ class Championship extends KnowledgeData
     {
         return $this->updatedAt;
     }
+
+    /**
+     * Get Earlyer Date Form Events
+     *
+     * @return \DateTime
+     */
+    public function getBeginDate()
+    {
+        $template = new \DateTime('01/01/1900');
+        $template->format('Y-m-d H:i:s');
+        if ($this->listEvents[0] != null) {
+            $beginDate = $this->listEvents[0]->getBeginDate();
+        } else
+            $beginDate = $template;
+        foreach ($this->listEvents as $event) {
+            if ($beginDate > $event->getBeginDate()) {
+                $beginDate = $event->getBeginDate();
+            }
+        }
+        if ($beginDate != $template)
+            return $beginDate;
+        else
+            return null;
+    }
+
+    /**
+     * Get Lastest Date From Events
+     *
+     * @return \DateTime
+     */
+    public function getEndDate()
+    {
+        $template = new \DateTime('01/01/2100');
+        $template->format('Y-m-d H:i:s');
+        if ($this->listEvents[0] != null) {
+            $endDate = $this->listEvents[0]->getEndDate();
+        } else
+            $endDate = $template;
+        foreach ($this->listEvents as $event) {
+            if ($endDate < $event->getEndDate()) {
+                $endDate = $event->getEndDate();
+            }
+        }
+        if ($endDate != $template)
+            return $endDate;
+        else
+            return null;
+    }
 }

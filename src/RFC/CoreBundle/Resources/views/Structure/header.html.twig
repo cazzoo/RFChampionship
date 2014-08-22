@@ -24,7 +24,7 @@
         <div id="dropdown-game" class="dropdown dropdown-tip">
             <ul class="dropdown-menu">
                 {% for gamedd in games %}
-                  {% if (game.id != gamedd.id) %}
+                  {% if (game is not null and game.id != gamedd.id) %}
                       <li>
                           <a href="{{ path('rfcCore_gameSelection', {'gameId': gamedd.id}) }}">{{ gamedd.name }}</a>
                       </li>

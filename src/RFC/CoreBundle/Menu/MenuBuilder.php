@@ -42,8 +42,13 @@ class MenuBuilder
         $routeName = $request->get('_route');
         
         $nav = array(
-            'Home' => array(
-                'route' => 'rfcCore_gameSelection',
+            'Select a game' => array(
+                'route' => 'rfcCore_accueil'
+            ));
+        
+        $gameNav = array(
+            'Game home' => array(
+            'route' => 'rfcCore_gameSelection',
                 'routeParameters' => array(
                     'gameId' => $request->get('gameId')
                 )
@@ -60,12 +65,6 @@ class MenuBuilder
                     'gameId' => $request->get('gameId')
                 )
             ),
-            'User' => array(
-                'route' => 'rfcCore_user',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
-            ),
             'Crew' => array(
                 'route' => 'rfcCore_crew',
                 'routeParameters' => array(
@@ -77,13 +76,26 @@ class MenuBuilder
                 'routeParameters' => array(
                     'gameId' => $request->get('gameId')
                 )
-            )
-        );
+            ));
+        
+        $userNav = array(
+            'User' => array(
+                'route' => 'rfcCore_user',
+                'routeParameters' => array(
+                    'gameId' => $request->get('gameId')
+                )
+            ));
+        
+        if ($request->get('gameId') != null) {
+            $nav = array_merge($nav, $gameNav);
+            };
+            
+        $nav = array_merge($nav, $userNav);
         
         foreach ($nav as $name => $params) {
             $menu->addChild($name, $params);
             if (preg_match('/^' . $params['route'] . '/', $routeName)) {
-                $menu[$name]->setAttribute('class', 'selected');
+                $menu[$name]->setAttribute('class', 'active');
             }
         }
         
@@ -96,16 +108,16 @@ class MenuBuilder
         
         $routeName = $request->get('_route');
         
-        // cet item sera toujours affiché
-        $menu->addChild('Home', array(
-            'route' => 'rfcCore_gameSelection',
-            'routeParameters' => array(
-                'gameId' => $request->get('gameId')
-            )
-        ));
-        
         // crée le menu en fonction de la route
         switch ($routeName) {
+            case 'rfcCore_gameSelection':
+                $menu->addChild('Game home', array(
+                'route' => 'rfcCore_gameSelection',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
             case 'rfcCore_championships':
                 $menu->addChild('Championships', array(
                     'route' => 'rfcCore_championships',
@@ -130,14 +142,6 @@ class MenuBuilder
                     )
                 ));
                 break;
-            case 'rfcCore_user':
-                $menu->addChild('User', array(
-                    'route' => 'rfcCore_user',
-                    'routeParameters' => array(
-                        'gameId' => $request->get('gameId')
-                    )
-                ));
-                break;
             case 'rfcCore_crew':
                 $menu->addChild('Crew', array(
                     'route' => 'rfcCore_crew',
@@ -157,6 +161,14 @@ class MenuBuilder
             case 'rfcCore_members_show':
                 $menu->addChild('Members', array(
                     'route' => 'rfcCore_members',
+                    'routeParameters' => array(
+                        'gameId' => $request->get('gameId')
+                    )
+                ));
+                break;
+            case 'rfcCore_user':
+                $menu->addChild('User', array(
+                    'route' => 'rfcCore_user',
                     'routeParameters' => array(
                         'gameId' => $request->get('gameId')
                     )

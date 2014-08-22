@@ -25,16 +25,23 @@ use RFC\CoreBundle\Entity\Game;
 class UserController extends Controller
 {
 
-    public function indexAction($gameId)
+    public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
         
-        $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
+        $championships = $em->getRepository('RFCCoreBundle:Championship')
+            ->createQueryBuilder('c')
+            ->join('c.listUsers', 'u', 'WITH', 'u.id = :userId')
+            ->setParameter('userId', $this->getUser()->getId())
+            ->getQuery()
+            ->getResult();
+        $user = $this->container->get('security.context')->getToken()->getUser();
         
         return $this->render('RFCCoreBundle:User:index.html.twig', array(
-            'game' => $game,
-            'games' => $games
+            'games' => $games,
+            'championships' => $championships,
+            'user' => $user
         ));
     }
 }

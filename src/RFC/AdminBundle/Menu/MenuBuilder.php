@@ -62,69 +62,72 @@ class MenuBuilder
             )
         );
         
-        if ($request->get('gameId') != null) {
-            $nav['Selected Game'] = array(
+        $gameNav = array(
+            'Selected Game' => array(
                 'route' => '',
                 'type' => 'label'
-            );
-            $nav["Summary"] = array(
+            ),
+            'Summary' => array(
                 'route' => 'admin_game_manage',
                 'type' => 'item',
                 'routeParameters' => array(
                     'gameId' => $request->get('gameId')
                 )
-            );
-            $nav['Organization'] = array(
+            ),
+            'Organization' => array(
                 'route' => '',
                 'type' => 'label'
-            );
-            $nav['Championships'] = array(
+            ),
+            'Championships' => array(
                 'route' => 'admin_championship',
                 'type' => 'item',
                 'routeParameters' => array(
                     'gameId' => $request->get('gameId')
                 )
-            );
-            $nav['Data'] = array(
+            ),
+            'Data' => array(
                 'route' => '',
                 'type' => 'label'
-            );
-            $nav['Vehicles'] = array(
+            ),
+            'Vehicles' => array(
                 'route' => 'admin_vehicle',
                 'type' => 'item',
                 'routeParameters' => array(
                     'gameId' => $request->get('gameId')
                 )
-            );
-            $nav['Tracks'] = array(
+            ),
+            'Tracks' => array(
                 'route' => 'admin_track',
                 'type' => 'item',
                 'routeParameters' => array(
                     'gameId' => $request->get('gameId')
                 )
-            );
-            $nav['Categories'] = array(
+            ),
+            'Categories' => array(
                 'route' => 'admin_category',
                 'type' => 'item',
                 'routeParameters' => array(
                     'gameId' => $request->get('gameId')
                 )
-            );
-            $nav['Rules'] = array(
+            ),
+            'Rules' => array(
                 'route' => 'admin_metaRule',
                 'type' => 'item',
                 'routeParameters' => array(
                     'gameId' => $request->get('gameId')
                 )
-            );
-            $nav['Session types'] = array(
+            ),
+            'Session types' => array(
                 'route' => 'admin_typeSession',
                 'type' => 'item',
                 'routeParameters' => array(
                     'gameId' => $request->get('gameId')
                 )
-            );
-        }
+            ));
+        
+        if ($request->get('gameId') != null) {
+            $nav = array_merge($nav, $gameNav);
+        };
         
         foreach ($nav as $name => $params) {
             $menu->addChild($name, $params);
