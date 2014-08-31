@@ -72,7 +72,7 @@ class User extends BaseUser
     /**
      * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\CrewRequest", mappedBy="requester")
      */
-    protected  $listCrewRequests;
+    protected $listCrewRequests;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Championship", mappedBy="listUsers", cascade={"persist"})
@@ -224,7 +224,7 @@ class User extends BaseUser
         $this->listCrewRequests = $listCrewRequests;
         return $this;
     }
- 
+
     /**
      * Add listChampionships
      *
@@ -294,5 +294,16 @@ class User extends BaseUser
             $role = 'ROLE_ADMIN';
         }
         return $role;
+    }
+
+    public function getCrew()
+    {
+        foreach ($this->getListCrewRequests() as $crewRequest) {
+            if ($crewRequest->getState() == 2) {
+                return $crewRequest;
+            } else {
+                return null;
+            }
+        }
     }
 }

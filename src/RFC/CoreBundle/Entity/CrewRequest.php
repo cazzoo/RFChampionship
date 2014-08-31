@@ -31,7 +31,7 @@ use RFC\CoreBundle\Entity\DescriptorTrait;
 class CrewRequest
 {
 
-    private static $stateEnum = array(
+    public static $stateEnum = array(
         '1' => 'New',
         '2' => 'Accepted',
         '3' => 'Refused',
@@ -52,6 +52,11 @@ class CrewRequest
     {
         return array_values(self::$stateEnum);
     }
+    
+    public static function getKeyForValue($value)
+    {
+        return array_search($value, self::getStateValues(), true);
+    }
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -67,6 +72,7 @@ class CrewRequest
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $mentor;
 

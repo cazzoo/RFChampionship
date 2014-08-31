@@ -42,7 +42,7 @@
                 <tr>
                     <td><a href="{{ path('rfcCore_members_show', { 'userId': user.id, 'gameId': game.id  }) }}">{{ user.username }}</a></td>
                     <td>{% if user.steamId %}{{ user.steamId }}{% else %} - {% endif %}</td>
-                    <td>{% if user.mentor %}{{ user.mentor.username }}{% else %} - {% endif %}</td>
+                    <td>{% if user.getCrew is not null %}{{ user.getCrew.mentor.userName }}{% else %} - {% endif %}</td>
                 </tr>
             {% endfor %}
         </tbody>

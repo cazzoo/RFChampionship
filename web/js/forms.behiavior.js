@@ -70,7 +70,7 @@ $(function() {
                $(this).removeClass('editable-unsaved').removeAttr('oldValue');
                //show messages
                var msg = 'Properties updated!';
-               $('#msg').addClass('messagebox-success').removeClass('messagebox-error').html(msg).show();;
+               $('#msg').addClass('messagebox-success').removeClass('messagebox-error').html(msg).show();
                $(this).off('save');
            },
            error: function(errors) {
@@ -80,7 +80,7 @@ $(function() {
                } else { //validation error (client-side or server-side)
                    $.each(errors, function(k, v) { msg += k+": "+v+"<br />"; });
                } 
-               $('#msg').removeClass('messagebox-success').addClass('messagebox-error').html(msg).show();;
+               $('#msg').removeClass('messagebox-success').addClass('messagebox-error').html(msg).show();
            }
         });
     });
@@ -93,6 +93,54 @@ $(function() {
              .removeClass('editable-unsaved')
              .removeAttr('oldValue');
         });
+    });
+
+    // Screen Core : Crew
+	// --------------------------------------------
+	// ----------------- Crew application
+	// --------------------------------------------
+    $('#sendCrewRequest').submit(function(e) {
+        var data = {
+			requesterId : $(this).find('#requesterId').val(),
+			mentorId : $(this).find('#mentorId').val()
+		};
+    	var jsonFormatted = JSON.stringify(data);
+		$.ajax({
+			type : "POST",
+			url : Routing.generate('ajax_crew_application'),
+			data : jsonFormatted,
+			dataType: 'json',
+			cache : false
+		}).done(function(data) {
+			var msg = 'Request sent!';
+            $('#applicationStatus').addClass('messagebox-success').removeClass('messagebox-error').html(msg).show();
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+			alert(jqXHR.status, errorThrown);
+			$('#applicationStatus').html("Impossible d'effectuer l'action");
+		});
+		return false;
+    	e.preventDefaults();
+    });
+    
+    $('#cancelCrewRequest').submit(function() {
+        var data = {
+			crewId : $(this).find('#crewId').val()
+		};
+    	var jsonFormatted = JSON.stringify(data);
+    	$.ajax({
+    		type : "POST",
+    		url : Routing.generate('ajax_crew_retire'),
+    		data : jsonFormatted,
+    		dataType: 'json',
+    		cache : false
+    	}).done(function(data) {
+			var msg = 'Request sent!';
+            $('#applicationStatus').addClass('messagebox-success').removeClass('messagebox-error').html(msg).show();
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+			alert(jqXHR.status, errorThrown);
+			$('#applicationStatus').html("Impossible d'effectuer l'action");
+		});
+		return false;
     });
 
 	// Screen Championship

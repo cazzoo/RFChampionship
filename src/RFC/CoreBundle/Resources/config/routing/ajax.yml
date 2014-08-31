@@ -6,8 +6,22 @@ ajax_user_register_championship:
         expose: true
         
 ajax_properties_update:
-    pattern: /updateProperties}
+    pattern: /updateProperties
     defaults: { _controller: "RFCAdminBundle:System:updateProperties" }
+    requirements: { _method: post }
+    options:
+        expose: true
+        
+ajax_crew_application:
+    pattern: /crewApplication
+    defaults: { _controller: "RFCCoreBundle:Crew:crewApplication" }
+    requirements: { _method: post }
+    options:
+        expose: true
+
+ajax_crew_retire:
+    pattern: /crewRetirement
+    defaults: { _controller: "RFCCoreBundle:Crew:crewRetirement" }
     requirements: { _method: post }
     options:
         expose: true

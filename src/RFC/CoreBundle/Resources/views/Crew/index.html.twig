@@ -22,29 +22,65 @@
 
     <h2>My Crew</h2>
     
+    <div class="messagebox" id="applicationStatus"></div>
+    
 {% if app.user %}
-    {% if app.user.listCrewRequests is not empty %}
+    {% set showApplicationForm = false %}
+    {% set showRetirementForm = false %}
+    {% if app.user.listCrewRequests is empty %}
+        {% set showApplicationForm = true %}
+    {% else %}
         {% set crew = '' %}
+        {% set crewAwaiting = '' %}
         {% for crewRequest in app.user.listCrewRequests %}
             {% if crewRequest.state == 2 %} {# request accepted #}
                 {% set crew = crewRequest %}
             {% endif %}
+            {% if crewRequest.state == 1 %}
+                {% set crewAwaiting = crewRequest %}
+            {% endif %}
         {% endfor %}
         {% if crew is not empty %}
-            {# if belongs to a crew #}
             {# show crew infos #}
-            You're belonging to {{ app.user.mentor.userName }}'s crew.<br />
-            Feel free to share things to this crew.<br />
+            You're belonging to {{ crew.mentor.userName }}'s crew.<br />
+            Feel free to share things with the crew.<br />
+            {% set showRetirementForm = true %}
             {# TODO : LOAD crew feed #}
         {% else %}
-            You asked to being part of {{ app.user.mentor.userName }}'s crew but you-r request is not accepted yet.
-            {# if request is not accepted #}
+            {% if crewAwaiting %}
+                You asked to being part of {{ crewAwaiting.mentor.userName }}'s crew but your request is not accepted yet.<br />
+                {% set showRetirementForm = true %}
+            {% else %}
+                {% set showApplicationForm = true %}
+            {% endif %}
         {% endif %}
-    {% else %}
+    {% endif %}
+    {% if showApplicationForm == true %}
         You're not part in any crew.<br />
-        Select a member as a mentor to be part of his crew.
-        {# show select of all users #}
-        {# else propose to join a crew #}
+        Select a member as a mentor to be part of his crew.<br />
+        <form id="sendCrewRequest">
+            <input type="hidden" id="requesterId" value="{{ app.user.id }}" />
+            <select id="mentorId">
+                {% for user in users %}
+                    {% if user.id != app.user.id %}
+                        <option value="{{ user.id }}">{{ user.userName }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        <button class="ym-button">Send request</button>
+        </form>
+    {% endif %}
+    {% if showRetirementForm == true %}
+    <form id="cancelCrewRequest">
+        {% if crew is not empty %}
+            {% set crewId = crew.id %}
+        {% endif %}
+        {% if crewAwaiting is not empty %}
+            {% set crewId = crewAwaiting.id %}
+        {% endif %}
+        <input type="hidden" id="crewId" value="{{ crewId }}" />
+        <button type="submit" class="ym-button">Retire from crew</button>
+    </form>
     {% endif %}
 {% else %}
     You need to log-in / register to belong a crew.
