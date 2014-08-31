@@ -70,6 +70,11 @@ class User extends BaseUser
     protected $steamId;
 
     /**
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Property")
+     */    
+    protected $listPreferences;
+
+    /**
      * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\CrewRequest", mappedBy="requester")
      */
     protected $listCrewRequests;
@@ -84,6 +89,7 @@ class User extends BaseUser
         parent::__construct();
         $this->listChampionships = array();
         $this->listCrewRequests = array();
+        $this->listPreferences = array();
     }
 
     /**
@@ -214,6 +220,17 @@ class User extends BaseUser
         return $this->steamId;
     }
 
+    public function getListPreferences()
+    {
+        return $this->listPreferences;
+    }
+
+    public function setListPreferences($listPreferences)
+    {
+        $this->listPreferences = $listPreferences;
+        return $this;
+    }
+ 
     public function getListCrewRequests()
     {
         return $this->listCrewRequests;

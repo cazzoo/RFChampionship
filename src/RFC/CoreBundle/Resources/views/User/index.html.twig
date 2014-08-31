@@ -32,6 +32,16 @@
                 <p>Last name: {{ user.lastName }}</p>
             </div>
         </div>
+        <h4>Preferences</h4>
+        <div class="tabbody">
+            {% if app.user.listPreferences is not empty %}
+                <ul>
+                    {% for preference in app.user.listPreferences %}
+                        <li>{{ preference.name }}</li>    
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
         <h4>Championships</h4>
         <div class="tabbody">
             {% set cur_game = '' %}
