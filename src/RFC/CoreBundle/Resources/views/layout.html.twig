@@ -59,9 +59,13 @@
     {% block rfccore_body %}{% endblock %}
 
 {% endblock %}
-{% block footer %}
+{% block comments %}
 
     {% include 'RFCCoreBundle::Structure/comments.html.twig' %}
+    
+{% endblock %}
+{% block footer %}
+
     {% include 'RFCCoreBundle::Structure/footer.html.twig' %}
 
 {% endblock %}

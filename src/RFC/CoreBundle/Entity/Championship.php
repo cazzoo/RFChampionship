@@ -44,7 +44,7 @@ class Championship extends KnowledgeData
     private $isAgreed;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game" , inversedBy="listChampionships")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game", inversedBy="listChampionships")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $game;

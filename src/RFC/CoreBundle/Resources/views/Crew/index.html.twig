@@ -23,9 +23,29 @@
     <h2>My Crew</h2>
     
 {% if app.user %}
-    {# if belongs to a crew #}
-    {# show crew infos #}
-    {# else propose to join a crew #}
+    {% if app.user.listCrewRequests is not empty %}
+        {% set crew = '' %}
+        {% for crewRequest in app.user.listCrewRequests %}
+            {% if crewRequest.state == 2 %} {# request accepted #}
+                {% set crew = crewRequest %}
+            {% endif %}
+        {% endfor %}
+        {% if crew is not empty %}
+            {# if belongs to a crew #}
+            {# show crew infos #}
+            You're belonging to {{ app.user.mentor.userName }}'s crew.<br />
+            Feel free to share things to this crew.<br />
+            {# TODO : LOAD crew feed #}
+        {% else %}
+            You asked to being part of {{ app.user.mentor.userName }}'s crew but you-r request is not accepted yet.
+            {# if request is not accepted #}
+        {% endif %}
+    {% else %}
+        You're not part in any crew.<br />
+        Select a member as a mentor to be part of his crew.
+        {# show select of all users #}
+        {# else propose to join a crew #}
+    {% endif %}
 {% else %}
     You need to log-in / register to belong a crew.
 {% endif %}

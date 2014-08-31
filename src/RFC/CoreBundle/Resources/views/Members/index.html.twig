@@ -31,7 +31,14 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for user in users %}
+            {% set typeUser = '' %}
+                {% for user in users %}
+                {% if user.getHighestRole != typeUser %}
+                    {% set typeUser = user.getHighestRole %}
+                    <tr class="info">
+                        <td colspan="2"><strong>{{ user.getHighestRole }}</strong></td>
+                    </tr>
+                {% endif %}
                 <tr>
                     <td><a href="{{ path('rfcCore_members_show', { 'userId': user.id, 'gameId': game.id  }) }}">{{ user.username }}</a></td>
                     <td>{% if user.steamId %}{{ user.steamId }}{% else %} - {% endif %}</td>

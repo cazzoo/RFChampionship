@@ -1,20 +1,21 @@
 <?php
-/*  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
-    Copyright (C) 2014 - //Racing-France//
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
-
+/*
+ * //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+ * Copyright (C) 2014 - //Racing-France//
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 namespace RFC\UserBundle\Entity;
 
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -69,9 +70,9 @@ class User extends BaseUser
     protected $steamId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\UserBundle\Entity\User")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\CrewRequest", mappedBy="requester")
      */
-    protected $mentor;
+    protected  $listCrewRequests;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Championship", mappedBy="listUsers", cascade={"persist"})
@@ -82,6 +83,7 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->listChampionships = array();
+        $this->listCrewRequests = array();
     }
 
     /**
@@ -212,29 +214,17 @@ class User extends BaseUser
         return $this->steamId;
     }
 
-    /**
-     * Set mentor
-     *
-     * @param \RFC\UserBundle\Entity\User $mentor            
-     * @return User
-     */
-    public function setMentor(\RFC\UserBundle\Entity\User $mentor = null)
+    public function getListCrewRequests()
     {
-        $this->mentor = $mentor;
-        
+        return $this->listCrewRequests;
+    }
+
+    public function setListCrewRequests($listCrewRequests)
+    {
+        $this->listCrewRequests = $listCrewRequests;
         return $this;
     }
-
-    /**
-     * Get mentor
-     *
-     * @return \RFC\UserBundle\Entity\User
-     */
-    public function getMentor()
-    {
-        return $this->mentor;
-    }
-
+ 
     /**
      * Add listChampionships
      *
@@ -266,5 +256,43 @@ class User extends BaseUser
     public function getListChampionships()
     {
         return $this->listChampionships;
+    }
+
+    public function isRoleAdmin()
+    {
+        return $this->hasRole('ROLE_ADMIN');
+    }
+
+    public function isRoleCertifiedManager()
+    {
+        return $this->hasRole('ROLE_CERTIFIED_MANAGER');
+    }
+
+    public function isRoleManager()
+    {
+        return $this->hasRole('ROLE_MANAGER');
+    }
+
+    public function isRoleUser()
+    {
+        return $this->hasRole('ROLE_USER');
+    }
+
+    public function getHighestRole()
+    {
+        $role = 'ROLE_BANNED';
+        if ($this->isRoleUser()) {
+            $role = 'ROLE_USER';
+        }
+        if ($this->isRoleManager()) {
+            $role = 'ROLE_MANAGER';
+        }
+        if ($this->isRoleCertifiedManager()) {
+            $role = 'ROLE_CERTIFIED_MANAGER';
+        }
+        if ($this->isRoleAdmin()) {
+            $role = 'ROLE_ADMIN';
+        }
+        return $role;
     }
 }
