@@ -48,7 +48,7 @@ class MenuBuilder
         
         $gameNav = array(
             'Game home' => array(
-            'route' => 'rfcCore_gameSelection',
+                'route' => 'rfcCore_gameSelection',
                 'routeParameters' => array(
                     'gameId' => $request->get('gameId')
                 )

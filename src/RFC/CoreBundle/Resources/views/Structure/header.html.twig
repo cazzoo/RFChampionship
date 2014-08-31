@@ -16,25 +16,6 @@
 
 {% block fos_user_content %}
 {% endblock fos_user_content %}
-{% if games|length > 1 %}
-    <div>
-    	<button href="#" data-dropdown="#dropdown-game" class="ym-button">
-    		Liste des jeux
-    	</button>
-        <div id="dropdown-game" class="dropdown dropdown-tip">
-            <ul class="dropdown-menu">
-                {% for gamedd in games %}
-                  {% if (game is not null and game.id != gamedd.id) %}
-                      <li>
-                          <a href="{{ path('rfcCore_gameSelection', {'gameId': gamedd.id}) }}">{{ gamedd.name }}</a>
-                      </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-<a href="{{ path('rfcCore_accueil') }}" class="ym-button">Sélectionner un autre jeu</a>
-{% endif %}
 
 {% if is_granted('ROLE_ADMIN') %}
    <a href="{{ path('RFCAdmin_index') }}" class="ym-button ym-danger">Administration</a>
