@@ -54,7 +54,8 @@ class CrewController extends Controller
         }
         
         $em = $this->getDoctrine()->getManager();
-        
+
+        $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($params['gameId']);
         $requester = $em->getRepository('RFCUserBundle:User')->findOneById($params['requesterId']);
         $mentor = $em->getRepository('RFCUserBundle:User')->findOneById($params['mentorId']);
         
@@ -62,6 +63,7 @@ class CrewController extends Controller
         $request->setRequester($requester);
         $request->setMentor($mentor);
         $request->setState(1);
+        $request->setGame($game);
         
         try{
             $em->persist($request);
@@ -98,5 +100,30 @@ class CrewController extends Controller
         }
     
         return $jsonResponse;
+    }
+    
+    public function crewAcceptAction()
+    {
+    	$params = array();
+    	$content = $this->get("request")->getContent();
+    	if (!empty($content))
+    	{
+    	    $params = json_decode($content, true); // 2nd param to get as array
+    	}
+    	
+    	$em = $this->getDoctrine()->getManager();
+    	
+    	$crew = $em->getRepository('RFCCoreBundle:CrewRequest')->findOneById($params['crewId']);
+    	
+    	$crew->setState(2);
+    	
+    	try{
+    	    $em->flush();
+    	    $jsonResponse = new JsonResponse($crew, 200);
+    	} catch (Exception $e){
+    	    $jsonResponse = new JsonResponse($crew, 400);
+    	}
+    	
+    	return $jsonResponse;
     }
 }

@@ -66,6 +66,12 @@ class CrewRequest
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $game;
+
+    /**
      * @ORM\Column(name="state", type="integer")
      */
     private $state;
@@ -103,6 +109,14 @@ class CrewRequest
     {
         return $this->id;
     }
+	public function getGame() {
+		return $this->game;
+	}
+	public function setGame($game) {
+		$this->game = $game;
+		return $this;
+	}
+	
 
     public function getState()
     {

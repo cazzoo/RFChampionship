@@ -42,13 +42,13 @@
         {% endfor %}
         {% if crew is not empty %}
             {# show crew infos #}
-            You're belonging to {{ crew.mentor.userName }}'s crew.<br />
+            You're belonging to <strong>{{ crew.mentor.userName }}</strong>'s crew.<br />
             Feel free to share things with the crew.<br />
             {% set showRetirementForm = true %}
             {# TODO : LOAD crew feed #}
         {% else %}
             {% if crewAwaiting %}
-                You asked to being part of {{ crewAwaiting.mentor.userName }}'s crew but your request is not accepted yet.<br />
+                You asked to being part of <strong>{{ crewAwaiting.mentor.userName }}</strong>'s crew but your request is not accepted yet.<br />
                 {% set showRetirementForm = true %}
             {% else %}
                 {% set showApplicationForm = true %}
@@ -60,6 +60,7 @@
         Select a member as a mentor to be part of his crew.<br />
         <form id="sendCrewRequest">
             <input type="hidden" id="requesterId" value="{{ app.user.id }}" />
+            <input type="hidden" id="gameId" value="{{ game.id }}" />
             <select id="mentorId">
                 {% for user in users %}
                     {% if user.id != app.user.id %}
@@ -79,7 +80,7 @@
             {% set crewId = crewAwaiting.id %}
         {% endif %}
         <input type="hidden" id="crewId" value="{{ crewId }}" />
-        <button type="submit" class="ym-button">Retire from crew</button>
+        <button type="submit" class="ym-button ym-danger ym-delete">Retire from crew</button>
     </form>
     {% endif %}
 {% else %}

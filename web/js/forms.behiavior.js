@@ -35,6 +35,57 @@ $(function() {
 		return false;
 	}
     
+    function crewApplyRequest(data) {
+    	var jsonFormatted = JSON.stringify(data);
+		$.ajax({
+			type : "POST",
+			url : Routing.generate('ajax_crew_application'),
+			data : jsonFormatted,
+			dataType: 'json',
+			cache : false
+		}).done(function(data) {
+			var msg = 'Request sent!';
+            $('#applicationStatus').addClass('messagebox-success').removeClass('messagebox-error').html(msg).show();
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+			alert(jqXHR.status, errorThrown);
+			$('#applicationStatus').html("Impossible d'effectuer l'action");
+		});
+    }
+    
+    function crewDeclineRequest(data) {
+        	var jsonFormatted = JSON.stringify(data);
+        	$.ajax({
+        		type : "POST",
+        		url : Routing.generate('ajax_crew_retire'),
+        		data : jsonFormatted,
+        		dataType: 'json',
+        		cache : false
+        	}).done(function(data) {
+    			var msg = 'Request sent!';
+                $('#applicationStatus').addClass('messagebox-success').removeClass('messagebox-error').html(msg).show();
+    		}).fail(function(jqXHR, textStatus, errorThrown) {
+    			alert(jqXHR.status, errorThrown);
+    			$('#applicationStatus').html("Impossible d'effectuer l'action");
+    		});
+    }
+    
+    function crewAcceptRequest(data) {
+        	var jsonFormatted = JSON.stringify(data);
+        	$.ajax({
+        		type : "POST",
+        		url : Routing.generate('ajax_crew_accept'),
+        		data : jsonFormatted,
+        		dataType: 'json',
+        		cache : false
+        	}).done(function(data) {
+    			var msg = 'Request sent!';
+                $('#applicationStatus').addClass('messagebox-success').removeClass('messagebox-error').html(msg).show();
+    		}).fail(function(jqXHR, textStatus, errorThrown) {
+    			alert(jqXHR.status, errorThrown);
+    			$('#applicationStatus').html("Impossible d'effectuer l'action");
+    		});
+    }
+    
     // Screen Admin : System
 	// --------------------------------------------
 	// ----------------- Properties editing
@@ -99,47 +150,41 @@ $(function() {
 	// --------------------------------------------
 	// ----------------- Crew application
 	// --------------------------------------------
-    $('#sendCrewRequest').submit(function(e) {
+    $('form#sendCrewRequest').submit(function(e) {
         var data = {
-			requesterId : $(this).find('#requesterId').val(),
-			mentorId : $(this).find('#mentorId').val()
-		};
-    	var jsonFormatted = JSON.stringify(data);
-		$.ajax({
-			type : "POST",
-			url : Routing.generate('ajax_crew_application'),
-			data : jsonFormatted,
-			dataType: 'json',
-			cache : false
-		}).done(function(data) {
-			var msg = 'Request sent!';
-            $('#applicationStatus').addClass('messagebox-success').removeClass('messagebox-error').html(msg).show();
-		}).fail(function(jqXHR, textStatus, errorThrown) {
-			alert(jqXHR.status, errorThrown);
-			$('#applicationStatus').html("Impossible d'effectuer l'action");
-		});
+    			requesterId : $(this).find('#requesterId').val(),
+    			mentorId : $(this).find('#mentorId').val(),
+    			gameId : $(this).find('#gameId').val()
+    		};
+    	crewApplyRequest(data);
 		return false;
-    	e.preventDefaults();
     });
     
     $('#cancelCrewRequest').submit(function() {
-        var data = {
-			crewId : $(this).find('#crewId').val()
-		};
-    	var jsonFormatted = JSON.stringify(data);
-    	$.ajax({
-    		type : "POST",
-    		url : Routing.generate('ajax_crew_retire'),
-    		data : jsonFormatted,
-    		dataType: 'json',
-    		cache : false
-    	}).done(function(data) {
-			var msg = 'Request sent!';
-            $('#applicationStatus').addClass('messagebox-success').removeClass('messagebox-error').html(msg).show();
-		}).fail(function(jqXHR, textStatus, errorThrown) {
-			alert(jqXHR.status, errorThrown);
-			$('#applicationStatus').html("Impossible d'effectuer l'action");
-		});
+    	var data = {
+    			crewId : $(this).find('#crewId').val()
+    		};
+    	crewDeclineRequest(data);
+		return false;
+    });
+    
+    // Screen Core : User
+	// --------------------------------------------
+	// ----------------- Crew validation
+	// --------------------------------------------
+    $('form#acceptCrewApplication').submit(function(e) {
+    	var data = {
+    			crewId : $(this).find('#crewId').val(),
+    		};
+    	crewAcceptRequest(data);
+		return false;
+    });
+    
+    $('form#declineCrewApplication').submit(function(e) {
+    	var data = {
+    			crewId : $(this).find('#crewId').val()
+    		};
+    	crewDeclineRequest(data);
 		return false;
     });
 
