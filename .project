@@ -43,4 +43,24 @@
 		<nature>com.dubture.symfony.core.symfonyNature</nature>
 		<nature>com.dubture.doctrine.core.doctrineNature</nature>
 	</natures>
+	<filteredResources>
+		<filter>
+			<id>1409595772083</id>
+			<name></name>
+			<type>26</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-.git</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1409595772094</id>
+			<name></name>
+			<type>30</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-.md</arguments>
+			</matcher>
+		</filter>
+	</filteredResources>
 </projectDescription>

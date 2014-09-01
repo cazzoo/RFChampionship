@@ -38,6 +38,6 @@ class UserFormType extends BaseType
             ->add('age')
             ->add('avatarUrl')
             ->add('steamId')
-            ->add('mentor');
+        	->add('enabled', 'checkbox');
     }
 }

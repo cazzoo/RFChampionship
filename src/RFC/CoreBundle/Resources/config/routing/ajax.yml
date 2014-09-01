@@ -25,3 +25,10 @@ ajax_crew_retire:
     requirements: { _method: post }
     options:
         expose: true
+        
+ajax_crew_accept:
+    pattern: /crewAccept
+    defaults: { _controller: "RFCCoreBundle:Crew:crewAccept" }
+    requirements: { _method: post }
+    options:
+        expose: true        

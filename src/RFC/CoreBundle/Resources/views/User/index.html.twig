@@ -20,6 +20,8 @@
 
 {% block rfccore_body %}
 
+    <div class="messagebox" id="applicationStatus"></div>
+
     <div class="jquery_tabs">
         <h4>Infos</h4>
         <div class="tabbody">
@@ -42,6 +44,24 @@
                 </ul>
             {% endif %}
         </div>
+		{% if crewPendingRequests is not empty %}
+        <h4>Crew</h4>
+        <div class="tabbody">
+				{% for crewPendingRequest in crewPendingRequests %}
+					<h5>{{ crewPendingRequest.game.name }}</h5>
+						Member <strong>{{ crewPendingRequest.requester.userName }}</strong> requested to be part of your crew.<br />
+						Do you accept?<br /><br />
+					<form id="acceptCrewApplication">
+						<input type="hidden" id="crewId" value="{{ crewPendingRequest.id }}" />
+						<button type="submit" value="accept" class="ym-button ym-success ym-save">Accept</button>
+					</form>
+					<form id="declineCrewApplication">
+						<input type="hidden" id="crewId" value="{{ crewPendingRequest.id }}" />
+						<button type="submit" value="decline" class="ym-button ym-danger ym-delete">Decline</button>
+					</form>
+				{% endfor %}
+        </div>
+        {% endif %}
         <h4>Championships</h4>
         <div class="tabbody">
             {% set cur_game = '' %}
