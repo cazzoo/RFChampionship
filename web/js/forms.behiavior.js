@@ -346,7 +346,7 @@ $(function() {
     $("textarea").wysibb();
     toggleRules(0);
 	$(".eventItem:first").trigger("click");
-	// $(".metaRuleItem:first").trigger("click");
+	$(".metaRuleItem:first").trigger("click");
     // X-editable default values
     $.fn.editable.defaults.mode = 'inline';
     // X-editable activation on each elements
