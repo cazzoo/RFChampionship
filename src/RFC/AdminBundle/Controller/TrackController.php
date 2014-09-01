@@ -72,9 +72,8 @@ class TrackController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_track_show', array(
-                'trackId' => $entity->getId(),
-                'gameId' => $gameId
+            return $this->redirect($this->generateUrl('admin_track', array(
+	            'gameId' => $gameId
             )));
         }
         
@@ -221,8 +220,7 @@ class TrackController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_track_edit', array(
-                'trackId' => $trackId,
+            return $this->redirect($this->generateUrl('admin_track', array(
                 'gameId' => $gameId
             )));
         }

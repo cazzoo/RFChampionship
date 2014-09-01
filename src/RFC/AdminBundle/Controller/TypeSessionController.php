@@ -72,9 +72,8 @@ class TypeSessionController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_typeSession_show', array(
-                'typeSessionId' => $entity->getId(),
-                'gameId' => $gameId
+            return $this->redirect($this->generateUrl('admin_typeSession', array(
+	            'gameId' => $gameId
             )));
         }
         
@@ -222,8 +221,7 @@ class TypeSessionController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_typeSession_edit', array(
-                'typeSessionId' => $typeSessionId,
+            return $this->redirect($this->generateUrl('admin_typeSession', array(
                 'gameId' => $gameId
             )));
         }

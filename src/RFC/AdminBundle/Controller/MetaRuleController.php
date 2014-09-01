@@ -78,8 +78,7 @@ class MetaRuleController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_metaRule_show', array(
-                'metaRuleId' => $entity->getId(),
+            return $this->redirect($this->generateUrl('admin_metaRule', array(
                 'gameId' => $gameId
             )));
         }
@@ -229,7 +228,6 @@ class MetaRuleController extends Controller
             $em->flush();
             
             return $this->redirect($this->generateUrl('admin_metaRule', array(
-                'metaRuleId' => $metaRuleId,
                 'gameId' => $gameId
             )));
         }

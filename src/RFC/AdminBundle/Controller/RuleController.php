@@ -61,8 +61,7 @@ class RuleController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_rule_show', array(
-                'ruleId' => $entity->getId(),
+            return $this->redirect($this->generateUrl('admin_metaRule', array(
                 'gameId' => $gameId
             )));
         }

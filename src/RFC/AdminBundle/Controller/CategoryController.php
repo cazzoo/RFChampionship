@@ -72,9 +72,8 @@ class CategoryController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_category_show', array(
-                'categoryId' => $entity->getId(),
-                'gameId' => $gameId
+            return $this->redirect($this->generateUrl('admin_category', array(
+	            'gameId' => $gameId,
             )));
         }
         
@@ -221,9 +220,8 @@ class CategoryController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_category_edit', array(
-                'categoryId' => $categoryId,
-                'gameId' => $gameId
+            return $this->redirect($this->generateUrl('admin_category', array(
+	            'gameId' => $gameId,
             )));
         }
         

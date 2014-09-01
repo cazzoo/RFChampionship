@@ -72,9 +72,8 @@ class VehicleController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_vehicle_show', array(
-                'vehicleId' => $entity->getId(),
-                'gameId' => $gameId
+            return $this->redirect($this->generateUrl('admin_vehicle', array(
+	            'gameId' => $gameId
             )));
         }
         
@@ -221,8 +220,7 @@ class VehicleController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_vehicle_edit', array(
-                'vehicleId' => $vehicleId,
+            return $this->redirect($this->generateUrl('admin_vehicle', array(
                 'gameId' => $gameId
             )));
         }
