@@ -110,14 +110,6 @@ class MenuBuilder
         
         // crée le menu en fonction de la route
         switch ($routeName) {
-            case 'rfcCore_gameSelection':
-                $menu->addChild('Game home', array(
-                'route' => 'rfcCore_gameSelection',
-                    'routeParameters' => array(
-                        'gameId' => $request->get('gameId')
-                    )
-                ));
-                break;
             case 'rfcCore_championships':
                 $menu->addChild('Championships', array(
                     'route' => 'rfcCore_championships',

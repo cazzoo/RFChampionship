@@ -35,6 +35,16 @@ class MembersController extends Controller
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
         $users = $em->getRepository('RFCUserBundle:User')->findAll();
         
+        // Ajout du jeu sélectionné
+        $menu = $this->get('rfc_core.menu.breadcrumb');
+        $menu->addChild($game->getName())
+            ->setUri($this->get("router")
+            ->generate('rfcCore_gameSelection', array(
+            'gameId' => $gameId
+        )));
+        $manipulator = new \Knp\Menu\Util\MenuManipulator();
+        $manipulator->moveToPosition($menu->getChild($game->getName()), 0);
+        
         return $this->render('RFCCoreBundle:Members:index.html.twig', array(
             'game' => $game,
             'games' => $games,

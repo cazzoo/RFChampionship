@@ -29,11 +29,21 @@ class CalendarController extends Controller
         
         $em = $this->getDoctrine()->getManager();
         
-        $g = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
+        $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
+        
+        // Ajout du jeu sélectionné
+        $menu = $this->get('rfc_core.menu.breadcrumb');
+        $menu->addChild($game->getName())
+            ->setUri($this->get("router")
+            ->generate('rfcCore_gameSelection', array(
+            'gameId' => $gameId
+        )));
+        $manipulator = new \Knp\Menu\Util\MenuManipulator();
+        $manipulator->moveToPosition($menu->getChild($game->getName()), 0);
 
         return $this->render('RFCCoreBundle:Calendar:index.html.twig', array(
-            'game' => $g,
+            'game' => $game,
             'games' => $games
         ));
     }

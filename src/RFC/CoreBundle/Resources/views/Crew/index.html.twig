@@ -41,6 +41,14 @@
             {% endif %}
         {% endfor %}
         {% if crew is not empty %}
+            {% if crewMembers is not empty %}
+                <h3>List of all members belonging to this crew</h3>
+                <ul>
+                {% for crewMember in crewMembers %}
+                    <li>{{ crewMember.userName }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
             {# show crew infos #}
             You're belonging to <strong>{{ crew.mentor.userName }}</strong>'s crew.<br />
             Feel free to share things with the crew.<br />

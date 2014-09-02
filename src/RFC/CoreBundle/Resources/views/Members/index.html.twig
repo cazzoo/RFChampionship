@@ -36,13 +36,13 @@
                 {% if user.getHighestRole != typeUser %}
                     {% set typeUser = user.getHighestRole %}
                     <tr class="info">
-                        <td colspan="2"><strong>{{ user.getHighestRole }}</strong></td>
+                        <td colspan="3"><strong>{{ user.getHighestRole }}</strong></td>
                     </tr>
                 {% endif %}
                 <tr>
                     <td><a href="{{ path('rfcCore_members_show', { 'userId': user.id, 'gameId': game.id  }) }}">{{ user.username }}</a></td>
                     <td>{% if user.steamId %}{{ user.steamId }}{% else %} - {% endif %}</td>
-                    <td>{% if user.getCrew is not null %}{{ user.getCrew.mentor.userName }}{% else %} - {% endif %}</td>
+                    <td>{% if user.getCrew(game.id) is not null %}{{ user.getCrew(game.id).mentor.userName }}{% else %} - {% endif %}</td>
                 </tr>
             {% endfor %}
         </tbody>

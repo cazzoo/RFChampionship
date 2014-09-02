@@ -30,6 +30,7 @@ class ChampionshipController extends Controller
 
     public function indexAction($gameId)
     {
+        
         $em = $this->getDoctrine()->getManager();
         
         $currentChampionships = $em->getRepository('RFCCoreBundle:Championship')
@@ -61,6 +62,16 @@ class ChampionshipController extends Controller
         $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
         
+        // Ajout du jeu sélectionné
+        $menu = $this->get('rfc_core.menu.breadcrumb');
+        $menu->addChild($game->getName())
+            ->setUri($this->get("router")
+            ->generate('rfcCore_gameSelection', array(
+            'gameId' => $gameId
+        )));
+        $manipulator = new \Knp\Menu\Util\MenuManipulator();
+        $manipulator->moveToPosition($menu->getChild($game->getName()), 0);
+        
         return $this->render('RFCCoreBundle:Championship:index.html.twig', array(
             'currentChampionships' => $currentChampionships,
             'pastChampionships' => $pastChampionships,
@@ -80,6 +91,16 @@ class ChampionshipController extends Controller
         $entity = $em->getRepository('RFCCoreBundle:Championship')->find($championshipId);
         $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
+        
+        // Ajout du jeu sélectionné
+        $menu = $this->get('rfc_core.menu.breadcrumb');
+        $menu->addChild($game->getName())
+            ->setUri($this->get("router")
+            ->generate('rfcCore_gameSelection', array(
+            'gameId' => $gameId
+        )));
+        $manipulator = new \Knp\Menu\Util\MenuManipulator();
+        $manipulator->moveToPosition($menu->getChild($game->getName()), 0);
         
         // Ajout de la miette de pain
         $menu = $this->get('rfc_core.menu.breadcrumb');

@@ -35,7 +35,7 @@ class UserController extends Controller {
 			
 			$user = $this->container->get ( 'security.context' )->getToken ()->getUser ();
 			
-			$crewPendingRequest = $em->getRepository ( 'RFCCoreBundle:CrewRequest' )->findBy ( array (
+			$crewAwaitingRequests = $em->getRepository ( 'RFCCoreBundle:CrewRequest' )->findBy ( array (
 					'mentor' => $user->getId (),
 					'state' => '1'
 			) );
@@ -44,7 +44,7 @@ class UserController extends Controller {
 					'games' => $games,
 					'championships' => $championships,
 					'user' => $user,
-					'crewPendingRequests' => $crewPendingRequest 
+					'crewAwaitingRequests' => $crewAwaitingRequests
 			) );
 		} else {
 			return $this->redirect ( $this->generateUrl ( 'fos_user_security_login' ) );

@@ -36,30 +36,84 @@
         </div>
         <h4>Preferences</h4>
         <div class="tabbody">
-            {% if app.user.listPreferences is not empty %}
-                <ul>
-                    {% for preference in app.user.listPreferences %}
-                        <li>{{ preference.name }}</li>    
-                    {% endfor %}
-                </ul>
-            {% endif %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="msg" class="messagebox"></div>
+                    <table id="mainProperties">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for preference in app.user.listPreferences %}
+                            <tr>
+                                <td>{{ preference.name }}</td>
+                                <td class="small">{{ preference.description }}</td>
+                                <td><span id="{{ preference.id }}" class="editable_property" 
+                                {% if preference.type == "text" %}
+                                    data-type="text"
+                                {% elseif preference.type == "boolean" %}
+                                    data-type="checklist"
+                                {% elseif preference.type == "number" %}
+                                    data-type="number"
+                                {% elseif preference.type == "date" %}
+                                    data-type="date"
+                                {% elseif preference.type == "datetime" %}
+                                    data-type="datetime"
+                                {% elseif preference.type == "textarea" %}
+                                    data-type="textarea"
+                                {% elseif preference.type == "select" %}
+                                    data-type="select"
+                                {% elseif preference.type == "checklist" %}
+                                    data-type="checklist"
+                                {% endif %}
+                                 >{{ preference.value }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <button class="ym-button" id="confirm-btn">Confirm</button>
+                    <button class="ym-button" id="reset-btn">Reset</button>
+                </div>
+            </div>
         </div>
-		{% if crewPendingRequests is not empty %}
+		{% if crewAwaitingRequests is not empty or user.listCrewRequests is not empty %}
         <h4>Crew</h4>
         <div class="tabbody">
-				{% for crewPendingRequest in crewPendingRequests %}
-					<h5>{{ crewPendingRequest.game.name }}</h5>
-						Member <strong>{{ crewPendingRequest.requester.userName }}</strong> requested to be part of your crew.<br />
-						Do you accept?<br /><br />
-					<form id="acceptCrewApplication">
-						<input type="hidden" id="crewId" value="{{ crewPendingRequest.id }}" />
-						<button type="submit" value="accept" class="ym-button ym-success ym-save">Accept</button>
-					</form>
-					<form id="declineCrewApplication">
-						<input type="hidden" id="crewId" value="{{ crewPendingRequest.id }}" />
-						<button type="submit" value="decline" class="ym-button ym-danger ym-delete">Decline</button>
-					</form>
-				{% endfor %}
+            {% if user.getRequestsByType(1) is not empty %}
+                <h5>Pending requests</h5>
+                {% for pendingRequest in user.getRequestsByType(1) %}
+                    [{{ pendingRequest.game.name }}] 
+                    You asked for <strong>{{ pendingRequest.mentor.userName }}</strong>'s Crew on {{ pendingRequest.getCreatedAt|date('H:i:s - d-m-Y') }}.<br />
+                {% endfor %}
+            {% endif %}
+            {% if crewAwaitingRequests is not empty %}
+                <h5>Users awaiting your answer</h5>
+                {% for crewAwaitingRequest in crewAwaitingRequests %}
+                    <h6>{{ crewAwaitingRequest.game.name }}</h6>
+                        Member <strong>{{ crewAwaitingRequest.requester.userName }}</strong> requested to be part of your crew.<br />
+                        Do you accept?<br /><br />
+                    <form id="acceptCrewApplication">
+                        <input type="hidden" id="crewId" value="{{ crewAwaitingRequest.id }}" />
+                        <button type="submit" value="accept" class="ym-button ym-success ym-save">Accept</button>
+                    </form>
+                    <form id="declineCrewApplication">
+                        <input type="hidden" id="crewId" value="{{ crewAwaitingRequest.id }}" />
+                        <button type="submit" value="decline" class="ym-button ym-danger ym-delete">Decline</button>
+                    </form>
+                {% endfor %}
+            {% endif %}
+            {% if user.getRequestsByType(2) is not empty %}
+                <h5>Active crews</h5>
+                {% for activeCrew in user.getRequestsByType(2) %}
+                    [{{ activeCrew.game.name }}] 
+                    You are part in <strong>{{ activeCrew.mentor.userName }}</strong>'s Crew since {{ activeCrew.getUpdatedAt|date('H:i:s - d-m-Y') }}.<br />
+                {% endfor %}
+            {% endif %}
         </div>
         {% endif %}
         <h4>Championships</h4>

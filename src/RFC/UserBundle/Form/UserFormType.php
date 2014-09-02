@@ -38,6 +38,7 @@ class UserFormType extends BaseType
             ->add('age')
             ->add('avatarUrl')
             ->add('steamId')
-        	->add('enabled', 'checkbox');
+        	->add('enabled', 'checkbox', array(
+                'required' => false));
     }
 }

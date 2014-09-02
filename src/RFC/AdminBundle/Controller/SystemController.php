@@ -36,7 +36,13 @@ class SystemController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $properties = $em->getRepository("RFCCoreBundle:Property")->findAll();
+        
+        $properties = $em->getRepository('RFCCoreBundle:Property')
+            ->createQueryBuilder('p')
+            ->where('p.category != :category')
+            ->setParameter('category', 'user')
+            ->getQuery()
+            ->getResult();
         
         return $this->render('RFCAdminBundle:System:index.html.twig', array(
             'properties' => $properties

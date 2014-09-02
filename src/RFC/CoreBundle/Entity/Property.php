@@ -47,6 +47,11 @@ class Property
      * @ORM\Column(name="type", type="string", length=32)
      */
     private $type;
+
+    /**
+     * @ORM\Column(name="category", type="string", length=32)
+     */
+    private $category;
     
     /**
      * @ORM\Column(name="min", type="string", length=16, nullable=true)
@@ -123,6 +128,17 @@ class Property
     public function setType($type)
     {
         $this->type = $type;
+        return $this;
+    }
+
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    public function setCategory($category)
+    {
+        $this->category = $category;
         return $this;
     }
 

@@ -313,14 +313,35 @@ class User extends BaseUser
         return $role;
     }
 
-    public function getCrew()
+    public function getCrew($gameId)
     {
         foreach ($this->getListCrewRequests() as $crewRequest) {
-            if ($crewRequest->getState() == 2) {
+            if ($crewRequest->getState() == 2 && $crewRequest->getGame()->getId() == $gameId) {
                 return $crewRequest;
             } else {
                 return null;
             }
         }
+    }
+    
+    public function getRequestsByType($type)
+    {
+        $crewRequests = array();
+        foreach ($this->getListCrewRequests() as $crewRequest) {
+            if ($crewRequest->getState() == $type) {
+                array_push($crewRequests, $crewRequest);
+            }
+        }
+        return $crewRequests;
+    }
+    
+    public function getPendingRequests()
+    {
+        return getRequestsByType(4);
+    }
+    
+    public function getCrews()
+    {
+        return getRequestsByType(2);
     }
 }

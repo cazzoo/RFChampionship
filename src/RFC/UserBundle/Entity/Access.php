@@ -17,21 +17,37 @@
 
 namespace RFC\UserBundle\Entity;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Access
  */
 class Access
 {
-    
     /**
-     * @var integer
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
      */
-    private $id;
+    use TimestampableEntity;
+
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var array
+     */
+    protected $roles;
 
     /**
      * @var string
      */
-    private $role;
+    private $game;
 
 
     /**

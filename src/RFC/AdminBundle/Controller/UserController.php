@@ -68,7 +68,7 @@ class UserController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_user_show', array('userId' => $entity->getId())));
+            return $this->redirect($this->generateUrl('admin_user'));
         }
 
         return array(
@@ -208,7 +208,7 @@ class UserController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_user_edit', array('userId' => $userId)));
+            return $this->redirect($this->generateUrl('admin_user'));
         }
 
         return array(

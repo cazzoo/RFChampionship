@@ -31,15 +31,37 @@ class CrewController extends Controller
     public function indexAction($gameId)
     {
         $em = $this->getDoctrine()->getManager();
+        $user = $this->container->get ( 'security.context' )->getToken ()->getUser ();
         
         $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
         $users = $em->getRepository('RFCUserBundle:User')->findAll();
+        $crewRequests = $em->getRepository ( 'RFCCoreBundle:CrewRequest' )->findBy ( array (
+					'requester' => $user->getId (),
+					'state' => '2'
+			) );
+        
+        $crewMembers = array();
+        foreach($crewRequests as $crewRequest)
+        {
+            array_push($crewMembers, $crewRequest->getRequester());
+        }
+        
+        // Ajout du jeu sélectionné
+        $menu = $this->get('rfc_core.menu.breadcrumb');
+        $menu->addChild($game->getName())
+            ->setUri($this->get("router")
+            ->generate('rfcCore_gameSelection', array(
+            'gameId' => $gameId
+        )));
+        $manipulator = new \Knp\Menu\Util\MenuManipulator();
+        $manipulator->moveToPosition($menu->getChild($game->getName()), 0);
         
         return $this->render('RFCCoreBundle:Crew:index.html.twig', array(
             'game' => $game,
             'games' => $games,
-            'users' => $users
+            'users' => $users,
+            'crewMembers' => $crewMembers
         ));
     }
     
