@@ -38,7 +38,7 @@ class EventType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$gameId = $this->gameId;
 		
-		$builder->add ( 'name' )->add ( 'description', 'textarea', 'textarea', array (
+		$builder->add ( 'name' )->add ( 'description', 'textarea', array (
 				'required' => false 
 		) )->add ( 'listBroadcast', 'text', array (
 				'required' => false 
