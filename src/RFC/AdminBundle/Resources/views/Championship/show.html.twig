@@ -64,12 +64,7 @@ parent() }} {% endblock %} {% block rfccore_body %}
 	{# Liste les événements et les sessions #}
 	<div class="col-md-5">
 		<div class="list-group">
-			<h3>
-				Events <a class="btn btn-inverse btn-xs" role="button"
-					href="{{ path('admin_event_new', {'gameId' : game[0].id, 'championshipId' : entity.id}) }}">
-					<span class="glyphicon glyphicon-plus"></span>
-				</a>
-			</h3>
+			<h3>Events</h3><a class="ym-button ym-add" href="{{ path('admin_event_new', {'gameId' : game[0].id, 'championshipId' : entity.id}) }}">Add</a>
 			{% if entity.listEvents is empty %} Aucun Event n'est présent. Il
 			faut en créer. {% else %}
 			<ul>
