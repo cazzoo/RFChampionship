@@ -23,30 +23,26 @@
         Categories &nbsp;
         <a class="ym-button ym-add" href="{{ path('admin_category_new', {'gameId' : gameId}) }}">Add</a>
     </div>
+    <div id="msg"></div>
     <div class="panel-body">
-    	<ul class="list-group">
-    		{% for category in categories %}
-    		<div class="row">
-    			<div class="col-md-10">
-                    <li class="list-group-item">
-                        <h4 class="list-group-item-heading">{{ category.name }}</h4>
-                        <p class="list-group-item-text">{{ category.description }}</p>
-                    </li>
-    			</div>
-    			<div class="col-md-2">
-    				<ul class="list-unstyled list-inline">
-    					<li><a class="btn btn-info btn-xs" role="button"
-    						href="{{ path(
-    		'admin_category_show', {'categoryId' : category.id, 'gameId' : gameId }) }}"><span
-    							class="glyphicon glyphicon-eye-open"></span></a></li>
-    					<li><a class="btn btn-primary btn-xs" role="button"
-    						href="{{ path('admin_category_edit', {'categoryId' : category.id, 'gameId' : gameId}) }}"><span
-    							class="glyphicon glyphicon-edit"></span></a></li>
-    				</ul>
-    			</div>
-    		</div>
-    		{% endfor %}
-    	</ul>
+    	<table class="table">
+    		<thead>
+    			<tr>
+    				<th>Name</th>
+    				<th>Description</th>
+    			</tr>
+    		</thead>
+    		<tbody class="table-striped">
+				{% for category in categories %}
+	    		<tr>
+	    			<td>
+	    				<a href="{{ path('admin_category_edit', {'categoryId' : category.id, 'gameId' : gameId}) }}">{{ category.name }}</a>
+	    			</td>
+                    <td>{{ category.description }}</td>
+	    		</tr>
+	    		{% endfor %}
+    		</tbody>
+    	</table>
     </div>
 </div>
 {% endblock %}

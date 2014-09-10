@@ -1,39 +1,27 @@
-{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
-    Copyright (C) 2014 - //Racing-France//
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
-
-{% extends "RFCAdminBundle::layout.html.twig" %} {% block javascripts %}
-{{ parent() }} {% javascripts 'RFCAdminJS' %}
+{# //RF//Championship is a multi-racing game team manager that allows
+members to organize and follow championships. Copyright (C) 2014 -
+//Racing-France// This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or any later version. This program is distributed in the hope
+that it will be useful, but WITHOUT ANY WARRANTY; without even the
+implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details. You should have
+received a copy of the GNU General Public License along with this
+program. If not, see <http://www.gnu.org/licenses/>. #} {% extends
+"RFCAdminBundle::layout.html.twig" %} {% block javascripts %} {{
+parent() }} {% javascripts 'RFCAdminJS' %}
 <script src="{{asset('js/forms.behiavior.js') }}"></script>
 {% endjavascripts %} {% endblock %} {% block title %} Admin - {{
 parent() }} {% endblock %} {% block rfccore_body %}
 
-<ol class="breadcrumb">
-	<li><a href="{{ path('RFCAdmin_index') }}">Admin</a></li>
-	<li><a href="{{ path('admin_game_manage', {'gameId' : game[0].id}) }}">{{
-			game[0].name }}</a></li>
-	<li class="active">Championship</li>
-</ol>
-
 <div class="row">
 	<h1>
-		{{ entity.name }} <a class="btn btn-primary btn-xs" role="button"
-			href="{{ path('admin_championship_edit', { 'championshipId': entity.id, 'gameId': game[0].id  }) }}">
-			<span class="glyphicon glyphicon-edit"> Edit</span>
-		</a>
+		{{ entity.name }} 
 	</h1>
+	<a class="ym-button ym-edit"
+				href="{{ path('admin_championship_edit', {'championshipId' : entity.id, 'gameId' : game[0].id}) }}">Edit</a>
+		</a>
 
 	<dl class="dl-horizontal">
 		<dt>Description</dt>
@@ -60,65 +48,74 @@ parent() }} {% endblock %} {% block rfccore_body %}
 	</dl>
 </div>
 <hr />
-<div class="row">
+<div class="ym-grid">
 	{# Liste les événements et les sessions #}
-	<div class="col-md-5">
-		<div class="list-group">
-			<h3>Events</h3><a class="ym-button ym-add" href="{{ path('admin_event_new', {'gameId' : game[0].id, 'championshipId' : entity.id}) }}">Add</a>
-			{% if entity.listEvents is empty %} Aucun Event n'est présent. Il
-			faut en créer. {% else %}
-			<ul>
-			 {% for event in entity.listEvents %}
-			</ul>
-			<div class="row">
-				{# Colonne 1 : Events #}
-				<div class="col-md-10">
-					<a
-						id="event_{{ event.id }};game_{{ game[0].id }};championship_{{ entity.id }}"
-						href="#event_{{ event.id }}" class="eventItem list-group-item">
-						<h4 class="list-group-item-heading">
-					       {{ event.name }}
-					       
-    					<span>
-    						<small>
-    						  <span class="label label-primary">{{ event.beginDate|date("Y/m/d H:i") }}</span>
-    						   > 
-    						  <span class="label label-primary">{{ event.endDate|date("Y/m/d H:i") }}</span>
-    						</small>
-    					</span>
-					   </h4>
-					
-					<p class="list-group-item-text">
-					
-					   <div><small><i>{{ event.description }}</i></small></div>
-					   <span data-toggle="tooltip" data-placement="bottom" title="Rules">
-    			           <span class="glyphicon glyphicon-info-sign"></span>
-    			           Category : {% if event.category %}{{ event.category }}{% else %}Not defined{% endif %}<br />
-    			           Vehicle : {% if event.vehicle %}{{ event.vehicle }}{% else %}Not defined{% endif %}<br />
-    			           Track : {% if event.track %}{{ event.track }}{% else %}Not defined{% endif %}
-    			           {% if event.listBroadcast is not empty %}
-    			             Broadcast : {% for broadcast in event.listBroadcast %} {{ broadcast }} {% endfor %}
-    			           {% endif %}
-			         </span>
-				    </p>
-					</a>
-				</div>
-				<div class="col-md-2">
-					<ul class="list-unstyled">
-						<li><a class="btn btn-primary btn-xs" role="button"
-							href="{{ path('admin_event_edit', {'eventId' : event.id, 'gameId' : game[0].id, 'championshipId' : entity.id}) }}"><span
-								class="glyphicon glyphicon-edit"></span></a></li>
-					</ul>
-				</div>
-			</div>
-			{% endfor %}
+	<div class="ym-g62 ym-gl">
+		<div class="ym-gbox">
+			<h3>Events</h3>
+			<a class="ym-button ym-add"
+				href="{{ path('admin_event_new', {'gameId' : game[0].id, 'championshipId' : entity.id}) }}">Add</a>
+			{% if entity.listEvents is empty %} Aucun Event n'est présent. Il faut en créer. {% else %}
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Dates</th>
+						<th>Infos</th>
+					</tr>
+				</thead>
+				<tbody class="table-striped">
+					{% for event in entity.listEvents %}
+					<tr>
+						<td>
+							<a id="event_{{ event.id }};game_{{ game[0].id }};championship_{{ entity.id }}"
+								href="#event_{{ event.id }}" class="eventItem list-group-item">
+								{{ event.name }}
+							</a>
+						</td>
+						<td>
+							<span>
+								<small>
+									<span class="label label-primary">
+										{{ event.beginDate|date("Y/m/d H:i") }}
+									</span>
+									 > 
+									<span class="label label-primary">
+										{{ event.endDate|date("Y/m/d H:i") }}
+									</span>
+								</small>
+							</span>
+						</td>
+						<td>
+							<p class="list-group-item-text">
+								<div>
+									<small><i>{{ event.description }}</i></small>
+								</div>
+								<span data-toggle="tooltip" data-placement="bottom" title="Rules">
+								<span class="glyphicon glyphicon-info-sign"></span>
+									Category : {% if event.category %}{{ event.category }}{% else %}Not defined{% endif %}<br />
+									Vehicle : {% if event.vehicle %}{{ event.vehicle }}{% else %}Not defined{% endif %}<br />
+									Track : {% if event.track %}{{ event.track }}{% else %}Not defined{% endif %}
+									{% if event.listBroadcast is not empty %}
+										Broadcast : {% for broadcast in event.listBroadcast %} {{ broadcast }} {% endfor %}
+									{% endif %}
+								</span>
+							</p>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 		</div>
 	</div>
-	<div class="col-md-7">
-		<h3>Sessions</h3>
-		{# Colonne 2 : Sessions #}
-		<ul class="list-group" id="listSessions">
-		</ul>
+	<div class="ym-g38 ym-gr">
+		<div class="ym-gbox">
+			<h3>Sessions</h3>
+			{# Colonne 2 : Sessions #}
+			<ul class="list-group" id="listSessions">
+			</ul>
+		</div>
 	</div>
 	{% endif %}
 </div>
@@ -131,24 +128,18 @@ parent() }} {% endblock %} {% block rfccore_body %}
 			class="glyphicon glyphicon-plus"></span>
 		</a>{% endif %}
 	</h3>
-	<div class="list-group">
-		{% if entity.isAgreed %}
-		  {% set rules = entity.metaRule.listRules %}
-		{% else %}
-		  {% set rules = entity.listRules %}
-		{% endif %}
-		{% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}
-	</div>
+	<div class="list-group">{% if entity.isAgreed %} {% set rules =
+		entity.metaRule.listRules %} {% else %} {% set rules =
+		entity.listRules %} {% endif %} {% include
+		'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' :
+		game} %}</div>
 </div>
 <hr />
 <div>
-	<h3>
-		Participants
-	</h3>
-	
-    {% for participant in entity.listUsers %}
-        {{ participant.username }}
-    {% endfor %}
+	<h3>Participants</h3>
+
+	{% for participant in entity.listUsers %} {{ participant.username }} {%
+	endfor %}
 
 </div>
 

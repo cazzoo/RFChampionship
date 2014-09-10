@@ -23,27 +23,26 @@
         Vehicles &nbsp;
         <a class="ym-button ym-add" href="{{ path('admin_vehicle_new', {'gameId' : gameId}) }}">Add</a>
     </div>
+    <div id="msg"></div>
     <div class="panel-body">
-    	<ul class="list-group">
+    	<table class="table">
+    		<thead>
+    			<tr>
+    				<th>Name</th>
+    				<th>Description</th>
+    			</tr>
+    		</thead>
+    		<tbody class="table-striped">
     		{% for vehicle in vehicles %}
-    		<div class="row">
-    			<div class="col-md-10">
-    				<li class="list-group-item">{{ vehicle.name }}</li>
-    			</div>
-    			<div class="col-md-2">
-    				<ul class="list-unstyled list-inline">
-    					<li><a class="btn btn-info btn-xs" role="button"
-    						href="{{ path(
-    		'admin_vehicle_show', {'vehicleId' : vehicle.id, 'gameId' : gameId }) }}"><span
-    							class="glyphicon glyphicon-eye-open"></span></a></li>
-    					<li><a class="btn btn-primary btn-xs" role="button"
-    						href="{{ path('admin_vehicle_edit', {'vehicleId' : vehicle.id, 'gameId' : gameId}) }}"><span
-    							class="glyphicon glyphicon-edit"></span></a></li>
-    				</ul>
-    			</div>
-    		</div>
-    		{% endfor %}
-    	</ul>
+	    		<tr>
+	    			<td>
+	    				<a href="{{ path('admin_vehicle_edit', {'vehicleId' : vehicle.id, 'gameId' : gameId}) }}">{{ vehicle.name }}</a>
+	    			</td>
+                    <td>{{ vehicle.description }}</td>
+	    		</tr>
+	    		{% endfor %}
+    		</tbody>
+    	</table>
     </div>
 </div>
 {% endblock %}

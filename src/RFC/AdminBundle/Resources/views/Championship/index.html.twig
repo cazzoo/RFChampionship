@@ -23,66 +23,28 @@
         Championships &nbsp;
         <a class="ym-button ym-add" href="{{ path('admin_championship_new', {'gameId' : gameId}) }}">Add</a>
     </div>
-    <div class="panel-body">
     <div id="msg"></div>
+    <div class="panel-body">
     	<table class="table">
     		<thead>
     			<tr>
-    				<th>Id</th>
     				<th>Name</th>
     				<th>Description</th>
-    				<th>Isagreed</th>
-    				<th>Listevents</th>
-    				<th>Listmanagers</th>
-    				<th>Metarule</th>
-    				<th>Listrules</th>
-    				<th>Actions</th>
+    				<th>Type</th>
+    				<th>Number events</th>
     			</tr>
     		</thead>
     		<tbody class="table-striped">
     			{% for championship in championships %}
     			<tr>
-    				<td><a
-    					href="{{ path('admin_championship_show', { 'championshipId': championship.id, 'gameId': gameId }) }}">{{
-    						championship.id }}</a></td>
-    				<td>{{ championship.name }}</td>
+    				<td>
+    					<a href="{{ path('admin_championship_show', { 'championshipId': championship.id, 'gameId': gameId }) }}">
+    					{{ championship.name }}
+    					</a>
+    				</td>
     				<td>{{ championship.description }}</td>
-    				<td>{{ championship.isAgreed }}</td>
-    				<td>{% if championship.listEvents is empty %}
-    				        Aucun Event pour le moment
-    				    {% else %}
-    					<ul class="list-unstyled">
-    						{% for event in championship.listEvents %}
-    						<li>{{ event.name }} <div><small><span class="label label-primary">{{ event.beginDate|date("Y/m/Y H:i") }}</span> > <span class="label label-primary">{{ event.endDate|date("Y/m/Y H:i") }}</span></small></div></li> {% endfor %}
-    					</ul> {% endif %}
-    				</td>
-    				<td><ul>
-    						{% for manager in championship.listManagers %}
-    						<li>{{ manager.username }}</li> {% endfor %}
-    					</ul></td>
-    				<td>{{ championship.metaRule }}</td>
-    				<td>
-    				    <ul class="list-unstyled">
-    				        {% if championship.isAgreed %}
-    				            {% for rule in championship.metaRule.listRules %}
-        						  <li>{{ rule.name }}</li>
-        						{% endfor %}
-    				        {% else %}
-        						{% for rule in championship.listRules %}
-        						  <li>{{ rule.name }}</li>
-        						{% endfor %}
-    						{% endif %}
-    					</ul></td>
-    				<td>
-    					<ul class="list-unstyled">
-    						<li><a class="btn btn-info btn-xs" role="button"
-    							href="{{ path('admin_championship_show', { 'championshipId': championship.id, 'gameId': game.id  }) }}"><span
-    								class="glyphicon glyphicon-eye-open"></span></a></li>
-    						<li><a class="btn btn-primary btn-xs" role="button"
-    							href="{{ path('admin_championship_edit', { 'championshipId': championship.id, 'gameId': gameId  }) }}"><span
-    								class="glyphicon glyphicon-edit"></span></a></li>
-    					</ul>
-    				</td>
+    				<td>{% if championship.isAgreed %}Agreed! ({{ championship.metaRule }}){% else %}Not Agreed!{% endif %}</td>
+    				<td>{{ championship.listEvents|length }}</td>
     			</tr>
     			{% endfor %}
     		</tbody>

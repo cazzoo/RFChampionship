@@ -18,19 +18,36 @@
     Aucun Event sélectionné. Veuillez sélectionner un Event. 
 {% else %}
     {% if sessions %}
-        {% for session in sessions %}
-            <li class="list-group-item">
-                <h4 class="list-group-item-heading">{{ session.name }}</h4>
-                <p class="list-group-item-text">
-                    <div>Type : {{ session.typeSession.name }}</div>
-                    <div>Dates : 
-                        <small><span class="label label-primary">{{
-                                session.beginDate|date("Y/m/Y H:i") }}</span> > <span
-                            class="label label-primary">{{ session.endDate|date("Y/m/Y H:i") }}</span></small>
-                    </div>
-                </p>
-            </li>
-        {% endfor %}
+    	<table class="table">
+    		<thead>
+    			<tr>
+    				<th>Name</th>
+    				<th>Type</th>
+    				<th>Dates</th>
+    			</tr>
+    		</thead>
+    		<tbody class="table-striped">
+        		{% for session in sessions %}
+	    		<tr>
+	    			<td>
+	    				{{ session.name }}
+	    			</td>
+                    <td>{{ session.typeSession.name }}</td>
+                    <td>
+                        <small>
+                        	<span class="label label-primary">
+                        		{{ session.beginDate|date("Y/m/d H:i") }}
+                        	</span>
+                        	 > 
+                        	<span class="label label-primary">
+                        		{{ session.endDate|date("Y/m/d H:i") }}
+                        	</span>
+                        </small>
+                    </td>
+	    		</tr>
+	    		{% endfor %}
+    		</tbody>
+    	</table>
     {% endif %}
     Ajouter une session
     <a class="ym-button ym-add" href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : eventId}) }}">Add</a>
