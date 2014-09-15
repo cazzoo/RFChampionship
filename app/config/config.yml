@@ -85,6 +85,8 @@ fos_user:
             enabled:    false
         form:
             type: rfc_user_registration
+    service:
+        user_manager: rfc_user.user_manager
 
 fos_comment:
     db_driver: orm
@@ -132,7 +134,7 @@ services:
     rfc_admin.menu_builder:
         class: RFC\AdminBundle\Menu\MenuBuilder
         arguments: ["@knp_menu.factory"]
-
+    
     # le menu admin
     rfc_admin.menu.main:
         class: Knp\Menu\MenuItem
@@ -152,3 +154,4 @@ services:
         scope: request
         tags:
             - { name: knp_menu.menu, alias: breadcrumb_admin } # L'alias est utilisé dans le template
+    

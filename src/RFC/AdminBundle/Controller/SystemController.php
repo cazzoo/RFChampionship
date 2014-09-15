@@ -56,20 +56,18 @@ class SystemController extends Controller
         
         $params = array();
         $content = $this->get("request")->getContent();
-        if (!empty($content))
-        {
+        if (!empty($content)) {
             $params = json_decode($content, true); // 2nd param to get as array
         }
         
-        for($i=0, $size = count($p); $i < $size; ++$i)
-        {
+        for ($i=0, $size = count($p); $i < $size; ++$i) {
             $p[$i]->setValue($params[$i][$i+1]);
         }
         
-        try{
+        try {
             $em->flush();
             $jsonResponse = new JsonResponse($p, 200);
-        } catch (Exception $e){
+        } catch (Exception $e) {
             $jsonResponse = new JsonResponse($p, 400);
         }
         

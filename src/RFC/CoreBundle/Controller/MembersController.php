@@ -30,10 +30,11 @@ class MembersController extends Controller
     public function indexAction($gameId)
     {
         $em = $this->getDoctrine()->getManager();
+        $userManager = $this->get('fos_user.user_manager');
         
         $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
-        $users = $em->getRepository('RFCUserBundle:User')->findAll();
+        $users = $userManager->findByAndOrderBy('roles', 'ASC');
         
         // Ajout du jeu sélectionné
         $menu = $this->get('rfc_core.menu.breadcrumb');

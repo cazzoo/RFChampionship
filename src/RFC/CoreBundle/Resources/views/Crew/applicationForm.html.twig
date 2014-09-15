@@ -1,0 +1,46 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# src/RFC/CoreBundle/Resources/views/Crew/applicationForm.html.twig #}
+
+{% if showApplicationForm == true %}
+    You're not part in any crew.<br />
+    Select a member as a mentor to be part of his crew.<br />
+    <form id="sendCrewRequest">
+        <input type="hidden" id="requesterId" value="{{ app.user.id }}" />
+        <input type="hidden" id="gameId" value="{{ game.id }}" />
+        <select id="mentorId">
+            {% for user in users %}
+                {% if user.id != app.user.id %}
+                    <option value="{{ user.id }}">{{ user.userName }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    <button class="ym-button">Send request</button>
+    </form>
+{% endif %}
+{% if showRetirementForm == true %}
+<form id="cancelCrewRequest">
+    {% if crew is not empty %}
+        {% set crewId = crew.id %}
+    {% endif %}
+    {% if crewAwaiting is not empty %}
+        {% set crewId = crewAwaiting.id %}
+    {% endif %}
+    <input type="hidden" id="crewId" value="{{ crewId }}" />
+    <button type="submit" class="ym-button ym-danger ym-delete">Retire from crew</button>
+</form>
+{% endif %}

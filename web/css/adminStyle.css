@@ -15,6 +15,10 @@
 
 ul.list-inline > li { display: inline; }
 
+li.unstyled { list-style-type: none; }
+
+li.unstyled.inactive { color: #464340; }
+
 .small { font-size: x-small; }
 
 .messagebox {

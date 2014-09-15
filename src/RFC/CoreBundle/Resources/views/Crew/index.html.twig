@@ -41,19 +41,13 @@
             {% endif %}
         {% endfor %}
         {% if crew is not empty %}
-            {% if crewMembers is not empty %}
-                <h3>List of all members belonging to this crew</h3>
-                <ul>
-                {% for crewMember in crewMembers %}
-                    <li>{{ crewMember.userName }}</li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-            {# show crew infos #}
+            {% include 'RFCCoreBundle:Crew:crewInfo.html.twig' %}
+            
             You're belonging to <strong>{{ crew.mentor.userName }}</strong>'s crew.<br />
             Feel free to share things with the crew.<br />
             {% set showRetirementForm = true %}
-            {# TODO : LOAD crew feed #}
+            
+            {% include 'RFCCoreBundle:Crew:crewFeed.html.twig' %}
         {% else %}
             {% if crewAwaiting %}
                 You asked to being part of <strong>{{ crewAwaiting.mentor.userName }}</strong>'s crew but your request is not accepted yet.<br />
@@ -63,34 +57,7 @@
             {% endif %}
         {% endif %}
     {% endif %}
-    {% if showApplicationForm == true %}
-        You're not part in any crew.<br />
-        Select a member as a mentor to be part of his crew.<br />
-        <form id="sendCrewRequest">
-            <input type="hidden" id="requesterId" value="{{ app.user.id }}" />
-            <input type="hidden" id="gameId" value="{{ game.id }}" />
-            <select id="mentorId">
-                {% for user in users %}
-                    {% if user.id != app.user.id %}
-                        <option value="{{ user.id }}">{{ user.userName }}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        <button class="ym-button">Send request</button>
-        </form>
-    {% endif %}
-    {% if showRetirementForm == true %}
-    <form id="cancelCrewRequest">
-        {% if crew is not empty %}
-            {% set crewId = crew.id %}
-        {% endif %}
-        {% if crewAwaiting is not empty %}
-            {% set crewId = crewAwaiting.id %}
-        {% endif %}
-        <input type="hidden" id="crewId" value="{{ crewId }}" />
-        <button type="submit" class="ym-button ym-danger ym-delete">Retire from crew</button>
-    </form>
-    {% endif %}
+    {% include 'RFCCoreBundle:Crew:applicationForm.html.twig' %}
 {% else %}
     You need to log-in / register to belong a crew.
 {% endif %}
