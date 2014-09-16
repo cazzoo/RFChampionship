@@ -79,7 +79,7 @@ class MenuBuilder
             ));
         
         $userNav = array(
-            'User' => array(
+            'User Panel' => array(
                 'route' => 'rfcCore_user',
                 'routeParameters' => array(
                     'gameId' => $request->get('gameId')
@@ -159,7 +159,7 @@ class MenuBuilder
                 ));
                 break;
             case 'rfcCore_user':
-                $menu->addChild('User', array(
+                $menu->addChild('User Panel', array(
                     'route' => 'rfcCore_user',
                     'routeParameters' => array(
                         'gameId' => $request->get('gameId')

@@ -31,7 +31,7 @@
             </a>
         {% endif %}
     </div>
-    {% if game is defined %}
+    {% if is_granted('ROLE_ADMIN') %}
         <div>
             {% include 'RFCCoreBundle::Structure/header.html.twig' %}
         </div>
@@ -49,12 +49,8 @@
 
 {% endblock %}
 {% block main %}
-
-    {% for type, messages in app.session.flashbag.all() %}
-        {% for message in messages %}
-            <div class="box {{ type }}">{{ message }}</div>
-        {% endfor %}
-    {% endfor %}
+    
+    {% include 'RFCCoreBundle::Structure/notificationCenter.html.twig' %}
 
     {% block rfccore_body %}{% endblock %}
 

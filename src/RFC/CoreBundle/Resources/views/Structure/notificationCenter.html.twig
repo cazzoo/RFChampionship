@@ -14,3 +14,17 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
+{# Messages #}
+{% for type, messages in app.session.flashbag.all() %}
+    {% for message in messages %}
+        <div class="messagebox {{ type }}">{{ message }}</div>
+    {% endfor %}
+{% endfor %}
+
+{# Notifications #}
+<div id="notificationCenter">
+    <span class="bubble"></span>
+    <div class="messagebox messagebox-info messagebox-shadow">
+        <ul id="messages" class="unstyled"></ul>
+    </div>
+</div>
