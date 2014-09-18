@@ -94,6 +94,36 @@ function crewAcceptRequest(data) {
     });
 }
 
+function updateProperties(data) {
+    var jsonFormatted = JSON.stringify(data);
+    $.ajax({
+        type : "POST",
+        url : Routing.generate('ajax_properties_update'),
+        data : jsonFormatted,
+        dataType: 'json',
+        cache : false
+    }).done(function(data) {
+        //show messages
+        addNotification('Properties updated', 'success');
+        $('form#system-properties button').removeClass('ym-disabled');
+        $('form#system-properties button').removeClass('ym-disabled');
+        $('form#system-properties button').prop('disabled', false);
+        $('form#system-properties button').prop('disabled', false);
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        var msg = '';
+        if(jqXHR && jqXHR.responseText) { //ajax error, errors = xhr object
+            msg = jqXHR.responseText;
+        } else { //validation error (client-side or server-side)
+            $.each(errors, function(k, v) { msg += k+": "+v+"<br />"; });
+        }
+        addNotification('Error while saving properties : ' + msg, 'error');
+        $('form#system-properties button').removeClass('ym-disabled');
+        $('form#system-properties button').removeClass('ym-disabled');
+        $('form#system-properties button').prop('disabled', false);
+        $('form#system-properties button').prop('disabled', false);
+    })
+}
+
 function arrayObjectIndexOf(myArray, searchTerm, property) {
     for(var i = 0, len = myArray.length; i < len; i++) {
         if (myArray[i][property] === searchTerm) return i;
@@ -185,19 +215,34 @@ $(function() {
     // ----------------- Properties editing
     // --------------------------------------------
 
-    function storeOldValue(p_element) {
-        var oldItemValue = $(p_element)[0].innerHTML;
-        if (!$(p_element).attr('oldValue')) {
-            console.log('Persisting original value: ' + oldItemValue)
-            $(p_element).attr('oldValue', oldItemValue);
-        }
-    }
-
-    $('.editable_property').each(function() {
-        storeOldValue($(this));
+    $('.datetimepicker').datetimepicker({
+        format:'d/m/Y H:i',
+        formatDate:'d/m/Y H:i',
+        mask:true,
+        dayOfWeekStart:1
+    });
+    $('.datepicker').datetimepicker({
+        timepicker:false,
+        format:'d/m/Y',
+        formatDate:'d/m/Y',
+        mask:true,
+        dayOfWeekStart:1
     });
 
-    $('#confirm-btn').click(function() {
+    $('form#system-properties').submit(function(e) {
+        var data = $('form#system-properties').serializeArray();
+        $('form#system-properties button').addClass('ym-disabled');
+        $('form#system-properties button').prop('disabled', true);
+        updateProperties(data);
+        return false;
+    });
+
+    $('form#system-properties').find('#reset-btn').click(function() {
+        $('form#system-properties')[0].reset();
+        return false;
+    });
+
+    /*$('#confirm-btn').click(function() {
         var json = [];
         $('#mainProperties').find('tbody tr').each(function() {
             var obj = {},
@@ -207,31 +252,7 @@ $(function() {
             obj[key] = val;
             json.push(obj);
         });
-        var jsonFormatted = JSON.stringify(json);
-        /*$('.editable_property').editable('submit', {
-            type : "POST",
-            url: Routing.generate('ajax_properties_update'),
-            data : jsonFormatted,
-            dataType: 'json',
-            cache : false
-        }).done(function(data) {
-                //remove unsaved class
-                $(this).removeClass('editable-unsaved').removeAttr('oldValue');
-                //show messages
-                addNotification('Properties updated', 'success');
-                $('.editable_property').each(function() {
-                    storeOldValue($(this));
-                });
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-                var msg = '';
-                if(jqXHR && jqXHR.responseText) { //ajax error, errors = xhr object
-                    msg = jqXHR.responseText;
-                } else { //validation error (client-side or server-side)
-                    $.each(errors, function(k, v) { msg += k+": "+v+"<br />"; });
-                }
-                addNotification('Error while saving properties : ' + msg, 'error');
-        });*/
-        
+
         $('.editable_property').editable('submit', { 
             url: Routing.generate('ajax_properties_update'),
             ajaxOptions: {
@@ -259,16 +280,7 @@ $(function() {
                 addNotification('Error while saving properties : ' + msg, 'error');
             }
         });
-    });
-
-    $('#reset-btn').click(function() {
-        $('.editable_property').each(function() {
-            var that = $(this);
-            that.editable('setValue', that.attr('oldValue'))	//clear values
-            .editable('option', 'pk', that.attr('pk'))	//clear pk
-            .removeClass('editable-unsaved');
-        });
-    });
+    });*/
 
     // Screen Core : Crew
     // --------------------------------------------
@@ -530,14 +542,6 @@ $(function() {
     }, function() {
         $(this).children(".editZone").hide();
     })
-
-    // --------------------------------------------
-    // ----------------- Inline editing
-    // --------------------------------------------
-    // X-editable default values
-    $.fn.editable.defaults.mode = 'inline';
-    // X-editable activation on each elements
-    $("table#mainProperties span.editable_property").editable();
 
     // --------------------------------------------
     // ----------------- Clickable table row

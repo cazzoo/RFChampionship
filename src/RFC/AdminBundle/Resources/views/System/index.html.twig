@@ -1,18 +1,18 @@
 {#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
-    Copyright (C) 2014 - //Racing-France//
+Copyright (C) 2014 - //Racing-France//
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
 {% extends "RFCAdminBundle::layout.html.twig" %}
 {% block title %} Admin - {{ parent() }} {% endblock %}
@@ -22,20 +22,19 @@
     <div class="panel-heading">Informations</div>
     <div class="panel-body">
         <dl class="dl-horizontal">
-          <dt>Site version</dt>
-          <dd>xxx</dd>
-          <dt>Administrator</dt>
-          <dd>yyy</dd>
-          <dt>Site name</dt>
-          <dd>{{ properties[0].value }}</dd>                
+            <dt>Site version</dt>
+            <dd>xxx</dd>
+            <dt>Administrator</dt>
+            <dd>yyy</dd>
+            <dt>Site name</dt>
+            <dd>{{ properties[0].value }}</dd>                
         </dl>
     </div>
 </div>
 
-<div class="panel panel-default">
-    <div class="panel-heading">System parameters</div>
-    <div class="panel-body">
-        <div id="msg" class="messagebox"></div>
+<div>
+    <h3>System parameters</h3>
+    <form id="system-properties">
         <table id="mainProperties">
             <thead>
                 <tr>
@@ -51,33 +50,24 @@
                     <td>{{ property.id }}</td>
                     <td>{{ property.name }}</td>
                     <td class="small">{{ property.description }}</td>
-                    <td><span id="{{ property.id }}" class="editable_property"    
-                    {% if property.type == "text" %}
-                        data-type="text"
-                    {% elseif property.type == "boolean" %}
-                        data-type="checklist"
-                    {% elseif property.type == "number" %}
-                        data-type="number"
-                    {% elseif property.type == "date" %}
-                        data-type="date"
-                    {% elseif property.type == "datetime" %}
-                        data-type="datetime"
-                    {% elseif property.type == "textarea" %}
-                        data-type="textarea"
-                    {% elseif property.type == "select" %}
-                        data-type="select"
-                    {% elseif property.type == "checklist" %}
-                        data-type="checklist"
-                    {% endif %}
-                     >{{ property.value }}</span></td>
+                    <td>
+                        {% if property.type == 'date' %}
+                        <input id="{{ property.id }}" name="{{ property.id }}" class="datepicker" type="text" value="{{ property.value }}" {% if property.min is not null %} data-minDate="{{ property.min }}" {% endif %} {% if property.max is not null %} data-maxDate="{{ property.max }}" {% endif %} />
+                        {% elseif property.type == 'datetime' %}
+                        <input id="{{ property.id }}" name="{{ property.id }}" class="datetimepicker" type="text" value="{{ property.value }}" {% if property.min is not null %} data-minDate="{{ property.min }}" {% endif %} {% if property.max is not null %} data-maxDate="{{ property.max }}" {% endif %} />
+                        {% elseif property.type == 'datetime' %}
+                        <input id="{{ property.id }}" type="number" {% if property.min is not null %} min="{{ property.min }}" {% endif %} {% if property.max is not null %} max="{{ property.max }}" {% endif %} />
+                        {% else %}
+                        <input id="{{ property.id }}" name="{{ property.id }}" type="{{ property.type }}" value="{{ property.value }}" />
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-
-        <button class="ym-button" id="confirm-btn">Confirm</button>
-        <button class="ym-button" id="reset-btn">Reset</button>
-    </div>
+        <button type="submit" class="ym-button" id="confirm-btn">Confirm</button>
+        <button type="reset" class="ym-button" id="reset-btn">Reset</button>
+    </form>
 </div>
 
 {% endblock %}

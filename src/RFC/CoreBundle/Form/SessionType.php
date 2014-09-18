@@ -23,35 +23,47 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SessionType extends AbstractType {
-	
-	/**
+
+    /**
 	 *
 	 * @param FormBuilderInterface $builder        	
 	 * @param array $options        	
 	 */
-	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'name' )->add ( 'description', 'textarea', array (
-				'required' => false 
-		) )->add ( 'beginDate', 'datetime' )->add ( 'endDate', 'datetime' )->add ( 'typeSession' )->add ( 'commentsActive', 'checkbox', array (
-				'required' => false 
-		) )->add ( 'event' );
-	}
-	
-	/**
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder->add ( 'name' )
+            ->add ( 'description', 'textarea', array (
+                'required' => false 
+            ))
+            ->add ( 'beginDate', 'text', array(
+                'attr' => array(
+                    'class' => 'datetimepicker',
+                )))
+            ->add ( 'endDate', 'text', array(
+                'attr' => array(
+                    'class' => 'datetimepicker',
+                )))
+            ->add ( 'typeSession' )
+            ->add ( 'commentsActive', 'checkbox', array (
+                'required' => false 
+            ))
+            ->add ( 'event' );
+    }
+
+    /**
 	 *
 	 * @param OptionsResolverInterface $resolver        	
 	 */
-	public function setDefaultOptions(OptionsResolverInterface $resolver) {
-		$resolver->setDefaults ( array (
-				'data_class' => 'RFC\CoreBundle\Entity\Session' 
-		) );
-	}
-	
-	/**
+    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+        $resolver->setDefaults ( array (
+            'data_class' => 'RFC\CoreBundle\Entity\Session' 
+        ) );
+    }
+
+    /**
 	 *
 	 * @return string
 	 */
-	public function getName() {
-		return 'rfc_corebundle_session';
-	}
+    public function getName() {
+        return 'rfc_corebundle_session';
+    }
 }
