@@ -20,8 +20,6 @@
 
 {% block rfccore_body %}
 
-    <div class="messagebox" id="applicationStatus"></div>
-
     <div class="jquery_tabs">
         <h4>Infos</h4>
         <div class="tabbody">
@@ -38,10 +36,10 @@
         <div class="tabbody">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div id="msg" class="messagebox"></div>
                     <table id="mainProperties">
                         <thead>
                             <tr>
+                                <th>Id</th>
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Value</th>
@@ -50,6 +48,7 @@
                         <tbody>
                             {% for preference in app.user.listPreferences %}
                             <tr>
+                                <td>{{ preference.id }}</td>
                                 <td>{{ preference.name }}</td>
                                 <td class="small">{{ preference.description }}</td>
                                 <td><span id="{{ preference.id }}" class="editable_property" 

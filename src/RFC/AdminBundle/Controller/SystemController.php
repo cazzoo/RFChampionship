@@ -36,42 +36,50 @@ class SystemController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         $properties = $em->getRepository('RFCCoreBundle:Property')
             ->createQueryBuilder('p')
             ->where('p.category != :category')
             ->setParameter('category', 'user')
             ->getQuery()
             ->getResult();
-        
+
         return $this->render('RFCAdminBundle:System:index.html.twig', array(
             'properties' => $properties
         ));
     }
-    
+
     public function updatePropertiesAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $p = $em->getRepository("RFCCoreBundle:Property")->findAll();
-        
+        $properties = $em->getRepository("RFCCoreBundle:Property")->findAll();
+
         $params = array();
         $content = $this->get("request")->getContent();
         if (!empty($content)) {
             $params = json_decode($content, true); // 2nd param to get as array
         }
-        
-        for ($i=0, $size = count($p); $i < $size; ++$i) {
-            $p[$i]->setValue($params[$i][$i+1]);
+
+        for ($i=0, $size = count($params); $i < $size; ++$i)
+        {
+            $param = $params[$i];
+            for ($j=0, $sizej = count($properties); $j < $sizej; ++$j)
+            {
+                if($properties[$j]->getId() == array_values($param)[0])
+                {
+                    $properties[$j]->setValue(array_values($param)[1]);
+                }
+            }
         }
-        
+
         try {
             $em->flush();
-            $jsonResponse = new JsonResponse($p, 200);
+            $jsonResponse = new JsonResponse($properties, 200);
         } catch (Exception $e) {
-            $jsonResponse = new JsonResponse($p, 400);
+            $jsonResponse = new JsonResponse($properties, 400);
         }
-        
-        
+
+
         return $jsonResponse;
     }
 }

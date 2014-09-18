@@ -1,3 +1,99 @@
+
+// --------------------------------------------
+// ----------------- Functions
+// --------------------------------------------
+function toggleRules(p_time) {
+    var time = typeof p_time !== 'undefined' ? p_time : 0;
+    if ($('#rfc_corebundle_championship_isAgreed').is(':checked')) {
+        $('#rfc_corebundle_championship_listRules').prop('selectedIndex',
+                                                         -1);
+        $('#rfc_corebundle_championship_listRules').parent('div')
+        .hide(time);
+    } else {
+        $('#rfc_corebundle_championship_listRules').parent('div')
+        .show(time);
+    }
+}
+
+function registerChampionshipBehiavior() {
+    var entityData = $(this).attr('id').split(';');
+    var data = {
+        action : entityData[0].substr(7),
+        gameId : entityData[1].substr(5),
+        championshipId : entityData[2].substr(13),
+        userId : entityData[3].substr(5)
+    };
+    $.ajax({
+        type : "POST",
+        url : Routing.generate('ajax_user_register_championship'),
+        data : data,
+        cache : false
+    }).done(function(data) {
+        addNotification('Championship application completed', 'success');
+        $('#registrationStatus').html(data);
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        addNotification('Error while registering to championship', 'error');
+    });
+    return false;
+}
+
+function crewApplyRequest(data) {
+    var jsonFormatted = JSON.stringify(data);
+    $.ajax({
+        type : "POST",
+        url : Routing.generate('ajax_crew_application'),
+        data : jsonFormatted,
+        dataType: 'json',
+        cache : false
+    }).done(function(data) {
+        addNotification('Application completed', 'success');
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        addNotification('Error while applying crew', 'error');
+        $('form#sendCrewApplication button').removeClass('ym-disabled');
+        $('form#sendCrewApplication button').prop('disabled', false);
+    });
+}
+
+function crewDeclineRequest(data) {
+    var jsonFormatted = JSON.stringify(data);
+    $.ajax({
+        type : "POST",
+        url : Routing.generate('ajax_crew_retire'),
+        data : jsonFormatted,
+        dataType: 'json',
+        cache : false
+    }).done(function(data) {
+        addNotification('Crew retirement completed', 'success');
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        addNotification('Error while retiring from crew', 'error');
+        $('form#acceptCrewApplication button').removeClass('ym-disabled');
+        $('form#declineCrewApplication button').removeClass('ym-disabled');
+        $('form#cancelCrewRequest button').removeClass('ym-disabled');
+        $('form#acceptCrewApplication button').prop('disabled', false);
+        $('form#declineCrewApplication button').prop('disabled', false);
+        $('form#cancelCrewRequest button').prop('disabled', false);
+    });
+}
+
+function crewAcceptRequest(data) {
+    var jsonFormatted = JSON.stringify(data);
+    $.ajax({
+        type : "POST",
+        url : Routing.generate('ajax_crew_accept'),
+        data : jsonFormatted,
+        dataType: 'json',
+        cache : false
+    }).done(function(data) {
+        addNotification('Crew acceptation completed', 'success');
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        addNotification('Error while accepting member to crew', 'error');
+        $('form#acceptCrewApplication button').removeClass('ym-disabled');
+        $('form#declineCrewApplication button').removeClass('ym-disabled');
+        $('form#acceptCrewApplication button').prop('disabled', false);
+        $('form#declineCrewApplication button').prop('disabled', false);
+    });
+}
+
 function arrayObjectIndexOf(myArray, searchTerm, property) {
     for(var i = 0, len = myArray.length; i < len; i++) {
         if (myArray[i][property] === searchTerm) return i;
@@ -84,109 +180,21 @@ function removeNotification(id) {
 
 $(function() {
 
-    // Functions
-    function toggleRules(time) {
-        if ($('#rfc_corebundle_championship_isAgreed').is(':checked')) {
-            $('#rfc_corebundle_championship_listRules').prop('selectedIndex',
-                                                             -1);
-            $('#rfc_corebundle_championship_listRules').parent('div')
-            .hide(time);
-        } else {
-            $('#rfc_corebundle_championship_listRules').parent('div')
-            .show(time);
-        }
-    }
-
-    function registerChampionshipBehiavior() {
-        var entityData = $(this).attr('id').split(';');
-        var data = {
-            action : entityData[0].substr(7),
-            gameId : entityData[1].substr(5),
-            championshipId : entityData[2].substr(13),
-            userId : entityData[3].substr(5)
-        };
-        $.ajax({
-            type : "POST",
-            url : Routing.generate('ajax_user_register_championship'),
-            data : data,
-            cache : false
-        }).done(function(data) {
-            addNotification('Championship application completed', 'success');
-            $('#registrationStatus').html(data);
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-            addNotification('Error while registering to championship', 'error');
-        });
-        return false;
-    }
-
-    function crewApplyRequest(data) {
-        var jsonFormatted = JSON.stringify(data);
-        $.ajax({
-            type : "POST",
-            url : Routing.generate('ajax_crew_application'),
-            data : jsonFormatted,
-            dataType: 'json',
-            cache : false
-        }).done(function(data) {
-            addNotification('Application completed', 'success');
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-            addNotification('Error while applying crew', 'error');
-            $('form#sendCrewApplication button').removeClass('ym-disabled');
-            $('form#sendCrewApplication button').prop('disabled', false);
-        });
-    }
-
-    function crewDeclineRequest(data) {
-        var jsonFormatted = JSON.stringify(data);
-        $.ajax({
-            type : "POST",
-            url : Routing.generate('ajax_crew_retire'),
-            data : jsonFormatted,
-            dataType: 'json',
-            cache : false
-        }).done(function(data) {
-            addNotification('Crew retirement completed', 'success');
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-            addNotification('Error while retiring from crew', 'error');
-            $('form#acceptCrewApplication button').removeClass('ym-disabled');
-            $('form#declineCrewApplication button').removeClass('ym-disabled');
-            $('form#cancelCrewRequest button').removeClass('ym-disabled');
-            $('form#acceptCrewApplication button').prop('disabled', false);
-            $('form#declineCrewApplication button').prop('disabled', false);
-            $('form#cancelCrewRequest button').prop('disabled', false);
-        });
-    }
-
-    function crewAcceptRequest(data) {
-        var jsonFormatted = JSON.stringify(data);
-        $.ajax({
-            type : "POST",
-            url : Routing.generate('ajax_crew_accept'),
-            data : jsonFormatted,
-            dataType: 'json',
-            cache : false
-        }).done(function(data) {
-            addNotification('Crew acceptation completed', 'success');
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-            addNotification('Error while accepting member to crew', 'error');
-            $('form#acceptCrewApplication button').removeClass('ym-disabled');
-            $('form#declineCrewApplication button').removeClass('ym-disabled');
-            $('form#acceptCrewApplication button').prop('disabled', false);
-            $('form#declineCrewApplication button').prop('disabled', false);
-        });
-    }
-
     // Screen Admin : System
     // --------------------------------------------
     // ----------------- Properties editing
     // --------------------------------------------
-    $('.editable_property').on('save', function(){
-        var that = this;
-        var oldItemValue = $(that)[0].innerHTML;
-        if (!$(that).attr('oldValue')) {
+
+    function storeOldValue(p_element) {
+        var oldItemValue = $(p_element)[0].innerHTML;
+        if (!$(p_element).attr('oldValue')) {
             console.log('Persisting original value: ' + oldItemValue)
-            $(that).attr('oldValue', oldItemValue);
+            $(p_element).attr('oldValue', oldItemValue);
         }
+    }
+
+    $('.editable_property').each(function() {
+        storeOldValue($(this));
     });
 
     $('#confirm-btn').click(function() {
@@ -200,18 +208,46 @@ $(function() {
             json.push(obj);
         });
         var jsonFormatted = JSON.stringify(json);
+        /*$('.editable_property').editable('submit', {
+            type : "POST",
+            url: Routing.generate('ajax_properties_update'),
+            data : jsonFormatted,
+            dataType: 'json',
+            cache : false
+        }).done(function(data) {
+                //remove unsaved class
+                $(this).removeClass('editable-unsaved').removeAttr('oldValue');
+                //show messages
+                addNotification('Properties updated', 'success');
+                $('.editable_property').each(function() {
+                    storeOldValue($(this));
+                });
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+                var msg = '';
+                if(jqXHR && jqXHR.responseText) { //ajax error, errors = xhr object
+                    msg = jqXHR.responseText;
+                } else { //validation error (client-side or server-side)
+                    $.each(errors, function(k, v) { msg += k+": "+v+"<br />"; });
+                }
+                addNotification('Error while saving properties : ' + msg, 'error');
+        });*/
+        
         $('.editable_property').editable('submit', { 
             url: Routing.generate('ajax_properties_update'),
             ajaxOptions: {
                 data: jsonFormatted,
-                dataType: 'json' //assuming json response
+                dataType: 'json', //assuming json response
+                type : "POST",
+                cache : false
             },
             success: function(data, config) {
                 //remove unsaved class
                 $(this).removeClass('editable-unsaved').removeAttr('oldValue');
                 //show messages
                 addNotification('Properties updated', 'success');
-                $(this).off('save');
+                $('.editable_property').each(function() {
+                    storeOldValue($(this));
+                });
             },
             error: function(errors) {
                 var msg = '';
@@ -227,11 +263,10 @@ $(function() {
 
     $('#reset-btn').click(function() {
         $('.editable_property').each(function() {
-            var o = $(this);
-            o.editable('setValue', o.attr('oldValue'))	//clear values
-            .editable('option', 'pk', o.attr('pk'))	//clear pk
-            .removeClass('editable-unsaved')
-            .removeAttr('oldValue');
+            var that = $(this);
+            that.editable('setValue', that.attr('oldValue'))	//clear values
+            .editable('option', 'pk', that.attr('pk'))	//clear pk
+            .removeClass('editable-unsaved');
         });
     });
 
@@ -313,7 +348,7 @@ $(function() {
         }).done(function(data) {
             $('#listSessions').html(data);
         }).fail(function() {
-            $('#listSessions').html("Impossible de rÃ©cupÃ©rer un rÃ©sultat");
+            $('#listSessions').html("Impossible de récupérer un résultat");
         });
         return false;
     });
@@ -342,50 +377,44 @@ $(function() {
             data : data,
             cache : false,
             beforeSend : function() {
-                $('#listRules').html("Chargement des rÃ¨gles...");
+                $('#listRules').html("Chargement des règles...");
             }
         }).done(function(data) {
             $('#listRules').html(data);
         }).fail(function() {
-            $('#listRules').html("Impossible de rÃ©cupÃ©rer un rÃ©sultat");
+            $('#listRules').html("Impossible de récupérer un résultat");
         });
         return false;
     });
-
-    $("div.metaRuleItem").hover(function() {
-        $(this).children(".editZone").show();
-    }, function() {
-        $(this).children(".editZone").hide();
-    })
 
     // --------------------------------------------
     // ----------------- Image collection behiavior
     // --------------------------------------------
 
     // Comportement pour les images dans les formulaires
-    // RÃ©cupÃ¨re le div qui contient la collection de tags
+    // Récupère le div qui contient la collection de tags
     var collectionHolder = $('ul.images');
 
-    // ajoute un lien Â« add a tag Â»
+    // ajoute un lien « add a tag »
     var $addImageLink = $('<a href="#" class="add_image_link">Ajouter une image</a>');
     var $newLinkLi = $('<li></li>').append($addImageLink);
 
     jQuery(document)
     .ready(
         function() {
-            // ajoute un lien de suppression Ã  tous les Ã©lÃ©ments li
+            // ajoute un lien de suppression à tous les éléments li
             // de
             // formulaires de tag existants
             collectionHolder.find('li').each(function() {
                 addImageFormDeleteLink($(this));
             });
 
-            // ajoute l'ancre Â« ajouter un tag Â» et li Ã  la balise
+            // ajoute l'ancre « ajouter un tag » et li à la balise
             // ul
             collectionHolder.append($newLinkLi);
 
             $addImageLink.on('click', function(e) {
-                // empÃªche le lien de crÃ©er un Â« # Â» dans l'URL
+                // empêche le lien de créer un « # » dans l'URL
                 e.preventDefault();
 
                 // ajoute un nouveau formulaire tag (voir le
@@ -394,14 +423,14 @@ $(function() {
             });
 
             function addImageForm(collectionHolder, $newLinkLi) {
-                // RÃ©cupÃ¨re l'Ã©lÃ©ment ayant l'attribut
-                // data-prototype comme expliquÃ©
-                // plus tÃ´t
+                // Récupère l'élément ayant l'attribut
+                // data-prototype comme expliqué
+                // plus tôt
                 var prototype = collectionHolder
                 .attr('data-prototype');
 
                 // Remplace '__name__' dans le HTML du prototype par
-                // un nombre basÃ© sur
+                // un nombre basé sur
                 // la longueur de la collection courante
                 var newForm = prototype.replace(/__name__/g,
                                                 collectionHolder.children().length);
@@ -422,25 +451,25 @@ $(function() {
                 $imageFormLi.append($removeFormA);
 
                 $removeFormA.on('click', function(e) {
-                    // empÃªche le lien de crÃ©er un Â« # Â» dans l'URL
+                    // empêche le lien de créer un « # » dans l'URL
                     e.preventDefault();
 
-                    // supprime l'Ã©lÃ©ment li pour le formulaire de
+                    // supprime l'élément li pour le formulaire de
                     // tag
                     $imageFormLi.remove();
                 });
             }
         });
 
-    // Init phase
-    $("#msg").hide();
-    $("#msg").click(function() {
-        $(this).hide();   
-    });
+    // --------------------------------------------
+    // ----------------- Breadcrumbs
+    // --------------------------------------------
+    $("#breadcrumbs").rcrumbs();
 
     // --------------------------------------------
     // ----------------- Notification center
     // --------------------------------------------
+    $("#notificationCenter").find("#messages").parent().hide();
     $("#notificationCenter").find(".bubble").click(function() {
         if(notifications.length > 0) {
             $("#notificationCenter").find("#messages").parent().slideToggle();
@@ -449,6 +478,9 @@ $(function() {
     });
     drawNotifications();
 
+    // --------------------------------------------
+    // ----------------- image Slider
+    // --------------------------------------------
     $("#gameSlideshow").camera({
         loader: 'bar',
         fx: 'scrollLeft',
@@ -456,20 +488,60 @@ $(function() {
         height: '350px',
         playPause: true
     });
+
+    // --------------------------------------------
+    // ----------------- WYSIWYG editor
+    // --------------------------------------------
     $("textarea").wysibb();
+
+    // Screen Championship creation
+    // --------------------------------------------
+    // ----------------- Toggleing rules list
+    // --------------------------------------------
     toggleRules(0);
+    $('#rfc_corebundle_championship_isAgreed').change(function() {
+        toggleRules(200);
+    });
+
+    // --------------------------------------------
+    // ----------------- Set tabs element as tabs
+    // --------------------------------------------
+    $(".jquery_tabs").accessibleTabs();
+
+    // Screen Championship show
+    // --------------------------------------------
+    // ----------------- Selecting event
+    // --------------------------------------------
     $(".eventItem:first").trigger("click");
+
+    // Screen MetaRule show
+    // --------------------------------------------
+    // ----------------- Selecting metaRule
+    // --------------------------------------------
     $(".metaRuleItem:first").trigger("click");
+
+    // --------------------------------------------
+    // ----------------- popupMenu : edit element
+    // --------------------------------------------    
+    $("div.metaRuleItem").find(".editZone").hide();
+
+    $("div.metaRuleItem").hover(function() {
+        $(this).children(".editZone").show();
+    }, function() {
+        $(this).children(".editZone").hide();
+    })
+
+    // --------------------------------------------
+    // ----------------- Inline editing
+    // --------------------------------------------
     // X-editable default values
     $.fn.editable.defaults.mode = 'inline';
     // X-editable activation on each elements
     $("table#mainProperties span.editable_property").editable();
 
-    // Behiavior
-    $('#rfc_corebundle_championship_isAgreed').change(function() {
-        toggleRules(200);
-    });
-    // Table clickable
+    // --------------------------------------------
+    // ----------------- Clickable table row
+    // --------------------------------------------
     $('tr').has('td').has('a').hover(function() {
         $(this).css('cursor', 'pointer');
     });
@@ -479,10 +551,4 @@ $(function() {
             window.location = href;
         }
     });
-
-    // CSS Init
-    $("#breadcrumbs").rcrumbs();
-    $("div.metaRuleItem").find(".editZone").hide();
-    $("#notificationCenter").find("#messages").parent().hide();
-    $(".jquery_tabs").accessibleTabs();
 })
