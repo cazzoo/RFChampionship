@@ -94,6 +94,7 @@ fos_comment:
         model:
             comment: RFC\CoreBundle\Entity\Comment
             thread: RFC\CoreBundle\Entity\Thread
+            vote: RFC\CoreBundle\Entity\Vote
 
 assetic:
     bundles: [ "FOSCommentBundle" ]  

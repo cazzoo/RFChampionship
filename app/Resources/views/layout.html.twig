@@ -59,12 +59,14 @@
             rel="stylesheet" type="text/css" />
 	<link href="{{ asset('css/adminStyle.css') }}" rel="stylesheet"
 		type="text/css" />
+	<link href="{{ asset('css/timeline.css') }}" rel="stylesheet"
+		type="text/css" />
 	<link href="{{ asset('css/animate.css') }}" rel="stylesheet"
 		type="text/css" />
 {% endblock %}
 
 {% stylesheets '@FOSCommentBundle/Resources/assets/css/comments.css' %}
-    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('css/comments.css') }}" type="text/css" />
 {% endstylesheets %}
 
 <!--[if lte IE 7]>
@@ -146,9 +148,13 @@
 			<script type="text/javascript"
 				src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>
 		{% endjavascripts %}
-		{% javascripts 'RFCAdminJS' %}
+		{% javascripts 'RFCJS' %}
+            <script type="text/javascript"
+                src="{{asset('js/modernizr.js') }}"></script>
             <script type="text/javascript"
                 src="{{asset('js/forms.behiavior.js') }}"></script>
+            <script type="text/javascript"
+                src="{{asset('js/timeline.js') }}"></script>
         {% endjavascripts %}
 	{% endblock %}
 
