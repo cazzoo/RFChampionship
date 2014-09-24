@@ -37,6 +37,11 @@
     {% endif %}
 
 {% endblock %}
+{% block nav %}
+
+    {% include 'RFCAdminBundle::Structure/menu.html.twig' %}
+
+{% endblock %}
 {% block breadcrumbs %}
 
     {% include 'RFCAdminBundle::Structure/breadcrumbs.html.twig' %}
@@ -49,21 +54,10 @@
             <div class="box {{ type }}">{{ message }}</div>
         {% endfor %}
     {% endfor %}
+    
+    {% include 'RFCCoreBundle::Structure/notificationCenter.html.twig' %}
 
-    <div class="ym-grid linearize-level-1">
-        <div class="ym-g25 ym-gl">
-            <div class="ym-gbox">
-                <nav class="ym-vlist">
-                    {% include 'RFCAdminBundle::Structure/menu.html.twig' %}
-                </nav>
-            </div>
-        </div>
-        <div class="ym-g75 ym-gr">
-            <div class="ym-gbox">
-                {% block rfccore_body %}{% endblock %}
-            </div>
-        </div>
-    </div>
+    {% block rfccore_body %}{% endblock %}
 
 {% endblock %}
 {% block footer %}

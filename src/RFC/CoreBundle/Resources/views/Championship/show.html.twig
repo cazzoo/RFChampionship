@@ -52,7 +52,7 @@
 <hr />
 
 <div class="ym-grid">
-    <div class="ym-g62 ym-gl">
+    <div class="ym-g38 ym-gl">
         <div class="ym-gbox">
             <h3>
 				Events
@@ -63,41 +63,38 @@
                 <ul>{% for event in entity.listEvents %}</ul>
     			<div class="row">
     				{# Colonne 1 : Events #}
-    				<a
-    					id="event_{{ event.id }};game_{{ game.id }};championship_{{ entity.id }}"
-    					href="#event_{{ event.id }}" class="eventItem list-group-item">
-                        <h4 class="list-group-item-heading">
-                            {{ event.name }}
-                            <span>
+                    
+                    <section class="slide-up-boxes slide-up-boxes-blue">
+                        <a id="event_{{ event.id }};game_{{ game.id }};championship_{{ entity.id }}"
+    					href="#event_{{ event.id }}" class="eventItem">
+                            <h5>
+                                {{ event.name }}
                                 <small>
                                   <span class="label label-primary">{{ event.beginDate|date("Y/m/d H:i") }}</span>
                                   > 
                                   <span class="label label-primary">{{ event.endDate|date("Y/m/d H:i") }}</span>
                                 </small>
-                            </span>
-                        </h4>
+                            </h5>
     					
-    					<p class="list-group-item-text">
                             <div>
-    					       <small><i>{{ event.description }}</i></small>
-					        </div>
-    					    <span data-toggle="tooltip" data-placement="bottom" title="Rules">
-        			        <span class="glyphicon glyphicon-info-sign"></span>
-        			           Category : {% if event.category %}{{ event.category }}{% else %}Not defined{% endif %}<br />
-        			           Vehicle : {% if event.vehicle %}{{ event.vehicle }}{% else %}Not defined{% endif %}<br />
-        			           Track : {% if event.track %}{{ event.track }}{% else %}Not defined{% endif %}
-        			           {% if event.listBroadcast is not empty %}
-        			             <br />Broadcast : {% for broadcast in event.listBroadcast %} {{ broadcast }} {% endfor %}
-        			           {% endif %}
-    			           </span>
-    				    </p>
-    				</a>
+                               <small><i>{{ event.description }}</i></small><br />
+                                <span>
+                                    Category : {% if event.category %}{{ event.category }}{% else %}Not defined{% endif %}<br />
+                                    Vehicle : {% if event.vehicle %}{{ event.vehicle }}{% else %}Not defined{% endif %}<br />
+                                    Track : {% if event.track %}{{ event.track }}{% else %}Not defined{% endif %}
+                                    {% if event.listBroadcast is not empty %}
+                                        <br />Broadcast : {% for broadcast in event.listBroadcast %} {{ broadcast }} {% endfor %}
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </a>
+                    </section>
     			</div>
     			{% endfor %}
             {% endif %}
             </div>
         </div>
-    <div class="ym-g38 ym-gr">
+    <div class="ym-g62 ym-gr">
         <div class="ym-gbox">
     		<h3>Sessions</h3>
     		{# Colonne 2 : Sessions #}

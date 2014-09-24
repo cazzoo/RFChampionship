@@ -50,66 +50,43 @@ parent() }} {% endblock %} {% block rfccore_body %}
 <hr />
 <div class="ym-grid">
 	{# Liste les événements et les sessions #}
-	<div class="ym-g62 ym-gl">
+	<div class="ym-g38 ym-gl">
 		<div class="ym-gbox">
 			<h3>Events</h3>
 			<a class="ym-button ym-add"
 				href="{{ path('admin_event_new', {'gameId' : game[0].id, 'championshipId' : entity.id}) }}">Add</a>
 			{% if entity.listEvents is empty %} Aucun Event n'est présent. Il faut en créer. {% else %}
+            
+            {% for event in entity.listEvents %}
+                <section class="slide-up-boxes slide-up-boxes-blue">
+                    <a id="event_{{ event.id }};game_{{ game[0].id }};championship_{{ entity.id }}"
+                    href="#event_{{ event.id }}" class="eventItem">
+                        <h5>
+                            {{ event.name }}
+                            <small>
+                              <span class="label label-primary">{{ event.beginDate|date("Y/m/d H:i") }}</span>
+                              > 
+                              <span class="label label-primary">{{ event.endDate|date("Y/m/d H:i") }}</span>
+                            </small>
+                        </h5>
 
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Dates</th>
-						<th>Infos</th>
-					</tr>
-				</thead>
-				<tbody class="table-striped">
-					{% for event in entity.listEvents %}
-					<tr>
-						<td>
-							<a id="event_{{ event.id }};game_{{ game[0].id }};championship_{{ entity.id }}"
-								href="#event_{{ event.id }}" class="eventItem list-group-item">
-								{{ event.name }}
-							</a>
-						</td>
-						<td>
-							<span>
-								<small>
-									<span class="label label-primary">
-										{{ event.beginDate|date("Y/m/d H:i") }}
-									</span>
-									 > 
-									<span class="label label-primary">
-										{{ event.endDate|date("Y/m/d H:i") }}
-									</span>
-								</small>
-							</span>
-						</td>
-						<td>
-							<p class="list-group-item-text">
-								<div>
-									<small><i>{{ event.description }}</i></small>
-								</div>
-								<span data-toggle="tooltip" data-placement="bottom" title="Rules">
-								<span class="glyphicon glyphicon-info-sign"></span>
-									Category : {% if event.category %}{{ event.category }}{% else %}Not defined{% endif %}<br />
-									Vehicle : {% if event.vehicle %}{{ event.vehicle }}{% else %}Not defined{% endif %}<br />
-									Track : {% if event.track %}{{ event.track }}{% else %}Not defined{% endif %}
-									{% if event.listBroadcast is not empty %}
-										Broadcast : {% for broadcast in event.listBroadcast %} {{ broadcast }} {% endfor %}
-									{% endif %}
-								</span>
-							</p>
-						</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+                        <div>
+                           <small><i>{{ event.description }}</i></small><br />
+                            <span>
+                                Category : {% if event.category %}{{ event.category }}{% else %}Not defined{% endif %}<br />
+                                Vehicle : {% if event.vehicle %}{{ event.vehicle }}{% else %}Not defined{% endif %}<br />
+                                Track : {% if event.track %}{{ event.track }}{% else %}Not defined{% endif %}
+                                {% if event.listBroadcast is not empty %}
+                                    <br />Broadcast : {% for broadcast in event.listBroadcast %} {{ broadcast }} {% endfor %}
+                                {% endif %}
+                            </span>
+                        </div>
+                    </a>
+                </section>
+            {% endfor %}
 		</div>
 	</div>
-	<div class="ym-g38 ym-gr">
+	<div class="ym-g62 ym-gr">
 		<div class="ym-gbox">
 			<h3>Sessions</h3>
 			{# Colonne 2 : Sessions #}

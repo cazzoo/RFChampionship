@@ -28,7 +28,7 @@
 	<!-- Loading YALMcss -->
 	<link href="{{ asset('yaml/core/base.min.css') }}"
 		rel="stylesheet" type="text/css" />
-    <link href="{{ asset('yaml/navigation/vlist.css') }}"
+    <link href="{{ asset('yaml/navigation/hlist.css') }}"
             rel="stylesheet" type="text/css" />
     <link href="{{ asset('yaml/forms/gray-theme.css') }}"
             rel="stylesheet" type="text/css" />
@@ -87,15 +87,21 @@
             </div>
         </div>
     </header>
+    <nav>
+        <div class="ym-wrapper">
+            <div class="dropdown-menu">
+                {% block nav %}{% endblock %}
+            </div>
+        </div>
+    </nav>
     <breadcrumbs>
         <div class="ym-wrapper">
-            <div class="ym-hlist">
+            <div class="ym-wbox">
                 {% block breadcrumbs %}{% endblock %}
             </div>
         </div>
     </breadcrumbs>
     <main>
-        {% block nav %}{% endblock %}
         <div class="ym-wrapper">
             <div class="ym-wbox">
                 {% block main %}{% endblock %}
