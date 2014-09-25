@@ -23,40 +23,13 @@ use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\DescriptorTrait;
 
 /**
- * CrewRequest
+ * Crew
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\CrewRequestRepository")
+ * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\CrewRepository")
  */
-class CrewRequest
+class Crew
 {
-
-    public static $stateEnum = array(
-        '1' => 'New',
-        '2' => 'Accepted',
-        '3' => 'Refused',
-        '4' => 'Abandonned'
-    );
-
-    public static function getStateEnum()
-    {
-        return self::$stateEnum;
-    }
-
-    public static function getStateKeys()
-    {
-        return array_keys(self::$stateEnum);
-    }
-
-    public static function getStateValues()
-    {
-        return array_values(self::$stateEnum);
-    }
-    
-    public static function getKeyForValue($value)
-    {
-        return array_search($value, self::getStateValues(), true);
-    }
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -66,27 +39,16 @@ class CrewRequest
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Crew", inversedBy="listCrewRequests")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $crew;
+    protected $game;
 
     /**
-     * @ORM\Column(name="state", type="integer")
-     */
-    private $state;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="RFC\UserBundle\Entity\User")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\CrewRequest", mappedBy="crew")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $mentor;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="RFC\UserBundle\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $requester;
+    private $listCrewRequests;
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -101,6 +63,14 @@ class CrewRequest
     private $updatedAt;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->listCrewRequests = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -109,49 +79,82 @@ class CrewRequest
     {
         return $this->id;
     }
-	
-    public function getCrew()
+    
+	public function getGame() {
+		return $this->game;
+	}
+    
+	public function setGame($game) {
+		$this->game = $game;
+		return $this;
+	}
+
+    /**
+     * Return the manager
+     *
+     */
+    public function getManager()
     {
-        return $this->crew;
+        if(!empty($this->listCrewRequests))
+        {
+            return $this->listCrewRequests[0]->mentor;
+        }
+    }
+    
+    public function getMembers($state)
+    {
+        $members = array();
+        foreach($this->listCrewRequests as $crewRequest)
+        {
+            if($state == $crewRequest->getState())
+            {
+                array_push($members, $crewRequest->getRequester());
+            }
+        }
+        return $members;
+    }
+    
+    public function getActiveMembers()
+    {
+        return getMembers(2);
+    }
+    
+    public function getWaitingMembers()
+    {
+        return getMembers(1);
     }
 
-    public function setCrew($crew)
+    /**
+     * Add CrewRequest
+     *
+     * @param \RFC\CoreBundle\Entity\CrewRequest $listCrewRequest            
+     * @return CrewRequest
+     */
+    public function addListCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $listCrewRequests)
     {
-        $this->crew = $crew;
+        $this->listCrewRequests[] = $listCrewRequests;
+        
         return $this;
     }
 
-    public function getState()
+    /**
+     * Remove listCrewRequests
+     *
+     * @param \RFC\CoreBundle\Entity\CrewRequest $listCrewRequests
+     */
+    public function removelistCrewRequests(\RFC\CoreBundle\Entity\CrewRequest $listCrewRequests)
     {
-        return $this->state;
+        $this->listCrewRequests->removeElement($listCrewRequests);
     }
 
-    public function setState($state)
+    /**
+     * Get listCrewRequests
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getlistCrewRequests()
     {
-        $this->state = $state;
-        return $this;
-    }
-
-    public function getMentor()
-    {
-        return $this->mentor;
-    }
-
-    public function setMentor($mentor)
-    {
-        $this->mentor = $mentor;
-        return $this;
-    }
-
-    public function getRequester()
-    {
-        return $this->requester;
-    }
-
-    public function setRequester($requester)
-    {
-        $this->requester = $requester;
-        return $this;
+        return $this->listCrewRequests;
     }
 
     /**

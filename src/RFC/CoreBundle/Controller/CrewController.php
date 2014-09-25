@@ -36,25 +36,24 @@ class CrewController extends Controller
         $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
         $users = $em->getRepository('RFCUserBundle:User')->findAll();
-        $awaitingRequests = $em->getRepository('RFCCoreBundle:CrewRequest')->findBy(array('game' => $game->getId(),
-                                                                                          'state' => '1'));
+        $crewRequests = $em->getRepository('RFCCoreBundle:CrewRequest')->findBy(array('game' => $game->getId());
 
-        $crewRequests = null;
+        $crew = null;
         $crewMembers = array();
         $awaitingMembers = array();
 
         if($user != 'anon.')
         {
-            $crewRequests = $em->getRepository ( 'RFCCoreBundle:CrewRequest' )->findBy ( array (
-                'requester' => $user->getId (),
-                'state' => '2'
-            ) );
-
             foreach($crewRequests as $crewRequest)
             {
                 array_push($crewMembers, $crewRequest->getRequester());
             }
         }
+            $crewRequests = $em->getRepository ( 'RFCCoreBundle:CrewRequest' )->findBy ( array (
+                'requester' => $user->getId (),
+                'game' => $gameId,
+                'state' => '2'
+            ));
 
         if(count($awaitingRequests) > 0)
         {   

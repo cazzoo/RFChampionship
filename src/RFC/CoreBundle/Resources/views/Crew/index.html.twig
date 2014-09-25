@@ -25,6 +25,7 @@
 {% if app.user %}
     {% set showApplicationForm = false %}
     {% set showRetirementForm = false %}
+{{ dump(app.user.listCrewRequests) }}
     {% if app.user.listCrewRequests is empty %}
         {% set showApplicationForm = true %}
     {% else %}
