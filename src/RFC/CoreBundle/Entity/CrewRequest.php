@@ -77,13 +77,7 @@ class CrewRequest
     private $state;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\UserBundle\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $mentor;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="RFC\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="RFC\UserBundle\Entity\User", inversedBy="listCrewRequests")
      * @ORM\JoinColumn(nullable=false)
      */
     private $requester;
@@ -129,17 +123,6 @@ class CrewRequest
     public function setState($state)
     {
         $this->state = $state;
-        return $this;
-    }
-
-    public function getMentor()
-    {
-        return $this->mentor;
-    }
-
-    public function setMentor($mentor)
-    {
-        $this->mentor = $mentor;
         return $this;
     }
 

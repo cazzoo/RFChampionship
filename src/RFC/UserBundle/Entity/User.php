@@ -75,7 +75,7 @@ class User extends BaseUser
     protected $listPreferences;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\CrewRequest", mappedBy="requester")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\CrewRequest", mappedBy="requester", cascade={"persist", "remove"})
      */
     protected $listCrewRequests;
 
@@ -317,7 +317,7 @@ class User extends BaseUser
     {
         foreach ($this->getListCrewRequests() as $crewRequest) {
             if ($crewRequest->getState() == 2 && $crewRequest->getGame()->getId() == $gameId) {
-                return $crewRequest;
+                return $crewRequest->getCrew();
             } else {
                 return null;
             }

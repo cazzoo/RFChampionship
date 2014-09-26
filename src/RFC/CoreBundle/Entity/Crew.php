@@ -42,11 +42,16 @@ class Crew
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
      * @ORM\JoinColumn(nullable=false)
      */
-    protected $game;
+    private $game;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\CrewRequest", mappedBy="crew")
+     * @ORM\ManyToOne(targetEntity="RFC\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
+     */
+    private $manager;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\CrewRequest", mappedBy="crew", cascade={"persist", "remove"})
      */
     private $listCrewRequests;
 
@@ -95,11 +100,13 @@ class Crew
      */
     public function getManager()
     {
-        if(!empty($this->listCrewRequests))
-        {
-            return $this->listCrewRequests[0]->mentor;
-        }
+        return $this->manager;
     }
+    
+	public function setManager($user) {
+		$this->manager = $user;
+		return $this;
+	}
     
     public function getMembers($state)
     {
@@ -130,9 +137,9 @@ class Crew
      * @param \RFC\CoreBundle\Entity\CrewRequest $listCrewRequest            
      * @return CrewRequest
      */
-    public function addListCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $listCrewRequests)
+    public function addListCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
     {
-        $this->listCrewRequests[] = $listCrewRequests;
+        $this->listCrewRequests[] = $crewRequest;
         
         return $this;
     }
@@ -142,9 +149,9 @@ class Crew
      *
      * @param \RFC\CoreBundle\Entity\CrewRequest $listCrewRequests
      */
-    public function removelistCrewRequests(\RFC\CoreBundle\Entity\CrewRequest $listCrewRequests)
+    public function removeListCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
     {
-        $this->listCrewRequests->removeElement($listCrewRequests);
+        $this->listCrewRequests->removeElement($crewRequest);
     }
 
     /**
@@ -152,7 +159,7 @@ class Crew
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getlistCrewRequests()
+    public function getListCrewRequests()
     {
         return $this->listCrewRequests;
     }

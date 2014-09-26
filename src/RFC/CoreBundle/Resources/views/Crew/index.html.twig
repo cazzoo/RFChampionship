@@ -25,36 +25,39 @@
 {% if app.user %}
     {% set showApplicationForm = false %}
     {% set showRetirementForm = false %}
-{{ dump(app.user.listCrewRequests) }}
-    {% if app.user.listCrewRequests is empty %}
-        {% set showApplicationForm = true %}
-    {% else %}
-        {% set crew = '' %}
-        {% set crewAwaiting = '' %}
-        {% for crewRequest in app.user.listCrewRequests %}
-            {% if crewRequest.state == 2 %} {# request accepted #}
-                {% set crew = crewRequest %}
-            {% endif %}
-            {% if crewRequest.state == 1 %}
-                {% set crewAwaiting = crewRequest %}
+    {% if crew is empty %}
+        {% set userState = '' %}
+        {% set members = {} %}
+        {% set awaiters = {} %}
+        {% for crewRequest in crew.listCrewRequests %}
+            {% if crewRequest.state == 2 %}
+                {% if app.user == crewRequest.requester %}
+                    {% set userState = crewRequest.state %}
+                {% endif %}
+                {% set members = members|merge(crewRequest.requester) %}
+            {% elseif crewRequest.state == 4 %}
+                {% set awaiters = awaiters|merge(crewRequest.requester) %}
             {% endif %}
         {% endfor %}
-        {% if crew is not empty %}
+
+        {% if crew.manager is not null or userState == 2 %}
             {% include 'RFCCoreBundle:Crew:crewInfo.html.twig' %}
             
-            You're belonging to <strong>{{ crew.mentor.userName }}</strong>'s crew.<br />
+            You're belonging to <strong>{{ crew.getManager.userName }}</strong>'s crew.<br />
             Feel free to share things with the crew.<br />
             {% set showRetirementForm = true %}
             
             {% include 'RFCCoreBundle:Crew:crewFeed.html.twig' %}
         {% else %}
             {% if crewAwaiting %}
-                You asked to being part of <strong>{{ crewAwaiting.mentor.userName }}</strong>'s crew but your request is not accepted yet.<br />
+                You asked to being part of <strong>{{ crewAwaiting.manager.userName }}</strong>'s crew but your request is not accepted yet.<br />
                 {% set showRetirementForm = true %}
             {% else %}
                 {% set showApplicationForm = true %}
             {% endif %}
         {% endif %}
+    {% else %}
+        {% set showApplicationForm = true %}
     {% endif %}
     {% include 'RFCCoreBundle:Crew:applicationForm.html.twig' %}
 {% else %}

@@ -22,6 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use RFC\CoreBundle\Entity\Game;
+use RFC\CoreBundle\Entity\Crew;
 use RFC\CoreBundle\Entity\CrewRequest;
 use RFC\UserBundle\Entity\User;
 
@@ -36,7 +37,8 @@ class CrewController extends Controller
         $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
         $users = $em->getRepository('RFCUserBundle:User')->findAll();
-        $crewRequests = $em->getRepository('RFCCoreBundle:CrewRequest')->findBy(array('game' => $game->getId());
+        $crew = $em->getRepository('RFCCoreBundle:Crew')->findBy(array('game' => $gameId, 'manager' => $user->getId()));
+        /*$crewRequests = $em->getRepository('RFCCoreBundle:CrewRequest')->findBy(array('game' => $game->getId());
 
         $crew = null;
         $crewMembers = array();
@@ -61,7 +63,7 @@ class CrewController extends Controller
             {
                 array_push($awaitingMembers, $awaitingRequest->getRequester());
             }
-        }
+        }*/
 
         // Ajout du jeu sélectionné
         $menu = $this->get('rfc_core.menu.breadcrumb');
@@ -77,8 +79,9 @@ class CrewController extends Controller
             'game' => $game,
             'games' => $games,
             'users' => $users,
+            'crew' => $crew/*,
             'crewMembers' => $crewMembers,
-            'awaitingMembers' => $awaitingMembers
+            'awaitingMembers' => $awaitingMembers*/
         ));
     }
 

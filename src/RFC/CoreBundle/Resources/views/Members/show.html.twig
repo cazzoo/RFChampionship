@@ -35,7 +35,7 @@
         <dt>Steam Id</dt>
         <dd>{{ user.steamId }}</dd>
         <dt>Mentor</dt>
-        <dd>{% if user.getCrew(game.id) is not null %}{{ user.getCrew(game.id).mentor.username }}{% else %} - {% endif %}</dd>
+        <dd>{% if user.getCrew(game.id) is not null %}{{ user.getCrew(game.id).manager.username }}{% else %} - {% endif %}</dd>
         <dt>Email</dt>
         <dd>{{ user.email }}</dd>
         <dt>Last login</dt>

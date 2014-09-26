@@ -76,7 +76,7 @@
                 <h5>Pending requests</h5>
                 {% for pendingRequest in user.getRequestsByType(1) %}
                     [{{ pendingRequest.game.name }}] 
-                    You asked for <strong>{{ pendingRequest.mentor.userName }}</strong>'s Crew on {{ pendingRequest.getCreatedAt|date('H:i:s - d-m-Y') }}.<br />
+                    You asked for <strong>{{ pendingRequest.manager.userName }}</strong>'s Crew on {{ pendingRequest.getCreatedAt|date('H:i:s - d-m-Y') }}.<br />
                 {% endfor %}
             {% endif %}
             {% if crewAwaitingRequests is not empty %}
@@ -99,7 +99,7 @@
                 <h5>Active crews</h5>
                 {% for activeCrew in user.getRequestsByType(2) %}
                     [{{ activeCrew.game.name }}] 
-                    You are part in <strong>{{ activeCrew.mentor.userName }}</strong>'s Crew since {{ activeCrew.getUpdatedAt|date('H:i:s - d-m-Y') }}.<br />
+                    You are part in <strong>{{ activeCrew.manager.userName }}</strong>'s Crew since {{ activeCrew.getUpdatedAt|date('H:i:s - d-m-Y') }}.<br />
                 {% endfor %}
             {% endif %}
         </div>
