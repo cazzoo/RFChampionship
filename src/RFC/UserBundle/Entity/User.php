@@ -114,7 +114,7 @@ class User extends BaseUser
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
-        
+
         return $this;
     }
 
@@ -137,7 +137,7 @@ class User extends BaseUser
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
-        
+
         return $this;
     }
 
@@ -160,7 +160,7 @@ class User extends BaseUser
     public function setAge($age)
     {
         $this->age = $age;
-        
+
         return $this;
     }
 
@@ -183,7 +183,7 @@ class User extends BaseUser
     public function setAvatarUrl($avatarUrl)
     {
         $this->avatarUrl = $avatarUrl;
-        
+
         return $this;
     }
 
@@ -206,7 +206,7 @@ class User extends BaseUser
     public function setSteamId($steamId)
     {
         $this->steamId = $steamId;
-        
+
         return $this;
     }
 
@@ -230,7 +230,7 @@ class User extends BaseUser
         $this->listPreferences = $listPreferences;
         return $this;
     }
- 
+
     public function getListCrewRequests()
     {
         return $this->listCrewRequests;
@@ -251,7 +251,7 @@ class User extends BaseUser
     public function addListChampionship(\RFC\CoreBundle\Entity\Championship $listChampionships)
     {
         $this->listChampionships[] = $listChampionships;
-        
+
         return $this;
     }
 
@@ -323,7 +323,7 @@ class User extends BaseUser
             }
         }
     }
-    
+
     public function getRequestsByType($type)
     {
         $crewRequests = array();
@@ -334,14 +334,31 @@ class User extends BaseUser
         }
         return $crewRequests;
     }
-    
+
     public function getPendingRequests()
     {
         return getRequestsByType(4);
     }
-    
+
     public function getCrews()
     {
         return getRequestsByType(2);
+    }
+
+    public function getCrewState($crewId)
+    {
+        foreach ($this->getListCrewRequests() as $crewRequest)
+        {
+            $lastRequest = null;
+            if($crewId == $crewRequest->getCrew()->getId())
+            {
+                if($lastRequest == null || $lastRequest->getCreatedAt() < $crewRequest->getCreatedAt())
+                {
+                    $lastRequest = $crewRequest;
+                }
+                return $lastRequest->getState();
+            }
+            return null;
+        }
     }
 }

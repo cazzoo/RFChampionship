@@ -34,13 +34,7 @@
 {% endif %}
 {% if showRetirementForm == true %}
 <form id="cancelCrewRequest">
-    {% if crew is not empty %}
-        {% set crewId = crew.id %}
-    {% endif %}
-    {% if crewAwaiting is not empty %}
-        {% set crewId = crewAwaiting.id %}
-    {% endif %}
-    <input type="hidden" id="crewId" value="{{ crewId }}" />
+    <input type="hidden" id="crewId" value="{{ crew.id }}" />
     <button type="submit" class="ym-button ym-danger ym-delete">Retire from crew</button>
 </form>
 {% endif %}

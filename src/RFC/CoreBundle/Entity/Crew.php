@@ -84,15 +84,15 @@ class Crew
     {
         return $this->id;
     }
-    
-	public function getGame() {
-		return $this->game;
-	}
-    
-	public function setGame($game) {
-		$this->game = $game;
-		return $this;
-	}
+
+    public function getGame() {
+        return $this->game;
+    }
+
+    public function setGame($game) {
+        $this->game = $game;
+        return $this;
+    }
 
     /**
      * Return the manager
@@ -102,14 +102,17 @@ class Crew
     {
         return $this->manager;
     }
-    
-	public function setManager($user) {
-		$this->manager = $user;
-		return $this;
-	}
-    
-    public function getMembers($state)
-    {
+
+    public function setManager($user) {
+        $this->manager = $user;
+        return $this;
+    }
+
+    public function isManager($userId) {
+        return ($userId === $this->manager->getId()) ? true : false;
+    }
+
+    public function getMembers($state) {
         $members = array();
         foreach($this->listCrewRequests as $crewRequest)
         {
@@ -120,15 +123,53 @@ class Crew
         }
         return $members;
     }
-    
+
     public function getActiveMembers()
     {
-        return getMembers(2);
+        return $this->getMembers(2);
     }
-    
-    public function getWaitingMembers()
+
+    public function isActiveMember($userId)
     {
-        return getMembers(1);
+        foreach ($this->getActiveMembers() as $member)
+        {
+            if ($userId == $member->getId())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getAwaitingMembers()
+    {
+        return $this->getMembers(1);
+    }
+
+    public function isAwaitingMember($userId)
+    {
+        foreach ($this->getAwaitingMembers() as $member)
+        {
+            if ($member->getId() == $userId)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getUserState($userId)
+    {
+        if($this->isActiveMember($userId))
+        {
+            return 2;
+        } else if($this->isAwaitingMember($userId))
+        {
+            return 1;
+        } else 
+        {
+            return 4;
+        }
     }
 
     /**
@@ -140,7 +181,7 @@ class Crew
     public function addListCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
     {
         $this->listCrewRequests[] = $crewRequest;
-        
+
         return $this;
     }
 
@@ -173,7 +214,7 @@ class Crew
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-        
+
         return $this;
     }
 
@@ -196,7 +237,7 @@ class Crew
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-        
+
         return $this;
     }
 

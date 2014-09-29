@@ -25,22 +25,12 @@
 {% if app.user %}
     {% set showApplicationForm = false %}
     {% set showRetirementForm = false %}
-    {% if crew is empty %}
-        {% set userState = '' %}
-        {% set members = {} %}
-        {% set awaiters = {} %}
-        {% for crewRequest in crew.listCrewRequests %}
-            {% if crewRequest.state == 2 %}
-                {% if app.user == crewRequest.requester %}
-                    {% set userState = crewRequest.state %}
-                {% endif %}
-                {% set members = members|merge(crewRequest.requester) %}
-            {% elseif crewRequest.state == 4 %}
-                {% set awaiters = awaiters|merge(crewRequest.requester) %}
-            {% endif %}
-        {% endfor %}
+    {% if crew is not empty %}
+        {% set userState = app.user.getCrewState(crew.id) %}
+        {% set members = crew.getActiveMembers %}
+        {% set awaiters = crew.getAwaitingMembers %}
 
-        {% if crew.manager is not null or userState == 2 %}
+        {% if crew.isManager(app.user.id) or crew.isActiveMember(app.user.id) %}
             {% include 'RFCCoreBundle:Crew:crewInfo.html.twig' %}
             
             You're belonging to <strong>{{ crew.getManager.userName }}</strong>'s crew.<br />
@@ -49,8 +39,8 @@
             
             {% include 'RFCCoreBundle:Crew:crewFeed.html.twig' %}
         {% else %}
-            {% if crewAwaiting %}
-                You asked to being part of <strong>{{ crewAwaiting.manager.userName }}</strong>'s crew but your request is not accepted yet.<br />
+            {% if userState == 1 %}
+                You asked to being part of <strong>{{ crew.manager.userName }}</strong>'s crew but your request is not accepted yet.<br />
                 {% set showRetirementForm = true %}
             {% else %}
                 {% set showApplicationForm = true %}

@@ -37,33 +37,17 @@ class CrewController extends Controller
         $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
         $users = $em->getRepository('RFCUserBundle:User')->findAll();
-        $crew = $em->getRepository('RFCCoreBundle:Crew')->findBy(array('game' => $gameId, 'manager' => $user->getId()));
-        /*$crewRequests = $em->getRepository('RFCCoreBundle:CrewRequest')->findBy(array('game' => $game->getId());
+        $crews = $em->getRepository('RFCCoreBundle:Crew')->findBy(array('game' => $gameId));
 
         $crew = null;
-        $crewMembers = array();
-        $awaitingMembers = array();
 
-        if($user != 'anon.')
+        foreach($crews as $cur_crew)
         {
-            foreach($crewRequests as $crewRequest)
+            if($cur_crew->isManager($user->getId()) || $cur_crew->isActiveMember($user->getId()) || $cur_crew->isAwaitingMember($user->getId()))
             {
-                array_push($crewMembers, $crewRequest->getRequester());
+                $crew = $cur_crew;
             }
         }
-            $crewRequests = $em->getRepository ( 'RFCCoreBundle:CrewRequest' )->findBy ( array (
-                'requester' => $user->getId (),
-                'game' => $gameId,
-                'state' => '2'
-            ));
-
-        if(count($awaitingRequests) > 0)
-        {   
-            foreach($awaitingRequests as $awaitingRequest)
-            {
-                array_push($awaitingMembers, $awaitingRequest->getRequester());
-            }
-        }*/
 
         // Ajout du jeu sélectionné
         $menu = $this->get('rfc_core.menu.breadcrumb');
@@ -79,9 +63,7 @@ class CrewController extends Controller
             'game' => $game,
             'games' => $games,
             'users' => $users,
-            'crew' => $crew/*,
-            'crewMembers' => $crewMembers,
-            'awaitingMembers' => $awaitingMembers*/
+            'crew' => $crew
         ));
     }
 

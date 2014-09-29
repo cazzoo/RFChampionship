@@ -16,15 +16,13 @@
 
 {# src/RFC/CoreBundle/Resources/views/Crew/crewInfo.html.twig #}
 
-{% if crewMembers is not empty %}
-    <h3>List of all members belonging to this crew</h3>
-    <ul>
-    {% for crewMember in crewMembers %}
-        <li class="unstyled">{{ crewMember.userName }}</li>
-    {% endfor %}
-    {% for awaitingMember in awaitingMembers %}
-        <li class="unstyled inactive">{{ awaitingMember.userName }}</li>
-    {% endfor %}
-    </ul>
-{% endif %}
+<h3>List of all members belonging to this crew</h3>
+<ul class="unstyled">
+{% for crewMember in members %}
+    <li>{{ crewMember.userName }}</li>
+{% endfor %}
+{% for awaitingMember in awaiters %}
+    <li class="inactive">{{ awaitingMember.userName }}</li>
+{% endfor %}
+</ul>
 {# show crew infos #}
