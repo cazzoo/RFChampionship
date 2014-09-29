@@ -289,7 +289,7 @@ $(function() {
     $('form#sendCrewRequest').submit(function(e) {
         var data = {
             requesterId : $(this).find('#requesterId').val(),
-            mentorId : $(this).find('#mentorId').val(),
+            managerId : $(this).find('#managerId').val(),
             gameId : $(this).find('#gameId').val()
         };
         $('form#sendCrewRequest button').addClass('ym-disabled');
@@ -300,7 +300,7 @@ $(function() {
 
     $('form#cancelCrewRequest').submit(function() {
         var data = {
-            crewId : $(this).find('#crewId').val()
+            crewRequestId : $(this).find('#crewRequestId').val()
         };
         $('form#cancelCrewRequest button').addClass('ym-disabled');
         $('form#cancelCrewRequest button').prop('disabled', true);
@@ -314,7 +314,7 @@ $(function() {
     // --------------------------------------------
     $('form#acceptCrewApplication').submit(function(e) {
         var data = {
-            crewId : $(this).find('#crewId').val(),
+            crewRequestId : $(this).find('#crewRequestId').val(),
         };
         $('form#acceptCrewApplication button').addClass('ym-disabled');
         $('form#acceptCrewApplication button').prop('disabled', true);
@@ -326,7 +326,7 @@ $(function() {
 
     $('form#declineCrewApplication').submit(function(e) {
         var data = {
-            crewId : $(this).find('#crewId').val()
+            crewRequestId : $(this).find('#crewRequestId').val()
         };
         $('form#acceptCrewApplication button').addClass('ym-disabled');
         $('form#acceptCrewApplication button').prop('disabled', true);

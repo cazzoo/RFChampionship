@@ -316,7 +316,7 @@ class User extends BaseUser
     public function getCrew($gameId)
     {
         foreach ($this->getListCrewRequests() as $crewRequest) {
-            if ($crewRequest->getState() == 2 && $crewRequest->getGame()->getId() == $gameId) {
+            if ($crewRequest->getState() == 2 && $crewRequest->getCrew()->getGame()->getId() == $gameId) {
                 return $crewRequest->getCrew();
             } else {
                 return null;

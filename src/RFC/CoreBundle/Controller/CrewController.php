@@ -78,16 +78,16 @@ class CrewController extends Controller
         }
 
         $em = $this->getDoctrine()->getManager();
-
-        $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($params['gameId']);
         $requester = $em->getRepository('RFCUserBundle:User')->findOneById($params['requesterId']);
-        $mentor = $em->getRepository('RFCUserBundle:User')->findOneById($params['mentorId']);
+        $crew = $em->getRepository('RFCCoreBundle:Crew')->findOneBy(array(
+            'game' => $params['gameId'], 
+            'manager' => $params['managerId']
+        ));
 
         $request = new CrewRequest();
         $request->setRequester($requester);
-        $request->setMentor($mentor);
+        $request->setCrew($crew);
         $request->setState(1);
-        $request->setGame($game);
 
         try{
             $em->persist($request);
@@ -112,15 +112,15 @@ class CrewController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $crew = $em->getRepository('RFCCoreBundle:CrewRequest')->findOneById($params['crewId']);
+        $crewRequest = $em->getRepository('RFCCoreBundle:CrewRequest')->findOneById($params['crewRequestId']);
 
-        $crew->setState(4);
+        $crewRequest->setState(4);
 
         try{
             $em->flush();
-            $jsonResponse = new JsonResponse($crew, 200);
+            $jsonResponse = new JsonResponse($crewRequest, 200);
         } catch (Exception $e){
-            $jsonResponse = new JsonResponse($crew, 400);
+            $jsonResponse = new JsonResponse($crewRequest, 400);
         }
 
         return $jsonResponse;
@@ -137,15 +137,15 @@ class CrewController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $crew = $em->getRepository('RFCCoreBundle:CrewRequest')->findOneById($params['crewId']);
+        $crewRequest = $em->getRepository('RFCCoreBundle:CrewRequest')->findOneById($params['crewRequestId']);
 
-        $crew->setState(2);
+        $crewRequest->setState(2);
 
         try{
             $em->flush();
-            $jsonResponse = new JsonResponse($crew, 200);
+            $jsonResponse = new JsonResponse($crewRequest, 200);
         } catch (Exception $e){
-            $jsonResponse = new JsonResponse($crew, 400);
+            $jsonResponse = new JsonResponse($crewRequest, 400);
         }
 
         return $jsonResponse;

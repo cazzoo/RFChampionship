@@ -36,7 +36,6 @@ class UserController extends Controller {
 			$user = $this->container->get ( 'security.context' )->getToken ()->getUser ();
 			
 			$crewAwaitingRequests = $em->getRepository ( 'RFCCoreBundle:CrewRequest' )->findBy ( array (
-					'mentor' => $user->getId (),
 					'state' => '1'
 			) );
 			

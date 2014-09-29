@@ -205,6 +205,17 @@ class Crew
         return $this->listCrewRequests;
     }
 
+    public function getUserCrewRequest($userId)
+    {
+        foreach($this->listCrewRequests as $crewRequest)
+        {
+            if($userId == $crewRequest->getRequester()->getId())
+            {
+                return $crewRequest;            }
+        }
+        return null;
+    }
+
     /**
      * Set createdAt
      *

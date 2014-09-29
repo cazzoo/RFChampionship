@@ -75,14 +75,14 @@
             {% if user.getRequestsByType(1) is not empty %}
                 <h5>Pending requests</h5>
                 {% for pendingRequest in user.getRequestsByType(1) %}
-                    [{{ pendingRequest.game.name }}] 
+                    [{{ pendingRequest.crew.game.name }}] 
                     You asked for <strong>{{ pendingRequest.manager.userName }}</strong>'s Crew on {{ pendingRequest.getCreatedAt|date('H:i:s - d-m-Y') }}.<br />
                 {% endfor %}
             {% endif %}
             {% if crewAwaitingRequests is not empty %}
                 <h5>Users awaiting your answer</h5>
                 {% for crewAwaitingRequest in crewAwaitingRequests %}
-                    <h6>{{ crewAwaitingRequest.game.name }}</h6>
+                    <h6>{{ crewAwaitingRequest.crew.game.name }}</h6>
                         Member <strong>{{ crewAwaitingRequest.requester.userName }}</strong> requested to be part of your crew.<br />
                         Do you accept?<br /><br />
                     <form id="acceptCrewApplication">
