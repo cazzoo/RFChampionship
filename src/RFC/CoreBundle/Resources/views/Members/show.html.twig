@@ -35,7 +35,11 @@
         <dt>Steam Id</dt>
         <dd>{{ user.steamId }}</dd>
         <dt>Mentor</dt>
-        <dd>{% if user.getCrew(game.id) is not null %}{{ user.getCrew(game.id).manager.username }}{% else %} - {% endif %}</dd>
+        <dd>
+            {% for crew in user.getCrews %}
+                {{ crew.game.name }} - {{ crew.manager.username }}{% if crew.id != user.getCrews[user.getCrews|length-1].id %}<br/>{% endif %}
+            {% endfor %}
+        </dd>
         <dt>Email</dt>
         <dd>{{ user.email }}</dd>
         <dt>Last login</dt>

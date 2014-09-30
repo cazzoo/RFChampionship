@@ -330,10 +330,9 @@ class User extends BaseUser
         foreach ($this->listCrewRequests as $crewRequest) {
             if ($crewRequest->getState() == 2 && $crewRequest->getCrew()->getGame()->getId() == $gameId) {
                 return $crewRequest->getCrew();
-            } else {
-                return null;
             }
         }
+        return null;
     }
 
     public function getRequestsByType($type)
@@ -349,12 +348,17 @@ class User extends BaseUser
 
     public function getPendingRequests()
     {
-        return getRequestsByType(4);
+        return $this->getRequestsByType(4);
     }
 
     public function getCrews()
     {
-        return getRequestsByType(2);
+        $crews = array();
+        foreach ($this->getRequestsByType(2) as $crewRequest)
+        {
+            array_push($crews, $crewRequest->getCrew());
+        }
+        return $crews;
     }
 
     public function getLastCrewRequest($crewId)

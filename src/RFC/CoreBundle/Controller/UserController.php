@@ -26,27 +26,38 @@ use RFC\CoreBundle\Entity\Game;
 use RFC\CoreBundle\Entity\Property;
 
 class UserController extends Controller {
-	public function indexAction() {
-		if ($this->getUser () != null) {
-			$em = $this->getDoctrine ()->getManager ();
-			
-			$games = $em->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
-			$championships = $em->getRepository ( 'RFCCoreBundle:Championship' )->createQueryBuilder ( 'c' )->join ( 'c.listUsers', 'u', 'WITH', 'u.id = :userId' )->setParameter ( 'userId', $this->getUser ()->getId () )->getQuery ()->getResult ();
-			
-			$user = $this->container->get ( 'security.context' )->getToken ()->getUser ();
-			
-			$crewAwaitingRequests = $em->getRepository ( 'RFCCoreBundle:CrewRequest' )->findBy ( array (
-					'state' => '1'
-			) );
-			
-			return $this->render ( 'RFCCoreBundle:User:index.html.twig', array (
-					'games' => $games,
-					'championships' => $championships,
-					'user' => $user,
-					'crewAwaitingRequests' => $crewAwaitingRequests
-			) );
-		} else {
-			return $this->redirect ( $this->generateUrl ( 'fos_user_security_login' ) );
-		}
-	}
+    public function indexAction() {
+        if ($this->getUser () != null) {
+            $em = $this->getDoctrine ()->getManager ();
+
+            $games = $em->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+            $championships = $em
+                ->getRepository ( 'RFCCoreBundle:Championship' )
+                ->createQueryBuilder ( 'c' )
+                ->join ( 'c.listUsers', 'u', 'WITH', 'u.id = :userId' )
+                ->setParameter ( 'userId', $this->getUser ()->getId () )
+                ->getQuery ()->getResult ();
+
+            $user = $this->container->get ( 'security.context' )->getToken ()->getUser ();
+            
+            $crewAwaitingRequests = $em
+                ->getRepository ( 'RFCCoreBundle:CrewRequest' )
+                ->createQueryBuilder ( 'cr' )
+                ->join ( 'cr.crew', 'c')
+                ->where ('cr.state = 1')
+                ->andwhere ('c.manager = :userId')
+                ->setParameter ( 'userId', $this->getUser ()->getId () )
+                ->getQuery ()
+                ->getResult ();
+
+            return $this->render ( 'RFCCoreBundle:User:index.html.twig', array (
+                'games' => $games,
+                'championships' => $championships,
+                'user' => $user,
+                'crewAwaitingRequests' => $crewAwaitingRequests
+            ) );
+        } else {
+            return $this->redirect ( $this->generateUrl ( 'fos_user_security_login' ) );
+        }
+    }
 }

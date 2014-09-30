@@ -69,14 +69,14 @@
                 <button type="reset" class="ym-button" id="reset-btn">Reset</button>
             </form>
         </div>
-		{% if crewAwaitingRequests is not empty or user.listCrewRequests is not empty %}
+		{% if crewAwaitingRequests is not empty or user.getRequestsByType(1) is not empty %}
         <h4>Crew</h4>
         <div class="tabbody">
             {% if user.getRequestsByType(1) is not empty %}
                 <h5>Pending requests</h5>
                 {% for pendingRequest in user.getRequestsByType(1) %}
                     [{{ pendingRequest.crew.game.name }}] 
-                    You asked for <strong>{{ pendingRequest.manager.userName }}</strong>'s Crew on {{ pendingRequest.getCreatedAt|date('H:i:s - d-m-Y') }}.<br />
+                    You asked for <strong>{{ pendingRequest.crew.manager.userName }}</strong>'s Crew on {{ pendingRequest.getCreatedAt|date('H:i:s - d-m-Y') }}.<br />
                 {% endfor %}
             {% endif %}
             {% if crewAwaitingRequests is not empty %}
