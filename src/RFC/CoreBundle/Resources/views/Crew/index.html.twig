@@ -25,22 +25,19 @@
 {% if app.user %}
     {% set showApplicationForm = false %}
     {% set showRetirementForm = false %}
+    {% set showCrewInfo = false %}
+    {% set showCrewFeed = false %}
     {% if crew is not empty %}
-        {% set userState = app.user.getCrewState(crew.id) %}
+        {% set userState = app.user.getLastCrewRequest(crew.id).getState %}
         {% set members = crew.getActiveMembers %}
         {% set awaiters = crew.getAwaitingMembers %}
 
         {% if crew.isManager(app.user.id) or crew.isActiveMember(app.user.id) %}
-            {% include 'RFCCoreBundle:Crew:crewInfo.html.twig' %}
-            
-            You're belonging to <strong>{{ crew.getManager.userName }}</strong>'s crew.<br />
-            Feel free to share things with the crew.<br />
+            {% set showCrewInfo = true %}
             {% set showRetirementForm = true %}
-            
-            {% include 'RFCCoreBundle:Crew:crewFeed.html.twig' %}
+            {% set showCrewFeed = true %}
         {% else %}
             {% if userState == 1 %}
-                You asked to being part of <strong>{{ crew.manager.userName }}</strong>'s crew but your request is not accepted yet.<br />
                 {% set showRetirementForm = true %}
             {% else %}
                 {% set showApplicationForm = true %}
@@ -49,7 +46,9 @@
     {% else %}
         {% set showApplicationForm = true %}
     {% endif %}
+    {% include 'RFCCoreBundle:Crew:crewInfo.html.twig' %}
     {% include 'RFCCoreBundle:Crew:applicationForm.html.twig' %}
+    {% include 'RFCCoreBundle:Crew:crewFeed.html.twig' %}
 {% else %}
     You need to log-in / register to belong a crew.
 {% endif %}

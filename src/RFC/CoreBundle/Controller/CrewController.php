@@ -83,14 +83,24 @@ class CrewController extends Controller
             'game' => $params['gameId'], 
             'manager' => $params['managerId']
         ));
+        
+        // Create crew if none exists for this game and manager
+        if($crew == null) {
+            $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($params['gameId']);
+            $manager = $em->getRepository('RFCUserBundle:User')->findOneById($params['managerId']);
+            $crew = new Crew();
+            $crew->setGame($game);
+            $crew->setManager($manager);
+            $em->persist($crew);
+        }
 
         $request = new CrewRequest();
         $request->setRequester($requester);
         $request->setCrew($crew);
         $request->setState(1);
+        $em->persist($request);
 
         try{
-            $em->persist($request);
             $em->flush();
             $jsonResponse = new JsonResponse($request, 200);
         } catch (Exception $e){

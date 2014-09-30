@@ -242,6 +242,18 @@ class User extends BaseUser
         return $this;
     }
 
+    public function addListCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
+    {
+        $this->listCrewRequests[] = $crewRequest;
+
+        return $this;
+    }
+
+    public function removeListCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
+    {
+        $this->listCrewRequests->removeElement($crewRequest);
+    }
+
     /**
      * Add listChampionships
      *
@@ -315,7 +327,7 @@ class User extends BaseUser
 
     public function getCrew($gameId)
     {
-        foreach ($this->getListCrewRequests() as $crewRequest) {
+        foreach ($this->listCrewRequests as $crewRequest) {
             if ($crewRequest->getState() == 2 && $crewRequest->getCrew()->getGame()->getId() == $gameId) {
                 return $crewRequest->getCrew();
             } else {
@@ -327,7 +339,7 @@ class User extends BaseUser
     public function getRequestsByType($type)
     {
         $crewRequests = array();
-        foreach ($this->getListCrewRequests() as $crewRequest) {
+        foreach ($this->listCrewRequests as $crewRequest) {
             if ($crewRequest->getState() == $type) {
                 array_push($crewRequests, $crewRequest);
             }
@@ -345,20 +357,19 @@ class User extends BaseUser
         return getRequestsByType(2);
     }
 
-    public function getCrewState($crewId)
+    public function getLastCrewRequest($crewId)
     {
-        foreach ($this->getListCrewRequests() as $crewRequest)
+        $lastRequest = null;
+        foreach ($this->listCrewRequests as $crewRequest)
         {
-            $lastRequest = null;
             if($crewId == $crewRequest->getCrew()->getId())
             {
                 if($lastRequest == null || $lastRequest->getCreatedAt() < $crewRequest->getCreatedAt())
                 {
                     $lastRequest = $crewRequest;
                 }
-                return $lastRequest->getState();
             }
-            return null;
         }
+        return $lastRequest;
     }
 }
