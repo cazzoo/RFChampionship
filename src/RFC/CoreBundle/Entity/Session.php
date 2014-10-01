@@ -21,6 +21,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\Event;
 use RFC\CoreBundle\Entity\DescriptorTrait;
+use JsonSerializable;
 
 /**
  * Session
@@ -28,7 +29,7 @@ use RFC\CoreBundle\Entity\DescriptorTrait;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\SessionRepository")
  */
-class Session
+class Session implements JsonSerializable
 {
     
     use DescriptorTrait;
@@ -278,5 +279,14 @@ class Session
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+    
+    public function jsonSerialize() {
+    	return [
+    	    'id' => $this->id,
+    	    //'result' => $this->result,
+    	    'beginDate' => $this->beginDate,
+    	    'endDate' => $this->endDate
+    	    ];
     }
 }

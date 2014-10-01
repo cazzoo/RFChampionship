@@ -208,6 +208,15 @@ function removeNotification(id) {
     }
 }
 
+function handleSessionLoad() {
+	$('.sessionItem').removeClass('active');
+	$(this).addClass("active")
+	
+	alert($(this).attr('data-sessiondata'));
+	
+	return false;
+}	
+
 $(function() {
 
     // Screen Admin : System
@@ -342,6 +351,7 @@ $(function() {
     // --------------------------------------------
     // ----------------- Show events
     // --------------------------------------------
+    
     $(".eventItem").click(function() {
         $('.eventItem').removeClass('active');
         $(this).addClass("active")
@@ -361,6 +371,7 @@ $(function() {
             }
         }).done(function(data) {
             $('#listSessions').html(data);
+            $('.sessionItem').bind('click', handleSessionLoad);
         }).fail(function() {
             $('#listSessions').html("Impossible de récupérer un résultat");
         });

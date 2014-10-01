@@ -1,0 +1,44 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# src/RFC/CoreBundle/Resources/views/Core/Championship/showSession.html.twig #}
+
+<hr />
+
+<div class="ym-grid">
+	<div class="ym-g100">
+        <div class="ym-gbox">
+            <h3>
+				Selected session : {{ session.name }}
+			</h3>
+			<div id="informations">
+				<h4>Informations</h4>
+				<small>
+                	<span class="label label-primary">
+                		{{ session.beginDate|date("Y/m/d H:i") }}
+                	</span>
+                	>
+                	<span class="label label-primary">
+                		{{ session.endDate|date("Y/m/d H:i") }}
+                	</span>
+                </small>
+			</div>
+			<div id="results">
+				<h4>Results</h4>
+			</div>
+		</div>
+	</div>
+</div>

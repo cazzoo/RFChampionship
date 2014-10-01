@@ -33,6 +33,8 @@
                         <a href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': gameId, 'championshipId': championshipId, 'eventId' : eventId}) }}">
     					   {{ session.name }}
     					</a>
+    					<a id="session_{{ session.id }};game_{{ gameId }};championship_{{ championshipId }}"
+    					href="#session_{{ session.id }}" data-sessionData="{{ session|json_encode() }}" class="sessionItem">select</a>
 	    			</td>
                     <td>{{ session.typeSession.name }}</td>
                     <td>
