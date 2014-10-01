@@ -40,6 +40,13 @@ class Session
      */
     private $id;
 
+
+    /**
+     * @ORM\OneToOne(targetEntity="RFC\CoreBundle\Entity\Result", inversedBy="session")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $result;
+
     /**
      * @ORM\Column(name="begin_date", type="datetime")
      */
@@ -93,7 +100,14 @@ class Session
     {
         return $this->id;
     }
-
+	public function getResult() {
+		return $this->result;
+	}
+	public function setResult($result) {
+		$this->result = $result;
+		return $this;
+	}
+	
     /**
      * Set beginDate
      *

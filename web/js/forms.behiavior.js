@@ -220,7 +220,7 @@ $(function() {
         formatDate:'Y/m/d H:i',
         mask:true,
         dayOfWeekStart:1,
-        allowBlank: true
+        validateOnBlur: false
     });
     $('.datepicker').datetimepicker({
         timepicker:false,
@@ -228,7 +228,7 @@ $(function() {
         formatDate:'Y/m/d',
         mask:true,
         dayOfWeekStart:1,
-        allowBlank: true
+        validateOnBlur: false
     });
 
     $('form#system-properties').submit(function(e) {

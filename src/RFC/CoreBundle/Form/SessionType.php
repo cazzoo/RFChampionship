@@ -36,11 +36,13 @@ class SessionType extends AbstractType {
             ))
             ->add ( 'beginDate', 'datetime', array(
                 'widget' => 'single_text',
+            	'format' => 'yyyy/MM/dd HH:mm',
                 'attr' => array(
                     'class' => 'datetimepicker',
                 )))
             ->add ( 'endDate', 'datetime', array(
                 'widget' => 'single_text',
+            	'format' => 'yyyy/MM/dd HH:mm',
                 'attr' => array(
                     'class' => 'datetimepicker',
                 )))
