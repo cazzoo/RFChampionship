@@ -36,6 +36,12 @@ class TypeSession extends KnowledgeData
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+    /**
+     * @ORM\Column(type="boolean")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $usedForResults;
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game", inversedBy="listRules")
@@ -107,6 +113,17 @@ class TypeSession extends KnowledgeData
     public function getId()
     {
         return $this->id;
+    }
+
+    public function isUsedForResults()
+    {
+        return $this->usedForResults;
+    }
+
+    public function setUsedForResults($usedForResults)
+    {
+        $this->usedForResults = $usedForResults;
+        return $this;
     }
 
     /**

@@ -38,6 +38,9 @@ class TypeSessionType extends AbstractType
             ->add('description', 'textarea', array(
             'required' => false
         ))
+            ->add('usedForResults', 'checkbox', array(
+            'required' => false
+        ))
             ->add('commentsActive', 'checkbox', array(
             'required' => false
         ))

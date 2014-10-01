@@ -204,8 +204,8 @@ class SessionController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_session_edit', array(
-                'sessionId' => $sessionId,
+            return $this->redirect($this->generateUrl('admin_championship_show', array(
+                'sessionId' => $entity->getId(),
                 'gameId' => $gameId,
                 'championshipId' => $championshipId,
                 'eventId' => $eventId

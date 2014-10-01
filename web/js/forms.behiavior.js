@@ -216,17 +216,19 @@ $(function() {
     // --------------------------------------------
 
     $('.datetimepicker').datetimepicker({
-        format:'d/m/Y H:i',
-        formatDate:'d/m/Y H:i',
+        format:'Y/m/d H:i',
+        formatDate:'Y/m/d H:i',
         mask:true,
-        dayOfWeekStart:1
+        dayOfWeekStart:1,
+        allowBlank: true
     });
     $('.datepicker').datetimepicker({
         timepicker:false,
-        format:'d/m/Y',
-        formatDate:'d/m/Y',
+        format:'Y/m/d',
+        formatDate:'Y/m/d',
         mask:true,
-        dayOfWeekStart:1
+        dayOfWeekStart:1,
+        allowBlank: true
     });
 
     $('form#system-properties').submit(function(e) {

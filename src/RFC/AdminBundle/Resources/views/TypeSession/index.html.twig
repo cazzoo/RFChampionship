@@ -30,6 +30,7 @@
     			<tr>
     				<th>Name</th>
     				<th>Description</th>
+    				<th>Used for results</th>
     			</tr>
     		</thead>
     		<tbody class="table-striped">
@@ -39,6 +40,7 @@
 	    				<a href="{{ path('admin_typeSession_edit', {'typeSessionId' : typeSession.id, 'gameId' : gameId}) }}">{{ typeSession.name }}</a>
 	    			</td>
                     <td>{{ typeSession.description }}</td>
+                    <td>{{ typeSession.usedForResults }}</td>
 	    		</tr>
 	    		{% endfor %}
     		</tbody>

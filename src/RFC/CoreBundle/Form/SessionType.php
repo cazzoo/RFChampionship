@@ -34,11 +34,13 @@ class SessionType extends AbstractType {
             ->add ( 'description', 'textarea', array (
                 'required' => false 
             ))
-            ->add ( 'beginDate', 'text', array(
+            ->add ( 'beginDate', 'datetime', array(
+                'widget' => 'single_text',
                 'attr' => array(
                     'class' => 'datetimepicker',
                 )))
-            ->add ( 'endDate', 'text', array(
+            ->add ( 'endDate', 'datetime', array(
+                'widget' => 'single_text',
                 'attr' => array(
                     'class' => 'datetimepicker',
                 )))

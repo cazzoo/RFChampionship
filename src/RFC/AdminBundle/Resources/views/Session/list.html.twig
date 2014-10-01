@@ -30,7 +30,9 @@
         		{% for session in sessions %}
 	    		<tr>
 	    			<td>
-	    				{{ session.name }}
+                        <a href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': gameId, 'championshipId': championshipId, 'eventId' : eventId}) }}">
+    					   {{ session.name }}
+    					</a>
 	    			</td>
                     <td>{{ session.typeSession.name }}</td>
                     <td>
