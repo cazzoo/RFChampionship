@@ -18,3 +18,7 @@
 {% endblock fos_user_content %}
 
 Admin panel
+
+{% if is_granted('ROLE_ADMIN') %}
+   <a href="{{ path('rfcCore_accueil') }}" class="ym-button ym-danger">Back to website</a>
+{% endif %}
