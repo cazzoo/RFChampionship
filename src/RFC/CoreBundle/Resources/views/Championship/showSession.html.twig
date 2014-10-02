@@ -38,6 +38,13 @@
 			</div>
 			<div id="results">
 				<h4>Results</h4>
+				{% if session.endDate|date("Y/m/d H:i") < "now"|date("m/d/Y") %}
+					{% if session.results is empty %}
+						There is not results yet
+					{% else %}
+						Results are : 
+					{% endif %}
+				{% endif %}
 			</div>
 		</div>
 	</div>

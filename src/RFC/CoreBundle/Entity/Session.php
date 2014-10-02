@@ -21,7 +21,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\Event;
 use RFC\CoreBundle\Entity\DescriptorTrait;
-use JsonSerializable;
 
 /**
  * Session
@@ -29,7 +28,7 @@ use JsonSerializable;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\SessionRepository")
  */
-class Session implements JsonSerializable
+class Session
 {
     
     use DescriptorTrait;
@@ -43,10 +42,10 @@ class Session implements JsonSerializable
 
 
     /**
-     * @ORM\OneToOne(targetEntity="RFC\CoreBundle\Entity\Result", inversedBy="session")
+     * @ORM\OneToOne(targetEntity="RFC\CoreBundle\Entity\Result", mappedBy="session")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $result;
+    private $listResults;
 
     /**
      * @ORM\Column(name="begin_date", type="datetime")
@@ -91,6 +90,11 @@ class Session implements JsonSerializable
     {
         return $this->name;
     }
+    
+    public function __construct()
+    {
+    	$this->listResults = new \Doctrine\Common\Collections\ArrayCollection();
+    } 
 
     /**
      * Get id
@@ -279,14 +283,5 @@ class Session implements JsonSerializable
     public function getUpdatedAt()
     {
         return $this->updatedAt;
-    }
-    
-    public function jsonSerialize() {
-    	return [
-    	    'id' => $this->id,
-    	    //'result' => $this->result,
-    	    'beginDate' => $this->beginDate,
-    	    'endDate' => $this->endDate
-    	    ];
     }
 }

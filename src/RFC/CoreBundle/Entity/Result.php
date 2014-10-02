@@ -48,7 +48,7 @@ class Result
     private $value;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Session", inversedBy="result")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Session", inversedBy="listResults")
      * @ORM\JoinColumn(nullable=false)
      */
     private $session;
