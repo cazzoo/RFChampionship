@@ -16,36 +16,44 @@
 
 {# src/RFC/CoreBundle/Resources/views/Core/Championship/showSession.html.twig #}
 
-<hr />
+{% if session is defined %}
 
-<div class="ym-grid">
-	<div class="ym-g100">
-        <div class="ym-gbox">
-            <h3>
-				Selected session : {{ session.name }}
-			</h3>
-			<div id="informations">
-				<h4>Informations</h4>
-				<small>
-                	<span class="label label-primary">
-                		{{ session.beginDate|date("Y/m/d H:i") }}
-                	</span>
-                	>
-                	<span class="label label-primary">
-                		{{ session.endDate|date("Y/m/d H:i") }}
-                	</span>
-                </small>
-			</div>
-			<div id="results">
-				<h4>Results</h4>
-				{% if session.endDate|date("Y/m/d H:i") < "now"|date("m/d/Y") %}
-					{% if session.results is empty %}
-						There is not results yet
-					{% else %}
-						Results are : 
+	<hr />
+
+	<div class="ym-grid">
+		<div class="ym-g100">
+	        <div class="ym-gbox">
+	            <h3>
+					Selected session : {{ session.name }}
+				</h3>
+				<div id="informations">
+					<h4>Informations</h4>
+					<small>
+	                	<span class="label label-primary">
+	                		{{ session.beginDate|date("Y/m/d H:i") }}
+	                	</span>
+	                	>
+	                	<span class="label label-primary">
+	                		{{ session.endDate|date("Y/m/d H:i") }}
+	                	</span>
+	                </small>
+				</div>
+				<div id="results">
+					<h4>Results</h4>
+					{% if session.endDate|date("Y/m/d H:i") < "now"|date("Y/m/d H:i") %}
+						{% if session.listResults is empty %}
+							There is not results yet
+						{% else %}
+							Results are : 
+						{% endif %}
 					{% endif %}
-				{% endif %}
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+	
+{% else %}
+	
+	No sessions
+	
+{% endif %}

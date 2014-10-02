@@ -10,3 +10,10 @@ admin_rule_search:
     requirements: { _method: post }
     options:
         expose: true
+        
+ajax_session_load:
+    pattern: /sessionLoad
+    defaults: { _controller: "RFCAdminBundle:Session:sessionLoad" }
+    requirements: { _method: post }
+    options:
+        expose: true  

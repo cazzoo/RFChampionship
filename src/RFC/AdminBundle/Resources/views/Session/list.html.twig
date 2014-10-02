@@ -33,8 +33,7 @@
                         <a href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': gameId, 'championshipId': championshipId, 'eventId' : eventId}) }}">
     					   {{ session.name }}
     					</a>
-    					<a id="session_{{ session.id }}" data-session="{{ session.id }}" data-event="{{ eventId }}" data-game="{{ gameId }}" data-championship= "{{ championshipId }}"
-    					href="#session_{{ session.id }}" class="sessionItem">select</a>
+    					<a id="session_{{ session.id }}" data-session="{{ session.id }}" href="#session_{{ session.id }}" class="sessionItem">select</a>
 	    			</td>
                     <td>{{ session.typeSession.name }}</td>
                     <td>

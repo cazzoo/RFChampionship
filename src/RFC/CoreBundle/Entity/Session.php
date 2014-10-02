@@ -105,14 +105,28 @@ class Session
     {
         return $this->id;
     }
-	public function getResult() {
-		return $this->result;
+    
+	public function getListResults() {
+		return $this->listResults;
 	}
-	public function setResult($result) {
-		$this->result = $result;
+	
+	public function setListResults($listResults) {
+		$this->listResults = $listResults;
 		return $this;
 	}
 	
+    public function addResult(\RFC\CoreBundle\Entity\Result $result)
+    {
+        $this->listResults[] = $result;
+        
+        return $this;
+    }
+    
+    public function removeResult(\RFC\CoreBundle\Entity\Result $result)
+    {
+        $this->listResults->removeElement($result);
+    }
+		
     /**
      * Set beginDate
      *
