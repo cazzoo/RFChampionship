@@ -124,6 +124,35 @@ function updateProperties(data) {
     })
 }
 
+function handleSessionLoad() {
+	$('.sessionItem').removeClass('active');
+    $(this).addClass("active")
+        
+    var data = {
+        sessionId : $(this).data('session'),
+    	eventId : $(this).data('event'),
+        gameId : $(this).data('game'),
+        championshipId : $(this).data('championship')
+    };
+    
+    var jsonFormatted = JSON.stringify(data);
+    $.ajax({
+        type : "POST",
+        url : Routing.generate('ajax_session_load'),
+        data : jsonFormatted,
+        dataType: 'json',
+        cache : false,
+        beforeSend : function() {
+            $('#session').html("Chargement de la session...");
+        }
+    }).done(function(data) {
+        addNotification('Session loaded', 'success');
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+    	addNotification('Error while loading session', 'error');
+    });
+    return false;
+}	
+
 function arrayObjectIndexOf(myArray, searchTerm, property) {
     for(var i = 0, len = myArray.length; i < len; i++) {
         if (myArray[i][property] === searchTerm) return i;
@@ -207,15 +236,6 @@ function removeNotification(id) {
         $("#notificationCenter").find("#messages").parent().slideToggle();
     }
 }
-
-function handleSessionLoad() {
-	$('.sessionItem').removeClass('active');
-	$(this).addClass("active")
-	
-	alert($(this).attr('data-sessiondata'));
-	
-	return false;
-}	
 
 $(function() {
 
