@@ -42,7 +42,7 @@
     					</a>
     				</td>
     				<td>{{ championship.description }}</td>
-    				<td>{% if championship.isAgreed %}Agreed! ({{ championship.metaRule }}){% else %}Not Agreed!{% endif %}</td>
+    				<td>{{ championship.isAgreed ? 'Agreed! ( ' ~ championship.metaRule ~ ' )' : 'Not Agreed!' }}</td>
     				<td>{{ championship.listEvents|length }}</td>
     			</tr>
     			{% endfor %}

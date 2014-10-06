@@ -26,15 +26,13 @@ parent() }} {% endblock %} {% block rfccore_body %}
 	<dl class="dl-horizontal">
 		<dt>Description</dt>
 		<dd>
-			{% if entity.description %}{{ entity.description }}{% else %}<i>Aucune
-				description</i>{% endif %}
+            {{ entity.description ? entity.description : '<i>Aucune description</i>' }}
 		</dd>
 		<dt>Championnat Agrée?</dt>
-		<dd>{% if entity.isAgreed %}True{% else %}False{% endif %}</dd>
+		<dd>{{ entity.isAgreed ? 'True' : 'False' }}</dd>
 		<dt>MetaRule</dt>
 		<dd>
-			{% if entity.metaRule %}{{ entity.metaRule.name }}{% else %}<i>Aucune
-				metaRule</i>{% endif %}
+			{{ entity.metaRule ? entity.metaRule.name : '<i>Aucune metaRule</i>' }}
 		</dd>
 		<dt>Organisateurs</dt>
 		<dd>
@@ -43,7 +41,9 @@ parent() }} {% endblock %} {% block rfccore_body %}
 				{% for manager in entity.listManagers %}
 				<li>{{ manager.username }}</li> {% endfor %}
 			</ul>
-			{% else %}<i>Aucun organisateur(s) défini(s)</i>{% endif %}
+			{% else %}
+                <i>Aucun organisateur(s) défini(s)</i>
+            {% endif %}
 		</dd>
 	</dl>
 </div>
@@ -105,11 +105,14 @@ parent() }} {% endblock %} {% block rfccore_body %}
 			class="glyphicon glyphicon-plus"></span>
 		</a>{% endif %}
 	</h3>
-	<div class="list-group">{% if entity.isAgreed %} {% set rules =
-		entity.metaRule.listRules %} {% else %} {% set rules =
-		entity.listRules %} {% endif %} {% include
-		'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' :
-		game} %}</div>
+	<div class="list-group">
+        {% if entity.isAgreed %}
+            {% set rules = entity.metaRule.listRules %}
+        {% else %}
+            {% set rules = entity.listRules %}
+        {% endif %}
+        {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}
+    </div>
 </div>
 <hr />
 <div>

@@ -28,7 +28,8 @@
 				</h3>
 				<div id="informations">
 					<h4>Informations</h4>
-					<small>
+                    Description : {{ session.description ? session.description : '-' }}<br />
+					Dates : <small>
 	                	<span class="label label-primary">
 	                		{{ session.beginDate|date("Y/m/d H:i") }}
 	                	</span>
@@ -40,13 +41,35 @@
 				</div>
 				<div id="results">
 					<h4>Results</h4>
-					{% if session.endDate|date("Y/m/d H:i") < "now"|date("Y/m/d H:i") %}
-						{% if session.listResults is empty %}
-							There is not results yet
-						{% else %}
-							Results are : 
-						{% endif %}
-					{% endif %}
+                    {% set now = "now"|date("Y/m/d H:i") %}
+                    {% if now < session.beginDate|date("Y/m/d H:i") %}
+                        Session is not started yet...
+                    {% else %}
+                        {% if now > session.endDate|date("Y/m/d H:i") %}
+                            {% if session.listResults is empty %}
+                                <div id="formContainer">
+                                There is not results yet! Please set them!<br />
+                                    <form id="results">
+                                        {% for rule in session.event.championship.metaRule.listRules %}
+                                            <label for="{{ rule.id }}">{{ rule.name }}</label>
+                                            <select id="{{ rule.id }}" name="{{ rule.id }}">
+                                                <option value="">---</option>
+                                                {% for user in session.event.championship.listUsers %}
+                                                    <option value="{{ user.id }}">{{ user.userName }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <br />
+                                        {% endfor %}
+                                        <input type="submit" class="ym-button" />
+                                    </form>
+                                </div>
+                            {% else %}
+                                Results are : 
+                            {% endif %}
+                        {% else %}
+                            Session is not over yet...
+                        {% endif %}
+                    {% endif %}
 				</div>
 			</div>
 		</div>

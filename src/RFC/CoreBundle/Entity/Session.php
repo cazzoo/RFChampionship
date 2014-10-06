@@ -40,9 +40,8 @@ class Session
      */
     private $id;
 
-
     /**
-     * @ORM\OneToOne(targetEntity="RFC\CoreBundle\Entity\Result", mappedBy="session")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Result", mappedBy="session")
      * @ORM\JoinColumn(nullable=true)
      */
     private $listResults;
