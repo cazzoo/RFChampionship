@@ -49,22 +49,27 @@
                             {% if session.listResults is empty %}
                                 <div id="formContainer">
                                 There is not results yet! Please set them!<br />
-                                    <form id="results">
+                                    <form id="setResults">
                                         {% for rule in session.event.championship.metaRule.listRules %}
                                             <label for="{{ rule.id }}">{{ rule.name }}</label>
                                             <select id="{{ rule.id }}" name="{{ rule.id }}">
-                                                <option value="">---</option>
+                                                <option value="{{ rule.id }},{{ rule.value }},">---</option>
                                                 {% for user in session.event.championship.listUsers %}
-                                                    <option value="{{ user.id }}">{{ user.userName }}</option>
+                                                    <option value="{{ rule.id }},{{ rule.value }},{{ user.id }}">{{ user.userName }}</option>
                                                 {% endfor %}
                                             </select>
                                             <br />
                                         {% endfor %}
+                                        <input type="hidden" id="sessionId" name="sessionId" value="{{ session.id }}"/>
                                         <input type="submit" class="ym-button" />
                                     </form>
                                 </div>
                             {% else %}
-                                Results are : 
+                                Results are : <br />
+                                {% for result in session.listResults %}
+                                    {#TODO form if manager of this championship #}
+                                    {{result.rule.name}} ({{ result.value }}) : {{ result.user.username }}<br />
+                                {% endfor %}
                             {% endif %}
                         {% else %}
                             Session is not over yet...

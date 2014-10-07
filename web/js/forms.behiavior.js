@@ -135,10 +135,46 @@ function loadSessionData(data) {
 	}).done(function(data) {
 		addNotification('Session loaded', 'success');
 		$('#session').html(data);
+        $('form#setResults').bind('submit', function() {
+            handleSessionResults($(this));
+            return false;
+        });
 	}).fail(function(jqXHR, textStatus, errorThrown) {
 		$('#session').html("Aucune session n'a pu être chargée");
 		addNotification('Error while loading session', 'error');
 	});
+}
+
+function setSessionResults(data) {
+	var jsonFormatted = JSON.stringify(data);
+	$.ajax({
+		type : "POST",
+		url : Routing.generate('ajax_session_results_set'),
+		data : jsonFormatted,
+		cache : false,
+		beforeSend : function() {
+			$('#formContainer').append("Enregistrement des résultats...");
+		}
+	}).done(function(data) {
+		addNotification('Results saved', 'success');
+		$('.sessionItem.active').trigger('click');
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+		$('#session').html("Aucuns résultats n'a pu être enregistré");
+		addNotification('Error while saving session results', 'error');
+	});
+}
+
+function handleSessionResults(form) {
+    var list = new Array();
+        form.find('select').each(function() {
+            list.push($(this).val());
+        });
+        
+		var data = {
+			sessionId : form.find('#sessionId').val(),
+			results : list
+		};
+		setSessionResults(data);
 }
 
 function arrayObjectIndexOf(myArray, searchTerm, property) {

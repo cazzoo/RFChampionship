@@ -18,6 +18,7 @@
 namespace RFC\AdminBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use RFC\CoreBundle\Entity\Result;
 use RFC\CoreBundle\Form\ResultType;
@@ -245,5 +246,158 @@ class ResultController extends Controller
             'label' => 'Delete'
         ))
             ->getForm();
+    }
+    
+    public function setSessionResultsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $contents = array();
+        $results = array();
+        
+        $content = $this->get("request")->getContent();
+        if (!empty($content)) {
+            $contents = json_decode($content, true); // 2nd param to get as array
+        }
+        
+        $session = $em->getRepository("RFCCoreBundle:Session")->findOneById($contents['sessionId']);
+        $users = $em->getRepository("RFCUserBundle:User")->findAll();
+        $rules = $em->getRepository("RFCCoreBundle:Rule")->findAll();
+
+        // List through results form ajax query
+        foreach($contents['results'] as $contentResult)
+        {
+            $resultData = explode(',', $contentResult);
+            $ruleId = $resultData[0];
+            $value = $resultData[1];
+            $userId = $resultData[2];
+            $user = $this->getUserById($userId,$users);
+            $rule = $this->getRuleById($ruleId,$rules);
+            
+            $result = new Result();
+            $result->setRule($rule);
+            $result->setSession($session);
+            $result->setValue($value);
+            $result->setUser($user);
+            $em->persist($result);
+            array_push($results, $result);
+        }
+
+        try {
+            $em->flush();
+            $jsonResponse = new JsonResponse($results, 200);
+        } catch (Exception $e) {
+            $jsonResponse = new JsonResponse($results, 400);
+        }
+
+        return $jsonResponse;
+    }
+    
+    public function updateSessionResultsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $contents = array();
+        $results = array();
+        $resultsIds = array();
+        
+        $content = $this->get("request")->getContent();
+        if (!empty($content)) {
+            $contents = json_decode($content, true); // 2nd param to get as array
+        }
+        
+        var_dump($contents);
+        
+        $results = $contents[1];
+        
+        foreach($results as $res)
+        {
+            array_push($resultsIds, $res->getId());
+        }
+        
+        var_dump('results ids : '.$resultsIds);
+        
+        $session = $em->getRepository("RFCCoreBundle:Session")->findOneById($contents[0]);
+        
+        $dbResults = $em->getRepository("RFCCoreBundle:Result")
+            ->createQueryBuilder('r')
+            ->where('r.session = :sessionId')
+            ->andWhere('r.id IN (:arrayResultsId)')
+            ->setParameters(array(
+            'sessionId' => $contents[0],
+            'arrayResultsId' => $resultsIds
+            ))
+            ->getQuery()
+            ->getResult();
+        
+        $users = $em->getRepository("RFCUserBundle:User")->findAll();
+
+        // List through results form ajax query
+        for ($i=0, $size = count($results); $i < $size; ++$i)
+        {
+            $resultFound = false;
+            $resultData = explode($results[$i], ',');
+            $ruleId = $resultData[0];
+            $resultId = $resultData[1];
+            $value = $resultData[2];
+            $userId = $resultData[3];
+            $user = $this->getUserById($userId,$users);
+            $rule = $this->getRuleById($ruleId,$rules);
+            
+            // List through all DB results for this session
+            for ($j=0, $sizej = count($dbResults); $j < $sizej; ++$j)
+            {
+                if($dbResults[$j]->getId() == $resultId)
+                {
+                    $resultFound = true;
+                    $dbResults[$j]->setRule($rule);
+                    $dbResults[$j]->setValue($value);
+                    $dbResults[$j]->setSession($session);
+                    $dbResults[$j]->setUser($user);
+                }
+            }
+            //If result is not found id DB, create it
+            if(!$resultFound)
+            {
+                $result = new Result();
+                $result->setRule($rule);
+                $result->setSession($session);
+                $result->setValue($value);
+                $result->setUser($user);
+                array_push($dbResults, $result);
+                $em->persist($result);
+            }
+        }
+
+        try {
+            $em->flush();
+            $jsonResponse = new JsonResponse($dbResults, 200);
+        } catch (Exception $e) {
+            $jsonResponse = new JsonResponse($dbResults, 400);
+        }
+
+        return $jsonResponse;
+    }
+    
+    private function getRuleById($id, $ruleArray)
+    {
+        foreach($ruleArray as $rule)
+        {
+            if($rule->getId() == $id)
+            {
+                return $rule;
+            }
+        }
+    }
+    
+    private function getUserById($id, $userArray)
+    {
+        foreach($userArray as $user)
+        {
+            if($user->getId() == $id)
+            {
+                return $user;
+            }
+        }
     }
 }

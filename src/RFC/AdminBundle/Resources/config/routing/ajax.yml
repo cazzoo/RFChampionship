@@ -17,3 +17,18 @@ ajax_session_load:
     requirements: { _method: post }
     options:
         expose: true  
+        
+ajax_session_results_set:
+    pattern: /setSessionResults
+    defaults: { _controller: "RFCAdminBundle:Result:setSessionResults" }
+    requirements: { _method: post }
+    options:
+        expose: true
+        
+ajax_session_results_update:
+    pattern: /updateSessionResults
+    defaults: { _controller: "RFCAdminBundle:Result:updateSessionResults" }
+    requirements: { _method: post }
+    options:
+        expose: true
+        
