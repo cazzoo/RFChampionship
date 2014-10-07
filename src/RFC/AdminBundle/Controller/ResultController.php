@@ -262,16 +262,20 @@ class ResultController extends Controller
         
         $session = $em->getRepository("RFCCoreBundle:Session")->findOneById($contents['sessionId']);
         $users = $em->getRepository("RFCUserBundle:User")->findAll();
+        $rules = $em->getRepository("RFCCoreBundle:Rule")->findAll();
 
         // List through results form ajax query
         foreach($contents['results'] as $contentResult)
         {
             $resultData = explode(',', $contentResult);
-            $value = $resultData[0];
-            $userId = $resultData[1];
+            $ruleId = $resultData[0];
+            $value = $resultData[1];
+            $userId = $resultData[2];
             $user = $this->getUserById($userId,$users);
+            $rule = $this->getRuleById($ruleId,$rules);
             
             $result = new Result();
+            $result->setRule($rule);
             $result->setSession($session);
             $result->setValue($value);
             $result->setUser($user);
@@ -333,10 +337,12 @@ class ResultController extends Controller
         {
             $resultFound = false;
             $resultData = explode($results[$i], ',');
-            $resultId = $resultData[0];
-            $value = $resultData[1];
-            $userId = $resultData[2];
+            $ruleId = $resultData[0];
+            $resultId = $resultData[1];
+            $value = $resultData[2];
+            $userId = $resultData[3];
             $user = $this->getUserById($userId,$users);
+            $rule = $this->getRuleById($ruleId,$rules);
             
             // List through all DB results for this session
             for ($j=0, $sizej = count($dbResults); $j < $sizej; ++$j)
@@ -344,6 +350,7 @@ class ResultController extends Controller
                 if($dbResults[$j]->getId() == $resultId)
                 {
                     $resultFound = true;
+                    $dbResults[$j]->setRule($rule);
                     $dbResults[$j]->setValue($value);
                     $dbResults[$j]->setSession($session);
                     $dbResults[$j]->setUser($user);
@@ -353,6 +360,7 @@ class ResultController extends Controller
             if(!$resultFound)
             {
                 $result = new Result();
+                $result->setRule($rule);
                 $result->setSession($session);
                 $result->setValue($value);
                 $result->setUser($user);
@@ -369,6 +377,17 @@ class ResultController extends Controller
         }
 
         return $jsonResponse;
+    }
+    
+    private function getRuleById($id, $ruleArray)
+    {
+        foreach($ruleArray as $rule)
+        {
+            if($rule->getId() == $id)
+            {
+                return $rule;
+            }
+        }
     }
     
     private function getUserById($id, $userArray)

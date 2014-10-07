@@ -38,9 +38,14 @@ class Result
     private $id;
 
     /**
-     * @ORM\Column(name="user", type="object")
+     * @ORM\ManyToOne(targetEntity="RFC\UserBundle\Entity\User")
      */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Rule")
+     */
+    private $rule;
 
     /**
      * @ORM\Column(name="value", type="string", length=255)
@@ -78,8 +83,8 @@ class Result
     /**
      * Set user
      *
-     * @param \stdClass $user            
-     * @return Result
+     * @param \RFC\UserBundle\Entity\User $user        
+     * @return $user
      */
     public function setUser($user)
     {
@@ -91,11 +96,34 @@ class Result
     /**
      * Get user
      *
-     * @return \stdClass
+     * @return \RFC\UserBundle\Entity\User $user
      */
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set rule
+     *
+     * @param \RFC\CoreBundle\Entity\Rule $rule            
+     * @return Result
+     */
+    public function setRule(\RFC\CoreBundle\Entity\Rule $rule)
+    {
+        $this->rule = $rule;
+        
+        return $this;
+    }
+
+    /**
+     * Get rule
+     *
+     * @return \RFC\CoreBundle\Entity\Rule
+     */
+    public function getRule()
+    {
+        return $this->rule;
     }
 
     /**

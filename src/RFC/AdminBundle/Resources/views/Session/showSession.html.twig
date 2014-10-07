@@ -53,9 +53,9 @@
                                         {% for rule in session.event.championship.metaRule.listRules %}
                                             <label for="{{ rule.id }}">{{ rule.name }}</label>
                                             <select id="{{ rule.id }}" name="{{ rule.id }}">
-                                                <option value="{ rule.value }},">---</option>
+                                                <option value="{{ rule.id }},{{ rule.value }},">---</option>
                                                 {% for user in session.event.championship.listUsers %}
-                                                    <option value="{{ rule.value }},{{ user.id }}">{{ user.userName }}</option>
+                                                    <option value="{{ rule.id }},{{ rule.value }},{{ user.id }}">{{ user.userName }}</option>
                                                 {% endfor %}
                                             </select>
                                             <br />
@@ -67,7 +67,8 @@
                             {% else %}
                                 Results are : <br />
                                 {% for result in session.listResults %}
-                                    {{ result.user.username }} - {{ result.value }}<br />
+                                    {#TODO form if manager of this championship #}
+                                    {{result.rule.name}} ({{ result.value }}) : {{ result.user.username }}<br />
                                 {% endfor %}
                             {% endif %}
                         {% else %}
