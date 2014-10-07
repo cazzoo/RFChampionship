@@ -54,11 +54,6 @@ class Result
     private $session;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image",cascade={"persist"})
-     */
-    private $listImages;
-
-    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
@@ -147,40 +142,6 @@ class Result
     public function getSession()
     {
         return $this->session;
-    }
-
-    public function getListImages()
-    {
-        return $this->listImages;
-    }
-
-    public function setListImages($listImages)
-    {
-        $this->listImages = $listImages;
-        return $this;
-    }
-
-    /**
-     * Add listImages
-     *
-     * @param \RFC\CoreBundle\Entity\Image $listImages            
-     * @return Image
-     */
-    public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
-    {
-        $this->listImages[] = $listImages;
-        
-        return $this;
-    }
-
-    /**
-     * Remove listImages
-     *
-     * @param \RFC\CoreBundle\Entity\Image $listImages            
-     */
-    public function removeListImage(\RFC\CoreBundle\Entity\Image $listImages)
-    {
-        $this->listImages->removeElement($listImages);
     }
 
     /**

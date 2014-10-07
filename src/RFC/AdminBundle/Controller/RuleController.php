@@ -41,7 +41,7 @@ class RuleController extends Controller
         ));
         
         return $this->render('RFCAdminBundle:Rule:index.html.twig', array(
-            'rules' => null,
+            'rules' => $rules,
             'metaRuleId' => null,
             'gameId' => $gameId
         ));
