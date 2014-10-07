@@ -86,11 +86,11 @@
                         Member <strong>{{ crewAwaitingRequest.requester.userName }}</strong> requested to be part of your crew.<br />
                         Do you accept?<br /><br />
                     <form id="acceptCrewApplication">
-                        <input type="hidden" id="crewId" value="{{ crewAwaitingRequest.id }}" />
+                        <input type="hidden" id="crewRequestId" value="{{ crewAwaitingRequest.id }}" />
                         <button type="submit" value="accept" class="ym-button ym-success ym-save">Accept</button>
                     </form>
                     <form id="declineCrewApplication">
-                        <input type="hidden" id="crewId" value="{{ crewAwaitingRequest.id }}" />
+                        <input type="hidden" id="crewRequestId" value="{{ crewAwaitingRequest.id }}" />
                         <button type="submit" value="decline" class="ym-button ym-danger ym-delete">Decline</button>
                     </form>
                 {% endfor %}

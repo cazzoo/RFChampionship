@@ -28,13 +28,19 @@
     {% set showCrewInfo = false %}
     {% set showCrewFeed = false %}
     {% if crew is not empty %}
-        {% set userState = app.user.getLastCrewRequest(crew.id).getState %}
+    	{% if app.user.listCrewRequests is not empty %}
+        	{% set userState = app.user.getLastCrewRequest(crew.id).getState %}
+        {% else %}
+        	{% set userState = 0 %}
+        {% endif %}
         {% set members = crew.getActiveMembers %}
         {% set awaiters = crew.getAwaitingMembers %}
 
+        {% if crew.isActiveMember(app.user.id) %}
+        	{% set showRetirementForm = true %}
+        {% endif %}
         {% if crew.isManager(app.user.id) or crew.isActiveMember(app.user.id) %}
             {% set showCrewInfo = true %}
-            {% set showRetirementForm = true %}
             {% set showCrewFeed = true %}
         {% else %}
             {% if userState == 1 %}

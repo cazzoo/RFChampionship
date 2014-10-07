@@ -69,7 +69,8 @@ class SessionController extends Controller {
 	 * @return \Symfony\Component\Form\Form The form
 	 */
 	private function createCreateForm(Session $entity, $gameId, $championshipId, $eventId) {
-		$form = $this->createForm ( new SessionType (), $entity, array (
+		$form = $this->createForm ( new SessionType ( $gameId ), $entity, array (
+				'em' => $this->getDoctrine ()->getManager (),
 				'action' => $this->generateUrl ( 'admin_session_create', array (
 						'gameId' => $gameId,
 						'championshipId' => $championshipId,
@@ -162,6 +163,7 @@ class SessionController extends Controller {
 	 */
 	private function createEditForm(Session $entity, $gameId, $championshipId, $eventId) {
 		$form = $this->createForm ( new SessionType (), $entity, array (
+				'em' => $this->getDoctrine ()->getManager (),
 				'action' => $this->generateUrl ( 'admin_session_update', array (
 						'sessionId' => $entity->getId (),
 						'gameId' => $gameId,

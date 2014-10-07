@@ -33,11 +33,11 @@
     </form>
 {% endif %}
 {% if showRetirementForm == true %}
-{% if userState == 1 %}
-    You asked to being part of <strong>{{ crew.manager.userName }}</strong>'s crew but your request is not accepted yet.<br />
-{% endif %}
-<form id="cancelCrewRequest">
-    <input type="hidden" id="crewRequestId" value="{{ app.user.getLastCrewRequest(crew.id).id }}" />
-    <button type="submit" class="ym-button ym-danger ym-delete">Retire from crew</button>
-</form>
+	{% if userState == 1 %}
+	    You asked to being part of <strong>{{ crew.manager.userName }}</strong>'s crew but your request is not accepted yet.<br />
+	{% endif %}
+	<form id="cancelCrewRequest">
+	    <input type="hidden" id="crewRequestId" value="{{ app.user.getLastCrewRequest(crew.id).id }}" />
+	    <button type="submit" class="ym-button ym-danger ym-delete">Retire from crew</button>
+	</form>
 {% endif %}
