@@ -51,11 +51,11 @@
                                 There is not results yet! Please set them!<br />
                                     <form id="setResults">
                                         {% for rule in session.event.championship.metaRule.listRules %}
-                                            <label for="{{ rule.id }}">{{ rule.name }}</label>
+                                            <label for="{{ rule.id }}">{{ rule.name }} ({{ result.value }})</label>
                                             <select id="{{ rule.id }}" name="{{ rule.id }}">
-                                                <option value="{{ rule.id }},{{ rule.value }},">---</option>
+                                                <option value="{{ rule.id }},{{ rule.value }},,">---</option>
                                                 {% for user in session.event.championship.listUsers %}
-                                                    <option value="{{ rule.id }},{{ rule.value }},{{ user.id }}">{{ user.userName }}</option>
+                                                    <option value="{{ rule.id }},{{ rule.value }},{{ user.id }},">{{ user.userName }}</option>
                                                 {% endfor %}
                                             </select>
                                             <br />
@@ -66,10 +66,31 @@
                                 </div>
                             {% else %}
                                 Results are : <br />
-                                {% for result in session.listResults %}
-                                    {#TODO form if manager of this championship #}
-                                    {{result.rule.name}} ({{ result.value }}) : {{ result.user.username }}<br />
-                                {% endfor %}
+								{% if is_granted('ROLE_ADMIN') %}
+	                                <form id="setResults">
+		                                {% for result in session.listResults %}
+		                                    <label for="{{ result.rule.id }}">{{ result.rule.name }} ({{ result.value }})</label>
+	                                        <select id="{{ result.rule.id }}" name="{{ result.rule.id }}">
+	                                            <option value="{{ result.rule.id }},{{ result.rule.value }},,{{ result.id }}">---</option>
+	                                            {% for championshipUser in session.event.championship.listUsers %}
+	                                            	{% if result.user is not null %}
+	                                            		{% if result.user.id == championshipUser.id %}
+	                                            			{% set selected = true %}
+	                                            		{% endif %}
+	                                            	{% endif %}
+	                                                <option {{ selected is defined ? 'selected="selected" ' : '' }}value="{{ result.rule.id }},{{ result.rule.value }},{{ championshipUser.id }},{{ result.id }}">{{ championshipUser.userName }}</option>
+	                                            {% endfor %}
+	                                        </select>
+	                                        <br />
+		                                {% endfor %}
+	                                    <input type="hidden" id="sessionId" name="sessionId" value="{{ session.id }}"/>
+	                                    <input type="submit" class="ym-button" />
+	                                </form>
+                                {% else %}
+                                	{% for result in session.listResults %}
+                                		{{result.rule.name}} ({{ result.value }}) : {{ result.user is not null ? result.user.username : "-" }}<br />
+                                	{% endfor %}
+                                {% endif %}
                             {% endif %}
                         {% else %}
                             Session is not over yet...
