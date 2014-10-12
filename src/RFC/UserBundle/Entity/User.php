@@ -92,16 +92,6 @@ class User extends BaseUser
         $this->listPreferences = array();
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
     public function eraseCredentials()
     {}
 

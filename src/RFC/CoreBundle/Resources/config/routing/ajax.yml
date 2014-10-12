@@ -31,4 +31,11 @@ ajax_crew_accept:
     defaults: { _controller: "RFCCoreBundle:Crew:crewAccept" }
     requirements: { _method: post }
     options:
-        expose: true        
+        expose: true
+
+ajax_championship_getResults:
+    pattern: /getChampionshipResults
+    defaults: { _controller: "RFCCoreBundle:Championship:getResults" }
+    requirements: { _method: post }
+    options:
+        expose: true

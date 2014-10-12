@@ -33,8 +33,26 @@ function registerChampionshipBehiavior() {
 	return false;
 }
 
-function crewApplyRequest(data) {
+function getChampionshipResults(championshipId) {
+	var data = {
+		'championshipId' : championshipId
+	};
 	var jsonFormatted = JSON.stringify(data);
+	$.ajax({
+		type : "POST",
+		url : Routing.generate('ajax_championship_getResults'),
+		data : jsonFormatted,
+		cache : false
+	}).done(function(data) {
+		addNotification('Championship results updated', 'success');
+		$('#globalResults').html(data);
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+		addNotification('Error while updating championship\'s results', 'error');
+	});
+	return false;
+}
+
+function crewApplyRequest(data) {
 	$.ajax({
 		type : "POST",
 		url : Routing.generate('ajax_crew_application'),
@@ -155,9 +173,10 @@ function setSessionResults(data) {
 		beforeSend : function() {
 			$('#formContainer').append("Enregistrement des résultats...");
 		}
-	}).done(function(data) {
+	}).done(function(dataResult) {
 		addNotification('Results saved', 'success');
 		$('.sessionItem.active').trigger('click');
+		getChampionshipResults(1);
 	}).fail(function(jqXHR, textStatus, errorThrown) {
 		$('#session').html("Aucuns résultats n'a pu être enregistré");
 		addNotification('Error while saving session results', 'error');

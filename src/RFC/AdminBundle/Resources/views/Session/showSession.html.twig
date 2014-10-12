@@ -51,7 +51,7 @@
                                 There is not results yet! Please set them!<br />
                                     <form id="setResults">
                                         {% for rule in session.event.championship.metaRule.listRules %}
-                                            <label for="{{ rule.id }}">{{ rule.name }} ({{ result.value }})</label>
+                                            <label for="{{ rule.id }}">{{ rule.name }} ({{ rule.value }})</label>
                                             <select id="{{ rule.id }}" name="{{ rule.id }}">
                                                 <option value="{{ rule.id }},{{ rule.value }},,">---</option>
                                                 {% for user in session.event.championship.listUsers %}
