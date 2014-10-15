@@ -60,7 +60,7 @@ class EventController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_event_show', array(
+            return $this->redirect($this->generateUrl('admin_championship_show', array(
                 'eventId' => $entity->getId(),
                 'gameId' => $gameId,
                 'championshipId' => $championshipId
@@ -210,7 +210,7 @@ class EventController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_event_edit', array(
+            return $this->redirect($this->generateUrl('admin_championship_show', array(
                 'eventId' => $eventId,
                 'gameId' => $gameId,
                 'championshipId' => $championshipId

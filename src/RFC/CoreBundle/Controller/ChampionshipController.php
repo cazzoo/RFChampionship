@@ -30,14 +30,17 @@ use RFC\CoreBundle\RFCCoreBundle;
 class ChampionshipController extends Controller {
 	public function indexAction($gameId) {
 		$em = $this->getDoctrine ()->getManager ();
+        
+        $date = new \DateTime ();
+        $date->setTimezone(new \DateTimeZone ('Europe/Paris'));
 		
 		$currentChampionships = $em->getRepository ( 'RFCCoreBundle:Championship' )->createQueryBuilder ( 'c' )->join ( 'c.listEvents', 'e' )->join ( 'e.listSessions', 's' )->where ( 's.endDate > :sysdate' )->andWhere ( 'c.game = :gameId' )->setParameters ( array (
-				'sysdate' => new \DateTime (),
+				'sysdate' => $date,
 				'gameId' => $gameId 
 		) )->getQuery ()->getResult ();
 		
 		$pastChampionships = $em->getRepository ( 'RFCCoreBundle:Championship' )->createQueryBuilder ( 'c' )->join ( 'c.listEvents', 'e' )->join ( 'e.listSessions', 's' )->where ( 's.endDate < :sysdate' )->andWhere ( 'c.game = :gameId' )->setParameters ( array (
-				'sysdate' => new \DateTime (),
+				'sysdate' => $date,
 				'gameId' => $gameId 
 		) )->getQuery ()->getResult ();
 		

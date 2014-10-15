@@ -176,7 +176,10 @@ function setSessionResults(data) {
 	}).done(function(dataResult) {
 		addNotification('Results saved', 'success');
 		$('.sessionItem.active').trigger('click');
-		getChampionshipResults(1);
+        var regexp = /Championship_\d*/;
+        var match;
+        match = regexp.exec($(location).attr('href'));
+		getChampionshipResults(match[0].split("_")[1]);
 	}).fail(function(jqXHR, textStatus, errorThrown) {
 		$('#session').html("Aucuns résultats n'a pu être enregistré");
 		addNotification('Error while saving session results', 'error');

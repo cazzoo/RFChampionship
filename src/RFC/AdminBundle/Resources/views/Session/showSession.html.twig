@@ -39,64 +39,71 @@
 	                	</span>
 	                </small>
 				</div>
-				<div id="results">
-					<h4>Results</h4>
-                    {% set now = "now"|date("Y/m/d H:i") %}
-                    {% if now < session.beginDate|date("Y/m/d H:i") %}
-                        Session is not started yet...
-                    {% else %}
-                        {% if now > session.endDate|date("Y/m/d H:i") %}
-                            {% if session.listResults is empty %}
-                                <div id="formContainer">
-                                There is not results yet! Please set them!<br />
-                                    <form id="setResults">
-                                        {% for rule in session.event.championship.metaRule.listRules %}
-                                            <label for="{{ rule.id }}">{{ rule.name }} ({{ rule.value }})</label>
-                                            <select id="{{ rule.id }}" name="{{ rule.id }}">
-                                                <option value="{{ rule.id }},{{ rule.value }},,">---</option>
-                                                {% for user in session.event.championship.listUsers %}
-                                                    <option value="{{ rule.id }},{{ rule.value }},{{ user.id }},">{{ user.userName }}</option>
-                                                {% endfor %}
-                                            </select>
-                                            <br />
-                                        {% endfor %}
-                                        <input type="hidden" id="sessionId" name="sessionId" value="{{ session.id }}"/>
-                                        <input type="submit" class="ym-button" />
-                                    </form>
-                                </div>
-                            {% else %}
-                                Results are : <br />
-								{% if is_granted('ROLE_ADMIN') %}
-	                                <form id="setResults">
-		                                {% for result in session.listResults %}
-		                                    <label for="{{ result.rule.id }}">{{ result.rule.name }} ({{ result.value }})</label>
-	                                        <select id="{{ result.rule.id }}" name="{{ result.rule.id }}">
-	                                            <option value="{{ result.rule.id }},{{ result.rule.value }},,{{ result.id }}">---</option>
-	                                            {% for championshipUser in session.event.championship.listUsers %}
-	                                            	{% if result.user is not null %}
-	                                            		{% if result.user.id == championshipUser.id %}
-	                                            			{% set selected = true %}
-	                                            		{% endif %}
-	                                            	{% endif %}
-	                                                <option {{ selected is defined ? 'selected="selected" ' : '' }}value="{{ result.rule.id }},{{ result.rule.value }},{{ championshipUser.id }},{{ result.id }}">{{ championshipUser.userName }}</option>
-	                                            {% endfor %}
-	                                        </select>
-	                                        <br />
-		                                {% endfor %}
-	                                    <input type="hidden" id="sessionId" name="sessionId" value="{{ session.id }}"/>
-	                                    <input type="submit" class="ym-button" />
-	                                </form>
-                                {% else %}
-                                	{% for result in session.listResults %}
-                                		{{result.rule.name}} ({{ result.value }}) : {{ result.user is not null ? result.user.username : "-" }}<br />
-                                	{% endfor %}
-                                {% endif %}
-                            {% endif %}
+                {% if session.typeSession.usedForResults %}
+                    <div id="results">
+                        <h4>Results</h4>
+                        {% set now = "now"|date("Y/m/d H:i", "Europe/Paris") %}
+                        {% if now < session.beginDate|date("Y/m/d H:i") %}
+                            Session is not started yet...
                         {% else %}
-                            Session is not over yet...
+                            {% if now > session.endDate|date("Y/m/d H:i") %}
+                                {% if session.listResults is empty %}
+                                    <div id="formContainer">
+                                    There is not results yet! Please set them!<br />
+                                        <form id="setResults">
+                                            {% set rules = session.event.championship.metaRule ? session.event.championship.metaRule.listRules : session.event.championship.listRules %}
+                                            {% for rule in rules %}
+                                                <label for="{{ rule.id }}">{{ rule.name }} ({{ rule.value }})</label>
+                                                <select id="{{ rule.id }}" name="{{ rule.id }}">
+                                                    <option value="{{ rule.id }},{{ rule.value }},,">---</option>
+                                                    {% for user in session.event.championship.listUsers %}
+                                                        <option value="{{ rule.id }},{{ rule.value }},{{ user.id }},">{{ user.userName }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <br />
+                                            {% endfor %}
+                                            <input type="hidden" id="sessionId" name="sessionId" value="{{ session.id }}"/>
+                                            <input type="submit" class="ym-button" />
+                                        </form>
+                                    </div>
+                                {% else %}
+                                    Results are : <br />
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <form id="setResults">
+                                            {% for result in session.listResults %}
+                                                <label for="{{ result.rule.id }}">{{ result.rule.name }} ({{ result.value }})</label>
+                                                <select id="{{ result.rule.id }}" name="{{ result.rule.id }}">
+                                                    <option value="{{ result.rule.id }},{{ result.rule.value }},,{{ result.id }}">---</option>
+                                                    {% for championshipUser in session.event.championship.listUsers %}
+                                                        {% if result.user is not null %}
+                                                            {% if result.user.id == championshipUser.id %}
+                                                                {% set selected = true %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                        <option {{ selected is defined ? 'selected="selected" ' : '' }}value="{{ result.rule.id }},{{ result.rule.value }},{{ championshipUser.id }},{{ result.id }}">{{ championshipUser.userName }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <br />
+                                            {% endfor %}
+                                            <input type="hidden" id="sessionId" name="sessionId" value="{{ session.id }}"/>
+                                            <input type="submit" class="ym-button" />
+                                        </form>
+                                    {% else %}
+                                        {% for result in session.listResults %}
+                                            {{result.rule.name}} ({{ result.value }}) : {{ result.user is not null ? result.user.username : "-" }}<br />
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                                Session is not over yet...
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
-				</div>
+                    </div>
+                {% else %}
+                    <div>
+                        <h5>No results for this type of session.</h5>
+                    </div>
+                {% endif %}
 			</div>
 		</div>
 	</div>
