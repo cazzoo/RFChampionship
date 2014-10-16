@@ -52,6 +52,16 @@ function getChampionshipResults(championshipId) {
 	return false;
 }
 
+/* 
+* Returns the results for the current championship (fetched by the URL)
+*/
+function getCurrentChampionshipResults() {
+        var regexp = /Championship_\d*/;
+        var match;
+        match = regexp.exec($(location).attr('href'));
+        getChampionshipResults(match[0].split("_")[1]);
+}
+
 function crewApplyRequest(data) {
 	$.ajax({
 		type : "POST",
@@ -176,10 +186,7 @@ function setSessionResults(data) {
 	}).done(function(dataResult) {
 		addNotification('Results saved', 'success');
 		$('.sessionItem.active').trigger('click');
-        var regexp = /Championship_\d*/;
-        var match;
-        match = regexp.exec($(location).attr('href'));
-		getChampionshipResults(match[0].split("_")[1]);
+		getCurrentChampionshipResults();
 	}).fail(function(jqXHR, textStatus, errorThrown) {
 		$('#session').html("Aucuns résultats n'a pu être enregistré");
 		addNotification('Error while saving session results', 'error');
@@ -605,10 +612,10 @@ $(function() {
 	// --------------------------------------------
 	$("textarea").wysibb();
 
+	// --------------------------------------------
 	// Screen Championship creation
 	// --------------------------------------------
-	// ----------------- Toggleing rules list
-	// --------------------------------------------
+	// Toggleing rules list
 	toggleRules(0);
 	$('#rfc_corebundle_championship_isAgreed').change(function() {
 		toggleRules(200);
@@ -619,16 +626,18 @@ $(function() {
 	// --------------------------------------------
 	$(".jquery_tabs").accessibleTabs();
 
+	// --------------------------------------------
 	// Screen Championship show
 	// --------------------------------------------
-	// ----------------- Selecting event
-	// --------------------------------------------
+    // Get championship results on load
+    getCurrentChampionshipResults();
+	// Selecting event
 	$(".eventItem:first").trigger("click");
 
+	// --------------------------------------------
 	// Screen MetaRule show
 	// --------------------------------------------
-	// ----------------- Selecting metaRule
-	// --------------------------------------------
+	// Selecting metaRule
 	$(".metaRuleItem:first").trigger("click");
 
 	// --------------------------------------------

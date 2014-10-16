@@ -462,4 +462,16 @@ class Championship extends KnowledgeData
         else
             return null;
     }
+    
+    public function isManager($user)
+    {
+        foreach($this->listManagers as $manager)
+        {
+            if($user->getId() == $manager->getId())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -225,7 +225,7 @@ class ChampionshipController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_championship_edit', array(
+            return $this->redirect($this->generateUrl('admin_championship_show', array(
                 'championshipId' => $championshipId,
                 'gameId' => $gameId
             )));

@@ -68,7 +68,8 @@
                                     </div>
                                 {% else %}
                                     Results are : <br />
-                                    {% if is_granted('ROLE_ADMIN') %}
+                                    {% set canEdit = is_granted('ROLE_MANAGER') and session.event.championship.isManager(app.user) %}
+                                    {% if canEdit or is_granted('ROLE_CERTIFIED_MANAGER') %}
                                         <form id="setResults">
                                             {% for result in session.listResults %}
                                                 <label for="{{ result.rule.id }}">{{ result.rule.name }} ({{ result.value }})</label>
