@@ -59,15 +59,14 @@ class SystemController extends Controller
         if (!empty($content)) {
             $params = json_decode($content, true); // 2nd param to get as array
         }
-
-        for ($i=0, $size = count($params); $i < $size; ++$i)
+        
+        foreach($properties as $property)
         {
-            $param = $params[$i];
-            for ($j=0, $sizej = count($properties); $j < $sizej; ++$j)
+            foreach($params as $param)
             {
-                if($properties[$j]->getId() == array_values($param)[0])
+                if($property->getId() == $param['name'])
                 {
-                    $properties[$j]->setValue(array_values($param)[1]);
+                    $property->setValue($param['value']);
                 }
             }
         }

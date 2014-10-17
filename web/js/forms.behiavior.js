@@ -58,8 +58,10 @@ function getChampionshipResults(championshipId) {
 function getCurrentChampionshipResults() {
         var regexp = /Championship_\d*/;
         var match;
-        match = regexp.exec($(location).attr('href'));
-        getChampionshipResults(match[0].split("_")[1]);
+        if(regexp.test($(location).attr('href'))) {
+            match = regexp.exec($(location).attr('href'));
+            getChampionshipResults(match[0].split("_")[1]);
+        }
 }
 
 function crewApplyRequest(data) {
