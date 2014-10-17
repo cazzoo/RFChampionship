@@ -24,6 +24,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use RFC\CoreBundle\Entity\Game;
 use RFC\CoreBundle\Entity\Property;
+use RFC\UserBundle\Entity\User;
+use RFC\UserBundle\Form\UserFormType;
 
 class UserController extends Controller {
     public function indexAction() {
@@ -49,11 +51,21 @@ class UserController extends Controller {
                 ->setParameter ( 'userId', $this->getUser ()->getId () )
                 ->getQuery ()
                 ->getResult ();
+            
+            $userForm = $this->createForm(new UserFormType('RFC\UserBundle\Entity\User'), $user, array(
+                'action' => $this->generateUrl('rfcCore_user', array('userId' => $user->getId())),
+                'method' => 'PUT',
+            ));
+
+            $userForm->add('submit', 'submit', array('label' => 'Update'));
+            
+            $userForm = $userForm->createView();
 
             return $this->render ( 'RFCCoreBundle:User:index.html.twig', array (
                 'games' => $games,
                 'championships' => $championships,
                 'user' => $user,
+                'userForm' => $userForm,
                 'crewAwaitingRequests' => $crewAwaitingRequests
             ) );
         } else {

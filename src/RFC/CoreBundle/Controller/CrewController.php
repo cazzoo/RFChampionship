@@ -41,12 +41,17 @@ class CrewController extends Controller {
 		) );
 		
 		$crew = null;
-		
-		foreach ( $crews as $cur_crew ) {
-			if ($cur_crew->isManager ( $user->getId () ) || $cur_crew->isActiveMember ( $user->getId () ) || $cur_crew->isAwaitingMember ( $user->getId () )) {
-				$crew = $cur_crew;
-			}
-		}
+        
+        // User is logged
+        if($this->container->get ( 'security.context' )->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            foreach ( $crews as $cur_crew )
+            {
+                if ($cur_crew->isManager ( $user->getId () ) || $cur_crew->isActiveMember ( $user->getId () ) || $cur_crew->isAwaitingMember ( $user->getId () )) {
+                    $crew = $cur_crew;
+                }
+            }
+        }
 		
 		// Ajout du jeu sélectionné
 		$menu = $this->get ( 'rfc_core.menu.breadcrumb' );

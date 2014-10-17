@@ -18,6 +18,8 @@
 
 {% if session is defined %}
 
+{% set canEdit = (is_granted('ROLE_MANAGER') and session.event.championship.isManager(app.user)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
+
 	<hr />
 
 	<div class="ym-grid">
@@ -49,27 +51,28 @@
                             {% if now > session.endDate|date("Y/m/d H:i") %}
                                 {% if session.listResults is empty %}
                                     <div id="formContainer">
-                                    There is not results yet! Please set them!<br />
-                                        <form id="setResults">
-                                            {% set rules = session.event.championship.metaRule ? session.event.championship.metaRule.listRules : session.event.championship.listRules %}
-                                            {% for rule in rules %}
-                                                <label for="{{ rule.id }}">{{ rule.name }} ({{ rule.value }})</label>
-                                                <select id="{{ rule.id }}" name="{{ rule.id }}">
-                                                    <option value="{{ rule.id }},{{ rule.value }},,">---</option>
-                                                    {% for user in session.event.championship.listUsers %}
-                                                        <option value="{{ rule.id }},{{ rule.value }},{{ user.id }},">{{ user.userName }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                                <br />
-                                            {% endfor %}
-                                            <input type="hidden" id="sessionId" name="sessionId" value="{{ session.id }}"/>
-                                            <input type="submit" class="ym-button" />
-                                        </form>
+                                    There are not results yet!<br />
+                                        {% if canEdit %}
+                                            <form id="setResults">
+                                                {% set rules = session.event.championship.metaRule ? session.event.championship.metaRule.listRules : session.event.championship.listRules %}
+                                                {% for rule in rules %}
+                                                    <label for="{{ rule.id }}">{{ rule.name }} ({{ rule.value }})</label>
+                                                    <select id="{{ rule.id }}" name="{{ rule.id }}">
+                                                        <option value="{{ rule.id }},{{ rule.value }},,">---</option>
+                                                        {% for user in session.event.championship.listUsers %}
+                                                            <option value="{{ rule.id }},{{ rule.value }},{{ user.id }},">{{ user.userName }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <br />
+                                                {% endfor %}
+                                                <input type="hidden" id="sessionId" name="sessionId" value="{{ session.id }}"/>
+                                                <input type="submit" class="ym-button" />
+                                            </form>
+                                        {% endif %}
                                     </div>
                                 {% else %}
                                     Results are : <br />
-                                    {% set canEdit = is_granted('ROLE_MANAGER') and session.event.championship.isManager(app.user) %}
-                                    {% if canEdit or is_granted('ROLE_CERTIFIED_MANAGER') %}
+                                    {% if canEdit %}
                                         <form id="setResults">
                                             {% for result in session.listResults %}
                                                 <label for="{{ result.rule.id }}">{{ result.rule.name }} ({{ result.value }})</label>
