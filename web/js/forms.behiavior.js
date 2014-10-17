@@ -357,26 +357,6 @@ $(function() {
 		return false;
 	});
 
-	/*
-	 * $('#confirm-btn').click(function() { var json = [];
-	 * $('#mainProperties').find('tbody tr').each(function() { var obj = {}, $td =
-	 * $(this).find('td'), key = $td.eq(0).text(), val = $td.eq(3).text();
-	 * obj[key] = val; json.push(obj); });
-	 * 
-	 * $('.editable_property').editable('submit', { url:
-	 * Routing.generate('ajax_properties_update'), ajaxOptions: { data:
-	 * jsonFormatted, dataType: 'json', //assuming json response type : "POST",
-	 * cache : false }, success: function(data, config) { //remove unsaved class
-	 * $(this).removeClass('editable-unsaved').removeAttr('oldValue'); //show
-	 * messages addNotification('Properties updated', 'success');
-	 * $('.editable_property').each(function() { storeOldValue($(this)); }); },
-	 * error: function(errors) { var msg = ''; if(errors && errors.responseText) {
-	 * //ajax error, errors = xhr object msg = errors.responseText; } else {
-	 * //validation error (client-side or server-side) $.each(errors,
-	 * function(k, v) { msg += k+": "+v+"<br />"; }); } addNotification('Error
-	 * while saving properties : ' + msg, 'error'); } }); });
-	 */
-
 	// Screen Core : Crew
 	// --------------------------------------------
 	// ----------------- Crew application
