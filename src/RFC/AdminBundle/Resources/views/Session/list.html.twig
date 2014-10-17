@@ -18,36 +18,41 @@
     Aucun Event sélectionné. Veuillez sélectionner un Event. 
 {% else %}
     {% if sessions %}
-    	<table class="table">
+
+        {% set canEdit = (is_granted('ROLE_MANAGER') and sessions[0].event.championship.isManager(app.user)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
+    	
+        <table class="table">
     		<thead>
     			<tr>
     				<th>Name</th>
     				<th>Type</th>
     				<th>Dates</th>
+                    {% if canEdit %}<th>Actions</th>{% endif %}
     			</tr>
     		</thead>
     		<tbody class="table-striped">
         		{% for session in sessions %}
-	    		<tr>
-	    			<td>
-                        <a href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': gameId, 'championshipId': championshipId, 'eventId' : eventId}) }}">
-    					   {{ session.name }}
-    					</a>
-    					<a id="session_{{ session.id }}" data-session="{{ session.id }}" href="#session_{{ session.id }}" class="sessionItem">select</a>
-	    			</td>
-                    <td>{{ session.typeSession.name }}</td>
-                    <td>
-                        <small>
-                        	<span class="label label-primary">
-                        		{{ session.beginDate|date("Y/m/d H:i") }}
-                        	</span>
-                        	 > 
-                        	<span class="label label-primary">
-                        		{{ session.endDate|date("Y/m/d H:i") }}
-                        	</span>
-                        </small>
-                    </td>
-	    		</tr>
+                    <tr>
+                        <td>{{ session.name }}</td>
+                        <td>{{ session.typeSession.name }}</td>
+                        <td>
+                            <small>
+                                <span class="label label-primary">
+                                    {{ session.beginDate|date("Y/m/d H:i") }}
+                                </span>
+                                 > 
+                                <span class="label label-primary">
+                                    {{ session.endDate|date("Y/m/d H:i") }}
+                                </span>
+                            </small>
+                        </td>
+                        {% if canEdit %}
+                            <td>
+                            <a class="ym-button ym-edit" href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': gameId, 'championshipId': championshipId, 'eventId' : eventId}) }}">Edit</a><br />
+                            <a class="ym-button ym-next sessionItem" id="session_{{ session.id }}" data-session="{{ session.id }}" href="#session_{{ session.id }}">Select</a>
+                            </td>
+                        {% endif %}
+                    </tr>
 	    		{% endfor %}
     		</tbody>
     	</table>

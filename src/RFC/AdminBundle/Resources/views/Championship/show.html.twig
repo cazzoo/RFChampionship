@@ -32,15 +32,15 @@ parent() }} {% endblock %} {% block rfccore_body %}
 		<dd>{{ entity.isAgreed ? 'True' : 'False' }}</dd>
 		<dt>MetaRule</dt>
 		<dd>
-			{{ entity.metaRule ? entity.metaRule.name : '<i>Aucune metaRule</i>' }}
+			<i>{{ entity.metaRule ? entity.metaRule.name : 'Aucune metaRule' }}</i>
 		</dd>
 		<dt>Organisateurs</dt>
 		<dd>
-			{% if entity.metaRule %}
-			<ul>
-				{% for manager in entity.listManagers %}
-				<li>{{ manager.username }}</li> {% endfor %}
-			</ul>
+			{% if entity.listManagers %}
+    			<ul>
+    				{% for manager in entity.listManagers %}
+    				<li>{{ manager.username }}</li> {% endfor %}
+    			</ul>
 			{% else %}
                 <i>Aucun organisateur(s) défini(s)</i>
             {% endif %}

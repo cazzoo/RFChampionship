@@ -20,6 +20,8 @@
 
 {% block rfccore_body %}
 
+{% set canEdit = (is_granted('ROLE_MANAGER') and entity.isManager(app.user)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
+
 <div class="row">
 	<h1>{{ entity.name }}</h1>
 
@@ -33,12 +35,11 @@
 		<dd>{% if entity.isAgreed %}True{% else %}False{% endif %}</dd>
 		<dt>MetaRule</dt>
 		<dd>
-			{% if entity.metaRule %}{{ entity.metaRule.name }}{% else %}<i>Aucune
-				metaRule</i>{% endif %}
+			<i>{{ entity.metaRule ? entity.metaRule.name : 'Aucune metaRule' }}</i>
 		</dd>
 		<dt>Organisateurs</dt>
 		<dd>
-			{% if entity.metaRule %}
+			{% if entity.listManagers %}
     			<ul>
     				{% for manager in entity.listManagers %}
     				<li>{{ manager.username }}</li> {% endfor %}
