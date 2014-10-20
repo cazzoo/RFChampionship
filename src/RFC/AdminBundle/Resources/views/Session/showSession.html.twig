@@ -56,14 +56,16 @@
                                             <form id="setResults">
                                                 {% set rules = session.event.championship.metaRule ? session.event.championship.metaRule.listRules : session.event.championship.listRules %}
                                                 {% for rule in rules %}
-                                                    <label for="{{ rule.id }}">{{ rule.name }} ({{ rule.value }})</label>
-                                                    <select id="{{ rule.id }}" name="{{ rule.id }}">
-                                                        <option value="{{ rule.id }},{{ rule.value }},,">---</option>
-                                                        {% for user in session.event.championship.listUsers %}
-                                                            <option value="{{ rule.id }},{{ rule.value }},{{ user.id }},">{{ user.userName }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                    <br />
+                                                    {% if rule.typeSession.id == session.typeSession.id %}
+                                                        <label for="{{ rule.id }}">{{ rule.name }} ({{ rule.value }})</label>
+                                                        <select id="{{ rule.id }}" name="{{ rule.id }}">
+                                                            <option value="{{ rule.id }},{{ rule.value }},,">---</option>
+                                                            {% for user in session.event.championship.listUsers %}
+                                                                <option value="{{ rule.id }},{{ rule.value }},{{ user.id }},">{{ user.userName }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                        <br />
+                                                    {% endif %}
                                                 {% endfor %}
                                                 <input type="hidden" id="sessionId" name="sessionId" value="{{ session.id }}"/>
                                                 <input type="submit" class="ym-button" />
@@ -75,19 +77,21 @@
                                     {% if canEdit %}
                                         <form id="setResults">
                                             {% for result in session.listResults %}
-                                                <label for="{{ result.rule.id }}">{{ result.rule.name }} ({{ result.value }})</label>
-                                                <select id="{{ result.rule.id }}" name="{{ result.rule.id }}">
-                                                    <option value="{{ result.rule.id }},{{ result.rule.value }},,{{ result.id }}">---</option>
-                                                    {% for championshipUser in session.event.championship.listUsers %}
-                                                        {% if result.user is not null %}
-                                                            {% if result.user.id == championshipUser.id %}
-                                                                {% set selected = true %}
+                                                {% if result.rule.typeSession.id == session.typeSession.id %}
+                                                    <label for="{{ result.rule.id }}">{{ result.rule.name }} ({{ result.value }})</label>
+                                                    <select id="{{ result.rule.id }}" name="{{ result.rule.id }}">
+                                                        <option value="{{ result.rule.id }},{{ result.rule.value }},,{{ result.id }}">---</option>
+                                                        {% for championshipUser in session.event.championship.listUsers %}
+                                                            {% if result.user is not null %}
+                                                                {% if result.user.id == championshipUser.id %}
+                                                                    {% set selected = true %}
+                                                                {% endif %}
                                                             {% endif %}
-                                                        {% endif %}
-                                                        <option {{ selected is defined ? 'selected="selected" ' : '' }}value="{{ result.rule.id }},{{ result.rule.value }},{{ championshipUser.id }},{{ result.id }}">{{ championshipUser.userName }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                                <br />
+                                                            <option {{ selected is defined ? 'selected="selected" ' : '' }}value="{{ result.rule.id }},{{ result.rule.value }},{{ championshipUser.id }},{{ result.id }}">{{ championshipUser.userName }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <br />
+                                                {% endif %}
                                             {% endfor %}
                                             <input type="hidden" id="sessionId" name="sessionId" value="{{ session.id }}"/>
                                             <input type="submit" class="ym-button" />

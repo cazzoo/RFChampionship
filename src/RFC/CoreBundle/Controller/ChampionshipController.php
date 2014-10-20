@@ -159,7 +159,7 @@ class ChampionshipController extends Controller {
 		}
 		
 		return $this->render ( 'RFCCoreBundle:Championship:globalResults.html.twig', array (
-				'results' => $results 
+				'results' => $results
 		) );
 	}
 	

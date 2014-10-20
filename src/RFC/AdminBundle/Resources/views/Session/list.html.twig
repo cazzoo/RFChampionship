@@ -27,7 +27,7 @@
     				<th>Name</th>
     				<th>Type</th>
     				<th>Dates</th>
-                    {% if canEdit %}<th>Actions</th>{% endif %}
+                    <th>Actions</th>
     			</tr>
     		</thead>
     		<tbody class="table-striped">
@@ -46,17 +46,19 @@
                                 </span>
                             </small>
                         </td>
-                        {% if canEdit %}
-                            <td>
-                            <a class="ym-button ym-edit" href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': gameId, 'championshipId': championshipId, 'eventId' : eventId}) }}">Edit</a><br />
+                        <td>
+                            {% if canEdit %}
+                                <a class="ym-button ym-edit" href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': gameId, 'championshipId': championshipId, 'eventId' : eventId}) }}">Edit</a><br />
+                            {% endif %}
                             <a class="ym-button ym-next sessionItem" id="session_{{ session.id }}" data-session="{{ session.id }}" href="#session_{{ session.id }}">Select</a>
-                            </td>
-                        {% endif %}
+                        </td>
                     </tr>
 	    		{% endfor %}
     		</tbody>
     	</table>
     {% endif %}
-    Ajouter une session
-    <a class="ym-button ym-add" href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : eventId}) }}">Add</a>
+    {% if canEdit %}
+        Ajouter une session
+        <a class="ym-button ym-add" href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : eventId}) }}">Add</a>
+    {% endif %}
 {% endif %}
