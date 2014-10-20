@@ -17,6 +17,11 @@ rfcCore_calendar:
 rfcCore_user:
     path:   /User
     defaults: { _controller: "RFCCoreBundle:User:index" }
+    
+rfcCore_user_update:
+    pattern:  /User/update
+    defaults: { _controller: "RFCCoreBundle:User:update" }
+    requirements: { _method: post|put }
 
 rfcCore_crew:
     path:   /{gameId}/Crew

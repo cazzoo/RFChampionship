@@ -27,7 +27,7 @@ class UserFormType extends BaseType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
-        
+
         $builder->add('roles', 'choice', array(
             'choices' => RoleEnum::getEnum(),
             'multiple' => true,
@@ -36,9 +36,13 @@ class UserFormType extends BaseType
             ->add('firstName')
             ->add('lastName')
             ->add('age')
-            ->add('avatarUrl')
-            ->add('steamId')
-        	->add('enabled', 'checkbox', array(
+            ->add('avatarUrl', 'text', array(
+                'required' => false
+            ))
+            ->add('steamId', 'text', array(
+                'required' => false
+            ))
+            ->add('enabled', 'checkbox', array(
                 'required' => false));
     }
 }
