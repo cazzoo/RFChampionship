@@ -272,26 +272,24 @@ class RuleController extends Controller
 
     public function searchAction()
     {
-        $request = Request::createFromGlobals();
-        
-        if ($request->isXmlHttpRequest()) {
-            
-            $gameId = $request->request->get('gameId');
-            $metaRuleId = $request->request->get('metaRuleId');
-            
-            $rules = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('RFCCoreBundle:Rule')
-                ->getForMetaRule($metaRuleId);
-            
-            return $this->render('RFCAdminBundle:Rule:list.html.twig', array(
-                'gameId' => $gameId,
-                'rules' => $rules,
-                'metaRuleId' => $metaRuleId
-            ));
-        } else
-            return $this->render('RFCAdminBundle:Rule:list.html.twig', array(
-                'rules' => null
-            ));
+		$params = array ();
+		$content = $this->get ( "request" )->getContent ();
+		if (! empty ( $content )) {
+			$params = json_decode ( $content, true );
+		}
+		
+		$gameId = $params ['gameId'];
+		$metaRuleId = $params ['metaRuleId'];
+		
+		$rules = $this->getDoctrine()
+		->getManager()
+		->getRepository('RFCCoreBundle:Rule')
+		->getForMetaRule($metaRuleId);
+		
+		return $this->render('RFCAdminBundle:Rule:list.html.twig', array(
+		    'gameId' => $gameId,
+		    'rules' => $rules,
+		    'metaRuleId' => $metaRuleId
+		));
     }
 }

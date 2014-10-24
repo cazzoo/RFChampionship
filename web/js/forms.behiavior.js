@@ -471,11 +471,12 @@ $(function() {
 		var data = {
 			metaRuleId : entityData[0].substr(9),
 			gameId : entityData[1].substr(5)
-		};
+		}
+		var jsonFormatted = JSON.stringify(data);
 		$.ajax({
 			type : "POST",
 			url : Routing.generate('admin_rule_search'),
-			data : data,
+			data : jsonFormatted,
 			cache : false,
 			beforeSend : function() {
 				$('#listRules').html("Chargement des règles...");
