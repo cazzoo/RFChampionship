@@ -162,7 +162,7 @@ class SessionController extends Controller {
 	 * @return \Symfony\Component\Form\Form The form
 	 */
 	private function createEditForm(Session $entity, $gameId, $championshipId, $eventId) {
-		$form = $this->createForm ( new SessionType ($gameId), $entity, array (
+		$form = $this->createForm ( new SessionType ( $gameId ), $entity, array (
 				'em' => $this->getDoctrine ()->getManager (),
 				'action' => $this->generateUrl ( 'admin_session_update', array (
 						'sessionId' => $entity->getId (),
@@ -262,32 +262,30 @@ class SessionController extends Controller {
 		) )->getForm ();
 	}
 	public function searchAction() {
-		$request = Request::createFromGlobals ();
+		$params = array ();
+		$content = $this->get ( "request" )->getContent ();
+		if (! empty ( $content )) {
+			$params = json_decode ( $content, true );
+		}
 		
-		if ($request->isXmlHttpRequest ()) {
-			
-			$gameId = $request->request->get ( 'gameId' );
-			$championshipId = $request->request->get ( 'championshipId' );
-			$eventId = $request->request->get ( 'eventId' );
-			
-			$form = $this->createCreateForm ( new Session (), $gameId, $championshipId, $eventId );
-			
-			$em = $this->getDoctrine ()->getManager ();
-			$sessions = $em->getRepository ( 'RFCCoreBundle:Session' )->findBy ( array (
-					'event' => $eventId 
-			) );
-			
-			return $this->render ( 'RFCAdminBundle:Session:list.html.twig', array (
-					'gameId' => $gameId,
-					'championshipId' => $championshipId,
-					'sessions' => $sessions,
-					'eventId' => $eventId,
-					'form' => $form->createView () 
-			) );
-		} else
-			return $this->render ( 'RFCAdminBundle:Session:list.html.twig', array (
-					'sessions' => null 
-			) );
+		$gameId = $params ['gameId'];
+		$championshipId = $params ['championshipId'];
+		$eventId = $params ['eventId'];
+		
+		$form = $this->createCreateForm ( new Session (), $gameId, $championshipId, $eventId );
+		
+		$em = $this->getDoctrine ()->getManager ();
+		$sessions = $em->getRepository ( 'RFCCoreBundle:Session' )->findBy ( array (
+				'event' => $eventId 
+		) );
+		
+		return $this->render ( 'RFCAdminBundle:Session:list.html.twig', array (
+				'gameId' => $gameId,
+				'championshipId' => $championshipId,
+				'sessions' => $sessions,
+				'eventId' => $eventId,
+				'form' => $form->createView () 
+		) );
 	}
 	public function sessionLoadAction() {
 		$params = array ();

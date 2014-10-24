@@ -425,10 +425,11 @@ $(function() {
 			gameId : entityData[1].substr(5),
 			championshipId : entityData[2].substr(13)
 		};
+		var jsonFormatted = JSON.stringify(data);
 		$.ajax({
 			type : "POST",
 			url : Routing.generate('admin_session_search'),
-			data : data,
+			data : jsonFormatted,
 			cache : false,
 			beforeSend : function() {
 				$('#listSessions').html("Chargement des sessions...");

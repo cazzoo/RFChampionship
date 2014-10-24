@@ -17,9 +17,12 @@
 {% if eventId is null %} 
     Aucun Event sélectionné. Veuillez sélectionner un Event. 
 {% else %}
+	
+	{% set canEdit = is_granted('ROLE_MANAGER') or is_granted('ROLE_CERTIFIED_MANAGER') %}
+
     {% if sessions %}
 
-        {% set canEdit = (is_granted('ROLE_MANAGER') and sessions[0].event.championship.isManager(app.user)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
+        {% set canEdit = canEdit or sessions[0].event.championship.isManager(app.user) %}
     	
         <table class="table">
     		<thead>
