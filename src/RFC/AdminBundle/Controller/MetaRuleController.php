@@ -42,7 +42,8 @@ class MetaRuleController extends Controller
         $rules = $em->getRepository('RFCCoreBundle:Rule')->findBy(array(
             'game' => $gameId
         ), array(
-            'typeSession' => 'ASC'
+            'typeSession' => 'ASC',
+        	'value' => 'DESC'
         ));
         $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
         

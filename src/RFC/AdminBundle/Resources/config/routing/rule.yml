@@ -27,4 +27,4 @@ admin_rule_update:
 admin_rule_delete:
     pattern:  /{ruleId}/delete
     defaults: { _controller: "RFCAdminBundle:Rule:delete" }
-    requirements: { _method: post|delete }
+    requirements: { _method: get|post|delete }

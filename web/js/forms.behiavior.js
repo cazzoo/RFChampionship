@@ -65,6 +65,7 @@ function getCurrentChampionshipResults() {
 }
 
 function crewApplyRequest(data) {
+	var jsonFormatted = JSON.stringify(data);
 	$.ajax({
 		type : "POST",
 		url : Routing.generate('ajax_crew_application'),

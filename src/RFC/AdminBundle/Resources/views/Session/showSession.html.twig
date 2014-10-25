@@ -82,12 +82,13 @@
                                                     <select id="{{ result.rule.id }}" name="{{ result.rule.id }}">
                                                         <option value="{{ result.rule.id }},{{ result.rule.value }},,{{ result.id }}">---</option>
                                                         {% for championshipUser in session.event.championship.listUsers %}
+	                                                		{% set selected = false %}
                                                             {% if result.user is not null %}
                                                                 {% if result.user.id == championshipUser.id %}
                                                                     {% set selected = true %}
                                                                 {% endif %}
                                                             {% endif %}
-                                                            <option {{ selected is defined ? 'selected="selected" ' : '' }}value="{{ result.rule.id }},{{ result.rule.value }},{{ championshipUser.id }},{{ result.id }}">{{ championshipUser.userName }}</option>
+                                                            <option {{ selected == true ? 'selected="selected" ' : '' }}value="{{ result.rule.id }},{{ result.rule.value }},{{ championshipUser.id }},{{ result.id }}">{{ championshipUser.userName }}</option>
                                                         {% endfor %}
                                                     </select>
                                                     <br />

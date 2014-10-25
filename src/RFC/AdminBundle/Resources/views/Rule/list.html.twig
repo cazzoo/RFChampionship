@@ -23,6 +23,7 @@
            <tr>
                <th>Name</th>
                <th>Value</th>
+               <th>Description</th>
            </tr>
         </thead>
         <tbody>
@@ -31,18 +32,21 @@
             {% if rule.typeSession != typeSession %}
                 {% set typeSession = rule.typeSession %}
                 <tr class="info">
-                    <td colspan="2"><strong>{{ typeSession }}</strong></td>
+                    <td colspan="3"><strong>{{ typeSession }}</strong></td>
                 </tr>
             {% endif %}
             <tr>
                <td>
-                   <span data-toggle="tooltip" data-placement="bottom" title="{{ rule.description }}">
-                       &nbsp; &nbsp; {{ rule.name }}
-                       <span class="glyphicon glyphicon-info-sign"></span>
+                   <a href="{{ path('admin_rule_edit', {'ruleId' : rule.id, 'gameId' : game.id}) }}">{{ rule.name }}</a>
+                   &nbsp; &nbsp;
+                   <a href="{{ path('admin_rule_delete', {'ruleId' : rule.id, 'gameId' : game.id}) }}">Delete</a>
                    </span>
                </td>
                <td>
                    {{ rule.value }}
+               </td>
+               <td>
+                   {{ rule.description }}
                </td>
             </tr>
         {% endfor %}

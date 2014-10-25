@@ -106,6 +106,9 @@ class EventController extends Controller
     public function newAction($gameId, $championshipId)
     {
         $entity = new Event();
+        $em = $this->getDoctrine()->getManager();
+        $entityChampionship = $em->getRepository('RFCCoreBundle:Championship')->find($championshipId);
+        $entity->setChampionship($entityChampionship);
         $form = $this->createCreateForm($entity, $gameId, $championshipId);
         
         return $this->render('RFCAdminBundle:Event:new.html.twig', array(
