@@ -28,11 +28,12 @@ use RFC\CoreBundle\RFCCoreBundle;
  * Championship controller.
  */
 class ChampionshipController extends Controller {
+	
 	public function indexAction($gameId) {
 		$em = $this->getDoctrine ()->getManager ();
-        
-        $date = new \DateTime ();
-        $date->setTimezone(new \DateTimeZone ('Europe/Paris'));
+		
+		$date = new \DateTime ();
+		$date->setTimezone ( new \DateTimeZone ( 'Europe/Paris' ) );
 		
 		$currentChampionships = $em->getRepository ( 'RFCCoreBundle:Championship' )->createQueryBuilder ( 'c' )->join ( 'c.listEvents', 'e' )->join ( 'e.listSessions', 's' )->where ( 's.endDate > :sysdate' )->andWhere ( 'c.game = :gameId' )->setParameters ( array (
 				'sysdate' => $date,
@@ -159,7 +160,7 @@ class ChampionshipController extends Controller {
 		}
 		
 		return $this->render ( 'RFCCoreBundle:Championship:globalResults.html.twig', array (
-				'results' => $results
+				'results' => $results 
 		) );
 	}
 	
