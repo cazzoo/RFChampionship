@@ -35,12 +35,10 @@ class GameType extends AbstractType
         $builder->add('name')
             ->add('shortName')
             ->add('description', 'textarea', array(
-            'required' => false
-        ))
-            ->add('commentsActive', 'checkbox', array(
-            'required' => false
-        ))
-            ->add('listImages', 'collection', array(
+				'required' => false 
+		) )->add ( 'commentsActive', 'checkbox', array (
+				'required' => false 
+		) )->add ( 'listImages', 'collection', array(
             'type' => new ImageType(),
             'allow_add' => true,
             'allow_delete' => true,

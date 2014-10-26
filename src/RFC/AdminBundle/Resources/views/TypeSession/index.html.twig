@@ -31,6 +31,7 @@
     				<th>Name</th>
     				<th>Description</th>
     				<th>Used for results</th>
+    				<th>Images</th>
     			</tr>
     		</thead>
     		<tbody class="table-striped">
@@ -41,6 +42,13 @@
 	    			</td>
                     <td>{{ typeSession.description }}</td>
                     <td>{{ typeSession.usedForResults }}</td>
+		    		<td>
+		    			{% if typeSession.listImages|length > 0 %}
+		    				<a class="ym-button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'typeSession', 'elementId' : typeSession.id}) }}">show ({{ typeSession.listImages|length }})</a>
+		    			{% else %}
+		    				-
+		    			{% endif %}
+		    		</td>
 	    		</tr>
 	    		{% endfor %}
     		</tbody>

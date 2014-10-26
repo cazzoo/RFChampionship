@@ -18,7 +18,25 @@
 - {{ parent() }} {% endblock %} {% block rfccore_body %}
 <h1>Vehicle creation</h1>
 
-{{ form(form) }}
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.commentsActive) }}
+    
+    <h3>Images</h3>
+    <ul class="images" data-prototype="{{ form_widget(form.listImages.vars.prototype)|e }}">
+        {# itère sur chaque image existantz et affiche ses champs #}
+        {% for image in form.listImages %}
+            <li>{{ form_row(image.name) }}
+            {{ form_row(image.description) }}
+            {{ form_row(image.url) }}
+            {{ form_row(image.alt) }}</li>
+        {% endfor %}
+    </ul>
+
+{{ form_end(form) }}
 
 <ul class="record_actions">
 	<li><a href="{{ path('admin_vehicle', {'gameId' : gameId}) }}"> Back to

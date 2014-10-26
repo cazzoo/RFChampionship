@@ -7,6 +7,10 @@ rfcCore_gameSelection:
     defaults: { _controller: "RFCCoreBundle:Core:accessGame" } 
     requirements:
         gameId: \d*
+    
+rfcCore_showGallery:
+    path:   /showGallery/{elementType}_{elementId}
+    defaults: { _controller: "RFCCoreBundle:Core:showGallery" }
 
 rfcCore_calendar:
     path:   /{gameId}/Calendar

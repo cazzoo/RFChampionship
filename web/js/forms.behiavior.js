@@ -590,6 +590,16 @@ $(function() {
 	});
 
 	// --------------------------------------------
+	// ----------------- image Slider
+	// --------------------------------------------
+	$(".gallery").fancybox({
+		fitToView	: false,
+		width		: '90%',
+		autoSize	: false,
+		closeClick	: false
+	});
+
+	// --------------------------------------------
 	// ----------------- WYSIWYG editor
 	// --------------------------------------------
 	$("textarea").wysibb();
@@ -636,7 +646,7 @@ $(function() {
 	// --------------------------------------------
 	// ----------------- Clickable table row
 	// --------------------------------------------
-	$('tr').has('td').has('a').hover(function() {
+	/*$('tr').has('td').has('a').hover(function() {
 		$(this).css('cursor', 'pointer');
 	});
 	$('tr').has('td').has('a').click(function() {
@@ -644,5 +654,5 @@ $(function() {
 		if (href) {
 			window.location = href;
 		}
-	});
+	});*/
 })

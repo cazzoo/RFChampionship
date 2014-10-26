@@ -14,17 +14,24 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/CoreBundle/Resources/views/Core/gameIndex.html.twig #}
+{# src/RFC/CoreBundle/Resources/views/Structure/gallery.html.twig #}
 
 {% extends "RFCCoreBundle::layout.html.twig" %}
 
-{% block rfccore_body %}
+{% block body %}
 
-    <h2>Bienvenue sur {{ game.name }}</h2>
-    <p>
-    	{{ game.description }}
-    </p>
-    
-    {% include 'RFCCoreBundle:Structure:gallery.html.twig' with {'listImages': game.listImages} %}
+{% if listImages is not empty %}
+	<h4>Galerie</h4>
+	<div id="gameSlideshow" class="camera_wrap">
+		{% for image in listImages %}
+			<div data-src="{{ image.url }}">
+				<div class="camera_caption">
+					<strong>{{image.name}}</strong> <br />
+					{{ image.description }}
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endif %}
 
 {% endblock %}

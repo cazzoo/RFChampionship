@@ -30,6 +30,7 @@
     			<tr>
     				<th>Name</th>
     				<th>Description</th>
+    				<th>Images</th>
     			</tr>
     		</thead>
     		<tbody class="table-striped">
@@ -39,6 +40,13 @@
 	    				<a href="{{ path('admin_vehicle_edit', {'vehicleId' : vehicle.id, 'gameId' : gameId}) }}">{{ vehicle.name }}</a>
 	    			</td>
                     <td>{{ vehicle.description }}</td>
+		    		<td>
+		    			{% if vehicle.listImages|length > 0 %}
+		    				<a class="ym-button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'vehicle', 'elementId' : vehicle.id}) }}">show ({{ vehicle.listImages|length }})</a>
+		    			{% else %}
+		    				-
+		    			{% endif %}
+		    		</td>
 	    		</tr>
 	    		{% endfor %}
     		</tbody>
