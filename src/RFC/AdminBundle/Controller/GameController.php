@@ -58,7 +58,7 @@ class GameController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_game_show', array(
+            return $this->redirect($this->generateUrl('admin_game_manage', array(
                 'gameId' => $entity->getId()
             )));
         }
@@ -186,7 +186,7 @@ class GameController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
             
-            return $this->redirect($this->generateUrl('admin_game_show', array(
+            return $this->redirect($this->generateUrl('admin_game_manage', array(
                 'gameId' => $gameId
             )));
         }

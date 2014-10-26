@@ -14,25 +14,31 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% extends "RFCAdminBundle::layout.html.twig" %} {% block title %} Admin
-- {{ parent() }} {% endblock %} {% block rfccore_body %}
+{% extends "RFCAdminBundle::layout.html.twig" %}
+{% block title %}
+	Admin - {{ parent() }}
+{% endblock %}
+{% block rfccore_body %}
 
 <div class="panel panel-default">
     <div class="panel-heading">Informations for the game : {{ game.name }}</div>
+    <a class="ym-button edit"href="{{ path('admin_game_edit', { 'gameId': game.id }) }}">Edit</a>
     <div class="panel-body">
         <dl class="dl-horizontal">
           <dt>Number championships</dt>
-          <dd>xxx</dd>
+          <dd>{{ game.listChampionships|length }}</dd>
           <dt>Number vehicles</dt>
-          <dd>xxx</dd>
+          <dd>{{ game.listVehicles|length }}</dd>
           <dt>Number tracks</dt>
-          <dd>xxx</dd>
+          <dd>{{ game.listTracks|length }}</dd>
           <dt>Number categories</dt>
-          <dd>xxx</dd>
+          <dd>{{ game.listCategories|length }}</dd>
+          <dt>Number meta rules</dt>
+          <dd>{{ game.listMetaRules|length }}</dd>
           <dt>Number rules</dt>
-          <dd>xxx</dd>
+          <dd>{{ game.listRules|length }}</dd>
           <dt>Number session types</dt>
-          <dd>xxx</dd>
+          <dd>{{ game.listTypeSessions|length }}</dd>
         </dl>
     </div>
 </div>

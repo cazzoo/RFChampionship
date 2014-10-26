@@ -1,4 +1,14 @@
 // --------------------------------------------
+// ----------------- Variables
+// --------------------------------------------
+// Comportement pour les images dans les formulaires
+// Récupère le div qui contient la collection de tags
+var collectionHolder = $('ul.images');
+
+// ajoute un lien « add a tag »
+var $addImageLink = $('<a href="#" class="add_image_link">Ajouter une image</a>');
+var $newLinkLi = $('<li></li>').append($addImageLink);
+// --------------------------------------------
 // ----------------- Functions
 // --------------------------------------------
 function toggleRules(p_time) {
@@ -46,22 +56,24 @@ function getChampionshipResults(championshipId) {
 	}).done(function(data) {
 		addNotification('Championship results updated', 'success');
 		$('#globalResults').html(data);
-	}).fail(function(jqXHR, textStatus, errorThrown) {
-		addNotification('Error while updating championship\'s results', 'error');
-	});
+	}).fail(
+			function(jqXHR, textStatus, errorThrown) {
+				addNotification('Error while updating championship\'s results',
+						'error');
+			});
 	return false;
 }
 
-/* 
-* Returns the results for the current championship (fetched by the URL)
-*/
+/*
+ * Returns the results for the current championship (fetched by the URL)
+ */
 function getCurrentChampionshipResults() {
-        var regexp = /Championship_\d*/;
-        var match;
-        if(regexp.test($(location).attr('href'))) {
-            match = regexp.exec($(location).attr('href'));
-            getChampionshipResults(match[0].split("_")[1]);
-        }
+	var regexp = /Championship_\d*/;
+	var match;
+	if (regexp.test($(location).attr('href'))) {
+		match = regexp.exec($(location).attr('href'));
+		getChampionshipResults(match[0].split("_")[1]);
+	}
 }
 
 function crewApplyRequest(data) {
@@ -166,10 +178,10 @@ function loadSessionData(data) {
 	}).done(function(data) {
 		addNotification('Session loaded', 'success');
 		$('#session').html(data);
-        $('form#setResults').bind('submit', function() {
-            handleSessionResults($(this));
-            return false;
-        });
+		$('form#setResults').bind('submit', function() {
+			handleSessionResults($(this));
+			return false;
+		});
 	}).fail(function(jqXHR, textStatus, errorThrown) {
 		$('#session').html("Aucune session n'a pu être chargée");
 		addNotification('Error while loading session', 'error');
@@ -197,16 +209,16 @@ function setSessionResults(data) {
 }
 
 function handleSessionResults(form) {
-    var list = new Array();
-        form.find('select').each(function() {
-            list.push($(this).val());
-        });
-        
-		var data = {
-			sessionId : form.find('#sessionId').val(),
-			results : list
-		};
-		setSessionResults(data);
+	var list = new Array();
+	form.find('select').each(function() {
+		list.push($(this).val());
+	});
+
+	var data = {
+		sessionId : form.find('#sessionId').val(),
+		results : list
+	};
+	setSessionResults(data);
 }
 
 function arrayObjectIndexOf(myArray, searchTerm, property) {
@@ -320,6 +332,43 @@ function removeNotification(id) {
 					":visible")) {
 		$("#notificationCenter").find("#messages").parent().slideToggle();
 	}
+}
+
+function addImageFormDeleteLink($imageFormLi) {
+	var $removeFormA = $('<a href="#">Supprimer cette image</a>');
+	$imageFormLi.append($removeFormA);
+
+	$removeFormA.on('click', function(e) {
+		// empêche le lien de créer un « # » dans l'URL
+		e.preventDefault();
+
+		// supprime l'élément li pour le formulaire de
+		// tag
+		$imageFormLi.remove();
+	});
+}
+
+function addImageForm(collectionHolder, $newLinkLi) {
+	// Récupère l'élément ayant l'attribut
+	// data-prototype comme expliqué
+	// plus tôt
+	var prototype = collectionHolder.attr('data-prototype');
+
+	// Remplace '__name__' dans le HTML du prototype par
+	// un nombre basé sur
+	// la longueur de la collection courante
+	var newForm = prototype.replace(/__name__/g,
+			collectionHolder.children().length);
+
+	// Affiche le formulaire dans la page dans un li,
+	// avant le lien "ajouter
+	// une image"
+	var $newFormLi = $('<li></li>').append(newForm);
+	$newLinkLi.before($newFormLi);
+
+	// ajoute un lien de suppression au nouveau
+	// formulaire
+	addImageFormDeleteLink($newFormLi);
 }
 
 $(function() {
@@ -494,75 +543,25 @@ $(function() {
 	// ----------------- Image collection behiavior
 	// --------------------------------------------
 
-	// Comportement pour les images dans les formulaires
-	// Récupère le div qui contient la collection de tags
-	var collectionHolder = $('ul.images');
+	// ajoute un lien de suppression à tous les éléments li
+	// de
+	// formulaires de tag existants
+	collectionHolder.find('li').each(function() {
+		addImageFormDeleteLink($(this));
+	});
 
-	// ajoute un lien « add a tag »
-	var $addImageLink = $('<a href="#" class="add_image_link">Ajouter une image</a>');
-	var $newLinkLi = $('<li></li>').append($addImageLink);
+	// ajoute l'ancre « ajouter un tag » et li à la balise
+	// ul
+	collectionHolder.append($newLinkLi);
 
-	jQuery(document)
-			.ready(
-					function() {
-						// ajoute un lien de suppression à tous les éléments li
-						// de
-						// formulaires de tag existants
-						collectionHolder.find('li').each(function() {
-							addImageFormDeleteLink($(this));
-						});
+	$addImageLink.on('click', function(e) {
+		// empêche le lien de créer un « # » dans l'URL
+		e.preventDefault();
 
-						// ajoute l'ancre « ajouter un tag » et li à la balise
-						// ul
-						collectionHolder.append($newLinkLi);
-
-						$addImageLink.on('click', function(e) {
-							// empêche le lien de créer un « # » dans l'URL
-							e.preventDefault();
-
-							// ajoute un nouveau formulaire tag (voir le
-							// prochain bloc de code)
-							addImageForm(collectionHolder, $newLinkLi);
-						});
-
-						function addImageForm(collectionHolder, $newLinkLi) {
-							// Récupère l'élément ayant l'attribut
-							// data-prototype comme expliqué
-							// plus tôt
-							var prototype = collectionHolder
-									.attr('data-prototype');
-
-							// Remplace '__name__' dans le HTML du prototype par
-							// un nombre basé sur
-							// la longueur de la collection courante
-							var newForm = prototype.replace(/__name__/g,
-									collectionHolder.children().length);
-
-							// Affiche le formulaire dans la page dans un li,
-							// avant le lien "ajouter
-							// une image"
-							var $newFormLi = $('<li></li>').append(newForm);
-							$newLinkLi.before($newFormLi);
-
-							// ajoute un lien de suppression au nouveau
-							// formulaire
-							addImageFormDeleteLink($newFormLi);
-						}
-
-						function addImageFormDeleteLink($imageFormLi) {
-							var $removeFormA = $('<a href="#">Supprimer cette image</a>');
-							$imageFormLi.append($removeFormA);
-
-							$removeFormA.on('click', function(e) {
-								// empêche le lien de créer un « # » dans l'URL
-								e.preventDefault();
-
-								// supprime l'élément li pour le formulaire de
-								// tag
-								$imageFormLi.remove();
-							});
-						}
-					});
+		// ajoute un nouveau formulaire tag (voir le
+		// prochain bloc de code)
+		addImageForm(collectionHolder, $newLinkLi);
+	});
 
 	// --------------------------------------------
 	// ----------------- Breadcrumbs
@@ -585,11 +584,9 @@ $(function() {
 	// ----------------- image Slider
 	// --------------------------------------------
 	$("#gameSlideshow").camera({
-		loader : 'bar',
 		fx : 'scrollLeft',
 		transPeriod : 750,
-		height : '350px',
-		playPause : true
+		height : '350px'
 	});
 
 	// --------------------------------------------
@@ -614,8 +611,8 @@ $(function() {
 	// --------------------------------------------
 	// Screen Championship show
 	// --------------------------------------------
-    // Get championship results on load
-    getCurrentChampionshipResults();
+	// Get championship results on load
+	getCurrentChampionshipResults();
 	// Selecting event
 	$(".eventItem:first").trigger("click");
 

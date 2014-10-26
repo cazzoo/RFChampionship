@@ -22,7 +22,7 @@
     <div class="panel-body">
         <dl class="dl-horizontal">
           <dt>Number games</dt>
-          <dd>xxx</dd>
+          <dd>{{ games|length }}</dd>
         </dl>
     </div>
 </div>
@@ -41,10 +41,6 @@ Games &nbsp;
                 {% endif %}
                 <span class="label label-default">{{ game.name }}</span>
             </a>
-            <br />
-            <a href="{{ path('admin_game_show', { 'gameId': game.id }) }}"><span class="label label-default">show</span></a>
-            <br />
-            <a href="{{ path('admin_game_edit', { 'gameId': game.id }) }}"><span class="label label-default">edit</span></a>
         </div>
     </li>
     {% else %}

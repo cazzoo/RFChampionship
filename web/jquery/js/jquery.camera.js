@@ -3,6 +3,10 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 ;(function($){$.fn.camera = function(opts, callback) {
 	
+	if(!$(this).length) { 
+		return false; 
+	}
+	
 	var defaults = {
 		alignment			: 'center', //topLeft, topCenter, topRight, centerLeft, center, centerRight, bottomLeft, bottomCenter, bottomRight
 		
@@ -153,69 +157,7 @@
 			)
 	}
 	
-	if(opts.playPause==true){
-		fakeHover.append(
-        '<div class="camera_commands"></div>'
-		)
-	}
-		
-	if(opts.navigation==true){
-		fakeHover.append(
-			'<div class="camera_prev"><span></span></div>'
-			).append(
-			'<div class="camera_next"><span></span></div>'
-			);
-	}
-		
-	if(opts.thumbnails==true){
-		wrap.append(
-			'<div class="camera_thumbs_cont" />'
-			);
-	}
-	
-	if(opts.thumbnails==true && opts.pagination!=true){
-		$('.camera_thumbs_cont',wrap).wrap(
-			'<div />'
-			).wrap(
-				'<div class="camera_thumbs" />'
-			).wrap(
-				'<div />'
-			).wrap(
-				'<div class="camera_command_wrap" />'
-			);
-	}
-		
-	if(opts.pagination==true){
-		wrap.append(
-			'<div class="camera_pag"></div>'
-			);
-	}
-		
-	wrap.append(
-		'<div class="camera_loader"></div>'
-		);
-		
-	$('.camera_caption',wrap).each(function(){
-		$(this).wrapInner('<div />');
-	});
-		
-                
-	var pieID = 'pie_'+wrap.index(),
-		elem = $('.camera_src',wrap),
-		target = $('.camera_target',wrap),
-		content = $('.camera_target_content',wrap),
-		pieContainer = $('.camera_pie',wrap),
-		barContainer = $('.camera_bar',wrap),
-		prevNav = $('.camera_prev',wrap),
-		nextNav = $('.camera_next',wrap),
-		commands = $('.camera_commands',wrap),
-		pagination = $('.camera_pag',wrap),
-		thumbs = $('.camera_thumbs_cont',wrap);	
-
-	
-	var w,
-		h;
-
+	var elem = $('.camera_src',wrap)
 
 	var allImg = new Array();
 	$('> div', elem).each( function() { 
@@ -269,6 +211,79 @@
 	});
 	
 	var amountSlide = allImg.length;
+		if (amountSlide <= 1) {
+			opts.autoAdvance = false;
+			opts.mobileAutoAdvance = false;
+			opts.navigation = false;
+			opts.navigationHover = true;
+			opts.mobileNavHover = true;
+			opts.pagination = false;
+			opts.playPause = false;
+			opts.thumbnails = false;
+		}
+		if(opts.playPause==true){
+			fakeHover.append(
+	        '<div class="camera_commands"></div>'
+			)
+		}
+			
+		if(opts.navigation==true){
+			fakeHover.append(
+				'<div class="camera_prev"><span></span></div>'
+				).append(
+				'<div class="camera_next"><span></span></div>'
+				);
+		}
+			
+		if(opts.thumbnails==true){
+			wrap.append(
+				'<div class="camera_thumbs_cont" />'
+				);
+		}
+		
+		if(opts.thumbnails==true && opts.pagination!=true){
+			$('.camera_thumbs_cont',wrap).wrap(
+				'<div />'
+				).wrap(
+					'<div class="camera_thumbs" />'
+				).wrap(
+					'<div />'
+				).wrap(
+					'<div class="camera_command_wrap" />'
+				);
+		}
+			
+		if(opts.pagination==true){
+			wrap.append(
+				'<div class="camera_pag"></div>'
+				);
+		}
+			
+		wrap.append(
+			'<div class="camera_loader"></div>'
+			);
+			
+		$('.camera_caption',wrap).each(function(){
+			$(this).wrapInner('<div />');
+		});
+			
+	                
+		var pieID = 'pie_'+wrap.index(),
+			elem = $('.camera_src',wrap),
+			target = $('.camera_target',wrap),
+			content = $('.camera_target_content',wrap),
+			pieContainer = $('.camera_pie',wrap),
+			barContainer = $('.camera_bar',wrap),
+			prevNav = $('.camera_prev',wrap),
+			nextNav = $('.camera_next',wrap),
+			commands = $('.camera_commands',wrap),
+			pagination = $('.camera_pag',wrap),
+			thumbs = $('.camera_thumbs_cont',wrap);	
+
+		
+		var w,
+			h;
+		
 
 	$(content).append('<div class="cameraContents" />');
 	var loopMove;

@@ -14,14 +14,10 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% extends "RFCAdminBundle::layout.html.twig" %} 
-{% block javascripts %}
-    {{ parent() }}
-    {% javascripts 'RFCAdminJS' %}
-        <script src="{{asset('js/forms.behiavior.js') }}"></script>
-    {% endjavascripts %}
-{% endblock %}
-{% block title %} Admin - {{ parent() }} {% endblock %} 
+{% extends "RFCAdminBundle::layout.html.twig" %}
+{% block title %}
+	Admin - {{ parent() }}
+{% endblock %} 
 {% block rfccore_body %}
 <h1>Game creation</h1>
 
