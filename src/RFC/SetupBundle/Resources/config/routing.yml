@@ -1,0 +1,3 @@
+rfcSetup_index:
+    path:   /
+    defaults: { _controller: "RFCSetupBundle:Setup:index" }

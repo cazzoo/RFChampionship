@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+        	new Lexik\Bundle\WorkflowBundle\LexikWorkflowBundle(),
         		
         	new FOS\RestBundle\FOSRestBundle(),
         	new FOS\CommentBundle\FOSCommentBundle(),
@@ -31,6 +32,7 @@ class AppKernel extends Kernel
             new RFC\CoreBundle\RFCCoreBundle(),
             new RFC\UserBundle\RFCUserBundle(),
             new RFC\AdminBundle\RFCAdminBundle(),
+            new RFC\SetupBundle\RFCSetupBundle(),
         );
         
         if (in_array($this->getEnvironment(), array(
