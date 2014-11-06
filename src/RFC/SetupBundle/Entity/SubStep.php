@@ -20,6 +20,7 @@ namespace RFC\SetupBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use RFC\CoreBundle\Entity\DescriptorTrait;
 
 /**
  * Game
@@ -27,7 +28,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\GameRepository")
  */
-class SetupStep {
+class SubStep {
+	use DescriptorTrait;
 	
 	/**
 	 * @ORM\Column(name="id", type="integer")
@@ -37,19 +39,30 @@ class SetupStep {
 	private $id;
 	
 	/**
-	 * @ORM\OneToOne(targetEntity="RFC\SetupBundle\Entity\Setup")
-	 */
-	private $setup;
-	
-	/**
-	 * @ORM\OneToOne(targetEntity="RFC\SetupBundle\Entity\Step")
+	 * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\Step", inversedBy="listSubSteps")
+     * @ORM\JoinColumn(nullable=false)
 	 */
 	private $step;
 	
 	/**
-	 * @ORM\Column(name="version", type="integer")
+	 * @ORM\Column(name="action", type="string", length=255)
 	 */
-	private $version;
+	private $action;
+	
+	/**
+	 * @ORM\Column(name="condition", type="text")
+	 */
+	private $condition;
+	
+	/**
+	 * @ORM\Column(name="toDoText", type="text")
+	 */
+	private $toDoText;
+	
+	/**
+	 * @ORM\Column(name="optimalAction", type="boolean")
+	 */
+	private $optimalAction;
 	
 	/**
 	 * @Gedmo\Timestampable(on="create")
@@ -64,19 +77,22 @@ class SetupStep {
 	private $updatedAt;
 	
 	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		$this->listSetupSteps = new \Doctrine\Common\Collections\ArrayCollection ();
+	}
+	public function __toString() {
+		return $this->name;
+	}
+	
+	/**
 	 * Get id
 	 *
 	 * @return integer
 	 */
 	public function getId() {
 		return $this->id;
-	}
-	public function getSetup() {
-		return $this->setup;
-	}
-	public function setSetup($setup) {
-		$this->setup = $setup;
-		return $this;
 	}
 	public function getStep() {
 		return $this->step;
@@ -85,14 +101,64 @@ class SetupStep {
 		$this->step = $step;
 		return $this;
 	}
-	public function getVersion() {
-		return $this->version;
+	public function getAction() {
+		return $this->action;
 	}
-	public function setVersion($version) {
-		$this->version = $version;
+	public function setAction($action) {
+		$this->action = $action;
+		return $this;
+	}
+	public function getCondition() {
+		return $this->condition;
+	}
+	public function setCondition($condition) {
+		$this->condition = $condition;
+		return $this;
+	}
+	public function getToDoText() {
+		return $this->toDoText;
+	}
+	public function setToDoText($toDoText) {
+		$this->toDoText = $toDoText;
+		return $this;
+	}
+	public function getOptimalAction() {
+		return $this->optimalAction;
+	}
+	public function setOptimalAction($optimalAction) {
+		$this->optimalAction = $optimalAction;
 		return $this;
 	}
 	
+		
+	public function getListImages() {
+		return $this->listImages;
+	}
+	public function setListImages($listImages) {
+		$this->listImages = $listImages;
+		return $this;
+	}
+	
+	/**
+	 * Add listImages
+	 *
+	 * @param \RFC\CoreBundle\Entity\Image $listImages        	
+	 * @return Image
+	 */
+	public function addListImage(\RFC\CoreBundle\Entity\Image $listImages) {
+		$this->listImages [] = $listImages;
+		
+		return $this;
+	}
+	
+	/**
+	 * Remove listImages
+	 *
+	 * @param \RFC\CoreBundle\Entity\Image $listImages        	
+	 */
+	public function removeListImage(\RFC\CoreBundle\Entity\Image $listImages) {
+		$this->listImages->removeElement ( $listImages );
+	}
 	
 	/**
 	 * Set createdAt

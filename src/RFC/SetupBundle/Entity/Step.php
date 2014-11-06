@@ -39,12 +39,6 @@ class Step {
 	private $id;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\Setup", inversedBy="listSetupSteps")
-     * @ORM\JoinColumn(nullable=false)
-	 */
-	private $setup;
-	
-	/**
 	 * @ORM\OneToMany(targetEntity="RFC\SetupBundle\Entity\SubStep", mappedBy="step")
 	 */
 	private $listSubSteps;
@@ -53,6 +47,11 @@ class Step {
 	 * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
 	 */
 	private $game;
+
+	/**
+	 * @ORM\Column(name="category", type="string", length=100)
+	 */
+	private $category;
 	
 	/**
 	 * @ORM\Column(name="indicatorType", type="string", length=255)
@@ -60,19 +59,9 @@ class Step {
 	private $indicatorType;
 	
 	/**
-	 * @ORM\Column(name="value", type="text")
-	 */
-	private $value;
-	
-	/**
 	 * @ORM\Column(name="tip", type="text")
 	 */
 	private $tip;
-	
-	/**
-	 * @ORM\Column(name="category", type="text")
-	 */
-	private $category;
 	
 	/**
 	 * @ORM\Column(name="complexity", type="integer")
@@ -109,13 +98,6 @@ class Step {
 	public function getId() {
 		return $this->id;
 	}
-	public function getSetup() {
-		return $this->setup;
-	}
-	public function setSetup($setup) {
-		$this->setup = $setup;
-		return $this;
-	}
 	public function getListSubSteps() {
 		return $this->listSubSteps;
 	}
@@ -135,13 +117,6 @@ class Step {
 	}
 	public function setIndicatorType($indicatorType) {
 		$this->indicatorType = $indicatorType;
-		return $this;
-	}
-	public function getValue() {
-		return $this->value;
-	}
-	public function setValue($value) {
-		$this->value = $value;
 		return $this;
 	}
 	public function getTip() {

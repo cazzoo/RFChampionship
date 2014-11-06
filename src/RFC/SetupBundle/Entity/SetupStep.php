@@ -20,7 +20,6 @@ namespace RFC\SetupBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use RFC\CoreBundle\Entity\DescriptorTrait;
 
 /**
  * Game
@@ -28,8 +27,7 @@ use RFC\CoreBundle\Entity\DescriptorTrait;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\GameRepository")
  */
-class SubStep {
-	use DescriptorTrait;
+class SetupStep {
 	
 	/**
 	 * @ORM\Column(name="id", type="integer")
@@ -39,30 +37,24 @@ class SubStep {
 	private $id;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\Step", inversedBy="listSubSteps")
-     * @ORM\JoinColumn(nullable=false)
+	 * @ORM\OneToOne(targetEntity="RFC\SetupBundle\Entity\Setup")
+	 */
+	private $setup;
+	
+	/**
+	 * @ORM\OneToOne(targetEntity="RFC\SetupBundle\Entity\Step")
 	 */
 	private $step;
 	
 	/**
-	 * @ORM\Column(name="action", type="string", length=255)
+	 * @ORM\Column(name="value", type="text")
 	 */
-	private $action;
+	private $value;
 	
 	/**
-	 * @ORM\Column(name="condition", type="text")
+	 * @ORM\Column(name="version", type="integer")
 	 */
-	private $condition;
-	
-	/**
-	 * @ORM\Column(name="toDoText", type="text")
-	 */
-	private $toDoText;
-	
-	/**
-	 * @ORM\Column(name="optimalAction", type="boolean")
-	 */
-	private $optimalAction;
+	private $version;
 	
 	/**
 	 * @Gedmo\Timestampable(on="create")
@@ -77,22 +69,19 @@ class SubStep {
 	private $updatedAt;
 	
 	/**
-	 * Constructor
-	 */
-	public function __construct() {
-		$this->listSetupSteps = new \Doctrine\Common\Collections\ArrayCollection ();
-	}
-	public function __toString() {
-		return $this->name;
-	}
-	
-	/**
 	 * Get id
 	 *
 	 * @return integer
 	 */
 	public function getId() {
 		return $this->id;
+	}
+	public function getSetup() {
+		return $this->setup;
+	}
+	public function setSetup($setup) {
+		$this->setup = $setup;
+		return $this;
 	}
 	public function getStep() {
 		return $this->step;
@@ -101,64 +90,21 @@ class SubStep {
 		$this->step = $step;
 		return $this;
 	}
-	public function getAction() {
-		return $this->action;
+	public function getValue() {
+		return $this->value;
 	}
-	public function setAction($action) {
-		$this->action = $action;
+	public function setValue($value) {
+		$this->value = $value;
 		return $this;
 	}
-	public function getCondition() {
-		return $this->condition;
+	public function getVersion() {
+		return $this->version;
 	}
-	public function setCondition($condition) {
-		$this->condition = $condition;
-		return $this;
-	}
-	public function getToDoText() {
-		return $this->toDoText;
-	}
-	public function setToDoText($toDoText) {
-		$this->toDoText = $toDoText;
-		return $this;
-	}
-	public function getOptimalAction() {
-		return $this->optimalAction;
-	}
-	public function setOptimalAction($optimalAction) {
-		$this->optimalAction = $optimalAction;
+	public function setVersion($version) {
+		$this->version = $version;
 		return $this;
 	}
 	
-		
-	public function getListImages() {
-		return $this->listImages;
-	}
-	public function setListImages($listImages) {
-		$this->listImages = $listImages;
-		return $this;
-	}
-	
-	/**
-	 * Add listImages
-	 *
-	 * @param \RFC\CoreBundle\Entity\Image $listImages        	
-	 * @return Image
-	 */
-	public function addListImage(\RFC\CoreBundle\Entity\Image $listImages) {
-		$this->listImages [] = $listImages;
-		
-		return $this;
-	}
-	
-	/**
-	 * Remove listImages
-	 *
-	 * @param \RFC\CoreBundle\Entity\Image $listImages        	
-	 */
-	public function removeListImage(\RFC\CoreBundle\Entity\Image $listImages) {
-		$this->listImages->removeElement ( $listImages );
-	}
 	
 	/**
 	 * Set createdAt

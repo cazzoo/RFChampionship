@@ -1,3 +1,7 @@
 rfcSetup_index:
-    path:   /
+    path:   /Setup
     defaults: { _controller: "RFCSetupBundle:Setup:index" }
+    
+setup_step_create:
+    path:    /Setup/Step/create
+    defaults: { _controller: "RFCSetupBundle:Step:create" }
