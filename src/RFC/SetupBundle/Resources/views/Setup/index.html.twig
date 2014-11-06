@@ -51,9 +51,14 @@
         {% for step in steps %}
         <li class="float-left">
             <div class="center">
-                <a href="{{ path('rfcCore_gameSelection', {'gameId': step.id}) }}">
-                    <span class="label label-default">{{ step.name }}</span>
-                </a>
+            	<a href="{{ path('setup_step_edit', { 'stepId': step.id, 'gameId' : gameId }) }}">{{ step.id }}</a><br />
+            	{{ step.name }}<br />
+            	{{ step.description }}<br />
+            	{{ step.tip }}<br />
+            	{{ step.category }}<br />
+            	{{ step.complexity }}<br />
+            	{{ step.indicatorType }}<br />
+            	{{ step.commentsActive }}
             </div>
         </li>
         {% endfor %}

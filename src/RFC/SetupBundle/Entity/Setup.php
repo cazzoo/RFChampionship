@@ -39,7 +39,7 @@ class Setup {
 	private $id;
 	
 	/**
-	 * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Championship", mappedBy="setup")
+	 * @ORM\OneToMany(targetEntity="RFC\SetupBundle\Entity\SetupStep", mappedBy="setup")
 	 */
 	private $listSetupSteps;
 	

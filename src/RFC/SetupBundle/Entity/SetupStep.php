@@ -37,7 +37,7 @@ class SetupStep {
 	private $id;
 	
 	/**
-	 * @ORM\OneToOne(targetEntity="RFC\SetupBundle\Entity\Setup")
+	 * @ORM\OneToOne(targetEntity="RFC\SetupBundle\Entity\Setup", inversedBy="listSetupSteps")
 	 */
 	private $setup;
 	
@@ -104,7 +104,6 @@ class SetupStep {
 		$this->version = $version;
 		return $this;
 	}
-	
 	
 	/**
 	 * Set createdAt

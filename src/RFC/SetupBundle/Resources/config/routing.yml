@@ -1,7 +1,6 @@
 rfcSetup_index:
-    path:   /Setup
+    path:   /{gameId}/Setup
     defaults: { _controller: "RFCSetupBundle:Setup:index" }
-    
-setup_step_create:
-    path:    /Setup/Step/create
-    defaults: { _controller: "RFCSetupBundle:Step:create" }
+rfcSetup_step:
+    resource: "@RFCSetupBundle/Resources/config/routing/step.yml"
+    prefix:   /{gameId}/Setup/Step

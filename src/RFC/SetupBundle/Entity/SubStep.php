@@ -40,7 +40,7 @@ class SubStep {
 	
 	/**
 	 * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\Step", inversedBy="listSubSteps")
-     * @ORM\JoinColumn(nullable=false)
+	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $step;
 	
@@ -129,8 +129,6 @@ class SubStep {
 		$this->optimalAction = $optimalAction;
 		return $this;
 	}
-	
-		
 	public function getListImages() {
 		return $this->listImages;
 	}

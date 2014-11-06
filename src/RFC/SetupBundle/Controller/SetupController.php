@@ -18,7 +18,6 @@
  */
 
 // src/RFC/SetupBundle/Controller/SetupController.php
-
 namespace RFC\SetupBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -26,20 +25,17 @@ use Symfony\Component\HttpFoundation\Response;
 use RFC\SetupBundle\Entity\Setup;
 use RFC\SetupBundle\Entity\Step;
 
-class SetupController extends Controller
-{
-
-    public function indexAction()
-    {
-        $em = $this->getDoctrine ()->getManager ();
-
-        $setups = $em->getRepository ( 'RFCSetupBundle:Setup' )->findAll ();
-        $steps  = $em->getRepository ( 'RFCSetupBundle:Step' )->findAll ();
-
-        return $this->render ( 'RFCSetupBundle:Setup:index.html.twig',
-                array(
-                'setups' => $setups,
-                'steps' => $steps
-            ) );
-    }
+class SetupController extends Controller {
+	public function indexAction($gameId) {
+		$em = $this->getDoctrine ()->getManager ();
+		
+		$setups = $em->getRepository ( 'RFCSetupBundle:Setup' )->findAll ();
+		$steps = $em->getRepository ( 'RFCSetupBundle:Step' )->findAll ();
+		
+		return $this->render ( 'RFCSetupBundle:Setup:index.html.twig', array (
+				'gameId' => $gameId,
+				'setups' => $setups,
+				'steps' => $steps 
+		) );
+	}
 }
