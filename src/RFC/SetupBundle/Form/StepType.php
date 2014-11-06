@@ -37,8 +37,11 @@ class StepType extends AbstractType
             ->add ( 'indicatorType', 'choice',
                 array('choices' => array('telemetry' => 'Telemetry', 'visual' => 'Visual',
                     'behiavior' => 'Behiavior'), 'required' => true) )
-            ->add ( 'tip' )
-            ->add ( 'category' )
+            ->add ( 'tip', 'textarea',
+                array(
+                'required' => false
+            ) )
+            ->add ( 'category', 'text' )
             ->add ( 'complexity', 'integer' )
             ->add ( 'description', 'textarea',
                 array(

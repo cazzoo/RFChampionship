@@ -45,4 +45,22 @@
     No setups available
 {% endif %}
 
+{% if steps %}
+
+    <ul class="list-inline">
+        {% for step in steps %}
+        <li class="float-left">
+            <div class="center">
+                <a href="{{ path('rfcCore_gameSelection', {'gameId': step.id}) }}">
+                    <span class="label label-default">{{ step.name }}</span>
+                </a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+{% else %}
+    No step available
+{% endif %}
+
 {% endblock %}
