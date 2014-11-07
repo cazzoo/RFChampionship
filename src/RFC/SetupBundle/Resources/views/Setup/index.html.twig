@@ -47,19 +47,32 @@
 
 {% if steps %}
 
-    <ul class="list-inline">
+    <ul>
         {% for step in steps %}
-        <li class="float-left">
-            <div class="center">
-            	<a href="{{ path('setup_step_edit', { 'stepId': step.id, 'gameId' : gameId }) }}">{{ step.id }}</a><br />
-            	{{ step.name }}<br />
-            	{{ step.description }}<br />
-            	{{ step.tip }}<br />
-            	{{ step.category }}<br />
-            	{{ step.complexity }}<br />
-            	{{ step.indicatorType }}<br />
-            	{{ step.commentsActive }}
-            </div>
+        <li>
+            <a href="{{ path('setup_step_edit', { 'stepId': step.id, 'gameId' : gameId }) }}">{{ step.id }}</a><br />
+            {{ step.name }}<br />
+            {{ step.description }}<br />
+            {{ step.tip }}<br />
+            {{ step.category }}<br />
+            {{ step.complexity }}<br />
+            {{ step.indicatorType }}<br />
+            {{ step.commentsActive }}<br />
+            {% if step.listSubSteps %}
+                <ul>
+                {% for substep in step.listSubSteps %}
+                    <li>
+                        <a href="{{ path('setup_subStep_edit', { 'subStepId': substep.id, 'stepId': step.id, 'gameId' : gameId }) }}">{{ substep.id }}</a><br />
+                        {{ substep.name }}<br />
+                        {{ substep.description }}<br />
+                        {{ substep.action }}<br />
+                        {{ substep.stepCondition }}<br />
+                        {{ substep.toDoText }}<br />
+                        {{ substep.optimalAction ? substep.optimalAction : '0' }}<br />
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
         </li>
         {% endfor %}
     </ul>

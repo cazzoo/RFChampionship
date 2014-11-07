@@ -4,3 +4,6 @@ rfcSetup_index:
 rfcSetup_step:
     resource: "@RFCSetupBundle/Resources/config/routing/step.yml"
     prefix:   /{gameId}/Setup/Step
+rfcSetup_subStep:
+    resource: "@RFCSetupBundle/Resources/config/routing/subStep.yml"
+    prefix:   /{gameId}/Setup/Step/{stepId}/SubStep

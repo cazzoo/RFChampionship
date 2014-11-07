@@ -50,9 +50,9 @@ class SubStep {
 	private $action;
 	
 	/**
-	 * @ORM\Column(name="condition", type="text")
+	 * @ORM\Column(name="stepCondition", type="text")
 	 */
-	private $condition;
+	private $stepCondition;
 	
 	/**
 	 * @ORM\Column(name="toDoText", type="text")
@@ -108,11 +108,11 @@ class SubStep {
 		$this->action = $action;
 		return $this;
 	}
-	public function getCondition() {
-		return $this->condition;
+	public function getStepCondition() {
+		return $this->stepCondition;
 	}
-	public function setCondition($condition) {
-		$this->condition = $condition;
+	public function setStepCondition($stepCondition) {
+		$this->stepCondition = $stepCondition;
 		return $this;
 	}
 	public function getToDoText() {
