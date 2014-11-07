@@ -50,12 +50,12 @@ class SubStep {
 	private $action;
 	
 	/**
-	 * @ORM\Column(name="stepCondition", type="text")
+	 * @ORM\Column(name="stepCondition", type="text", nullable=true)
 	 */
 	private $stepCondition;
 	
 	/**
-	 * @ORM\Column(name="toDoText", type="text")
+	 * @ORM\Column(name="toDoText", type="text", nullable=true)
 	 */
 	private $toDoText;
 	

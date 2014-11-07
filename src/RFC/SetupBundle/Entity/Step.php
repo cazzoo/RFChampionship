@@ -39,12 +39,13 @@ class Step {
 	private $id;
 	
 	/**
-	 * @ORM\OneToMany(targetEntity="RFC\SetupBundle\Entity\SubStep", mappedBy="step")
+	 * @ORM\OneToMany(targetEntity="RFC\SetupBundle\Entity\SubStep", mappedBy="step", cascade={"remove"})
 	 */
 	private $listSubSteps;
 	
 	/**
 	 * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
+         * @ORM\joinColumn(onDelete="SET NULL")
 	 */
 	private $game;
 
@@ -59,7 +60,7 @@ class Step {
 	private $indicatorType;
 	
 	/**
-	 * @ORM\Column(name="tip", type="text")
+	 * @ORM\Column(name="tip", type="text", nullable=true)
 	 */
 	private $tip;
 	
