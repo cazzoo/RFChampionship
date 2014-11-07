@@ -37,12 +37,12 @@ class SetupStep {
 	private $id;
 	
 	/**
-	 * @ORM\OneToOne(targetEntity="RFC\SetupBundle\Entity\Setup", inversedBy="listSetupSteps")
+	 * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\Setup", inversedBy="listSetupSteps")
 	 */
 	private $setup;
 	
 	/**
-	 * @ORM\OneToOne(targetEntity="RFC\SetupBundle\Entity\Step")
+	 * @ORM\ManyToMany(targetEntity="RFC\SetupBundle\Entity\Step")
 	 */
 	private $step;
 	

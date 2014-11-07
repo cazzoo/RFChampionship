@@ -21,6 +21,7 @@ namespace RFC\SetupBundle\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\DescriptorTrait;
+use RFC\SetupBundle\Entity\SetupStep;
 
 /**
  * Game
@@ -39,7 +40,7 @@ class Setup {
 	private $id;
 	
 	/**
-	 * @ORM\OneToMany(targetEntity="RFC\SetupBundle\Entity\SetupStep", mappedBy="setup")
+	 * @ORM\OneToMany(targetEntity="RFC\SetupBundle\Entity\SetupStep", mappedBy="setup", cascade={"persist", "remove"})
 	 */
 	private $listSetupSteps;
 	
@@ -57,16 +58,6 @@ class Setup {
 	 * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Vehicle")
 	 */
 	private $vehicle;
-	
-	/**
-	 * @ORM\Column(name="state", type="string", length=255)
-	 */
-	private $state;
-	
-	/**
-	 * @ORM\Column(name="version", type="integer")
-	 */
-	private $version;
 	
 	/**
 	 * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image", cascade={"persist"})
@@ -110,6 +101,28 @@ class Setup {
 		$this->listSetupSteps = $listSetupSteps;
 		return $this;
 	}
+	
+	/**
+	 * Add listImages
+	 *
+	 * @param SetupStep $setupStep
+	 * @return Image
+	 */
+	public function addListSetupSteps(SetupStep $setupStep) {
+		$this->listSetupSteps [] = $setupStep;
+		
+		return $this;
+	}
+	
+	/**
+	 * Remove listImages
+	 *
+	 * @param SetupStep $setupStep
+	 */
+	public function removeListSetupSteps(SetupStep $setupStep) {
+		$this->listSetupSteps->removeElement ( $setupStep );
+	}
+
 	public function getUser() {
 		return $this->user;
 	}
@@ -129,20 +142,6 @@ class Setup {
 	}
 	public function setVehicle($vehicle) {
 		$this->vehicle = $vehicle;
-		return $this;
-	}
-	public function getState() {
-		return $this->state;
-	}
-	public function setState($state) {
-		$this->state = $state;
-		return $this;
-	}
-	public function getVersion() {
-		return $this->version;
-	}
-	public function setVersion($version) {
-		$this->version = $version;
 		return $this;
 	}
 	public function getListImages() {

@@ -29,13 +29,11 @@
         {% for setup in setups %}
         <li class="float-left">
             <div class="center">
-                <a href="{{ path('setup_edit', {'gameId': gameId, 'setupId': setup.id}) }}">
                     {% if setup.listImages is not empty %}
                     <img alt="{{ setup.listImages[0].name }}" src="{{ setup.listImages[0].url }}" class="img-rounded" width="200px" />
                     <br />
                     {% endif %}
-                    <span class="label label-default">{{ setup.name }} : {{ setup.vehicle.name }} {{ setup.track ? '@' ~ setup.track.name }}</span>
-                </a>
+                    <span class="label label-default">{{ setup.name }}</span>
             </div>
         </li>
         {% endfor %}
@@ -43,6 +41,42 @@
 
 {% else %}
     No setups available
+{% endif %}
+
+{% if steps %}
+
+    <ul>
+        {% for step in steps %}
+        <li>
+            {{ step.id }}<br />
+            {{ step.name }}<br />
+            {{ step.description }}<br />
+            {{ step.tip }}<br />
+            {{ step.category }}<br />
+            {{ step.complexity }}<br />
+            {{ step.indicatorType }}<br />
+            {{ step.commentsActive }}<br />
+            {% if step.listSubSteps %}
+                <ul>
+                {% for substep in step.listSubSteps %}
+                    <li>
+                        {{ substep.id }}<br />
+                        {{ substep.name }}<br />
+                        {{ substep.description }}<br />
+                        {{ substep.action }}<br />
+                        {{ substep.stepCondition }}<br />
+                        {{ substep.toDoText }}<br />
+                        {{ substep.optimalAction ? substep.optimalAction : '0' }}<br />
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+{% else %}
+    No step available
 {% endif %}
 
 {% endblock %}
