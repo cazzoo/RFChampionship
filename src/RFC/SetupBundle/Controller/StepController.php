@@ -146,28 +146,28 @@ class StepController extends Controller {
 				'gameId' => $gameId 
 		) ) );
 	}
-
+	
 	/**
 	 * Creates a form to create a Step entity.
 	 *
 	 * @param Step $entity
 	 *        	The entity
-	 *
+	 *        	
 	 * @return \Symfony\Component\Form\Form The form
 	 */
 	private function createCreateForm(Step $entity, $gameId) {
 		$form = $this->createForm ( new StepType (), $entity, array (
 				'em' => $this->getDoctrine ()->getManager (),
 				'action' => $this->generateUrl ( 'setup_step_create', array (
-						'gameId' => $gameId
+						'gameId' => $gameId 
 				) ),
-				'method' => 'POST'
+				'method' => 'POST' 
 		) );
-
+		
 		$form->add ( 'submit', 'submit', array (
-				'label' => 'Create'
+				'label' => 'Create' 
 		) );
-
+		
 		return $form;
 	}
 	
@@ -187,13 +187,13 @@ class StepController extends Controller {
 				'label' => 'Delete' 
 		) )->getForm ();
 	}
-
+	
 	/**
 	 * Creates a form to edit a Step entity.
 	 *
 	 * @param Step $entity
 	 *        	The entity
-	 *
+	 *        	
 	 * @return \Symfony\Component\Form\Form The form
 	 */
 	private function createEditForm(Step $entity, $gameId) {
@@ -201,15 +201,15 @@ class StepController extends Controller {
 				'em' => $this->getDoctrine ()->getManager (),
 				'action' => $this->generateUrl ( 'setup_step_update', array (
 						'stepId' => $entity->getId (),
-						'gameId' => $gameId
+						'gameId' => $gameId 
 				) ),
-				'method' => 'PUT'
+				'method' => 'PUT' 
 		) );
-
+		
 		$form->add ( 'submit', 'submit', array (
-				'label' => 'Update'
+				'label' => 'Update' 
 		) );
-
+		
 		return $form;
 	}
 }

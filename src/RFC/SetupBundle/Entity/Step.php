@@ -45,10 +45,10 @@ class Step {
 	
 	/**
 	 * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
-         * @ORM\joinColumn(onDelete="SET NULL")
+	 * @ORM\joinColumn(onDelete="SET NULL")
 	 */
 	private $game;
-
+	
 	/**
 	 * @ORM\Column(name="category", type="string", length=100)
 	 */

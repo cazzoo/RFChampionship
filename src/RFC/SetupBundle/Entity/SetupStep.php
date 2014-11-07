@@ -42,7 +42,7 @@ class SetupStep {
 	private $setup;
 	
 	/**
-	 * @ORM\ManyToMany(targetEntity="RFC\SetupBundle\Entity\Step")
+	 * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\Step")
 	 */
 	private $step;
 	

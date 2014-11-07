@@ -48,8 +48,8 @@ class SubStepController extends Controller {
 		return $this->render ( 'RFCSetupBundle:SubStep:new.html.twig', array (
 				'entity' => $entity,
 				'form' => $form->createView (),
-                                'stepId' => $stepId,
-				'gameId' => $gameId
+				'stepId' => $stepId,
+				'gameId' => $gameId 
 		) );
 	}
 	
@@ -60,13 +60,13 @@ class SubStepController extends Controller {
 		$entity = new SubStep ();
 		$em = $this->getDoctrine ()->getManager ();
 		$entityStep = $em->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
-		$entity->setStep( $entityStep );
+		$entity->setStep ( $entityStep );
 		$form = $this->createCreateForm ( $entity, $stepId, $gameId );
 		
 		return $this->render ( 'RFCSetupBundle:SubStep:new.html.twig', array (
 				'entity' => $entity,
 				'form' => $form->createView (),
-                                'stepId' => $stepId,
+				'stepId' => $stepId,
 				'gameId' => $gameId 
 		) );
 	}
@@ -150,29 +150,29 @@ class SubStepController extends Controller {
 				'gameId' => $gameId 
 		) ) );
 	}
-
+	
 	/**
 	 * Creates a form to create a Step entity.
 	 *
 	 * @param Step $entity
 	 *        	The entity
-	 *
+	 *        	
 	 * @return \Symfony\Component\Form\Form The form
 	 */
 	private function createCreateForm(SubStep $entity, $stepId, $gameId) {
 		$form = $this->createForm ( new SubStepType (), $entity, array (
 				'em' => $this->getDoctrine ()->getManager (),
 				'action' => $this->generateUrl ( 'setup_subStep_create', array (
-                                                'stepId' => $stepId,
-						'gameId' => $gameId
+						'stepId' => $stepId,
+						'gameId' => $gameId 
 				) ),
-				'method' => 'POST'
+				'method' => 'POST' 
 		) );
-
+		
 		$form->add ( 'submit', 'submit', array (
-				'label' => 'Create'
+				'label' => 'Create' 
 		) );
-
+		
 		return $form;
 	}
 	
@@ -193,30 +193,30 @@ class SubStepController extends Controller {
 				'label' => 'Delete' 
 		) )->getForm ();
 	}
-
+	
 	/**
 	 * Creates a form to edit a Step entity.
 	 *
 	 * @param Step $entity
 	 *        	The entity
-	 *
+	 *        	
 	 * @return \Symfony\Component\Form\Form The form
 	 */
 	private function createEditForm(SubStep $entity, $stepId, $gameId) {
 		$form = $this->createForm ( new SubStepType (), $entity, array (
 				'em' => $this->getDoctrine ()->getManager (),
 				'action' => $this->generateUrl ( 'setup_subStep_update', array (
-                                                'stepId' => $stepId,
+						'stepId' => $stepId,
 						'subStepId' => $entity->getId (),
-						'gameId' => $gameId
+						'gameId' => $gameId 
 				) ),
-				'method' => 'PUT'
+				'method' => 'PUT' 
 		) );
-
+		
 		$form->add ( 'submit', 'submit', array (
-				'label' => 'Update'
+				'label' => 'Update' 
 		) );
-
+		
 		return $form;
 	}
 }

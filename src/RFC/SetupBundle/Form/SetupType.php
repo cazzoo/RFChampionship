@@ -36,7 +36,7 @@ class SetupType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$gameId = $this->gameId;
-                
+		
 		$builder->add ( 'name' )->add ( 'description', 'textarea', array (
 				'required' => false 
 		) )->add ( 'vehicle', 'entity', array (
@@ -44,7 +44,7 @@ class SetupType extends AbstractType {
 				'class' => 'RFCCoreBundle:Vehicle',
 				'query_builder' => function (VehicleRepository $er) use($gameId) {
 					return $er->createQueryBuilder ( 'v' )->where ( 'v.game = :gameId' )->setParameter ( 'gameId', $gameId );
-				}
+				} 
 		) )->add ( 'track', 'entity', array (
 				'required' => false,
 				'class' => 'RFCCoreBundle:Track',
@@ -52,9 +52,9 @@ class SetupType extends AbstractType {
 					return $er->createQueryBuilder ( 't' )->where ( 't.game = :gameId' )->setParameter ( 'gameId', $gameId );
 				} 
 		) )->add ( 'commentsActive', 'checkbox', array (
-				'required' => false
+				'required' => false 
 		) )->add ( 'user', 'entity', array (
-				'class' => 'RFC\UserBundle\Entity\User'
+				'class' => 'RFC\UserBundle\Entity\User' 
 		) );
 	}
 	
@@ -64,7 +64,7 @@ class SetupType extends AbstractType {
 	 */
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults ( array (
-				'data_class' => 'RFC\SetupBundle\Entity\Setup'
+				'data_class' => 'RFC\SetupBundle\Entity\Setup' 
 		) );
 		
 		$resolver->setRequired ( array (

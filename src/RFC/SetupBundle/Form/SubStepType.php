@@ -31,23 +31,23 @@ class SubStepType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder->add ( 'name' )->add ( 'description', 'textarea', array (
-				'required' => false
+				'required' => false 
 		) )->add ( 'action', 'choice', array (
 				'choices' => array (
 						'next' => 'Go to next step',
-						'stay' => 'Stay in step'
+						'stay' => 'Stay in step' 
 				),
 				'required' => true 
 		) )->add ( 'stepCondition', 'textarea', array (
 				'required' => false 
-		) )->add ( 'toDoText', 'textarea', array(
-                                'required' => false
-                ) )->add ( 'optimalAction', 'checkbox', array (
+		) )->add ( 'toDoText', 'textarea', array (
+				'required' => false 
+		) )->add ( 'optimalAction', 'checkbox', array (
 				'required' => false 
 		) )->add ( 'commentsActive', 'checkbox', array (
-				'required' => false
+				'required' => false 
 		) )->add ( 'step', 'entity', array (
-				'class' => 'RFC\SetupBundle\Entity\Step'
+				'class' => 'RFC\SetupBundle\Entity\Step' 
 		) );
 	}
 	
@@ -57,7 +57,7 @@ class SubStepType extends AbstractType {
 	 */
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults ( array (
-				'data_class' => 'RFC\SetupBundle\Entity\SubStep'
+				'data_class' => 'RFC\SetupBundle\Entity\SubStep' 
 		) );
 		
 		$resolver->setRequired ( array (

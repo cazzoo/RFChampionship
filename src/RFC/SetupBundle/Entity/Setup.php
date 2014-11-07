@@ -105,11 +105,11 @@ class Setup {
 	/**
 	 * Add listImages
 	 *
-	 * @param SetupStep $setupStep
+	 * @param SetupStep $setupStep        	
 	 * @return Image
 	 */
 	public function addListSetupSteps(SetupStep $setupStep) {
-		$this->listSetupSteps [] = $setupStep;
+		$this->listSetupSteps->add ( $setupStep );
 		
 		return $this;
 	}
@@ -117,12 +117,11 @@ class Setup {
 	/**
 	 * Remove listImages
 	 *
-	 * @param SetupStep $setupStep
+	 * @param SetupStep $setupStep        	
 	 */
 	public function removeListSetupSteps(SetupStep $setupStep) {
 		$this->listSetupSteps->removeElement ( $setupStep );
 	}
-
 	public function getUser() {
 		return $this->user;
 	}
