@@ -58,6 +58,9 @@ class StepController extends Controller {
 		$entity = new Step ();
 		$em = $this->getDoctrine ()->getManager ();
 		$entityGame = $em->getRepository ( 'RFCCoreBundle:Game' )->find ( $gameId );
+                $max_value = $em->getRepository('RFCSetupBundle:Step')->findLastStepId( $gameId );
+                $max_value['order'] = ( null == $max_value ? 1 : $max_value['order'] + 1);
+                $entity->setOrder($max_value['order']);
 		$entity->setGame ( $entityGame );
 		$form = $this->createCreateForm ( $entity, $gameId );
 		

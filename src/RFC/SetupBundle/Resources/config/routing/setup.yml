@@ -7,6 +7,10 @@ setup_create:
     defaults: { _controller: "RFCSetupBundle:Setup:create" }
     requirements: { _method: post }
 
+setup_show:
+    pattern:  /{setupId}/show
+    defaults: { _controller: "RFCSetupBundle:Setup:show" }
+    
 setup_edit:
     pattern:  /{setupId}/edit
     defaults: { _controller: "RFCSetupBundle:Setup:edit" }

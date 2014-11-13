@@ -22,7 +22,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class StepType extends AbstractType {
+class SetupStepType extends AbstractType {
 
 	/**
 	 *
@@ -30,22 +30,7 @@ class StepType extends AbstractType {
 	 * @param array $options        	
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'name' )->add ( 'indicatorType', 'choice', array (
-				'choices' => array (
-						'telemetry' => 'Telemetry',
-						'visual' => 'Visual',
-						'behiavior' => 'Behiavior' 
-				),
-				'required' => true 
-		) )->add ( 'tip', 'textarea', array (
-				'required' => false 
-		) )->add ( 'category', 'text' )->add ( 'complexity', 'integer' )->add ( 'description', 'textarea', array (
-				'required' => false 
-		) )->add ( 'order', 'text' )->add ( 'commentsActive', 'checkbox', array (
-				'required' => false 
-		) )->add ( 'game', 'entity', array (
-				'class' => 'RFC\CoreBundle\Entity\Game' 
-		) );
+		$builder->add ( 'value' );
 	}
 	
 	/**
@@ -54,7 +39,7 @@ class StepType extends AbstractType {
 	 */
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults ( array (
-				'data_class' => 'RFC\SetupBundle\Entity\Step' 
+				'data_class' => 'RFC\SetupBundle\Entity\SetupStep'
 		) );
 		
 		$resolver->setRequired ( array (
@@ -71,6 +56,6 @@ class StepType extends AbstractType {
 	 * @return string
 	 */
 	public function getName() {
-		return 'rfc_setupbundle_step';
+		return 'rfc_setupbundle_setupStep';
 	}
 }

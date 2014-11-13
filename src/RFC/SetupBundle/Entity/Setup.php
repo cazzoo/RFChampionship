@@ -27,7 +27,7 @@ use RFC\SetupBundle\Entity\SetupStep;
  * Game
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\GameRepository")
+ * @ORM\Entity(repositoryClass="RFC\SetupBundle\Entity\SetupRepository")
  */
 class Setup {
 	use DescriptorTrait;
@@ -213,4 +213,26 @@ class Setup {
 	public function getUpdatedAt() {
 		return $this->updatedAt;
 	}
+
+        /**
+         * Returns all the steps and their version in a nested array
+         */
+        public function getOrderedSteps() {
+            $ordoredSteps = array();
+            foreach($this->listSetupSteps as $setupStep) {
+                $order = $setupStep->getStep()->getOrder();
+                // Test if step does not exists or not new
+                if(empty($ordoredSteps)) {
+                    $ordoredSteps[$order] = array($setupStep);
+                } else {
+                    if(array_key_exists($order, $ordoredSteps)) {
+                        array_push($ordoredSteps[$order], $setupStep);
+                    } else {
+                        $ordoredSteps[$order] = array($setupStep);
+                    }
+                }
+            }
+            ksort($ordoredSteps);
+            return $ordoredSteps;
+        }
 }

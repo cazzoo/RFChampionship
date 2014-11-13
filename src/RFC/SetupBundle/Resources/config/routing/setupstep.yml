@@ -1,0 +1,12 @@
+setupStep_show:
+    pattern:  /{setupStepId}/show
+    defaults: { _controller: "RFCSetupBundle:Setup:showSetupStep" }
+    
+setupStep_edit:
+    pattern:  /{setupStepId}/edit
+    defaults: { _controller: "RFCSetupBundle:Setup:editSetupStep" }
+
+setupStep_update:
+    pattern:  /{setupStepId}/update
+    defaults: { _controller: "RFCSetupBundle:Setup:updateSetupStep" }
+    requirements: { _method: post|put }

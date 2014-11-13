@@ -25,7 +25,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Game
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\GameRepository")
+ * @ORM\Entity(repositoryClass="RFC\SetupBundle\Entity\SetupStepRepository")
  */
 class SetupStep {
 	
@@ -146,4 +146,8 @@ class SetupStep {
 	public function getUpdatedAt() {
 		return $this->updatedAt;
 	}
+
+        public function clearId() {
+            $this->id = null;
+        }
 }

@@ -26,7 +26,7 @@ use RFC\CoreBundle\Entity\DescriptorTrait;
  * Game
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\GameRepository")
+ * @ORM\Entity(repositoryClass="RFC\SetupBundle\Entity\StepRepository")
  */
 class Step {
 	use DescriptorTrait;
@@ -68,6 +68,11 @@ class Step {
 	 * @ORM\Column(name="complexity", type="integer")
 	 */
 	private $complexity;
+
+	/**
+	 * @ORM\Column(name="order", type="integer")
+	 */
+	private $order;
 	
 	/**
 	 * @Gedmo\Timestampable(on="create")
@@ -139,6 +144,13 @@ class Step {
 	}
 	public function setComplexity($complexity) {
 		$this->complexity = $complexity;
+		return $this;
+	}
+	public function getOrder() {
+		return $this->order;
+	}
+	public function setOrder($order) {
+		$this->order = $order;
 		return $this;
 	}
 	

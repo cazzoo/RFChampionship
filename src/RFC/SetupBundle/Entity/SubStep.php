@@ -25,8 +25,7 @@ use RFC\CoreBundle\Entity\DescriptorTrait;
 /**
  * Game
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\GameRepository")
+ * @ORM\Entity()
  */
 class SubStep {
 	use DescriptorTrait;

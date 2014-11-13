@@ -7,6 +7,9 @@ rfcSetup_debug:
 rfcSetup_setup:
     resource: "@RFCSetupBundle/Resources/config/routing/setup.yml"
     prefix:   /{gameId}/Setup
+rfcSetup_setupStep:
+    resource: "@RFCSetupBundle/Resources/config/routing/setupStep.yml"
+    prefix:   /{gameId}/Setup/{setupId}/SetupStep
 rfcSetup_step:
     resource: "@RFCSetupBundle/Resources/config/routing/step.yml"
     prefix:   /{gameId}/Setup/Step

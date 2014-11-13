@@ -23,9 +23,9 @@ namespace RFC\SetupBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use RFC\SetupBundle\Entity\Setup;
-use RFC\SetupBundle\Entity\Step;
 use RFC\SetupBundle\Entity\SetupStep;
 use RFC\SetupBundle\Form\SetupType;
+use RFC\SetupBundle\Form\SetupStepType;
 
 class SetupController extends Controller {
 	public function indexAction($gameId) {
@@ -51,6 +51,23 @@ class SetupController extends Controller {
 				'steps' => $steps 
 		) );
 	}
+
+        /**
+         * Show a setup with all its setupSteps.
+         * @param type $setupId
+         * @param type $gameId
+         * @return type
+         */
+        public function showAction($setupId, $gameId) {
+                $em = $this->getDoctrine ()->getManager ();
+
+		$setup = $em->getRepository ( 'RFCSetupBundle:Setup' )->findOneById ( $setupId );
+
+                return $this->render ( 'RFCSetupBundle:Setup:show.html.twig', array (
+                                'gameId' => $gameId,
+                                'setup' => $setup,
+                ) );
+        }
 	
 	/**
 	 * Creates a new Setup entity.
@@ -246,6 +263,99 @@ class SetupController extends Controller {
 				'label' => 'Update' 
 		) );
 		
+		return $form;
+	}
+
+	/**
+	 * Displays a form to edit an existing Setup entity.
+	 */
+	public function editSetupStepAction($setupStepId, $setupId, $gameId) {
+		$em = $this->getDoctrine ()->getManager ();
+
+		$entity = $em->getRepository ( 'RFCSetupBundle:SetupStep' )->find ( $setupStepId );
+
+		if (! $entity) {
+			throw $this->createNotFoundException ( 'Unable to find SetupStep entity.' );
+		}
+
+		$editForm = $this->createEditSetupStepForm ( $entity, $setupId, $gameId );
+
+		return $this->render ( 'RFCSetupBundle:SetupStep:edit.html.twig', array (
+				'entity' => $entity,
+				'edit_form' => $editForm->createView (),
+                                'setupId' => $setupId,
+                                'gameId' => $gameId
+		) );
+	}
+
+	/**
+	 * Edits an existing SetupStep entity.
+	 */
+	public function updateSetupStepAction(Request $request, $setupStepId, $setupId, $gameId) {
+		$em = $this->getDoctrine ()->getManager ();
+
+		$entity = $em->getRepository ( 'RFCSetupBundle:SetupStep' )->find ( $setupStepId );
+
+		if (! $entity) {
+			throw $this->createNotFoundException ( 'Unable to find SetupStep entity.' );
+		}
+
+                if ($entity->getVersion() != 0 || ($entity->getVersion() == 0 && $entity->getValue() != null)) {
+                    $copy = clone $entity;
+                    //$copy->clearId()
+                    //$em->clear();
+                    //$entity->clearId();
+                    $copy->setVersion($entity->getVersion() + 1 );
+                    $em->persist($copy);
+                }
+
+		$editForm = $this->createEditSetupStepForm ( $copy, $setupId, $gameId );
+		$editForm->handleRequest ( $request );
+
+		if ($editForm->isValid ()) {
+			$em->flush ();
+
+			return $this->redirect ( $this->generateUrl ( 'setup_show', array (
+					'setupId' => $setupId,
+                                        'gameId' => $gameId
+			) ) );
+		}
+
+		return $this->render ( 'RFCSetupBundle:SetupStep:edit.html.twig', array (
+				'entity' => $entity,
+				'edit_form' => $editForm->createView (),
+                                'setupId' => $setupId,
+                                'gameId' => $gameId
+		) );
+	}
+
+	/**
+	 * Creates a form to edit a SetupStep entity.
+	 *
+	 * @param Setup $entity
+	 *        	The entity
+	 *
+	 * @return \Symfony\Component\Form\Form The form
+	 */
+	private function createEditSetupStepForm(SetupStep $entity, $setupId, $gameId) {
+		$form = $this->createForm ( new SetupStepType(), $entity, array (
+				'em' => $this->getDoctrine ()->getManager (),
+				'action' => $this->generateUrl ( 'setupStep_update', array (
+						'setupStepId' => $entity->getId (),
+                                                'setupId' => $setupId,
+                                                'gameId' => $gameId
+				) ),
+				'method' => 'PUT'
+		) );
+
+		$form->add ( 'reset', 'reset', array (
+				'label' => 'Reset'
+		) );
+
+		$form->add ( 'submit', 'submit', array (
+				'label' => 'Update'
+		) );
+
 		return $form;
 	}
 }
