@@ -29,6 +29,9 @@ Vehicle : {{ setup.vehicle.name }}<br />
 Track : {{ setup.track ? setup.track.name : '-' }}<br />
 
 {% for arraySetupStep in setup.getOrderedSteps %}
+	{% if setup.getOrderedSteps|length < stepCount %}
+		This setup is outdated. Please upgrade it.
+	{% endif %}
     {% include 'RFCSetupBundle:SetupStep:index.html.twig' with arraySetupStep %}
 {% endfor %}
 
