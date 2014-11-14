@@ -220,7 +220,7 @@ class Setup {
         public function getOrderedSteps() {
             $ordoredSteps = array();
             foreach($this->listSetupSteps as $setupStep) {
-                $order = $setupStep->getStep()->getOrder();
+                $order = $setupStep->getStep()->getStepOrder();
                 // Test if step does not exists or not new
                 if(empty($ordoredSteps)) {
                     $ordoredSteps[$order] = array($setupStep);
@@ -234,5 +234,37 @@ class Setup {
             }
             ksort($ordoredSteps);
             return $ordoredSteps;
+        }
+
+        /**
+         * Returns the last step that contains data
+         */
+        public function getLastStepCompleted() {
+            $lastVersionCompleted = null;
+            foreach ($this->listSetupSteps as $setupStep) {
+                $versionExists  = null != $lastVersionCompleted;
+                if(!$versionExists || ($versionExists && $this->getLastSetupStep($setupStep->getStep()->getStepOrder())->getValue() != "")) {
+                    $lastVersionCompleted = $setupStep;
+                }
+            }
+            return $lastVersionCompleted;
+        }
+
+        /**
+        * Returns the last version of a SetupStep
+        * @param type $stepNumber the step number
+        */
+        private function getLastSetupStep($stepNumber)
+        {
+            $lastVersion = null;
+            foreach ($this->listSetupSteps as $setupStep) {
+                $sameStep       = $setupStep->getStep ()->getStepOrder() == $stepNumber;
+                $versionExists  = null != $lastVersion;
+                $versionGreater = $versionExists ? $lastVersion->getVersion () < $setupStep->getVersion () : false;
+                if ($sameStep && (!$versionExists || ($versionExists && $versionGreater))) {
+                    $lastVersion = $setupStep;
+                }
+            }
+            return $lastVersion;
         }
 }

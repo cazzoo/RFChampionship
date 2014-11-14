@@ -34,11 +34,11 @@ class StepRepository extends EntityRepository {
      */
     public function queryLastStepId($gameId) {
         $query = $this->createQueryBuilder('s')
-            ->select('s.order')
+            ->select('s.stepOrder')
             ->where('s.game = :gameId')
             ->setParameter('gameId', $gameId)
             ->setMaxResults(1)
-            ->orderBy('s.order', 'DESC');
+            ->orderBy('s.stepOrder', 'DESC');
 
         return $query;
     }

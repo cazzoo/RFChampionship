@@ -31,6 +31,7 @@
     {{ form_row(edit_form.indicatorType) }}
     {{ form_row(edit_form.tip) }}
     {{ form_row(edit_form.category) }}
+    {{ form_row(edit_form.stepOrder) }}
     {{ form_row(edit_form.complexity) }}
     {{ form_row(edit_form.commentsActive) }}
     {{ form_row(edit_form.game) }}
@@ -39,6 +40,5 @@
 
 <ul class="record_actions">
 	<li><a href="{{ path('rfcSetup_index', {'gameId' : gameId}) }}"> Back to the list </a></li>
-	<li>{{ form(delete_form) }}</li>
 </ul>
 {% endblock %}

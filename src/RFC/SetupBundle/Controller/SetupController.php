@@ -154,7 +154,6 @@ class SetupController extends Controller {
 			throw $this->createNotFoundException ( 'Unable to find Setup entity.' );
 		}
 		
-		$deleteForm = $this->createDeleteForm ( $setupId, $gameId );
 		$editForm = $this->createEditForm ( $entity, $gameId );
 		$editForm->handleRequest ( $request );
 		
@@ -169,7 +168,6 @@ class SetupController extends Controller {
 		return $this->render ( 'RFCSetupBundle:Setup:edit.html.twig', array (
 				'entity' => $entity,
 				'edit_form' => $editForm->createView (),
-				'delete_form' => $deleteForm->createView (),
 				'gameId' => $gameId 
 		) );
 	}
@@ -307,7 +305,7 @@ class SetupController extends Controller {
                                         'gameId' => $gameId
 			) );
 
-			return $this->redirect (sprintf('%s#stepNumber=%s', $url, $entity->getStep()->getOrder()));
+			return $this->redirect (sprintf('%s#stepNumber=%s', $url, $entity->getStep()->getStepOrder()));
 		}
 
 		return $this->render ( 'RFCSetupBundle:SetupStep:edit.html.twig', array (

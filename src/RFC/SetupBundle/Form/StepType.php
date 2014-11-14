@@ -41,7 +41,7 @@ class StepType extends AbstractType {
 				'required' => false 
 		) )->add ( 'category', 'text' )->add ( 'complexity', 'integer' )->add ( 'description', 'textarea', array (
 				'required' => false 
-		) )->add ( 'order', 'text' )->add ( 'commentsActive', 'checkbox', array (
+		) )->add ( 'stepOrder', 'text' )->add ( 'commentsActive', 'checkbox', array (
 				'required' => false 
 		) )->add ( 'game', 'entity', array (
 				'class' => 'RFC\CoreBundle\Entity\Game' 

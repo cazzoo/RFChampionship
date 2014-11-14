@@ -16,8 +16,15 @@
 
 {# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
 
-<div class="setupStepContainer" data-stepid="{{arraySetupStep[0].step.id}}" data-stepnumber="{{ arraySetupStep[0].step.order }}">
-    <h3>Step n° {{ arraySetupStep[0].step.order }}</h3>
+<div class="setupStepContainer" data-stepid="{{arraySetupStep[0].step.id}}" data-stepnumber="{{ arraySetupStep[0].step.stepOrder }}">
+    <h3>Step n° {{ arraySetupStep[0].step.stepOrder }}</h3>
+    
+    {{arraySetupStep[0].step.name}}<br />
+    {{arraySetupStep[0].step.description}}<br />
+    {{arraySetupStep[0].step.category}}<br />
+    {{arraySetupStep[0].step.indicatorType}}<br />
+    {{arraySetupStep[0].step.tip}}<br />
+    {{arraySetupStep[0].step.complexity}}<br />
 
     <div class="setupStepContent">
     <select class="selectVersion">

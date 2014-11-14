@@ -1,3 +1,7 @@
+setup_step_index:
+    pattern:  /
+    defaults: { _controller: "RFCSetupBundle:Step:index" }
+    
 setup_step_new:
     pattern:  /new
     defaults: { _controller: "RFCSetupBundle:Step:new" }
@@ -19,4 +23,3 @@ setup_step_update:
 setup_step_delete:
     pattern:  /{stepId}/delete
     defaults: { _controller: "RFCSetupBundle:Step:delete" }
-    requirements: { _method: post|delete }

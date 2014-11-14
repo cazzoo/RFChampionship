@@ -26,193 +26,196 @@ use RFC\SetupBundle\Entity\Step;
 use RFC\SetupBundle\Form\StepType;
 
 class StepController extends Controller {
-	
-	/**
-	 * Creates a new Step entity.
-	 */
-	public function createAction(Request $request, $gameId) {
-		$entity = new Step ();
-		$form = $this->createCreateForm ( $entity, $gameId );
-		$form->handleRequest ( $request );
-		
-		if ($form->isValid ()) {
-			$em = $this->getDoctrine ()->getManager ();
-			$em->persist ( $entity );
-			$em->flush ();
-			
-			return $this->redirect ( $this->generateUrl ( 'rfcSetup_index', array (
-					'gameId' => $gameId 
-			) ) );
-		}
-		
-		return $this->render ( 'RFCSetupBundle:Step:new.html.twig', array (
-				'entity' => $entity,
-				'form' => $form->createView () 
-		) );
-	}
-	
-	/**
-	 * Displays a form to create a new Step entity.
-	 */
-	public function newAction($gameId) {
-		$entity = new Step ();
-		$em = $this->getDoctrine ()->getManager ();
-		$entityGame = $em->getRepository ( 'RFCCoreBundle:Game' )->find ( $gameId );
-                $max_value = $em->getRepository('RFCSetupBundle:Step')->findLastStepId( $gameId );
-                $max_value['order'] = ( null == $max_value ? 1 : $max_value['order'] + 1);
-                $entity->setOrder($max_value['order']);
-		$entity->setGame ( $entityGame );
-		$form = $this->createCreateForm ( $entity, $gameId );
-		
-		return $this->render ( 'RFCSetupBundle:Step:new.html.twig', array (
-				'entity' => $entity,
-				'form' => $form->createView (),
-				'gameId' => $gameId 
-		) );
-	}
-	
-	/**
-	 * Displays a form to edit an existing Step entity.
-	 */
-	public function editAction($stepId, $gameId) {
-		$em = $this->getDoctrine ()->getManager ();
-		
-		$entity = $em->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
-		
-		if (! $entity) {
-			throw $this->createNotFoundException ( 'Unable to find Step entity.' );
-		}
-		
-		$editForm = $this->createEditForm ( $entity, $gameId );
-		$deleteForm = $this->createDeleteForm ( $stepId, $gameId );
-		
-		return $this->render ( 'RFCSetupBundle:Step:edit.html.twig', array (
-				'entity' => $entity,
-				'gameId' => $gameId,
-				'edit_form' => $editForm->createView (),
-				'delete_form' => $deleteForm->createView () 
-		) );
-	}
-	
-	/**
-	 * Edits an existing Step entity.
-	 */
-	public function updateAction(Request $request, $stepId, $gameId) {
-		$em = $this->getDoctrine ()->getManager ();
-		
-		$entity = $em->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
-		
-		if (! $entity) {
-			throw $this->createNotFoundException ( 'Unable to find Step entity.' );
-		}
-		
-		$deleteForm = $this->createDeleteForm ( $stepId, $gameId );
-		$editForm = $this->createEditForm ( $entity, $gameId );
-		$editForm->handleRequest ( $request );
-		
-		if ($editForm->isValid ()) {
-			$em->flush ();
-			
-			return $this->redirect ( $this->generateUrl ( 'rfcSetup_index', array (
-					'gameId' => $gameId 
-			) ) );
-		}
-		
-		return $this->render ( 'RFCSetupBundle:Step:edit.html.twig', array (
-				'entity' => $entity,
-				'edit_form' => $editForm->createView (),
-				'delete_form' => $deleteForm->createView (),
-				'gameId' => $gameId 
-		) );
-	}
-	
-	/**
-	 * Deletes a Step entity.
-	 */
-	public function deleteAction(Request $request, $stepId, $gameId) {
-		$form = $this->createDeleteForm ( $stepId, $gameId );
-		$form->handleRequest ( $request );
-		
-		if ($form->isValid ()) {
-			$em = $this->getDoctrine ()->getManager ();
-			$entity = $em->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
-			
-			if (! $entity) {
-				throw $this->createNotFoundException ( 'Unable to find Step entity.' );
-			}
-			
-			$em->remove ( $entity );
-			$em->flush ();
-		}
-		
-		return $this->redirect ( $this->generateUrl ( 'rfcSetup_index', array (
-				'gameId' => $gameId 
-		) ) );
-	}
-	
-	/**
-	 * Creates a form to create a Step entity.
-	 *
-	 * @param Step $entity
-	 *        	The entity
-	 *        	
-	 * @return \Symfony\Component\Form\Form The form
-	 */
-	private function createCreateForm(Step $entity, $gameId) {
-		$form = $this->createForm ( new StepType (), $entity, array (
-				'em' => $this->getDoctrine ()->getManager (),
-				'action' => $this->generateUrl ( 'setup_step_create', array (
-						'gameId' => $gameId 
-				) ),
-				'method' => 'POST' 
-		) );
-		
-		$form->add ( 'submit', 'submit', array (
-				'label' => 'Create' 
-		) );
-		
-		return $form;
-	}
-	
-	/**
-	 * Creates a form to delete a Step entity by id.
-	 *
-	 * @param mixed $stepId
-	 *        	The entity id
-	 *        	
-	 * @return \Symfony\Component\Form\Form The form
-	 */
-	private function createDeleteForm($stepId, $gameId) {
-		return $this->createFormBuilder ()->setAction ( $this->generateUrl ( 'setup_step_delete', array (
-				'stepId' => $stepId,
-				'gameId' => $gameId 
-		) ) )->setMethod ( 'DELETE' )->add ( 'submit', 'submit', array (
-				'label' => 'Delete' 
-		) )->getForm ();
-	}
-	
-	/**
-	 * Creates a form to edit a Step entity.
-	 *
-	 * @param Step $entity
-	 *        	The entity
-	 *        	
-	 * @return \Symfony\Component\Form\Form The form
-	 */
-	private function createEditForm(Step $entity, $gameId) {
-		$form = $this->createForm ( new StepType (), $entity, array (
-				'em' => $this->getDoctrine ()->getManager (),
-				'action' => $this->generateUrl ( 'setup_step_update', array (
-						'stepId' => $entity->getId (),
-						'gameId' => $gameId 
-				) ),
-				'method' => 'PUT' 
-		) );
-		
-		$form->add ( 'submit', 'submit', array (
-				'label' => 'Update' 
-		) );
-		
-		return $form;
-	}
+
+    public function indexAction($gameId) {
+        $em = $this->getDoctrine ()->getManager ();
+
+        $steps = $em->getRepository ( 'RFCSetupBundle:Step' )->findAll ();
+
+        return $this->render ( 'RFCSetupBundle:Step:index.html.twig', array (
+                        'gameId' => $gameId,
+                        'steps' => $steps
+        ) );
+    }
+
+    /**
+     * Creates a new Step entity.
+     */
+    public function createAction(Request $request, $gameId) {
+            $entity = new Step ();
+            $form = $this->createCreateForm ( $entity, $gameId );
+            $form->handleRequest ( $request );
+
+            if ($form->isValid ()) {
+                    $em = $this->getDoctrine ()->getManager ();
+                    $em->persist ( $entity );
+                    $em->flush ();
+
+                    return $this->redirect ( $this->generateUrl ( 'setup_step_index', array (
+                                    'gameId' => $gameId
+                    ) ) );
+            }
+
+            return $this->render ( 'RFCSetupBundle:Step:new.html.twig', array (
+                            'entity' => $entity,
+                            'form' => $form->createView ()
+            ) );
+    }
+
+    /**
+     * Displays a form to create a new Step entity.
+     */
+    public function newAction($gameId) {
+            $entity = new Step ();
+            $em = $this->getDoctrine ()->getManager ();
+            $entityGame = $em->getRepository ( 'RFCCoreBundle:Game' )->find ( $gameId );
+            $max_value = $em->getRepository('RFCSetupBundle:Step')->findLastStepId( $gameId );
+            $max_value['stepOrder'] = ( null == $max_value ? 1 : $max_value['stepOrder'] + 1);
+            $entity->setStepOrder($max_value['stepOrder']);
+            $entity->setGame ( $entityGame );
+            $form = $this->createCreateForm ( $entity, $gameId );
+
+            return $this->render ( 'RFCSetupBundle:Step:new.html.twig', array (
+                            'entity' => $entity,
+                            'form' => $form->createView (),
+                            'gameId' => $gameId
+            ) );
+    }
+
+    /**
+     * Displays a form to edit an existing Step entity.
+     */
+    public function editAction($stepId, $gameId) {
+            $em = $this->getDoctrine ()->getManager ();
+
+            $entity = $em->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
+
+            if (! $entity) {
+                    throw $this->createNotFoundException ( 'Unable to find Step entity.' );
+            }
+
+            $editForm = $this->createEditForm ( $entity, $gameId );
+
+            return $this->render ( 'RFCSetupBundle:Step:edit.html.twig', array (
+                            'entity' => $entity,
+                            'gameId' => $gameId,
+                            'edit_form' => $editForm->createView ()
+            ) );
+    }
+
+    /**
+     * Edits an existing Step entity.
+     */
+    public function updateAction(Request $request, $stepId, $gameId) {
+            $em = $this->getDoctrine ()->getManager ();
+
+            $entity = $em->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
+
+            if (! $entity) {
+                    throw $this->createNotFoundException ( 'Unable to find Step entity.' );
+            }
+
+            $editForm = $this->createEditForm ( $entity, $gameId );
+            $editForm->handleRequest ( $request );
+
+            if ($editForm->isValid ()) {
+                    $em->flush ();
+
+                    return $this->redirect ( $this->generateUrl ( 'setup_step_index', array (
+                                    'gameId' => $gameId
+                    ) ) );
+            }
+
+            return $this->render ( 'RFCSetupBundle:Step:edit.html.twig', array (
+                            'entity' => $entity,
+                            'edit_form' => $editForm->createView (),
+                            'gameId' => $gameId
+            ) );
+    }
+
+    /**
+     * Deletes a Step entity.
+     */
+    public function deleteAction($stepId, $gameId) {
+
+            $em = $this->getDoctrine ()->getManager ();
+            $entity = $em->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
+
+            if (! $entity) {
+                    throw $this->createNotFoundException ( 'Unable to find Step entity.' );
+            }
+
+            $em->remove ( $entity );
+            $em->flush ();
+
+            return $this->redirect ( $this->generateUrl ( 'rfcSetup_index', array (
+                            'gameId' => $gameId
+            ) ) );
+    }
+
+    /**
+     * Creates a form to create a Step entity.
+     *
+     * @param Step $entity
+     *        	The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCreateForm(Step $entity, $gameId) {
+            $form = $this->createForm ( new StepType (), $entity, array (
+                            'em' => $this->getDoctrine ()->getManager (),
+                            'action' => $this->generateUrl ( 'setup_step_create', array (
+                                            'gameId' => $gameId
+                            ) ),
+                            'method' => 'POST'
+            ) );
+
+            $form->add ( 'submit', 'submit', array (
+                            'label' => 'Create'
+            ) );
+
+            return $form;
+    }
+
+    /**
+     * Creates a form to delete a Step entity by id.
+     *
+     * @param mixed $stepId
+     *        	The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($stepId, $gameId) {
+            return $this->createFormBuilder ()->setAction ( $this->generateUrl ( 'setup_step_delete', array (
+                            'stepId' => $stepId,
+                            'gameId' => $gameId
+            ) ) )->setMethod ( 'DELETE' )->add ( 'submit', 'submit', array (
+                            'label' => 'Delete'
+            ) )->getForm ();
+    }
+
+    /**
+     * Creates a form to edit a Step entity.
+     *
+     * @param Step $entity
+     *        	The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Step $entity, $gameId) {
+            $form = $this->createForm ( new StepType (), $entity, array (
+                            'em' => $this->getDoctrine ()->getManager (),
+                            'action' => $this->generateUrl ( 'setup_step_update', array (
+                                            'stepId' => $entity->getId (),
+                                            'gameId' => $gameId
+                            ) ),
+                            'method' => 'PUT'
+            ) );
+
+            $form->add ( 'submit', 'submit', array (
+                            'label' => 'Update'
+            ) );
+
+            return $form;
+    }
 }

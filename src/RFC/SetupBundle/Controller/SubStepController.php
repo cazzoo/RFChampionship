@@ -40,7 +40,7 @@ class SubStepController extends Controller {
 			$em->persist ( $entity );
 			$em->flush ();
 			
-			return $this->redirect ( $this->generateUrl ( 'rfcSetup_index', array (
+			return $this->redirect ( $this->generateUrl ( 'setup_step_index', array (
 					'gameId' => $gameId 
 			) ) );
 		}
@@ -114,7 +114,7 @@ class SubStepController extends Controller {
 		if ($editForm->isValid ()) {
 			$em->flush ();
 			
-			return $this->redirect ( $this->generateUrl ( 'rfcSetup_index', array (
+			return $this->redirect ( $this->generateUrl ( 'setup_step_index', array (
 					'gameId' => $gameId 
 			) ) );
 		}

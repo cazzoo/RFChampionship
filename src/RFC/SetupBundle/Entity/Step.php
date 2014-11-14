@@ -70,9 +70,9 @@ class Step {
 	private $complexity;
 
 	/**
-	 * @ORM\Column(name="order", type="integer")
+	 * @ORM\Column(name="stepOrder", type="integer")
 	 */
-	private $order;
+	private $stepOrder;
 	
 	/**
 	 * @Gedmo\Timestampable(on="create")
@@ -146,11 +146,11 @@ class Step {
 		$this->complexity = $complexity;
 		return $this;
 	}
-	public function getOrder() {
-		return $this->order;
+	public function getStepOrder() {
+		return $this->stepOrder;
 	}
-	public function setOrder($order) {
-		$this->order = $order;
+	public function setStepOrder($stepOrder) {
+		$this->stepOrder = $stepOrder;
 		return $this;
 	}
 	

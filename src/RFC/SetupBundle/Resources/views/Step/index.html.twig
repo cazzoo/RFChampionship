@@ -21,20 +21,32 @@
 {% endblock %}
 {% block rfccore_body %}
 
-<h2>Setup creation</h2>
+<h2>Liste des steps</h2>
 
-{{ form_start(edit_form) }}
-    {{ form_errors(edit_form) }}
+<a class="ym-button add" href="{{ path('setup_step_new', {'gameId': gameId}) }}"> create </a><br />
 
-    {{ form_row(edit_form.name) }}
-    {{ form_row(edit_form.description) }}
-    {{ form_row(edit_form.track) }}
-    {{ form_row(edit_form.vehicle) }}
-    {{ form_row(edit_form.user) }}
+{% if steps %}
 
-{{ form_end(edit_form) }}
+    <ul class="list-inline">
+        {% for step in steps %}
+        <li class="float-left">
+            <div class="center">
+                <a href="{{ path('setup_step_edit', {'gameId': gameId, 'stepId': step.id}) }}">
+                    <span class="label label-default">{{ step.name }}</span>
+                </a>
+                <br />
+                {% for subStep in step.listSubSteps %}
+                    {{ subStep.name }}<br />
+                {% endfor %}
+                <a href="{{ path('setup_step_delete', {'gameId': gameId, 'stepId': step.id}) }}"> delete </a><br />
+                <a href="{{ path('setup_subStep_new', {'gameId': gameId, 'stepId': step.id}) }}"> new substep </a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
 
-<ul class="record_actions">
-	<li><a href="{{ path('rfcSetup_index', {'gameId' : gameId}) }}"> Back to the list </a></li>
-</ul>
+{% else %}
+    No steps available
+{% endif %}
+
 {% endblock %}
