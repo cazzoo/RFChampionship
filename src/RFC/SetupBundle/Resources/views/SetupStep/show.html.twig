@@ -16,9 +16,6 @@
 
 {# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
 
-{% if setupStep.version != 0 %}
+    Date : {{ setupStep.createdAt|date("Y/m/d H:i") }}<br />
     Version : {{ setupStep.version }}<br />
-{% else %}
-    Default step<br />
-{% endif %}
     Value : {{ setupStep.value }}<br /> 

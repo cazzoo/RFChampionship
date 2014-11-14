@@ -41,4 +41,7 @@ Track : {{ setup.track ? setup.track.name : '-' }}<br />
     No setups available
 {% endif %}
 
+<br />
+<a class="ym-button add" href="{{ path('rfcSetup_index', {'gameId': gameId}) }}">Back to list</a>
+
 {% endblock %}

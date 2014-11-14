@@ -134,13 +134,11 @@ class SetupController extends Controller {
 		}
 		
 		$editForm = $this->createEditForm ( $entity, $gameId );
-		$deleteForm = $this->createDeleteForm ( $setupId, $gameId );
 		
 		return $this->render ( 'RFCSetupBundle:Setup:edit.html.twig', array (
 				'entity' => $entity,
 				'gameId' => $gameId,
-				'edit_form' => $editForm->createView (),
-				'delete_form' => $deleteForm->createView () 
+				'edit_form' => $editForm->createView ()
 		) );
 	}
 	
@@ -179,21 +177,17 @@ class SetupController extends Controller {
 	/**
 	 * Deletes a Setup entity.
 	 */
-	public function deleteAction(Request $request, $setupId, $gameId) {
-		$form = $this->createDeleteForm ( $setupId, $gameId );
-		$form->handleRequest ( $request );
-		
-		if ($form->isValid ()) {
-			$em = $this->getDoctrine ()->getManager ();
-			$entity = $em->getRepository ( 'RFCSetupBundle:Setup' )->find ( $setupId );
-			
-			if (! $entity) {
-				throw $this->createNotFoundException ( 'Unable to find Setup entity.' );
-			}
-			
-			$em->remove ( $entity );
-			$em->flush ();
-		}
+	public function deleteAction($setupId, $gameId) {
+
+                $em = $this->getDoctrine ()->getManager ();
+                $entity = $em->getRepository ( 'RFCSetupBundle:Setup' )->find ( $setupId );
+
+                if (! $entity) {
+                        throw $this->createNotFoundException ( 'Unable to find Setup entity.' );
+                }
+
+                $em->remove ( $entity );
+                $em->flush ();
 		
 		return $this->redirect ( $this->generateUrl ( 'rfcSetup_index', array (
 				'gameId' => $gameId 
@@ -222,23 +216,6 @@ class SetupController extends Controller {
 		) );
 		
 		return $form;
-	}
-	
-	/**
-	 * Creates a form to delete a Setup entity by id.
-	 *
-	 * @param mixed $setupId
-	 *        	The entity id
-	 *        	
-	 * @return \Symfony\Component\Form\Form The form
-	 */
-	private function createDeleteForm($setupId, $gameId) {
-		return $this->createFormBuilder ()->setAction ( $this->generateUrl ( 'setup_delete', array (
-				'setupId' => $setupId,
-				'gameId' => $gameId 
-		) ) )->setMethod ( 'DELETE' )->add ( 'submit', 'submit', array (
-				'label' => 'Delete' 
-		) )->getForm ();
 	}
 	
 	/**
@@ -314,23 +291,23 @@ class SetupController extends Controller {
 
                 if ($entity->getVersion() != 0 || ($entity->getVersion() == 0 && $entity->getValue() != null)) {
                     $copy = clone $entity;
-                    //$copy->clearId()
-                    //$em->clear();
-                    //$entity->clearId();
                     $copy->setVersion($entity->getVersion() + 1 );
                     $em->persist($copy);
+                    $entity = $copy;
                 }
 
-		$editForm = $this->createEditSetupStepForm ( $copy, $setupId, $gameId );
+		$editForm = $this->createEditSetupStepForm ( $entity, $setupId, $gameId );
 		$editForm->handleRequest ( $request );
 
 		if ($editForm->isValid ()) {
 			$em->flush ();
 
-			return $this->redirect ( $this->generateUrl ( 'setup_show', array (
+                        $url = $this->generateUrl ( 'setup_show', array (
 					'setupId' => $setupId,
                                         'gameId' => $gameId
-			) ) );
+			) );
+
+			return $this->redirect (sprintf('%s#stepNumber=%s', $url, $entity->getStep()->getOrder()));
 		}
 
 		return $this->render ( 'RFCSetupBundle:SetupStep:edit.html.twig', array (

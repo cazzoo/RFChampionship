@@ -9,7 +9,7 @@ setup_create:
 
 setup_show:
     pattern:  /{setupId}/show
-    defaults: { _controller: "RFCSetupBundle:Setup:show" }
+    defaults: { _controller: "RFCSetupBundle:Setup:show"}
     
 setup_edit:
     pattern:  /{setupId}/edit
@@ -23,4 +23,3 @@ setup_update:
 setup_delete:
     pattern:  /{setupId}/delete
     defaults: { _controller: "RFCSetupBundle:Setup:delete" }
-    requirements: { _method: post|delete }

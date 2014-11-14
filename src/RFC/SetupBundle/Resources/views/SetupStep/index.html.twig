@@ -16,14 +16,16 @@
 
 {# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
 
-<div class="setupStepContainer" data-stepid="{{arraySetupStep[0].step.id}}">
+<div class="setupStepContainer" data-stepid="{{arraySetupStep[0].step.id}}" data-stepnumber="{{ arraySetupStep[0].step.order }}">
     <h3>Step n° {{ arraySetupStep[0].step.order }}</h3>
 
-    <select id="selectVersion">
-        {% for stepValues in arraySetupStep %}
-            <option value="{{ stepValues.id }}" data-gameid="{{ gameId }}" data-setupid="{{ setup.id }}" >{{ stepValues.version }}</option>
+    <div class="setupStepContent">
+    <select class="selectVersion">
+        {% for stepValues in arraySetupStep|reverse %}
+            <option value="{{ stepValues.id }}" data-gameid="{{ gameId }}" data-setupid="{{ setup.id }}" >Version {{ stepValues.version }}</option>
         {% endfor %}
     </select>
 
-    <div class="setupStepContent"></div>
+    <div class="setupStepValues"></div>
+    </div>
 </div>

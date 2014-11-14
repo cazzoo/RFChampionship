@@ -17,6 +17,7 @@
 {# src/RFC/SetupBundle/Resources/views/SetupStep/edit.html.twig #}
 
 {{ form_start(edit_form) }}
+    Date : {{ entity.createdAt|date("Y/m/d H:i") }}
     {{ form_errors(edit_form) }}
 
     {{ form_row(edit_form.value) }}
