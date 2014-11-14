@@ -162,7 +162,7 @@ function updateProperties(data) {
 		$('form#system-properties button').removeClass('ym-disabled');
 		$('form#system-properties button').prop('disabled', false);
 		$('form#system-properties button').prop('disabled', false);
-	})
+	});
 }
 
 function loadSessionData(data) {
@@ -185,6 +185,32 @@ function loadSessionData(data) {
 	}).fail(function(jqXHR, textStatus, errorThrown) {
 		$('#session').html("Aucune session n'a pu être chargée");
 		addNotification('Error while loading session', 'error');
+	});
+}
+
+function loadSetupStepData(data, last, stepId) {
+        var receiver = $('.setupStepContainer[data-stepid=' + stepId + ']').find('.setupStepContent');
+        var actionRoute = "";
+        if(last) {
+            actionRoute = 'setupStep_edit';
+        } else {
+            actionRoute = 'setupStep_show';
+        }
+	var jsonFormatted = JSON.stringify(data);
+	$.ajax({
+		type : "POST",
+		url : Routing.generate(actionRoute, data),
+		data : jsonFormatted,
+		cache : false,
+		beforeSend : function() {
+			receiver.html("Chargement de la version...");
+		}
+	}).done(function(data) {
+		addNotification('Version loaded', 'success');
+		receiver.html(data);
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+		receiver.html("Aucune version n'a pu être chargée");
+		addNotification('Error while loading version', 'error');
 	});
 }
 
@@ -322,7 +348,7 @@ function removeNotification(id) {
 	notifications.splice(arrayObjectIndexOf(notifications, id, 'id'), 1);
 	$(notificationBox).find("li").find("#message" + id).parent().parent()
 			.fadeOut(300, function() {
-				$(this).remove()
+				$(this).remove();
 			});
 	animate(
 			$('#notificationCenter').find('.bubble').html(notifications.length),
@@ -439,7 +465,7 @@ $(function() {
 	// --------------------------------------------
 	$('form#acceptCrewApplication').submit(function(e) {
 		var data = {
-			crewRequestId : $(this).find('#crewRequestId').val(),
+			crewRequestId : $(this).find('#crewRequestId').val()
 		};
 		$('form#acceptCrewApplication button').addClass('ym-disabled');
 		$('form#acceptCrewApplication button').prop('disabled', true);
@@ -468,7 +494,7 @@ $(function() {
 
 	$(".eventItem").click(function() {
 		$('.eventItem').removeClass('active');
-		$(this).addClass("active")
+		$(this).addClass("active");
 		var entityData = $(this).attr('id').split(';');
 		var data = {
 			eventId : entityData[0].substr(6),
@@ -488,7 +514,7 @@ $(function() {
 			$('#listSessions').html(data);
 			$('.sessionItem').bind('click', function() {
 				$('.sessionItem').removeClass('active');
-				$(this).addClass("active")
+				$(this).addClass("active");
 
 				var data = {
 					sessionId : $(this).data('session')
@@ -505,6 +531,21 @@ $(function() {
 	});
 
 	// --------------------------------------------
+	// ----------------- SetupStep version loading
+	// --------------------------------------------
+        $(".setupStepContainer #selectVersion").on('change', function() {
+            var stepId = $(this).parent().data('stepid');
+            var entityData = $(this).find(":selected");
+            var last = $(this).find('option:last-child').val() === entityData.val() ? true : false;
+            var data = {
+			setupStepId : entityData.val(),
+			gameId : entityData.data( "gameid" ),
+			setupId : entityData.data( "setupid" )
+		};
+            loadSetupStepData(data, last, stepId);
+        });
+
+	// --------------------------------------------
 	// ----------------- Register/unregister
 	// --------------------------------------------
 	$("#registrationStatus").on('click', '.actionRegisterUnregister',
@@ -516,7 +557,7 @@ $(function() {
 	// --------------------------------------------
 	$("div.metaRuleItem").click(function() {
 		$('.metaRuleItem').removeClass('active');
-		$(this).addClass("active")
+		$(this).addClass("active");
 		var entityData = $(this).attr('id').split(';');
 		var data = {
 			metaRuleId : entityData[0].substr(9),

@@ -266,6 +266,18 @@ class SetupController extends Controller {
 		return $form;
 	}
 
+        public function showSetupStepAction($setupStepId, $setupId, $gameId) {
+                $em = $this->getDoctrine ()->getManager ();
+
+                $setupStep = $em->getRepository ( 'RFCSetupBundle:SetupStep' )->findOneById ( $setupStepId );
+
+                return $this->render ( 'RFCSetupBundle:SetupStep:show.html.twig', array (
+                                'setupStep' => $setupStep,
+                                'gameId' => $gameId,
+                                'setupId' => $setupId,
+                ) );
+        }
+
 	/**
 	 * Displays a form to edit an existing Setup entity.
 	 */

@@ -16,13 +16,9 @@
 
 {# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
 
-<h3>Step n° {{ arraySetupStep[0].step.order }}</h3>
-    
-{% for stepValues in arraySetupStep %}
-    {% if stepValues.version != 0 %}
-        Version : {{ stepValues.version }}<br />
-    {% else %}
-        Default step<br />
-    {% endif %}
-        Value : {{ stepValues.value }}<br /> 
-{% endfor %}
+{% if setupStep.version != 0 %}
+    Version : {{ setupStep.version }}<br />
+{% else %}
+    Default step<br />
+{% endif %}
+    Value : {{ setupStep.value }}<br /> 
