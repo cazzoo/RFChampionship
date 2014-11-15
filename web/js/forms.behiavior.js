@@ -708,11 +708,14 @@ $(function() {
 	});
 
 	// Loading the page. Get if we have a step specified or default
-	var stepAction = GetURLHash();
-	if (stepAction === undefined) {
-		showStep(1);
-	} else {
-		showStep(stepAction);
+	var url = $(location).attr('href').split('/');
+	if (url[url.length - 3] == 'Setup' && url[url.length - 1].match(/^show/)) {
+		var stepAction = GetURLHash();
+		if (stepAction === undefined) {
+			showStep(1);
+		} else {
+			showStep(stepAction);
+		}
 	}
 
 	// --------------------------------------------

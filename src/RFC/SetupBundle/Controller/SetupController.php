@@ -176,6 +176,38 @@ class SetupController extends Controller {
 				'gameId' => $gameId 
 		) );
 	}
+	public function upgradeAction($setupId, $gameId) {
+		$em = $this->getDoctrine ()->getManager ();
+		
+		$entity = $em->getRepository ( 'RFCSetupBundle:Setup' )->find ( $setupId );
+		$steps = $em->getRepository ( 'RFCSetupBundle:Step' )->findBy ( array (
+				'game' => $gameId 
+		) );
+		
+		if (! $entity) {
+			throw $this->createNotFoundException ( 'Unable to find Setup entity.' );
+		}
+		
+		$lastStepInEntity = $entity->getOrderedSteps ();
+		$lastStepInEntity = end ( $lastStepInEntity );
+		
+		foreach ( $steps as $step ) {
+			if ($step->getStepOrder () > $lastStepInEntity) {
+				$setupStep = new SetupStep ();
+				$setupStep->setSetup ( $entity );
+				$setupStep->setStep ( $step );
+				$setupStep->setVersion ( 0 );
+				$setupStep->setValue ( '' );
+				$entity->addListSetupSteps ( $setupStep );
+			}
+		}
+		
+		$em->flush ();
+		
+		return $this->redirect ( $this->generateUrl ( 'rfcSetup_index', array (
+				'gameId' => $gameId 
+		) ) );
+	}
 	
 	/**
 	 * Deletes a Setup entity.
@@ -318,11 +350,11 @@ class SetupController extends Controller {
 			) );
 			
 			$stepNumber = $entity->getStep ()->getStepOrder ();
-			switch($entity->getSubStep()->getAction()) {
-				case 'next':
+			switch ($entity->getSubStep ()->getAction ()) {
+				case 'next' :
 					$stepNumber += 1;
 					break;
-				case 'stay':
+				case 'stay' :
 					$stepNumber = $stepNumber;
 					break;
 			}

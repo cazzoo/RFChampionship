@@ -20,6 +20,10 @@ setup_update:
     defaults: { _controller: "RFCSetupBundle:Setup:update" }
     requirements: { _method: post|put }
 
+setup_upgrade:
+    pattern:  /{setupId}/upgrade
+    defaults: { _controller: "RFCSetupBundle:Setup:upgrade" }
+
 setup_delete:
     pattern:  /{setupId}/delete
     defaults: { _controller: "RFCSetupBundle:Setup:delete" }

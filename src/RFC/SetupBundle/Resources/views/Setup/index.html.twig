@@ -40,9 +40,15 @@
                 </a><br />
                 {% set currentStep = setup.getLastStepCompleted %}
                 {% set stepsComplete = currentStep.step.stepOrder == setup.getOrderedSteps|length %}
+                {% set setupUpToDate = setup.getOrderedSteps|length == steps|length %}
                 Step {{ currentStep.step.stepOrder }} / {{ setup.getOrderedSteps|length }} {{ currentStep.value is not empty and stepsComplete ? 'Complete' }}
                 <br />
-                <a href="{{ path('setup_show', {'gameId': gameId, 'setupId': setup.id}) }}"> configure </a>
+                {% if setupUpToDate %}
+                	<a href="{{ path('setup_show', {'gameId': gameId, 'setupId': setup.id}) }}"> configure </a>
+                {% else %}
+                	Setup outdated, consider upgrading it! <br />
+                	<a href="{{ path('setup_upgrade', {'gameId': gameId, 'setupId': setup.id}) }}"> upgrade </a>
+                {% endif %}
                 <a href="{{ path('setup_delete', {'gameId': gameId, 'setupId': setup.id}) }}"> delete </a>
             </div>
         </li>
