@@ -26,6 +26,7 @@ use RFC\SetupBundle\Entity\Setup;
 use RFC\SetupBundle\Entity\SetupStep;
 use RFC\SetupBundle\Form\SetupType;
 use RFC\SetupBundle\Form\SetupStepType;
+use RFC\SetupBundle\Entity\SubStep;
 
 class SetupController extends Controller {
 	public function indexAction($gameId) {
@@ -266,6 +267,10 @@ class SetupController extends Controller {
 				'game' => $gameId 
 		) );
 		
+		$subSteps = $em->getRepository ( 'RFCSetupBundle:SubStep' )->findBy ( array (
+				'step' => $entity->getStep ()->getId () 
+		) );
+		
 		if (! $entity) {
 			throw $this->createNotFoundException ( 'Unable to find SetupStep entity.' );
 		}
@@ -277,7 +282,8 @@ class SetupController extends Controller {
 				'edit_form' => $editForm->createView (),
 				'setupId' => $setupId,
 				'gameId' => $gameId,
-				'stepCount' => count ( $stepCount ) 
+				'stepCount' => count ( $stepCount ),
+				'subSteps' => $subSteps 
 		) );
 	}
 	
@@ -311,7 +317,17 @@ class SetupController extends Controller {
 					'gameId' => $gameId 
 			) );
 			
-			return $this->redirect ( sprintf ( '%s#stepNumber=%s', $url, $entity->getStep ()->getStepOrder () ) );
+			$stepNumber = $entity->getStep ()->getStepOrder ();
+			switch($entity->getSubStep()->getAction()) {
+				case 'next':
+					$stepNumber += 1;
+					break;
+				case 'stay':
+					$stepNumber = $stepNumber;
+					break;
+			}
+			
+			return $this->redirect ( sprintf ( '%s#stepNumber=%s', $url, $stepNumber ) );
 		}
 		
 		return $this->render ( 'RFCSetupBundle:SetupStep:edit.html.twig', array (
@@ -331,7 +347,7 @@ class SetupController extends Controller {
 	 * @return \Symfony\Component\Form\Form The form
 	 */
 	private function createEditSetupStepForm(SetupStep $entity, $setupId, $gameId) {
-		$form = $this->createForm ( new SetupStepType (), $entity, array (
+		$form = $this->createForm ( new SetupStepType ( $entity->getStep ()->getId () ), $entity, array (
 				'em' => $this->getDoctrine ()->getManager (),
 				'action' => $this->generateUrl ( 'setupStep_update', array (
 						'setupStepId' => $entity->getId (),

@@ -52,6 +52,11 @@ class SetupStep {
 	private $value;
 	
 	/**
+	 * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\SubStep")
+	 */
+	private $subStep;
+	
+	/**
 	 * @ORM\Column(name="version", type="integer")
 	 */
 	private $version;
@@ -97,7 +102,14 @@ class SetupStep {
 		$this->value = $value;
 		return $this;
 	}
-	public function getVersion() {
+	public function getSubStep() {
+		return $this->subStep;
+	}
+	public function setSubStep($subStep) {
+		$this->subStep = $subStep;
+		return $this;
+	}
+		public function getVersion() {
 		return $this->version;
 	}
 	public function setVersion($version) {

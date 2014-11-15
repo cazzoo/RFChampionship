@@ -20,3 +20,9 @@
     Date : {{ setupStep.createdAt|date("Y/m/d H:i") }}<br />
     Version : {{ setupStep.version }}<br />
     Value : {{ setupStep.value }}<br /> 
+    SubStep <br />
+    Name : {{ setupStep.subStep.name }}<br />
+	Description : {{ setupStep.subStep.description }}<br />
+    Condition : {{ setupStep.subStep.stepCondition }}<br />
+    Action : {{ setupStep.subStep.action }}<br />
+    toDoText : {{ setupStep.subStep.toDoText }}<br /> 

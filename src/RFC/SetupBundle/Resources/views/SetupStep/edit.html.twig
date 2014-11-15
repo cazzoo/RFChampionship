@@ -21,6 +21,15 @@
     {{ form_errors(edit_form) }}
 
     {{ form_row(edit_form.value) }}
-    {% if stepCount != entity.step.stepOrder %}<a href="#stepNumber={{ entity.step.stepOrder + 1 }}">Next step</a>{% endif %}
+    {{ form_row(edit_form.subStep) }}
+    {% for subStep in subSteps %}
+    	<div class="subStepInfo" data-substepid="{{ subStep.id }}">
+    		Name : {{ subStep.name }}<br />
+    		Description : {{ subStep.description }}<br />
+    		Condition : {{ subStep.stepCondition }}<br />
+    		Action : {{ subStep.action }}<br />
+    		toDoText : {{ subStep.toDoText }}<br />
+    	</div>
+    {% endfor %}
 
 {{ form_end(edit_form) }}

@@ -12,20 +12,19 @@ var $newLinkLi = $('<li></li>').append($addImageLink);
 // ----------------- Functions
 // --------------------------------------------
 function GetURLParameter(sParam) {
-    var sPageURL = window.location.search.substring(1);
-    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++) 
-    {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1];
-        }
-    }
+	var sPageURL = window.location.search.substring(1);
+	var sURLVariables = sPageURL.split('&');
+	for (var i = 0; i < sURLVariables.length; i++) {
+		var sParameterName = sURLVariables[i].split('=');
+		if (sParameterName[0] === sParam) {
+			return sParameterName[1];
+		}
+	}
 }
 
 function GetURLHash() {
-    var sPageHash = window.location.hash.split('=')[1];
-    return sPageHash;
+	var sPageHash = window.location.hash.split('=')[1];
+	return sPageHash;
 }
 
 function toggleRules(p_time) {
@@ -205,14 +204,23 @@ function loadSessionData(data) {
 	});
 }
 
-function loadSetupStepData(data, last, stepId) {
-        var receiver = $('.setupStepContainer[data-stepid=' + stepId + ']').find('.setupStepValues');
-        var actionRoute = "";
-        if(last) {
-            actionRoute = 'setupStep_edit';
-        } else {
-            actionRoute = 'setupStep_show';
-        }
+function showSubStepInfo(subStepId) {
+	// Hide subSteps
+	$('.subStepInfo').hide();
+	if (subStepId != "") {
+		$('.subStepInfo[data-substepid=' + subStepId + ']').show();
+	}
+}
+
+function loadSetupStepData(data, firstElement, stepId) {
+	var receiver = $('.setupStepContainer[data-stepid=' + stepId + ']').find(
+			'.setupStepValues');
+	var actionRoute = "";
+	if (firstElement) {
+		actionRoute = 'setupStep_edit';
+	} else {
+		actionRoute = 'setupStep_show';
+	}
 	var jsonFormatted = JSON.stringify(data);
 	$.ajax({
 		type : "POST",
@@ -222,29 +230,60 @@ function loadSetupStepData(data, last, stepId) {
 		beforeSend : function() {
 			receiver.html("Chargement de la version...");
 		}
-	}).done(function(data) {
-		addNotification('Version loaded', 'success');
-		receiver.html(data);
-	}).fail(function(jqXHR, textStatus, errorThrown) {
+	}).done(
+			function(data) {
+				addNotification('Version loaded', 'success');
+				receiver.html(data);
+				if (firstElement) {
+					// Show subStep on select
+					$('.setupStepContainer #rfc_setupbundle_setupStep_subStep')
+							.unbind('change');
+					$(
+							'.setupStepContainer[data-stepid=' + stepId
+									+ '] #rfc_setupbundle_setupStep_subStep')
+							.bind(
+									'change',
+									function() {
+										var selected = $(this).find(
+												'option:selected').val();
+										showSubStepInfo(selected);
+
+									});
+					$('#rfc_setupbundle_setupStep_subStep').trigger('change');
+				}
+			}).fail(function(jqXHR, textStatus, errorThrown) {
 		receiver.html("Aucune version n'a pu être chargée");
 		addNotification('Error while loading version', 'error');
 	});
 }
 
 function selectVersion(elementSelected) {
-    var stepId = elementSelected.parent().parent().data('stepid');
-    var entityData = elementSelected.find(":selected");
-    var last = elementSelected.find('option:first-child').val() === entityData.val() ? true : false;
-    var data = {
-                setupStepId : entityData.val(),
-                gameId : entityData.data( "gameid" ),
-                setupId : entityData.data( "setupid" )
-        };
-    loadSetupStepData(data, last, stepId);
+	var stepId = elementSelected.parent().parent().data('stepid');
+	var entityData = elementSelected.find(":selected");
+	var firstElement = elementSelected.find('option:first-child').val() === entityData
+			.val() ? true : false;
+	var data = {
+		setupStepId : entityData.val(),
+		gameId : entityData.data("gameid"),
+		setupId : entityData.data("setupid")
+	};
+	loadSetupStepData(data, firstElement, stepId);
 }
 
-function showStep(number) {
-    $('.setupStepContainer[data-stepnumber='+number+'] h3').trigger('click');
+function showStep(stepNumber) {
+	$('.setupStepContainer .setupStepContent').hide();
+	$(
+			'.setupStepContainer[data-stepnumber=' + stepNumber
+					+ '] .setupStepContent').show();
+	// version loading on select
+	$('.setupStepContainer .setupStepContent .selectVersion').unbind('change');
+	var select = $('.setupStepContainer[data-stepnumber=' + stepNumber
+			+ '] .setupStepContent .selectVersion');
+	select.on('change', function() {
+		selectVersion($(this));
+	});
+	select.trigger('change');
+	document.location.hash = "stepNumber=" + stepNumber;
 }
 
 function setSessionResults(data) {
@@ -652,36 +691,29 @@ $(function() {
 	// ----------------- image Slider
 	// --------------------------------------------
 	$(".gallery").fancybox({
-		fitToView	: false,
-		width		: '90%',
-		autoSize	: false,
-		closeClick	: false
+		fitToView : false,
+		width : '90%',
+		autoSize : false,
+		closeClick : false
 	});
-        
+
 	// --------------------------------------------
 	// ----------------- SetupStep
 	// --------------------------------------------
-        // Show / Hide step regarding url
-        $('.setupStepContainer .setupStepContent').hide();
-	// version loading on select
-        $(".setupStepContainer .setupStepContent .selectVersion").on('change', function(){
-            selectVersion($(this));
-        });
-        
-        $('.setupStepContainer h3').bind('click', function() {
-            $('.setupStepContainer .setupStepContent').hide();
-            $(this).parent().find('.setupStepContent').show();
-            $(".setupStepContainer .setupStepContent:visible .selectVersion").trigger('change');
-            document.location.hash = "stepNumber=" + $(this).parent().data('stepnumber');
-        });
-        
-        // Loading the page. Get if we have a step specified or default
-        var stepAction = GetURLHash();
-        if(stepAction === undefined) {
-            showStep(1);
-        } else {
-            showStep(stepAction);
-        }
+	// Hide steps
+	$('.setupStepContainer .setupStepContent').hide();
+
+	$('.setupStepContainer h3').on('click', function() {
+		showStep($(this).parent().data('stepnumber'));
+	});
+
+	// Loading the page. Get if we have a step specified or default
+	var stepAction = GetURLHash();
+	if (stepAction === undefined) {
+		showStep(1);
+	} else {
+		showStep(stepAction);
+	}
 
 	// --------------------------------------------
 	// ----------------- WYSIWYG editor
@@ -730,13 +762,9 @@ $(function() {
 	// --------------------------------------------
 	// ----------------- Clickable table row
 	// --------------------------------------------
-	/*$('tr').has('td').has('a').hover(function() {
-		$(this).css('cursor', 'pointer');
-	});
-	$('tr').has('td').has('a').click(function() {
-		var href = $(this).find('a').attr('href');
-		if (href) {
-			window.location = href;
-		}
-	});*/
+	/*
+	 * $('tr').has('td').has('a').hover(function() { $(this).css('cursor',
+	 * 'pointer'); }); $('tr').has('td').has('a').click(function() { var href =
+	 * $(this).find('a').attr('href'); if (href) { window.location = href; } });
+	 */
 });

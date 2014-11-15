@@ -21,16 +21,27 @@ namespace RFC\SetupBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use RFC\SetupBundle\Entity\SubStepRepository;
 
 class SetupStepType extends AbstractType {
-
+	public function __construct($stepId) {
+		$this->stepId = $stepId;
+	}
+	
 	/**
 	 *
 	 * @param FormBuilderInterface $builder        	
 	 * @param array $options        	
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'value' );
+		$stepId = $this->stepId;
+		$builder->add ( 'value' )->add ( 'subStep', 'entity', array (
+				'required' => true,
+				'class' => 'RFCSetupBundle:SubStep',
+				'query_builder' => function (SubStepRepository $sr) use($stepId) {
+					return $sr->createQueryBuilder ( 's' )->where ( 's.step = :stepId' )->setParameter ( 'stepId', $stepId );
+				} 
+		));
 	}
 	
 	/**
@@ -39,7 +50,7 @@ class SetupStepType extends AbstractType {
 	 */
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults ( array (
-				'data_class' => 'RFC\SetupBundle\Entity\SetupStep'
+				'data_class' => 'RFC\SetupBundle\Entity\SetupStep' 
 		) );
 		
 		$resolver->setRequired ( array (
