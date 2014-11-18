@@ -88,16 +88,25 @@ class EntityToIntTransformer implements DataTransformerInterface
         return $entity;
     }
 
+    /**
+     * @param string $entityType
+     */
     public function setEntityType($entityType)
     {
         $this->entityType = $entityType;
     }
 
+    /**
+     * @param string $entityClass
+     */
     public function setEntityClass($entityClass)
     {
         $this->entityClass = $entityClass;
     }
 
+    /**
+     * @param string $entityRepository
+     */
     public function setEntityRepository($entityRepository)
     {
         $this->entityRepository = $entityRepository;

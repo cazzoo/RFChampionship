@@ -98,6 +98,12 @@ class SetupStep {
 	public function getValue() {
 		return $this->value;
 	}
+
+        /**
+         *
+         * @param string $value
+         * @return \RFC\SetupBundle\Entity\SetupStep
+         */
 	public function setValue($value) {
 		$this->value = $value;
 		return $this;
@@ -112,6 +118,12 @@ class SetupStep {
 		public function getVersion() {
 		return $this->version;
 	}
+
+        /**
+         * 
+         * @param integer $version
+         * @return \RFC\SetupBundle\Entity\SetupStep
+         */
 	public function setVersion($version) {
 		$this->version = $version;
 		return $this;
@@ -121,7 +133,7 @@ class SetupStep {
 	 * Set createdAt
 	 *
 	 * @param \DateTime $createdAt        	
-	 * @return Game
+	 * @return SetupStep
 	 */
 	public function setCreatedAt($createdAt) {
 		$this->createdAt = $createdAt;
@@ -142,7 +154,7 @@ class SetupStep {
 	 * Set updatedAt
 	 *
 	 * @param \DateTime $updatedAt        	
-	 * @return Game
+	 * @return SetupStep
 	 */
 	public function setUpdatedAt($updatedAt) {
 		$this->updatedAt = $updatedAt;

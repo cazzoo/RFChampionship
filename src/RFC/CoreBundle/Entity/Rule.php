@@ -126,7 +126,7 @@ class Rule extends KnowledgeData
      * Add listMetaRules
      *
      * @param \RFC\CoreBundle\Entity\MetaRule $listMetaRules            
-     * @return Game
+     * @return Rule
      */
     public function addListMetaRule(\RFC\CoreBundle\Entity\MetaRule $listMetaRules)
     {
@@ -181,7 +181,7 @@ class Rule extends KnowledgeData
      * Add listImages
      *
      * @param \RFC\CoreBundle\Entity\Image $listImages            
-     * @return Image
+     * @return Rule
      */
     public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
     {

@@ -44,7 +44,7 @@ class MetaRuleController extends Controller
             'typeSession' => 'ASC',
         	'value' => 'DESC'
         ));
-        $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
+        $game = $em->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
         
         // Ajout du jeu sélectionné
         $menu = $this->get('rfc_admin.menu.breadcrumb');

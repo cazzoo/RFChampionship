@@ -1,9 +1,6 @@
 rfcSetup_index:
     path:   /{gameId}/Setup
     defaults: { _controller: "RFCSetupBundle:Setup:index" }
-rfcSetup_debug:
-    path:   /Setup/debug
-    defaults: { _controller: "RFCSetupBundle:Setup:debug" }
 rfcSetup_setup:
     resource: "@RFCSetupBundle/Resources/config/routing/setup.yml"
     prefix:   /{gameId}/Setup

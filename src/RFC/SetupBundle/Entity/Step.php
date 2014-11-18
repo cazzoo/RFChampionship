@@ -149,6 +149,11 @@ class Step {
 	public function getStepOrder() {
 		return $this->stepOrder;
 	}
+
+        /**
+         * @param integer $stepOrder
+         * @return \RFC\SetupBundle\Entity\Step
+         */
 	public function setStepOrder($stepOrder) {
 		$this->stepOrder = $stepOrder;
 		return $this;
@@ -158,7 +163,7 @@ class Step {
 	 * Set createdAt
 	 *
 	 * @param \DateTime $createdAt        	
-	 * @return Game
+	 * @return Step
 	 */
 	public function setCreatedAt($createdAt) {
 		$this->createdAt = $createdAt;
@@ -179,7 +184,7 @@ class Step {
 	 * Set updatedAt
 	 *
 	 * @param \DateTime $updatedAt        	
-	 * @return Game
+	 * @return Step
 	 */
 	public function setUpdatedAt($updatedAt) {
 		$this->updatedAt = $updatedAt;

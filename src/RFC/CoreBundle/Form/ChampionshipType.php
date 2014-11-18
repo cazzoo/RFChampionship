@@ -22,8 +22,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use RFC\CoreBundle\Form\DataTransformer\GameToIntTransformer;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use RFC\CoreBundle\Entity\RuleRepository;
 use RFC\CoreBundle\Entity\MetaRuleRepository;
 

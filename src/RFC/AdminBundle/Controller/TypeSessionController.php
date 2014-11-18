@@ -38,7 +38,7 @@ class TypeSessionController extends Controller
         $typeSessions = $em->getRepository('RFCCoreBundle:TypeSession')->findBy(array(
             'game' => $gameId
         ));
-        $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
+        $game = $em->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
         
         // Ajout du jeu sélectionné
         $menu = $this->get('rfc_admin.menu.breadcrumb');

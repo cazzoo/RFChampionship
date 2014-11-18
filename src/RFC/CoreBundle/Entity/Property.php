@@ -101,7 +101,7 @@ class Property
      * Set value
      *
      * @param string $value            
-     * @return Result
+     * @return Property
      */
     public function setValue($value)
     {

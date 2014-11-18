@@ -20,7 +20,6 @@ namespace RFC\CoreBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use RFC\CoreBundle\Entity\DescriptorTrait;
 
 /**
  * CrewRequest
@@ -141,7 +140,7 @@ class CrewRequest
      * Set createdAt
      *
      * @param \DateTime $createdAt            
-     * @return Game
+     * @return CrewRequest
      */
     public function setCreatedAt($createdAt)
     {
@@ -164,7 +163,7 @@ class CrewRequest
      * Set updatedAt
      *
      * @param \DateTime $updatedAt            
-     * @return Game
+     * @return CrewRequest
      */
     public function setUpdatedAt($updatedAt)
     {

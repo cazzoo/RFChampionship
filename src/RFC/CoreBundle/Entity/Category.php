@@ -49,7 +49,7 @@ class Category extends KnowledgeData
     private $listVehicles;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image",cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image", cascade={"persist"})
      */
     private $listImages;
 

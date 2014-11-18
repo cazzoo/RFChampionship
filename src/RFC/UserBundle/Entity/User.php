@@ -325,6 +325,10 @@ class User extends BaseUser
         return null;
     }
 
+    /**
+     * @param integer $type
+     * @return array
+     */
     public function getRequestsByType($type)
     {
         $crewRequests = array();

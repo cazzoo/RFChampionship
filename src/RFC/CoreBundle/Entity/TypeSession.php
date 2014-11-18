@@ -80,7 +80,7 @@ class TypeSession extends KnowledgeData {
 	 * Add listImages
 	 *
 	 * @param \RFC\CoreBundle\Entity\Image $listImages        	
-	 * @return Image
+	 * @return TypeSession
 	 */
 	public function addListImage(\RFC\CoreBundle\Entity\Image $listImages) {
 		$this->listImages [] = $listImages;
@@ -117,7 +117,7 @@ class TypeSession extends KnowledgeData {
 	 * Set createdAt
 	 *
 	 * @param \DateTime $createdAt        	
-	 * @return Track
+	 * @return TypeSession
 	 */
 	public function setCreatedAt($createdAt) {
 		$this->createdAt = $createdAt;
@@ -138,7 +138,7 @@ class TypeSession extends KnowledgeData {
 	 * Set updatedAt
 	 *
 	 * @param \DateTime $updatedAt        	
-	 * @return Track
+	 * @return TypeSession
 	 */
 	public function setUpdatedAt($updatedAt) {
 		$this->updatedAt = $updatedAt;

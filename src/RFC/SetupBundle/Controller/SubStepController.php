@@ -154,7 +154,7 @@ class SubStepController extends Controller {
 	/**
 	 * Creates a form to create a Step entity.
 	 *
-	 * @param Step $entity
+	 * @param SubStep $entity
 	 *        	The entity
 	 *        	
 	 * @return \Symfony\Component\Form\Form The form
@@ -197,7 +197,7 @@ class SubStepController extends Controller {
 	/**
 	 * Creates a form to edit a Step entity.
 	 *
-	 * @param Step $entity
+	 * @param SubStep $entity
 	 *        	The entity
 	 *        	
 	 * @return \Symfony\Component\Form\Form The form

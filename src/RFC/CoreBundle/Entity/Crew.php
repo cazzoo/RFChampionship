@@ -20,7 +20,6 @@ namespace RFC\CoreBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use RFC\CoreBundle\Entity\DescriptorTrait;
 
 /**
  * Crew
@@ -112,6 +111,11 @@ class Crew
         return ($userId === $this->manager->getId()) ? true : false;
     }
 
+    /**
+     *
+     * @param integer $state
+     * @return array of members
+     */
     public function getMembers($state) {
         $members = array();
         foreach($this->listCrewRequests as $crewRequest)
@@ -175,8 +179,8 @@ class Crew
     /**
      * Add CrewRequest
      *
-     * @param \RFC\CoreBundle\Entity\CrewRequest $listCrewRequest            
-     * @return CrewRequest
+     * @param \RFC\CoreBundle\Entity\CrewRequest $crewRequest
+     * @return Crew
      */
     public function addListCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
     {
@@ -188,7 +192,7 @@ class Crew
     /**
      * Remove listCrewRequests
      *
-     * @param \RFC\CoreBundle\Entity\CrewRequest $listCrewRequests
+     * @param \RFC\CoreBundle\Entity\CrewRequest $crewRequest
      */
     public function removeListCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
     {
@@ -220,7 +224,7 @@ class Crew
      * Set createdAt
      *
      * @param \DateTime $createdAt            
-     * @return Game
+     * @return Crew
      */
     public function setCreatedAt($createdAt)
     {
@@ -243,7 +247,7 @@ class Crew
      * Set updatedAt
      *
      * @param \DateTime $updatedAt            
-     * @return Game
+     * @return Crew
      */
     public function setUpdatedAt($updatedAt)
     {

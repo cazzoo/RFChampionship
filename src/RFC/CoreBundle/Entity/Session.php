@@ -175,7 +175,7 @@ class Session
     /**
      * Set type
      *
-     * @param integer $type            
+     * @param integer $typeSession
      * @return Session
      */
     public function setTypeSession($typeSession)
@@ -233,7 +233,7 @@ class Session
      * Add listImages
      *
      * @param \RFC\CoreBundle\Entity\Image $listImages            
-     * @return Image
+     * @return Session
      */
     public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
     {

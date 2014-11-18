@@ -189,7 +189,7 @@ class Championship extends KnowledgeData
     /**
      * Set metaRuleId
      *
-     * @param \stdClass $metaRuleId            
+     * @param \stdClass $metaRule
      * @return Championship
      */
     public function setMetaRule($metaRule)
@@ -315,7 +315,7 @@ class Championship extends KnowledgeData
     /**
      * Add User to list of participants
      *
-     * @param \RFC\UserBundle\Entity\User $listUsers
+     * @param \RFC\UserBundle\Entity\User $user
      * @return Championship
      */
     public function registerUser(\RFC\UserBundle\Entity\User $user)
@@ -328,7 +328,7 @@ class Championship extends KnowledgeData
     /**
      * Remove User from list of participants
      *
-     * @param \RFC\UserBundle\Entity\User $listManagers
+     * @param \RFC\UserBundle\Entity\User $user
      */
     public function unregisterUser(\RFC\UserBundle\Entity\User $user)
     {
@@ -349,8 +349,8 @@ class Championship extends KnowledgeData
     /**
      * Add listImages
      *
-     * @param \RFC\CoreBundle\Entity\Image $listImages            
-     * @return Image
+     * @param \RFC\CoreBundle\Entity\Image $listImages
+     * @return Championship
      */
     public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
     {

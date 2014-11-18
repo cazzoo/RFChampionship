@@ -141,7 +141,7 @@ class SubStep {
 	 * Add listImages
 	 *
 	 * @param \RFC\CoreBundle\Entity\Image $listImages        	
-	 * @return Image
+	 * @return SubStep
 	 */
 	public function addListImage(\RFC\CoreBundle\Entity\Image $listImages) {
 		$this->listImages [] = $listImages;
@@ -162,7 +162,7 @@ class SubStep {
 	 * Set createdAt
 	 *
 	 * @param \DateTime $createdAt        	
-	 * @return Game
+	 * @return SubStep
 	 */
 	public function setCreatedAt($createdAt) {
 		$this->createdAt = $createdAt;
@@ -183,7 +183,7 @@ class SubStep {
 	 * Set updatedAt
 	 *
 	 * @param \DateTime $updatedAt        	
-	 * @return Game
+	 * @return SubStep
 	 */
 	public function setUpdatedAt($updatedAt) {
 		$this->updatedAt = $updatedAt;

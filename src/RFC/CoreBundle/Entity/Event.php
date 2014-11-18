@@ -19,8 +19,6 @@ namespace RFC\CoreBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use RFC\CoreBundle\Entity\Championship;
-use RFC\CoreBundle\Entity\Session;
 use RFC\CoreBundle\Entity\DescriptorTrait;
 
 /**
@@ -122,17 +120,19 @@ class Event
         $template->format('Y-m-d H:i:s');
         if ($this->listSessions[0] != null) {
             $beginDate = $this->listSessions[0]->getBeginDate();
-        } else
+        } else {
             $beginDate = $template;
+        }
         foreach ($this->listSessions as $session) {
             if ($beginDate > $session->getBeginDate()) {
                 $beginDate = $session->getBeginDate();
             }
         }
-        if ($beginDate != $template)
+        if ($beginDate != $template) {
             return $beginDate;
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -146,17 +146,19 @@ class Event
         $template->format('Y-m-d H:i:s');
         if ($this->listSessions[0] != null) {
             $endDate = $this->listSessions[0]->getEndDate();
-        } else
+        } else {
             $endDate = $template;
+        }
         foreach ($this->listSessions as $session) {
             if ($endDate < $session->getEndDate()) {
                 $endDate = $session->getEndDate();
             }
         }
-        if ($endDate != $template)
+        if ($endDate != $template) {
             return $endDate;
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -289,7 +291,7 @@ class Event
      * Add listImages
      *
      * @param \RFC\CoreBundle\Entity\Image $listImages            
-     * @return Image
+     * @return Event
      */
     public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
     {

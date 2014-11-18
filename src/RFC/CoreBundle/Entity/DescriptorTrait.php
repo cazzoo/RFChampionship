@@ -49,7 +49,7 @@ trait DescriptorTrait
      * Set name
      *
      * @param string $name            
-     * @return KnowledgeData
+     * @return DescriptorTrait
      */
     public function setName($name)
     {
@@ -72,7 +72,7 @@ trait DescriptorTrait
      * Set description
      *
      * @param string $description            
-     * @return Game
+     * @return DescriptorTrait
      */
     public function setDescription($description)
     {

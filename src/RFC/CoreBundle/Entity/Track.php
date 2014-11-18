@@ -90,7 +90,7 @@ class Track extends KnowledgeData
      * Add listImages
      *
      * @param \RFC\CoreBundle\Entity\Image $listImages            
-     * @return Image
+     * @return Track
      */
     public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
     {

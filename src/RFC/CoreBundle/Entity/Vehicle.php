@@ -90,7 +90,7 @@ class Vehicle extends KnowledgeData
      * Add listImages
      *
      * @param \RFC\CoreBundle\Entity\Image $listImages            
-     * @return Image
+     * @return Vehicle
      */
     public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
     {

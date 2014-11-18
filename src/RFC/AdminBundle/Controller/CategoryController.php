@@ -38,7 +38,7 @@ class CategoryController extends Controller
         $categories = $em->getRepository('RFCCoreBundle:Category')->findBy(array(
             'game' => $gameId
         ));
-        $game = $em->getRepository('RFCCoreBundle:Game')->findOneBy($gameId);
+        $game = $em->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
         
         // Ajout du jeu sélectionné
         $menu = $this->get('rfc_admin.menu.breadcrumb');

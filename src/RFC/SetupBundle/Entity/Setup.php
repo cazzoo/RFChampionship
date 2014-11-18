@@ -106,7 +106,7 @@ class Setup {
 	 * Add listImages
 	 *
 	 * @param SetupStep $setupStep        	
-	 * @return Image
+	 * @return Setup
 	 */
 	public function addListSetupSteps(SetupStep $setupStep) {
 		$this->listSetupSteps->add ( $setupStep );
@@ -155,7 +155,7 @@ class Setup {
 	 * Add listImages
 	 *
 	 * @param \RFC\CoreBundle\Entity\Image $listImages        	
-	 * @return Image
+	 * @return Setup
 	 */
 	public function addListImage(\RFC\CoreBundle\Entity\Image $listImages) {
 		$this->listImages [] = $listImages;
@@ -176,7 +176,7 @@ class Setup {
 	 * Set createdAt
 	 *
 	 * @param \DateTime $createdAt        	
-	 * @return Game
+	 * @return Setup
 	 */
 	public function setCreatedAt($createdAt) {
 		$this->createdAt = $createdAt;
@@ -197,7 +197,7 @@ class Setup {
 	 * Set updatedAt
 	 *
 	 * @param \DateTime $updatedAt        	
-	 * @return Game
+	 * @return Setup
 	 */
 	public function setUpdatedAt($updatedAt) {
 		$this->updatedAt = $updatedAt;

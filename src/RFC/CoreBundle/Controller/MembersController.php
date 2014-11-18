@@ -30,7 +30,7 @@ class MembersController extends Controller
         $em = $this->getDoctrine()->getManager();
         $userManager = $this->get('fos_user.user_manager');
         
-        $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
+        $game = $em->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' => $gameId));
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
         $users = $userManager->findByAndOrderBy('roles', 'ASC');
         
@@ -55,9 +55,9 @@ class MembersController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
+        $game = $em->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
         $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
-        $user = $em->getRepository('RFCUserBundle:User')->findOneById($userId);
+        $user = $em->getRepository('RFCUserBundle:User')->findOneBy(array('id' =>$userId));
         
         // Ajout de la miette de pain
         $menu = $this->get('rfc_core.menu.breadcrumb');

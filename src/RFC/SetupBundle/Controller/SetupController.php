@@ -40,24 +40,13 @@ class SetupController extends Controller {
 				'steps' => $steps 
 		) );
 	}
-	public function debugAction() {
-		$em = $this->getDoctrine ()->getManager ();
-		
-		$setups = $em->getRepository ( 'RFCSetupBundle:Setup' )->findAll ();
-		$steps = $em->getRepository ( 'RFCSetupBundle:Step' )->findAll ();
-		
-		return $this->render ( 'RFCSetupBundle:Setup:debug.html.twig', array (
-				'setups' => $setups,
-				'steps' => $steps 
-		) );
-	}
 	
 	/**
 	 * Show a setup with all its setupSteps.
 	 *
 	 * @param type $setupId        	
 	 * @param type $gameId        	
-	 * @return type
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function showAction($setupId, $gameId) {
 		$em = $this->getDoctrine ()->getManager ();
@@ -372,7 +361,7 @@ class SetupController extends Controller {
 	/**
 	 * Creates a form to edit a SetupStep entity.
 	 *
-	 * @param Setup $entity
+	 * @param SetupStep $entity
 	 *        	The entity
 	 *        	
 	 * @return \Symfony\Component\Form\Form The form
