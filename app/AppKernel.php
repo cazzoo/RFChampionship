@@ -19,7 +19,7 @@ class AppKernel extends Kernel {
 				new FOS\JsRoutingBundle\FOSJsRoutingBundle (),
 				new ADesigns\CalendarBundle\ADesignsCalendarBundle (),
 				new Knp\Bundle\MenuBundle\KnpMenuBundle (),
-				new Lexik\Bundle\WorkflowBundle\LexikWorkflowBundle (),
+				//new Lexik\Bundle\WorkflowBundle\LexikWorkflowBundle (),
 				
 				new FOS\RestBundle\FOSRestBundle (),
 				new FOS\CommentBundle\FOSCommentBundle (),
