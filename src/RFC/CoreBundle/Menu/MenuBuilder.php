@@ -41,6 +41,10 @@ class MenuBuilder
 
         $routeName = $request->get('_route');
 
+        $paramsGameId = array(
+                    'gameId' => $request->get('gameId')
+                );
+
         $mainNavigation = array(
             'Select a game' => array(
                 'route' => 'rfcCore_accueil'
@@ -49,39 +53,27 @@ class MenuBuilder
         $gameNavigation = array(
             'Game home' => array(
                 'route' => 'rfcCore_gameSelection',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ),
             'Championships' => array(
                 'route' => 'rfcCore_championships',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ),
             'Calendar' => array(
                 'route' => 'rfcCore_calendar',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ),
             'Crew' => array(
                 'route' => 'rfcCore_crew',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ),
             'Setup' => array(
                 'route' => 'rfcSetup_index',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ),
             'Members' => array(
                 'route' => 'rfcCore_members',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
 
         $userNavigation = ['User Panel' => ['route' => 'rfcCore_user'
@@ -109,62 +101,52 @@ class MenuBuilder
 
         $routeName = $request->get('_route');
 
+        $paramsGameId = array(
+                    'gameId' => $request->get('gameId')
+                );
+
         // crée le menu en fonction de la route
         switch ($routeName) {
             case 'rfcCore_championships':
             $menu->addChild('Championships', array(
                 'route' => 'rfcCore_championships',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'rfcCore_championships_show':
             $menu->addChild('Championships', array(
                 'route' => 'rfcCore_championships',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'rfcCore_calendar':
             $menu->addChild('Calendar', array(
                 'route' => 'rfcCore_calendar',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'rfcCore_crew':
             $menu->addChild('Crew', array(
                 'route' => 'rfcCore_crew',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'rfcCore_members':
             $menu->addChild('Members', array(
                 'route' => 'rfcCore_members',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'rfcCore_members_show':
             $menu->addChild('Members', array(
                 'route' => 'rfcCore_members',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'setup_show':
             $menu->addChild('Setup', array(
                 'route' => 'rfcSetup_index',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'rfcCore_user':

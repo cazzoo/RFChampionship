@@ -48,7 +48,6 @@ trait DescriptorTrait
     /**
      * Set name
      *
-     * @param string $name            
      * @return DescriptorTrait
      */
     public function setName($name)
@@ -71,7 +70,6 @@ trait DescriptorTrait
     /**
      * Set description
      *
-     * @param string $description            
      * @return DescriptorTrait
      */
     public function setDescription($description)
