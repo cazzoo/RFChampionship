@@ -20,7 +20,6 @@ namespace RFC\AdminBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use RFC\CoreBundle\Entity\Category;
-use RFC\CoreBundle\Entity\Game;
 use RFC\CoreBundle\Form\CategoryType;
 
 /**
@@ -39,7 +38,7 @@ class CategoryController extends Controller
         $categories = $em->getRepository('RFCCoreBundle:Category')->findBy(array(
             'game' => $gameId
         ));
-        $game = $em->getRepository('RFCCoreBundle:Game')->findOneById($gameId);
+        $game = $em->getRepository('RFCCoreBundle:Game')->findOneBy($gameId);
         
         // Ajout du jeu sélectionné
         $menu = $this->get('rfc_admin.menu.breadcrumb');

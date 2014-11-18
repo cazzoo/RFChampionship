@@ -20,7 +20,6 @@ namespace RFC\AdminBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use RFC\CoreBundle\Entity\Track;
-use RFC\CoreBundle\Entity\Game;
 use RFC\CoreBundle\Form\TrackType;
 
 /**
@@ -37,7 +36,7 @@ class TrackController extends Controller {
 		$tracks = $em->getRepository ( 'RFCCoreBundle:Track' )->findBy ( array (
 				'game' => $gameId 
 		) );
-		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneById ( $gameId );
+		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
 		
 		// Ajout du jeu sélectionné
 		$menu = $this->get ( 'rfc_admin.menu.breadcrumb' );

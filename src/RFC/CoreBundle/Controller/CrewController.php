@@ -21,19 +21,16 @@
 namespace RFC\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use RFC\CoreBundle\Entity\Game;
 use RFC\CoreBundle\Entity\Crew;
 use RFC\CoreBundle\Entity\CrewRequest;
-use RFC\UserBundle\Entity\User;
 
 class CrewController extends Controller {
 	public function indexAction($gameId) {
 		$em = $this->getDoctrine ()->getManager ();
 		$user = $this->container->get ( 'security.context' )->getToken ()->getUser ();
 		
-		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneById ( $gameId );
+		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
 		$games = $em->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
 		$users = $em->getRepository ( 'RFCUserBundle:User' )->findAll ();
 		$crews = $em->getRepository ( 'RFCCoreBundle:Crew' )->findBy ( array (
@@ -76,7 +73,7 @@ class CrewController extends Controller {
 		}
 		
 		$em = $this->getDoctrine ()->getManager ();
-		$requester = $em->getRepository ( 'RFCUserBundle:User' )->findOneById ( $params ['requesterId'] );
+		$requester = $em->getRepository ( 'RFCUserBundle:User' )->findOneBy(array('id' => $params ['requesterId'] ));
 		$crew = $em->getRepository ( 'RFCCoreBundle:Crew' )->findOneBy ( array (
 				'game' => $params ['gameId'],
 				'manager' => $params ['managerId'] 
@@ -84,8 +81,8 @@ class CrewController extends Controller {
 		
 		// Create crew if none exists for this game and manager
 		if ($crew == null) {
-			$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneById ( $params ['gameId'] );
-			$manager = $em->getRepository ( 'RFCUserBundle:User' )->findOneById ( $params ['managerId'] );
+			$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $params ['gameId'] ));
+			$manager = $em->getRepository ( 'RFCUserBundle:User' )->findOneBy(array('id' => $params ['managerId'] ));
 			$crew = new Crew ();
 			$crew->setGame ( $game );
 			$crew->setManager ( $manager );
@@ -101,7 +98,7 @@ class CrewController extends Controller {
 		try {
 			$em->flush ();
 			$jsonResponse = new JsonResponse ( $request, 200 );
-		} catch ( Exception $e ) {
+		} catch ( \Exception $e ) {
 			$jsonResponse = new JsonResponse ( $request, 400 );
 		}
 		
@@ -123,7 +120,7 @@ class CrewController extends Controller {
 		try {
 			$em->flush ();
 			$jsonResponse = new JsonResponse ( $crewRequest, 200 );
-		} catch ( Exception $e ) {
+		} catch ( \Exception $e ) {
 			$jsonResponse = new JsonResponse ( $crewRequest, 400 );
 		}
 		
@@ -138,14 +135,14 @@ class CrewController extends Controller {
 		
 		$em = $this->getDoctrine ()->getManager ();
 		
-		$crewRequest = $em->getRepository ( 'RFCCoreBundle:CrewRequest' )->findOneById ( $params ['crewRequestId'] );
+		$crewRequest = $em->getRepository ( 'RFCCoreBundle:CrewRequest' )->findOneBy(array('id' => $params ['crewRequestId'] ));
 		
 		$crewRequest->setState ( 2 );
 		
 		try {
 			$em->flush ();
 			$jsonResponse = new JsonResponse ( $crewRequest, 200 );
-		} catch ( Exception $e ) {
+		} catch ( \Exception $e ) {
 			$jsonResponse = new JsonResponse ( $crewRequest, 400 );
 		}
 		

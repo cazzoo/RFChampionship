@@ -21,8 +21,6 @@
 namespace RFC\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use RFC\CoreBundle\Entity\Game;
 
 class MembersController extends Controller
 {

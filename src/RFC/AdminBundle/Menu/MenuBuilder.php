@@ -162,7 +162,7 @@ class MenuBuilder
 
         if ($request->get('gameId') != null) {
             $nav = array_merge($nav, $gameNav);
-        };
+        }
 
         generateMenu($menu, $nav, $routeName);
 

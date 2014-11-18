@@ -17,12 +17,8 @@
 
 namespace RFC\AdminBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use RFC\CoreBundle\Entity\Game;
-use RFC\CoreBundle\Form\GameType;
-use RFC\CoreBundle\Entity\Image;
 
 /**
  * System controller.
@@ -74,7 +70,7 @@ class SystemController extends Controller
         try {
             $em->flush();
             $jsonResponse = new JsonResponse($properties, 200);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $jsonResponse = new JsonResponse($properties, 400);
         }
 

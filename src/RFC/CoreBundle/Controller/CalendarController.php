@@ -19,14 +19,12 @@
 namespace RFC\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use RFC\CoreBundle\Entity\Game;
 
 class CalendarController extends Controller {
 	public function indexAction($gameId) {
 		$em = $this->getDoctrine ()->getManager ();
 		
-		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneById ( $gameId );
+		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
 		$games = $em->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
 		
 		// Ajout du jeu sélectionné

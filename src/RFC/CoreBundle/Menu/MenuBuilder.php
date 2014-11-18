@@ -41,12 +41,12 @@ class MenuBuilder
 
         $routeName = $request->get('_route');
 
-        $nav = array(
+        $mainNavigation = array(
             'Select a game' => array(
                 'route' => 'rfcCore_accueil'
             ));
 
-        $gameNav = array(
+        $gameNavigation = array(
             'Game home' => array(
                 'route' => 'rfcCore_gameSelection',
                 'routeParameters' => array(
@@ -84,18 +84,16 @@ class MenuBuilder
                 )
             ));
 
-        $userNav = array(
-            'User Panel' => array(
-                'route' => 'rfcCore_user'
-            ));
+        $userNavigation = ['User Panel' => ['route' => 'rfcCore_user'
+                ]];
 
         if ($request->get('gameId') != null) {
-            $nav = array_merge($nav, $gameNav);
-        };
+            $mainNavigation = array_merge($mainNavigation, $gameNavigation);
+        }
 
-        $nav = array_merge($nav, $userNav);
+        $completeNavigation = array_merge($mainNavigation, $userNavigation);
 
-        foreach ($nav as $name => $params) {
+        foreach ($completeNavigation as $name => $params) {
             $menu->addChild($name, $params);
             if (preg_match('/^' . $params['route'] . '/', $routeName)) {
                 $menu[$name]->setAttribute('class', 'active');

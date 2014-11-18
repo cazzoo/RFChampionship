@@ -20,9 +20,6 @@ namespace RFC\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use RFC\CoreBundle\Entity\Championship;
-use RFC\UserBundle\Entity\User;
-use RFC\CoreBundle\RFCCoreBundle;
 
 /**
  * Championship controller.
@@ -45,7 +42,7 @@ class ChampionshipController extends Controller {
 				'gameId' => $gameId 
 		) )->getQuery ()->getResult ();
 		
-		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneById ( $gameId );
+		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
 		$games = $em->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
 		
 		// Ajout du jeu sélectionné
@@ -72,7 +69,7 @@ class ChampionshipController extends Controller {
 		$em = $this->getDoctrine ()->getManager ();
 		
 		$entity = $em->getRepository ( 'RFCCoreBundle:Championship' )->find ( $championshipId );
-		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneById ( $gameId );
+		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
 		$games = $em->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
 		
 		// Ajout du jeu sélectionné
@@ -84,7 +81,6 @@ class ChampionshipController extends Controller {
 		$manipulator->moveToPosition ( $menu->getChild ( $game->getName () ), 0 );
 		
 		// Ajout de la miette de pain
-		$menu = $this->get ( 'rfc_core.menu.breadcrumb' );
 		$menu->addChild ( $entity->getName () )->setCurrent ( true );
 		
 		if (! $entity) {
@@ -147,7 +143,7 @@ class ChampionshipController extends Controller {
 		}
 		
 		$em = $this->getDoctrine ()->getManager ();
-		$championship = $em->getRepository ( 'RFCCoreBundle:Championship' )->findOneById ( $params ['championshipId'] );
+		$championship = $em->getRepository ( 'RFCCoreBundle:Championship' )->findOneBy(array('id' => $params ['championshipId'] ));
 		
 		foreach ( $championship->getListEvents () as $event ) {
 			foreach ( $event->getListSessions () as $session ) {

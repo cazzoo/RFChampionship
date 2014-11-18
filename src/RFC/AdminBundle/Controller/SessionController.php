@@ -22,8 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use RFC\CoreBundle\Entity\Session;
 use RFC\CoreBundle\Form\SessionType;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use JMS\Serializer\SerializerBuilder;
 
 /**
  * Session controller.
@@ -295,7 +293,7 @@ class SessionController extends Controller {
 		}
 		
 		$em = $this->getDoctrine ()->getManager ();
-		$session = $em->getRepository ( 'RFCCoreBundle:Session' )->findOneById ( $params ['sessionId'] );
+		$session = $em->getRepository ( 'RFCCoreBundle:Session' )->findOneBy(array('id' => $params ['sessionId'] ));
 		
 		return $this->render ( 'RFCAdminBundle:Session:showSession.html.twig', array (
 				'session' => $session 

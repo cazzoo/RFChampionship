@@ -20,7 +20,6 @@ namespace RFC\AdminBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use RFC\CoreBundle\Entity\MetaRule;
-use RFC\CoreBundle\Entity\Game;
 use RFC\CoreBundle\Form\MetaRuleType;
 
 /**

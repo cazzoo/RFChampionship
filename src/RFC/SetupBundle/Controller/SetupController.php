@@ -26,7 +26,6 @@ use RFC\SetupBundle\Entity\Setup;
 use RFC\SetupBundle\Entity\SetupStep;
 use RFC\SetupBundle\Form\SetupType;
 use RFC\SetupBundle\Form\SetupStepType;
-use RFC\SetupBundle\Entity\SubStep;
 
 class SetupController extends Controller {
 	public function indexAction($gameId) {
@@ -63,7 +62,7 @@ class SetupController extends Controller {
 	public function showAction($setupId, $gameId) {
 		$em = $this->getDoctrine ()->getManager ();
 		
-		$setup = $em->getRepository ( 'RFCSetupBundle:Setup' )->findOneById ( $setupId );
+		$setup = $em->getRepository ( 'RFCSetupBundle:Setup' )->findOneBy(array('id' => $setupId ));
 		$stepCount = $em->getRepository ( 'RFCSetupBundle:Step' )->findBy ( array (
 				'game' => $gameId 
 		) );
@@ -279,7 +278,7 @@ class SetupController extends Controller {
 	public function showSetupStepAction($setupStepId, $setupId, $gameId) {
 		$em = $this->getDoctrine ()->getManager ();
 		
-		$setupStep = $em->getRepository ( 'RFCSetupBundle:SetupStep' )->findOneById ( $setupStepId );
+		$setupStep = $em->getRepository ( 'RFCSetupBundle:SetupStep' )->findOneBy(array('id' => $setupStepId ));
 		
 		return $this->render ( 'RFCSetupBundle:SetupStep:show.html.twig', array (
 				'setupStep' => $setupStep,

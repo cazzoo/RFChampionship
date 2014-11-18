@@ -254,7 +254,7 @@ class ResultController extends Controller {
 			}
 		}
 		
-		$session = $em->getRepository ( "RFCCoreBundle:Session" )->findOneById ( $contents ['sessionId'] );
+		$session = $em->getRepository ( "RFCCoreBundle:Session" )->findOneBy(array('id' => $contents ['sessionId'] ));
 		$users = $em->getRepository ( "RFCUserBundle:User" )->findAll ();
 		$rules = $em->getRepository ( "RFCCoreBundle:Rule" )->findAll ();
 		
@@ -289,7 +289,7 @@ class ResultController extends Controller {
 		try {
 			$em->flush ();
 			$jsonResponse = new JsonResponse ( $results, 200 );
-		} catch ( Exception $e ) {
+		} catch ( \Exception $e ) {
 			$jsonResponse = new JsonResponse ( $results, 400 );
 		}
 		

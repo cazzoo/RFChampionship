@@ -20,9 +20,6 @@
 namespace RFC\AdminBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use RFC\CoreBundle\Entity\Game;
-use RFC\CoreBundle\Form\GameType;
 
 class AdminController extends Controller
 {

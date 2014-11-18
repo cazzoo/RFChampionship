@@ -22,9 +22,6 @@ namespace RFC\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use RFC\CoreBundle\Entity\Game;
-use RFC\CoreBundle\Entity\Property;
 use RFC\UserBundle\Entity\User;
 use RFC\UserBundle\Form\UserFormType;
 
@@ -61,15 +58,14 @@ class UserController extends Controller {
 
             $userForm->add('submit', 'submit', array('label' => 'Update'));
             
-            $userForm = $userForm->createView();
+            $userFormView = $userForm->createView();
 
-            return $this->render ( 'RFCCoreBundle:User:index.html.twig', array (
-                'games' => $games,
+            return $this->render ( 'RFCCoreBundle:User:index.html.twig',                    ['games' => $games,
                 'championships' => $championships,
                 'user' => $user,
-                'userForm' => $userForm,
+                'userForm' => $userFormView,
                 'crewAwaitingRequests' => $crewAwaitingRequests
-            ) );
+                ] );
         } else {
             return $this->redirect ( $this->generateUrl ( 'fos_user_security_login' ) );
         }
