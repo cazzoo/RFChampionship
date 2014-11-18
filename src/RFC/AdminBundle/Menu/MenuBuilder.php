@@ -59,6 +59,10 @@ class MenuBuilder
 
         $routeName = $request->get('_route');
 
+        $paramsGameId = array(
+                    'gameId' => $request->get('gameId')
+                );
+
         $nav = array(
             'Global' => array(
                 'route' => '',
@@ -92,9 +96,7 @@ class MenuBuilder
                     'Summary' => array(
                         'route' => 'admin_game_manage',
                         'type' => 'item',
-                        'routeParameters' => array(
-                            'gameId' => $request->get('gameId')
-                        )
+                        'routeParameters' => $paramsGameId
                     ),
                     'Organization' => array(
                         'route' => '',
@@ -103,9 +105,7 @@ class MenuBuilder
                             'Championships' => array(
                                 'route' => 'admin_championship',
                                 'type' => 'item',
-                                'routeParameters' => array(
-                                    'gameId' => $request->get('gameId')
-                                )
+                                'routeParameters' => $paramsGameId
                             )
                         )
                     ),
@@ -116,44 +116,32 @@ class MenuBuilder
                             'Vehicles' => array(
                                 'route' => 'admin_vehicle',
                                 'type' => 'item',
-                                'routeParameters' => array(
-                                    'gameId' => $request->get('gameId')
-                                )
+                                'routeParameters' => $paramsGameId
                             ),
                             'Tracks' => array(
                                 'route' => 'admin_track',
                                 'type' => 'item',
-                                'routeParameters' => array(
-                                    'gameId' => $request->get('gameId')
-                                )
+                                'routeParameters' => $paramsGameId
                             ),
                             'Categories' => array(
                                 'route' => 'admin_category',
                                 'type' => 'item',
-                                'routeParameters' => array(
-                                    'gameId' => $request->get('gameId')
-                                )
+                                'routeParameters' => $paramsGameId
                             ),
                             'Rules' => array(
                                 'route' => 'admin_metaRule',
                                 'type' => 'item',
-                                'routeParameters' => array(
-                                    'gameId' => $request->get('gameId')
-                                )
+                                'routeParameters' => $paramsGameId
                             ),
                             'Session types' => array(
                                 'route' => 'admin_typeSession',
                                 'type' => 'item',
-                                'routeParameters' => array(
-                                    'gameId' => $request->get('gameId')
-                                )
+                                'routeParameters' => $paramsGameId
                             ),
                             'Steps' => array(
                                 'route' => 'setup_step_index',
                                 'type' => 'item',
-                                'routeParameters' => array(
-                                    'gameId' => $request->get('gameId')
-                                )
+                                'routeParameters' => $paramsGameId
                             )
                         )
                     )
@@ -175,6 +163,10 @@ class MenuBuilder
 
         $routeName = $request->get('_route');
 
+        $paramsGameId = array(
+                    'gameId' => $request->get('gameId')
+                );
+
         // cet item sera toujours affiché
         $menu->addChild('Admin home', array(
             'route' => 'RFCAdmin_index'
@@ -185,73 +177,55 @@ class MenuBuilder
             case 'admin_system':
             $menu->addChild('System', array(
                 'route' => 'admin_system',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'admin_user':
             $menu->addChild('Users', array(
                 'route' => 'admin_user',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'admin_game':
             $menu->addChild('Games', array(
                 'route' => 'admin_game',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'admin_championship':
             $menu->addChild('Championships', array(
                 'route' => 'admin_championship',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'admin_vehicle':
             $menu->addChild('Vehicles', array(
                 'route' => 'admin_vehicle',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'admin_track':
             $menu->addChild('Tracks', array(
                 'route' => 'admin_track',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'admin_category':
             $menu->addChild('Categories', array(
                 'route' => 'admin_category',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'admin_metaRule':
             $menu->addChild('Rules', array(
                 'route' => 'admin_metaRule',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
             case 'admin_typeSession':
             $menu->addChild('Session types', array(
                 'route' => 'admin_typeSession',
-                'routeParameters' => array(
-                    'gameId' => $request->get('gameId')
-                )
+                'routeParameters' => $paramsGameId
             ));
             break;
         }

@@ -119,6 +119,10 @@ class CrewRequest
         return $this->state;
     }
 
+    /**
+     * @param integer $state
+     * @return \RFC\CoreBundle\Entity\CrewRequest
+     */
     public function setState($state)
     {
         $this->state = $state;

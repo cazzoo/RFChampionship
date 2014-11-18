@@ -19,7 +19,6 @@
 namespace RFC\UserBundle\Entity;
 
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -360,12 +359,9 @@ class User extends BaseUser
         $lastRequest = null;
         foreach ($this->listCrewRequests as $crewRequest)
         {
-            if($crewId == $crewRequest->getCrew()->getId())
+            if($crewId == $crewRequest->getCrew()->getId() && ($lastRequest == null || $lastRequest->getCreatedAt() < $crewRequest->getCreatedAt()))
             {
-                if($lastRequest == null || $lastRequest->getCreatedAt() < $crewRequest->getCreatedAt())
-                {
-                    $lastRequest = $crewRequest;
-                }
+                $lastRequest = $crewRequest;
             }
         }
         return $lastRequest;

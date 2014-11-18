@@ -141,7 +141,7 @@ class Game {
 	/**
 	 * Add listChampionships
 	 *
-	 * @param \RFC\CoreBundle\Entity\Championship $listChampionships        	
+	 * @param Championship $listChampionships 
 	 * @return Game
 	 */
 	public function addListChampionship(\RFC\CoreBundle\Entity\Championship $listChampionships) {
@@ -267,7 +267,7 @@ class Game {
 	 * Add listImages
 	 *
 	 * @param \RFC\CoreBundle\Entity\Image $listImages        	
-	 * @return Image
+	 * @return Game
 	 */
 	public function addListImage(\RFC\CoreBundle\Entity\Image $listImages) {
 		$this->listImages [] = $listImages;

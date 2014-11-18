@@ -19,7 +19,6 @@ namespace RFC\CoreBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use RFC\CoreBundle\Entity\Event;
 use RFC\CoreBundle\Entity\DescriptorTrait;
 
 /**

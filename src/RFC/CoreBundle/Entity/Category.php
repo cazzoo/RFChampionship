@@ -134,29 +134,6 @@ class Category extends KnowledgeData
         $this->listVehicles->removeElement($listVehicles);
     }
 
-    /**
-     * Set game
-     *
-     * @param \RFC\CoreBundle\Entity\Game $game            
-     * @return Category
-     */
-    public function setGame(\RFC\CoreBundle\Entity\Game $game)
-    {
-        $this->game = $game;
-        
-        return $this;
-    }
-
-    /**
-     * Get game
-     *
-     * @return \RFC\CoreBundle\Entity\Game
-     */
-    public function getGame()
-    {
-        return $this->game;
-    }
-
     public function getListImages()
     {
         return $this->listImages;
@@ -172,7 +149,7 @@ class Category extends KnowledgeData
      * Add listImages
      *
      * @param \RFC\CoreBundle\Entity\Image $listImages            
-     * @return Image
+     * @return Category
      */
     public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
     {

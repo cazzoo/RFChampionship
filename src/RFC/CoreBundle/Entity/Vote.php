@@ -46,7 +46,7 @@ class Vote extends BaseVote implements SignedVoteInterface
     /**
      * Sets the owner of the vote
      *
-     * @param string $voter
+     * @param UserInterface $voter
      */
     public function setVoter(UserInterface $voter)
     {
