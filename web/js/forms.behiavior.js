@@ -238,9 +238,8 @@ function loadSetupStepData(data, firstElement, stepId) {
 					// Show subStep on select
 					$('.setupStepContainer #rfc_setupbundle_setupStep_subStep')
 							.unbind('change');
-					$(
-							'.setupStepContainer[data-stepid=' + stepId
-									+ '] #rfc_setupbundle_setupStep_subStep')
+					$('.setupStepContainer[data-stepid=' + stepId
+									+ '] .setupStepValues select')
 							.bind(
 									'change',
 									function() {
@@ -249,7 +248,8 @@ function loadSetupStepData(data, firstElement, stepId) {
 										showSubStepInfo(selected);
 
 									});
-					$('#rfc_setupbundle_setupStep_subStep').trigger('change');
+					$('.setupStepContainer[data-stepid=' + stepId
+									+ '] .setupStepValues select').trigger('change');
 				}
 			}).fail(function(jqXHR, textStatus, errorThrown) {
 		receiver.html("Aucune version n'a pu être chargée");

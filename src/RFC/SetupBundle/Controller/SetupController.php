@@ -188,11 +188,11 @@ class SetupController extends Controller {
 			throw $this->createNotFoundException ( 'Unable to find Setup entity.' );
 		}
 		
-		$lastStepInEntity = $entity->getOrderedSteps ();
-		$lastStepInEntity = end ( $lastStepInEntity );
+		$stepInEntity = $entity->getOrderedSteps ();
+		$lastStepOrder = end ( $stepInEntity )[0]->getStep()->getStepOrder();
 		
 		foreach ( $steps as $step ) {
-			if ($step->getStepOrder () > $lastStepInEntity) {
+			if ($step->getStepOrder () > $lastStepOrder) {
 				$setupStep = new SetupStep ();
 				$setupStep->setSetup ( $entity );
 				$setupStep->setStep ( $step );

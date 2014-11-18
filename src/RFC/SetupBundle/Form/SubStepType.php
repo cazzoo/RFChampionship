@@ -44,8 +44,8 @@ class SubStepType extends AbstractType {
 				'required' => false 
 		) )->add ( 'optimalAction', 'checkbox', array (
 				'required' => false 
-		) )->add ( 'commentsActive', 'checkbox', array (
-				'required' => false 
+		) )->add ( 'commentsActive', 'hidden', array (
+				'data' => '0'
 		) )->add ( 'step', 'entity', array (
 				'class' => 'RFC\SetupBundle\Entity\Step' 
 		) );
