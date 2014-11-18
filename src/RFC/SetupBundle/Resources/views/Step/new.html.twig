@@ -15,9 +15,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
 {# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
-{% extends "RFCSetupBundle::layout.html.twig" %}
+{% extends "RFCAdminBundle::layout.html.twig" %}
     {% block title %}
-        Accueil - {{ parent() }}
+        Admin - {{ parent() }}
 {% endblock %}
 {% block rfccore_body %}
 
@@ -39,6 +39,6 @@
 {{ form_end(form) }}
 
 <ul class="record_actions">
-	<li><a href="{{ path('rfcSetup_index', {'gameId' : gameId}) }}"> Back to the list </a></li>
+	<li><a href="{{ path('setup_step_index', {'gameId' : gameId}) }}"> Back to the list </a></li>
 </ul>
 {% endblock %}
