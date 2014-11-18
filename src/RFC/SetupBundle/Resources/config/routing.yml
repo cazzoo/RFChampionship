@@ -1,0 +1,18 @@
+rfcSetup_index:
+    path:   /{gameId}/Setup
+    defaults: { _controller: "RFCSetupBundle:Setup:index" }
+rfcSetup_debug:
+    path:   /Setup/debug
+    defaults: { _controller: "RFCSetupBundle:Setup:debug" }
+rfcSetup_setup:
+    resource: "@RFCSetupBundle/Resources/config/routing/setup.yml"
+    prefix:   /{gameId}/Setup
+rfcSetup_setupStep:
+    resource: "@RFCSetupBundle/Resources/config/routing/setupStep.yml"
+    prefix:   /{gameId}/Setup/{setupId}/SetupStep
+rfcSetup_step:
+    resource: "@RFCSetupBundle/Resources/config/routing/step.yml"
+    prefix:   /{gameId}/Setup/Step
+rfcSetup_subStep:
+    resource: "@RFCSetupBundle/Resources/config/routing/subStep.yml"
+    prefix:   /{gameId}/Setup/Step/{stepId}/SubStep

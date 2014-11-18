@@ -1,0 +1,38 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
+
+<div class="setupStepContainer" data-stepid="{{arraySetupStep[0].step.id}}" data-stepnumber="{{ arraySetupStep[0].step.stepOrder }}">
+    <h3>Step n° {{ arraySetupStep[0].step.stepOrder }}</h3>
+    
+    {{arraySetupStep[0].step.name}}<br />
+    {{arraySetupStep[0].step.description}}<br />
+    {{arraySetupStep[0].step.category}}<br />
+    {{arraySetupStep[0].step.indicatorType}}<br />
+    {{arraySetupStep[0].step.tip}}<br />
+    {{arraySetupStep[0].step.complexity}}<br />
+
+    <div class="setupStepContent">
+    <select class="selectVersion">
+        {% for stepValues in arraySetupStep|reverse %}
+            <option value="{{ stepValues.id }}" data-gameid="{{ gameId }}" data-setupid="{{ setup.id }}" >Version {{ stepValues.version }}</option>
+        {% endfor %}
+    </select>
+
+    <div class="setupStepValues"></div>
+    </div>
+</div>

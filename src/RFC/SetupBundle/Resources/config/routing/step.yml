@@ -1,0 +1,25 @@
+setup_step_index:
+    pattern:  /
+    defaults: { _controller: "RFCSetupBundle:Step:index" }
+    
+setup_step_new:
+    pattern:  /new
+    defaults: { _controller: "RFCSetupBundle:Step:new" }
+
+setup_step_create:
+    pattern:  /create
+    defaults: { _controller: "RFCSetupBundle:Step:create" }
+    requirements: { _method: post }
+
+setup_step_edit:
+    pattern:  /{stepId}/edit
+    defaults: { _controller: "RFCSetupBundle:Step:edit" }
+
+setup_step_update:
+    pattern:  /{stepId}/update
+    defaults: { _controller: "RFCSetupBundle:Step:update" }
+    requirements: { _method: post|put }
+
+setup_step_delete:
+    pattern:  /{stepId}/delete
+    defaults: { _controller: "RFCSetupBundle:Step:delete" }

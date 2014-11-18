@@ -1,0 +1,29 @@
+setup_new:
+    pattern:  /new
+    defaults: { _controller: "RFCSetupBundle:Setup:new" }
+
+setup_create:
+    pattern:  /create
+    defaults: { _controller: "RFCSetupBundle:Setup:create" }
+    requirements: { _method: post }
+
+setup_show:
+    pattern:  /{setupId}/show
+    defaults: { _controller: "RFCSetupBundle:Setup:show"}
+    
+setup_edit:
+    pattern:  /{setupId}/edit
+    defaults: { _controller: "RFCSetupBundle:Setup:edit" }
+
+setup_update:
+    pattern:  /{setupId}/update
+    defaults: { _controller: "RFCSetupBundle:Setup:update" }
+    requirements: { _method: post|put }
+
+setup_upgrade:
+    pattern:  /{setupId}/upgrade
+    defaults: { _controller: "RFCSetupBundle:Setup:upgrade" }
+
+setup_delete:
+    pattern:  /{setupId}/delete
+    defaults: { _controller: "RFCSetupBundle:Setup:delete" }

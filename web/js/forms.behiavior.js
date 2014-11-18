@@ -11,6 +11,22 @@ var $newLinkLi = $('<li></li>').append($addImageLink);
 // --------------------------------------------
 // ----------------- Functions
 // --------------------------------------------
+function GetURLParameter(sParam) {
+	var sPageURL = window.location.search.substring(1);
+	var sURLVariables = sPageURL.split('&');
+	for (var i = 0; i < sURLVariables.length; i++) {
+		var sParameterName = sURLVariables[i].split('=');
+		if (sParameterName[0] === sParam) {
+			return sParameterName[1];
+		}
+	}
+}
+
+function GetURLHash() {
+	var sPageHash = window.location.hash.split('=')[1];
+	return sPageHash;
+}
+
 function toggleRules(p_time) {
 	var time = typeof p_time !== 'undefined' ? p_time : 0;
 	if ($('#rfc_corebundle_championship_isAgreed').is(':checked')) {
@@ -162,7 +178,7 @@ function updateProperties(data) {
 		$('form#system-properties button').removeClass('ym-disabled');
 		$('form#system-properties button').prop('disabled', false);
 		$('form#system-properties button').prop('disabled', false);
-	})
+	});
 }
 
 function loadSessionData(data) {
@@ -186,6 +202,88 @@ function loadSessionData(data) {
 		$('#session').html("Aucune session n'a pu être chargée");
 		addNotification('Error while loading session', 'error');
 	});
+}
+
+function showSubStepInfo(subStepId) {
+	// Hide subSteps
+	$('.subStepInfo').hide();
+	if (subStepId != "") {
+		$('.subStepInfo[data-substepid=' + subStepId + ']').show();
+	}
+}
+
+function loadSetupStepData(data, firstElement, stepId) {
+	var receiver = $('.setupStepContainer[data-stepid=' + stepId + ']').find(
+			'.setupStepValues');
+	var actionRoute = "";
+	if (firstElement) {
+		actionRoute = 'setupStep_edit';
+	} else {
+		actionRoute = 'setupStep_show';
+	}
+	var jsonFormatted = JSON.stringify(data);
+	$.ajax({
+		type : "POST",
+		url : Routing.generate(actionRoute, data),
+		data : jsonFormatted,
+		cache : false,
+		beforeSend : function() {
+			receiver.html("Chargement de la version...");
+		}
+	}).done(
+			function(data) {
+				addNotification('Version loaded', 'success');
+				receiver.html(data);
+				if (firstElement) {
+					// Show subStep on select
+					$('.setupStepContainer #rfc_setupbundle_setupStep_subStep')
+							.unbind('change');
+					$('.setupStepContainer[data-stepid=' + stepId
+									+ '] .setupStepValues select')
+							.bind(
+									'change',
+									function() {
+										var selected = $(this).find(
+												'option:selected').val();
+										showSubStepInfo(selected);
+
+									});
+					$('.setupStepContainer[data-stepid=' + stepId
+									+ '] .setupStepValues select').trigger('change');
+				}
+			}).fail(function(jqXHR, textStatus, errorThrown) {
+		receiver.html("Aucune version n'a pu être chargée");
+		addNotification('Error while loading version', 'error');
+	});
+}
+
+function selectVersion(elementSelected) {
+	var stepId = elementSelected.parent().parent().data('stepid');
+	var entityData = elementSelected.find(":selected");
+	var firstElement = elementSelected.find('option:first-child').val() === entityData
+			.val() ? true : false;
+	var data = {
+		setupStepId : entityData.val(),
+		gameId : entityData.data("gameid"),
+		setupId : entityData.data("setupid")
+	};
+	loadSetupStepData(data, firstElement, stepId);
+}
+
+function showStep(stepNumber) {
+	$('.setupStepContainer .setupStepContent').hide();
+	$(
+			'.setupStepContainer[data-stepnumber=' + stepNumber
+					+ '] .setupStepContent').show();
+	// version loading on select
+	$('.setupStepContainer .setupStepContent .selectVersion').unbind('change');
+	var select = $('.setupStepContainer[data-stepnumber=' + stepNumber
+			+ '] .setupStepContent .selectVersion');
+	select.on('change', function() {
+		selectVersion($(this));
+	});
+	select.trigger('change');
+	document.location.hash = "stepNumber=" + stepNumber;
 }
 
 function setSessionResults(data) {
@@ -322,7 +420,7 @@ function removeNotification(id) {
 	notifications.splice(arrayObjectIndexOf(notifications, id, 'id'), 1);
 	$(notificationBox).find("li").find("#message" + id).parent().parent()
 			.fadeOut(300, function() {
-				$(this).remove()
+				$(this).remove();
 			});
 	animate(
 			$('#notificationCenter').find('.bubble').html(notifications.length),
@@ -439,7 +537,7 @@ $(function() {
 	// --------------------------------------------
 	$('form#acceptCrewApplication').submit(function(e) {
 		var data = {
-			crewRequestId : $(this).find('#crewRequestId').val(),
+			crewRequestId : $(this).find('#crewRequestId').val()
 		};
 		$('form#acceptCrewApplication button').addClass('ym-disabled');
 		$('form#acceptCrewApplication button').prop('disabled', true);
@@ -468,7 +566,7 @@ $(function() {
 
 	$(".eventItem").click(function() {
 		$('.eventItem').removeClass('active');
-		$(this).addClass("active")
+		$(this).addClass("active");
 		var entityData = $(this).attr('id').split(';');
 		var data = {
 			eventId : entityData[0].substr(6),
@@ -488,7 +586,7 @@ $(function() {
 			$('#listSessions').html(data);
 			$('.sessionItem').bind('click', function() {
 				$('.sessionItem').removeClass('active');
-				$(this).addClass("active")
+				$(this).addClass("active");
 
 				var data = {
 					sessionId : $(this).data('session')
@@ -516,7 +614,7 @@ $(function() {
 	// --------------------------------------------
 	$("div.metaRuleItem").click(function() {
 		$('.metaRuleItem').removeClass('active');
-		$(this).addClass("active")
+		$(this).addClass("active");
 		var entityData = $(this).attr('id').split(';');
 		var data = {
 			metaRuleId : entityData[0].substr(9),
@@ -593,11 +691,32 @@ $(function() {
 	// ----------------- image Slider
 	// --------------------------------------------
 	$(".gallery").fancybox({
-		fitToView	: false,
-		width		: '90%',
-		autoSize	: false,
-		closeClick	: false
+		fitToView : false,
+		width : '90%',
+		autoSize : false,
+		closeClick : false
 	});
+
+	// --------------------------------------------
+	// ----------------- SetupStep
+	// --------------------------------------------
+	// Hide steps
+	$('.setupStepContainer .setupStepContent').hide();
+
+	$('.setupStepContainer h3').on('click', function() {
+		showStep($(this).parent().data('stepnumber'));
+	});
+
+	// Loading the page. Get if we have a step specified or default
+	var url = $(location).attr('href').split('/');
+	if (url[url.length - 3] == 'Setup' && url[url.length - 1].match(/^show/)) {
+		var stepAction = GetURLHash();
+		if (stepAction === undefined) {
+			showStep(1);
+		} else {
+			showStep(stepAction);
+		}
+	}
 
 	// --------------------------------------------
 	// ----------------- WYSIWYG editor
@@ -641,18 +760,14 @@ $(function() {
 		$(this).children(".editZone").show();
 	}, function() {
 		$(this).children(".editZone").hide();
-	})
+	});
 
 	// --------------------------------------------
 	// ----------------- Clickable table row
 	// --------------------------------------------
-	/*$('tr').has('td').has('a').hover(function() {
-		$(this).css('cursor', 'pointer');
-	});
-	$('tr').has('td').has('a').click(function() {
-		var href = $(this).find('a').attr('href');
-		if (href) {
-			window.location = href;
-		}
-	});*/
-})
+	/*
+	 * $('tr').has('td').has('a').hover(function() { $(this).css('cursor',
+	 * 'pointer'); }); $('tr').has('td').has('a').click(function() { var href =
+	 * $(this).find('a').attr('href'); if (href) { window.location = href; } });
+	 */
+});

@@ -147,6 +147,13 @@ class MenuBuilder
                                 'routeParameters' => array(
                                     'gameId' => $request->get('gameId')
                                 )
+                            ),
+                            'Steps' => array(
+                                'route' => 'setup_step_index',
+                                'type' => 'item',
+                                'routeParameters' => array(
+                                    'gameId' => $request->get('gameId')
+                                )
                             )
                         )
                     )

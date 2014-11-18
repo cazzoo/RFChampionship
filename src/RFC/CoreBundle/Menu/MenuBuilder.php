@@ -71,6 +71,12 @@ class MenuBuilder
                     'gameId' => $request->get('gameId')
                 )
             ),
+            'Setup' => array(
+                'route' => 'rfcSetup_index',
+                'routeParameters' => array(
+                    'gameId' => $request->get('gameId')
+                )
+            ),
             'Members' => array(
                 'route' => 'rfcCore_members',
                 'routeParameters' => array(
@@ -150,6 +156,14 @@ class MenuBuilder
             case 'rfcCore_members_show':
             $menu->addChild('Members', array(
                 'route' => 'rfcCore_members',
+                'routeParameters' => array(
+                    'gameId' => $request->get('gameId')
+                )
+            ));
+            break;
+            case 'setup_show':
+            $menu->addChild('Setup', array(
+                'route' => 'rfcSetup_index',
                 'routeParameters' => array(
                     'gameId' => $request->get('gameId')
                 )

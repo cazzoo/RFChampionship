@@ -1,0 +1,68 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{% extends "::layout.html.twig" %}
+
+{% block header %}
+
+    <div>
+        <h1>RF Championship</h1>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+            | <a href="{{ path('fos_user_security_logout') }}">
+                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+            </a>
+        {% else %}
+            <a href="{{ path('fos_user_security_login') }}">
+                {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
+            </a>
+            <a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
+        {% endif %}
+    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div>
+            {% include 'RFCCoreBundle::Structure/header.html.twig' %}
+        </div>
+    {% endif %}
+
+{% endblock %}
+{% block nav %}
+
+    {% include 'RFCCoreBundle::Structure/menu.html.twig' %}
+
+{% endblock %}
+{% block breadcrumbs %}
+
+    {% include 'RFCCoreBundle::Structure/breadcrumbs.html.twig' %}
+
+{% endblock %}
+{% block main %}
+    
+    {% include 'RFCCoreBundle::Structure/notificationCenter.html.twig' %}
+
+    {% block rfccore_body %}{% endblock %}
+
+{% endblock %}
+{% block comments %}
+
+    {% include 'RFCCoreBundle::Structure/comments.html.twig' %}
+    
+{% endblock %}
+{% block footer %}
+
+    {% include 'RFCCoreBundle::Structure/footer.html.twig' %}
+
+{% endblock %}

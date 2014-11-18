@@ -1,0 +1,44 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
+{% extends "RFCAdminBundle::layout.html.twig" %}
+    {% block title %}
+        Admin - {{ parent() }}
+{% endblock %}
+{% block rfccore_body %}
+
+<h2>Step creation</h2>
+
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.indicatorType) }}
+    {{ form_row(form.tip) }}
+    {{ form_row(form.category) }}
+    {{ form_row(form.stepOrder) }}
+    {{ form_row(form.complexity) }}
+    {{ form_row(form.commentsActive) }}
+    {{ form_row(form.game) }}
+
+{{ form_end(form) }}
+
+<ul class="record_actions">
+	<li><a href="{{ path('setup_step_index', {'gameId' : gameId}) }}"> Back to the list </a></li>
+</ul>
+{% endblock %}

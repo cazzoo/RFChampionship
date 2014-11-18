@@ -1,0 +1,40 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
+{% extends "RFCSetupBundle::layout.html.twig" %}
+    {% block title %}
+        Accueil - {{ parent() }}
+{% endblock %}
+{% block rfccore_body %}
+
+<h2>Setup creation</h2>
+
+{{ form_start(edit_form) }}
+    {{ form_errors(edit_form) }}
+
+    {{ form_row(edit_form.name) }}
+    {{ form_row(edit_form.description) }}
+    {{ form_row(edit_form.track) }}
+    {{ form_row(edit_form.vehicle) }}
+    {{ form_row(edit_form.user) }}
+
+{{ form_end(edit_form) }}
+
+<ul class="record_actions">
+	<li><a href="{{ path('rfcSetup_index', {'gameId' : gameId}) }}"> Back to the list </a></li>
+</ul>
+{% endblock %}

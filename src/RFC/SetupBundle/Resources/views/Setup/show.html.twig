@@ -1,0 +1,50 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
+{% extends "RFCSetupBundle::layout.html.twig" %}
+    {% block title %}
+        Accueil - {{ parent() }}
+{% endblock %}
+{% block rfccore_body %}
+
+{% if setup %}
+<h2>Showing {{ setup.name }}</h2>
+
+Setup name : {{ setup.name }}<br />
+Vehicle : {{ setup.vehicle.name }}<br />
+Track : {{ setup.track ? setup.track.name : '-' }}<br />
+
+{% for arraySetupStep in setup.getOrderedSteps %}
+	{% if setup.getOrderedSteps|length < stepCount %}
+		This setup is outdated. Please upgrade it.
+	{% endif %}
+    {% include 'RFCSetupBundle:SetupStep:index.html.twig' with arraySetupStep %}
+{% endfor %}
+
+{% if setup.listImages is not empty %}
+    <img alt="{{ setup.listImages[0].name }}" src="{{ setup.listImages[0].url }}" class="img-rounded" width="200px" />
+    <br />
+{% endif %}
+
+{% else %}
+    No setups available
+{% endif %}
+
+<br />
+<a class="ym-button add" href="{{ path('rfcSetup_index', {'gameId': gameId}) }}">Back to list</a>
+
+{% endblock %}

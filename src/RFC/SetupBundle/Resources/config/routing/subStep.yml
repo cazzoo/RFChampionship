@@ -1,0 +1,22 @@
+setup_subStep_new:
+    pattern:  /new
+    defaults: { _controller: "RFCSetupBundle:SubStep:new" }
+
+setup_subStep_create:
+    pattern:  /create
+    defaults: { _controller: "RFCSetupBundle:SubStep:create" }
+    requirements: { _method: post }
+
+setup_subStep_edit:
+    pattern:  /{subStepId}/edit
+    defaults: { _controller: "RFCSetupBundle:SubStep:edit" }
+
+setup_subStep_update:
+    pattern:  /{subStepId}/update
+    defaults: { _controller: "RFCSetupBundle:SubStep:update" }
+    requirements: { _method: post|put }
+
+setup_subStep_delete:
+    pattern:  /{subStepId}/delete
+    defaults: { _controller: "RFCSetupBundle:SubStep:delete" }
+    requirements: { _method: post|delete }
