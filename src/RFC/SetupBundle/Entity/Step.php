@@ -80,7 +80,7 @@ class Step extends Descriptor
     public function __construct()
     {
         parent::__construct();
-        $this->listSetupSteps = new \Doctrine\Common\Collections\ArrayCollection ();
+        $this->listSubSteps = new \Doctrine\Common\Collections\ArrayCollection ();
     }
 
     public function __toString()

@@ -343,7 +343,6 @@ class SetupController extends Controller {
 					$stepNumber += 1;
 					break;
 				case 'stay' :
-					$stepNumber = $stepNumber;
 					break;
 			}
 			

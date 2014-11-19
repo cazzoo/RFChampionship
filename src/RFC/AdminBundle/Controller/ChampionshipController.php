@@ -137,7 +137,7 @@ class ChampionshipController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         
         $entity = $entityManager->getRepository('RFCCoreBundle:Championship')->find($championshipId);
-        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findById($gameId);
+        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findBy(array('id' =>$gameId));
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Championship entity.');
