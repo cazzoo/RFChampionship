@@ -269,26 +269,28 @@ class RuleController extends Controller
             ->getForm();
     }
 
-    public function searchAction()
+    public function searchAction(Request $request)
     {
-		$params = array ();
-		$content = $this->get ( "request" )->getContent ();
-		if (! empty ( $content )) {
-			$params = json_decode ( $content, true );
-		}
-		
-		$gameId = $params ['gameId'];
-		$metaRuleId = $params ['metaRuleId'];
-		
-		$rules = $this->getDoctrine()
-		->getManager()
-		->getRepository('RFCCoreBundle:Rule')
-		->getForMetaRule($metaRuleId);
-		
-		return $this->render('RFCAdminBundle:Rule:list.html.twig', array(
-		    'gameId' => $gameId,
-		    'rules' => $rules,
-		    'metaRuleId' => $metaRuleId
-		));
+        if ($request->isMethod('POST')) {
+            $params = \json_decode ( $request->getContent(), true );
+
+            $gameId = $params ['gameId'];
+            $metaRuleId = $params ['metaRuleId'];
+
+            $rules = $this->getDoctrine()->getManager()
+            ->getRepository('RFCCoreBundle:Rule')->getForMetaRule($metaRuleId);
+
+            return $this->render('RFCAdminBundle:Rule:list.html.twig', array(
+                'gameId' => $gameId,
+                'rules' => $rules,
+                'metaRuleId' => $metaRuleId
+            ));
+        } else {
+            return $this->render('RFCAdminBundle:Rule:list.html.twig', array(
+                'gameId' => $gameId,
+                'rules' => null,
+                'metaRuleId' => $metaRuleId
+            ));
+        }
     }
 }

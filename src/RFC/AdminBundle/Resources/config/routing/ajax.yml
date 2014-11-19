@@ -25,10 +25,3 @@ ajax_session_results_set:
     options:
         expose: true
         
-ajax_session_results_update:
-    pattern: /updateSessionResults
-    defaults: { _controller: "RFCAdminBundle:Result:updateSessionResults" }
-    requirements: { _method: post }
-    options:
-        expose: true
-        

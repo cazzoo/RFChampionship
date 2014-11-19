@@ -1,19 +1,19 @@
 <?php
 /*  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
-    Copyright (C) 2014 - //Racing-France//
+  Copyright (C) 2014 - //Racing-France//
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    any later version.
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 namespace RFC\CoreBundle\Entity;
 
@@ -29,7 +29,6 @@ use RFC\CoreBundle\Entity\KnowledgeData;
  */
 class Vehicle extends KnowledgeData
 {
-
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -44,11 +43,6 @@ class Vehicle extends KnowledgeData
     protected $game;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image",cascade={"persist"})
-     */
-    private $listImages;
-
-    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
@@ -59,10 +53,15 @@ class Vehicle extends KnowledgeData
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
-    
+
     public function __toString()
     {
-        return $this->getName();
+        return $this->getName ();
+    }
+
+    public function __construct()
+    {
+        parent::__construct();
     }
 
     /**
@@ -75,40 +74,6 @@ class Vehicle extends KnowledgeData
         return $this->id;
     }
 
-    public function getListImages()
-    {
-        return $this->listImages;
-    }
-
-    public function setListImages($listImages)
-    {
-        $this->listImages = $listImages;
-        return $this;
-    }
-
-    /**
-     * Add listImages
-     *
-     * @param \RFC\CoreBundle\Entity\Image $listImages            
-     * @return Vehicle
-     */
-    public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
-    {
-        $this->listImages[] = $listImages;
-        
-        return $this;
-    }
-
-    /**
-     * Remove listImages
-     *
-     * @param \RFC\CoreBundle\Entity\Image $listImages            
-     */
-    public function removeListImage(\RFC\CoreBundle\Entity\Image $listImages)
-    {
-        $this->listImages->removeElement($listImages);
-    }
-
     /**
      * Set createdAt
      *
@@ -118,7 +83,7 @@ class Vehicle extends KnowledgeData
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-        
+
         return $this;
     }
 
@@ -141,7 +106,7 @@ class Vehicle extends KnowledgeData
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-        
+
         return $this;
     }
 

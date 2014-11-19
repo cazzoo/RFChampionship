@@ -24,7 +24,6 @@ use ADesigns\CalendarBundle\Event\CalendarEvent;
 use ADesigns\CalendarBundle\Entity\EventEntity;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Routing\Router;
-use RFC\CoreBundle\Entity\Session;
 
 class CalendarEventListener {
 	private $entityManager;

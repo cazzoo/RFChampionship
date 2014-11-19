@@ -80,7 +80,7 @@ class CrewController extends Controller {
 		) );
 		
 		// Create crew if none exists for this game and manager
-		if ($crew == null) {
+		if ($crew === null) {
 			$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $params ['gameId'] ));
 			$manager = $em->getRepository ( 'RFCUserBundle:User' )->findOneBy(array('id' => $params ['managerId'] ));
 			$crew = new Crew ();

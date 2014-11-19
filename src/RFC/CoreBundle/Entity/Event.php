@@ -19,7 +19,7 @@ namespace RFC\CoreBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use RFC\CoreBundle\Entity\DescriptorTrait;
+use RFC\CoreBundle\Entity\Descriptor;
 
 /**
  * Event
@@ -27,9 +27,8 @@ use RFC\CoreBundle\Entity\DescriptorTrait;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\EventRepository")
  */
-class Event
+class Event extends Descriptor
 {
-    use DescriptorTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -70,11 +69,6 @@ class Event
     private $listSessions;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image",cascade={"persist"})
-     */
-    private $listImages;
-
-    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
@@ -91,6 +85,7 @@ class Event
      */
     public function __construct()
     {
+        parent::__construct();
         $this->listSessions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -118,7 +113,7 @@ class Event
     {
         $template = new \DateTime('01/01/1900');
         $template->format('Y-m-d H:i:s');
-        if ($this->listSessions[0] != null) {
+        if ($this->listSessions[0] !== null) {
             $beginDate = $this->listSessions[0]->getBeginDate();
         } else {
             $beginDate = $template;
@@ -144,7 +139,7 @@ class Event
     {
         $template = new \DateTime('01/01/2100');
         $template->format('Y-m-d H:i:s');
-        if ($this->listSessions[0] != null) {
+        if ($this->listSessions[0] !== null) {
             $endDate = $this->listSessions[0]->getEndDate();
         } else {
             $endDate = $template;
@@ -274,40 +269,6 @@ class Event
     public function getChampionship()
     {
         return $this->championship;
-    }
-
-    public function getListImages()
-    {
-        return $this->listImages;
-    }
-
-    public function setListImages($listImages)
-    {
-        $this->listImages = $listImages;
-        return $this;
-    }
-
-    /**
-     * Add listImages
-     *
-     * @param \RFC\CoreBundle\Entity\Image $listImages            
-     * @return Event
-     */
-    public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
-    {
-        $this->listImages[] = $listImages;
-        
-        return $this;
-    }
-
-    /**
-     * Remove listImages
-     *
-     * @param \RFC\CoreBundle\Entity\Image $listImages            
-     */
-    public function removeListImage(\RFC\CoreBundle\Entity\Image $listImages)
-    {
-        $this->listImages->removeElement($listImages);
     }
 
     /**

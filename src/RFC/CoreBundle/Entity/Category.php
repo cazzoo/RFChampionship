@@ -49,11 +49,6 @@ class Category extends KnowledgeData
     private $listVehicles;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image", cascade={"persist"})
-     */
-    private $listImages;
-
-    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
@@ -76,6 +71,7 @@ class Category extends KnowledgeData
     public function __construct()
     {
         $this->listVehicles = new \Doctrine\Common\Collections\ArrayCollection();
+    	$this->listImages = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -132,40 +128,6 @@ class Category extends KnowledgeData
     public function removeListVehicle(\RFC\CoreBundle\Entity\Vehicle $listVehicles)
     {
         $this->listVehicles->removeElement($listVehicles);
-    }
-
-    public function getListImages()
-    {
-        return $this->listImages;
-    }
-
-    public function setListImages($listImages)
-    {
-        $this->listImages = $listImages;
-        return $this;
-    }
-
-    /**
-     * Add listImages
-     *
-     * @param \RFC\CoreBundle\Entity\Image $listImages            
-     * @return Category
-     */
-    public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
-    {
-        $this->listImages[] = $listImages;
-        
-        return $this;
-    }
-
-    /**
-     * Remove listImages
-     *
-     * @param \RFC\CoreBundle\Entity\Image $listImages            
-     */
-    public function removeListImage(\RFC\CoreBundle\Entity\Image $listImages)
-    {
-        $this->listImages->removeElement($listImages);
     }
 
     /**

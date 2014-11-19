@@ -97,58 +97,56 @@ class ChampionshipController extends Controller {
 				'threadId' => $threadId 
 		) );
 	}
-	public function userRegistrationAction() {
-		$request = Request::createFromGlobals ();
-		
-		if ($request->isXmlHttpRequest ()) {
+	public function userRegistrationAction(Request $request) {
+            if ($request->isMethod('POST')) {
+                $params = \json_decode ( $request->getContent(), true );
+
+                $gameId = $params ['gameId'];
+		$championshipId = $params ['championshipId'];
+                $userId = $params ['userId'];
+		$action = $params ['action'];
 			
-			$championshipId = $request->request->get ( 'championshipId' );
-			$userId = $request->request->get ( 'userId' );
-			$action = $request->request->get ( 'action' );
-			$gameId = $request->request->get ( 'gameId' );
-			
-			$em = $this->getDoctrine ()->getManager ();
-			
-			$user = $em->getRepository ( 'RFCUserBundle:User' )->find ( $userId );
-			$championship = $em->getRepository ( 'RFCCoreBundle:Championship' )->find ( $championshipId );
-			
-			switch ($action) {
-				case 'register' :
-					$championship->registerUser ( $user );
-					$em->flush ();
-					break;
-				case 'unregister' :
-					$championship->unregisterUser ( $user );
-					$em->flush ();
-					break;
-			}
-			// Returning the status of the action : 0 = nothing done, 1 = registered, 2 = unregistered
-			return $this->render ( 'RFCCoreBundle:Championship:registration.html.twig', array (
-					'status' => $action,
-					'entity' => $championship,
-					'gameId' => $gameId 
-			) );
-		} else {
-			return $this->render ( 'RFCCoreBundle:Championship:registration.html.twig', array (
-					'status' => '' 
-			) );
-		}
+                $em = $this->getDoctrine ()->getManager ();
+
+                $user = $em->getRepository ( 'RFCUserBundle:User' )->find ( $userId );
+                $championship = $em->getRepository ( 'RFCCoreBundle:Championship' )->find ( $championshipId );
+
+                switch ($action) {
+                        case 'register' :
+                                $championship->registerUser ( $user );
+                                $em->flush ();
+                                break;
+                        case 'unregister' :
+                                $championship->unregisterUser ( $user );
+                                $em->flush ();
+                                break;
+                }
+                // Returning the status of the action : 0 = nothing done, 1 = registered, 2 = unregistered
+                return $this->render ( 'RFCCoreBundle:Championship:registration.html.twig', array (
+                                'status' => $action,
+                                'entity' => $championship,
+                                'gameId' => $gameId
+                ) );
+            } else {
+                    return $this->render ( 'RFCCoreBundle:Championship:registration.html.twig', array (
+                                    'status' => ''
+                    ) );
+            }
 	}
-	public function getResultsAction() {
-		$params = array ();
+	public function getResultsAction(Request $request) {
+            if ($request->isMethod('POST')) {
+                $params = \json_decode ( $request->getContent(), true );
+
 		$results = array ();
-		$content = $this->get ( "request" )->getContent ();
-		if (! empty ( $content )) {
-			$params = json_decode ( $content, true );
-		}
 		
-		$em = $this->getDoctrine ()->getManager ();
-		$championship = $em->getRepository ( 'RFCCoreBundle:Championship' )->findOneBy(array('id' => $params ['championshipId'] ));
+		$championship = $this->getDoctrine ()->getManager ()
+                    ->getRepository ( 'RFCCoreBundle:Championship' )
+                    ->findOneBy(array('id' => $params ['championshipId'] ));
 		
 		foreach ( $championship->getListEvents () as $event ) {
 			foreach ( $event->getListSessions () as $session ) {
 				foreach ( $session->getListResults () as $result ) {
-					if ($result->getUser () != null) {
+					if ($result->getUser () !== null) {
 						$this->addPointsToUser ( $results, $result );
 					}
 				}
@@ -158,6 +156,7 @@ class ChampionshipController extends Controller {
 		return $this->render ( 'RFCCoreBundle:Championship:globalResults.html.twig', array (
 				'results' => $results 
 		) );
+            }
 	}
 	
 	/**

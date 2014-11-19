@@ -79,7 +79,7 @@ class MenuBuilder
         $userNavigation = ['User Panel' => ['route' => 'rfcCore_user'
                 ]];
 
-        if ($request->get('gameId') != null) {
+        if ($request->get('gameId') !== null) {
             $mainNavigation = array_merge($mainNavigation, $gameNavigation);
         }
 

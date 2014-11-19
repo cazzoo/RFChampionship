@@ -233,6 +233,7 @@ class ResultController extends Controller {
 				'label' => 'Delete' 
 		) )->getForm ();
 	}
+        
 	public function setSessionResultsAction() {
 		$em = $this->getDoctrine ()->getManager ();
 		
@@ -247,7 +248,7 @@ class ResultController extends Controller {
 		
 		$firstResult = explode ( ',', $contents ['results'] [0] );
 		
-		if ($firstResult [3] != null) {
+		if ($firstResult [3] !== null) {
 			foreach ( $contents ['results'] as $contentResult ) {
 				$resultData = explode ( ',', $contentResult );
 				array_push ( $resultsIds, $resultData [3] );

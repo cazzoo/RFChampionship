@@ -19,19 +19,22 @@ namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\Game;
-use RFC\CoreBundle\Entity\DescriptorTrait;
+use RFC\CoreBundle\Entity\Descriptor;
 
 /**
  * KnowledgeData
  *
  * @ORM\MappedSuperclass
  */
-abstract class KnowledgeData
+abstract class KnowledgeData extends Descriptor
 {
-    
-    use DescriptorTrait;
 
     protected $game;
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
      * Set game

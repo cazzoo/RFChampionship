@@ -360,7 +360,7 @@ class User extends BaseUser
         $lastRequest = null;
         foreach ($this->listCrewRequests as $crewRequest)
         {
-            if($crewId == $crewRequest->getCrew()->getId() && ($lastRequest == null || $lastRequest->getCreatedAt() < $crewRequest->getCreatedAt()))
+            if($crewId === $crewRequest->getCrew()->getId() && ($lastRequest === null || $lastRequest->getCreatedAt() < $crewRequest->getCreatedAt()))
             {
                 $lastRequest = $crewRequest;
             }

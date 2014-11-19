@@ -148,7 +148,7 @@ class MenuBuilder
                 )
             ));
 
-        if ($request->get('gameId') != null) {
+        if ($request->get('gameId') !== null) {
             $nav = array_merge($nav, $gameNav);
         }
 

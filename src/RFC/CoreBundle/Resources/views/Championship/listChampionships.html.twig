@@ -20,7 +20,7 @@
 			<tr>
 				<th>Name</th>
 				<th>Description</th>
-				<th>Isagreed</th>
+				<th>championshipAgreed</th>
 				<th>Listevents</th>
 				<th>Listmanagers</th>
 				<th>Metarule</th>
@@ -32,7 +32,7 @@
 			<tr>
 				<td><a href="{{ path('rfcCore_championships_show', { 'championshipId': championship.id, 'gameId': game.id  }) }}">{{ championship.name }}</a></td>
 				<td>{{ championship.description }}</td>
-				<td>{{ championship.isAgreed }}</td>
+				<td>{{ championship.championshipAgreed }}</td>
 				<td>{% if championship.listEvents is empty %} Aucun Event
 					pour le moment {% else %}
 					<ul class="list-unstyled">
@@ -54,7 +54,7 @@
 				<td>{{ championship.metaRule }}</td>
 				<td>
 					<ul class="list-unstyled">
-						{% if championship.isAgreed %} {% for rule in
+						{% if championship.championshipAgreed %} {% for rule in
 						championship.metaRule.listRules %}
 						<li>{{ rule.name }}</li> {% endfor %} {% else %} {% for rule in
 						championship.listRules %}

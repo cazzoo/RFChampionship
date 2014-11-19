@@ -39,9 +39,9 @@ class Championship extends KnowledgeData
     private $id;
 
     /**
-     * @ORM\Column(name="isAgreed", type="boolean")
+     * @ORM\Column(name="championshipAgreed", type="boolean")
      */
-    private $isAgreed;
+    private $championshipAgreed;
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game", inversedBy="listChampionships")
@@ -76,11 +76,6 @@ class Championship extends KnowledgeData
     private $listUsers;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image",cascade={"persist"})
-     */
-    private $listImages;
-
-    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
@@ -97,6 +92,7 @@ class Championship extends KnowledgeData
      */
     public function __construct()
     {
+        parent::__construct();
         $this->listEvents = new \Doctrine\Common\Collections\ArrayCollection();
         $this->listManagers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
@@ -118,26 +114,26 @@ class Championship extends KnowledgeData
     }
 
     /**
-     * Set isAgreed
+     * Set agreed
      *
-     * @param boolean $isAgreed            
+     * @param boolean $agreed
      * @return Championship
      */
-    public function setIsAgreed($isAgreed)
+    public function setChampionshipAgreed($agreed)
     {
-        $this->isAgreed = $isAgreed;
+        $this->championshipAgreed = $agreed;
         
         return $this;
     }
 
     /**
-     * Get isAgreed
+     * Get championshipAgreed
      *
      * @return boolean
      */
-    public function getIsAgreed()
+    public function getChampionshipAgreed()
     {
-        return $this->isAgreed;
+        return $this->championshipAgreed;
     }
 
     /**
@@ -334,40 +330,6 @@ class Championship extends KnowledgeData
     {
         $this->listUsers->removeElement($user);
     }
- 
-    public function getListImages()
-    {
-        return $this->listImages;
-    }
-
-    public function setListImages($listImages)
-    {
-        $this->listImages = $listImages;
-        return $this;
-    }
-
-    /**
-     * Add listImages
-     *
-     * @param \RFC\CoreBundle\Entity\Image $listImages
-     * @return Championship
-     */
-    public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
-    {
-        $this->listImages[] = $listImages;
-        
-        return $this;
-    }
-
-    /**
-     * Remove listImages
-     *
-     * @param \RFC\CoreBundle\Entity\Image $listImages            
-     */
-    public function removeListImage(\RFC\CoreBundle\Entity\Image $listImages)
-    {
-        $this->listImages->removeElement($listImages);
-    }
 
     /**
      * Set createdAt
@@ -424,7 +386,7 @@ class Championship extends KnowledgeData
     {
         $template = new \DateTime('01/01/1900');
         $template->format('Y-m-d H:i:s');
-        if ($this->listEvents[0] != null) {
+        if ($this->listEvents[0] !== null) {
             $beginDate = $this->listEvents[0]->getBeginDate();
         } else
             $beginDate = $template;
@@ -448,7 +410,7 @@ class Championship extends KnowledgeData
     {
         $template = new \DateTime('01/01/2100');
         $template->format('Y-m-d H:i:s');
-        if ($this->listEvents[0] != null) {
+        if ($this->listEvents[0] !== null) {
             $endDate = $this->listEvents[0]->getEndDate();
         } else
             $endDate = $template;

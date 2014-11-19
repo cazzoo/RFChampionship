@@ -44,19 +44,14 @@ class MetaRule extends KnowledgeData
     protected $game;
 
     /**
-     * @ORM\Column(name="isAgreed", type="boolean")
+     * @ORM\Column(name="metaRuleAgreed", type="boolean")
      */
-    private $isAgreed;
+    private $metaRuleAgreed;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Rule", inversedBy="listMetaRules")
      */
     private $listRules;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image",cascade={"persist"})
-     */
-    private $listImages;
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -72,6 +67,7 @@ class MetaRule extends KnowledgeData
 
     public function __construct()
     {
+        parent::__construct();
         $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -137,60 +133,26 @@ class MetaRule extends KnowledgeData
     }
 
     /**
-     * Set isAgreed
+     * Set metaRuleAgreed
      *
-     * @param boolean $isAgreed            
+     * @param boolean $agreed
      * @return MetaRule
      */
-    public function setIsAgreed($isAgreed)
+    public function setMetaRuleAgreed($agreed)
     {
-        $this->isAgreed = $isAgreed;
+        $this->metaRuleAgreed = $agreed;
         
         return $this;
     }
 
     /**
-     * Get isAgreed
+     * Get metaRuleAgreed
      *
      * @return boolean
      */
-    public function getIsAgreed()
+    public function getMetaRuleAgreed()
     {
-        return $this->isAgreed;
-    }
-
-    public function getListImages()
-    {
-        return $this->listImages;
-    }
-
-    public function setListImages($listImages)
-    {
-        $this->listImages = $listImages;
-        return $this;
-    }
-
-    /**
-     * Add listImages
-     *
-     * @param \RFC\CoreBundle\Entity\Image $listImages            
-     * @return MetaRule
-     */
-    public function addListImage(\RFC\CoreBundle\Entity\Image $listImages)
-    {
-        $this->listImages[] = $listImages;
-        
-        return $this;
-    }
-
-    /**
-     * Remove listImages
-     *
-     * @param \RFC\CoreBundle\Entity\Image $listImages            
-     */
-    public function removeListImage(\RFC\CoreBundle\Entity\Image $listImages)
-    {
-        $this->listImages->removeElement($listImages);
+        return $this->metaRuleAgreed;
     }
 
     /**

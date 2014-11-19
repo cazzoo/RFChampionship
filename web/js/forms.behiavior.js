@@ -45,10 +45,11 @@ function registerChampionshipBehiavior() {
 		championshipId : entityData[2].substr(13),
 		userId : entityData[3].substr(5)
 	};
+	var jsonFormatted = JSON.stringify(data);
 	$.ajax({
 		type : "POST",
 		url : Routing.generate('ajax_user_register_championship'),
-		data : data,
+		data : jsonFormatted,
 		cache : false
 	}).done(function(data) {
 		addNotification('Championship application completed', 'success');

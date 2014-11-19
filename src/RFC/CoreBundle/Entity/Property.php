@@ -19,7 +19,7 @@ namespace RFC\CoreBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use RFC\CoreBundle\Entity\DescriptorTrait;
+use RFC\CoreBundle\Entity\Descriptor;
 
 /**
  * Property
@@ -27,9 +27,8 @@ use RFC\CoreBundle\Entity\DescriptorTrait;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\PropertyRepository")
  */
-class Property
+class Property extends Descriptor
 {
-    use DescriptorTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -80,6 +79,7 @@ class Property
      */
     public function __construct()
     {
+        parent::__construct();
     }
 
     public function __toString()

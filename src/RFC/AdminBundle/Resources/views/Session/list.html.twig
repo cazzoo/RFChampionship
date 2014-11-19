@@ -19,18 +19,23 @@
 {% else %}
 	
 	{% set canEdit = is_granted('ROLE_MANAGER') or is_granted('ROLE_CERTIFIED_MANAGER') %}
+        
+    {% if canEdit %}
+        Ajouter une session
+        <a class="ym-button ym-add" href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : eventId}) }}">Add</a>
+    {% endif %}
 
     {% if sessions %}
 
-        {% set canEdit = canEdit or sessions[0].event.championship.isManager(app.user) %}
+        {% set canManage = canEdit or sessions[0].event.championship.isManager(app.user) %}
     	
         <table class="table">
     		<thead>
     			<tr>
-    				<th>Name</th>
-    				<th>Type</th>
-    				<th>Dates</th>
-                    <th>Actions</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Dates</th>
+                            <th>Actions</th>
     			</tr>
     		</thead>
     		<tbody class="table-striped">
@@ -50,7 +55,7 @@
                             </small>
                         </td>
                         <td>
-                            {% if canEdit %}
+                            {% if canManage %}
                                 <a class="ym-button ym-edit" href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': gameId, 'championshipId': championshipId, 'eventId' : eventId}) }}">Edit</a><br />
                             {% endif %}
                             <a class="ym-button ym-next sessionItem" id="session_{{ session.id }}" data-session="{{ session.id }}" href="#session_{{ session.id }}">Select</a>
@@ -59,9 +64,5 @@
 	    		{% endfor %}
     		</tbody>
     	</table>
-    {% endif %}
-    {% if canEdit %}
-        Ajouter une session
-        <a class="ym-button ym-add" href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : eventId}) }}">Add</a>
     {% endif %}
 {% endif %}

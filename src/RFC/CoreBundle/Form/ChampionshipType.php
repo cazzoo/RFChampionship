@@ -41,7 +41,7 @@ class ChampionshipType extends AbstractType {
 		
 		$builder->add ( 'name' )->add ( 'description', 'textarea', array (
 				'required' => false 
-		) )->add ( 'isAgreed', 'checkbox', array (
+		) )->add ( 'championshipAgreed', 'checkbox', array (
 				'required' => false 
 		) )->add ( 'listManagers', 'entity', array (
 				'required' => false,

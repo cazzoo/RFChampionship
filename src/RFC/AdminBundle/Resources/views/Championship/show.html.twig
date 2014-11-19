@@ -29,7 +29,7 @@ program. If not, see <http://www.gnu.org/licenses/>. #}
             {{ entity.description ? entity.description : '<i>Aucune description</i>' }}
 		</dd>
 		<dt>Championnat Agrée?</dt>
-		<dd>{{ entity.isAgreed ? 'True' : 'False' }}</dd>
+		<dd>{{ entity.championshipAgreed ? 'True' : 'False' }}</dd>
 		<dt>MetaRule</dt>
 		<dd>
 			<i>{{ entity.metaRule ? entity.metaRule.name : 'Aucune metaRule' }}</i>
@@ -99,14 +99,14 @@ program. If not, see <http://www.gnu.org/licenses/>. #}
 <hr />
 <div>
 	<h3>
-		Rules {% if entity.isAgreed != true %}<a
+		Rules {% if entity.metaRuleAgreed != true %}<a
 			class="btn btn-inverse btn-xs" role="button"
 			href="{{ path('admin_rule_new', {'gameId' : game[0].id}) }}"> <span
 			class="glyphicon glyphicon-plus"></span>
 		</a>{% endif %}
 	</h3>
 	<div class="list-group">
-        {% if entity.isAgreed %}
+        {% if entity.championshipAgreed %}
             {% set rules = entity.metaRule.listRules %}
         {% else %}
             {% set rules = entity.listRules %}

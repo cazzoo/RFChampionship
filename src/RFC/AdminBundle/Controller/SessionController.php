@@ -259,21 +259,18 @@ class SessionController extends Controller {
 				'label' => 'Delete' 
 		) )->getForm ();
 	}
-	public function searchAction() {
-		$params = array ();
-		$content = $this->get ( "request" )->getContent ();
-		if (! empty ( $content )) {
-			$params = json_decode ( $content, true );
-		}
-		
+	public function searchAction(Request $request) {
+            if ($request->isMethod('POST')) {
+                $params = \json_decode ( $request->getContent(), true );
+
 		$gameId = $params ['gameId'];
 		$championshipId = $params ['championshipId'];
 		$eventId = $params ['eventId'];
 		
 		$form = $this->createCreateForm ( new Session (), $gameId, $championshipId, $eventId );
 		
-		$em = $this->getDoctrine ()->getManager ();
-		$sessions = $em->getRepository ( 'RFCCoreBundle:Session' )->findBy ( array (
+		$sessions = $this->getDoctrine ()->getManager ()
+                    ->getRepository ( 'RFCCoreBundle:Session' )->findBy ( array (
 				'event' => $eventId 
 		) );
 		
@@ -284,19 +281,20 @@ class SessionController extends Controller {
 				'eventId' => $eventId,
 				'form' => $form->createView () 
 		) );
+            }
 	}
-	public function sessionLoadAction() {
-		$params = array ();
-		$content = $this->get ( "request" )->getContent ();
-		if (! empty ( $content )) {
-			$params = json_decode ( $content, true );
-		}
-		
-		$em = $this->getDoctrine ()->getManager ();
-		$session = $em->getRepository ( 'RFCCoreBundle:Session' )->findOneBy(array('id' => $params ['sessionId'] ));
-		
-		return $this->render ( 'RFCAdminBundle:Session:showSession.html.twig', array (
-				'session' => $session 
-		) );
+        
+	public function sessionLoadAction(Request $request) {
+            if ($request->isMethod('POST')) {
+                $params = \json_decode ( $request->getContent(), true );
+
+                $session = $this->getDoctrine ()->getManager ()
+                    ->getRepository ( 'RFCCoreBundle:Session' )
+                    ->findOneBy(array('id' => $params ['sessionId'] ));
+
+                return $this->render ( 'RFCAdminBundle:Session:showSession.html.twig', array (
+                                'session' => $session
+                ) );
+            }
 	}
 }

@@ -28,7 +28,7 @@ use RFC\UserBundle\Form\UserFormType;
 class UserController extends Controller {
     
     public function indexAction() {
-        if ($this->getUser () != null) {
+        if ($this->getUser () !== null) {
             $em = $this->getDoctrine ()->getManager ();
 
             $games = $em->getRepository ( 'RFCCoreBundle:Game' )->findAll ();

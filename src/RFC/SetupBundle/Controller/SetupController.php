@@ -319,7 +319,7 @@ class SetupController extends Controller {
 			throw $this->createNotFoundException ( 'Unable to find SetupStep entity.' );
 		}
 		
-		if ($entity->getVersion () != 0 || ($entity->getVersion () == 0 && $entity->getValue () != null)) {
+		if ($entity->getVersion () !== 0 || ($entity->getVersion () == 0 && $entity->getValue () != null)) {
 			$copy = clone $entity;
 			$copy->setVersion ( $entity->getVersion () + 1 );
 			$em->persist ( $copy );
