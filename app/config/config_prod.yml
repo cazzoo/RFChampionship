@@ -33,5 +33,5 @@ monolog:
         login:
             type:               stream
             path:               "%kernel.logs_dir%/auth.log"
-            level:              info
+            level:              error
             channels:           security
