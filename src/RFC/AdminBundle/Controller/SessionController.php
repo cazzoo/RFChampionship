@@ -37,9 +37,9 @@ class SessionController extends Controller {
 		$form->handleRequest ( $request );
 		
 		if ($form->isValid ()) {
-			$em = $this->getDoctrine ()->getManager ();
-			$em->persist ( $entity );
-			$em->flush ();
+			$entityManager = $this->getDoctrine ()->getManager ();
+			$entityManager->persist ( $entity );
+			$entityManager->flush ();
 			
 			return $this->redirect ( $this->generateUrl ( 'admin_championship_show', array (
 					'sessionId' => $entity->getId (),
@@ -88,9 +88,9 @@ class SessionController extends Controller {
 	 * Displays a form to create a new Session entity.
 	 */
 	public function newAction($gameId, $championshipId, $eventId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		$entity = new Session ();
-		$event = $em->getRepository ( 'RFCCoreBundle:Event' )->findById ( $eventId );
+		$event = $entityManager->getRepository ( 'RFCCoreBundle:Event' )->findById ( $eventId );
 		$entity->setEvent ( $event [0] );
 		$form = $this->createCreateForm ( $entity, $gameId, $championshipId, $eventId );
 		
@@ -107,9 +107,9 @@ class SessionController extends Controller {
 	 * Finds and displays a Session entity.
 	 */
 	public function showAction($sessionId, $gameId, $championshipId, $eventId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$entity = $em->getRepository ( 'RFCCoreBundle:Session' )->find ( $sessionId );
+		$entity = $entityManager->getRepository ( 'RFCCoreBundle:Session' )->find ( $sessionId );
 		
 		if (! $entity) {
 			throw $this->createNotFoundException ( 'Unable to find Session entity.' );
@@ -130,9 +130,9 @@ class SessionController extends Controller {
 	 * Displays a form to edit an existing Session entity.
 	 */
 	public function editAction($sessionId, $gameId, $championshipId, $eventId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$entity = $em->getRepository ( 'RFCCoreBundle:Session' )->find ( $sessionId );
+		$entity = $entityManager->getRepository ( 'RFCCoreBundle:Session' )->find ( $sessionId );
 		
 		if (! $entity) {
 			throw $this->createNotFoundException ( 'Unable to find Session entity.' );
@@ -182,9 +182,9 @@ class SessionController extends Controller {
 	 * Edits an existing Session entity.
 	 */
 	public function updateAction(Request $request, $sessionId, $gameId, $championshipId, $eventId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$entity = $em->getRepository ( 'RFCCoreBundle:Session' )->find ( $sessionId );
+		$entity = $entityManager->getRepository ( 'RFCCoreBundle:Session' )->find ( $sessionId );
 		
 		if (! $entity) {
 			throw $this->createNotFoundException ( 'Unable to find Session entity.' );
@@ -195,7 +195,7 @@ class SessionController extends Controller {
 		$editForm->handleRequest ( $request );
 		
 		if ($editForm->isValid ()) {
-			$em->flush ();
+			$entityManager->flush ();
 			
 			return $this->redirect ( $this->generateUrl ( 'admin_championship_show', array (
 					'sessionId' => $entity->getId (),
@@ -223,15 +223,15 @@ class SessionController extends Controller {
 		$form->handleRequest ( $request );
 		
 		if ($form->isValid ()) {
-			$em = $this->getDoctrine ()->getManager ();
-			$entity = $em->getRepository ( 'RFCCoreBundle:Session' )->find ( $sessionId );
+			$entityManager = $this->getDoctrine ()->getManager ();
+			$entity = $entityManager->getRepository ( 'RFCCoreBundle:Session' )->find ( $sessionId );
 			
 			if (! $entity) {
 				throw $this->createNotFoundException ( 'Unable to find Session entity.' );
 			}
 			
-			$em->remove ( $entity );
-			$em->flush ();
+			$entityManager->remove ( $entity );
+			$entityManager->flush ();
 		}
 		
 		return $this->redirect ( $this->generateUrl ( 'admin_session' ), array (
@@ -259,6 +259,7 @@ class SessionController extends Controller {
 				'label' => 'Delete' 
 		) )->getForm ();
 	}
+        
 	public function searchAction(Request $request) {
             if ($request->isMethod('POST')) {
                 $params = \json_decode ( $request->getContent(), true );

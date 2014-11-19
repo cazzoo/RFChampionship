@@ -33,9 +33,9 @@ class RuleController extends Controller
      */
     public function indexAction($gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $rules = $em->getRepository('RFCCoreBundle:Rule')->findBy(array(
+        $rules = $entityManager->getRepository('RFCCoreBundle:Rule')->findBy(array(
             'game' => $gameId
         ));
         
@@ -56,9 +56,9 @@ class RuleController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($entity);
+            $entityManager->flush();
             
             return $this->redirect($this->generateUrl('admin_metaRule', array(
                 'gameId' => $gameId
@@ -104,8 +104,8 @@ class RuleController extends Controller
     public function newAction($gameId)
     {
         $entity = new Rule();
-        $em = $this->getDoctrine()->getManager();
-        $entityGame = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityGame = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         $entity->setGame($entityGame);
         $form = $this->createCreateForm($entity, $gameId);
         
@@ -121,9 +121,9 @@ class RuleController extends Controller
      */
     public function showAction($ruleId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Rule')->find($ruleId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Rule')->find($ruleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Rule entity.');
@@ -143,9 +143,9 @@ class RuleController extends Controller
      */
     public function editAction($ruleId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Rule')->find($ruleId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Rule')->find($ruleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Rule entity.');
@@ -194,9 +194,9 @@ class RuleController extends Controller
      */
     public function updateAction(Request $request, $ruleId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Rule')->find($ruleId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Rule')->find($ruleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Rule entity.');
@@ -207,7 +207,7 @@ class RuleController extends Controller
         $editForm->handleRequest($request);
         
         if ($editForm->isValid()) {
-            $em->flush();
+            $entityManager->flush();
             
             return $this->redirect($this->generateUrl('admin_metaRule', array(
                 'gameId' => $gameId
@@ -231,15 +231,15 @@ class RuleController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Rule')->find($ruleId);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entity = $entityManager->getRepository('RFCCoreBundle:Rule')->find($ruleId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find Rule entity.');
             }
             
-            $em->remove($entity);
-            $em->flush();
+            $entityManager->remove($entity);
+            $entityManager->flush();
         }
         
         return $this->redirect($this->generateUrl('admin_rule', array(
@@ -285,12 +285,6 @@ class RuleController extends Controller
                 'rules' => $rules,
                 'metaRuleId' => $metaRuleId
             ));
-        } else {
-            return $this->render('RFCAdminBundle:Rule:list.html.twig', array(
-                'gameId' => $gameId,
-                'rules' => null,
-                'metaRuleId' => $metaRuleId
-            ));
-        }
+        } 
     }
 }

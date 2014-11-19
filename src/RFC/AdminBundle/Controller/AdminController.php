@@ -25,8 +25,8 @@ class AdminController extends Controller
 {
     public function indexAction()
     {
-    	$em = $this->getDoctrine()->getManager();
-    	$games = $em->getRepository("RFCCoreBundle:Game")->findAll();
+    	$entityManager = $this->getDoctrine()->getManager();
+    	$games = $entityManager->getRepository("RFCCoreBundle:Game")->findAll();
     	
         return $this->render('RFCAdminBundle:Admin:index.html.twig', array(
         	'games' => $games,

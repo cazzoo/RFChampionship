@@ -31,12 +31,12 @@ class TrackController extends Controller {
 	 * Lists all Track entities.
 	 */
 	public function indexAction($gameId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$tracks = $em->getRepository ( 'RFCCoreBundle:Track' )->findBy ( array (
+		$tracks = $entityManager->getRepository ( 'RFCCoreBundle:Track' )->findBy ( array (
 				'game' => $gameId 
 		) );
-		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
+		$game = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
 		
 		// Ajout du jeu sélectionné
 		$menu = $this->get ( 'rfc_admin.menu.breadcrumb' );
@@ -62,9 +62,9 @@ class TrackController extends Controller {
 		$form->handleRequest ( $request );
 		
 		if ($form->isValid ()) {
-			$em = $this->getDoctrine ()->getManager ();
-			$em->persist ( $entity );
-			$em->flush ();
+			$entityManager = $this->getDoctrine ()->getManager ();
+			$entityManager->persist ( $entity );
+			$entityManager->flush ();
 			
 			return $this->redirect ( $this->generateUrl ( 'admin_track', array (
 					'gameId' => $gameId 
@@ -106,8 +106,8 @@ class TrackController extends Controller {
 	 */
 	public function newAction($gameId) {
 		$entity = new Track ();
-		$em = $this->getDoctrine ()->getManager ();
-		$entityGame = $em->getRepository ( 'RFCCoreBundle:Game' )->find ( $gameId );
+		$entityManager = $this->getDoctrine ()->getManager ();
+		$entityGame = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->find ( $gameId );
 		$entity->setGame ( $entityGame );
 		$form = $this->createCreateForm ( $entity, $gameId );
 		
@@ -122,9 +122,9 @@ class TrackController extends Controller {
 	 * Finds and displays a Track entity.
 	 */
 	public function showAction($trackId, $gameId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$entity = $em->getRepository ( 'RFCCoreBundle:Track' )->find ( $trackId );
+		$entity = $entityManager->getRepository ( 'RFCCoreBundle:Track' )->find ( $trackId );
 		
 		if (! $entity) {
 			throw $this->createNotFoundException ( 'Unable to find Track entity.' );
@@ -143,9 +143,9 @@ class TrackController extends Controller {
 	 * Displays a form to edit an existing Track entity.
 	 */
 	public function editAction($trackId, $gameId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$entity = $em->getRepository ( 'RFCCoreBundle:Track' )->find ( $trackId );
+		$entity = $entityManager->getRepository ( 'RFCCoreBundle:Track' )->find ( $trackId );
 		
 		if (! $entity) {
 			throw $this->createNotFoundException ( 'Unable to find Track entity.' );
@@ -191,9 +191,9 @@ class TrackController extends Controller {
 	 * Edits an existing Track entity.
 	 */
 	public function updateAction(Request $request, $trackId, $gameId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$entity = $em->getRepository ( 'RFCCoreBundle:Track' )->find ( $trackId );
+		$entity = $entityManager->getRepository ( 'RFCCoreBundle:Track' )->find ( $trackId );
 		
 		if (! $entity) {
 			throw $this->createNotFoundException ( 'Unable to find Track entity.' );
@@ -204,7 +204,7 @@ class TrackController extends Controller {
 		$editForm->handleRequest ( $request );
 		
 		if ($editForm->isValid ()) {
-			$em->flush ();
+			$entityManager->flush ();
 			
 			return $this->redirect ( $this->generateUrl ( 'admin_track', array (
 					'gameId' => $gameId 
@@ -227,15 +227,15 @@ class TrackController extends Controller {
 		$form->handleRequest ( $request );
 		
 		if ($form->isValid ()) {
-			$em = $this->getDoctrine ()->getManager ();
-			$entity = $em->getRepository ( 'RFCCoreBundle:Track' )->find ( $trackId );
+			$entityManager = $this->getDoctrine ()->getManager ();
+			$entity = $entityManager->getRepository ( 'RFCCoreBundle:Track' )->find ( $trackId );
 			
 			if (! $entity) {
 				throw $this->createNotFoundException ( 'Unable to find Track entity.' );
 			}
 			
-			$em->remove ( $entity );
-			$em->flush ();
+			$entityManager->remove ( $entity );
+			$entityManager->flush ();
 		}
 		
 		return $this->redirect ( $this->generateUrl ( 'admin_track', array (

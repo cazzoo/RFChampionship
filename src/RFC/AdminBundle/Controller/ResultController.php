@@ -33,9 +33,9 @@ class ResultController extends Controller {
 	 * Lists all Result entities.
 	 */
 	public function indexAction() {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$entities = $em->getRepository ( 'RFCCoreBundle:Result' )->findAll ();
+		$entities = $entityManager->getRepository ( 'RFCCoreBundle:Result' )->findAll ();
 		
 		return $this->render ( 'RFCAdminBundle:Result:index.html.twig', array (
 				'entities' => $entities 
@@ -51,9 +51,9 @@ class ResultController extends Controller {
 		$form->handleRequest ( $request );
 		
 		if ($form->isValid ()) {
-			$em = $this->getDoctrine ()->getManager ();
-			$em->persist ( $entity );
-			$em->flush ();
+			$entityManager = $this->getDoctrine ()->getManager ();
+			$entityManager->persist ( $entity );
+			$entityManager->flush ();
 			
 			return $this->redirect ( $this->generateUrl ( 'admin_result_show', array (
 					'resultId' => $entity->getId () 
@@ -104,9 +104,9 @@ class ResultController extends Controller {
 	 * Finds and displays a Result entity.
 	 */
 	public function showAction($resultId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$entity = $em->getRepository ( 'RFCCoreBundle:Result' )->find ( $resultId );
+		$entity = $entityManager->getRepository ( 'RFCCoreBundle:Result' )->find ( $resultId );
 		
 		if (! $entity) {
 			throw $this->createNotFoundException ( 'Unable to find Result entity.' );
@@ -124,9 +124,9 @@ class ResultController extends Controller {
 	 * Displays a form to edit an existing Result entity.
 	 */
 	public function editAction($resultId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$entity = $em->getRepository ( 'RFCCoreBundle:Result' )->find ( $resultId );
+		$entity = $entityManager->getRepository ( 'RFCCoreBundle:Result' )->find ( $resultId );
 		
 		if (! $entity) {
 			throw $this->createNotFoundException ( 'Unable to find Result entity.' );
@@ -169,9 +169,9 @@ class ResultController extends Controller {
 	 * Edits an existing Result entity.
 	 */
 	public function updateAction(Request $request, $resultId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$entity = $em->getRepository ( 'RFCCoreBundle:Result' )->find ( $resultId );
+		$entity = $entityManager->getRepository ( 'RFCCoreBundle:Result' )->find ( $resultId );
 		
 		if (! $entity) {
 			throw $this->createNotFoundException ( 'Unable to find Result entity.' );
@@ -182,7 +182,7 @@ class ResultController extends Controller {
 		$editForm->handleRequest ( $request );
 		
 		if ($editForm->isValid ()) {
-			$em->flush ();
+			$entityManager->flush ();
 			
 			return $this->redirect ( $this->generateUrl ( 'admin_result_edit', array (
 					'resultId' => $resultId 
@@ -204,15 +204,15 @@ class ResultController extends Controller {
 		$form->handleRequest ( $request );
 		
 		if ($form->isValid ()) {
-			$em = $this->getDoctrine ()->getManager ();
-			$entity = $em->getRepository ( 'RFCCoreBundle:Result' )->find ( $resultId );
+			$entityManager = $this->getDoctrine ()->getManager ();
+			$entity = $entityManager->getRepository ( 'RFCCoreBundle:Result' )->find ( $resultId );
 			
 			if (! $entity) {
 				throw $this->createNotFoundException ( 'Unable to find Result entity.' );
 			}
 			
-			$em->remove ( $entity );
-			$em->flush ();
+			$entityManager->remove ( $entity );
+			$entityManager->flush ();
 		}
 		
 		return $this->redirect ( $this->generateUrl ( 'admin_result' ) );
@@ -235,7 +235,7 @@ class ResultController extends Controller {
 	}
         
 	public function setSessionResultsAction() {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
 		$contents = array ();
 		$results = array ();
@@ -255,11 +255,11 @@ class ResultController extends Controller {
 			}
 		}
 		
-		$session = $em->getRepository ( "RFCCoreBundle:Session" )->findOneBy(array('id' => $contents ['sessionId'] ));
-		$users = $em->getRepository ( "RFCUserBundle:User" )->findAll ();
-		$rules = $em->getRepository ( "RFCCoreBundle:Rule" )->findAll ();
+		$session = $entityManager->getRepository ( "RFCCoreBundle:Session" )->findOneBy(array('id' => $contents ['sessionId'] ));
+		$users = $entityManager->getRepository ( "RFCUserBundle:User" )->findAll ();
+		$rules = $entityManager->getRepository ( "RFCCoreBundle:Rule" )->findAll ();
 		
-		$dbResults = $em->getRepository ( "RFCCoreBundle:Result" )->createQueryBuilder ( 'r' )->where ( 'r.session = :sessionId' )->andWhere ( 'r.id IN (:arrayResultsId)' )->setParameters ( array (
+		$dbResults = $entityManager->getRepository ( "RFCCoreBundle:Result" )->createQueryBuilder ( 'r' )->where ( 'r.session = :sessionId' )->andWhere ( 'r.id IN (:arrayResultsId)' )->setParameters ( array (
 				'sessionId' => $contents ['sessionId'],
 				'arrayResultsId' => $resultsIds 
 		) )->getQuery ()->getResult ();
@@ -283,12 +283,12 @@ class ResultController extends Controller {
 			$result->setSession ( $session );
 			$result->setValue ( $value );
 			$result->setUser ( $user );
-			$em->persist ( $result );
+			$entityManager->persist ( $result );
 			array_push ( $results, $result );
 		}
 		
 		try {
-			$em->flush ();
+			$entityManager->flush ();
 			$jsonResponse = new JsonResponse ( $results, 200 );
 		} catch ( \Exception $e ) {
 			$jsonResponse = new JsonResponse ( $results, 400 );

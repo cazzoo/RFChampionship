@@ -29,10 +29,10 @@ class UserController extends Controller {
     
     public function indexAction() {
         if ($this->getUser () !== null) {
-            $em = $this->getDoctrine ()->getManager ();
+            $entityManager = $this->getDoctrine ()->getManager ();
 
-            $games = $em->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
-            $championships = $em
+            $games = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+            $championships = $entityManager
                 ->getRepository ( 'RFCCoreBundle:Championship' )
                 ->createQueryBuilder ( 'c' )
                 ->join ( 'c.listUsers', 'u', 'WITH', 'u.id = :userId' )
@@ -41,7 +41,7 @@ class UserController extends Controller {
 
             $user = $this->container->get ( 'security.context' )->getToken ()->getUser ();
             
-            $crewAwaitingRequests = $em
+            $crewAwaitingRequests = $entityManager
                 ->getRepository ( 'RFCCoreBundle:CrewRequest' )
                 ->createQueryBuilder ( 'cr' )
                 ->join ( 'cr.crew', 'c')
@@ -77,9 +77,9 @@ class UserController extends Controller {
     public function updateAction(Request $request)
     {
         $user = $this->container->get ( 'security.context' )->getToken ()->getUser ();
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RFCUserBundle:User')->find($user->getId());
+        $entity = $entityManager->getRepository('RFCUserBundle:User')->find($user->getId());
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -90,7 +90,7 @@ class UserController extends Controller {
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $em->flush();
+            $entityManager->flush();
 
             return $this->redirect($this->generateUrl('rfcCore_user'));
         }

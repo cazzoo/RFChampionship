@@ -34,12 +34,12 @@ class ChampionshipController extends Controller
      */
     public function indexAction($gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $championships = $em->getRepository('RFCCoreBundle:Championship')->findBy(array(
+        $championships = $entityManager->getRepository('RFCCoreBundle:Championship')->findBy(array(
             'game' => $gameId
         ));
-        $game = $em->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
+        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
         
         // Ajout du jeu sélectionné
         $menu = $this->get('rfc_admin.menu.breadcrumb');
@@ -68,9 +68,9 @@ class ChampionshipController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($entity);
+            $entityManager->flush();
             
             return $this->redirect($this->generateUrl('admin_championship_show', array(
                 'championshipId' => $entity->getId(),
@@ -117,8 +117,8 @@ class ChampionshipController extends Controller
     public function newAction($gameId)
     {
         $entity = new Championship();
-        $em = $this->getDoctrine()->getManager();
-        $entityGame = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityGame = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         $entity->setGame($entityGame);
         $form = $this->createCreateForm($entity, $gameId);
         
@@ -134,10 +134,10 @@ class ChampionshipController extends Controller
      */
     public function showAction($championshipId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Championship')->find($championshipId);
-        $game = $em->getRepository('RFCCoreBundle:Game')->findById($gameId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Championship')->find($championshipId);
+        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findById($gameId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Championship entity.');
@@ -159,9 +159,9 @@ class ChampionshipController extends Controller
      */
     public function editAction($championshipId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Championship')->find($championshipId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Championship')->find($championshipId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Championship entity.');
@@ -210,9 +210,9 @@ class ChampionshipController extends Controller
      */
     public function updateAction(Request $request, $championshipId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Championship')->find($championshipId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Championship')->find($championshipId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Championship entity.');
@@ -223,7 +223,7 @@ class ChampionshipController extends Controller
         $editForm->handleRequest($request);
         
         if ($editForm->isValid()) {
-            $em->flush();
+            $entityManager->flush();
             
             return $this->redirect($this->generateUrl('admin_championship_show', array(
                 'championshipId' => $championshipId,
@@ -248,15 +248,15 @@ class ChampionshipController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Championship')->find($championshipId);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entity = $entityManager->getRepository('RFCCoreBundle:Championship')->find($championshipId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find Championship entity.');
             }
             
-            $em->remove($entity);
-            $em->flush();
+            $entityManager->remove($entity);
+            $entityManager->flush();
         }
         
         return $this->redirect($this->generateUrl('admin_championship', array(

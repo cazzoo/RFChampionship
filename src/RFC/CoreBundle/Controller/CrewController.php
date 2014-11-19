@@ -27,13 +27,13 @@ use RFC\CoreBundle\Entity\CrewRequest;
 
 class CrewController extends Controller {
 	public function indexAction($gameId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		$user = $this->container->get ( 'security.context' )->getToken ()->getUser ();
 		
-		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
-		$games = $em->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
-		$users = $em->getRepository ( 'RFCUserBundle:User' )->findAll ();
-		$crews = $em->getRepository ( 'RFCCoreBundle:Crew' )->findBy ( array (
+		$game = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
+		$games = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+		$users = $entityManager->getRepository ( 'RFCUserBundle:User' )->findAll ();
+		$crews = $entityManager->getRepository ( 'RFCCoreBundle:Crew' )->findBy ( array (
 				'game' => $gameId 
 		) );
 		
@@ -72,31 +72,31 @@ class CrewController extends Controller {
 			$params = json_decode ( $content, true ); // 2nd param to get as array
 		}
 		
-		$em = $this->getDoctrine ()->getManager ();
-		$requester = $em->getRepository ( 'RFCUserBundle:User' )->findOneBy(array('id' => $params ['requesterId'] ));
-		$crew = $em->getRepository ( 'RFCCoreBundle:Crew' )->findOneBy ( array (
+		$entityManager = $this->getDoctrine ()->getManager ();
+		$requester = $entityManager->getRepository ( 'RFCUserBundle:User' )->findOneBy(array('id' => $params ['requesterId'] ));
+		$crew = $entityManager->getRepository ( 'RFCCoreBundle:Crew' )->findOneBy ( array (
 				'game' => $params ['gameId'],
 				'manager' => $params ['managerId'] 
 		) );
 		
 		// Create crew if none exists for this game and manager
 		if ($crew === null) {
-			$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $params ['gameId'] ));
-			$manager = $em->getRepository ( 'RFCUserBundle:User' )->findOneBy(array('id' => $params ['managerId'] ));
+			$game = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $params ['gameId'] ));
+			$manager = $entityManager->getRepository ( 'RFCUserBundle:User' )->findOneBy(array('id' => $params ['managerId'] ));
 			$crew = new Crew ();
 			$crew->setGame ( $game );
 			$crew->setManager ( $manager );
-			$em->persist ( $crew );
+			$entityManager->persist ( $crew );
 		}
 		
 		$request = new CrewRequest ();
 		$request->setRequester ( $requester );
 		$request->setCrew ( $crew );
 		$request->setState ( 1 );
-		$em->persist ( $request );
+		$entityManager->persist ( $request );
 		
 		try {
-			$em->flush ();
+			$entityManager->flush ();
 			$jsonResponse = new JsonResponse ( $request, 200 );
 		} catch ( \Exception $e ) {
 			$jsonResponse = new JsonResponse ( $request, 400 );
@@ -111,14 +111,14 @@ class CrewController extends Controller {
 			$params = json_decode ( $content, true ); // 2nd param to get as array
 		}
 		
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$crewRequest = $em->getRepository ( 'RFCCoreBundle:CrewRequest' )->findOneById ( $params ['crewRequestId'] );
+		$crewRequest = $entityManager->getRepository ( 'RFCCoreBundle:CrewRequest' )->findOneById ( $params ['crewRequestId'] );
 		
 		$crewRequest->setState ( 4 );
 		
 		try {
-			$em->flush ();
+			$entityManager->flush ();
 			$jsonResponse = new JsonResponse ( $crewRequest, 200 );
 		} catch ( \Exception $e ) {
 			$jsonResponse = new JsonResponse ( $crewRequest, 400 );
@@ -133,14 +133,14 @@ class CrewController extends Controller {
 			$params = json_decode ( $content, true ); // 2nd param to get as array
 		}
 		
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$crewRequest = $em->getRepository ( 'RFCCoreBundle:CrewRequest' )->findOneBy(array('id' => $params ['crewRequestId'] ));
+		$crewRequest = $entityManager->getRepository ( 'RFCCoreBundle:CrewRequest' )->findOneBy(array('id' => $params ['crewRequestId'] ));
 		
 		$crewRequest->setState ( 2 );
 		
 		try {
-			$em->flush ();
+			$entityManager->flush ();
 			$jsonResponse = new JsonResponse ( $crewRequest, 200 );
 		} catch ( \Exception $e ) {
 			$jsonResponse = new JsonResponse ( $crewRequest, 400 );

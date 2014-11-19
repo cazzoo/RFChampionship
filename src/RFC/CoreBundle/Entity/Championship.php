@@ -17,7 +17,6 @@
 
 namespace RFC\CoreBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\KnowledgeData;
 use Doctrine\ORM\Mapping\JoinTable;
@@ -74,18 +73,6 @@ class Championship extends KnowledgeData
      * @ORM\ManyToMany(targetEntity="RFC\UserBundle\Entity\User", inversedBy="listChampionships")
      */
     private $listUsers;
-
-    /**
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
-     */
-    private $updatedAt;
 
     /**
      * Constructor
@@ -329,52 +316,6 @@ class Championship extends KnowledgeData
     public function unregisterUser(\RFC\UserBundle\Entity\User $user)
     {
         $this->listUsers->removeElement($user);
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt            
-     * @return Championship
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-        
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt            
-     * @return Championship
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-        
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
     }
 
     /**

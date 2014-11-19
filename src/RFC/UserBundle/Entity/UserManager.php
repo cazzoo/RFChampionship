@@ -28,9 +28,9 @@ class UserManager extends FOSUserManager
 {
 
     public function __construct(EncoderFactoryInterface $encoderFactory, CanonicalizerInterface $usernameCanonicalizer, 
-                                CanonicalizerInterface $emailCanonicalizer, EntityManager $em, $class) {
+                                CanonicalizerInterface $emailCanonicalizer, EntityManager $entityManager, $class) {
 
-        parent::__construct($encoderFactory, $usernameCanonicalizer, $emailCanonicalizer, $em, $class);
+        parent::__construct($encoderFactory, $usernameCanonicalizer, $emailCanonicalizer, $entityManager, $class);
 
     }
 

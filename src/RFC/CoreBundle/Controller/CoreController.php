@@ -24,9 +24,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class CoreController extends Controller {
 	public function indexAction() {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$games = $em->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+		$games = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
 		
 		if (count ( $games ) == 1) {
 			
@@ -38,9 +38,9 @@ class CoreController extends Controller {
 		) );
 	}
 	public function accessGameAction($gameId) {
-		$em = $this->getDoctrine ()->getManager ();
-		$g = $em->getRepository ( 'RFCCoreBundle:Game' )->find ( $gameId );
-		$games = $em->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+		$entityManager = $this->getDoctrine ()->getManager ();
+		$g = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->find ( $gameId );
+		$games = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
 		
 		$threadId = substr ( strrchr ( get_class ( $g ), "\\" ), 1 ) . '_' . $g->getName ();
 		return $this->render ( 'RFCCoreBundle:Core:gameIndex.html.twig', array (
@@ -50,24 +50,24 @@ class CoreController extends Controller {
 		) );
 	}
 	public function showGalleryAction($elementId, $elementType) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		$entity = null;
 		
 		switch ($elementType) {
 			case 'game' :
-				$entity = $em->getRepository ( 'RFCCoreBundle:Game' )->find ( $elementId );
+				$entity = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->find ( $elementId );
 				break;
 			case 'vehicle' :
-				$entity = $em->getRepository ( 'RFCCoreBundle:Vehicle' )->find ( $elementId );
+				$entity = $entityManager->getRepository ( 'RFCCoreBundle:Vehicle' )->find ( $elementId );
 				break;
 			case 'track' :
-				$entity = $em->getRepository ( 'RFCCoreBundle:Track' )->find ( $elementId );
+				$entity = $entityManager->getRepository ( 'RFCCoreBundle:Track' )->find ( $elementId );
 				break;
 			case 'typeSession' :
-				$entity = $em->getRepository ( 'RFCCoreBundle:TypeSession' )->find ( $elementId );
+				$entity = $entityManager->getRepository ( 'RFCCoreBundle:TypeSession' )->find ( $elementId );
 				break;
 			case 'category' :
-				$entity = $em->getRepository ( 'RFCCoreBundle:Category' )->find ( $elementId );
+				$entity = $entityManager->getRepository ( 'RFCCoreBundle:Category' )->find ( $elementId );
 				break;
 		}
 		

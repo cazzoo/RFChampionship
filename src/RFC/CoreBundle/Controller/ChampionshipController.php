@@ -27,23 +27,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class ChampionshipController extends Controller {
 	
 	public function indexAction($gameId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
 		$date = new \DateTime ();
 		$date->setTimezone ( new \DateTimeZone ( 'Europe/Paris' ) );
 		
-		$currentChampionships = $em->getRepository ( 'RFCCoreBundle:Championship' )->createQueryBuilder ( 'c' )->join ( 'c.listEvents', 'e' )->join ( 'e.listSessions', 's' )->where ( 's.endDate > :sysdate' )->andWhere ( 'c.game = :gameId' )->setParameters ( array (
+		$currentChampionships = $entityManager->getRepository ( 'RFCCoreBundle:Championship' )->createQueryBuilder ( 'c' )->join ( 'c.listEvents', 'e' )->join ( 'e.listSessions', 's' )->where ( 's.endDate > :sysdate' )->andWhere ( 'c.game = :gameId' )->setParameters ( array (
 				'sysdate' => $date,
 				'gameId' => $gameId 
 		) )->getQuery ()->getResult ();
 		
-		$pastChampionships = $em->getRepository ( 'RFCCoreBundle:Championship' )->createQueryBuilder ( 'c' )->join ( 'c.listEvents', 'e' )->join ( 'e.listSessions', 's' )->where ( 's.endDate < :sysdate' )->andWhere ( 'c.game = :gameId' )->setParameters ( array (
+		$pastChampionships = $entityManager->getRepository ( 'RFCCoreBundle:Championship' )->createQueryBuilder ( 'c' )->join ( 'c.listEvents', 'e' )->join ( 'e.listSessions', 's' )->where ( 's.endDate < :sysdate' )->andWhere ( 'c.game = :gameId' )->setParameters ( array (
 				'sysdate' => $date,
 				'gameId' => $gameId 
 		) )->getQuery ()->getResult ();
 		
-		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
-		$games = $em->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+		$game = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
+		$games = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
 		
 		// Ajout du jeu sélectionné
 		$menu = $this->get ( 'rfc_core.menu.breadcrumb' );
@@ -66,11 +66,11 @@ class ChampionshipController extends Controller {
 	 * Finds and displays a Championship entity.
 	 */
 	public function showAction($championshipId, $gameId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$entity = $em->getRepository ( 'RFCCoreBundle:Championship' )->find ( $championshipId );
-		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
-		$games = $em->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+		$entity = $entityManager->getRepository ( 'RFCCoreBundle:Championship' )->find ( $championshipId );
+		$game = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
+		$games = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
 		
 		// Ajout du jeu sélectionné
 		$menu = $this->get ( 'rfc_core.menu.breadcrumb' );
@@ -106,19 +106,19 @@ class ChampionshipController extends Controller {
                 $userId = $params ['userId'];
 		$action = $params ['action'];
 			
-                $em = $this->getDoctrine ()->getManager ();
+                $entityManager = $this->getDoctrine ()->getManager ();
 
-                $user = $em->getRepository ( 'RFCUserBundle:User' )->find ( $userId );
-                $championship = $em->getRepository ( 'RFCCoreBundle:Championship' )->find ( $championshipId );
+                $user = $entityManager->getRepository ( 'RFCUserBundle:User' )->find ( $userId );
+                $championship = $entityManager->getRepository ( 'RFCCoreBundle:Championship' )->find ( $championshipId );
 
                 switch ($action) {
                         case 'register' :
                                 $championship->registerUser ( $user );
-                                $em->flush ();
+                                $entityManager->flush ();
                                 break;
                         case 'unregister' :
                                 $championship->unregisterUser ( $user );
-                                $em->flush ();
+                                $entityManager->flush ();
                                 break;
                 }
                 // Returning the status of the action : 0 = nothing done, 1 = registered, 2 = unregistered

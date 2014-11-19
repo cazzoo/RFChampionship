@@ -33,9 +33,9 @@ class EventController extends Controller
      */
     public function indexAction($gameId, $championshipId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entities = $em->getRepository('RFCCoreBundle:Event')->findBy(array(
+        $entities = $entityManager->getRepository('RFCCoreBundle:Event')->findBy(array(
             'championship' => $championshipId
         ));
         
@@ -56,9 +56,9 @@ class EventController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($entity);
+            $entityManager->flush();
             
             return $this->redirect($this->generateUrl('admin_championship_show', array(
                 'eventId' => $entity->getId(),
@@ -106,8 +106,8 @@ class EventController extends Controller
     public function newAction($gameId, $championshipId)
     {
         $entity = new Event();
-        $em = $this->getDoctrine()->getManager();
-        $entityChampionship = $em->getRepository('RFCCoreBundle:Championship')->find($championshipId);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityChampionship = $entityManager->getRepository('RFCCoreBundle:Championship')->find($championshipId);
         $entity->setChampionship($entityChampionship);
         $form = $this->createCreateForm($entity, $gameId, $championshipId);
         
@@ -124,9 +124,9 @@ class EventController extends Controller
      */
     public function showAction($eventId, $gameId, $championshipId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Event')->find($eventId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Event')->find($eventId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Event entity.');
@@ -147,9 +147,9 @@ class EventController extends Controller
      */
     public function editAction($eventId, $gameId, $championshipId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Event')->find($eventId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Event')->find($eventId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Event entity.');
@@ -198,9 +198,9 @@ class EventController extends Controller
      */
     public function updateAction(Request $request, $eventId, $gameId, $championshipId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Event')->find($eventId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Event')->find($eventId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Event entity.');
@@ -211,7 +211,7 @@ class EventController extends Controller
         $editForm->handleRequest($request);
         
         if ($editForm->isValid()) {
-            $em->flush();
+            $entityManager->flush();
             
             return $this->redirect($this->generateUrl('admin_championship_show', array(
                 'eventId' => $eventId,
@@ -238,15 +238,15 @@ class EventController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Event')->find($eventId);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entity = $entityManager->getRepository('RFCCoreBundle:Event')->find($eventId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find Event entity.');
             }
             
-            $em->remove($entity);
-            $em->flush();
+            $entityManager->remove($entity);
+            $entityManager->flush();
         }
         
         return $this->redirect($this->generateUrl('admin_event', array(

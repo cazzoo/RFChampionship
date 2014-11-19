@@ -42,9 +42,9 @@ class UserController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('RFCUserBundle:User')->findAll();
+        $entities = $entityManager->getRepository('RFCUserBundle:User')->findAll();
 
         return array(
             'entities' => $entities,
@@ -64,9 +64,9 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($entity);
+            $entityManager->flush();
 
             return $this->redirect($this->generateUrl('admin_user'));
         }
@@ -123,9 +123,9 @@ class UserController extends Controller
      */
     public function showAction($userId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RFCUserBundle:User')->find($userId);
+        $entity = $entityManager->getRepository('RFCUserBundle:User')->find($userId);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -148,9 +148,9 @@ class UserController extends Controller
      */
     public function editAction($userId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RFCUserBundle:User')->find($userId);
+        $entity = $entityManager->getRepository('RFCUserBundle:User')->find($userId);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -194,9 +194,9 @@ class UserController extends Controller
      */
     public function updateAction(Request $request, $userId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RFCUserBundle:User')->find($userId);
+        $entity = $entityManager->getRepository('RFCUserBundle:User')->find($userId);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -207,7 +207,7 @@ class UserController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $em->flush();
+            $entityManager->flush();
 
             return $this->redirect($this->generateUrl('admin_user'));
         }
@@ -231,15 +231,15 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCUserBundle:User')->find($userId);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entity = $entityManager->getRepository('RFCUserBundle:User')->find($userId);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find User entity.');
             }
 
-            $em->remove($entity);
-            $em->flush();
+            $entityManager->remove($entity);
+            $entityManager->flush();
         }
 
         return $this->redirect($this->generateUrl('admin_user'));

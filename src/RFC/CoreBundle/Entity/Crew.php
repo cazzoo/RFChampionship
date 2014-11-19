@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace RFC\CoreBundle\Entity;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -30,6 +32,12 @@ use Doctrine\ORM\Mapping as ORM;
 class Crew
 {
 
+    /**
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
+    
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -55,18 +63,6 @@ class Crew
     private $listCrewRequests;
 
     /**
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
-     */
-    private $updatedAt;
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -84,11 +80,13 @@ class Crew
         return $this->id;
     }
 
-    public function getGame() {
+    public function getGame()
+    {
         return $this->game;
     }
 
-    public function setGame($game) {
+    public function setGame($game)
+    {
         $this->game = $game;
         return $this;
     }
@@ -102,13 +100,15 @@ class Crew
         return $this->manager;
     }
 
-    public function setManager($user) {
+    public function setManager($user)
+    {
         $this->manager = $user;
         return $this;
     }
 
-    public function isManager($userId) {
-        return ($userId === $this->manager->getId()) ? true : false;
+    public function isManager($userId)
+    {
+        return ($userId === $this->manager->getId ()) ? true : false;
     }
 
     /**
@@ -116,13 +116,12 @@ class Crew
      * @param integer $state
      * @return array of members
      */
-    public function getMembers($state) {
+    public function getMembers($state)
+    {
         $members = array();
-        foreach($this->listCrewRequests as $crewRequest)
-        {
-            if($state == $crewRequest->getState())
-            {
-                array_push($members, $crewRequest->getRequester());
+        foreach ($this->listCrewRequests as $crewRequest) {
+            if ($state == $crewRequest->getState ()) {
+                array_push ( $members, $crewRequest->getRequester () );
             }
         }
         return $members;
@@ -130,15 +129,13 @@ class Crew
 
     public function getActiveMembers()
     {
-        return $this->getMembers(2);
+        return $this->getMembers ( 2 );
     }
 
     public function isActiveMember($userId)
     {
-        foreach ($this->getActiveMembers() as $member)
-        {
-            if ($userId == $member->getId())
-            {
+        foreach ($this->getActiveMembers () as $member) {
+            if ($userId == $member->getId ()) {
                 return true;
             }
         }
@@ -147,15 +144,13 @@ class Crew
 
     public function getAwaitingMembers()
     {
-        return $this->getMembers(1);
+        return $this->getMembers ( 1 );
     }
 
     public function isAwaitingMember($userId)
     {
-        foreach ($this->getAwaitingMembers() as $member)
-        {
-            if ($member->getId() == $userId)
-            {
+        foreach ($this->getAwaitingMembers () as $member) {
+            if ($member->getId () == $userId) {
                 return true;
             }
         }
@@ -164,14 +159,11 @@ class Crew
 
     public function getUserState($userId)
     {
-        if($this->isActiveMember($userId))
-        {
+        if ($this->isActiveMember ( $userId )) {
             return 2;
-        } else if($this->isAwaitingMember($userId))
-        {
+        } else if ($this->isAwaitingMember ( $userId )) {
             return 1;
-        } else 
-        {
+        } else {
             return 4;
         }
     }
@@ -196,7 +188,7 @@ class Crew
      */
     public function removeListCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
     {
-        $this->listCrewRequests->removeElement($crewRequest);
+        $this->listCrewRequests->removeElement ( $crewRequest );
     }
 
     /**
@@ -211,58 +203,11 @@ class Crew
 
     public function getUserCrewRequest($userId)
     {
-        foreach($this->listCrewRequests as $crewRequest)
-        {
-            if($userId == $crewRequest->getRequester()->getId())
-            {
-                return $crewRequest;            }
+        foreach ($this->listCrewRequests as $crewRequest) {
+            if ($userId == $crewRequest->getRequester ()->getId ()) {
+                return $crewRequest;
+            }
         }
         return null;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt            
-     * @return Crew
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt            
-     * @return Crew
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
     }
 }

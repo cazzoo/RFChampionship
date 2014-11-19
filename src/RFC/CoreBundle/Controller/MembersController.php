@@ -27,11 +27,11 @@ class MembersController extends Controller
 
     public function indexAction($gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         $userManager = $this->get('fos_user.user_manager');
         
-        $game = $em->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' => $gameId));
-        $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
+        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' => $gameId));
+        $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
         $users = $userManager->findByAndOrderBy('roles', 'ASC');
         
         // Ajout du jeu sélectionné
@@ -53,11 +53,11 @@ class MembersController extends Controller
 
     public function showAction($gameId, $userId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $game = $em->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
-        $games = $em->getRepository('RFCCoreBundle:Game')->findAll();
-        $user = $em->getRepository('RFCUserBundle:User')->findOneBy(array('id' =>$userId));
+        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
+        $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
+        $user = $entityManager->getRepository('RFCUserBundle:User')->findOneBy(array('id' =>$userId));
         
         // Ajout de la miette de pain
         $menu = $this->get('rfc_core.menu.breadcrumb');

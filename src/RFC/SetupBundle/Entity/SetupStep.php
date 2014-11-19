@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace RFC\SetupBundle\Entity;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,151 +29,119 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="RFC\SetupBundle\Entity\SetupStepRepository")
  */
-class SetupStep {
-	
-	/**
-	 * @ORM\Column(name="id", type="integer")
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
-	
-	/**
-	 * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\Setup", inversedBy="listSetupSteps")
-	 */
-	private $setup;
-	
-	/**
-	 * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\Step")
-	 */
-	private $step;
-	
-	/**
-	 * @ORM\Column(name="value", type="text")
-	 */
-	private $value;
-	
-	/**
-	 * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\SubStep")
-	 */
-	private $subStep;
-	
-	/**
-	 * @ORM\Column(name="version", type="integer")
-	 */
-	private $version;
-	
-	/**
-	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(type="datetime")
-	 */
-	private $createdAt;
-	
-	/**
-	 * @Gedmo\Timestampable(on="update")
-	 * @ORM\Column(type="datetime")
-	 */
-	private $updatedAt;
-	
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId() {
-		return $this->id;
-	}
-	public function getSetup() {
-		return $this->setup;
-	}
-	public function setSetup($setup) {
-		$this->setup = $setup;
-		return $this;
-	}
-	public function getStep() {
-		return $this->step;
-	}
-	public function setStep($step) {
-		$this->step = $step;
-		return $this;
-	}
-	public function getValue() {
-		return $this->value;
-	}
+class SetupStep
+{
 
-        /**
-         *
-         * @param string $value
-         * @return \RFC\SetupBundle\Entity\SetupStep
-         */
-	public function setValue($value) {
-		$this->value = $value;
-		return $this;
-	}
-	public function getSubStep() {
-		return $this->subStep;
-	}
-	public function setSubStep($subStep) {
-		$this->subStep = $subStep;
-		return $this;
-	}
-		public function getVersion() {
-		return $this->version;
-	}
+    /**
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
 
-        /**
-         * 
-         * @param integer $version
-         * @return \RFC\SetupBundle\Entity\SetupStep
-         */
-	public function setVersion($version) {
-		$this->version = $version;
-		return $this;
-	}
-	
-	/**
-	 * Set createdAt
-	 *
-	 * @param \DateTime $createdAt        	
-	 * @return SetupStep
-	 */
-	public function setCreatedAt($createdAt) {
-		$this->createdAt = $createdAt;
-		
-		return $this;
-	}
-	
-	/**
-	 * Get createdAt
-	 *
-	 * @return \DateTime
-	 */
-	public function getCreatedAt() {
-		return $this->createdAt;
-	}
-	
-	/**
-	 * Set updatedAt
-	 *
-	 * @param \DateTime $updatedAt        	
-	 * @return SetupStep
-	 */
-	public function setUpdatedAt($updatedAt) {
-		$this->updatedAt = $updatedAt;
-		
-		return $this;
-	}
-	
-	/**
-	 * Get updatedAt
-	 *
-	 * @return \DateTime
-	 */
-	public function getUpdatedAt() {
-		return $this->updatedAt;
-	}
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-        public function clearId() {
-            $this->id = null;
-        }
+    /**
+     * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\Setup", inversedBy="listSetupSteps")
+     */
+    private $setup;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\Step")
+     */
+    private $step;
+
+    /**
+     * @ORM\Column(name="value", type="text")
+     */
+    private $value;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\SubStep")
+     */
+    private $subStep;
+
+    /**
+     * @ORM\Column(name="version", type="integer")
+     */
+    private $version;
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getSetup()
+    {
+        return $this->setup;
+    }
+
+    public function setSetup($setup)
+    {
+        $this->setup = $setup;
+        return $this;
+    }
+
+    public function getStep()
+    {
+        return $this->step;
+    }
+
+    public function setStep($step)
+    {
+        $this->step = $step;
+        return $this;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     *
+     * @param string $value
+     * @return \RFC\SetupBundle\Entity\SetupStep
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+        return $this;
+    }
+
+    public function getSubStep()
+    {
+        return $this->subStep;
+    }
+
+    public function setSubStep($subStep)
+    {
+        $this->subStep = $subStep;
+        return $this;
+    }
+
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * 
+     * @param integer $version
+     * @return \RFC\SetupBundle\Entity\SetupStep
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+        return $this;
+    }
 }

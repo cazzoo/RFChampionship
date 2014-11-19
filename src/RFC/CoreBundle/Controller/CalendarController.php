@@ -22,10 +22,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class CalendarController extends Controller {
 	public function indexAction($gameId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$game = $em->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
-		$games = $em->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+		$game = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findOneBy(array('id' => $gameId ));
+		$games = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
 		
 		// Ajout du jeu sélectionné
 		$menu = $this->get ( 'rfc_core.menu.breadcrumb' );

@@ -34,9 +34,9 @@ class GameController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entities = $em->getRepository('RFCCoreBundle:Game')->findAll();
+        $entities = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
         
         return $this->render('RFCAdminBundle:Game:index.html.twig', array(
             'games' => $entities
@@ -53,9 +53,9 @@ class GameController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($entity);
+            $entityManager->flush();
             
             return $this->redirect($this->generateUrl('admin_game_manage', array(
                 'gameId' => $entity->getId()
@@ -106,9 +106,9 @@ class GameController extends Controller
      */
     public function showAction($gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Game entity.');
@@ -127,9 +127,9 @@ class GameController extends Controller
      */
     public function editAction($gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Game entity.');
@@ -170,9 +170,9 @@ class GameController extends Controller
      */
     public function updateAction(Request $request, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Game entity.');
@@ -183,7 +183,7 @@ class GameController extends Controller
         $editForm->handleRequest($request);
         
         if ($editForm->isValid()) {
-            $em->flush();
+            $entityManager->flush();
             
             return $this->redirect($this->generateUrl('admin_game_manage', array(
                 'gameId' => $gameId
@@ -206,15 +206,15 @@ class GameController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entity = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find Game entity.');
             }
             
-            $em->remove($entity);
-            $em->flush();
+            $entityManager->remove($entity);
+            $entityManager->flush();
         }
         
         return $this->redirect($this->generateUrl('admin_game'));
@@ -243,9 +243,9 @@ class GameController extends Controller
 
     public function manageAction($gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $game = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
+        $game = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         
         if (! $game) {
             throw $this->createNotFoundException('Unable to find Game entity.');

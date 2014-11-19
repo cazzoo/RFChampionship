@@ -36,9 +36,9 @@ class SubStepController extends Controller {
 		$form->handleRequest ( $request );
 		
 		if ($form->isValid ()) {
-			$em = $this->getDoctrine ()->getManager ();
-			$em->persist ( $entity );
-			$em->flush ();
+			$entityManager = $this->getDoctrine ()->getManager ();
+			$entityManager->persist ( $entity );
+			$entityManager->flush ();
 			
 			return $this->redirect ( $this->generateUrl ( 'setup_step_index', array (
 					'gameId' => $gameId 
@@ -58,8 +58,8 @@ class SubStepController extends Controller {
 	 */
 	public function newAction($gameId, $stepId) {
 		$entity = new SubStep ();
-		$em = $this->getDoctrine ()->getManager ();
-		$entityStep = $em->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
+		$entityManager = $this->getDoctrine ()->getManager ();
+		$entityStep = $entityManager->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
 		$entity->setStep ( $entityStep );
 		$form = $this->createCreateForm ( $entity, $stepId, $gameId );
 		
@@ -75,9 +75,9 @@ class SubStepController extends Controller {
 	 * Displays a form to edit an existing Step entity.
 	 */
 	public function editAction($subStepId, $stepId, $gameId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$entity = $em->getRepository ( 'RFCSetupBundle:SubStep' )->find ( $subStepId );
+		$entity = $entityManager->getRepository ( 'RFCSetupBundle:SubStep' )->find ( $subStepId );
 		
 		if (! $entity) {
 			throw $this->createNotFoundException ( 'Unable to find Step entity.' );
@@ -99,9 +99,9 @@ class SubStepController extends Controller {
 	 * Edits an existing Step entity.
 	 */
 	public function updateAction(Request $request, $subStepId, $stepId, $gameId) {
-		$em = $this->getDoctrine ()->getManager ();
+		$entityManager = $this->getDoctrine ()->getManager ();
 		
-		$entity = $em->getRepository ( 'RFCSetupBundle:SubStep' )->find ( $subStepId );
+		$entity = $entityManager->getRepository ( 'RFCSetupBundle:SubStep' )->find ( $subStepId );
 		
 		if (! $entity) {
 			throw $this->createNotFoundException ( 'Unable to find Step entity.' );
@@ -112,7 +112,7 @@ class SubStepController extends Controller {
 		$editForm->handleRequest ( $request );
 		
 		if ($editForm->isValid ()) {
-			$em->flush ();
+			$entityManager->flush ();
 			
 			return $this->redirect ( $this->generateUrl ( 'setup_step_index', array (
 					'gameId' => $gameId 
@@ -135,15 +135,15 @@ class SubStepController extends Controller {
 		$form->handleRequest ( $request );
 		
 		if ($form->isValid ()) {
-			$em = $this->getDoctrine ()->getManager ();
-			$entity = $em->getRepository ( 'RFCSetupBundle:SubStep' )->find ( $subStepId );
+			$entityManager = $this->getDoctrine ()->getManager ();
+			$entity = $entityManager->getRepository ( 'RFCSetupBundle:SubStep' )->find ( $subStepId );
 			
 			if (! $entity) {
 				throw $this->createNotFoundException ( 'Unable to find Step entity.' );
 			}
 			
-			$em->remove ( $entity );
-			$em->flush ();
+			$entityManager->remove ( $entity );
+			$entityManager->flush ();
 		}
 		
 		return $this->redirect ( $this->generateUrl ( 'rfcSetup_index', array (

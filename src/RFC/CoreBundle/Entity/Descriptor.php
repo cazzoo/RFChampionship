@@ -17,6 +17,8 @@
 
 namespace RFC\CoreBundle\Entity;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,6 +28,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class Descriptor
 {
+    
+    /**
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
+
     /**
      * @ORM\Column(name="name", type="string", length=255)
      */
@@ -155,4 +164,5 @@ abstract class Descriptor
     {
         $this->listImages->removeElement ( $image );
     }
+
 }

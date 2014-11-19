@@ -33,18 +33,18 @@ class MetaRuleController extends Controller
      */
     public function indexAction($gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $metaRules = $em->getRepository('RFCCoreBundle:MetaRule')->findBy(array(
+        $metaRules = $entityManager->getRepository('RFCCoreBundle:MetaRule')->findBy(array(
             'game' => $gameId
         ));
-        $rules = $em->getRepository('RFCCoreBundle:Rule')->findBy(array(
+        $rules = $entityManager->getRepository('RFCCoreBundle:Rule')->findBy(array(
             'game' => $gameId
         ), array(
             'typeSession' => 'ASC',
         	'value' => 'DESC'
         ));
-        $game = $em->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
+        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
         
         // Ajout du jeu sélectionné
         $menu = $this->get('rfc_admin.menu.breadcrumb');
@@ -74,9 +74,9 @@ class MetaRuleController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($entity);
+            $entityManager->flush();
             
             return $this->redirect($this->generateUrl('admin_metaRule', array(
                 'gameId' => $gameId
@@ -122,8 +122,8 @@ class MetaRuleController extends Controller
     public function newAction($gameId)
     {
         $entity = new MetaRule();
-        $em = $this->getDoctrine()->getManager();
-        $entityGame = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityGame = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         $entity->setGame($entityGame);
         $form = $this->createCreateForm($entity, $gameId);
         
@@ -139,9 +139,9 @@ class MetaRuleController extends Controller
      */
     public function showAction($metaRuleId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find MetaRule entity.');
@@ -161,9 +161,9 @@ class MetaRuleController extends Controller
      */
     public function editAction($metaRuleId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find MetaRule entity.');
@@ -212,9 +212,9 @@ class MetaRuleController extends Controller
      */
     public function updateAction(Request $request, $metaRuleId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find MetaRule entity.');
@@ -225,7 +225,7 @@ class MetaRuleController extends Controller
         $editForm->handleRequest($request);
         
         if ($editForm->isValid()) {
-            $em->flush();
+            $entityManager->flush();
             
             return $this->redirect($this->generateUrl('admin_metaRule', array(
                 'gameId' => $gameId
@@ -249,15 +249,15 @@ class MetaRuleController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entity = $entityManager->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find MetaRule entity.');
             }
             
-            $em->remove($entity);
-            $em->flush();
+            $entityManager->remove($entity);
+            $entityManager->flush();
         }
         
         return $this->redirect($this->generateUrl('admin_metaRule', array(

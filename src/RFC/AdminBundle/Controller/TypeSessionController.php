@@ -33,12 +33,12 @@ class TypeSessionController extends Controller
      */
     public function indexAction($gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $typeSessions = $em->getRepository('RFCCoreBundle:TypeSession')->findBy(array(
+        $typeSessions = $entityManager->getRepository('RFCCoreBundle:TypeSession')->findBy(array(
             'game' => $gameId
         ));
-        $game = $em->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
+        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
         
         // Ajout du jeu sélectionné
         $menu = $this->get('rfc_admin.menu.breadcrumb');
@@ -67,9 +67,9 @@ class TypeSessionController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($entity);
+            $entityManager->flush();
             
             return $this->redirect($this->generateUrl('admin_typeSession', array(
 	            'gameId' => $gameId
@@ -115,8 +115,8 @@ class TypeSessionController extends Controller
     public function newAction($gameId)
     {
         $entity = new TypeSession();
-        $em = $this->getDoctrine()->getManager();
-        $entityGame = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityGame = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         $entity->setGame($entityGame);
         $form = $this->createCreateForm($entity, $gameId);
         
@@ -132,9 +132,9 @@ class TypeSessionController extends Controller
      */
     public function showAction($typeSessionId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find TypeSession entity.');
@@ -154,9 +154,9 @@ class TypeSessionController extends Controller
      */
     public function editAction($typeSessionId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find TypeSession entity.');
@@ -205,9 +205,9 @@ class TypeSessionController extends Controller
      */
     public function updateAction(Request $request, $typeSessionId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find TypeSession entity.');
@@ -218,7 +218,7 @@ class TypeSessionController extends Controller
         $editForm->handleRequest($request);
         
         if ($editForm->isValid()) {
-            $em->flush();
+            $entityManager->flush();
             
             return $this->redirect($this->generateUrl('admin_typeSession', array(
                 'gameId' => $gameId
@@ -242,15 +242,15 @@ class TypeSessionController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entity = $entityManager->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find TypeSession entity.');
             }
             
-            $em->remove($entity);
-            $em->flush();
+            $entityManager->remove($entity);
+            $entityManager->flush();
         }
         
         return $this->redirect($this->generateUrl('admin_typeSession', array(

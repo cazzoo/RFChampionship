@@ -31,9 +31,9 @@ class SystemController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $properties = $em->getRepository('RFCCoreBundle:Property')
+        $properties = $entityManager->getRepository('RFCCoreBundle:Property')
             ->createQueryBuilder('p')
             ->where('p.category != :category')
             ->setParameter('category', 'user')
@@ -47,8 +47,8 @@ class SystemController extends Controller
 
     public function updatePropertiesAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $properties = $em->getRepository("RFCCoreBundle:Property")->findAll();
+        $entityManager = $this->getDoctrine()->getManager();
+        $properties = $entityManager->getRepository("RFCCoreBundle:Property")->findAll();
 
         $params = array();
         $content = $this->get("request")->getContent();
@@ -68,7 +68,7 @@ class SystemController extends Controller
         }
 
         try {
-            $em->flush();
+            $entityManager->flush();
             $jsonResponse = new JsonResponse($properties, 200);
         } catch (\Exception $e) {
             $jsonResponse = new JsonResponse($properties, 400);

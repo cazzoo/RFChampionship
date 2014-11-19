@@ -33,12 +33,12 @@ class VehicleController extends Controller
      */
     public function indexAction($gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $vehicles = $em->getRepository('RFCCoreBundle:Vehicle')->findBy(array(
+        $vehicles = $entityManager->getRepository('RFCCoreBundle:Vehicle')->findBy(array(
             'game' => $gameId
         ));
-        $game = $em->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
+        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
         
         // Ajout du jeu sélectionné
         $menu = $this->get('rfc_admin.menu.breadcrumb');
@@ -67,9 +67,9 @@ class VehicleController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($entity);
+            $entityManager->flush();
             
             return $this->redirect($this->generateUrl('admin_vehicle', array(
 	            'gameId' => $gameId
@@ -114,8 +114,8 @@ class VehicleController extends Controller
     public function newAction($gameId)
     {
         $entity = new Vehicle();
-        $em = $this->getDoctrine()->getManager();
-        $entityGame = $em->getRepository('RFCCoreBundle:Game')->find($gameId);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityGame = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         $entity->setGame($entityGame);
         $form = $this->createCreateForm($entity, $gameId);
         
@@ -131,9 +131,9 @@ class VehicleController extends Controller
      */
     public function showAction($vehicleId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Vehicle entity.');
@@ -153,9 +153,9 @@ class VehicleController extends Controller
      */
     public function editAction($vehicleId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Vehicle entity.');
@@ -204,9 +204,9 @@ class VehicleController extends Controller
      */
     public function updateAction(Request $request, $vehicleId, $gameId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
-        $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
         
         if (! $entity) {
             throw $this->createNotFoundException('Unable to find Vehicle entity.');
@@ -217,7 +217,7 @@ class VehicleController extends Controller
         $editForm->handleRequest($request);
         
         if ($editForm->isValid()) {
-            $em->flush();
+            $entityManager->flush();
             
             return $this->redirect($this->generateUrl('admin_vehicle', array(
                 'gameId' => $gameId
@@ -241,15 +241,15 @@ class VehicleController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entity = $entityManager->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
             
             if (! $entity) {
                 throw $this->createNotFoundException('Unable to find Vehicle entity.');
             }
             
-            $em->remove($entity);
-            $em->flush();
+            $entityManager->remove($entity);
+            $entityManager->flush();
         }
         
         return $this->redirect($this->generateUrl('admin_vehicle', array(

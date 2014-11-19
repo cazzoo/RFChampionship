@@ -28,9 +28,9 @@ use RFC\SetupBundle\Form\StepType;
 class StepController extends Controller {
 
     public function indexAction($gameId) {
-        $em = $this->getDoctrine ()->getManager ();
+        $entityManager = $this->getDoctrine ()->getManager ();
 
-        $steps = $em->getRepository ( 'RFCSetupBundle:Step' )->findAll ();
+        $steps = $entityManager->getRepository ( 'RFCSetupBundle:Step' )->findAll ();
 
         return $this->render ( 'RFCSetupBundle:Step:index.html.twig', array (
                         'gameId' => $gameId,
@@ -47,9 +47,9 @@ class StepController extends Controller {
             $form->handleRequest ( $request );
 
             if ($form->isValid ()) {
-                    $em = $this->getDoctrine ()->getManager ();
-                    $em->persist ( $entity );
-                    $em->flush ();
+                    $entityManager = $this->getDoctrine ()->getManager ();
+                    $entityManager->persist ( $entity );
+                    $entityManager->flush ();
 
                     return $this->redirect ( $this->generateUrl ( 'setup_step_index', array (
                                     'gameId' => $gameId
@@ -67,9 +67,9 @@ class StepController extends Controller {
      */
     public function newAction($gameId) {
             $entity = new Step ();
-            $em = $this->getDoctrine ()->getManager ();
-            $entityGame = $em->getRepository ( 'RFCCoreBundle:Game' )->find ( $gameId );
-            $max_value = $em->getRepository('RFCSetupBundle:Step')->findLastStepId( $gameId );
+            $entityManager = $this->getDoctrine ()->getManager ();
+            $entityGame = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->find ( $gameId );
+            $max_value = $entityManager->getRepository('RFCSetupBundle:Step')->findLastStepId( $gameId );
             $max_value['stepOrder'] = ( null === $max_value ? 1 : $max_value['stepOrder'] + 1);
             $entity->setStepOrder($max_value['stepOrder']);
             $entity->setGame ( $entityGame );
@@ -86,9 +86,9 @@ class StepController extends Controller {
      * Displays a form to edit an existing Step entity.
      */
     public function editAction($stepId, $gameId) {
-            $em = $this->getDoctrine ()->getManager ();
+            $entityManager = $this->getDoctrine ()->getManager ();
 
-            $entity = $em->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
+            $entity = $entityManager->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
 
             if (! $entity) {
                     throw $this->createNotFoundException ( 'Unable to find Step entity.' );
@@ -107,9 +107,9 @@ class StepController extends Controller {
      * Edits an existing Step entity.
      */
     public function updateAction(Request $request, $stepId, $gameId) {
-            $em = $this->getDoctrine ()->getManager ();
+            $entityManager = $this->getDoctrine ()->getManager ();
 
-            $entity = $em->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
+            $entity = $entityManager->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
 
             if (! $entity) {
                     throw $this->createNotFoundException ( 'Unable to find Step entity.' );
@@ -119,7 +119,7 @@ class StepController extends Controller {
             $editForm->handleRequest ( $request );
 
             if ($editForm->isValid ()) {
-                    $em->flush ();
+                    $entityManager->flush ();
 
                     return $this->redirect ( $this->generateUrl ( 'setup_step_index', array (
                                     'gameId' => $gameId
@@ -138,15 +138,15 @@ class StepController extends Controller {
      */
     public function deleteAction($stepId, $gameId) {
 
-            $em = $this->getDoctrine ()->getManager ();
-            $entity = $em->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
+            $entityManager = $this->getDoctrine ()->getManager ();
+            $entity = $entityManager->getRepository ( 'RFCSetupBundle:Step' )->find ( $stepId );
 
             if (! $entity) {
                     throw $this->createNotFoundException ( 'Unable to find Step entity.' );
             }
 
-            $em->remove ( $entity );
-            $em->flush ();
+            $entityManager->remove ( $entity );
+            $entityManager->flush ();
 
             return $this->redirect ( $this->generateUrl ( 'rfcSetup_index', array (
                             'gameId' => $gameId
