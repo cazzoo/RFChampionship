@@ -25,21 +25,8 @@
 <title>{% block title %}RFC{% endblock %}</title> 
 
 {% block stylesheets %}
-	<!-- Loading YALMcss -->
-	<link href="{{ asset('yaml/core/base.min.css') }}"
+	<link href="{{ asset('SemanticUI/semantic.css') }}"
 		rel="stylesheet" type="text/css" />
-    <link href="{{ asset('yaml/navigation/hlist.css') }}"
-            rel="stylesheet" type="text/css" />
-    <link href="{{ asset('yaml/forms/gray-theme.css') }}"
-            rel="stylesheet" type="text/css" />
-    <link href="{{ asset('yaml/screen/typography.css') }}"
-            rel="stylesheet" type="text/css" />
-    <link href="{{ asset('yaml/screen/screen-FULLPAGE-layout.css') }}"
-            rel="stylesheet" type="text/css" />
-    <link href="{{ asset('yaml/print/print.css') }}"
-            rel="stylesheet" type="text/css" />
-    <link href="{{ asset('yaml/add-ons/accessible-tabs/tabs.css') }}"
-            rel="stylesheet" type="text/css" />
 		
 	<!-- Loading jquery calendar -->
 	<link
@@ -140,6 +127,9 @@
 			<script src="{{ asset('jquery/js/jquery.datetimepicker.js') }}"></script>
 			<script src="{{ asset('jquery/js/jquery.fancybox.js') }}"></script>
 		{% endjavascripts %}
+		{% javascripts 'SemanticUI' %}
+                    <script src="{{ asset('SemanticUI/semantic.js') }}"></script>
+                {% endjavascripts %}
 		{% javascripts 'FosJS' %}
 			<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 			<script

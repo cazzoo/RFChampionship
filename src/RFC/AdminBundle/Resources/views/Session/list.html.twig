@@ -56,9 +56,9 @@
                         </td>
                         <td>
                             {% if canManage %}
-                                <a class="ym-button ym-edit" href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': gameId, 'championshipId': championshipId, 'eventId' : eventId}) }}">Edit</a><br />
+                                <a class="mini compact ui labelled icon button" href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': gameId, 'championshipId': championshipId, 'eventId' : eventId}) }}"><i class="edit icon"></i></a><br />
                             {% endif %}
-                            <a class="ym-button ym-next sessionItem" id="session_{{ session.id }}" data-session="{{ session.id }}" href="#session_{{ session.id }}">Select</a>
+                            <a class="mini compact ui labelled icon button sessionItem" id="session_{{ session.id }}" data-session="{{ session.id }}" href="#session_{{ session.id }}"><i class="unhide icon"></i></a>
                         </td>
                     </tr>
 	    		{% endfor %}
