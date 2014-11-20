@@ -736,7 +736,7 @@ $(function () {
     // --------------------------------------------
     // ----------------- Set tabs element as tabs
     // --------------------------------------------
-    $(".jquery_tabs").accessibleTabs();
+    //$(".jquery_tabs").accessibleTabs();
 
     // --------------------------------------------
     // Screen Championship show

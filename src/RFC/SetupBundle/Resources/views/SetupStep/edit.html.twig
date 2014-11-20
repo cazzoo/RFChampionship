@@ -16,16 +16,37 @@
 
 {# src/RFC/SetupBundle/Resources/views/SetupStep/edit.html.twig #}
 
-{{ form_start(edit_form) }}
+<h5 class="ui top attached header">
+    Version {{ entity.version }}
+</h5>
+<div class="ui attached segment">
+
+    {{ form_start(edit_form) }}
     Date : {{ entity.createdAt|date("Y/m/d H:i") }}
     {{ form_errors(edit_form) }}
 
     {{ form_row(edit_form.value) }}
     {{ form_row(edit_form.subStep) }}
+
+    <h5 class="ui top attached header">
+        SubStep
+    </h5>
+
     {% for subStep in subSteps %}
-    	<div class="subStepInfo" data-substepid="{{ subStep.id }}">
-            {% include 'RFCSetupBundle:SubStep:show.html.twig' with {'subStep': subStep} %}
-    	</div>
+        <div class="subStepInfo" data-substepid="{{ subStep.id }}">
+            <div class="ui stacked attached segment">
+                {% include 'RFCSetupBundle:SubStep:show.html.twig' with {'subStep': subStep} %}
+            </div>
+        </div>
     {% endfor %}
+    
+    {{ form_rest(edit_form) }}
+
+    <div class="ui basic segment">
+        {{ form_widget(edit_form.reset) }}
+        {{ form_widget(edit_form.submit) }}
+    </div>
+
+</div>
 
 {{ form_end(edit_form) }}

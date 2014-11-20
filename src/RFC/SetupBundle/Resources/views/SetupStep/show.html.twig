@@ -16,8 +16,16 @@
 
 {# src/RFC/SetupBundle/Resources/views/SetupStep/show.html.twig #}
 
-Date : {{ setupStep.createdAt|date("Y/m/d H:i") }}<br />
-Version : {{ setupStep.version }}<br />
-Value : {{ setupStep.value }}<br /> 
-SubStep <br />
-{% include 'RFCSetupBundle:SubStep:show.html.twig' with {'subStep': setupStep.subStep} %}
+<h5 class="ui top attached header">
+    Version {{ setupStep.version }}
+</h5>
+<div class="ui attached segment">
+    Date : {{ setupStep.createdAt|date("Y/m/d H:i") }}<br />
+    Value : {{ setupStep.value }}
+</div>
+<h5 class="ui top attached header">
+    SubStep
+</h5>
+<div class="ui attached segment">
+    {% include 'RFCSetupBundle:SubStep:show.html.twig' with {'subStep': setupStep.subStep} %}
+</div>

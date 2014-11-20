@@ -16,8 +16,18 @@
 
 {# src/RFC/SetupBundle/Resources/views/SubSetup/show.html.twig #}
 
-Name : {{ subStep.name }}<br />
-Description : {{ subStep.description }}<br />
-Condition : {{ subStep.stepCondition }}<br />
-Action : {{ subStep.action }}<br />
-toDoText : {{ subStep.toDoText }}<br />
+<div class="ui items">
+  <div class="item">
+    <div class="content">
+      <div class="header">{{ subStep.name }}</div>
+      <div class="meta">{{ subStep.action }}</div>
+      <div class="description">
+        <p>Description : {{ subStep.description }}</p>
+        <p>Condition : {{ subStep.stepCondition }}</p>
+      </div>
+      <div class="extra">
+        Hint : {{ subStep.toDoText }}
+      </div>
+    </div>
+  </div>
+</div>

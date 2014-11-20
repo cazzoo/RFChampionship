@@ -30,7 +30,7 @@ twig:
     strict_variables: "%kernel.debug%"
     form:
         resources:
-            - ':Form:ym-form.html.twig'
+            - ':Form:semanticUI_form.html.twig'
 
 # Assetic Configuration
 assetic:
