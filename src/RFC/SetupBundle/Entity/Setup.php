@@ -199,7 +199,7 @@ class Setup extends Descriptor
      * @param type $stepNumber
      *        	the step number
      */
-    private function getLastSetupStepVersion($stepNumber)
+    public function getLastSetupStepVersion($stepNumber)
     {
         $lastVersion = null;
         foreach ($this->listSetupSteps as $setupStep) {

@@ -14,10 +14,10 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/SetupBundle/Resources/views/SetupStep/show.html.twig #}
+{# src/RFC/SetupBundle/Resources/views/SubSetup/show.html.twig #}
 
-Date : {{ setupStep.createdAt|date("Y/m/d H:i") }}<br />
-Version : {{ setupStep.version }}<br />
-Value : {{ setupStep.value }}<br /> 
-SubStep <br />
-{% include 'RFCSetupBundle:SubStep:show.html.twig' with {'subStep': setupStep.subStep} %}
+Name : {{ subStep.name }}<br />
+Description : {{ subStep.description }}<br />
+Condition : {{ subStep.stepCondition }}<br />
+Action : {{ subStep.action }}<br />
+toDoText : {{ subStep.toDoText }}<br />

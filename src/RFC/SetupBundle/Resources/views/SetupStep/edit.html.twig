@@ -24,11 +24,7 @@
     {{ form_row(edit_form.subStep) }}
     {% for subStep in subSteps %}
     	<div class="subStepInfo" data-substepid="{{ subStep.id }}">
-    		Name : {{ subStep.name }}<br />
-    		Description : {{ subStep.description }}<br />
-    		Condition : {{ subStep.stepCondition }}<br />
-    		Action : {{ subStep.action }}<br />
-    		toDoText : {{ subStep.toDoText }}<br />
+            {% include 'RFCSetupBundle:SubStep:show.html.twig' with {'subStep': subStep} %}
     	</div>
     {% endfor %}
 

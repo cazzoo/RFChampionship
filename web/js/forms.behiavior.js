@@ -214,8 +214,7 @@ function showSubStepInfo(subStepId) {
 }
 
 function loadSetupStepData(data, firstElement, stepId) {
-    var receiver = $('.setupStepContent[data-stepid=' + stepId + ']').find(
-            '.setupStepValues');
+    var receiver = $('.setupStepContent[data-stepid=' + stepId + ']').find('.setupStepValues');
     var actionRoute = "";
     if (firstElement) {
         actionRoute = 'setupStep_edit';
@@ -230,19 +229,18 @@ function loadSetupStepData(data, firstElement, stepId) {
         cache: false,
         beforeSend: function () {
             receiver.html("Chargement de la version...");
-            receiver.addClass('ui loading basic segment');
+            receiver.parent().addClass('loading');
         }
     }).done(
             function (data) {
-                receiver.removeClass('ui loading segment');
+                receiver.parent().removeClass('loading');
                 addNotification('Version loaded', 'success');
                 receiver.html(data);
                 if (firstElement) {
                     // Show subStep on select
                     $('.setupStepContent #rfc_setupbundle_setupStep_subStep')
                             .unbind('change');
-                    $('.setupStepContent[data-stepid=' + stepId
-                            + '] .setupStepValues select')
+                    $('.setupStepContent[data-stepid=' + stepId + '] .setupStepValues select')
                             .bind(
                                     'change',
                                     function () {
