@@ -14,37 +14,49 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
+{# src/RFC/SetupBundle/Resources/views/SetupStep/index.html.twig #}
 {% extends "RFCSetupBundle::layout.html.twig" %}
-    {% block title %}
-        Accueil - {{ parent() }}
+{% block title %}
+    Accueil - {{ parent() }}
 {% endblock %}
 {% block rfccore_body %}
 
-{% if setup %}
-<h2>Showing {{ setup.name }}</h2>
+    {% if setup %}
+        <div class="ui items">
+            <div class="item">
+                <div class="image">
+                    {% if setup.listImages is not empty %}
+                        <img alt="{{ setup.listImages[0].name }}" src="{{ setup.listImages[0].url }}" class="img-rounded" width="200px" />
+                        <br />
+                    {% endif %}
+                    <img src="/images/wireframe/image.png">
+                </div>
+                <div class="content">
+                    <a class="header">{{ setup.name }}</a>
+                    <div class="meta">
+                        <span class="cinema">{{ setup.description }}</span>
+                    </div>
+                    <div class="description">
+                        Vehicle : {{ setup.vehicle.name }}<br />
+                        Track : {{ setup.track ? setup.track.name : '-' }}<br />
+                    </div>
+                    <div class="extra">
+                        {% if setup.getOrderedSteps|length < stepCount %}
+                            This setup is outdated. Please upgrade it.
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-Setup name : {{ setup.name }}<br />
-Vehicle : {{ setup.vehicle.name }}<br />
-Track : {{ setup.track ? setup.track.name : '-' }}<br />
+        {% set arraySetupStep = setup.getOrderedSteps %}
+        {% include 'RFCSetupBundle:SetupStep:index.html.twig' with arraySetupStep %}
 
-{% for arraySetupStep in setup.getOrderedSteps %}
-	{% if setup.getOrderedSteps|length < stepCount %}
-		This setup is outdated. Please upgrade it.
-	{% endif %}
-    {% include 'RFCSetupBundle:SetupStep:index.html.twig' with arraySetupStep %}
-{% endfor %}
+    {% else %}
+        No setups available
+    {% endif %}
 
-{% if setup.listImages is not empty %}
-    <img alt="{{ setup.listImages[0].name }}" src="{{ setup.listImages[0].url }}" class="img-rounded" width="200px" />
     <br />
-{% endif %}
-
-{% else %}
-    No setups available
-{% endif %}
-
-<br />
-<a class="ym-button add" href="{{ path('rfcSetup_index', {'gameId': gameId}) }}">Back to list</a>
+    <a class="ym-button add" href="{{ path('rfcSetup_index', {'gameId': gameId}) }}">Back to list</a>
 
 {% endblock %}

@@ -41,9 +41,9 @@
                         <span class="label label-default">{{ setup.name }} : {{ setup.vehicle.name }} {{ setup.track ? '@' ~ setup.track.name }}</span>
                     </a><br />
                     {% set currentStep = setup.getLastStepCompleted %}
-                    {% set stepsComplete = currentStep.step.stepOrder == setup.getOrderedSteps|length %}
+                    {% set stepsComplete = currentStep ? currentStep.step.stepOrder == setup.getOrderedSteps|length : false %}
                     {% set setupUpToDate = setup.getOrderedSteps|length == steps|length %}
-                    Step {{ currentStep.step.stepOrder }} / {{ setup.getOrderedSteps|length }} {{ currentStep.value is not empty and stepsComplete ? 'Complete' }}
+                    Step {{ currentStep ? currentStep.step.stepOrder : '0' }} / {{ setup.getOrderedSteps|length }} {{ currentStep ? currentStep.value is not empty and stepsComplete ? 'Complete' }}
                     <br />
                     {% if setupUpToDate %}
                             <a href="{{ path('setup_show', {'gameId': gameId, 'setupId': setup.id}) }}"> configure </a>
