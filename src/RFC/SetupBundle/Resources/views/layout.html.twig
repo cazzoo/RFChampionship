@@ -19,6 +19,12 @@
 {% block header %}
 
     <div>
+        <div id="showSidebar">
+            <div class="ui black big launch right attached fixed button">
+                <i class="content icon"></i>
+                <span class="text">Menu</span>
+            </div>
+        </div>
         <h1>RF Championship</h1>
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
@@ -31,6 +37,8 @@
             </a>
             <a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
         {% endif %}
+
+        {% include 'RFCCoreBundle::Structure/notificationCenter.html.twig' %}
     </div>
     {% if is_granted('ROLE_ADMIN') %}
         <div>
@@ -39,28 +47,20 @@
     {% endif %}
 
 {% endblock %}
-{% block nav %}
 
-    {% include 'RFCCoreBundle::Structure/menu.html.twig' %}
-
-{% endblock %}
 {% block breadcrumbs %}
 
     {% include 'RFCCoreBundle::Structure/breadcrumbs.html.twig' %}
 
 {% endblock %}
-{% block main %}
-    
-    {% include 'RFCCoreBundle::Structure/notificationCenter.html.twig' %}
+{% block page_content %}
 
-    {% block rfccore_body %}{% endblock %}
+{% block rfccore_body %}{% endblock %}
+
+{% include 'RFCCoreBundle::Structure/comments.html.twig' %}
 
 {% endblock %}
-{% block comments %}
 
-    {% include 'RFCCoreBundle::Structure/comments.html.twig' %}
-    
-{% endblock %}
 {% block footer %}
 
     {% include 'RFCCoreBundle::Structure/footer.html.twig' %}

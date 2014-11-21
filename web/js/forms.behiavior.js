@@ -763,6 +763,10 @@ $(function () {
         $(this).children(".editZone").hide();
     });
 
+    $('#showSidebar .ui.button').click(function () {
+        $('.main.menu.sidebar').sidebar('toggle');
+    });
+
     // --------------------------------------------
     // ----------------- Clickable table row
     // --------------------------------------------

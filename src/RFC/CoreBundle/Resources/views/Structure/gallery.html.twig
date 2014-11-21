@@ -16,10 +16,6 @@
 
 {# src/RFC/CoreBundle/Resources/views/Structure/gallery.html.twig #}
 
-{% extends "RFCCoreBundle::layout.html.twig" %}
-
-{% block body %}
-
 {% if listImages is not empty %}
 	<h4>Galerie</h4>
 	<div id="gameSlideshow" class="camera_wrap">
@@ -33,5 +29,3 @@
 		{% endfor %}
 	</div>
 {% endif %}
-
-{% endblock %}
