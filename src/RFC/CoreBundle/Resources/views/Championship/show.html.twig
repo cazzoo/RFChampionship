@@ -20,7 +20,7 @@
 
 {% block rfccore_body %}
 
-    {% set canEdit = (is_granted('ROLE_MANAGER') and entity.isManager(app.user)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
+    {% set canEdit = (is_granted('ROLE_MANAGER') and entity.isManager(app.user.id)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
 
     <div class="ui items">
         <div class="item">
@@ -34,121 +34,128 @@
                     {% if entity.metaRule %}<i class="cubes icon"></i><div class="ui horizontal label">{{ entity.metaRule.name }}</div>{% endif %}
                 </div>
                 <div class="description">
-                    {% if entity.description %}{{ entity.description }}{% else %}Aucune
-                        description{% endif %}
-                    </div>
-                    <div class="extra">
-                        {% if entity.listManagers %}
-                            <ul>
-                                {% for manager in entity.listManagers %}
-                                    <li>{{ manager.username }}</li> {% endfor %}
-                                </ul>
-                            {% else %}
-                                Aucun organisateur(s) défini(s)
-                                {% endif %}
-                                    <div class="ui right floated red button"><i class="setting icon"></i>Configure</div>
+                    {{ entity.description ? entity.description : "Aucune" }}
+                </div>
+                <div class="extra">
+                    {% if entity.listManagers %}
+                        <ul>
+                            {% for manager in entity.listManagers %}
+                                <li>{{ manager.username }}</li>
+                                {% endfor %}
+                        </ul>
+                    {% else %}
+                        Aucun organisateur(s) défini(s)
+                    {% endif %}
+                    <div class="ui right floated red button"><i class="setting icon"></i>Configure</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="globalResults"></div>
+
+    <div class="ui divider"></div>
+
+    <div class="ui two column grid">
+        <div class="column">
+            <div class="ui horizontal segment">
+                <h3>Previous Session</h3>
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui horizontal segment">
+                <h3>Incoming Session</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui divider"></div>
+
+    <div class="ui grid">
+        <div class="five wide column">
+            <div class="ui horizontal segment">
+                {# Colonne 1 : Events #}
+                <h3>
+                    Events
+                </h3>
+                {% if entity.listEvents is empty %}
+                    Aucun Event n'est présent. Il faut en créer.
+                {% else %}
+
+                    <div class="ui vertical ordered steps">
+                        {% for event in entity.listEvents %}
+                            <div class="eventItem" data-eventid="{{event.id}}" data-gameid="{{ game.id }}" data-championshipid="{{entity.id}}">
+                                <div class="ui mini label">
+                                    <i class="wait icon"></i>
+                                    {{ event.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
+                                    <i class="chevron right icon"></i>
+                                    {{ event.endDate|date("Y/m/d H:i") }}
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="globalResults"></div>
-
-                    <div class="ui divider"></div>
-
-                    <div class="ui two column grid">
-                        <div class="column">
-                            <div class="ui horizontal segment">
-                                <p>Previous Session</p>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="ui horizontal segment">
-                                <p>Incoming Session</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ui divider"></div>
-
-                    <div class="ym-grid">
-                        <div class="ym-g38 ym-gl">
-                            <div class="ym-gbox">
-                                <h3>
-                                    Events
-                                </h3>
-                                {% if entity.listEvents is empty %}
-                                    Aucun Event n'est présent. Il faut en créer.
-                                {% else %}
-                                    <ul>{% for event in entity.listEvents %}</ul>
-                                    <div class="row">
-                                        {# Colonne 1 : Events #}
-
-                                        <section class="slide-up-boxes slide-up-boxes-blue">
-                                            <a id="event_{{ event.id }};game_{{ game.id }};championship_{{ entity.id }}"
-                                               href="#event_{{ event.id }}" class="eventItem">
-                                                <h5>
-                                                    {{ event.name }}
-                                                    <small>
-                                                        <span class="label label-primary">{{ event.beginDate|date("Y/m/d H:i") }}</span>
-                                                        > 
-                                                        <span class="label label-primary">{{ event.endDate|date("Y/m/d H:i") }}</span>
-                                                    </small>
-                                                </h5>
-
-                                                <div>
-                                                    <small><i>{{ event.description }}</i></small><br />
-                                                    <span>
-                                                        Category : {% if event.category %}{{ event.category }}{% else %}Not defined{% endif %}<br />
-                                                        Vehicle : {% if event.vehicle %}{{ event.vehicle }}{% else %}Not defined{% endif %}<br />
-                                                        Track : {% if event.track %}{{ event.track }}{% else %}Not defined{% endif %}
-                                                        {% if event.listBroadcast is not empty %}
-                                                            <br />Broadcast : {% for broadcast in event.listBroadcast %} {{ broadcast }} {% endfor %}
-                                                        {% endif %}
-                                                    </span>
-                                                </div>
-                                            </a>
-                                        </section>
-                                    </div>
-                                    {% endfor %}
-                                        {% endif %}
+                                <a class="step">
+                                    <div class="content">
+                                        <div class="title stepItem">{{ event.name }}</div>
+                                        <div class="description">
+                                            {{ event.description }}<br />
+                                            <span>
+                                                Category : {{ event.category ? event.category : "Not defined" }}<br />
+                                                Vehicle : {{ event.vehicle ? event.vehicle :"Not defined" }}<br />
+                                                Track : {{ event.track ? event.track :"Not defined"}}
+                                                {% if event.listBroadcast is not empty %}
+                                                    <br />Broadcast :
+                                                    {% for broadcast in event.listBroadcast %}
+                                                        {{ broadcast }}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </span>
                                         </div>
                                     </div>
-                                    <div class="ym-g62 ym-gr">
-                                        <div class="ym-gbox">
-                                            <h3>Sessions</h3>
-                                            {# Colonne 2 : Sessions #}
-                                            <ul class="list-group" id="listSessions"></ul>
-                                        </div>
-                                    </div>
-                                </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
 
-                                <div id="session"></div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="eleven wide column">
+            <div class="ui horizontal segment">
+                <h3>Sessions</h3>
+                {# Colonne 2 : Sessions #}
+                <ul class="list-group" id="listSessions"></ul>
+            </div>
+        </div>
+    </div>
 
-                                <hr />
+    <div class="ui divider"></div>
 
-                                <div>
-                                    <h3>
-                                        Rules
-                                    </h3>
-                                    <div class="list-group">
-                                        {% if entity.championshipAgreed %}
-                                            {% set rules = entity.metaRule.listRules %}
-                                        {% else %}
-                                            {% set rules = entity.listRules %}
-                                        {% endif %}
-                                        {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}
-                                    </div>
-                                </div>
+    <div id="session"></div>
 
-                                <div>
-                                    <h3>
-                                        Participants
-                                    </h3>
+    <div class="ui divider"></div>
 
-                                    <div id="registrationStatus">
-                                        {% include 'RFCCoreBundle:Championship:registration.html.twig' with {'gameId' : game.id, 'championshipId' : entity.id, 'status' : ''} %}
-                                    </div>
-                                </div>
+    <div>
+        <h3>
+            Rules
+        </h3>
+        <div class="list-group">
+            {% if entity.championshipAgreed %}
+                {% set rules = entity.metaRule.listRules %}
+            {% else %}
+                {% set rules = entity.listRules %}
+            {% endif %}
+            {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}
+        </div>
+    </div>
 
-                                {% endblock %}
+    <div class="ui divider"></div>
+
+    <div>
+        <h3>
+            Participants
+        </h3>
+
+        <div id="registrationStatus">
+            {% include 'RFCCoreBundle:Championship:registration.html.twig' with {'gameId' : game.id, 'championshipId' : entity.id, 'status' : ''} %}
+        </div>
+    </div>
+
+{% endblock %}

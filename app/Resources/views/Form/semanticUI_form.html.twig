@@ -1,162 +1,99 @@
 {% extends 'form_div_layout.html.twig' %}
 
-{% block form_rows %}
-{% spaceless %}
-{#    <fieldset> #}
-        {{ parent() }}
-{#    </fieldset> #}
-{% endspaceless %}
-{% endblock form_rows %}
-
-{% block form_label %}
-{% spaceless %}
-    {% if not compound %}
-        {% set label_attr = label_attr|merge({'for': id}) %}
-    {% else %}
-        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' ym-label')|trim}) %}
-    {% endif %}
-    {% if required %}
-{#        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' ym-required')|trim}) %} #}
-    {% endif %}
-    {% if label is empty %}
-        {% set label = name|humanize %}
-    {% endif %}
-    {% if compound %}
-    <span{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}{% if required %} <sup class="ym-required">*</sup>{% endif%}</span>
-    {%else %}
-    <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}{% if required %} <sup class="ym-required">*</sup>{% endif%}</label>
-    {% endif %}
-{% endspaceless %}
-{% endblock form_label %}
-
 {% block field_errors %}
-{% spaceless %}
-    {% if errors|length > 0 %}
-        {% for error in errors %}
-            <p class="ym-message">{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</p>
-        {% endfor %}
-    {% endif %}
-{% endspaceless %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            {% for error in errors %}
+                <p class="ui error message">{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
 {% endblock field_errors %}
 
 {% block text_row %}
-{% spaceless %}
-    <div class="ym-fbox-text{% if form_errors(form) %} ym-error{% endif %}">
-        {{ form_errors(form) }}
-        {{ form_label(form) }}
-        {{ form_widget(form) }}
-    </div>
-{% endspaceless %}
+    {% spaceless %}
+        <div class="field{% if required %} required{% endif %}{% if form_errors(form) %} error{% endif %}">
+            {{ form_errors(form) }}
+            {{ form_label(form) }}
+            {{ form_widget(form) }}
+        </div>
+    {% endspaceless %}
 {% endblock text_row %}
 
 {% block integer_row %}
-{% spaceless %}
-    <div class="ym-fbox-text{% if form_errors(form) %} ym-error{% endif %}">
-        {{ form_errors(form) }}
-        {{ form_label(form) }}
-        {{ form_widget(form) }}
-    </div>
-{% endspaceless %}
+    {% spaceless %}
+        <div class="field{% if required %} required{% endif %}{% if form_errors(form) %} error{% endif %}">
+            {{ form_errors(form) }}
+            {{ form_label(form) }}
+            {{ form_widget(form) }}
+        </div>
+    {% endspaceless %}
 {% endblock integer_row %}
 
 {% block textarea_row %}
-{% spaceless %}
-    <div class="ym-fbox-text{% if form_errors(form) %} ym-error{% endif %}">
-        {{ form_errors(form) }}
-        {{ form_label(form) }}
-        {{ form_widget(form) }}
-    </div>
-{% endspaceless %}
+    {% spaceless %}
+        <div class="field{% if required %} required{% endif %}{% if form_errors(form) %} error{% endif %}">
+            {{ form_errors(form) }}
+            {{ form_label(form) }}
+            {{ form_widget(form) }}
+        </div>
+    {% endspaceless %}
 {% endblock textarea_row %}
 
-{% block choice_row %}
-{% spaceless %}
-    {% if expanded %}
-    <div class="ym-fbox-check{% if form_errors(form) %} ym-error{% endif %}">
-    {% else %}
-    <div class="ym-fbox-select{% if form_errors(form) %} ym-error{% endif %}">
-    {% endif %}
-        {{ form_errors(form) }}
-        {{ form_label(form) }}
-        {{ form_widget(form) }}
-    </div>
-{% endspaceless %}
-{% endblock choice_row %}
-
 {% block datetime_row %}
-{% spaceless %}
-    <div class="ym-fbox-select{% if form_errors(form) %} ym-error{% endif %}">
-        {{ form_errors(form) }}
-        {{ form_label(form) }}
-        {{ form_widget(form) }}
-    </div>
-{% endspaceless %}
+    {% spaceless %}
+        <div class="field{% if required %} required{% endif %}{% if form_errors(form) %} error{% endif %}">
+            {{ form_errors(form) }}
+            {{ form_label(form) }}
+            {{ form_widget(form) }}
+        </div>
+    {% endspaceless %}
 {% endblock datetime_row %}
 
 {% block checkbox_row %}
-{% spaceless %}
-    <div class="ym-fbox-check{% if form_errors(form) %} ym-error{% endif %}">
-        {{ form_errors(form) }}
-        <div>
-            {{ form_widget(form) }}
+    {% spaceless %}
+        <div class="inline field{% if required %} required{% endif %}{% if form_errors(form) %} error{% endif %}">
+            {{ form_errors(form) }}
             {{ form_label(form) }}
+            {{ form_widget(form) }}
         </div>
-    </div>
-{% endspaceless %}
+    {% endspaceless %}
 {% endblock checkbox_row %}
 
-{% block radio_row %}
-{% spaceless %}
-    <div class="ym-fbox-check{% if form_errors(form) %} ym-error{% endif %}">
-        {{ form_errors(form) }}
-        {{ form_label(form) }}
-        {{ form_widget(form) }}
-    </div>
-{% endspaceless %}
-{% endblock radio_row %}
+{% block button_widget -%}
+    {% if label is empty -%}
+        {% set label = name|humanize %}
+    {%- endif -%}
+    <button class="ui button" type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
+{%- endblock button_widget %}
 
-{% block file_row %}
-{% spaceless %}
-    <div class="ym-fbox-text{% if form_errors(form) %} ym-error{% endif %}">
-        {{ form_errors(form) }}
-        {{ form_label(form) }}
-        {{ form_widget(form) }}
-    </div>
-{% endspaceless %}
-{% endblock file_row %}
-            
-{% block choice_widget_expanded %}
-{% spaceless %}
-    <div {{ block('widget_container_attributes') }}>
-    {% for child in form %}
-        <div>
-            {{ form_widget(child) }}
-            {{ form_label(child) }}
+    {# Misc #}
+
+    {% block form -%}
+        <div class="ui segment">
+            {{ form_start(form) }}
+            <div class="fields">
+                {{- form_widget(form) -}}
+            </div>
+            {{ form_end(form) }}
         </div>
-    {% endfor %}
-    </div>
-{% endspaceless %}
-{% endblock choice_widget_expanded %}
+        {%- endblock form %}
 
-{# Misc #}
-
-{% block form -%}
-    <div class="ym-fbox">
-        {{ form_start(form) }}
-            {{- form_widget(form) -}}
-        {{ form_end(form) }}
-    </div>
-{%- endblock form %}
-        
-{% block form_start -%}
-    {% set method = method|upper %}
-    {%- if method in ["GET", "POST"] -%}
-        {% set form_method = method %}
-    {%- else -%}
-        {% set form_method = "POST" %}
-    {%- endif -%}
-    <form class="ym-form ym-columnar linearize-form" name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
-    {%- if form_method != method -%}
-        <input type="hidden" name="_method" value="{{ method }}" />
-    {%- endif -%}
-{%- endblock form_start %}
+        {% block form_start -%}
+            {% set method = method|upper %}
+            {%- if method in ["GET", "POST"] -%}
+            {% set form_method = method %}
+            {%- else -%}
+            {% set form_method = "POST" %}
+            {%- endif -%}
+            <form class="ui form" name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"
+                  {% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"
+                  {% endfor %}
+                  {% if multipart %}
+                      enctype="multipart/form-data"
+                  {% endif %}
+                  >
+                {%- if form_method != method -%}
+                <input type="hidden" name="_method" value="{{ method }}" />
+                {%- endif -%}
+                {%- endblock form_start %}

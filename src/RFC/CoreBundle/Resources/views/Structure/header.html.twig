@@ -14,8 +14,17 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% block fos_user_content %}
-{% endblock fos_user_content %}
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+    | <a href="{{ path('fos_user_security_logout') }}">
+        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+    </a>
+{% else %}
+    <a href="{{ path('fos_user_security_login') }}">
+        {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
+    </a>
+    <a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
+{% endif %}
 
 {% if is_granted('ROLE_ADMIN') %}
     <a href="{{ path('RFCAdmin_index') }}" class="ym-button ym-danger">Administration</a>

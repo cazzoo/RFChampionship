@@ -18,9 +18,9 @@
 
 <!DOCTYPE html>
 <html>
-    
+
     <head>
-        
+
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -70,20 +70,28 @@
             <div class="ui page grid">
                 <div class="sixteen wide column">
                     <header>
-                        {% block header %}{% endblock %}
+                        {% block header %}
+                        {% endblock %}
                     </header>
                     <breadcrumbs>
-                        {% block breadcrumbs %}{% endblock %}
+                        {% block breadcrumbs %}
+                        {% endblock %}
                     </breadcrumbs>
                 </div>
                 <div class="sixteen wide column">
+                    <div id="login">
+                        {% block fos_user_content %}
+                        {% endblock fos_user_content %}
+                    </div> 
                     <content>
-                        {% block page_content %}{% endblock %}
+                        {% block page_content %}
+                        {% endblock %}
                     </content>
                 </div>
                 <div class="sixteen wide column">
                     <footer>
-                        {% block footer %}{% endblock %}
+                        {% block footer %}
+                        {% endblock %}
                     </footer>
                 </div>
             </div>
@@ -127,5 +135,5 @@
         {% endblock %}
 
     </body>
-    
+
 </html>

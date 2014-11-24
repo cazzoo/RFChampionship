@@ -566,13 +566,12 @@ $(function () {
     // --------------------------------------------
 
     $(".eventItem").click(function () {
-        $('.eventItem').removeClass('active');
-        $(this).addClass("active");
-        var entityData = $(this).attr('id').split(';');
+        $('.eventItem .step').removeClass('active');
+        $(this).find('.step').addClass("active");
         var data = {
-            eventId: entityData[0].substr(6),
-            gameId: entityData[1].substr(5),
-            championshipId: entityData[2].substr(13)
+            eventId: $(this).data('eventid'),
+            gameId: $(this).data('gameid'),
+            championshipId: $(this).data('championshipid')
         };
         var jsonFormatted = JSON.stringify(data);
         $.ajax({

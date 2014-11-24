@@ -17,52 +17,48 @@
 {% if eventId is null %} 
     Aucun Event sélectionné. Veuillez sélectionner un Event. 
 {% else %}
-	
-	{% set canEdit = is_granted('ROLE_MANAGER') or is_granted('ROLE_CERTIFIED_MANAGER') %}
-        
+
+    {% set canEdit = is_granted('ROLE_MANAGER') or is_granted('ROLE_CERTIFIED_MANAGER') %}
+
     {% if canEdit %}
         Ajouter une session
-        <a class="ym-button ym-add" href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : eventId}) }}">Add</a>
+        <a class="ui button" href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : eventId}) }}">Add</a>
     {% endif %}
 
     {% if sessions %}
 
-        {% set canManage = canEdit or sessions[0].event.championship.isManager(app.user) %}
-    	
-        <table class="table">
-    		<thead>
-    			<tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Dates</th>
-                            <th>Actions</th>
-    			</tr>
-    		</thead>
-    		<tbody class="table-striped">
-        		{% for session in sessions %}
+        {% set canManage = canEdit or sessions[0].event.championship.isManager(app.user.id) %}
+
+        <table class="ui stripped table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Begin Date</th>
+                    <th>End Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody class="table-striped">
+                {% for session in sessions %}
                     <tr>
                         <td>{{ session.name }}</td>
                         <td>{{ session.typeSession.name }}</td>
-                        <td>
-                            <small>
-                                <span class="label label-primary">
-                                    {{ session.beginDate|date("Y/m/d H:i") }}
-                                </span>
-                                 > 
-                                <span class="label label-primary">
-                                    {{ session.endDate|date("Y/m/d H:i") }}
-                                </span>
-                            </small>
-                        </td>
+                        <td>{{ session.beginDate|date("Y/m/d H:i") }}</td>
+                        <td>{{ session.endDate|date("Y/m/d H:i") }}</td>
                         <td>
                             {% if canManage %}
-                                <a class="mini compact ui labelled icon button" href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': gameId, 'championshipId': championshipId, 'eventId' : eventId}) }}"><i class="edit icon"></i></a><br />
+                                <a class="mini compact ui labelled icon button" href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': gameId, 'championshipId': championshipId, 'eventId' : eventId}) }}">
+                                    <i class="edit icon"></i>
+                                </a><br />
                             {% endif %}
-                            <a class="mini compact ui labelled icon button sessionItem" id="session_{{ session.id }}" data-session="{{ session.id }}" href="#session_{{ session.id }}"><i class="unhide icon"></i></a>
+                            <a class="mini compact ui labelled icon button sessionItem" id="session_{{ session.id }}" data-session="{{ session.id }}" href="#session_{{ session.id }}">
+                                <i class="unhide icon"></i>
+                            </a>
                         </td>
                     </tr>
-	    		{% endfor %}
-    		</tbody>
-    	</table>
+                {% endfor %}
+            </tbody>
+        </table>
     {% endif %}
 {% endif %}

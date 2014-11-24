@@ -21,12 +21,8 @@
 {% block rfccore_body %}
 
     <h1>Championnats en cours / à venir</h1>
-    <div class="panel-body">
-        {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with
-                {'championships' : currentChampionships, 'game' : game} %} 
-
-        <h1>Championnats passés</h1>
-        {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with
-                {'championships' : pastChampionships, 'game' : game} %} 
-
-    {% endblock %}
+    {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with {'championships' : currentChampionships, 'game' : game} %} 
+    <h1>Championnats passés</h1>
+    {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with {'championships' : pastChampionships, 'game' : game} %} 
+    
+{% endblock %}

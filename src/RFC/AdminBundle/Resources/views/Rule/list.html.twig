@@ -18,40 +18,44 @@
     Aucune MetaRule sélectionné. Veuillez sélectionner une MetaRule.
 {% else %}
     {% if rules %}
-    <table class="table table-striped">
-        <thead>
-           <tr>
-               <th>Name</th>
-               <th>Value</th>
-               <th>Description</th>
-           </tr>
-        </thead>
-        <tbody>
-        {% set typeSession = '' %}
-        {% for rule in rules %}
-            {% if rule.typeSession != typeSession %}
-                {% set typeSession = rule.typeSession %}
-                <tr class="info">
-                    <td colspan="3"><strong>{{ typeSession }}</strong></td>
+        <table class="ui stripped table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Value</th>
+                    <th>Description</th>
                 </tr>
-            {% endif %}
-            <tr>
-               <td>
-                   <a href="{{ path('admin_rule_edit', {'ruleId' : rule.id, 'gameId' : rule.game.id}) }}">{{ rule.name }}</a>
-                   &nbsp; &nbsp;
-                   <a href="{{ path('admin_rule_delete', {'ruleId' : rule.id, 'gameId' : rule.game.id}) }}">Delete</a>
-                   </span>
-               </td>
-               <td>
-                   {{ rule.value }}
-               </td>
-               <td>
-                   {{ rule.description }}
-               </td>
-            </tr>
-        {% endfor %}
-	   </tbody>
-   </table>
+            </thead>
+            <tbody>
+                {% set typeSession = '' %}
+                {% for rule in rules %}
+                    {% if rule.typeSession != typeSession %}
+                        {% set typeSession = rule.typeSession %}
+                        <tr class="info">
+                            <td colspan="3">
+                                <strong>
+                                    {{ typeSession }}
+                                </strong>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('admin_rule_edit', {'ruleId' : rule.id, 'gameId' : rule.game.id}) }}">{{ rule.name }}</a>
+                            &nbsp; &nbsp;
+                            <a href="{{ path('admin_rule_delete', {'ruleId' : rule.id, 'gameId' : rule.game.id}) }}">Delete</a>
+                            </span>
+                        </td>
+                        <td>
+                            {{ rule.value }}
+                        </td>
+                        <td>
+                            {{ rule.description }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {% else %}
         Rien a afficher
     {% endif %}

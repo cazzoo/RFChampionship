@@ -18,55 +18,43 @@
 
 {% block header %}
 
-    <div>
-        <h1>RF Championship</h1>
-        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
-            | <a href="{{ path('fos_user_security_logout') }}">
-                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-            </a>
-        {% else %}
-            <a href="{{ path('fos_user_security_login') }}">
-                {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
-            </a>
-            <a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
-        {% endif %}
-    </div>
-    {% if game is defined %}
-        <div>
-            {% include 'RFCCoreBundle::Structure/header.html.twig' %}
+    <div class="ui middle aligned grid">
+        <div class="equal height row">
+            <div class="four wide column">
+                <div id="showSidebar">
+                    <div class="ui black big launch right attached fixed button">
+                        <i class="content icon"></i>
+                        <span class="text">Menu</span>
+                    </div>
+                </div>
+            </div>
+            <div class="height wide column">
+                <h1>RF Championship</h1>
+            </div>
+            <div class="four wide column">
+                {% include 'RFCCoreBundle::Structure/notificationCenter.html.twig' %}
+                {% include 'RFCCoreBundle::Structure/header.html.twig' %}
+            </div>
         </div>
-    {% endif %}
+    </div>
 
 {% endblock %}
-{% block nav %}
 
-    {% include 'RFCCoreBundle::Structure/menu.html.twig' %}
-
-{% endblock %}
 {% block breadcrumbs %}
 
     {% include 'RFCCoreBundle::Structure/breadcrumbs.html.twig' %}
 
 {% endblock %}
-{% block main %}
+{% block page_content %}
 
-    {% for type, messages in app.session.flashbag.all() %}
-        {% for message in messages %}
-            <div class="box {{ type }}">{{ message }}</div>
-        {% endfor %}
-    {% endfor %}
+{% block rfccore_body %}{% endblock %}
 
-    {% block rfccore_body %}
-
-        {% block fos_user_content %}{% endblock %}
-
-    {% endblock %}
+{% include 'RFCCoreBundle::Structure/comments.html.twig' %}
 
 {% endblock %}
+
 {% block footer %}
 
-    {% include 'RFCCoreBundle::Structure/comments.html.twig' %}
     {% include 'RFCCoreBundle::Structure/footer.html.twig' %}
 
 {% endblock %}

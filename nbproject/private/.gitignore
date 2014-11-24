@@ -1,0 +1,3 @@
+*.properties
+/project.xml
+*.xml

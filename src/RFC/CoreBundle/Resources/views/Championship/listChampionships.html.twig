@@ -30,39 +30,71 @@
         <tbody>
             {% for championship in championships %}
                 <tr>
-                    <td><a href="{{ path('rfcCore_championships_show', { 'championshipId': championship.id, 'gameId': game.id  }) }}">{{ championship.name }}</a></td>
-                    <td>{{ championship.description }}</td>
-                    <td>{{ championship.championshipAgreed }}</td>
-                    <td>{% if championship.listEvents is empty %} Aucun Event
-                        pour le moment {% else %}
-                        <ul class="list-unstyled">
-                            {% for event in championship.listEvents %}
-                                <li>{{ event.name }}
-                                    <div>
-                                        <small><span class="label label-primary">{{
-										event.beginDate|date("Y/m/d H:i") }}</span> > <span
-                                                class="label label-primary">{{ event.endDate|date("Y/m/d H:i")
-                                                }}</span></small>
-                                    </div>
-                                </li> {% endfor %}
-                            </ul> {% endif %}
-                        </td>
-                        <td><ul>
-                                {% for manager in championship.listManagers %}
-                                    <li>{{ manager.username }}</li> {% endfor %}
-                                </ul></td>
-                            <td>{{ championship.metaRule }}</td>
-                            <td>
-                                <ul class="list-unstyled">
-                                    {% if championship.championshipAgreed %} {% for rule in
-						championship.metaRule.listRules %}
-                                        <li>{{ rule.name }}</li> {% endfor %} {% else %} {% for rule in
-						championship.listRules %}
-                                        <li>{{ rule.name }}</li> {% endfor %} {% endif %}
-                                    </ul>
-                                </td>
-                            </tr>
+                    <td>
+                        <a href="{{ path('rfcCore_championships_show', { 'championshipId': championship.id, 'gameId': game.id  }) }}">
+                            {{ championship.name }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ championship.description }}
+                    </td>
+                    <td>
+                        {{ championship.championshipAgreed }}
+                    </td>
+                    <td>
+                        {% if championship.listEvents is empty %}
+                            Aucun Event pour le moment
+                        {% else %}
+                            <ul class="list-unstyled">
+                                {% for event in championship.listEvents %}
+                                    <li>
+                                        {{ event.name }}
+                                        <div>
+                                            <small>
+                                                <span class="label label-primary">
+                                                    {{event.beginDate|date("Y/m/d H:i") }}
+                                                </span>
+                                                > 
+                                                <span
+                                                    class="label label-primary">{{ event.endDate|date("Y/m/d H:i") }}
+                                                </span>
+                                            </small>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </td>
+                    <td><ul>
+                            {% for manager in championship.listManagers %}
+                                <li>
+                                    {{ manager.username }}
+                                </li>
                             {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                        </ul>
+                    </td>
+                    <td>
+                        {{ championship.metaRule }}
+                    </td>
+                    <td>
+                        <ul class="list-unstyled">
+                            {% if championship.championshipAgreed %}
+                                {% for rule in championship.metaRule.listRules %}
+                                    <li>
+                                        {{ rule.name }}
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                {% for rule in championship.listRules %}
+                                    <li>
+                                        {{ rule.name }}
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
