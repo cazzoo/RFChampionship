@@ -22,12 +22,14 @@
 
     {% if canEdit %}
         Ajouter une session
-        <a class="ui button" href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : eventId}) }}">Add</a>
+        <a class="ui mini teal icon labeled button" href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : eventId}) }}">
+            <i class="add icon"></i>Add
+        </a>
     {% endif %}
 
     {% if sessions %}
 
-        {% set canManage = canEdit or sessions[0].event.championship.isManager(app.user.id) %}
+        {% set canManage = canEdit or (app.user is not null and sessions[0].event.championship.isManager(app.user.id)) %}
 
         <table class="ui stripped table">
             <thead>
@@ -47,14 +49,14 @@
                         <td>{{ session.beginDate|date("Y/m/d H:i") }}</td>
                         <td>{{ session.endDate|date("Y/m/d H:i") }}</td>
                         <td>
-                            {% if canManage %}
-                                <a class="mini compact ui labelled icon button" href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': gameId, 'championshipId': championshipId, 'eventId' : eventId}) }}">
-                                    <i class="edit icon"></i>
-                                </a><br />
-                            {% endif %}
-                            <a class="mini compact ui labelled icon button sessionItem" id="session_{{ session.id }}" data-session="{{ session.id }}" href="#session_{{ session.id }}">
+                            <a class="ui mini icon green button sessionItem" id="session_{{ session.id }}" data-session="{{ session.id }}" href="#session_{{ session.id }}">
                                 <i class="unhide icon"></i>
                             </a>
+                            {% if canManage %}
+                                <a class="ui mini icon blue button" href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': gameId, 'championshipId': championshipId, 'eventId' : eventId}) }}">
+                                    <i class="edit icon"></i>
+                                </a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

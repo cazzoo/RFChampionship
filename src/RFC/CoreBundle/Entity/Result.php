@@ -59,6 +59,11 @@ class Result
     private $value;
 
     /**
+     * @ORM\Column(name="comments", type="text")
+     */
+    private $comments;
+
+    /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Session", inversedBy="listResults")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -141,6 +146,29 @@ class Result
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Set comments
+     *
+     * @param string $comments
+     * @return Result
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Get comments
+     *
+     * @return string
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 
     /**

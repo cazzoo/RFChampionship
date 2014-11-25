@@ -32,14 +32,17 @@
                     <div class="content">
                         <div class="header">{{ session.name }}</div>
                         <div class="meta">
-                            {{ session.beginDate|date("Y/m/d H:i") }}<br />
-                            <i class="down chevron icon"></i><br />
-                            {{ session.endDate|date("Y/m/d H:i") }}
+                            {{ session.typeSession.name }}
                         </div>
                         <div class="description">
                             {{ session.description ? session.description }}
                         </div>
                     </div>
+                </div>
+                <div class="ui mini label">
+                    {{ session.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
+                    <i class="right chevron icon"></i>
+                    {{ session.endDate|date("Y/m/d H:i") }}
                 </div>
             </div>
 
@@ -48,7 +51,6 @@
 
             {% if session.typeSession.usedForResults %}
                 <div id="results">
-                    <h4>Results</h4>
                     {% set now = "now"|date("Y/m/d H:i", "Europe/Paris") %}
                     {% if now < session.beginDate|date("Y/m/d H:i") %}
                         Session is not started yet...
@@ -56,56 +58,129 @@
                         {% if now > session.endDate|date("Y/m/d H:i") %}
                             {% if session.listResults is empty %}
                                 <div id="formContainer">
-                                    There are not results yet!<br />
+                                    <h5>There are not results yet!</h5>
                                     {% if canEdit %}
                                         <form id="setResults">
-                                            {% set rules = session.event.championship.metaRule ? session.event.championship.metaRule.listRules : session.event.championship.listRules %}
-                                            {% for rule in rules %}
-                                                {% if rule.typeSession.id == session.typeSession.id %}
-                                                    <label for="{{ rule.id }}">{{ rule.name }} ({{ rule.value }})</label>
-                                                    <select id="{{ rule.id }}" name="{{ rule.id }}">
-                                                        <option value="{{ rule.id }},{{ rule.value }},,">---</option>
-                                                        {% for user in session.event.championship.listUsers %}
-                                                            <option value="{{ rule.id }},{{ rule.value }},{{ user.id }},">{{ user.userName }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                    <br />
-                                                {% endif %}
-                                            {% endfor %}
-                                            <input type="hidden" id="sessionId" name="sessionId" value="{{ session.id }}"/>
-                                            <input class="ui button" type="submit" class="ym-button" />
+                                            <table class="ui basic table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Rule</th>
+                                                        <th>Points</th>
+                                                        <th>User</th>
+                                                        <th>Comments</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% set rules = session.event.championship.metaRule ? session.event.championship.metaRule.listRules : session.event.championship.listRules %}
+                                                    {% for rule in rules %}
+                                                        {% if rule.typeSession.id == session.typeSession.id %}
+                                                            <tr>
+                                                                <td>
+                                                                    <label for="{{ rule.id }}">{{ rule.name }}</label>
+                                                                </td>
+                                                                <td>
+                                                                    {{ rule.value }}
+                                                                </td>
+                                                                <td>
+                                                                    <select id="{{ rule.id }}" name="{{ rule.id }}">
+                                                                        <option value="{{ rule.id }},{{ rule.value }},,">---</option>
+                                                                        {% for user in session.event.championship.listUsers %}
+                                                                            <option value="{{ rule.id }},{{ rule.value }},{{ user.id }},">{{ user.userName }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <textarea name="comments" value=""></textarea>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </tbody>
+                                                <tfoot class="full-width">
+                                                    <tr>
+                                                        <th colspan="4">
+                                                <div class="ui right aligned">
+                                                    <input type="hidden" id="sessionId" name="sessionId" value="{{ session.id }}" />
+                                                    <input class="ui button" type="reset" />
+                                                    <input class="ui button" type="submit" />
+                                                </div>
+                                                </th>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
                                         </form>
                                     {% endif %}
                                 </div>
                             {% else %}
-                                Results are : <br />
                                 {% if canEdit %}
                                     <form id="setResults">
-                                        {% for result in session.listResults %}
-                                            {% if result.rule.typeSession.id == session.typeSession.id %}
-                                                <label for="{{ result.rule.id }}">{{ result.rule.name }} ({{ result.value }})</label>
-                                                <select id="{{ result.rule.id }}" name="{{ result.rule.id }}">
-                                                    <option value="{{ result.rule.id }},{{ result.rule.value }},,{{ result.id }}">---</option>
-                                                    {% for championshipUser in session.event.championship.listUsers %}
-                                                        {% set selected = false %}
-                                                        {% if result.user is not null %}
-                                                            {% if result.user.id == championshipUser.id %}
-                                                                {% set selected = true %}
+                                    {% endif %}
+                                    <table class="ui basic table">
+                                        <thead>
+                                            <tr>
+                                                <th>Rule</th>
+                                                <th>Points</th>
+                                                <th>User</th>
+                                                <th>Comments</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for result in session.listResults %}
+                                                {% if result.rule.typeSession.id == session.typeSession.id %}
+                                                    <tr>
+                                                        <td>
+                                                            <label for="{{ result.rule.id }}">{{ result.rule.name }}</label>
+                                                        </td>
+                                                        <td>
+                                                            {{ result.value }}
+                                                        </td>
+                                                        <td>
+                                                            {% if canEdit %}
+                                                                <select id="{{ result.rule.id }}" name="{{ result.rule.id }}">
+                                                                    <option value="{{ result.rule.id }},{{ result.rule.value }},,{{ result.id }}">---</option>
+                                                                    {% for championshipUser in session.event.championship.listUsers %}
+                                                                        {% set selected = false %}
+                                                                        {% if result.user is not null %}
+                                                                            {% if result.user.id == championshipUser.id %}
+                                                                                {% set selected = true %}
+                                                                            {% endif %}
+                                                                        {% endif %}
+                                                                        <option {{ selected == true ? 'selected="selected" ' : '' }}value="{{ result.rule.id }},{{ result.rule.value }},{{ championshipUser.id }},{{ result.id }}">{{ championshipUser.userName }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            {% else %}
+                                                                {{ result.user is not null ? result.user.username : "-" }}
                                                             {% endif %}
-                                                        {% endif %}
-                                                        <option {{ selected == true ? 'selected="selected" ' : '' }}value="{{ result.rule.id }},{{ result.rule.value }},{{ championshipUser.id }},{{ result.id }}">{{ championshipUser.userName }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                                <br />
-                                            {% endif %}
-                                        {% endfor %}
-                                        <input type="hidden" id="sessionId" name="sessionId" value="{{ session.id }}"/>
-                                        <input class="ui button" type="submit" class="ym-button" />
+                                                        </td>
+                                                        <td>
+                                                            {% if canEdit %}
+                                                            <textarea name="comments">
+                                                                {{- result.comments -}}
+                                                            </textarea>
+                                                            {% else %}
+                                                                {{- result.comments -}}
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                        {% if canEdit %}
+                                            <tfoot class="full-width">
+                                                <tr>
+                                                    <th colspan="4">
+                                            <div class="ui right aligned">
+                                                <input type="hidden" id="sessionId" name="sessionId" value="{{ session.id }}" />
+                                                <input class="ui button" type="reset" />
+                                                <input class="ui button" type="submit" />
+                                            </div>
+                                            </th>
+                                            </tr>
+                                            </tfoot>
+                                        {% endif %}
+                                    </table>
+                                    {% if canEdit %}
                                     </form>
-                                {% else %}
-                                    {% for result in session.listResults %}
-                                        {{result.rule.name}} ({{ result.value }}) : {{ result.user is not null ? result.user.username : "-" }}<br />
-                                    {% endfor %}
                                 {% endif %}
                             {% endif %}
                         {% else %}

@@ -208,7 +208,7 @@ function loadSessionData(data) {
 function showSubStepInfo(subStepId) {
     // Hide subSteps
     $('.subStepInfo').hide();
-    if (subStepId != "") {
+    if (subStepId !== "") {
         $('.subStepInfo[data-substepid=' + subStepId + ']').show();
     }
 }
@@ -309,8 +309,11 @@ function setSessionResults(data) {
 
 function handleSessionResults(form) {
     var list = new Array();
-    form.find('select').each(function () {
-        list.push($(this).val());
+    form.find('tbody tr').each(function () {
+        var data;
+        data = $(this).find('select').val();
+        data += ','+ $(this).find('textarea').val();
+        list.push(data);
     });
 
     var data = {
