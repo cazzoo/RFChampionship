@@ -25,8 +25,8 @@
                         {% set completed = setupStep[0].setup.getLastSetupStepVersion(setupStep[0].step.stepOrder).value != "" %}
                         <a class="{{ completed ? 'completed ' }}step">
                             <div class="content">
-                                <div class="title stepItem">Step n° {{ setupStep[0].step.stepOrder }}</div>
-                                <div class="description">{{setupStep[0].step.name}}</div>
+                                <div class="title stepItem">{{setupStep[0].step.name}}</div>
+                                <div class="description">v. {{ setupStep[0].setup.getLastSetupStepVersion(setupStep[0].step.stepOrder).version }}</div>
                             </div>
                         </a>
                     </div>

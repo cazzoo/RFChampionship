@@ -45,7 +45,7 @@ class Step extends Descriptor
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
-     * @ORM\joinColumn(onDelete="SET NULL")
+     * @ORM\joinColumn(nullable=true, onDelete="SET NULL")
      */
     private $game;
 

@@ -15,38 +15,80 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
 {# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
-{% extends "RFCAdminBundle::layout.html.twig" %}
-    {% block title %}
-        Accueil - {{ parent() }}
+{% extends "RFCCoreBundle::layout.html.twig" %}
+{% block title %}
+    Accueil - {{ parent() }}
 {% endblock %}
 {% block rfccore_body %}
 
-<h2>Liste des steps</h2>
+    <h1>Steps</h1>
 
-<a class="ym-button add" href="{{ path('setup_step_new', {'gameId': gameId}) }}"> create </a><br />
+    <a class="ui icon teal labeled button" href="{{ path('setup_new', {'gameId': gameId}) }}">
+        <i class="add icon"></i> Create
+    </a>
 
-{% if steps %}
+    {% if steps %}
 
-    <ul class="list-inline">
-        {% for step in steps %}
-        <li class="float-left">
-            <div class="center">
-                <a href="{{ path('setup_step_edit', {'gameId': gameId, 'stepId': step.id}) }}">
-                    <span class="label label-default">{{ step.name }}</span>
-                </a>
-                <br />
-                {% for subStep in step.listSubSteps %}
-                    {{ subStep.name }}<br />
-                {% endfor %}
-                <a href="{{ path('setup_step_delete', {'gameId': gameId, 'stepId': step.id}) }}"> delete </a><br />
-                <a href="{{ path('setup_subStep_new', {'gameId': gameId, 'stepId': step.id}) }}"> new substep </a>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
+        <div class="ui five cards">
 
-{% else %}
-    No steps available
-{% endif %}
+            {% for step in steps %}
+                <div class="ui card">
+                    <div class="image">
+                        <img src="/images/avatar/large/stevie.jpg">
+                    </div>
+                    <div class="content">
+                        <div class="header">{{ step.name }}</div>
+                        <div class="meta">
+                            <span class="date">{{ step.listSubSteps|length }} subSteps</span>
+                        </div>
+                        <div class="description">
+                            <table class="ui very basic table">
+                                <tbody>
+                                    {% for subStep in step.listSubSteps %}
+                                        <tr>
+                                            <td>
+                                                {{ subStep.name }}
+                                            </td>
+                                            <td>
+                                                <a class="ui mini icon blue button" href="{{ path('setup_step_delete', {'gameId': gameId, 'stepId': subStep.step.id}) }}">
+                                                    <i class="edit icon"></i>
+                                                </a>
+                                                <a class="ui mini icon red button" href="{{ path('setup_step_edit', {'gameId': gameId, 'stepId': subStep.step.id}) }}">
+                                                    <i class="delete icon"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot class="full-width">
+                                    <tr>
+                                        <th colspan="2" class="center aligned">
+                                            <a class="ui mini icon labeled teal button" href="{{ path('setup_subStep_new', {'gameId': gameId, 'stepId': step.id}) }}">
+                                                <i class="add icon"></i> Add substep
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="extra content">
+                        <div class="right floated">
+                            <a class="ui mini icon labeled primary button" href="{{ path('setup_step_edit', {'gameId': gameId, 'stepId': step.id}) }}">
+                                <i class="edit icon"></i> Edit
+                            </a>
+                            <a class="ui mini icon labeled red button" href="{{ path('setup_step_delete', {'gameId': gameId, 'stepId': step.id}) }}">
+                                <i class="delete icon"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+        No steps available
+    {% endif %}
 
 {% endblock %}

@@ -16,53 +16,68 @@
 
 {# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
 {% extends "RFCSetupBundle::layout.html.twig" %}
-    {% block title %}
-        Accueil - {{ parent() }}
+{% block title %}
+    Accueil - {{ parent() }}
 {% endblock %}
 {% block rfccore_body %}
 
-<h2>My setups</h2>
+    <h2>My setups</h2>
 
-{% if app.user %}
-    
-    <a class="ym-button ym-add" href="{{ path('setup_new', {'gameId': gameId}) }}"> create </a><br />
+    {% if app.user %}
 
-    {% if setups %}
+        <a class="ui icon teal labeled button" href="{{ path('setup_new', {'gameId': gameId}) }}">
+            <i class="add icon"></i> Create
+        </a>
 
-        <ul class="list-inline">
-            {% for setup in setups %}
-            <li class="float-left">
-                <div class="center">
-                    <a href="{{ path('setup_edit', {'gameId': gameId, 'setupId': setup.id}) }}">
-                        {% if setup.listImages is not empty %}
-                        <img alt="{{ setup.listImages[0].name }}" src="{{ setup.listImages[0].url }}" class="img-rounded" width="200px" />
-                        <br />
-                        {% endif %}
-                        <span class="label label-default">{{ setup.name }} : {{ setup.vehicle.name }} {{ setup.track ? '@' ~ setup.track.name }}</span>
-                    </a><br />
-                    {% set currentStep = setup.getLastStepCompleted %}
-                    {% set stepsComplete = currentStep ? currentStep.step.stepOrder == setup.getOrderedSteps|length : false %}
-                    {% set setupUpToDate = setup.getOrderedSteps|length == steps|length %}
-                    Step {{ currentStep ? currentStep.step.stepOrder : '0' }} / {{ setup.getOrderedSteps|length }} {{ currentStep ? currentStep.value is not empty and stepsComplete ? 'Complete' }}
-                    <br />
-                    {% if setupUpToDate %}
-                            <a href="{{ path('setup_show', {'gameId': gameId, 'setupId': setup.id}) }}"> configure </a>
-                    {% else %}
-                            Setup outdated, consider upgrading it! <br />
-                            <a href="{{ path('setup_upgrade', {'gameId': gameId, 'setupId': setup.id}) }}"> upgrade </a>
-                    {% endif %}
-                    <a href="{{ path('setup_delete', {'gameId': gameId, 'setupId': setup.id}) }}"> delete </a>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
+        {% if setups %}
+
+            <div class="ui cards">
+
+                {% for setup in setups %}
+                    <div class="ui card">
+                        <div class="image">
+                            <img src="/images/avatar/large/stevie.jpg">
+                        </div>
+                        <div class="content">
+                            <div class="header">{{ setup.name }}</div>
+                            <div class="meta">
+                                <span class="date">{{ setup.vehicle.name }} {{ setup.track ? '@' ~ setup.track.name }}</span>
+                            </div>
+                            <div class="description">
+                                {% set currentStep = setup.getLastStepCompleted %}
+                                {% set stepsComplete = currentStep ? currentStep.step.stepOrder == setup.getOrderedSteps|length : false %}
+                                {% set setupUpToDate = setup.getOrderedSteps|length == steps|length %}
+                                Step {{ currentStep ? currentStep.step.stepOrder : '0' }} / {{ setup.getOrderedSteps|length }} {{ currentStep ? currentStep.value is not empty and stepsComplete ? 'Complete' }}
+                            </div>
+                        </div>
+                        <div class="extra content">
+                            <div class="right floated">
+                                {% if setupUpToDate %}
+                                    <a class="ui mini icon labeled primary button" href="{{ path('setup_show', {'gameId': gameId, 'setupId': setup.id}) }}">
+                                        <i class="setting icon"></i> Configure
+                                    </a>
+                                {% else %}
+                                    Setup outdated, consider upgrading it! <br />
+                                    <a class="ui mini icon labeled button" href="{{ path('setup_upgrade', {'gameId': gameId, 'setupId': setup.id}) }}">
+                                        <i class="wizard icon"></i> Upgrade
+                                    </a>
+                                {% endif %}
+                                <a class="ui mini icon labeled red button" href="{{ path('setup_delete', {'gameId': gameId, 'setupId': setup.id}) }}">
+                                    <i class="delete icon"></i> Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+            No setups available
+        {% endif %}
 
     {% else %}
-        No setups available
+        You need to log-in access the setup screen.
     {% endif %}
-
-{% else %}
-    You need to log-in access the setup screen.
-{% endif %}
 
 {% endblock %}
