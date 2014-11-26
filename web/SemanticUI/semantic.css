@@ -1,9 +1,9 @@
-@import 'http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic';
+@import '//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic';
 
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -72,6 +72,7 @@
   height: 1em;
   margin: 0em 0.25rem 0em 0rem;
   padding: 0em;
+  font-size: 1em;
   -webkit-transition: -webkit-transform 0.2s ease, opacity 0.2s ease;
   transition: transform 0.2s ease, opacity 0.2s ease;
   vertical-align: baseline;
@@ -80,7 +81,11 @@
   transform: rotate(0deg);
 }
 
-/* Coupling with accordion */
+/*--------------
+    Coupling
+---------------*/
+
+/* Menu */
 
 .ui.accordion.menu .item .title {
   display: block;
@@ -93,6 +98,13 @@
   -webkit-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
+}
+
+/* Header */
+
+.ui.accordion .ui.header .dropdown.icon {
+  font-size: 1em;
+  margin: 0em 0.25rem 0em 0rem;
 }
 
 /*******************************
@@ -250,7 +262,562 @@
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
+ * http://www.semantic-ui.com/
+ *
+ * Copyright 2014 Contributors
+ * Released under the MIT license
+ * http://opensource.org/licenses/MIT
+ *
+ */
+
+/*******************************
+         Advertisement
+*******************************/
+
+.ui.ad {
+  display: block;
+  overflow: hidden;
+  margin: 1em 0em;
+}
+
+.ui.ad:first-child {
+  margin: 0em;
+}
+
+.ui.ad:last-child {
+  margin: 0em;
+}
+
+.ui.ad iframe {
+  margin: 0em;
+  padding: 0em;
+  border: none;
+  overflow: hidden;
+}
+
+/*--------------
+     Common
+---------------*/
+
+/* Leaderboard */
+
+.ui.leaderboard.ad {
+  width: 728px;
+  height: 90px;
+}
+
+/* Medium Rectangle */
+
+.ui[class*="medium rectangle"].ad {
+  width: 300px;
+  height: 250px;
+}
+
+/* Large Rectangle */
+
+.ui[class*="large rectangle"].ad {
+  width: 336px;
+  height: 280px;
+}
+
+/* Half Page */
+
+.ui[class*="half page"].ad {
+  width: 300px;
+  height: 600px;
+}
+
+/*--------------
+     Square
+---------------*/
+
+/* Square */
+
+.ui.square.ad {
+  width: 250px;
+  height: 250px;
+}
+
+/* Small Square */
+
+.ui[class*="small square"].ad {
+  width: 200px;
+  height: 200px;
+}
+
+/*--------------
+    Rectangle
+---------------*/
+
+/* Small Rectangle */
+
+.ui[class*="small rectangle"].ad {
+  width: 180px;
+  height: 150px;
+}
+
+/* Vertical Rectangle */
+
+.ui[class*="vertical rectangle"].ad {
+  width: 240px;
+  height: 400px;
+}
+
+/*--------------
+     Button
+---------------*/
+
+.ui.button.ad {
+  width: 120px;
+  height: 90px;
+}
+
+.ui[class*="square button"].ad {
+  width: 125px;
+  height: 125px;
+}
+
+.ui[class*="small button"].ad {
+  width: 120px;
+  height: 60px;
+}
+
+/*--------------
+   Skyscrapers
+---------------*/
+
+/* Skyscraper */
+
+.ui.skyscraper.ad {
+  width: 120px;
+  height: 600px;
+}
+
+/* Wide Skyscraper */
+
+.ui[class*="wide skyscraper"].ad {
+  width: 160px;
+}
+
+/*--------------
+     Banners
+---------------*/
+
+/* Banner */
+
+.ui.banner.ad {
+  width: 468px;
+  height: 60px;
+}
+
+/* Vertical Banner */
+
+.ui[class*="vertical banner"].ad {
+  width: 120px;
+  height: 240px;
+}
+
+/* Top Banner */
+
+.ui[class*="top banner"].ad {
+  width: 930px;
+  height: 180px;
+}
+
+/* Half Banner */
+
+.ui[class*="half banner"].ad {
+  width: 234px;
+  height: 60px;
+}
+
+/*--------------
+    Boards
+---------------*/
+
+/* Leaderboard */
+
+.ui[class*="large leaderboard"].ad {
+  width: 970px;
+  height: 90px;
+}
+
+/* Billboard */
+
+.ui.billboard.ad {
+  width: 970px;
+  height: 250px;
+}
+
+/*--------------
+    Panorama
+---------------*/
+
+/* Panorama */
+
+.ui.panorama.ad {
+  width: 980px;
+  height: 120px;
+}
+
+/*--------------
+     Netboard
+---------------*/
+
+/* Netboard */
+
+.ui.netboard.ad {
+  width: 580px;
+  height: 400px;
+}
+
+/*--------------
+     Mobile
+---------------*/
+
+/* Large Mobile Banner */
+
+.ui[class*="large mobile banner"].ad {
+  width: 320px;
+  height: 100px;
+}
+
+/* Mobile Leaderboard */
+
+.ui[class*="mobile leaderboard"].ad {
+  width: 320px;
+  height: 50px;
+}
+
+/*******************************
+             Types
+*******************************/
+
+/* Mobile Sizes */
+
+.ui.mobile.ad {
+  display: none;
+}
+
+@media only screen and (max-width: 767px) {
+  .ui.mobile.ad {
+    display: block;
+  }
+}
+
+/*******************************
+           Variations
+*******************************/
+
+.ui.centered.ad {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ui.test.ad {
+  position: relative;
+  background: #333333;
+}
+
+.ui.test.ad:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  text-align: center;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  -ms-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  content: 'Ad';
+  color: #ffffff;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.ui.mobile.test.ad:after {
+  font-size: 0.85714em;
+}
+
+.ui.test.ad[data-text]:after {
+  content: attr(data-text);
+}
+
+/*
+ * # Semantic UI
+ * https://github.com/Semantic-Org/Semantic-UI
  * http://beta.semantic-ui.com/
+ *
+ * Copyright 2014 Contributors
+ * Released under the MIT license
+ * http://opensource.org/licenses/MIT
+ *
+ */
+
+/*******************************
+         Advertisement
+*******************************/
+
+.ui.ad {
+  overflow: hidden;
+}
+
+.ui.ad iframe {
+  margin: 0em;
+  padding: 0em;
+  border: none;
+  overflow: hidden;
+}
+
+/*--------------
+     Common
+---------------*/
+
+/* Leaderboard */
+
+.ui.leaderboard.ad {
+  width: 728px;
+  height: 90px;
+}
+
+/* Medium Rectangle */
+
+.ui[class*="medium rectangle"].ad {
+  width: 300px;
+  height: 250px;
+}
+
+/* Large Rectangle */
+
+.ui[class*="large rectangle"].ad {
+  width: 336px;
+  height: 280px;
+}
+
+/* Half Page */
+
+.ui[class*="half page"].ad {
+  width: 300px;
+  height: 600px;
+}
+
+/*--------------
+     Square
+---------------*/
+
+/* Square */
+
+.ui.square.ad {
+  width: 250px;
+  height: 250px;
+}
+
+/* Small Square */
+
+.ui[class*="small square"].ad {
+  width: 200px;
+  height: 200px;
+}
+
+/*--------------
+    Rectangle
+---------------*/
+
+/* Small Rectangle */
+
+.ui[class*="small rectangle"].ad {
+  width: 180px;
+  height: 150px;
+}
+
+/* Vertical Rectangle */
+
+.ui[class*="vertical rectangle"].ad {
+  width: 240px;
+  height: 400px;
+}
+
+/*--------------
+     Button
+---------------*/
+
+.ui.button.ad {
+  width: 120px;
+  height: 90px;
+}
+
+.ui[class*="square button"].ad {
+  width: 125px;
+  height: 125px;
+}
+
+.ui[class*="small button"].ad {
+  width: 120px;
+  height: 60px;
+}
+
+/*--------------
+    Panorama
+---------------*/
+
+/* Panorama */
+
+.ui.panorama.ad {
+  width: 980px;
+  height: 120px;
+}
+
+/*--------------
+     Netboard
+---------------*/
+
+/* Netboard */
+
+.ui.netboard.ad {
+  width: 580px;
+  height: 400px;
+}
+
+/*--------------
+   Skyscrapers
+---------------*/
+
+/* Skyscraper */
+
+.ui.skyscraper.ad {
+  width: 120px;
+  height: 600px;
+}
+
+/* Wide Skyscraper */
+
+.ui[class*="wide skyscraper"].ad {
+  width: 160px;
+}
+
+/*--------------
+     Banners
+---------------*/
+
+/* Banner */
+
+.ui.banner.ad {
+  width: 468px;
+  height: 60px;
+}
+
+/* Vertical Banner */
+
+.ui[class*="vertical banner"].ad {
+  width: 120px;
+  height: 240px;
+}
+
+/* Top Banner */
+
+.ui[class*="top banner"].ad {
+  width: 930px;
+  height: 180px;
+}
+
+/* Half Banner */
+
+.ui[class*="half banner"].ad {
+  width: 234px;
+  height: 60px;
+}
+
+/*--------------
+   Large Sizes
+---------------*/
+
+/* Leaderboard */
+
+.ui[class*="large leaderboard"].ad {
+  width: 970px;
+  height: 90px;
+}
+
+/* Billboard */
+
+.ui.billboard.ad {
+  width: 970px;
+  height: 250px;
+}
+
+/*--------------
+     Mobile
+---------------*/
+
+/* Large Mobile Banner */
+
+.ui[class*="large mobile banner"].ad {
+  width: 320px;
+  height: 100px;
+}
+
+/* Mobile Leaderboard */
+
+.ui[class*="mobile leaderboard"].ad {
+  width: 320px;
+  height: 50px;
+}
+
+/*******************************
+             Types
+*******************************/
+
+/* Mobile Sizes */
+
+.ui.mobile.ad {
+  display: none;
+}
+
+@media only screen and (max-width: 767px) {
+  .ui.mobile.ad {
+    display: block;
+  }
+}
+
+/*******************************
+           Variations
+*******************************/
+
+.ui.centered.ad {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ui.test.ad {
+  background: #333333;
+}
+
+.ui.test.ad:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  -ms-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  content: 'Ad';
+  color: #ffffff;
+}
+
+.ui.test.ad[data-text]:after {
+  content: attr(data-text);
+}
+
+/*******************************
+         Theme Overrides
+*******************************/
+
+/*******************************
+    User Variable Overrides
+*******************************/
+
+/*
+ * # Semantic UI
+ * https://github.com/Semantic-Org/Semantic-UI
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -382,7 +949,7 @@
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -403,9 +970,9 @@
   vertical-align: baseline;
   background-color: #e0e0e0;
   color: rgba(0, 0, 0, 0.6);
+  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   margin: 0em 0.25em 0em 0em;
   padding: 0.8em 1.5em 0.8em;
-  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   text-transform: none;
   text-shadow: none;
   font-weight: bold;
@@ -951,6 +1518,7 @@
   -webkit-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease;
   vertical-align: baseline;
+  color: '';
 }
 
 .ui.button > .right.icon {
@@ -1005,19 +1573,19 @@
 .ui.mini.buttons .button,
 .ui.mini.buttons .or,
 .ui.mini.button {
-  font-size: 0.7142rem;
+  font-size: 0.71428571rem;
 }
 
 .ui.tiny.buttons .button,
 .ui.tiny.buttons .or,
 .ui.tiny.button {
-  font-size: 0.8571rem;
+  font-size: 0.85714286rem;
 }
 
 .ui.small.buttons .button,
 .ui.small.buttons .or,
 .ui.small.button {
-  font-size: 0.9285rem;
+  font-size: 0.92857143rem;
 }
 
 .ui.buttons .button,
@@ -1029,25 +1597,25 @@
 .ui.large.buttons .button,
 .ui.large.buttons .or,
 .ui.large.button {
-  font-size: 1.1428rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.big.buttons .button,
 .ui.big.buttons .or,
 .ui.big.button {
-  font-size: 1.2857rem;
+  font-size: 1.28571429rem;
 }
 
 .ui.huge.buttons .button,
 .ui.huge.buttons .or,
 .ui.huge.button {
-  font-size: 1.4285rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.massive.buttons .button,
 .ui.massive.buttons .or,
 .ui.massive.button {
-  font-size: 1.7142rem;
+  font-size: 1.71428571rem;
 }
 
 /*--------------
@@ -3083,7 +3651,7 @@
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -3927,314 +4495,7 @@ a.ui.card:hover,
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
- *
- * Copyright 2014 Contributors
- * Released under the MIT license
- * http://opensource.org/licenses/MIT
- *
- */
-
-/*******************************
-           Chat Room
-*******************************/
-
-.ui.chatroom {
-  background-color: #F8F8F8;
-  width: 330px;
-  height: 370px;
-  padding: 0px;
-}
-
-.ui.chatroom .room {
-  position: relative;
-  background-color: #FFFFFF;
-  overflow: hidden;
-  height: 286px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-top: none;
-  border-bottom: none;
-}
-
-.ui.chatroom .room .loader {
-  display: none;
-  margin: -25px 0px 0px -25px;
-}
-
-/* Chat Room Actions */
-
-.ui.chatroom .actions {
-  overflow: hidden;
-  background-color: #EEEEEE;
-  padding: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 5px 5px 0px 0px;
-}
-
-.ui.chatroom .actions .button {
-  float: right;
-  margin-left: 3px;
-}
-
-/* Online User Count */
-
-.ui.chatroom .actions .message {
-  float: left;
-  margin-left: 6px;
-  font-size: 11px;
-  color: #AAAAAA;
-  text-shadow: 0px -1px 0px rgba(255, 255, 255, 0.8);
-  line-height: 28px;
-}
-
-.ui.chatroom .actions .message .loader {
-  display: inline-block;
-  margin-right: 8px;
-}
-
-/* Chat Room Text Log */
-
-.ui.chatroom .log {
-  float: left;
-  overflow: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.ui.chatroom .log .message {
-  padding: 3px 0px;
-  border-top: 1px dotted #DADADA;
-}
-
-.ui.chatroom .log .message:first-child {
-  border-top: none;
-}
-
-/* status event */
-
-.ui.chatroom .status {
-  padding: 5px 0px;
-  color: #AAAAAA;
-  font-size: 12px;
-  font-style: italic;
-  line-height: 1.33;
-  border-top: 1px dotted #DADADA;
-}
-
-.ui.chatroom .log .status:first-child {
-  border-top: none;
-}
-
-.ui.chatroom .log .flag {
-  float: left;
-}
-
-.ui.chatroom .log p {
-  margin-left: 0px;
-}
-
-.ui.chatroom .log .author {
-  font-weight: bold;
-  -webkit-transition: color 0.3s ease-out;
-  transition: color 0.3s ease-out;
-}
-
-.ui.chatroom .log a.author:hover {
-  opacity: 0.8;
-}
-
-.ui.chatroom .log .message.admin p {
-  font-weight: bold;
-  margin: 1px 0px 0px 23px;
-}
-
-.ui.chatroom .log .divider {
-  margin: -1px 0px;
-  font-size: 11px;
-  padding: 10px 0px;
-  border-top: 1px solid #F8F8F8;
-  border-bottom: 1px solid #F8F8F8;
-}
-
-.ui.chatroom .log .divider .rule {
-  top: 50%;
-  width: 15%;
-}
-
-.ui.chatroom .log .divider .label {
-  color: #777777;
-  margin: 0px;
-}
-
-/* Chat Room User List */
-
-.ui.chatroom .room .list {
-  position: relative;
-  overflow: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  float: left;
-  background-color: #EEEEEE;
-  border-left: 1px solid #DDDDDD;
-}
-
-.ui.chatroom .room .list .user {
-  display: table;
-  padding: 3px 7px;
-  border-bottom: 1px solid #DDDDDD;
-}
-
-.ui.chatroom .room .list .user:hover {
-  background-color: #F8F8F8;
-}
-
-.ui.chatroom .room .list .image {
-  display: table-cell;
-  vertical-align: middle;
-  width: 20px;
-}
-
-.ui.chatroom .room .list .image img {
-  width: 20px;
-  height: 20px;
-  vertical-align: middle;
-}
-
-.ui.chatroom .room .list p {
-  display: table-cell;
-  vertical-align: middle;
-  padding-left: 7px;
-  padding-right: 14px;
-  font-size: 11px;
-  line-height: 1.2;
-  font-weight: bold;
-}
-
-.ui.chatroom .room .list a:hover {
-  opacity: 0.8;
-}
-
-/* User List Loading */
-
-.ui.chatroom.loading .loader {
-  display: block;
-}
-
-/* Chat Room Talk Input */
-
-.ui.chatroom .talk {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 5px 0px 0px;
-  background-color: #EEEEEE;
-  border-radius: 0px 0px 5px 5px;
-}
-
-.ui.chatroom .talk .avatar,
-.ui.chatroom .talk input,
-.ui.chatroom .talk .button {
-  float: left;
-}
-
-.ui.chatroom .talk .avatar img {
-  display: block;
-  width: 30px;
-  height: 30px;
-  margin-right: 4px;
-  border-radius: 500rem;
-}
-
-.ui.chatroom .talk input {
-  border: 1px solid #CCCCCC;
-  margin: 0px;
-  width: 196px;
-  height: 14px;
-  padding: 8px 5px;
-  font-size: 12px;
-  color: #555555;
-}
-
-.ui.chatroom .talk input.focus {
-  border: 1px solid #AAAAAA;
-}
-
-.ui.chatroom .send {
-  width: 80px;
-  height: 32px;
-  margin-left: -1px;
-  padding: 4px 12px;
-  font-size: 12px;
-  line-height: 23px;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset;
-  border-radius: 0 5px 5px 0;
-}
-
-.ui.chatroom .talk .log-in.button {
-  display: block;
-  float: none;
-  margin-top: -6px;
-  height: 22px;
-  border-radius: 0px 0px 4px 4px;
-}
-
-.ui.chatroom .talk .log-in.button i {
-  vertical-align: text-top;
-}
-
-/* Quirky Flags */
-
-.ui.chatroom .log .team.flag {
-  width: 18px;
-}
-
-/* Chat room Loaded */
-
-.ui.chatroom.loading .loader {
-  display: block;
-}
-
-/* Standard Size */
-
-.ui.chatroom {
-  width: 330px;
-  height: 370px;
-}
-
-.ui.chatroom .room .container {
-  width: 3000px;
-}
-
-.ui.chatroom .log {
-  width: 314px;
-  height: 278px;
-  padding: 4px 7px;
-}
-
-.ui.chatroom .room .list {
-  width: 124px;
-  height: 278px;
-  padding: 4px 0px;
-}
-
-.ui.chatroom .room .list .user {
-  width: 110px;
-}
-
-.ui.chatroom .talk {
-  height: 40px;
-}
-
-/*******************************
-         Theme Overrides
-*******************************/
-
-/*******************************
-        User Overrides
-*******************************/
-
-/*
- * # Semantic UI
- * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -4735,7 +4996,7 @@ a.ui.card:hover,
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -5006,7 +5267,7 @@ a.ui.card:hover,
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -5033,7 +5294,7 @@ a.ui.card:hover,
   vertical-align: middle;
   background: rgba(0, 0, 0, 0.85);
   opacity: 0;
-  line-height: 1;
+  line-height: 1.33;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
   -webkit-animation-duration: 0.5s;
@@ -5063,7 +5324,7 @@ a.ui.card:hover,
 .ui.dimmer > .content > div {
   display: table-cell;
   vertical-align: middle;
-  color: #ffffff;
+  color: rgba(0, 0, 0, 0.8);
 }
 
 /* Loose Coupling */
@@ -5152,7 +5413,7 @@ body.dimmed.dimmable > :not(.dimmer) {
 }
 
 .ui.inverted.dimmer > .content > * {
-  color: #ffffff;
+  color: rgba(0, 0, 0, 0.8);
 }
 
 /*--------------
@@ -5199,7 +5460,7 @@ body.dimmed.dimmable > :not(.dimmer) {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -5448,7 +5709,7 @@ body.dimmed.dimmable > :not(.dimmer) {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -5722,6 +5983,7 @@ body.dimmed.dimmable > :not(.dimmer) {
 /* Automatically float dropdown menu right on last menu item */
 
 .ui.menu .right.menu .dropdown:last-child .menu,
+.ui.menu .right.dropdown.item .menu,
 .ui.buttons > .ui.dropdown:last-child .menu {
   left: auto;
   right: 0em;
@@ -5930,7 +6192,7 @@ select.ui.dropdown {
 /* Search Selection */
 
 .ui.search.dropdown {
-  min-width: auto;
+  min-width: '';
 }
 
 /* Search Dropdown */
@@ -6478,7 +6740,7 @@ select.ui.dropdown {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -6774,7 +7036,7 @@ select.ui.dropdown {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -8032,7 +8294,7 @@ i.flag.zimbabwe:before {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -8939,7 +9201,7 @@ i.flag.zimbabwe:before {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -9002,6 +9264,7 @@ i.flag.zimbabwe:before {
 
 .ui.grid > .column:not(.row),
 .ui.grid > .row > .column {
+  position: relative;
   display: inline-block;
   text-align: left;
   font-size: 1rem;
@@ -9021,6 +9284,7 @@ i.flag.zimbabwe:before {
 --------------------*/
 
 .ui.grid > .row {
+  position: relative;
   display: block;
   width: auto !important;
   padding: 0rem;
@@ -10280,7 +10544,7 @@ i.flag.zimbabwe:before {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -10296,12 +10560,12 @@ i.flag.zimbabwe:before {
 
 .ui.header {
   border: none;
-  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   margin: -webkit-calc(2rem -  0.165em ) 0em 1rem;
   margin: calc(2rem -  0.165em ) 0em 1rem;
   padding: 0em 0em;
+  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-weight: bold;
-  line-height: 1.33;
+  line-height: 1.33em;
   text-transform: none;
   color: rgba(0, 0, 0, 0.8);
 }
@@ -10315,7 +10579,17 @@ i.flag.zimbabwe:before {
   color: rgba(0, 0, 0, 0.5);
 }
 
-/* Icon and Content Together */
+.ui.header:first-child {
+  margin-top: -0.165em;
+}
+
+.ui.header:last-child {
+  margin-bottom: 0em;
+}
+
+/*--------------
+      Icon
+---------------*/
 
 .ui.header > .icon {
   display: table-cell;
@@ -10324,11 +10598,6 @@ i.flag.zimbabwe:before {
   padding-top: 0.165em;
   vertical-align: middle;
   padding-right: 0.5rem;
-}
-
-.ui.header > .icon + .content {
-  padding-left: 0.5rem;
-  display: table-cell;
 }
 
 /* Only One */
@@ -10340,35 +10609,70 @@ i.flag.zimbabwe:before {
   vertical-align: baseline;
 }
 
+/*--------------
+     Content
+---------------*/
+
 .ui.header .content {
   display: inline-block;
   vertical-align: top;
 }
 
-.ui.header .icon + .content {
+.ui.header > .icon + .content {
+  padding-left: 0.5rem;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/*--------------
+ Content Heading
+---------------*/
+
+.ui.tiny.header {
+  font-size: 1em;
+}
+
+.ui.small.header {
+  font-size: 1.071em;
+}
+
+.ui.medium.header {
+  font-size: 1.285em;
+}
+
+.ui.large.header {
+  font-size: 1.714em;
+}
+
+.ui.huge.header {
+  min-height: 1em;
+  font-size: 2em;
+}
+
+/*--------------
+ Loose Coupling
+---------------*/
+
+.ui.header .ui.label {
+  margin: 0em 0em 0em 0.5rem;
   vertical-align: middle;
 }
 
 /* Positioning */
 
-.ui.header:first-child {
-  margin-top: -0.165em;
-}
-
-.ui.header:last-child {
-  margin-bottom: 0em;
-}
-
 .ui.header + p {
   margin-top: 0em;
 }
 
+/*******************************
+            Types
+*******************************/
+
 /*--------------
-  Page Heading
+     Page
 ---------------*/
 
 h1.ui.header {
-  min-height: 1rem;
   font-size: 2rem;
 }
 
@@ -10387,44 +10691,6 @@ h4.ui.header {
 h5.ui.header {
   font-size: 1rem;
 }
-
-/*--------------
- Content Heading
----------------*/
-
-.ui.tiny.header {
-  font-size: 0.8571rem;
-}
-
-.ui.small.header {
-  font-size: 0.9285rem;
-}
-
-.ui.medium.header {
-  font-size: 1rem;
-}
-
-.ui.large.header {
-  font-size: 1.1428rem;
-}
-
-.ui.huge.header {
-  min-height: 1em;
-  font-size: 1.4285rem;
-}
-
-/*--------------
- Loose Coupling
----------------*/
-
-.ui.header .ui.label {
-  margin: 0em 0em 0em 0.5rem;
-  vertical-align: middle;
-}
-
-/*******************************
-            Types
-*******************************/
 
 /*-------------------
         Icon
@@ -10741,13 +11007,13 @@ a.ui.inverted.yellow.header:hover {
 --------------------*/
 
 .ui.floated.header,
-.ui.left.floated.header {
+.ui[class*="left floated"].header {
   float: left;
   margin-top: 0em;
   margin-right: 0.5em;
 }
 
-.ui.right.floated.header {
+.ui[class*="right floated"].header {
   float: right;
   margin-top: 0em;
   margin-left: 0.5em;
@@ -10795,23 +11061,23 @@ a.ui.inverted.yellow.header:hover {
 }
 
 .ui.tiny.block.header {
-  font-size: 0.8571rem;
+  font-size: 1em;
 }
 
 .ui.small.block.header {
-  font-size: 0.9285rem;
+  font-size: 1.071em;
 }
 
 .ui.block.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size: 1rem;
+  font-size: 1.285em;
 }
 
 .ui.large.block.header {
-  font-size: 1.1428rem;
+  font-size: 1.714em;
 }
 
 .ui.huge.block.header {
-  font-size: 1.4285rem;
+  font-size: 2em;
 }
 
 /*-------------------
@@ -10877,8 +11143,8 @@ a.ui.inverted.yellow.header:hover {
         Sizing
 --------------------*/
 
-.ui.header {
-  font-size: 1rem;
+.ui.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+  font-size: 1.285em;
 }
 
 /*******************************
@@ -10892,7 +11158,7 @@ a.ui.inverted.yellow.header:hover {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -11007,7 +11273,7 @@ i.disabled.icon {
 
 i.link.icon {
   cursor: pointer;
-  opacity: 1;
+  opacity: 0.8;
   -webkit-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease;
 }
@@ -13617,7 +13883,7 @@ i.icon.weixin:before {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -13798,21 +14064,21 @@ img.ui.bordered.image {
 .ui.mini.images img,
 .ui.mini.image {
   width: 20px;
-  font-size: 0.7142rem;
+  font-size: 0.71428571rem;
 }
 
 .ui.tiny.images .image,
 .ui.tiny.images img,
 .ui.tiny.image {
   width: 80px;
-  font-size: 0.8571rem;
+  font-size: 0.85714286rem;
 }
 
 .ui.small.images .image,
 .ui.small.images img,
 .ui.small.image {
   width: 150px;
-  font-size: 0.9285rem;
+  font-size: 0.92857143rem;
 }
 
 .ui.medium.images .image,
@@ -13826,28 +14092,28 @@ img.ui.bordered.image {
 .ui.large.images img,
 .ui.large.image {
   width: 450px;
-  font-size: 1.1428rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.big.images .image,
 .ui.big.images img,
 .ui.big.image {
   width: 600px;
-  font-size: 1.2857rem;
+  font-size: 1.28571429rem;
 }
 
 .ui.huge.images .image,
 .ui.huge.images img,
 .ui.huge.image {
   width: 800px;
-  font-size: 1.4285rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.massive.images .image,
 .ui.massive.images img,
 .ui.massive.image {
   width: 960px;
-  font-size: 1.7142rem;
+  font-size: 1.71428571rem;
 }
 
 /*******************************
@@ -13876,7 +14142,7 @@ img.ui.bordered.image {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -14349,7 +14615,7 @@ img.ui.bordered.image {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -14502,7 +14768,7 @@ img.ui.bordered.image {
      Floated
 ---------------*/
 
-.ui.items > .item .left.floated {
+.ui.items > .item [class*="left floated"] {
   float: left;
 }
 
@@ -14842,7 +15108,7 @@ img.ui.bordered.image {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -15860,7 +16126,7 @@ a.ui.yellow.label:hover:before {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -16029,6 +16295,11 @@ ol.ui.list ol,
   display: inline-block;
 }
 
+.ui.list .list > .item [class*="top aligned"].content,
+.ui.list > .item > [class*="top aligned"].content {
+  vertical-align: top;
+}
+
 .ui.list .list > .item > .content > .list,
 .ui.list > .item > .content > .list {
   margin-left: 0em;
@@ -16085,14 +16356,16 @@ ol.ui.list ol,
 
 /* Floated Content */
 
-.ui.list .list > .item > .left.floated .ui.list > .item > .left.floated {
+.ui.list .list > .item [class*="left floated"],
+.ui.list > .item [class*="left floated"] {
   float: left;
-  margin-right: 1em;
+  margin: 0em 1em 0em 0em;
 }
 
-.ui.list .list > .item > .right.floated .ui.list > .item > .right.floated {
+.ui.list .list > .item [class*="right floated"],
+.ui.list > .item [class*="right floated"] {
   float: right;
-  margin-left: 1em;
+  margin: 0em 0em 0em 1em;
 }
 
 /*******************************
@@ -16765,17 +17038,17 @@ ol.ui.horizontal.list li:before,
 
 .ui.mini.list .list > .item,
 .ui.mini.list > .item {
-  font-size: 0.7142em;
+  font-size: 0.71428571em;
 }
 
 .ui.tiny.list .list > .item,
 .ui.tiny.list > .item {
-  font-size: 0.8571em;
+  font-size: 0.85714286em;
 }
 
 .ui.small.list .list > .item,
 .ui.small.list > .item {
-  font-size: 0.9285em;
+  font-size: 0.92857143em;
 }
 
 .ui.list .list > .item,
@@ -16785,37 +17058,37 @@ ol.ui.horizontal.list li:before,
 
 .ui.large.list .list > .item,
 .ui.large.list > .item {
-  font-size: 1.1428em;
+  font-size: 1.14285714em;
 }
 
 .ui.big.list .list > .item,
 .ui.big.list > .item {
-  font-size: 1.2857em;
+  font-size: 1.28571429em;
 }
 
 .ui.huge.list .list > .item,
 .ui.huge.list > .item {
-  font-size: 1.4285em;
+  font-size: 1.42857143em;
 }
 
 .ui.massive.list .list > .item,
 .ui.massive.list > .item {
-  font-size: 1.7142em;
+  font-size: 1.71428571em;
 }
 
 .ui.mini.horizontal.list .list > .item,
 .ui.mini.horizontal.list > .item {
-  font-size: 0.7142rem;
+  font-size: 0.71428571rem;
 }
 
 .ui.tiny.horizontal.list .list > .item,
 .ui.tiny.horizontal.list > .item {
-  font-size: 0.8571rem;
+  font-size: 0.85714286rem;
 }
 
 .ui.small.horizontal.list .list > .item,
 .ui.small.horizontal.list > .item {
-  font-size: 0.9285rem;
+  font-size: 0.92857143rem;
 }
 
 .ui.horizontal.list .list > .item,
@@ -16825,22 +17098,22 @@ ol.ui.horizontal.list li:before,
 
 .ui.large.horizontal.list .list > .item,
 .ui.large.horizontal.list > .item {
-  font-size: 1.1428rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.big.horizontal.list .list > .item,
 .ui.big.horizontal.list > .item {
-  font-size: 1.2857rem;
+  font-size: 1.28571429rem;
 }
 
 .ui.huge.horizontal.list .list > .item,
 .ui.huge.horizontal.list > .item {
-  font-size: 1.4285rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.massive.horizontal.list .list > .item,
 .ui.massive.horizontal.list > .item {
-  font-size: 1.7142rem;
+  font-size: 1.71428571rem;
 }
 
 /*******************************
@@ -16854,7 +17127,7 @@ ol.ui.horizontal.list li:before,
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -17151,7 +17424,7 @@ ol.ui.horizontal.list li:before,
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -17915,7 +18188,7 @@ ol.ui.horizontal.list li:before,
   height: auto !important;
   background: none;
   margin: 0em 0.25em;
-  padding: 0.5em 1em;
+  padding: 0.5em 0.8em;
   border-radius: 0.2857rem;
 }
 
@@ -18887,7 +19160,7 @@ ol.ui.horizontal.list li:before,
 /* Small */
 
 .ui.small.menu .item {
-  font-size: 0.875rem;
+  font-size: 0.92857143rem;
 }
 
 .ui.small.vertical.menu {
@@ -18907,7 +19180,7 @@ ol.ui.horizontal.list li:before,
 /* Large */
 
 .ui.large.menu .item {
-  font-size: 1.125rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.large.menu .item .item {
@@ -18933,7 +19206,7 @@ ol.ui.horizontal.list li:before,
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -19078,13 +19351,23 @@ ol.ui.horizontal.list li:before,
             States
 *******************************/
 
-.ui.message.visible,
-.ui.header.visible {
-  display: block !important;
+/*--------------
+    Visible
+---------------*/
+
+.ui.message.visible {
+  display: block;
 }
 
-.ui.message.hidden,
-.ui.header.hidden {
+.ui.icon.message.visible {
+  display: table;
+}
+
+/*--------------
+     Hidden
+---------------*/
+
+.ui.message.hidden {
   display: none;
 }
 
@@ -19370,7 +19653,7 @@ ol.ui.horizontal.list li:before,
 ---------------*/
 
 .ui.small.message {
-  font-size: 0.9285em;
+  font-size: 0.92857143em;
 }
 
 .ui.message {
@@ -19378,15 +19661,15 @@ ol.ui.horizontal.list li:before,
 }
 
 .ui.large.message {
-  font-size: 1.1428em;
+  font-size: 1.14285714em;
 }
 
 .ui.huge.message {
-  font-size: 1.4285em;
+  font-size: 1.42857143em;
 }
 
 .ui.massive.message {
-  font-size: 1.7142em;
+  font-size: 1.71428571em;
 }
 
 /*******************************
@@ -19400,7 +19683,7 @@ ol.ui.horizontal.list li:before,
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -19747,8 +20030,12 @@ ol.ui.horizontal.list li:before,
 
 .ui.fullscreen.modal {
   width: 95% !important;
-  left: 0% !important;
+  left: 2.5% !important;
   margin: 1em auto;
+}
+
+.ui.fullscreen.scrolling.modal {
+  left: 0em !important;
 }
 
 .ui.fullscreen.modal > .header {
@@ -19871,7 +20158,7 @@ ol.ui.horizontal.list li:before,
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -19896,7 +20183,7 @@ ol.ui.horizontal.list li:before,
   padding: 0.75em 1em;
   background: #555555;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
-  font-size: 1rem;
+  font-size: 14px;
   text-align: center;
   color: rgba(0, 0, 0, 0.8);
   border-radius: 0em 0em 0.2857rem 0.2857rem;
@@ -20018,7 +20305,7 @@ a.ui.nag {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -20321,7 +20608,7 @@ a.ui.nag {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -20429,6 +20716,10 @@ a.ui.nag {
 .ui.indicating.progress .bar[style^="width: 9"] + .label,
 .ui.indicating.progress .bar[style^="width: 100"] + .label {
   color: #66da81;
+}
+
+.ui.indicating.progress.success .bar + .label {
+  color: #356e36;
 }
 
 /*******************************
@@ -20614,8 +20905,6 @@ a.ui.nag {
     Inverted
 ---------------*/
 
-/* bottom attached */
-
 .ui.inverted.progress {
   background: rgba(255, 255, 255, 0.05);
   border: none;
@@ -20652,7 +20941,7 @@ a.ui.nag {
 /* bottom attached */
 
 .ui.progress.attached {
-  background: none transparent;
+  background: transparent;
   position: relative;
   border: none;
   margin: 0em;
@@ -20661,7 +20950,7 @@ a.ui.nag {
 .ui.progress.attached,
 .ui.progress.attached .bar {
   display: block;
-  height: 0.25em;
+  height: 3px;
   padding: 0px;
   overflow: hidden;
   border-radius: 0em 0em 0.2857rem 0.2857rem;
@@ -20770,7 +21059,7 @@ a.ui.nag {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -20807,6 +21096,24 @@ a.ui.nag {
 /*******************************
            Variations
 *******************************/
+
+/*--------------
+     Internal
+---------------*/
+
+.ui.left.internal.rail {
+  left: 0%;
+  right: auto;
+  padding: 0em 0em 0em 2rem;
+  margin: 0em 0em 0em 2rem;
+}
+
+.ui.right.internal.rail {
+  left: auto;
+  right: 0%;
+  padding: 0em 2rem 0em 0em;
+  margin: 0em 2rem 0em 0em;
+}
 
 /*--------------
      Divided
@@ -20849,6 +21156,16 @@ a.ui.nag {
 }
 
 /*--------------
+    Attached
+---------------*/
+
+.ui.attached.left.rail,
+.ui.attached.right.rail {
+  padding: 0em;
+  margin: 0em;
+}
+
+/*--------------
      Sizing
 ---------------*/
 
@@ -20867,7 +21184,7 @@ a.ui.nag {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -20883,7 +21200,6 @@ a.ui.nag {
   display: inline-block;
   font-size: 0em;
   vertical-align: baseline;
-  margin: 0em 0.5rem 0em 0em;
 }
 
 .ui.rating:last-child {
@@ -21149,7 +21465,7 @@ a.ui.nag {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -21629,7 +21945,7 @@ th {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -21938,7 +22254,7 @@ th {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -22281,7 +22597,7 @@ th {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -22869,7 +23185,7 @@ th {
 
 .ui.secondary.segment {
   background: #faf9fa;
-  color: rgba(0, 0, 0, 0.8);
+  color: #1b1c1d;
 }
 
 .ui.tertiary.segment {
@@ -22950,7 +23266,7 @@ th {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -23108,7 +23424,7 @@ th {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -23243,8 +23559,8 @@ th {
   height: 0px;
   overflow: hidden;
   opacity: 0;
-  -webkit-transition: opacity 500ms;
-  transition: opacity 500ms;
+  -webkit-transition: -webkit-transform 500ms, opacity 500ms;
+  transition: transform 500ms, opacity 500ms;
   will-change: opacity;
   z-index: 1000;
 }
@@ -23651,7 +23967,7 @@ th {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -23789,7 +24105,7 @@ a:hover {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -23917,6 +24233,7 @@ a:hover {
 .ui.statistic > .value .icon {
   opacity: 1;
   width: auto;
+  margin: 0em;
 }
 
 /*--------------
@@ -23969,6 +24286,11 @@ a:hover {
 .ui.horizontal.statistic > .text.value,
 .ui.horizontal.statistics > .statistic > .text.value {
   min-height: 0em !important;
+}
+
+.ui.horizontal.statistics .statistic > .value .icon,
+.ui.horizontal.statistic > .value .icon {
+  width: 1.18em;
 }
 
 .ui.horizontal.statistics .statistic > .value,
@@ -24040,12 +24362,12 @@ a:hover {
     Floated
 ---------------*/
 
-.ui.left.floated.statistic {
+.ui[class*="left floated"].statistic {
   float: left;
   margin: 0em 2em 1em 0em;
 }
 
-.ui.right.floated.statistic {
+.ui[class*="right floated"].statistic {
   float: right;
   margin: 0em 0em 1em 2em;
 }
@@ -24231,7 +24553,7 @@ a:hover {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -24590,7 +24912,7 @@ a:hover {
 
 .ui.small.step,
 .ui.small.steps .step {
-  font-size: 0.9285rem;
+  font-size: 0.92857143rem;
 }
 
 .ui.step,
@@ -24600,7 +24922,7 @@ a:hover {
 
 .ui.large.step,
 .ui.large.steps .step {
-  font-size: 1.1428rem;
+  font-size: 1.14285714rem;
 }
 
 /*******************************
@@ -24625,7 +24947,7 @@ a:hover {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -24641,6 +24963,7 @@ a:hover {
   position: static;
   -webkit-transition: width 0.2s ease, height 0.2s ease, top 0.2s ease, bottom 0.2s ease;
   transition: width 0.2s ease, height 0.2s ease, top 0.2s ease, bottom 0.2s ease;
+  z-index: 800;
 }
 
 /*******************************
@@ -24700,7 +25023,7 @@ a:hover {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -24789,7 +25112,7 @@ a:hover {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -24807,7 +25130,7 @@ a:hover {
   width: 100%;
   background: #ffffff;
   margin: 1em 0em;
-  border: 1px solid #d0d0d0;
+  border: 1px solid rgba(39, 41, 43, 0.15);
   box-shadow: none;
   border-radius: 0.25rem;
   color: rgba(0, 0, 0, 0.8);
@@ -25043,15 +25366,15 @@ a:hover {
 /* Fix 2nd Column */
 
 .ui.definition.table thead:not(.full-width) th:nth-child(2) {
-  border-left: 1px solid #d0d0d0;
+  border-left: 1px solid rgba(39, 41, 43, 0.15);
 }
 
 .ui.definition.table tfoot:not(.full-width) th:nth-child(2) {
-  border-left: 1px solid #d0d0d0;
+  border-left: 1px solid rgba(39, 41, 43, 0.15);
 }
 
 .ui.definition.table td:nth-child(2) {
-  border-left: 1px solid #d0d0d0;
+  border-left: 1px solid rgba(39, 41, 43, 0.15);
 }
 
 /*******************************
@@ -25070,13 +25393,13 @@ a:hover {
 .ui.table tr.positive td,
 .ui.table td.positive {
   background: #eeffe7 !important;
-  color: #3c763d !important;
+  color: #5bbd72 !important;
 }
 
 .ui.celled.table tr.positive:hover td,
 .ui.celled.table tr:hover td.positive {
   background: #e3ffd8 !important;
-  color: #376c38 !important;
+  color: #66c17b !important;
 }
 
 /*--------------
@@ -25091,13 +25414,13 @@ a:hover {
 .ui.table tr.negative td,
 .ui.table td.negative {
   background: #fff0f0 !important;
-  color: #cd2929 !important;
+  color: #d95c5c !important;
 }
 
 .ui.celled.table tr.negative:hover td,
 .ui.celled.table tr:hover td.negative {
   background: #ffe1e1 !important;
-  color: #c02626 !important;
+  color: #dc6868 !important;
 }
 
 /*--------------
@@ -25112,13 +25435,13 @@ a:hover {
 .ui.table tr.error td,
 .ui.table td.error {
   background: #fff0f0 !important;
-  color: #cd2929 !important;
+  color: #d95c5c !important;
 }
 
 .ui.celled.table tr.error:hover td,
 .ui.celled.table tr:hover td.error {
   background: #ffe1e1 !important;
-  color: #c02626 !important;
+  color: #d65050 !important;
 }
 
 /*--------------
@@ -25133,13 +25456,13 @@ a:hover {
 .ui.table tr.warning td,
 .ui.table td.warning {
   background: #fffbe6 !important;
-  color: #7d6c00 !important;
+  color: #f2c037 !important;
 }
 
 .ui.celled.table tr.warning:hover td,
 .ui.celled.table tr:hover td.warning {
   background: #fff9d7 !important;
-  color: #6e5f00 !important;
+  color: #f1bb29 !important;
 }
 
 /*--------------
@@ -25512,7 +25835,7 @@ a:hover {
 .ui.sortable.table thead th {
   cursor: pointer;
   white-space: nowrap;
-  border-left: 1px solid #d0d0d0;
+  border-left: 1px solid rgba(39, 41, 43, 0.15);
   color: rgba(0, 0, 0, 0.8);
 }
 
@@ -25649,7 +25972,7 @@ a:hover {
 
 .ui.basic.table {
   background: transparent;
-  border: 1px solid #d0d0d0;
+  border: 1px solid rgba(39, 41, 43, 0.15);
   box-shadow: none;
 }
 
@@ -25764,19 +26087,19 @@ a:hover {
 /* Small */
 
 .ui.small.table {
-  font-size: 0.9em;
+  font-size: 0.92857143rem;
 }
 
 /* Standard */
 
 .ui.table {
-  font-size: 1em;
+  font-size: 1rem;
 }
 
 /* Large */
 
 .ui.large.table {
-  font-size: 1.1em;
+  font-size: 1.14285714rem;
 }
 
 /*******************************
@@ -25790,7 +26113,7 @@ a:hover {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -25836,7 +26159,7 @@ a:hover {
 
 .loading.transition {
   position: absolute;
-  top: -999999px;
+  top: -99999px;
   left: -99999px;
 }
 
@@ -26207,8 +26530,7 @@ a:hover {
   perspective: 2000px;
 }
 
-.horizontal.flip.transition.in,
-.horizontal.flip.transition.out {
+.horizontal.flip.transition.in {
   -webkit-animation-name: horizontalFlipIn;
   animation-name: horizontalFlipIn;
 }
@@ -26218,7 +26540,6 @@ a:hover {
   animation-name: horizontalFlipOut;
 }
 
-.vertical.flip.transition.in,
 .vertical.flip.transition.out {
   -webkit-animation-name: verticalFlipIn;
   animation-name: verticalFlipIn;
@@ -26880,7 +27201,7 @@ a:hover {
 /*
  * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
- * http://beta.semantic-ui.com/
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
