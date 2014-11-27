@@ -1,0 +1,41 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# src/RFC/UserBundle/Resources/views/Security/login.html.twig #}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+<form id="loginForm" action="{{ path("fos_user_security_check") }}" method="post">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+    <div class="ui input">
+        <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="{{ 'security.login.username'|trans }}" />
+    </div>
+    <br />
+    <div class="ui input">
+        <input type="password" id="password" name="_password" required="required" placeholder="{{ 'security.login.password'|trans }}" />
+    </div>
+    <br />
+    <div class="ui checkbox">
+        <input type="checkbox" name="_remember_me" id="remember_me">
+        <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+    </div>
+</form>
+
+<div class="item icon">
+    <i class="sign in icon"></i>
+    <a id="loginButton">{{ 'security.login.submit'|trans }}</a>
+</div>

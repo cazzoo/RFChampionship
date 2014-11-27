@@ -14,27 +14,56 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-
-
-<div class="ui icon button">
-    <i class="settings icon"></i>
-</div>
-<div class="ui icon button">
+<div class="ui icon top right pointing dropdown button">
     <i class="user icon"></i>
+    <div class="menu">
+        <div class="header">User</div>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <div class="header">
+                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+            </div>
+        {% else %}
+            {{ render(controller("FOSUserBundle:Security:login")) }}
+        {% endif %}
+        <div class="ui divider"></div>
+        <div class="header">Actions</div>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <div class="item icon">
+                <i class="user icon"></i>
+                <a href="{{ path('rfcCore_user') }}">
+                    User panel
+                </a>
+            </div>
+            <div class="item icon">
+                <i class="sign out icon"></i>
+                <a href="{{ path('fos_user_security_logout') }}">
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+            </div>
+        {% else %}
+            <div class="item icon">
+                <i class="sign in icon"></i>
+                <a href="{{ path('fos_user_registration_register') }}">
+                    S'enregistrer
+                </a>
+            </div>
+            <div class="item icon">
+                <i class="undo icon"></i>
+                <a href="{{ path('fos_user_resetting_request') }}">
+                    Mot de passe oublié
+                </a>
+            </div>
+        {% endif %}
+        <div class="item">Help</div>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="ui divider"></div>
+            <div class="header">Administration</div>
+            <div class="item icon">
+                <i class="settings icon"></i>
+                <a href="{{ path('RFCAdmin_index') }}">
+                    Access to admin panel
+                </a>
+            </div>
+        {% endif %}
+    </div>
 </div>
-
-{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-    {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
-    | <a href="{{ path('fos_user_security_logout') }}">
-        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-    </a>
-{% else %}
-    <a href="{{ path('fos_user_security_login') }}">
-        {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
-    </a>
-    <a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
-{% endif %}
-
-{% if is_granted('ROLE_ADMIN') %}
-    <a href="{{ path('RFCAdmin_index') }}" class="ym-button ym-danger">Administration</a>
-{% endif %}

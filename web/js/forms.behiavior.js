@@ -312,7 +312,7 @@ function handleSessionResults(form) {
     form.find('tbody tr').each(function () {
         var data;
         data = $(this).find('select').val();
-        data += ','+ $(this).find('textarea').val();
+        data += ',' + $(this).find('textarea').val();
         list.push(data);
     });
 
@@ -777,4 +777,11 @@ $(function () {
      * 'pointer'); }); $('tr').has('td').has('a').click(function() { var href =
      * $(this).find('a').attr('href'); if (href) { window.location = href; } });
      */
+
+    $('#loginButton').click(function () {
+        $('#loginForm').submit();
+    });
 });
+
+$('.dropdown')
+        .dropdown();
