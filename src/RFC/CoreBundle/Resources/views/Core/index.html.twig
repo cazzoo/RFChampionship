@@ -14,28 +14,44 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/CoreBundle/Resources/views/Core/index.html.twig #} {% extends
-"RFCCoreBundle::layout.html.twig" %} {% block title %} Accueil - {{
-parent() }} {% endblock %} {% block rfccore_body %}
+{# src/RFC/CoreBundle/Resources/views/Core/index.html.twig #}
 
-<h2>Liste des jeux</h2>
+{% extends "RFCCoreBundle::layout.html.twig" %}
+{% block title %}
+    Accueil - 
+    {{ parent() }}
+{% endblock %}
+{% block rfccore_body %}
 
-<ul class="list-inline">
-	{% for game in games %}
-	<li class="float-left">
-        <div class="center">
-            <a href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}">
-				{% if game.listImages is not empty %}
-				<img alt="{{ game.shortName }}" src="{{ game.listImages[0].url }}" class="img-rounded" width="200px" />
-                <br />
-                {% endif %}
-                <span class="label label-default">{{ game.name }}</span>
-            </a>
+    <h2>Liste des jeux</h2>
+
+    {% if games %}
+
+        <div class="ui five cards">
+            {% for game in games %}
+                <a class="ui card" href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}"> 
+                    <div class="image">
+                        {% if game.listImages is not empty %}
+                            <img alt="{{ game.shortName }}" src="{{ game.listImages[0].url }}" class="img-rounded" width="200px" />
+                        {% endif %}
+                    </div>
+                    <div class="content">
+                        <div class="header">{{ game.name }}</div>
+                        <div class="meta">
+                            {{ game.shortName }}
+                        </div>
+                        <div class="description">
+                            {{ game.description }}
+                        </div>
+                    </div>
+                    <div class="extra content">
+                    </div>
+                </a>
+            {% endfor %}
         </div>
-    </li>
+
     {% else %}
-	   <li>Pas (encore !) de jeux</li> 
-    {% endfor %}
-</ul>
+        Pas (encore !) de jeux
+    {% endif %}
 
 {% endblock %}

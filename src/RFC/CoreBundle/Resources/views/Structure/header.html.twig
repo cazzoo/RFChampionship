@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-<div class="ui icon right floated top right pointing dropdown button">
+<div class="ui icon right floated top right pointing dropdown {{ is_granted("IS_AUTHENTICATED_REMEMBERED") ? '' : 'inverted ' }}orange button">
     <i class="user icon"></i>
     <div class="menu">
         <div class="header">User</div>
