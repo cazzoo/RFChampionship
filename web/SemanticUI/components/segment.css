@@ -528,7 +528,7 @@
 
 .ui.secondary.segment {
   background: #faf9fa;
-  color: #1b1c1d;
+  color: rgba(0, 0, 0, 0.8);
 }
 .ui.tertiary.segment {
   background: #ebebeb;
