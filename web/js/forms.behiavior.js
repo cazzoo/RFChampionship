@@ -781,7 +781,16 @@ $(function () {
     $('#loginButton').click(function () {
         $('#loginForm').submit();
     });
+
+    /*$('.ui.label.popupLabel').hover(function () {
+        $(this).siblings('.ui.flowing.popup').popup({
+            target: $(this).parent().children('.ui.flowing.popup')
+        });
+    });*/
 });
 
-$('.dropdown')
-        .dropdown();
+$('.dropdown').dropdown();
+
+$('.ui.label.popupLabel').popup({
+    inline: true
+});
