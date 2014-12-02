@@ -21,18 +21,18 @@
 {% block rfccore_body %}
 
     <h2>Member list</h2>
-    
-    <table>
-		<thead>
-			<tr>
-				<th>Username</th>
-				<th>Steam ID</th>
-				<th>Mentor</th>
-			</tr>
-		</thead>
-		<tbody>
+
+    <table class="ui stripped table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Steam ID</th>
+                <th>Mentor</th>
+            </tr>
+        </thead>
+        <tbody>
             {% set typeUser = '' %}
-                {% for user in users %}
+            {% for user in users %}
                 {% if user.getHighestRole != typeUser %}
                     {% set typeUser = user.getHighestRole %}
                     <tr class="info">

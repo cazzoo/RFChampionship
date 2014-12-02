@@ -7,6 +7,8 @@ rfcCore_gameSelection:
     defaults: { _controller: "RFCCoreBundle:Core:accessGame" } 
     requirements:
         gameId: \d*
+    options:
+        expose: true
     
 rfcCore_showGallery:
     path:   /showGallery/{elementType}_{elementId}

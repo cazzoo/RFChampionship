@@ -782,11 +782,9 @@ $(function () {
         $('#loginForm').submit();
     });
 
-    /*$('.ui.label.popupLabel').hover(function () {
-        $(this).siblings('.ui.flowing.popup').popup({
-            target: $(this).parent().children('.ui.flowing.popup')
-        });
-    });*/
+    $('.ui.card.gameCard').click(function() {
+        window.location = Routing.generate('rfcCore_gameSelection', { 'gameId': $(this).data('gameid') });
+    });
 });
 
 $('.dropdown').dropdown();

@@ -29,7 +29,7 @@
 
         <div class="ui five doubling cards">
             {% for game in games %}
-                <div class="ui card" data-gameid="{{ game.id }}">
+                <div class="ui card gameCard" data-gameid="{{ game.id }}">
                     {#<a class="ui card" href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}"> #}
                     <div class="image">
                         {% if game.listImages is not empty %}
@@ -40,92 +40,86 @@
                         <div class="header">{{ game.name }}</div>
                         <div class="meta">
                             {{ game.shortName }}
-                            <div class="ui label popupLabel">
+                            <div class="ui label right floated popupLabel">
                                 <i class="info icon"></i>
                                 Info
                             </div>
                             <div class="ui flowing popup">
-                                <div class="ui full-width vertically divided center aligned grid">
-                                    <div class="row">
-                                        <div class="column">
-                                            <h4 class="ui header">Soon in {{ game.name }}</h4>
-                                            <p>THIS IS COMING SOON!</p>
+                                <div class="ui horizontal divider">Game data</div>
+                                <div class="ui mini horizontal statistics">
+                                    <div class="statistic">
+                                        <div class="value">
+                                            {{ game.listChampionships|length }}
+                                        </div>
+                                        <div class="label">
+                                            Championships
                                         </div>
                                     </div>
-                                    <div class="column row">
-                                        <h4 class="ui header">Data</h4>
-                                        <div class="ui statistics">
-                                            <div class="statistic">
-                                                <div class="value">
-                                                    {{ game.listChampionships|length }}
-                                                </div>
-                                                <div class="label">
-                                                    Championships
-                                                </div>
-                                            </div>
-                                            <div class="statistic">
-                                                <div class="value">
-                                                    {{ game.listVehicles|length }}
-                                                </div>
-                                                <div class="label">
-                                                    Vehicles
-                                                </div>
-                                            </div>
-                                            <div class="statistic">
-                                                <div class="value">
-                                                    {{ game.listTracks|length }}
-                                                </div>
-                                                <div class="label">
-                                                    Tracks
-                                                </div>
-                                            </div>
-                                            <div class="statistic">
-                                                <div class="value">
-                                                    {{ game.listCategories|length }}
-                                                </div>
-                                                <div class="label">
-                                                    Categories
-                                                </div>
-                                            </div>
-                                            {% if is_granted('ROLE_ADMIN') %}
-                                                <div class="statistic">
-                                                    <div class="value">
-                                                        {{ game.listMetaRules|length }}
-                                                    </div>
-                                                    <div class="label">
-                                                        Meta rules
-                                                    </div>
-                                                </div>
-                                                <div class="statistic">
-                                                    <div class="value">
-                                                        {{ game.listRules|length }}
-                                                    </div>
-                                                    <div class="label">
-                                                        Rules
-                                                    </div>
-                                                </div>
-                                                <div class="statistic">
-                                                    <div class="value">
-                                                        {{ game.listTypeSessions|length }}
-                                                    </div>
-                                                    <div class="label">
-                                                        Session types
-                                                    </div>
-                                                </div>
-                                            {% endif %}
+                                    <div class="statistic">
+                                        <div class="value">
+                                            {{ game.listVehicles|length }}
+                                        </div>
+                                        <div class="label">
+                                            Vehicles
                                         </div>
                                     </div>
+                                    <div class="statistic">
+                                        <div class="value">
+                                            {{ game.listTracks|length }}
+                                        </div>
+                                        <div class="label">
+                                            Tracks
+                                        </div>
+                                    </div>
+                                    <div class="statistic">
+                                        <div class="value">
+                                            {{ game.listCategories|length }}
+                                        </div>
+                                        <div class="label">
+                                            Categories
+                                        </div>
+                                    </div>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <div class="statistic">
+                                            <div class="value">
+                                                {{ game.listMetaRules|length }}
+                                            </div>
+                                            <div class="label">
+                                                Meta rules
+                                            </div>
+                                        </div>
+                                        <div class="statistic">
+                                            <div class="value">
+                                                {{ game.listRules|length }}
+                                            </div>
+                                            <div class="label">
+                                                Rules
+                                            </div>
+                                        </div>
+                                        <div class="statistic">
+                                            <div class="value">
+                                                {{ game.listTypeSessions|length }}
+                                            </div>
+                                            <div class="label">
+                                                Session types
+                                            </div>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                         <div class="description">
                             {{ game.description }}
+                            <div class="ui horizontal divider">Soon in {{ game.name }}</div>
+                            <p>THIS IS COMING SOON!</p>
                         </div>
                     </div>
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="extra content">
                             <div class="ui right floated mini primary buttons">
-                                <a class="ui button" href="{{ path('admin_game_edit', { 'gameId': game.id }) }}">Edit</a>
+                                <a class="ui icon button" href="{{ path('admin_game_edit', { 'gameId': game.id }) }}">
+                                    <i class="wrench icon" tabindex="0"></i>Edit
+                                </a>
                                 <div class="ui icon bottom left pointing dropdown button">
                                     <i class="dropdown icon"></i>
                                     <div class="menu">
