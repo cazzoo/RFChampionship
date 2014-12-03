@@ -29,7 +29,7 @@
 
         <div class="ui five doubling cards">
             {% for game in games %}
-                <div class="ui card gameCard" data-gameid="{{ game.id }}">
+                <div class="ui link card gameCard" data-gameid="{{ game.id }}">
                     {#<a class="ui card" href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}"> #}
                     <div class="image">
                         {% if game.listImages is not empty %}

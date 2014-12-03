@@ -14,87 +14,85 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-<div>
-    <table class="ui striped table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>championshipAgreed</th>
-                <th>Listevents</th>
-                <th>Listmanagers</th>
-                <th>Metarule</th>
-                <th>Listrules</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for championship in championships %}
-                <tr>
-                    <td>
-                        <a href="{{ path('rfcCore_championships_show', { 'championshipId': championship.id, 'gameId': game.id  }) }}">
-                            {{ championship.name }}
-                        </a>
-                    </td>
-                    <td>
-                        {{ championship.description }}
-                    </td>
-                    <td>
-                        {{ championship.championshipAgreed }}
-                    </td>
-                    <td>
-                        {% if championship.listEvents is empty %}
-                            Aucun Event pour le moment
-                        {% else %}
-                            <ul class="list-unstyled">
-                                {% for event in championship.listEvents %}
-                                    <li>
-                                        {{ event.name }}
-                                        <div>
-                                            <small>
-                                                <span class="label label-primary">
-                                                    {{event.beginDate|date("Y/m/d H:i") }}
-                                                </span>
-                                                > 
-                                                <span
-                                                    class="label label-primary">{{ event.endDate|date("Y/m/d H:i") }}
-                                                </span>
-                                            </small>
+
+{% for championship in championships %}
+
+    <div class="ui items">
+
+        <div class="item">
+            <div class="image">
+                <img src="/images/wireframe/image.png">
+                <div class="ui corner blue icon label">
+                    <a href="#"><i class="setting icon"></i></a>
+                </div>
+            </div>
+            <div class="content">
+
+                <div class="header">
+                    <a href="{{ path('rfcCore_championships_show', { 'championshipId': championship.id, 'gameId': game.id  }) }}">
+                        {{ championship.name }}
+                    </a>
+                </div>
+
+                <div class="meta">
+
+                    <i class="ticket icon"></i><div class="ui horizontal label">{{ championship.championshipAgreed ? 'Agreed' : 'Non agreed' }}</div>
+                    {% if championship.metaRule %}<i class="cubes icon"></i><div class="ui horizontal label">{{ championship.metaRule.name }}</div>{% endif %}
+
+                </div>
+                <div class="description">
+
+                    {{ championship.description ? championship.description : "Aucune" }}
+                    {% if championship.listEvents is empty %}
+                        Aucun Event pour le moment
+                    {% else %}
+                        <div class="ui divided list">
+
+                            {% for event in championship.listEvents %}
+                                <div class="item">
+                                    <i class="calendar outline icon"></i>
+                                    <div class="content">
+                                        <div class="header">{{ event.name }}</div>
+                                        <div class="description">
+                                            <div class="ui mini label">
+                                                {{event.beginDate|date("Y/m/d H:i") }} <i class="right chevron icon"></i> {{ event.endDate|date("Y/m/d H:i") }}
+                                            </div>
                                         </div>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                    </td>
-                    <td><ul>
-                            {% for manager in championship.listManagers %}
-                                <li>
-                                    {{ manager.username }}
-                                </li>
+                                    </div>
+                                </div>
                             {% endfor %}
-                        </ul>
-                    </td>
-                    <td>
-                        {{ championship.metaRule }}
-                    </td>
-                    <td>
-                        <ul class="list-unstyled">
-                            {% if championship.championshipAgreed %}
-                                {% for rule in championship.metaRule.listRules %}
-                                    <li>
-                                        {{ rule.name }}
-                                    </li>
-                                {% endfor %}
-                            {% else %}
-                                {% for rule in championship.listRules %}
-                                    <li>
-                                        {{ rule.name }}
-                                    </li>
-                                {% endfor %}
-                            {% endif %}
-                        </ul>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+
+                        </div>
+                    {% endif %}
+
+                </div>
+                <div class="extra">
+
+                    <div class="ui horizontal list">
+                        {% if championship.listManagers %}
+
+                            {% for manager in championship.listManagers %}
+                                <div class="item">
+                                    <img class="ui avatar image" src="/images/avatar/small/tom.jpg">
+                                    <div class="content">
+                                        <a class="header">{{ manager.username }}</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        {% else %}
+                            <div class="item">
+                                <div class="content">
+                                    <div class="header">Aucun organisateur(s) défini(s)</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endfor %}

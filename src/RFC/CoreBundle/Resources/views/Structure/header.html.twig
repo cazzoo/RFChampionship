@@ -67,3 +67,67 @@
         {% endif %}
     </div>
 </div>
+
+{% if app.session.get('game') %}
+    <div class="ui right floated top right pointing dropdown {{ app.session.get('game') ? '' : 'inverted ' }}purple button">
+
+        {{ app.session.get('game').name }}
+
+        <div class="menu">
+
+            <div class="item icon">
+                <i class="game icon"></i> 
+                <a href="/RFChampionship/web/app_dev.php/">
+                    Select a game
+                </a>
+            </div>
+
+            {% if app.session.get('game') %}
+
+                <div class="header">{{ app.session.get('game').name }}</div>
+
+                {{ app.session.get('game').name }}
+                <div class="item icon">
+                    <i class="home icon"></i> 
+                    <a href="/RFChampionship/web/app_dev.php/3/">
+                        Game home
+                    </a>
+                </div>
+                <div class="item icon">
+                    <i class="trophy icon"></i> 
+                    <a href="/RFChampionship/web/app_dev.php/3/Championships" class="ui item">
+                        Championships
+                    </a>
+                </div>
+                <div class="item icon">
+                    <i class="calendar icon"></i> 
+                    <a href="/RFChampionship/web/app_dev.php/3/Calendar" class="ui item">
+                        Calendar
+                    </a> 
+                </div>
+                <div class="item icon">
+                    <i class="comments icon"></i> 
+                    <a href="/RFChampionship/web/app_dev.php/3/Crew" class="ui item">
+                        Crew
+                    </a>
+                </div>
+                <div class="item icon">
+                    <i class="car icon"></i> 
+                    <a href="/RFChampionship/web/app_dev.php/3/Setup" class="ui item">
+                        Setup
+                    </a>
+                </div>
+                <div class="item icon">
+                    <i class="users icon"></i> 
+                    <a href="/RFChampionship/web/app_dev.php/3/Members" class="ui item">
+                        Members
+                    </a>
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endif %}
+

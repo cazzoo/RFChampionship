@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/CoreBundle/Resources/views/Core/gameIndex.html.twig #}
+{# src/RFC/CoreBundle/Resources/views/Championship/show.html.twig #}
 
 {% extends "RFCCoreBundle::layout.html.twig" %}
 
@@ -22,34 +22,85 @@
 
     {% set canEdit = (is_granted('ROLE_MANAGER') and entity.isManager(app.user.id)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
 
-    <div class="ui items">
-        <div class="item">
-            <div class="image">
-                <img src="/images/wireframe/image.png">
-            </div>
-            <div class="content">
-                <div class="header">{{ entity.name }}</div>
-                <div class="meta">
-                    <i class="ticket icon"></i><div class="ui horizontal label">{{ entity.championshipAgreed ? 'Agreed' : 'Non agreed' }}</div>
-                    {% if entity.metaRule %}<i class="cubes icon"></i><div class="ui horizontal label">{{ entity.metaRule.name }}</div>{% endif %}
-                </div>
-                <div class="description">
-                    {{ entity.description ? entity.description : "Aucune" }}
-                </div>
-                <div class="extra">
-                    {% if entity.listManagers %}
-                        <ul>
-                            {% for manager in entity.listManagers %}
-                                <li>{{ manager.username }}</li>
-                                {% endfor %}
-                        </ul>
-                    {% else %}
-                        Aucun organisateur(s) défini(s)
-                    {% endif %}
-                    <div class="ui right floated blue labeled icon button"><i class="setting icon"></i>Configure</div>
+    <div class="ui three column grid">
+
+        <div class="column">
+            <div class="ui items">
+                <div class="item">
+                    <div class="image">
+                        <img src="/images/wireframe/image.png">
+                        <div class="ui corner blue icon label">
+                            <a href="#"><i class="setting icon"></i></a>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="header">{{ entity.name }}</div>
+                        <div class="meta">
+                            <i class="ticket icon"></i>
+                            <div class="ui horizontal label">
+                                {{ entity.championshipAgreed ? 'Agreed' : 'Non agreed' }}
+                            </div>
+                            <i class="cubes icon"></i>
+                            <div class="ui horizontal label popupLabel">
+                                {% if entity.championshipAgreed %}
+                                    {{ entity.metaRule.name }}
+                                    {% if canEdit %}
+                                        <a class="detail" href="{{ path('admin_metaRule_edit', {'gameId' : game.id, 'metaRuleId' : entity.metaRule.id }) }}">
+                                            <i class="edit icon"></i> Edit
+                                        </a>
+                                    {% endif %}
+                                    {% set rules = entity.metaRule.listRules %}
+                                {% else %}
+                                    Rules
+                                    {% set rules = entity.listRules %}
+                                {% endif %}
+                            </div>
+                            <div class="ui flowing popup">
+                                {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}
+                            </div>
+                        </div>
+                        <div class="description">
+                            {{ entity.description ? entity.description : "Aucune" }}
+                        </div>
+                        <div class="extra">
+
+                            <div class="ui horizontal list">
+                                {% if entity.listManagers %}
+
+                                    {% for manager in entity.listManagers %}
+                                        <div class="item">
+                                            <img class="ui avatar image" src="/images/avatar/small/tom.jpg">
+                                            <div class="content">
+                                                <a class="header">{{ manager.username }}</a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                {% else %}
+                                    <div class="item">
+                                        <div class="content">
+                                            <div class="header">Aucun organisateur(s) défini(s)</div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="column"></div>
+        <div class="column">
+            <h3>
+                Participants
+            </h3>
+
+            <div id="registrationStatus">
+                {% include 'RFCCoreBundle:Championship:registration.html.twig' with {'gameId' : game.id, 'championshipId' : entity.id, 'status' : ''} %}
+            </div>
+        </div>
+
     </div>
 
     <div id="globalResults"></div>
@@ -143,18 +194,6 @@
                 {% set rules = entity.listRules %}
             {% endif %}
             {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}
-        </div>
-    </div>
-
-    <div class="ui divider"></div>
-
-    <div>
-        <h3>
-            Participants
-        </h3>
-
-        <div id="registrationStatus">
-            {% include 'RFCCoreBundle:Championship:registration.html.twig' with {'gameId' : game.id, 'championshipId' : entity.id, 'status' : ''} %}
         </div>
     </div>
 
