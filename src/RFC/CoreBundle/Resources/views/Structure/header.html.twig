@@ -83,43 +83,45 @@
             </div>
 
             {% if app.session.get('game') %}
+                
+                {% set game = app.session.get('game') %}
 
-                <div class="header">{{ app.session.get('game').name }}</div>
+                <div class="header">{{ game.name }}</div>
 
                 {{ app.session.get('game').name }}
                 <div class="item icon">
                     <i class="home icon"></i> 
-                    <a href="/RFChampionship/web/app_dev.php/3/">
+                    <a href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}">
                         Game home
                     </a>
                 </div>
                 <div class="item icon">
                     <i class="trophy icon"></i> 
-                    <a href="/RFChampionship/web/app_dev.php/3/Championships" class="ui item">
+                    <a href="{{ path('rfcCore_championships', {'gameId': game.id}) }}" class="ui item">
                         Championships
                     </a>
                 </div>
                 <div class="item icon">
                     <i class="calendar icon"></i> 
-                    <a href="/RFChampionship/web/app_dev.php/3/Calendar" class="ui item">
+                    <a href="{{ path('rfcCore_calendar', {'gameId': game.id}) }}" class="ui item">
                         Calendar
                     </a> 
                 </div>
                 <div class="item icon">
                     <i class="comments icon"></i> 
-                    <a href="/RFChampionship/web/app_dev.php/3/Crew" class="ui item">
+                    <a href="{{ path('rfcCore_crew', {'gameId': game.id}) }}" class="ui item">
                         Crew
                     </a>
                 </div>
                 <div class="item icon">
                     <i class="car icon"></i> 
-                    <a href="/RFChampionship/web/app_dev.php/3/Setup" class="ui item">
+                    <a href="{{ path('rfcSetup_index', {'gameId': game.id}) }}" class="ui item">
                         Setup
                     </a>
                 </div>
                 <div class="item icon">
                     <i class="users icon"></i> 
-                    <a href="/RFChampionship/web/app_dev.php/3/Members" class="ui item">
+                    <a href="{{ path('rfcCore_members', {'gameId': game.id}) }}" class="ui item">
                         Members
                     </a>
                 </div>
