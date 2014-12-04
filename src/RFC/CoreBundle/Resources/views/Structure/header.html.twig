@@ -14,6 +14,12 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
+{% if threadId is defined %}
+    <div id="showComments" class="ui right floated black icon button">
+        <i class="comments icon"></i>
+    </div>
+{% endif %}
+
 <div class="ui icon right floated top right pointing dropdown {{ is_granted("IS_AUTHENTICATED_REMEMBERED") ? '' : 'inverted ' }}orange button">
     <i class="user icon"></i>
     <div class="menu">
@@ -83,7 +89,7 @@
             </div>
 
             {% if app.session.get('game') %}
-                
+
                 {% set game = app.session.get('game') %}
 
                 <div class="header">{{ game.name }}</div>

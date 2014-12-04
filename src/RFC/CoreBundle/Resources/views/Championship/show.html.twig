@@ -181,20 +181,4 @@
 
     <div id="session"></div>
 
-    <div class="ui divider"></div>
-
-    <div>
-        <h3>
-            Rules
-        </h3>
-        <div class="list-group">
-            {% if entity.championshipAgreed %}
-                {% set rules = entity.metaRule.listRules %}
-            {% else %}
-                {% set rules = entity.listRules %}
-            {% endif %}
-            {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}
-        </div>
-    </div>
-
 {% endblock %}

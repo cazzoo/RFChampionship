@@ -769,6 +769,10 @@ $(function () {
         $('.main.menu.sidebar').sidebar('toggle');
     });
 
+    $('#showComments.ui.button').click(function () {
+        $('.sidebar.comments').sidebar('toggle');
+    });
+
     // --------------------------------------------
     // ----------------- Clickable table row
     // --------------------------------------------
@@ -782,10 +786,10 @@ $(function () {
         $('#loginForm').submit();
     });
 
-    $('.ui.card.gameCard:not()').click(function() {
-        window.location = Routing.generate('rfcCore_gameSelection', { 'gameId': $(this).data('gameid') });
+    $('.ui.card.gameCard:not()').click(function () {
+        window.location = Routing.generate('rfcCore_gameSelection', {'gameId': $(this).data('gameid')});
     });
-    $('.ui.card.gameCard .extra.content a, .ui.card.gameCard .extra.content div').click(function(e) {
+    $('.ui.card.gameCard .extra.content a, .ui.card.gameCard .extra.content div').click(function (e) {
         e.stopPropagation();
     });
 });
@@ -794,4 +798,9 @@ $('.dropdown').dropdown();
 
 $('.popupLabel').popup({
     inline: true
+});
+
+$('.sidebar.comments').sidebar('setting', {
+    dimPage: false,
+    transition: 'overlay'
 });
