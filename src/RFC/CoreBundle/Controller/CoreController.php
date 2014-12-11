@@ -21,27 +21,27 @@
 
 namespace RFC\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use RFC\FrameworkBundle\Controller\RFCController;
 
-class CoreController extends Controller
+class CoreController extends RFCController
 {
 
     public function indexAction()
     {
 
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine ()->getManager ();
 
-        $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
+        $games = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
 
-        if (count($games) == 1) {
+        if (count ( $games ) == 1) {
 
-            return $this->redirect($games [0]->getId());
+            return $this->redirect ( $games [0]->getId () );
         }
 
-        return $this->render('RFCCoreBundle:Core:index.html.twig',
+        return $this->render ( 'RFCCoreBundle:Core:index.html.twig',
                 array(
                 'games' => $games
-        ));
+        ) );
     }
 
     public function accessGameAction($gameId)
@@ -49,45 +49,45 @@ class CoreController extends Controller
 
         // var_dump($this->get('session')->get('parameters'));
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $g             = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
-        $games         = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
+        $entityManager = $this->getDoctrine ()->getManager ();
+        $g             = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->find ( $gameId );
+        $games         = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
 
-        $threadId = substr(strrchr(get_class($g), "\\"), 1).'_'.$g->getName();
-        return $this->render('RFCCoreBundle:Core:gameIndex.html.twig',
+        $threadId = substr ( strrchr ( get_class ( $g ), "\\" ), 1 ).'_'.$g->getName ();
+        return $this->render ( 'RFCCoreBundle:Core:gameIndex.html.twig',
                 array(
                 'game' => $g,
                 'games' => $games,
                 'threadId' => $threadId
-        ));
+        ) );
     }
 
     public function showGalleryAction($elementId, $elementType)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine ()->getManager ();
         $entity        = null;
 
         switch ($elementType) {
             case 'game' :
-                $entity = $entityManager->getRepository('RFCCoreBundle:Game')->find($elementId);
+                $entity = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->find ( $elementId );
                 break;
             case 'vehicle' :
-                $entity = $entityManager->getRepository('RFCCoreBundle:Vehicle')->find($elementId);
+                $entity = $entityManager->getRepository ( 'RFCCoreBundle:Vehicle' )->find ( $elementId );
                 break;
             case 'track' :
-                $entity = $entityManager->getRepository('RFCCoreBundle:Track')->find($elementId);
+                $entity = $entityManager->getRepository ( 'RFCCoreBundle:Track' )->find ( $elementId );
                 break;
             case 'typeSession' :
-                $entity = $entityManager->getRepository('RFCCoreBundle:TypeSession')->find($elementId);
+                $entity = $entityManager->getRepository ( 'RFCCoreBundle:TypeSession' )->find ( $elementId );
                 break;
             case 'category' :
-                $entity = $entityManager->getRepository('RFCCoreBundle:Category')->find($elementId);
+                $entity = $entityManager->getRepository ( 'RFCCoreBundle:Category' )->find ( $elementId );
                 break;
         }
 
-        return $this->render('RFCCoreBundle:Structure:gallery.html.twig',
+        return $this->render ( 'RFCCoreBundle:Structure:gallery.html.twig',
                 array(
-                'listImages' => $entity->getListImages()
-        ));
+                'listImages' => $entity->getListImages ()
+        ) );
     }
 }

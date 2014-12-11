@@ -20,9 +20,9 @@
 // src/RFC/CoreBundle/Controller/MembersController.php
 namespace RFC\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use RFC\FrameworkBundle\Controller\RFCController;
 
-class MembersController extends Controller
+class MembersController extends RFCController
 {
 
     public function indexAction($gameId)

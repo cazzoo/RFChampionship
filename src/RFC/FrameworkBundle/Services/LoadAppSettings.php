@@ -28,30 +28,24 @@ class LoadAppSettings
         if (null == $gameId) {
             if ($session->has ( 'game' )) {
                 $session->remove ( 'game' );
-            } else {
-                return;
             }
         } else {
-            if ($session->has ( 'game' )) {
-                return;
-            } else {
+            if (!$session->has ( 'game' )) {
                 $game = $this->gameRepository->find ( $gameId );
                 $session->set ( 'game', $game );
             }
         }
 
-        if ($session->has ( 'parameters' )) {
-            return;
+        if (!$session->has ( 'parameters' )) {
+            $data = $this->propertyRepository
+                ->createQueryBuilder ( 'p' )
+                ->where ( 'p.category != :category' )
+                ->setParameter ( 'category', 'user' )
+                ->getQuery ()
+                ->getResult ();
+
+            $session->set ( 'parameters', $data );
         }
-
-        $data = $this->propertyRepository
-            ->createQueryBuilder ( 'p' )
-            ->where ( 'p.category != :category' )
-            ->setParameter ( 'category', 'user' )
-            ->getQuery ()
-            ->getResult ();
-
-        $session->set ( 'parameters', $data );
     }
 
     /**

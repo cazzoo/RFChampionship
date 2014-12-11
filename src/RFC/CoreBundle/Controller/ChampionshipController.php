@@ -21,13 +21,13 @@ namespace RFC\CoreBundle\Controller;
 
 use DateTime;
 use DateTimeZone;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Championship controller.
  */
-class ChampionshipController extends Controller
+class ChampionshipController extends RFCController
 {
 
     public function indexAction($gameId)

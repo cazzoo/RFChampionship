@@ -2,8 +2,9 @@
 
 namespace RFC\FrameworkBundle\Listeners;
 
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use RFC\FrameworkBundle\Controller\RFCController;
 use RFC\FrameworkBundle\Services\LoadAppSettings;
+use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
 class BeforeControllerListener
 {
@@ -16,6 +17,15 @@ class BeforeControllerListener
 
     public function onKernelController(FilterControllerEvent $event)
     {
-        $this->appParamService->modifySession();
+        $controller = $event->getController ();
+
+        if (!is_array ( $controller )) {
+            return;
+        }
+
+        if ($controller[0] instanceof RFCController) {
+
+            $this->appParamService->modifySession ();
+        }
     }
 }

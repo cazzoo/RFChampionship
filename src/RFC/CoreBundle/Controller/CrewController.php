@@ -21,12 +21,13 @@
 
 namespace RFC\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Exception;
 use RFC\CoreBundle\Entity\Crew;
 use RFC\CoreBundle\Entity\CrewRequest;
+use RFC\FrameworkBundle\Controller\RFCController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
-class CrewController extends Controller
+class CrewController extends RFCController
 {
 
     public function indexAction($gameId)
@@ -109,7 +110,7 @@ class CrewController extends Controller
         try {
             $entityManager->flush ();
             $jsonResponse = new JsonResponse ( $request, 200 );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $jsonResponse = new JsonResponse ( $request, 400 );
         }
 
@@ -134,7 +135,7 @@ class CrewController extends Controller
         try {
             $entityManager->flush ();
             $jsonResponse = new JsonResponse ( $crewRequest, 200 );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $jsonResponse = new JsonResponse ( $crewRequest, 400 );
         }
 
@@ -159,7 +160,7 @@ class CrewController extends Controller
         try {
             $entityManager->flush ();
             $jsonResponse = new JsonResponse ( $crewRequest, 200 );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $jsonResponse = new JsonResponse ( $crewRequest, 400 );
         }
 

@@ -20,12 +20,12 @@
 // src/RFC/CoreBundle/Controller/UserController.php
 namespace RFC\CoreBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use RFC\FrameworkBundle\Controller\RFCController;
 use RFC\UserBundle\Entity\User;
 use RFC\UserBundle\Form\UserFormType;
+use Symfony\Component\HttpFoundation\Request;
 
-class UserController extends Controller {
+class UserController extends RFCController {
     
     public function indexAction() {
         if ($this->getUser () !== null) {

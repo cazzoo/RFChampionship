@@ -18,9 +18,9 @@
  */
 namespace RFC\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use RFC\FrameworkBundle\Controller\RFCController;
 
-class CalendarController extends Controller {
+class CalendarController extends RFCController {
 	public function indexAction($gameId) {
 		$entityManager = $this->getDoctrine ()->getManager ();
 		
