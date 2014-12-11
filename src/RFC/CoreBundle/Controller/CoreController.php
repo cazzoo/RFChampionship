@@ -28,69 +28,72 @@ class CoreController extends Controller
 
     public function indexAction()
     {
-        $entityManager = $this->getDoctrine ()->getManager ();
 
-        $games = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        if ($this->get ( 'session' )->get ( 'game' )) {
-            $this->get ( 'session' )->remove ( 'game' );
+        $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
+
+        if ($this->get('session')->get('game')) {
+            $this->get('session')->remove('game');
         }
 
-        if (count ( $games ) == 1) {
+        if (count($games) == 1) {
 
-            return $this->redirect ( $games [0]->getId () );
+            return $this->redirect($games [0]->getId());
         }
 
-        return $this->render ( 'RFCCoreBundle:Core:index.html.twig',
+        return $this->render('RFCCoreBundle:Core:index.html.twig',
                 array(
                 'games' => $games
-            ) );
+        ));
     }
 
     public function accessGameAction($gameId)
     {
 
-        $entityManager = $this->getDoctrine ()->getManager ();
-        $g             = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->find ( $gameId );
-        $games         = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+        // var_dump($this->get('session')->get('parameters'));
 
-        $this->get ( 'session' )->set ( 'game', $g );
+        $entityManager = $this->getDoctrine()->getManager();
+        $g             = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
+        $games         = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
 
-        $threadId = substr ( strrchr ( get_class ( $g ), "\\" ), 1 ).'_'.$g->getName ();
-        return $this->render ( 'RFCCoreBundle:Core:gameIndex.html.twig',
+        $this->get('session')->set('game', $g);
+
+        $threadId = substr(strrchr(get_class($g), "\\"), 1).'_'.$g->getName();
+        return $this->render('RFCCoreBundle:Core:gameIndex.html.twig',
                 array(
                 'game' => $g,
                 'games' => $games,
                 'threadId' => $threadId
-            ) );
+        ));
     }
 
     public function showGalleryAction($elementId, $elementType)
     {
-        $entityManager = $this->getDoctrine ()->getManager ();
+        $entityManager = $this->getDoctrine()->getManager();
         $entity        = null;
 
         switch ($elementType) {
             case 'game' :
-                $entity = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->find ( $elementId );
+                $entity = $entityManager->getRepository('RFCCoreBundle:Game')->find($elementId);
                 break;
             case 'vehicle' :
-                $entity = $entityManager->getRepository ( 'RFCCoreBundle:Vehicle' )->find ( $elementId );
+                $entity = $entityManager->getRepository('RFCCoreBundle:Vehicle')->find($elementId);
                 break;
             case 'track' :
-                $entity = $entityManager->getRepository ( 'RFCCoreBundle:Track' )->find ( $elementId );
+                $entity = $entityManager->getRepository('RFCCoreBundle:Track')->find($elementId);
                 break;
             case 'typeSession' :
-                $entity = $entityManager->getRepository ( 'RFCCoreBundle:TypeSession' )->find ( $elementId );
+                $entity = $entityManager->getRepository('RFCCoreBundle:TypeSession')->find($elementId);
                 break;
             case 'category' :
-                $entity = $entityManager->getRepository ( 'RFCCoreBundle:Category' )->find ( $elementId );
+                $entity = $entityManager->getRepository('RFCCoreBundle:Category')->find($elementId);
                 break;
         }
 
-        return $this->render ( 'RFCCoreBundle:Structure:gallery.html.twig',
+        return $this->render('RFCCoreBundle:Structure:gallery.html.twig',
                 array(
-                'listImages' => $entity->getListImages ()
-            ) );
+                'listImages' => $entity->getListImages()
+        ));
     }
 }

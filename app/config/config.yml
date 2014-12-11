@@ -33,6 +33,7 @@ twig:
             - ':Form:semanticUI_form.html.twig'
     globals:
         fos_csrf_provider: "@form.csrf_provider"
+        appSettings: "@rfc_fwk.appSettingsLoader"
 
 # Assetic Configuration
 assetic:
