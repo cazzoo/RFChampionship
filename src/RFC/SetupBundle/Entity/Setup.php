@@ -20,16 +20,15 @@
 namespace RFC\SetupBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RFC\CoreBundle\Entity\Descriptor;
-use RFC\SetupBundle\Entity\SetupStep;
+use RFC\CoreBundle\Entity\KnowledgeData;
 
 /**
  * Game
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="RFC\SetupBundle\Entity\SetupRepository")
+ * @ORM\Entity(repositoryClass="SetupRepository")
  */
-class Setup extends Descriptor
+class Setup extends KnowledgeData
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -39,7 +38,7 @@ class Setup extends Descriptor
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\SetupBundle\Entity\SetupStep", mappedBy="setup", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="SetupStep", mappedBy="setup", cascade={"persist", "remove"})
      */
     private $listSetupSteps;
 
@@ -57,6 +56,12 @@ class Setup extends Descriptor
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Vehicle")
      */
     private $vehicle;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $game;
 
     /**
      * Constructor

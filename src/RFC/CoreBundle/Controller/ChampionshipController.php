@@ -19,8 +19,10 @@
 
 namespace RFC\CoreBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
+use DateTime;
+use DateTimeZone;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Championship controller.
@@ -32,8 +34,8 @@ class ChampionshipController extends Controller
     {
         $entityManager = $this->getDoctrine ()->getManager ();
 
-        $date = new \DateTime ();
-        $date->setTimezone ( new \DateTimeZone ( 'Europe/Paris' ) );
+        $date = new DateTime ();
+        $date->setTimezone ( new DateTimeZone ( 'Europe/Paris' ) );
 
         $currentChampionships = $entityManager->getRepository ( 'RFCCoreBundle:Championship' )->createQueryBuilder ( 'c' )->join ( 'c.listEvents',
                 'e' )->join ( 'e.listSessions', 's' )->where ( 's.endDate > :sysdate' )->andWhere ( 'c.game = :gameId' )->setParameters ( array(

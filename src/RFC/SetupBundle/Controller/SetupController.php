@@ -21,12 +21,12 @@
 
 namespace RFC\SetupBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use RFC\SetupBundle\Entity\Setup;
 use RFC\SetupBundle\Entity\SetupStep;
-use RFC\SetupBundle\Form\SetupType;
 use RFC\SetupBundle\Form\SetupStepType;
+use RFC\SetupBundle\Form\SetupType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class SetupController extends Controller
 {
@@ -35,7 +35,9 @@ class SetupController extends Controller
     {
         $entityManager = $this->getDoctrine ()->getManager ();
 
-        $setups = $entityManager->getRepository ( 'RFCSetupBundle:Setup' )->findAll ();
+        $setups = $entityManager->getRepository ( 'RFCSetupBundle:Setup' )->findBy ( array(
+            'game' => $this->container->get ( 'session' )->get ( 'game' )->getId (),
+            'user' => $this->getUser ()) );
         $steps  = $entityManager->getRepository ( 'RFCSetupBundle:Step' )->findAll ();
 
         return $this->render ( 'RFCSetupBundle:Setup:index.html.twig',
@@ -77,7 +79,8 @@ class SetupController extends Controller
     public function createAction(Request $request, $gameId)
     {
         $entity = new Setup ();
-        $form   = $this->createCreateForm ( $entity, $gameId );
+
+        $form = $this->createCreateForm ( $entity, $gameId );
         $form->handleRequest ( $request );
 
         if ($form->isValid ()) {
@@ -117,6 +120,7 @@ class SetupController extends Controller
         $entity = new Setup ();
         $user   = $this->container->get ( 'security.context' )->getToken ()->getUser ();
         $entity->setUser ( $user );
+        $entity->setGame ( $this->container->get ( 'session' )->get ( 'game' ) );
         $form   = $this->createCreateForm ( $entity, $gameId );
 
         return $this->render ( 'RFCSetupBundle:Setup:new.html.twig',

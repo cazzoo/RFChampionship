@@ -18,10 +18,12 @@
  */
 namespace RFC\UserBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use FOS\UserBundle\Model\User as BaseUser;
-use Doctrine\ORM\Mapping as ORM;
+use RFC\CoreBundle\Entity\CrewRequest;
+use RFC\CoreBundle\Entity\Championship;
 
 /**
  * User
@@ -232,14 +234,14 @@ class User extends BaseUser
         return $this;
     }
 
-    public function addListCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
+    public function addListCrewRequest(CrewRequest $crewRequest)
     {
         $this->listCrewRequests[] = $crewRequest;
 
         return $this;
     }
 
-    public function removeListCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
+    public function removeListCrewRequest(CrewRequest $crewRequest)
     {
         $this->listCrewRequests->removeElement($crewRequest);
     }
@@ -247,10 +249,10 @@ class User extends BaseUser
     /**
      * Add listChampionships
      *
-     * @param \RFC\CoreBundle\Entity\Championship $listChampionships            
+     * @param Championship $listChampionships
      * @return User
      */
-    public function addListChampionship(\RFC\CoreBundle\Entity\Championship $listChampionships)
+    public function addListChampionship(Championship $listChampionships)
     {
         $this->listChampionships[] = $listChampionships;
 
@@ -260,9 +262,9 @@ class User extends BaseUser
     /**
      * Remove listChampionships
      *
-     * @param \RFC\CoreBundle\Entity\Championship $listChampionships            
+     * @param Championship $listChampionships
      */
-    public function removeListChampionship(\RFC\CoreBundle\Entity\Championship $listChampionships)
+    public function removeListChampionship(Championship $listChampionships)
     {
         $this->listChampionships->removeElement($listChampionships);
     }

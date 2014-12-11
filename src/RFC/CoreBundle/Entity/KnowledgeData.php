@@ -18,8 +18,8 @@
 namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RFC\CoreBundle\Entity\Game;
 use RFC\CoreBundle\Entity\Descriptor;
+use RFC\CoreBundle\Entity\Game;
 
 /**
  * KnowledgeData
@@ -39,7 +39,7 @@ abstract class KnowledgeData extends Descriptor
     /**
      * Set game
      *
-     * @param \RFC\CoreBundle\Entity\Game $game            
+     * @param Game $game
      * @return KnowledgeData
      */
     public function setGame(Game $game)
@@ -52,7 +52,7 @@ abstract class KnowledgeData extends Descriptor
     /**
      * Get game
      *
-     * @return \RFC\CoreBundle\Entity\Game
+     * @return Game
      */
     public function getGame()
     {
