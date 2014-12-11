@@ -36,26 +36,26 @@
                 rel="stylesheet" />
 
             <!-- Loading Custom CSS-->
-            <link href="{{ asset('appCss/jquery.camera.css') }}"
+            <link href="{{ asset('css/jquery.camera.css') }}"
                   rel="stylesheet" type="text/css" />
-            <link href="{{ asset('appCss/jquery.wysibb.wbbtheme.css') }}"
+            <link href="{{ asset('css/jquery.wysibb.wbbtheme.css') }}"
                   rel="stylesheet" type="text/css" />
-            <link href="{{ asset('appCss/jquery.datetimepicker.css') }}"
+            <link href="{{ asset('css/jquery.datetimepicker.css') }}"
                   rel="stylesheet" type="text/css" />
-            {#<link href="{{ asset('appCss/adminStyle.css') }}" rel="stylesheet"
+            {#<link href="{{ asset('css/adminStyle.css') }}" rel="stylesheet"
                   type="text/css" />#}
-            <link href="{{ asset('appCss/timeline.css') }}" rel="stylesheet"
+            <link href="{{ asset('css/timeline.css') }}" rel="stylesheet"
                   type="text/css" />
-            <link href="{{ asset('appCss/animate.css') }}" rel="stylesheet"
+            <link href="{{ asset('css/animate.css') }}" rel="stylesheet"
                   type="text/css" />
-            <link href="{{ asset('appCss/jquery.fancybox.css') }}" rel="stylesheet"
+            <link href="{{ asset('css/jquery.fancybox.css') }}" rel="stylesheet"
                   type="text/css" />
-            <link href="{{ asset('appCss/rfc.css') }}" rel="stylesheet"
+            <link href="{{ asset('css/rfc.css') }}" rel="stylesheet"
                   type="text/css" />
         {% endblock %}
 
         {% stylesheets '@FOSCommentBundle/Resources/assets/css/comments.css' %}
-        <link rel="stylesheet" href="{{ asset('appCss/comments.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('css/comments.css') }}" type="text/css" />
         {% endstylesheets %}
     </head>
 
@@ -106,7 +106,7 @@
             <script type="text/javascript"
             src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>
             {% endjavascripts %}
-            {% javascripts 'appJs/*' %}
+            {% javascripts 'js/*' %}
             <script type="text/javascript" src="{{ asset( asset_url ) }}"></script>
             {% endjavascripts %}
         {% endblock %}
