@@ -271,6 +271,7 @@ class ResultController extends Controller {
 			$value = $resultData [1];
 			$userId = $resultData [2];
 			$resultId = $resultData [3];
+			$comments = $resultData [4];
 			$user = $this->getUserById ( $userId, $users );
 			$rule = $this->getRuleById ( $ruleId, $rules );
 			
@@ -283,6 +284,7 @@ class ResultController extends Controller {
 			$result->setSession ( $session );
 			$result->setValue ( $value );
 			$result->setUser ( $user );
+                        $result->setComments( $comments );
 			$entityManager->persist ( $result );
 			array_push ( $results, $result );
 		}

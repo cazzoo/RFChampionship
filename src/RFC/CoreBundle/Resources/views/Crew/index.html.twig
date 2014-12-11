@@ -21,42 +21,33 @@
 {% block rfccore_body %}
 
     <h2>My Crew</h2>
-    
-{% if app.user %}
-    {% set showApplicationForm = false %}
-    {% set showRetirementForm = false %}
-    {% set showCrewInfo = false %}
-    {% set showCrewFeed = false %}
-    {% if crew is not empty %}
-    	{% if app.user.listCrewRequests is not empty %}
-        	{% set userState = app.user.getLastCrewRequest(crew.id).getState %}
-        {% else %}
-        	{% set userState = 0 %}
-        {% endif %}
-        {% set members = crew.getActiveMembers %}
-        {% set awaiters = crew.getAwaitingMembers %}
 
-        {% if crew.isActiveMember(app.user.id) %}
-        	{% set showRetirementForm = true %}
-        {% endif %}
-        {% if crew.isManager(app.user.id) or crew.isActiveMember(app.user.id) %}
-            {% set showCrewInfo = true %}
-            {% set showCrewFeed = true %}
-        {% else %}
-            {% if userState == 1 %}
-                {% set showRetirementForm = true %}
-            {% else %}
-                {% set showApplicationForm = true %}
+    {% if app.user %}
+
+        {% set showCrewInfo = false %}
+        {% set showCrewFeed = false %}
+
+        {% set userState = 0 %}
+
+        {% if crew is not empty %}
+            {% if app.user.listCrewRequests is not empty %}
+                {% set userState = app.user.getLastCrewRequest(crew.id).getState %}
+            {% endif %}
+            {% set members = crew.getActiveMembers %}
+            {% set awaiters = crew.getAwaitingMembers %}
+
+            {% if crew.isManager(app.user.id) or crew.isActiveMember(app.user.id) %}
+                {% set showCrewInfo = true %}
+                {% set showCrewFeed = true %}
             {% endif %}
         {% endif %}
+
+        {% include 'RFCCoreBundle:Crew:crewInfo.html.twig' %}
+        {% include 'RFCCoreBundle:Crew:applicationForm.html.twig' %}
+        {% include 'RFCCoreBundle:Crew:crewFeed.html.twig' %}
+
     {% else %}
-        {% set showApplicationForm = true %}
+        You need to log-in / register to belong a crew.
     {% endif %}
-    {% include 'RFCCoreBundle:Crew:crewInfo.html.twig' %}
-    {% include 'RFCCoreBundle:Crew:applicationForm.html.twig' %}
-    {% include 'RFCCoreBundle:Crew:crewFeed.html.twig' %}
-{% else %}
-    You need to log-in / register to belong a crew.
-{% endif %}
 
 {% endblock %}

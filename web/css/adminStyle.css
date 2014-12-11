@@ -124,7 +124,7 @@
     font-size: 0.5em;
 }
 
-.eventItem.active, .eventItem.active:hover, .eventItem.active:focus {
+/*.eventItem.active, .eventItem.active:hover, .eventItem.active:focus {
     color: #fff;
     background-color: #393838;
     border-color: #464340;
@@ -132,7 +132,7 @@
 
 .eventItem.active h5 {
     color: #fff;
-}
+}*/
 
 ul.list-inline > li { display: inline; }
 

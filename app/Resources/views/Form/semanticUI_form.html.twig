@@ -1,0 +1,99 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block field_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            {% for error in errors %}
+                <p class="ui error message">{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock field_errors %}
+
+{% block text_row %}
+    {% spaceless %}
+        <div class="field{% if required %} required{% endif %}{% if form_errors(form) %} error{% endif %}">
+            {{ form_errors(form) }}
+            {{ form_label(form) }}
+            {{ form_widget(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock text_row %}
+
+{% block integer_row %}
+    {% spaceless %}
+        <div class="field{% if required %} required{% endif %}{% if form_errors(form) %} error{% endif %}">
+            {{ form_errors(form) }}
+            {{ form_label(form) }}
+            {{ form_widget(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock integer_row %}
+
+{% block textarea_row %}
+    {% spaceless %}
+        <div class="field{% if required %} required{% endif %}{% if form_errors(form) %} error{% endif %}">
+            {{ form_errors(form) }}
+            {{ form_label(form) }}
+            {{ form_widget(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock textarea_row %}
+
+{% block datetime_row %}
+    {% spaceless %}
+        <div class="field{% if required %} required{% endif %}{% if form_errors(form) %} error{% endif %}">
+            {{ form_errors(form) }}
+            {{ form_label(form) }}
+            {{ form_widget(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock datetime_row %}
+
+{% block checkbox_row %}
+    {% spaceless %}
+        <div class="inline field{% if required %} required{% endif %}{% if form_errors(form) %} error{% endif %}">
+            {{ form_errors(form) }}
+            {{ form_label(form) }}
+            {{ form_widget(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock checkbox_row %}
+
+{% block button_widget -%}
+    {% if label is empty -%}
+        {% set label = name|humanize %}
+    {%- endif -%}
+    <button class="ui button" type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
+{%- endblock button_widget %}
+
+    {# Misc #}
+
+    {% block form -%}
+        <div class="ui segment">
+            {{ form_start(form) }}
+            <div class="fields">
+                {{- form_widget(form) -}}
+            </div>
+            {{ form_end(form) }}
+        </div>
+        {%- endblock form %}
+
+        {% block form_start -%}
+            {% set method = method|upper %}
+            {%- if method in ["GET", "POST"] -%}
+            {% set form_method = method %}
+            {%- else -%}
+            {% set form_method = "POST" %}
+            {%- endif -%}
+            <form class="ui form" name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"
+                  {% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"
+                  {% endfor %}
+                  {% if multipart %}
+                      enctype="multipart/form-data"
+                  {% endif %}
+                  >
+                {%- if form_method != method -%}
+                <input type="hidden" name="_method" value="{{ method }}" />
+                {%- endif -%}
+                {%- endblock form_start %}

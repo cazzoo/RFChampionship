@@ -56,10 +56,10 @@
 
       //Variables declaration
       this.nbCrumbDisplayed = 0;
-      this.$crumbsList = $('ul', this.element);
-      this.$crumbs = $('li', this.$crumbsList);
+      this.$crumbsList = $(this.element);
+      this.$crumbs = $('a', this.$crumbsList);
       this.$lastCrumb = this.$crumbs.last();
-      this.reversedCrumbs = $('li', this.$crumbsList).get().reverse();
+      this.reversedCrumbs = $('a', this.$crumbsList).get().reverse();
       this.lastNbCrumbDisplayed = 0;
       this.totalCrumbsWidth = 0;
       this.fixedCrumbsWidth = 0;
@@ -67,10 +67,10 @@
 
       if (this.options.nbFixedCrumbs > 0) {
         var nbCrumbs = this.$crumbs.length;
-        this.$crumbs = $('li', this.$crumbsList).slice(this.options.nbFixedCrumbs, nbCrumbs);
-        this.reversedCrumbs = $('li', this.$crumbsList).slice(this.options.nbFixedCrumbs, nbCrumbs).get().reverse();
+        this.$crumbs = $('a', this.$crumbsList).slice(this.options.nbFixedCrumbs, nbCrumbs);
+        this.reversedCrumbs = $('a', this.$crumbsList).slice(this.options.nbFixedCrumbs, nbCrumbs).get().reverse();
         var that = this;
-        $('li', this.$crumbsList).slice(0, this.options.nbFixedCrumbs).each(function (index, crumb) {
+        $('a', this.$crumbsList).slice(0, this.options.nbFixedCrumbs).each(function (index, crumb) {
           that.totalCrumbsWidth += $(crumb).data('width');
           $(crumb).addClass('show');
         });
@@ -149,7 +149,7 @@
 
       if (this.options.nbFixedCrumbs > 0) {
         this.remainingSpaceToDisplayCrumbs -= this.fixedCrumbsWidth;
-        $('li', this.$crumbsList).slice(0, this.options.nbFixedCrumbs).each(function (index, crumb) {
+        $('a', this.$crumbsList).slice(0, this.options.nbFixedCrumbs).each(function (index, crumb) {
           that.totalCrumbsWidth += $(crumb).data('width');
         });
       }

@@ -1,52 +1,38 @@
-Symfony Standard Edition
+//RF//Championship
 ========================
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony2
-application that you can use as the skeleton for your new applications.
+Welcome to the //RF//Championship system - a functional web
+application that you can use to manage team and events.
 
 This document contains information on how to download, install, and start
-using Symfony. For a more detailed explanation, see the [Installation][1]
-chapter of the Symfony Documentation.
+using //RF//Championship.
 
-1) Installing the Standard Edition
+1) Installing the Requirements
 ----------------------------------
 
-When it comes to installing the Symfony Standard Edition, you have the
-following options.
+When it comes to installing //RF//Championship, you have to use composer.
 
-### Use Composer (*recommended*)
+### Use Composer
 
-As Symfony uses [Composer][2] to manage its dependencies, the recommended way
-to create a new project is to use it.
+As //RF//Championship uses Symfony 2 and [Composer] to manage its dependencies, you have to use it.
 
 If you don't have Composer yet, download it following the instructions on
-http://getcomposer.org/ or just run the following command:
+http://getcomposer.org/ or just run the following command in the root folder:
 
     curl -s http://getcomposer.org/installer | php
 
 Then, use the `create-project` command to generate a new Symfony application:
 
-    php composer.phar create-project symfony/framework-standard-edition path/to/install
+    php composer.phar update
 
-Composer will install Symfony and all its dependencies under the
+Composer will install //RF//Championship and Symfony and all its dependencies under the
 `path/to/install` directory.
-
-### Download an Archive File
-
-To quickly test Symfony, you can also download an [archive][3] of the Standard
-Edition and unpack it somewhere under your web server root directory.
-
-If you downloaded an archive "without vendors", you also need to install all
-the necessary dependencies. Download composer (see above) and run the
-following command:
-
-    php composer.phar install
 
 2) Checking your System Configuration
 -------------------------------------
 
-Before starting coding, make sure that your local system is properly
-configured for Symfony.
+Before starting using it, you have to run the main database setup and you have to make sure 
+that your local system is properly configured for //RF//Championship.
 
 Execute the `check.php` script from the command line:
 
@@ -57,14 +43,21 @@ The script returns a status code of `0` if all mandatory requirements are met,
 
 Access the `config.php` script from a browser:
 
-    http://localhost/path/to/symfony/app/web/config.php
+    http://localhost/path/to/RFChampionship/app/web/config.php
 
 If you get any warnings or recommendations, fix them before moving on.
 
-3) Browsing the Demo Application
+3) Install the database
 --------------------------------
 
-Congratulations! You're now ready to use Symfony.
+Execute the database create process from the command line:
+
+	php app/console doctrine:schema:create
+
+4) Browsing the Application
+--------------------------------
+
+Congratulations! You're now ready to use //RF//Championship.
 
 From the `config.php` page, click the "Bypass configuration and go to the
 Welcome page" link to load up your first Symfony page.

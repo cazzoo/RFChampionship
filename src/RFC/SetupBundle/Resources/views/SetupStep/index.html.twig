@@ -16,23 +16,67 @@
 
 {# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
 
-<div class="setupStepContainer" data-stepid="{{arraySetupStep[0].step.id}}" data-stepnumber="{{ arraySetupStep[0].step.stepOrder }}">
-    <h3>Step n° {{ arraySetupStep[0].step.stepOrder }}</h3>
-    
-    {{arraySetupStep[0].step.name}}<br />
-    {{arraySetupStep[0].step.description}}<br />
-    {{arraySetupStep[0].step.category}}<br />
-    {{arraySetupStep[0].step.indicatorType}}<br />
-    {{arraySetupStep[0].step.tip}}<br />
-    {{arraySetupStep[0].step.complexity}}<br />
-
-    <div class="setupStepContent">
-    <select class="selectVersion">
-        {% for stepValues in arraySetupStep|reverse %}
-            <option value="{{ stepValues.id }}" data-gameid="{{ gameId }}" data-setupid="{{ setup.id }}" >Version {{ stepValues.version }}</option>
+<div class="ui stackable grid">
+    <div class="three wide column">
+        <div class="ui grid basic segment">
+            <div class="ui one vertical ordered steps">
+                {% for setupStep in arraySetupStep %}
+                    <div class="setupStepSelector" data-stepid="{{setupStep[0].step.id}}" data-stepnumber="{{ setupStep[0].step.stepOrder }}">
+                        {% set completed = setupStep[0].setup.getLastSetupStepVersion(setupStep[0].step.stepOrder).value != "" %}
+                        <a class="{{ completed ? 'completed ' }}step">
+                            <div class="content">
+                                <div class="title stepItem">{{setupStep[0].step.name}}</div>
+                                <div class="description">v. {{ setupStep[0].setup.getLastSetupStepVersion(setupStep[0].step.stepOrder).version }}</div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="thirteen wide column">
+        {% for setupSteps in arraySetupStep %}
+            <div class="setupStepContent" data-stepid="{{setupSteps[0].step.id}}" data-stepnumber="{{ setupSteps[0].step.stepOrder }}">
+                <div class="equal height divided row">
+                    <div class="ui stackable grid segment">
+                        <div class="equal height divided row">
+                            <div class="four wide column">
+                                <div class="ui basic segment">
+                                    <div class="ui card">
+                                        <div class="image">
+                                            <img src="/images/avatar/large/helen.jpg">
+                                        </div>
+                                        <div class="content">
+                                            <div class="header">{{setupSteps[0].step.name}}</div>
+                                            <div class="meta">
+                                                <span class="right floated time">{{setupSteps[0].step.indicatorType}}</span>
+                                                <select class="selectVersion">
+                                                    {% for setupStep in setupSteps|reverse %}
+                                                        <option value="{{ setupStep.id }}" data-gameid="{{ gameId }}" data-setupid="{{ setupStep.setup.id }}" >Version {{ setupStep.version }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="description">
+                                                {{setupSteps[0].step.description}}<br />
+                                                {{setupSteps[0].step.tip}}
+                                            </div>
+                                            <div class="extra content">
+                                                <span class="right floated time">{{setupSteps[0].step.complexity}}</span>
+                                                {{setupSteps[0].step.category}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="twelve wide column middle aligned">
+                                <div class="ui basic form segment">
+                                    <div class="setupStepValues"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-    </select>
-
-    <div class="setupStepValues"></div>
     </div>
 </div>

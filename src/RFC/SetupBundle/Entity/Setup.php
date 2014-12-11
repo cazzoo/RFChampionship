@@ -20,18 +20,16 @@
 namespace RFC\SetupBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RFC\CoreBundle\Entity\Descriptor;
-use RFC\SetupBundle\Entity\SetupStep;
+use RFC\CoreBundle\Entity\KnowledgeData;
 
 /**
  * Game
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="RFC\SetupBundle\Entity\SetupRepository")
+ * @ORM\Entity(repositoryClass="SetupRepository")
  */
-class Setup extends Descriptor
+class Setup extends KnowledgeData
 {
-    
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -40,7 +38,7 @@ class Setup extends Descriptor
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\SetupBundle\Entity\SetupStep", mappedBy="setup", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="SetupStep", mappedBy="setup", cascade={"persist", "remove"})
      */
     private $listSetupSteps;
 
@@ -58,6 +56,12 @@ class Setup extends Descriptor
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Vehicle")
      */
     private $vehicle;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $game;
 
     /**
      * Constructor
@@ -102,7 +106,7 @@ class Setup extends Descriptor
      */
     public function addListSetupSteps(SetupStep $setupStep)
     {
-        $this->listSetupSteps->add ( $setupStep );
+        $this->listSetupSteps->add($setupStep);
 
         return $this;
     }
@@ -114,7 +118,7 @@ class Setup extends Descriptor
      */
     public function removeListSetupSteps(SetupStep $setupStep)
     {
-        $this->listSetupSteps->removeElement ( $setupStep );
+        $this->listSetupSteps->removeElement($setupStep);
     }
 
     public function getUser()
@@ -157,15 +161,15 @@ class Setup extends Descriptor
     {
         $ordoredSteps = array();
         foreach ($this->listSetupSteps as $setupStep) {
-            $order = $setupStep->getStep ()->getStepOrder ();
+            $order = $setupStep->getStep()->getStepOrder();
             // Test if step does not exists or not new
-            if (empty ( $ordoredSteps )) {
+            if (empty($ordoredSteps)) {
                 $ordoredSteps [$order] = array(
                     $setupStep
                 );
             } else {
-                if (array_key_exists ( $order, $ordoredSteps )) {
-                    array_push ( $ordoredSteps [$order], $setupStep );
+                if (array_key_exists($order, $ordoredSteps)) {
+                    array_push($ordoredSteps [$order], $setupStep);
                 } else {
                     $ordoredSteps [$order] = array(
                         $setupStep
@@ -173,7 +177,7 @@ class Setup extends Descriptor
                 }
             }
         }
-        ksort ( $ordoredSteps );
+        ksort($ordoredSteps);
         return $ordoredSteps;
     }
 
@@ -185,7 +189,8 @@ class Setup extends Descriptor
         $lastVersionCompleted = null;
         foreach ($this->listSetupSteps as $setupStep) {
             $versionExists = null !== $lastVersionCompleted;
-            if (!$versionExists || ($versionExists && $this->getLastSetupStepVersion ( $setupStep->getStep ()->getStepOrder () )->getValue ()
+            if ((!$versionExists && $setupStep->getValue() != "") || ($versionExists
+                && $this->getLastSetupStepVersion($setupStep->getStep()->getStepOrder())->getValue()
                 != "")) {
                 $lastVersionCompleted = $setupStep;
             }
@@ -199,13 +204,13 @@ class Setup extends Descriptor
      * @param type $stepNumber
      *        	the step number
      */
-    private function getLastSetupStepVersion($stepNumber)
+    public function getLastSetupStepVersion($stepNumber)
     {
         $lastVersion = null;
         foreach ($this->listSetupSteps as $setupStep) {
-            $sameStep       = $setupStep->getStep ()->getStepOrder () == $stepNumber;
+            $sameStep       = $setupStep->getStep()->getStepOrder() == $stepNumber;
             $versionExists  = null !== $lastVersion;
-            $versionGreater = $versionExists ? $lastVersion->getVersion () < $setupStep->getVersion ()
+            $versionGreater = $versionExists ? $lastVersion->getVersion() < $setupStep->getVersion()
                     : false;
             if ($sameStep && (!$versionExists || ($versionExists && $versionGreater))) {
                 $lastVersion = $setupStep;

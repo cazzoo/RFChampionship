@@ -18,11 +18,11 @@
  */
 namespace RFC\SetupBundle\Form;
 
+use RFC\CoreBundle\Entity\TrackRepository;
+use RFC\CoreBundle\Entity\VehicleRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use RFC\CoreBundle\Entity\TrackRepository;
-use RFC\CoreBundle\Entity\VehicleRepository;
 
 class SetupType extends AbstractType {
 	public function __construct($gameId) {
@@ -55,6 +55,8 @@ class SetupType extends AbstractType {
 				'required' => false 
 		) )->add ( 'user', 'entity', array (
 				'class' => 'RFC\UserBundle\Entity\User' 
+		) )->add ( 'game', 'entity', array (
+				'class' => 'RFC\CoreBundle\Entity\Game'
 		) );
 	}
 	

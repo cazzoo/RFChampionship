@@ -14,15 +14,18 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
+{# src/RFC/SetupBundle/Resources/views/SetupStep/show.html.twig #}
 
-<hr />
+<h5 class="ui top attached header">
+    Version {{ setupStep.version }}
+</h5>
+<div class="ui attached segment">
     Date : {{ setupStep.createdAt|date("Y/m/d H:i") }}<br />
-    Version : {{ setupStep.version }}<br />
-    Value : {{ setupStep.value }}<br /> 
-    SubStep <br />
-    Name : {{ setupStep.subStep.name }}<br />
-	Description : {{ setupStep.subStep.description }}<br />
-    Condition : {{ setupStep.subStep.stepCondition }}<br />
-    Action : {{ setupStep.subStep.action }}<br />
-    toDoText : {{ setupStep.subStep.toDoText }}<br /> 
+    Value : {{ setupStep.value }}
+</div>
+<h5 class="ui top attached header">
+    SubStep
+</h5>
+<div class="ui attached segment">
+    {% include 'RFCSetupBundle:SubStep:show.html.twig' with {'subStep': setupStep.subStep} %}
+</div>

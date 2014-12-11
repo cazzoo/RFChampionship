@@ -14,28 +14,147 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/CoreBundle/Resources/views/Core/index.html.twig #} {% extends
-"RFCCoreBundle::layout.html.twig" %} {% block title %} Accueil - {{
-parent() }} {% endblock %} {% block rfccore_body %}
+{# src/RFC/CoreBundle/Resources/views/Core/index.html.twig #}
 
-<h2>Liste des jeux</h2>
+{% extends "RFCCoreBundle::layout.html.twig" %}
+{% block title %}
+    Accueil - 
+    {{ parent() }}
+{% endblock %}
+{% block rfccore_body %}
 
-<ul class="list-inline">
-	{% for game in games %}
-	<li class="float-left">
-        <div class="center">
-            <a href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}">
-				{% if game.listImages is not empty %}
-				<img alt="{{ game.shortName }}" src="{{ game.listImages[0].url }}" class="img-rounded" width="200px" />
-                <br />
-                {% endif %}
-                <span class="label label-default">{{ game.name }}</span>
-            </a>
+    <h2>Liste des jeux</h2>
+
+    {% if games %}
+
+        <div class="ui five doubling cards">
+            {% for game in games %}
+                <div class="ui link card gameCard" data-gameid="{{ game.id }}">
+                    {#<a class="ui card" href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}"> #}
+                    <div class="image">
+                        {% if game.listImages is not empty %}
+                            <img alt="{{ game.shortName }}" src="{{ game.listImages[0].url }}" class="img-rounded" width="200px" />
+                        {% endif %}
+                    </div>
+                    <div class="content">
+                        <div class="header">{{ game.name }}</div>
+                        <div class="meta">
+                            {{ game.shortName }}
+                            <div class="ui label right floated popupLabel">
+                                <i class="info icon"></i>
+                                Info
+                            </div>
+                            <div class="ui flowing popup">
+                                <div class="ui horizontal divider">Game data</div>
+                                <div class="ui mini horizontal statistics">
+                                    <div class="statistic">
+                                        <div class="value">
+                                            {{ game.listChampionships|length }}
+                                        </div>
+                                        <div class="label">
+                                            Championships
+                                        </div>
+                                    </div>
+                                    <div class="statistic">
+                                        <div class="value">
+                                            {{ game.listVehicles|length }}
+                                        </div>
+                                        <div class="label">
+                                            Vehicles
+                                        </div>
+                                    </div>
+                                    <div class="statistic">
+                                        <div class="value">
+                                            {{ game.listTracks|length }}
+                                        </div>
+                                        <div class="label">
+                                            Tracks
+                                        </div>
+                                    </div>
+                                    <div class="statistic">
+                                        <div class="value">
+                                            {{ game.listCategories|length }}
+                                        </div>
+                                        <div class="label">
+                                            Categories
+                                        </div>
+                                    </div>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <div class="statistic">
+                                            <div class="value">
+                                                {{ game.listMetaRules|length }}
+                                            </div>
+                                            <div class="label">
+                                                Meta rules
+                                            </div>
+                                        </div>
+                                        <div class="statistic">
+                                            <div class="value">
+                                                {{ game.listRules|length }}
+                                            </div>
+                                            <div class="label">
+                                                Rules
+                                            </div>
+                                        </div>
+                                        <div class="statistic">
+                                            <div class="value">
+                                                {{ game.listTypeSessions|length }}
+                                            </div>
+                                            <div class="label">
+                                                Session types
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="description">
+                            {{ game.description }}
+                            <div class="ui horizontal divider">Soon in {{ game.name }}</div>
+                            <p>THIS IS COMING SOON!</p>
+                        </div>
+                    </div>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="extra content">
+                            <div class="ui right floated mini primary buttons">
+                                <a class="ui icon button" href="{{ path('admin_game_edit', { 'gameId': game.id }) }}">
+                                    <i class="wrench icon" tabindex="0"></i>Edit
+                                </a>
+                                <div class="ui icon bottom left pointing dropdown button">
+                                    <i class="dropdown icon"></i>
+                                    <div class="menu">
+                                        <div class="item">
+                                            <a href="{{ path('admin_championship', {'gameId' : game.id}) }}">Gérer les Championnats</a>
+                                        </div>
+                                        <div class="item">
+                                            <a href="{{ path('admin_track', {'gameId' : game.id}) }}"><i class="edit icon"></i>Gérer les Circuits</a>
+                                        </div>
+                                        <div class="item">
+                                            <a href="{{ path('admin_vehicle', {'gameId' : game.id}) }}"><i class="edit icon"></i>Gérer les Voitures</a>
+                                        </div>
+                                        <div class="item">
+                                            <a href="{{ path('admin_category', {'gameId' : game.id}) }}"><i class="edit icon"></i>Gérer les Categories</a>
+                                        </div>
+                                        <div class="item">
+                                            <a href="{{ path('admin_metaRule', { 'gameId': game.id }) }}"><i class="edit icon"></i>Gérer les Règles</a>
+                                        </div>
+                                        <div class="item">
+                                            <a href="{{ path('admin_typeSession', { 'gameId': game.id }) }}"><i class="edit icon"></i>Gérer les Types de session</a>
+                                        </div>
+                                        <div class="item">
+                                            <a href="{{ path('setup_step_index', { 'gameId': game.id }) }}"><i class="edit icon"></i>Gérer les Steps</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
         </div>
-    </li>
+
     {% else %}
-	   <li>Pas (encore !) de jeux</li> 
-    {% endfor %}
-</ul>
+        Pas (encore !) de jeux
+    {% endif %}
 
 {% endblock %}

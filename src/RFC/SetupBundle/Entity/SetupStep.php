@@ -52,6 +52,7 @@ class SetupStep
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\Step")
+     * @ORM\joinColumn(onDelete="CASCADE")
      */
     private $step;
 
@@ -62,6 +63,7 @@ class SetupStep
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\SubStep")
+     * @ORM\joinColumn(onDelete="CASCADE")
      */
     private $subStep;
 

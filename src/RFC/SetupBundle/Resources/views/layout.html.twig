@@ -18,49 +18,47 @@
 
 {% block header %}
 
-    <div>
-        <h1>RF Championship</h1>
-        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
-            | <a href="{{ path('fos_user_security_logout') }}">
-                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-            </a>
-        {% else %}
-            <a href="{{ path('fos_user_security_login') }}">
-                {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
-            </a>
-            <a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
-        {% endif %}
-    </div>
-    {% if is_granted('ROLE_ADMIN') %}
-        <div>
-            {% include 'RFCCoreBundle::Structure/header.html.twig' %}
+    <div class="ui middle aligned grid">
+        <div class="equal height row">
+            <div class="four wide column">
+                <div id="showSidebar">
+                    <div class="ui black big launch right attached fixed button">
+                        <div class="visible content">
+                            <i class="left arrow icon"></i>
+                            <span class="text">Menu</span>
+                        </div>
+                        <div class="hidden content">
+                            <i class="content icon"></i>
+                            <span class="text">Menu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="height wide column">
+                <h1>RF Championship</h1>
+            </div>
+            <div class="four wide column">
+                {% include 'RFCCoreBundle::Structure/notificationCenter.html.twig' %}
+                {% include 'RFCCoreBundle::Structure/header.html.twig' %}
+            </div>
         </div>
-    {% endif %}
+    </div>
 
 {% endblock %}
-{% block nav %}
 
-    {% include 'RFCCoreBundle::Structure/menu.html.twig' %}
-
-{% endblock %}
 {% block breadcrumbs %}
 
     {% include 'RFCCoreBundle::Structure/breadcrumbs.html.twig' %}
 
 {% endblock %}
-{% block main %}
-    
-    {% include 'RFCCoreBundle::Structure/notificationCenter.html.twig' %}
+{% block page_content %}
 
-    {% block rfccore_body %}{% endblock %}
+{% block rfccore_body %}{% endblock %}
+
+{% include 'RFCCoreBundle::Structure/comments.html.twig' %}
 
 {% endblock %}
-{% block comments %}
 
-    {% include 'RFCCoreBundle::Structure/comments.html.twig' %}
-    
-{% endblock %}
 {% block footer %}
 
     {% include 'RFCCoreBundle::Structure/footer.html.twig' %}

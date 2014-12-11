@@ -14,47 +14,93 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/CoreBundle/Resources/views/Members/index.html.twig #}
+{# src/RFC/CoreBundle/Resources/views/Members/show.html.twig #}
 
 {% extends "RFCCoreBundle::layout.html.twig" %}
 
 {% block rfccore_body %}
 
-{% if user %}
-    <h2>You'r looking at {{ user.username }}'s profile</h2>
-    
-    <dl>
-        <dt>UserName</dt>
-        <dd>{{ user.username }}</dd>
-        <dt>First Name</dt>
-        <dd>{{ user.firstName }}</dd>
-        <dt>Last Name</dt>
-        <dd>{{ user.lastName }}</dd>
-        <dt>Age</dt>
-        <dd>{{ user.age }}</dd>
-        <dt>Steam Id</dt>
-        <dd>{{ user.steamId }}</dd>
-        <dt>Mentor</dt>
-        <dd>
-            {% for crew in user.getCrews %}
-                {{ crew.game.name }} - {{ crew.manager.username }}{% if crew.id != user.getCrews[user.getCrews|length-1].id %}<br/>{% endif %}
-            {% endfor %}
-        </dd>
-        <dt>Email</dt>
-        <dd>{{ user.email }}</dd>
-        <dt>Last login</dt>
-        <dd>{{ user.lastLogin|date('H:i:s - d-m-Y') }}</dd> {# TODO : |localizeddate('long', 'short') #}
-        <dt>Roles</dt>
-        <dd>
-            <ul class="list-inline">
-                {% for role in user.roles %}
-                    <li>{{ role }}</li>
-                {% endfor %}
-            </ul>
-        </dd>
-    </dl>
-{% else %}
-    No user for this ID ({{ app.request.get('userId') }}).
-{% endif %}
+    {% if user %}
+
+        <div class="ui items">
+            <div class="item">
+                <div class="image">
+                    <img src="/images/wireframe/image.png">
+                </div>
+                <div class="content">
+                    <div class="header">{{ user.username }}</div>
+                    <div class="meta">
+                        <div class="ui horizontal icon label">
+                            <i class="fork icon"></i>
+                            Roles
+                            {% for role in user.roles %}
+                                <div class="detail">{{ role }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="description">
+
+                        <div class="ui form">
+                            <div class="three fields">
+                                <div class="field">
+                                    <label>UserName</label>
+                                    <input placeholder="{{ user.username }}" readonly="readonly" type="text">
+                                </div>
+                                <div class="field">
+                                    <label>First Name</label>
+                                    <input placeholder="{{ user.firstName }}" readonly="readonly" type="text">
+                                </div>
+                                <div class="field">
+                                    <label>Last Name</label>
+                                    <input placeholder="{{ user.lastName }}" readonly="readonly" type="text">
+                                </div>
+                                <div class="field">
+                                    <label>Age</label>
+                                    <input placeholder="{{ user.age }}" readonly="readonly" type="text">
+                                </div>
+                                <div class="field">
+                                    <label>Email</label>
+                                    <input placeholder="{{ user.steamId }}" readonly="readonly" type="text">
+                                </div>
+                                <div class="field">
+                                    <label>Last login</label>
+                                    <input placeholder="{{ user.lastLogin|date('H:i:s - d-m-Y') }}" readonly="readonly" type="text">
+                                    {# TODO : |localizeddate('long', 'short') #}
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Mentor(s)</label>
+                                <div class="ui mini horizontal divided list">
+                                    {% for crew in user.getCrews %}
+                                        <div class="item">
+                                            <div class="content">
+                                                <div class="header">
+                                                    <div class="ui icon label">
+                                                        <a href="#">
+                                                            <i class="user icon"></i>{{ crew.manager.username }}
+                                                        </a>
+                                                        <div class="detail">
+                                                            <i class="game icon"></i>{{ crew.game.name }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="extra">
+                        <a class="ui right floated blue labeled icon button" href="#"><i class="edit icon"></i>Edit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        No user for this ID ({{ app.request.get('userId') }}).
+    {% endif %}
 
 {% endblock %}

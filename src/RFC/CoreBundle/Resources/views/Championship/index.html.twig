@@ -20,20 +20,16 @@
 
 {% block rfccore_body %}
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Championnats en cours / à venir</div>
-        <div class="panel-body">
-            {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with
-                {'championships' : currentChampionships, 'game' : game} %} 
+    <div class="ui three column stackable grid">
+        <div class="four wide column">
+            <h1>Championnats passés</h1>
+            {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with {'championships' : pastChampionships, 'game' : game} %} 
+        </div>
+        <div class="twelve wide column">
+            <h1>Championnats en cours / à venir</h1>
+            {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with {'championships' : currentChampionships, 'game' : game} %} 
         </div>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Championnats passés</div>
-        <div class="panel-body">
-            {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with
-                {'championships' : pastChampionships, 'game' : game} %} 
-        </div>
-    </div>
 
 {% endblock %}

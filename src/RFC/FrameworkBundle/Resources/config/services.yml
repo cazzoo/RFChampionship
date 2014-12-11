@@ -1,0 +1,24 @@
+parameters:
+#    rfc_setup.example.class: RFC\SetupBundle\Example
+
+services:
+    propertyRepository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments: ['RFCCoreBundle:Property']
+    gameRepository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments: ['RFCCoreBundle:Game']
+    
+    rfc_fwk.appSettingsLoader:
+        class: RFC\FrameworkBundle\Services\LoadAppSettings
+        arguments: ["@request_stack", "@propertyRepository", "@gameRepository"]
+    
+    rfc_fwk.listener.before_controller:
+        class: RFC\FrameworkBundle\Listeners\BeforeControllerListener
+        arguments: ["@rfc_fwk.appSettingsLoader"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }

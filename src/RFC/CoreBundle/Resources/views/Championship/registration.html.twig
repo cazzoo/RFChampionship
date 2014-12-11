@@ -18,22 +18,35 @@
     {% if status == '' %}
         {% if app.user.username in entity.listUsers %}
             <span class="info">Vous êtes déjà inscrit à ce championnat</span><br />
-            <a id="action_unregister;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" role="button" class="actionRegisterUnregister btn btn-inverse">Se désinscrire</a>
+            <a id="action_unregister;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" class="ui icon labeled button actionRegisterUnregister">
+                <i class="sign out icon"></i>
+                Se désinscrire
+            </a>
         {% else %}
             <span class="info">Vous n'êtes pas inscrit à ce championnat</span><br />
-            <a id="action_register;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" role="button" class="actionRegisterUnregister btn btn-inverse">S'inscrire</a>
+            <a id="action_register;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" class="ui icon labeled button actionRegisterUnregister">
+                <i class="sign in icon"></i>
+                S'inscrire
+            </a>
         {% endif %}
     {% else %}
         {% if status == 'register' %}
             <span class="info">Vous êtes déjà inscrit à ce championnat</span><br />
-            <a id="action_unregister;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" role="button" class="actionRegisterUnregister btn btn-inverse">Se désinscrire</a>
+            <a id="action_unregister;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" class="ui icon labeled button actionRegisterUnregister">
+                <i class="sign out icon"></i>
+                Se désinscrire
+            </a>
         {% elseif status == 'unregister' %}
             <span class="info">Vous n'êtes pas inscrit à ce championnat</span><br />
-            <a id="action_register;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" role="button" class="actionRegisterUnregister btn btn-inverse">S'inscrire</a>
+            <a id="action_register;game_{{ gameId }};championship_{{ entity.id }};user_{{ app.user.id }}" class="ui icon labeled button actionRegisterUnregister">
+                <i class="sign in icon"></i>
+                S'inscrire
+            </a>
         {% endif %}
     {% endif %}
     <br />
 {% endif %}
 {% for participant in entity.listUsers %}
+    
     {{ participant.username }} <br />
 {% endfor %}
