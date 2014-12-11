@@ -33,10 +33,6 @@ class CoreController extends Controller
 
         $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
 
-        if ($this->get('session')->get('game')) {
-            $this->get('session')->remove('game');
-        }
-
         if (count($games) == 1) {
 
             return $this->redirect($games [0]->getId());
@@ -56,8 +52,6 @@ class CoreController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         $g             = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         $games         = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
-
-        $this->get('session')->set('game', $g);
 
         $threadId = substr(strrchr(get_class($g), "\\"), 1).'_'.$g->getName();
         return $this->render('RFCCoreBundle:Core:gameIndex.html.twig',

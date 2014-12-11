@@ -1,4 +1,4 @@
-@import 'http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic';
+@import 'http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin';
 
 /*
  * # Semantic UI
@@ -635,35 +635,35 @@
 *******************************/
 
 .ui.mini.breadcrumb {
-  font-size: 0.71428571rem;
+  font-size: 0.65em;
 }
 
 .ui.tiny.breadcrumb {
-  font-size: 0.85714286rem;
+  font-size: 0.7em;
 }
 
 .ui.small.breadcrumb {
-  font-size: 0.92857143rem;
+  font-size: 0.75em;
 }
 
 .ui.breadcrumb {
-  font-size: 1rem;
+  font-size: 1em;
 }
 
 .ui.large.breadcrumb {
-  font-size: 1.14285714rem;
+  font-size: 1.1em;
 }
 
 .ui.big.breadcrumb {
-  font-size: 1.28571429rem;
+  font-size: 1.05em;
 }
 
 .ui.huge.breadcrumb {
-  font-size: 1.42857143rem;
+  font-size: 1.3em;
 }
 
 .ui.massive.breadcrumb {
-  font-size: 1.71428571rem;
+  font-size: 1.5em;
 }
 
 /*******************************
@@ -3639,14 +3639,14 @@
 
 .ui.cards > .card > .content a:not(.ui),
 .ui.card > .content a:not(.ui) {
-  color: #009fda;
+  color: '';
   -webkit-transition: color 0.2s ease;
   transition: color 0.2s ease;
 }
 
 .ui.cards > .card > .content a:not(.ui):hover,
 .ui.card > .content a:not(.ui):hover {
-  color: #00b2f3;
+  color: '';
 }
 
 /* Header */
@@ -3663,13 +3663,13 @@
 
 /* Meta */
 
-.ui.cards > .card .meta a,
-.ui.card .meta a {
+.ui.cards > .card .meta > a:not(.ui),
+.ui.card .meta > a:not(.ui) {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.ui.cards > .card .meta a:hover,
-.ui.card .meta a:hover {
+.ui.cards > .card .meta > a:not(.ui):hover,
+.ui.card .meta > a:not(.ui):hover {
   color: rgba(0, 0, 0, 0.8);
 }
 
@@ -8055,7 +8055,7 @@ i.flag.zimbabwe:before {
 ---------------------*/
 
 .ui.form > p {
-  margin: 1em 0em;
+  margin: 0em 0em 1em;
 }
 
 /*--------------------
@@ -8111,6 +8111,7 @@ i.flag.zimbabwe:before {
 .ui.form input[type="text"],
 .ui.form input[type="email"],
 .ui.form input[type="date"],
+.ui.form input[type="datetime-local"],
 .ui.form input[type="password"],
 .ui.form input[type="number"],
 .ui.form input[type="url"],
@@ -8123,6 +8124,7 @@ i.flag.zimbabwe:before {
 .ui.form input[type="text"],
 .ui.form input[type="email"],
 .ui.form input[type="date"],
+.ui.form input[type="datetime-local"],
 .ui.form input[type="password"],
 .ui.form input[type="number"],
 .ui.form input[type="url"],
@@ -8313,6 +8315,7 @@ i.flag.zimbabwe:before {
 .ui.form input[type="text"]:focus,
 .ui.form input[type="email"]:focus,
 .ui.form input[type="date"]:focus,
+.ui.form input[type="datetime-local"]:focus,
 .ui.form input[type="password"]:focus,
 .ui.form input[type="number"]:focus,
 .ui.form input[type="url"]:focus,
@@ -8382,6 +8385,7 @@ i.flag.zimbabwe:before {
 .ui.form .fields.error .field input[type="text"],
 .ui.form .fields.error .field input[type="email"],
 .ui.form .fields.error .field input[type="date"],
+.ui.form .fields.error .field input[type="datetime-local"],
 .ui.form .fields.error .field input[type="password"],
 .ui.form .fields.error .field input[type="number"],
 .ui.form .fields.error .field input[type="url"],
@@ -8390,6 +8394,7 @@ i.flag.zimbabwe:before {
 .ui.form .field.error input[type="text"],
 .ui.form .field.error input[type="email"],
 .ui.form .field.error input[type="date"],
+.ui.form .field.error input[type="datetime-local"],
 .ui.form .field.error input[type="password"],
 .ui.form .field.error input[type="number"],
 .ui.form .field.error input[type="url"],
@@ -8405,6 +8410,7 @@ i.flag.zimbabwe:before {
 .ui.form .field.error input[type="text"]:focus,
 .ui.form .field.error input[type="email"]:focus,
 .ui.form .field.error input[type="date"]:focus,
+.ui.form .field.error input[type="datetime-local"]:focus,
 .ui.form .field.error input[type="password"]:focus,
 .ui.form .field.error input[type="number"]:focus,
 .ui.form .field.error input[type="url"]:focus,
@@ -8581,13 +8587,25 @@ i.flag.zimbabwe:before {
 ---------------------*/
 
 .ui.form .required.fields > .field > label:after,
-.ui.form .required.fields > .field > .checkbox:after,
 .ui.form .required.field > label:after,
+.ui.form .required.fields > .field > .checkbox:after,
 .ui.form .required.field > .checkbox:after {
   margin: -0.2em 0em 0em 0.2em;
-  vertical-align: top;
   content: '*';
   color: #d95c5c;
+}
+
+.ui.form .required.fields > .field > label:after,
+.ui.form .required.field > label:after {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.ui.form .required.fields > .field > .checkbox:after,
+.ui.form .required.field > .checkbox:after {
+  position: absolute;
+  top: 0%;
+  left: 100%;
 }
 
 /*******************************
@@ -8904,25 +8922,25 @@ i.flag.zimbabwe:before {
 /* Standard */
 
 .ui.small.form {
-  font-size: 0.875em;
+  font-size: 0.92857143rem;
 }
 
 /* Medium */
 
 .ui.form {
-  font-size: auto;
+  font-size: 1rem;
 }
 
 /* Large */
 
 .ui.large.form {
-  font-size: 1.125em;
+  font-size: 1.14285714rem;
 }
 
 /* Huge */
 
 .ui.huge.form {
-  font-size: 1.2em;
+  font-size: 1.42857143rem;
 }
 
 /*******************************
@@ -10726,13 +10744,9 @@ i.flag.zimbabwe:before {
   .ui.stackable.grid {
     display: block !important;
     width: auto;
+    margin-left: -1rem;
+    margin-right: -1rem;
     padding: 0em;
-    margin-top: 0em;
-    margin-bottom: 0em;
-  }
-
-  :not(.column) > .ui.stackable.grid {
-    margin: 0em;
   }
 
   .ui.stackable.grid > .row > .wide.column,
@@ -10740,41 +10754,38 @@ i.flag.zimbabwe:before {
   .ui.stackable.grid > .column.grid > .column,
   .ui.stackable.grid > .column.row > .column,
   .ui.stackable.grid > .row > .column,
-  .ui.stackable.grid > .column {
+  .ui.stackable.grid > .column:not(.row) {
     display: block !important;
     width: auto !important;
-    margin: 0.5rem 0em !important;
-    padding: 0.5rem 1rem 0em !important;
+    margin: 0em 0em !important;
+    padding: 1rem 2rem !important;
     box-shadow: none !important;
   }
 
-  .ui.stackable.celled.grid > .column,
+  .ui.stackable.grid > .row {
+    margin: 0em;
+    padding: 0em;
+  }
+
+  .ui.stackable.celled.grid > .column:not(.row),
+  .ui.stackable.divided.grid > .column:not(.row),
   .ui.stackable.celled.grid > .row > .column,
-  .ui.stackable.divided.grid > .column,
   .ui.stackable.divided.grid > .row > .column {
     border-top: 1px solid rgba(39, 41, 43, 0.15);
     box-shadow: none !important;
-    margin: 2rem 0em !important;
-    padding: 2rem 1rem 0em !important;
   }
 
-  .ui.inverted.stackable.celled.grid > .column,
+  .ui.inverted.stackable.celled.grid > .column:not(.row),
+  .ui.inverted.stackable.divided.grid > .column:not(.row),
   .ui.inverted.stackable.celled.grid > .row > .column,
-  .ui.inverted.stackable.divided.grid > .column,
   .ui.inverted.stackable.divided.grid > .row > .column {
     border-top: 1px solid rgba(255, 255, 255, 0.2);
   }
 
-  .ui.stackable.grid > .row:first-child > .column:first-child,
-  .ui.stackable.grid > .column:first-child {
-    margin-top: 0em !important;
-    padding-top: 0em !important;
-  }
-
   .ui.stackable.divided.grid > .row:first-child > .column:first-child,
   .ui.stackable.celled.grid > .row:first-child > .column:first-child,
-  .ui.stackable.divided.grid > .column:first-child,
-  .ui.stackable.celled.grid > .column:first-child {
+  .ui.stackable.divided.grid > .column:not(.row):first-child,
+  .ui.stackable.celled.grid > .column:not(.row):first-child {
     border-top: none !important;
   }
 
@@ -10882,7 +10893,7 @@ i.flag.zimbabwe:before {
   padding: 0em 0em;
   font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-weight: bold;
-  line-height: 1.33em;
+  line-height: 1.33;
   text-transform: none;
   color: rgba(0, 0, 0, 0.8);
 }
@@ -10946,24 +10957,24 @@ i.flag.zimbabwe:before {
 ---------------*/
 
 .ui.tiny.header {
-  font-size: 1em;
+  font-size: 0.85714286rem;
 }
 
 .ui.small.header {
-  font-size: 1.071em;
+  font-size: 0.92857143rem;
 }
 
 .ui.medium.header {
-  font-size: 1.285em;
+  font-size: 1rem;
 }
 
 .ui.large.header {
-  font-size: 1.714em;
+  font-size: 1.14285714rem;
 }
 
 .ui.huge.header {
   min-height: 1em;
-  font-size: 2em;
+  font-size: 1.42857143rem;
 }
 
 /*--------------
@@ -11378,23 +11389,23 @@ a.ui.inverted.yellow.header:hover {
 }
 
 .ui.tiny.block.header {
-  font-size: 1em;
+  font-size: 0.85714286rem;
 }
 
 .ui.small.block.header {
-  font-size: 1.071em;
+  font-size: 0.92857143rem;
 }
 
 .ui.block.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size: 1.285em;
+  font-size: 1rem;
 }
 
 .ui.large.block.header {
-  font-size: 1.714em;
+  font-size: 1.14285714rem;
 }
 
 .ui.huge.block.header {
-  font-size: 2em;
+  font-size: 1.42857143rem;
 }
 
 /*-------------------
@@ -11461,7 +11472,7 @@ a.ui.inverted.yellow.header:hover {
 --------------------*/
 
 .ui.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size: 1.285em;
+  font-size: 1rem;
 }
 
 /*******************************
@@ -15176,13 +15187,13 @@ img.ui.bordered.image {
 /* Generic */
 
 .ui.items > .item > .content a:not(.ui) {
-  color: #009fda;
+  color: '';
   -webkit-transition: color 0.2s ease;
   transition: color 0.2s ease;
 }
 
 .ui.items > .item > .content a:not(.ui):hover {
-  color: #00b2f3;
+  color: '';
 }
 
 /* Header */
@@ -15197,11 +15208,11 @@ img.ui.bordered.image {
 
 /* Meta */
 
-.ui.items > .item .meta a {
+.ui.items > .item .meta > a:not(.ui) {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.ui.items > .item .meta a:hover {
+.ui.items > .item .meta > a:not(.ui):hover {
   color: rgba(0, 0, 0, 0.8);
 }
 
@@ -20017,7 +20028,7 @@ ol.ui.horizontal.list li:before,
   margin-left: -45%;
   background: #ffffff;
   border: none;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.3);
   border-radius: 0.2857rem;
   -webkit-user-select: text;
   -moz-user-select: text;
@@ -21689,15 +21700,15 @@ a.ui.nag {
 *******************************/
 
 .ui.mini.rating .icon {
-  font-size: 0.7rem;
+  font-size: 0.71428571rem;
 }
 
 .ui.tiny.rating .icon {
-  font-size: 0.8rem;
+  font-size: 0.85714286rem;
 }
 
 .ui.small.rating .icon {
-  font-size: 0.875rem;
+  font-size: 0.92857143rem;
 }
 
 .ui.rating .icon {
@@ -21705,15 +21716,15 @@ a.ui.nag {
 }
 
 .ui.large.rating .icon {
-  font-size: 1.1rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.huge.rating .icon {
-  font-size: 1.5rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.massive.rating .icon {
-  font-size: 2rem;
+  font-size: 1.71428571rem;
 }
 
 /* Realign */

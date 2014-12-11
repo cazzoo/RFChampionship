@@ -17,6 +17,5 @@ class BeforeControllerListener
     public function onKernelController(FilterControllerEvent $event)
     {
         $this->appParamService->modifySession();
-        //echo 'tgemkngelsn';
     }
 }

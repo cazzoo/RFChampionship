@@ -1395,7 +1395,7 @@ $.fn.checkbox = function(parameters) {
         moduleNamespace = 'module-' + namespace,
 
         $module         = $(this),
-        $label          = $(this).next(selector.label).first(),
+        $label          = $(this).find(selector.label).first(),
         $input          = $(this).find(selector.input),
 
         instance        = $module.data(moduleNamespace),
@@ -1409,10 +1409,10 @@ $.fn.checkbox = function(parameters) {
 
         initialize: function() {
           module.verbose('Initializing checkbox', settings);
-          $module
-            .on('click'   + eventNamespace, module.toggle)
-            .on('keydown' + eventNamespace, selector.input, module.event.keydown)
-          ;
+
+          module.create.label();
+          module.add.events();
+
           if( module.is.checked() ) {
             module.set.checked();
             if(settings.fireOnInit) {
@@ -1439,22 +1439,16 @@ $.fn.checkbox = function(parameters) {
         },
 
         destroy: function() {
-          module.verbose('Destroying previous module');
+          module.verbose('Destroying module');
+          module.remove.events();
           $module
-            .off(eventNamespace)
             .removeData(moduleNamespace)
-          ;
-          $input
-            .off(eventNamespace, module.event.keydown)
-          ;
-          $label
-            .off(eventNamespace)
           ;
         },
 
         refresh: function() {
           $module = $(this);
-          $label  = $(this).next(selector.label).first();
+          $label  = $(this).find(selector.label).first();
           $input  = $(this).find(selector.input);
         },
 
@@ -1474,15 +1468,15 @@ $.fn.checkbox = function(parameters) {
 
         attachEvents: function(selector, event) {
           var
-            $toggle = $(selector)
+            $element = $(selector)
           ;
           event = $.isFunction(module[event])
             ? module[event]
             : module.toggle
           ;
-          if($toggle.size() > 0) {
+          if($element.size() > 0) {
             module.debug('Attaching checkbox events to element', selector, event);
-            $toggle
+            $element
               .on('click' + eventNamespace, event)
             ;
           }
@@ -1551,9 +1545,51 @@ $.fn.checkbox = function(parameters) {
           }
         },
 
+        create: {
+          label: function() {
+            if($input.prevAll(selector.label).size() > 0) {
+              $input.prev(selector.label).detach().insertAfter($input);
+              module.debug('Moving existing label', $label);
+            }
+            else if( !module.has.label() ) {
+              $label = $('<label>').insertAfter($input);
+              module.debug('Creating label', $label);
+            }
+          }
+        },
+
+        has: {
+          label: function() {
+            return ($label.size() > 0);
+          }
+        },
+
+        add: {
+          events: function() {
+            module.verbose('Attaching checkbox events');
+            $module
+              .on('click'   + eventNamespace, module.toggle)
+              .on('keydown' + eventNamespace, selector.input, module.event.keydown)
+            ;
+          }
+        },
+
         remove: {
           checked: function() {
             $module.removeClass(className.checked);
+          },
+          events: function() {
+            module.debug('Removing events');
+            $module
+              .off(eventNamespace)
+              .removeData(moduleNamespace)
+            ;
+            $input
+              .off(eventNamespace, module.event.keydown)
+            ;
+            $label
+              .off(eventNamespace)
+            ;
           }
         },
 
@@ -4171,12 +4207,7 @@ $.fn.dropdown.settings.templates = {
       html        = ''
     ;
     $.each(select.values, function(value, name) {
-      if(value === name) {
-        html += '<div class="item">' + name + '</div>';
-      }
-      else {
-        html += '<div class="item" data-value="' + value + '">' + name + '</div>';
-      }
+      html += '<div class="item" data-value="' + value + '">' + name + '</div>';
     });
     return html;
   },
@@ -4195,12 +4226,7 @@ $.fn.dropdown.settings.templates = {
     }
     html += '<div class="menu">';
     $.each(select.values, function(value, name) {
-      if(value === name) {
-        html += '<div class="item">' + name + '</div>';
-      }
-      else {
-        html += '<div class="item" data-value="' + value + '">' + name + '</div>';
-      }
+      html += '<div class="item" data-value="' + value + '">' + name + '</div>';
     });
     html += '</div>';
     return html;
@@ -4617,7 +4643,11 @@ $.fn.form = function(fields, parameters) {
               fieldValid  = true,
               fieldErrors = []
             ;
-            if(field.rules !== undefined) {
+            if(field.optional && $.trim($field.val()) === ''){
+              module.debug('Field is optional and empty. Skipping', field.identifier);
+              fieldValid = true;
+            }
+            else if(field.rules !== undefined) {
               $.each(field.rules, function(index, rule) {
                 if( module.has.field(field.identifier) && !( module.validate.rule(field, rule) ) ) {
                   module.debug('Field is invalid', field.identifier, rule.type);
@@ -4862,7 +4892,7 @@ $.fn.form.settings = {
   revalidate        : true,
 
   transition        : 'scale',
-  duration          : 150,
+  duration          : 200,
 
 
   onValid           : function() {},
@@ -4888,14 +4918,12 @@ $.fn.form.settings = {
     error   : 'error',
     success : 'success',
     down    : 'down',
-    label   : 'ui label prompt'
+    label   : 'ui prompt label'
   },
 
-  // errors
   error: {
     method   : 'The method you called is not defined.'
   },
-
 
   templates: {
     error: function(errors) {
@@ -4917,66 +4945,32 @@ $.fn.form.settings = {
   },
 
   rules: {
+
+    // checkbox checked
     checked: function() {
       return ($(this).filter(':checked').size() > 0);
     },
-    empty: function(value) {
-      return !(value === undefined || '' === value);
+
+    // value contains (text)
+    contains: function(value, text) {
+      text = text.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+      return (value.search(text) !== -1);
     },
+
+    // is most likely an email
     email: function(value){
       var
         emailRegExp = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", "i")
       ;
       return emailRegExp.test(value);
     },
-    length: function(value, requiredLength) {
-      return (value !== undefined)
-        ? (value.length >= requiredLength)
-        : false
-      ;
+
+    // is not empty or blank string
+    empty: function(value) {
+      return !(value === undefined || '' === value);
     },
-    not: function(value, notValue) {
-      return (value != notValue);
-    },
-    contains: function(value, text) {
-      text = text.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-      return (value.search(text) !== -1);
-    },
-    is: function(value, text) {
-      return (value == text);
-    },
-    maxLength: function(value, maxLength) {
-      return (value !== undefined)
-        ? (value.length <= maxLength)
-        : false
-      ;
-    },
-    match: function(value, fieldIdentifier) {
-      // use either id or name of field
-      var
-        $form = $(this),
-        matchingValue
-      ;
-      if($form.find('#' + fieldIdentifier).size() > 0) {
-        matchingValue = $form.find('#' + fieldIdentifier).val();
-      }
-      else if($form.find('[name="' + fieldIdentifier +'"]').size() > 0) {
-        matchingValue = $form.find('[name="' + fieldIdentifier + '"]').val();
-      }
-      else if( $form.find('[data-validate="'+ fieldIdentifier +'"]').size() > 0 ) {
-        matchingValue = $form.find('[data-validate="'+ fieldIdentifier +'"]').val();
-      }
-      return (matchingValue !== undefined)
-        ? ( value.toString() == matchingValue.toString() )
-        : false
-      ;
-    },
-    url: function(value) {
-      var
-        urlRegExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
-      ;
-      return urlRegExp.test(value);
-    },
+
+    // is valid integer
     integer: function(value, range) {
       var
         intRegExp = /^\-?\d+$/,
@@ -5006,6 +5000,62 @@ $.fn.form.settings = {
         (min === undefined || value >= min) &&
         (max === undefined || value <= max)
       );
+    },
+
+    // is exactly value
+    is: function(value, text) {
+      return (value == text);
+    },
+
+    // is at least string length
+    length: function(value, requiredLength) {
+      return (value !== undefined)
+        ? (value.length >= requiredLength)
+        : false
+      ;
+    },
+
+    // matches another field
+    match: function(value, fieldIdentifier) {
+      // use either id or name of field
+      var
+        $form = $(this),
+        matchingValue
+      ;
+      if($form.find('#' + fieldIdentifier).size() > 0) {
+        matchingValue = $form.find('#' + fieldIdentifier).val();
+      }
+      else if($form.find('[name="' + fieldIdentifier +'"]').size() > 0) {
+        matchingValue = $form.find('[name="' + fieldIdentifier + '"]').val();
+      }
+      else if( $form.find('[data-validate="'+ fieldIdentifier +'"]').size() > 0 ) {
+        matchingValue = $form.find('[data-validate="'+ fieldIdentifier +'"]').val();
+      }
+      return (matchingValue !== undefined)
+        ? ( value.toString() == matchingValue.toString() )
+        : false
+      ;
+    },
+
+    // string length is less than max length
+    maxLength: function(value, maxLength) {
+      return (value !== undefined)
+        ? (value.length <= maxLength)
+        : false
+      ;
+    },
+
+    // value is not exactly notValue
+    not: function(value, notValue) {
+      return (value != notValue);
+    },
+
+    // value is most likely url
+    url: function(value) {
+      var
+        urlRegExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+      ;
+      return urlRegExp.test(value);
     }
   }
 
@@ -5068,9 +5118,9 @@ $.fn.modal = function(parameters) {
         eventNamespace  = '.' + namespace,
         moduleNamespace = 'module-' + namespace,
 
-        $module      = $(this),
-        $context     = $(settings.context),
-        $close       = $module.find(selector.close),
+        $module         = $(this),
+        $context        = $(settings.context),
+        $close          = $module.find(selector.close),
 
         $allModals,
         $otherModals,
@@ -5078,8 +5128,11 @@ $.fn.modal = function(parameters) {
         $dimmable,
         $dimmer,
 
-        element      = this,
-        instance     = $module.data(moduleNamespace),
+        element         = this,
+        instance        = $module.data(moduleNamespace),
+
+        elementNamespace,
+        id,
         observer,
         module
       ;
@@ -5092,6 +5145,9 @@ $.fn.modal = function(parameters) {
             module.error(error.dimmer);
             return;
           }
+
+          id = module.get.uniqueID();
+          elementNamespace = '.' + id;
 
           $dimmable = $context
             .dimmer({
@@ -5110,8 +5166,7 @@ $.fn.modal = function(parameters) {
           }
 
           $dimmer = $dimmable.dimmer('get dimmer');
-          $otherModals = $module.siblings(selector.modal);
-          $allModals   = $otherModals.add($module);
+          module.refreshModals();
 
           module.verbose('Attaching close events', $close);
           module.bind.events();
@@ -5134,6 +5189,7 @@ $.fn.modal = function(parameters) {
             .removeData(moduleNamespace)
             .off(eventNamespace)
           ;
+          $window.off(elementNamespace);
           $close.off(eventNamespace);
           $context.dimmer('destroy');
         },
@@ -5158,6 +5214,11 @@ $.fn.modal = function(parameters) {
           module.set.screenHeight();
           module.set.type();
           module.set.position();
+        },
+
+        refreshModals: function() {
+          $otherModals = $module.siblings(selector.modal);
+          $allModals   = $otherModals.add($module);
         },
 
         attachEvents: function(selector, event) {
@@ -5186,8 +5247,14 @@ $.fn.modal = function(parameters) {
               .on('click' + eventNamespace, module.event.close)
             ;
             $window
-              .on('resize' + eventNamespace, module.event.resize)
+              .on('resize' + elementNamespace, module.event.resize)
             ;
+          }
+        },
+
+        get: {
+          uniqueID: function() {
+            return (Math.random().toString(16) + '000000000').substr(2,8);
           }
         },
 
@@ -5215,15 +5282,17 @@ $.fn.modal = function(parameters) {
             }
           },
           click: function(event) {
-            if( $(event.target).closest(selector.modal).size() === 0 ) {
+            if( $(event.target).closest($module).size() === 0 ) {
               module.debug('Dimmer clicked, hiding all modals');
-              if(settings.allowMultiple) {
-                module.hide();
+              if( module.is.active() ) {
+                module.remove.clickaway();
+                if(settings.allowMultiple) {
+                  module.hide();
+                }
+                else {
+                  module.hideAll();
+                }
               }
-              else {
-                module.hideAll();
-              }
-              event.stopImmediatePropagation();
             }
           },
           debounce: function(method, delay) {
@@ -5267,8 +5336,21 @@ $.fn.modal = function(parameters) {
             ? callback
             : function(){}
           ;
+          module.refreshModals();
           module.showDimmer();
           module.showModal(callback);
+        },
+
+        hide: function(callback) {
+          callback = $.isFunction(callback)
+            ? callback
+            : function(){}
+          ;
+          module.refreshModals();
+          if( !module.othersActive() ) {
+            module.hideDimmer();
+          }
+          module.hideModal(callback);
         },
 
         showModal: function(callback) {
@@ -5278,7 +5360,7 @@ $.fn.modal = function(parameters) {
           ;
           if( !module.is.active() ) {
 
-            if( $otherModals.filter(':visible').size() > 0 && !settings.allowMultiple) {
+            if( !settings.allowMultiple && $otherModals.filter(':visible').size() > 0) {
               module.debug('Other modals visible, queueing show animation');
               module.hideOthers(module.showModal);
             }
@@ -5290,15 +5372,13 @@ $.fn.modal = function(parameters) {
                 module.set.position();
                 module.set.screenHeight();
                 module.set.type();
+                module.set.clickaway();
                 $module
                   .transition({
                     debug     : settings.debug,
                     animation : settings.transition + ' in',
                     queue     : false,
                     duration  : settings.duration,
-                    onStart   : function() {
-                      module.set.clickaway();
-                    },
                     onComplete : function() {
                       $.proxy(settings.onVisible, element)();
                       module.add.keyboardShortcuts();
@@ -5339,29 +5419,17 @@ $.fn.modal = function(parameters) {
           }
         },
 
-        hide: function(callback) {
-          callback = $.isFunction(callback)
-            ? callback
-            : function(){}
-          ;
-          if($allModals.filter(':visible').size() <= 1) {
-            module.hideDimmer();
-          }
-          module.hideModal(callback);
-        },
-
         hideDimmer: function() {
           if( !($dimmable.dimmer('is active') || $dimmable.dimmer('is animating')) ) {
             module.debug('Dimmer is not visible cannot hide');
             return;
           }
           module.debug('Hiding dimmer');
-          module.remove.clickaway();
           $dimmable.dimmer('hide', function() {
             if(settings.transition && $.fn.transition !== undefined && $module.transition('is supported')) {
+              module.remove.clickaway();
               module.remove.screenHeight();
             }
-            module.remove.active();
           });
         },
 
@@ -5373,6 +5441,7 @@ $.fn.modal = function(parameters) {
           module.debug('Hiding modal');
           $.proxy(settings.onHide, element)();
           if(settings.transition && $.fn.transition !== undefined && $module.transition('is supported')) {
+            module.remove.active();
             $module
               .transition({
                 debug      : settings.debug,
@@ -5384,7 +5453,6 @@ $.fn.modal = function(parameters) {
                 },
                 onComplete : function() {
                   $.proxy(settings.onHidden, element)();
-                  module.remove.active();
                   module.restore.focus();
                   callback();
                 }
@@ -5392,11 +5460,11 @@ $.fn.modal = function(parameters) {
             ;
           }
           else {
+            module.remove.active();
             module.remove.keyboardShortcuts();
             $module
               .fadeOut(settings.duration, settings.easing, function() {
                 $.proxy(settings.onHidden, element)();
-                module.remove.active();
                 module.restore.focus();
                 callback();
               })
@@ -5433,6 +5501,10 @@ $.fn.modal = function(parameters) {
           }
         },
 
+        othersActive: function() {
+          return ($otherModals.filter('.' + className.active).size() > 0);
+        },
+
         add: {
           keyboardShortcuts: function() {
             module.verbose('Adding keyboard shortcuts');
@@ -5463,7 +5535,7 @@ $.fn.modal = function(parameters) {
           clickaway: function() {
             if(settings.closable) {
               $dimmer
-                .off('click' + eventNamespace)
+                .off('click' + elementNamespace)
               ;
             }
           },
@@ -5519,6 +5591,9 @@ $.fn.modal = function(parameters) {
               : $module.is(':visible')
             ;
           },
+          scrolling: function() {
+            return $dimmable.hasClass(className.scrolling);
+          },
           modernBrowser: function() {
             // appName for IE11 reports 'Netscape' can no longer use
             return !(window.ActiveXObject || "ActiveXObject" in window);
@@ -5541,8 +5616,7 @@ $.fn.modal = function(parameters) {
           clickaway: function() {
             if(settings.closable) {
               $dimmer
-                .off('click' + eventNamespace)
-                .on('click' + eventNamespace, module.event.click)
+                .on('click' + elementNamespace, module.event.click)
               ;
             }
           },
@@ -5567,7 +5641,9 @@ $.fn.modal = function(parameters) {
           type: function() {
             if(module.can.fit()) {
               module.verbose('Modal fits on screen');
-              module.remove.scrolling();
+              if(!module.othersActive) {
+                module.remove.scrolling();
+              }
             }
             else {
               module.verbose('Modal cannot fit on screen setting to scrolling');
@@ -7490,10 +7566,9 @@ $.fn.progress = function(parameters) {
         },
 
         destroy: function() {
-          module.verbose('Destroying previous dropdown for', $module);
-          $module
-            .removeData(moduleNamespace)
-          ;
+          module.verbose('Destroying previous progress for', $module);
+          module.remove.state();
+          $module.removeData(moduleNamespace);
           instance = undefined;
         },
 
@@ -7633,6 +7708,12 @@ $.fn.progress = function(parameters) {
         },
 
         remove: {
+          state: function() {
+            module.verbose('Removing stored state');
+            delete module.total;
+            delete module.percent;
+            delete module.value;
+          },
           active: function() {
             module.verbose('Removing active state');
             $module.removeClass(className.active);
@@ -7656,27 +7737,34 @@ $.fn.progress = function(parameters) {
             if(value > 100) {
               module.error(error.tooHigh, value);
             }
-            $bar
-              .css('width', value + '%')
-            ;
+            else if (value < 0) {
+              module.error(error.tooLow, value);
+            }
+            else {
+              $bar
+                .css('width', value + '%')
+              ;
+            }
           },
           initials: function() {
-            if(settings.value) {
-              module.verbose('Current value set in settings', settings.value);
-              module.value = settings.value;
-            }
-            if(settings.total) {
+
+            if(settings.total !== false) {
               module.verbose('Current total set in settings', settings.total);
               module.total = settings.total;
             }
-            if(settings.percent) {
+            if(settings.value !== false) {
+              module.verbose('Current value set in settings', settings.value);
+              module.value = settings.value;
+            }
+            if(settings.percent !== false) {
               module.verbose('Current percent set in settings', settings.percent);
               module.percent = settings.percent;
             }
-            if(module.percent) {
+
+            if(module.percent !== undefined) {
               module.set.percent(module.percent);
             }
-            else if(module.value) {
+            else if(module.value !== undefined) {
               module.set.progress(module.value);
             }
           },
@@ -7700,6 +7788,14 @@ $.fn.progress = function(parameters) {
             if(module.total) {
               module.value = Math.round( (percent / 100) * module.total);
             }
+            if(settings.limitValues) {
+              module.value = (module.value > 100)
+                ? 100
+                : (module.value < 0)
+                  ? 0
+                  : module.value
+              ;
+            }
             module.set.barWidth(percent);
             module.set.barLabel();
             if(percent === 100) {
@@ -7711,7 +7807,7 @@ $.fn.progress = function(parameters) {
                 module.remove.active();
               }
             }
-            else {
+            else if(percent > 0) {
               module.set.active();
             }
             $.proxy(settings.onChange, element)(percent, module.value, module.total);
@@ -7802,8 +7898,8 @@ $.fn.progress = function(parameters) {
                 : value,
               percentComplete
             ;
-            if(!numericValue) {
-              module.error(error.nonNumeric);
+            if(numericValue === false) {
+              module.error(error.nonNumeric, value);
             }
             if(module.total) {
               module.value    = numericValue;
@@ -8001,7 +8097,7 @@ $.fn.progress.settings = {
   name         : 'Progress',
   namespace    : 'progress',
 
-  debug        : true,
+  debug        : false,
   verbose      : true,
   performance  : true,
 
@@ -8012,6 +8108,7 @@ $.fn.progress.settings = {
 
   autoSuccess  : true,
   showActivity : true,
+  limitValues  : true,
 
   label        : 'percent',
   precision    : 1,
@@ -8028,7 +8125,9 @@ $.fn.progress.settings = {
 
   error    : {
     method     : 'The method you called is not defined.',
-    nonNumeric : 'Progress value is non numeric'
+    nonNumeric : 'Progress value is non numeric',
+    tooHigh    : 'Value specified is above 100%',
+    tooLow     : 'Value specified is below 0%'
   },
 
   regExp: {
@@ -10254,6 +10353,8 @@ $.fn.shape.settings = {
 $.fn.sidebar = function(parameters) {
   var
     $allModules    = $(this),
+    $window        = $(window),
+    $document      = $(document),
     $head          = $('head'),
 
     moduleSelector = $allModules.selector || '',
@@ -10299,6 +10400,8 @@ $.fn.sidebar = function(parameters) {
         element         = this,
         instance        = $module.data(moduleNamespace),
 
+        elementNamespace,
+        id,
         currentScroll,
         transitionEvent,
 
@@ -10318,7 +10421,10 @@ $.fn.sidebar = function(parameters) {
             settings.useLegacy = true;
           }
 
-          // avoid locking rendering if included in onReady
+          id = module.get.uniqueID();
+          elementNamespace = '.' + id;
+
+          // avoids locking rendering if initialized in onReady
           requestAnimationFrame(module.setup.layout);
 
           module.instantiate();
@@ -10339,6 +10445,10 @@ $.fn.sidebar = function(parameters) {
             .off(eventNamespace)
             .removeData(moduleNamespace)
           ;
+          // bound by uuid
+          $context.off(elementNamespace);
+          $window.off(elementNamespace);
+          $document.off(elementNamespace);
         },
 
         event: {
@@ -10368,31 +10478,40 @@ $.fn.sidebar = function(parameters) {
 
         bind: {
           clickaway: function() {
-            if(settings.scrollLock) {
-              $(window)
-                .on('DOMMouseScroll' + eventNamespace, module.event.scroll)
+            module.verbose('Adding clickaway events to context', $context);
+            if(settings.closable) {
+              $context
+                .on('click' + elementNamespace, module.event.clickaway)
+                .on('touchend' + elementNamespace, module.event.clickaway)
               ;
             }
-            $(document)
-              .on('touchmove' + eventNamespace, module.event.touch)
+          },
+          scrollLock: function() {
+            if(settings.scrollLock) {
+              module.debug('Disabling page scroll');
+              $window
+                .on('DOMMouseScroll' + elementNamespace, module.event.scroll)
+              ;
+            }
+            module.verbose('Adding events to contain sidebar scroll');
+            $document
+              .on('touchmove' + elementNamespace, module.event.touch)
             ;
             $module
               .on('scroll' + eventNamespace, module.event.containScroll)
             ;
-            if(settings.closable) {
-              $context
-                .on('click' + eventNamespace, module.event.clickaway)
-                .on('touchend' + eventNamespace, module.event.clickaway)
-              ;
-            }
           }
         },
         unbind: {
           clickaway: function() {
-            $context.off(eventNamespace);
-            $pusher.off(eventNamespace);
-            $(document).off(eventNamespace);
-            $(window).off(eventNamespace);
+            module.verbose('Removing clickaway events from context', $context);
+            $context.off(elementNamespace);
+          },
+          scrollLock: function() {
+            module.verbose('Removing scroll lock from page');
+            $document.off(elementNamespace);
+            $window.off(elementNamespace);
+            $module.off('scroll' + eventNamespace);
           }
         },
 
@@ -10477,6 +10596,11 @@ $.fn.sidebar = function(parameters) {
           $pusher   = $context.children(selector.pusher);
         },
 
+        refreshSidebars: function() {
+          module.verbose('Refreshing other sidebars');
+          $sidebars = $context.children(selector.sidebar);
+        },
+
         repaint: function() {
           module.verbose('Forcing repaint event');
           element.style.display='none';
@@ -10499,7 +10623,7 @@ $.fn.sidebar = function(parameters) {
               ;
               module.refresh();
             }
-            if($module.nextAll(selector.pusher).size() == 0 || $module.nextAll(selector.pusher)[0] !== $pusher[0]) {
+            if($module.nextAll(selector.pusher).size() === 0 || $module.nextAll(selector.pusher)[0] !== $pusher[0]) {
               module.debug('Moved sidebar to correct parent element');
               module.error(error.movedSidebar, element);
               $module.detach().prependTo($context);
@@ -10539,7 +10663,8 @@ $.fn.sidebar = function(parameters) {
             ? callback
             : function(){}
           ;
-          if(module.is.closed()) {
+          if(module.is.hidden()) {
+            module.refreshSidebars();
             if(settings.overlay)  {
               module.error(error.overlay);
               settings.transition = 'overlay';
@@ -10575,6 +10700,7 @@ $.fn.sidebar = function(parameters) {
           ;
           if(module.is.visible() || module.is.animating()) {
             module.debug('Hiding sidebar', callback);
+            module.refreshSidebars();
             animateMethod(function() {
               $.proxy(callback, element)();
               $.proxy(settings.onHidden, element)();
@@ -10586,9 +10712,6 @@ $.fn.sidebar = function(parameters) {
 
         othersVisible: function() {
           return ($sidebars.not($module).filter('.' + className.visible).size() > 0);
-        },
-        othersActive: function() {
-          return ($sidebars.not($module).filter('.' + className.active).size() > 0);
         },
 
         hideOthers: function(callback) {
@@ -10610,7 +10733,7 @@ $.fn.sidebar = function(parameters) {
 
         toggle: function() {
           module.verbose('Determining toggled direction');
-          if(module.is.closed()) {
+          if(module.is.hidden()) {
             module.show();
           }
           else {
@@ -10639,10 +10762,11 @@ $.fn.sidebar = function(parameters) {
           module.set.transition();
           module.repaint();
           animate = function() {
+            module.bind.clickaway();
             module.add.bodyCSS();
             module.set.animating();
             module.set.visible();
-            if(!module.othersActive()) {
+            if(!module.othersVisible()) {
               if(settings.dimPage) {
                 $pusher.addClass(className.dimmed);
               }
@@ -10650,13 +10774,14 @@ $.fn.sidebar = function(parameters) {
           };
           transitionEnd = function(event) {
             if( event.target == $transition[0] ) {
-              $transition.off(transitionEvent + eventNamespace, transitionEnd);
+              $transition.off(transitionEvent + elementNamespace, transitionEnd);
               module.remove.animating();
-              module.bind.clickaway();
+              module.bind.scrollLock();
               $.proxy(callback, element)();
             }
           };
-          $transition.on(transitionEvent + eventNamespace, transitionEnd);
+          $transition.off(transitionEvent + elementNamespace);
+          $transition.on(transitionEvent + elementNamespace, transitionEnd);
           requestAnimationFrame(animate);
         },
 
@@ -10665,7 +10790,7 @@ $.fn.sidebar = function(parameters) {
             transition = module.get.transition(),
             $transition = (transition == 'safe')
               ? $context
-              : (transition == 'overlay' || module.othersActive())
+              : (transition == 'overlay' || module.othersVisible())
                 ? $module
                 : $pusher,
             animate,
@@ -10676,19 +10801,20 @@ $.fn.sidebar = function(parameters) {
             : function(){}
           ;
           module.verbose('Removing context push state', module.get.direction());
-          if(!module.othersActive()) {
-            module.unbind.clickaway();
-          }
+
+          module.unbind.clickaway();
+          module.unbind.scrollLock();
+
           animate = function() {
             module.set.animating();
             module.remove.visible();
-            if(settings.dimPage && !module.othersActive()) {
+            if(settings.dimPage && !module.othersVisible()) {
               $pusher.removeClass(className.dimmed);
             }
           };
           transitionEnd = function(event) {
             if( event.target == $transition[0] ) {
-              $transition.off(transitionEvent + eventNamespace, transitionEnd);
+              $transition.off(transitionEvent + elementNamespace, transitionEnd);
               module.remove.animating();
               module.remove.transition();
               module.remove.bodyCSS();
@@ -10698,7 +10824,8 @@ $.fn.sidebar = function(parameters) {
               $.proxy(callback, element)();
             }
           };
-          $transition.on(transitionEvent + eventNamespace, transitionEnd);
+          $transition.off(transitionEvent + elementNamespace);
+          $transition.on(transitionEvent + elementNamespace, transitionEnd);
           requestAnimationFrame(animate);
         },
 
@@ -10884,6 +11011,9 @@ $.fn.sidebar = function(parameters) {
                 return transitions[transition];
               }
             }
+          },
+          uniqueID: function() {
+            return (Math.random().toString(16) + '000000000').substr(2,8);
           }
         },
 
@@ -10936,11 +11066,18 @@ $.fn.sidebar = function(parameters) {
               return false;
             }
           },
-          closed: function() {
+          hidden: function() {
             return !module.is.visible();
           },
           visible: function() {
             return $module.hasClass(className.visible);
+          },
+          // alias
+          open: function() {
+            return module.is.visible();
+          },
+          closed: function() {
+            return module.is.hidden();
           },
           vertical: function() {
             return $module.hasClass(className.top);
