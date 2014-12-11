@@ -92,38 +92,22 @@
         </div>
 
         {% block javascripts %}
-            {% javascripts 'Jquery' %}
-            <script src="{{ asset('jquery/js/jquery-2.1.1.min.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery.rcrumbs.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery-migrate-1.2.1.min.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery.easing.1.3.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery.mobile.customized.min.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery.camera.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery.wysibb.min.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery.datetimepicker.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery.fancybox.js') }}"></script>
+            {% javascripts 'jquery/js/*' %}
+            <script type="text/javascript" src="{{ asset( asset_url ) }}"></script>
             {% endjavascripts %}
-            {% javascripts 'SemanticUI' %}
-            <script src="{{ asset('SemanticUI/semantic.js') }}"></script>
+            {% javascripts 'SemanticUI/semantic.js' %}
+            <script type="text/javascript" src="{{ asset( asset_url ) }}"></script>
             {% endjavascripts %}
-            {% javascripts 'FosJS' %}
+            {% javascripts %}
             <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-            <script
-            src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-            {% endjavascripts %}
-            {% javascripts 'jQueryCalendar' %}
+            <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
             <script type="text/javascript"
             src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
             <script type="text/javascript"
             src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>
             {% endjavascripts %}
-            {% javascripts 'RFCJS' %}
-            <script type="text/javascript"
-            src="{{asset('js/modernizr.js') }}"></script>
-            <script type="text/javascript"
-            src="{{asset('js/forms.behiavior.js') }}"></script>
-            <script type="text/javascript"
-            src="{{asset('js/timeline.js') }}"></script>
+            {% javascripts 'js/*' %}
+            <script type="text/javascript" src="{{ asset( asset_url ) }}"></script>
             {% endjavascripts %}
         {% endblock %}
 
