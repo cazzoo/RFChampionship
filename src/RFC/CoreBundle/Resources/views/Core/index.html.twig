@@ -18,12 +18,15 @@
 
 {% extends "RFCCoreBundle::layout.html.twig" %}
 {% block title %}
-    Accueil - 
-    {{ parent() }}
+    Accueil - {{ parent() }}
 {% endblock %}
 {% block rfccore_body %}
+    {% set canEdit = is_granted('ROLE_ADMIN') %}
 
     <h2>Liste des jeux</h2>
+    {% if canEdit %}
+        <a class="ui icon primary button" href="{{ path('admin_game_new') }}"><i class="icon add"></i>Add</a>
+    {% endif %}
 
     {% if games %}
 
@@ -114,7 +117,7 @@
                             <p>THIS IS COMING SOON!</p>
                         </div>
                     </div>
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {% if canEdit %}
                         <div class="extra content">
                             <div class="ui right floated mini primary buttons">
                                 <a class="ui icon button" href="{{ path('admin_game_edit', { 'gameId': game.id }) }}">

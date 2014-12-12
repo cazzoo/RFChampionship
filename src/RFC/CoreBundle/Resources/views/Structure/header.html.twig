@@ -75,67 +75,58 @@
 </div>
 
 {% if app.session.get('game') %}
-    <div class="ui right floated top right pointing dropdown {{ app.session.get('game') ? '' : 'inverted ' }}purple button">
+    {% set game = app.session.get('game') %}
+    <div class="ui right floated top right pointing dropdown purple button">
 
-        {{ app.session.get('game').name }}
+        {{ game.name }}
 
         <div class="menu">
 
             <div class="item icon">
-                <i class="game icon"></i> 
-                <a href="{{ path('rfcCore_accueil') }}">
-                    Select a game
+                <i class="home icon"></i>
+                <a href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}">
+                    Game home
+                </a>
+            </div>
+            <div class="item icon">
+                <i class="trophy icon"></i>
+                <a href="{{ path('rfcCore_championships', {'gameId': game.id}) }}" class="ui item">
+                    Championships
+                </a>
+            </div>
+            <div class="item icon">
+                <i class="calendar icon"></i>
+                <a href="{{ path('rfcCore_calendar', {'gameId': game.id}) }}" class="ui item">
+                    Calendar
+                </a>
+            </div>
+            <div class="item icon">
+                <i class="comments icon"></i>
+                <a href="{{ path('rfcCore_crew', {'gameId': game.id}) }}" class="ui item">
+                    Crew
+                </a>
+            </div>
+            <div class="item icon">
+                <i class="car icon"></i>
+                <a href="{{ path('rfcSetup_index', {'gameId': game.id}) }}" class="ui item">
+                    Setup
+                </a>
+            </div>
+            <div class="item icon">
+                <i class="users icon"></i>
+                <a href="{{ path('rfcCore_members', {'gameId': game.id}) }}" class="ui item">
+                    Members
                 </a>
             </div>
 
-            {% if app.session.get('game') %}
-
-                {% set game = app.session.get('game') %}
-
-                <div class="header">{{ game.name }}</div>
-
-                {{ app.session.get('game').name }}
-                <div class="item icon">
-                    <i class="home icon"></i> 
-                    <a href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}">
-                        Game home
-                    </a>
-                </div>
-                <div class="item icon">
-                    <i class="trophy icon"></i> 
-                    <a href="{{ path('rfcCore_championships', {'gameId': game.id}) }}" class="ui item">
-                        Championships
-                    </a>
-                </div>
-                <div class="item icon">
-                    <i class="calendar icon"></i> 
-                    <a href="{{ path('rfcCore_calendar', {'gameId': game.id}) }}" class="ui item">
-                        Calendar
-                    </a> 
-                </div>
-                <div class="item icon">
-                    <i class="comments icon"></i> 
-                    <a href="{{ path('rfcCore_crew', {'gameId': game.id}) }}" class="ui item">
-                        Crew
-                    </a>
-                </div>
-                <div class="item icon">
-                    <i class="car icon"></i> 
-                    <a href="{{ path('rfcSetup_index', {'gameId': game.id}) }}" class="ui item">
-                        Setup
-                    </a>
-                </div>
-                <div class="item icon">
-                    <i class="users icon"></i> 
-                    <a href="{{ path('rfcCore_members', {'gameId': game.id}) }}" class="ui item">
-                        Members
-                    </a>
-                </div>
-
-            {% endif %}
-
         </div>
     </div>
-
 {% endif %}
+
+<div class="ui right floated white icon button">
+    <i class="game icon"></i>
+    <a href="{{ path('rfcCore_accueil') }}">
+        Select a game
+    </a>
+</div>
 

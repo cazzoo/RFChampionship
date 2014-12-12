@@ -1,0 +1,50 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# src/RFC/CoreBundle/Resources/views/User/crew.html.twig #}
+
+{% if crewAwaitingRequests is not empty or user.getRequestsByType(1) is not empty %}
+    {% if user.getRequestsByType(1) is not empty %}
+        <h5>Pending requests</h5>
+        {% for pendingRequest in user.getRequestsByType(1) %}
+            [{{ pendingRequest.crew.game.name }}] 
+            You asked for <strong>{{ pendingRequest.crew.manager.userName }}</strong>'s Crew on {{ pendingRequest.getCreatedAt|date('H:i:s - d-m-Y') }}.<br />
+        {% endfor %}
+    {% endif %}
+    {% if crewAwaitingRequests is not empty %}
+        <h5>Users awaiting your answer</h5>
+        {% for crewAwaitingRequest in crewAwaitingRequests %}
+            <h6>{{ crewAwaitingRequest.crew.game.name }}</h6>
+            Member <strong>{{ crewAwaitingRequest.requester.userName }}</strong> requested to be part of your crew.<br />
+            Do you accept?<br /><br />
+            <form id="acceptCrewApplication">
+                <input type="hidden" id="crewRequestId" value="{{ crewAwaitingRequest.id }}" />
+                <button type="submit" value="accept" class="ym-button ym-success ym-save">Accept</button>
+            </form>
+            <form id="declineCrewApplication">
+                <input type="hidden" id="crewRequestId" value="{{ crewAwaitingRequest.id }}" />
+                <button type="submit" value="decline" class="ym-button ym-danger ym-delete">Decline</button>
+            </form>
+        {% endfor %}
+    {% endif %}
+    {% if user.getRequestsByType(2) is not empty %}
+        <h5>Active crews</h5>
+        {% for activeCrew in user.getRequestsByType(2) %}
+            [{{ activeCrew.game.name }}] 
+            You are part in <strong>{{ activeCrew.manager.userName }}</strong>'s Crew since {{ activeCrew.getUpdatedAt|date('H:i:s - d-m-Y') }}.<br />
+        {% endfor %}
+    {% endif %}
+{% endif %}

@@ -20,19 +20,27 @@
 
 {% block rfccore_body %}
 
-    <div class="jquery_tabs">
-        <h4>Infos</h4>
-        <div class="tabbody">
+    <div id="userPage">
+
+        <div class="ui pointing secondary menu">
+            <a class="item active" data-tab="infos">Infos</a>
+            <a class="item" data-tab="preferences">Preferences</a>
+            <a class="item" data-tab="crew">Crew</a>
+            <a class="item" data-tab="championships">Championships</a>
+            <a class="item" data-tab="statistics">Statistics</a>
+        </div>
+
+        <div class="ui active tab segment" data-tab="infos">
             {% trans_default_domain 'FOSUserBundle' %}
 
             <div>
                 {{ form(userForm) }}
             </div>
         </div>
-        <h4>Preferences</h4>
-        <div class="tabbody">
+
+        <div class="ui tab segment" data-tab="preferences">
             <form id="system-properties">
-                <table id="mainProperties">
+                <table id="mainProperties" class="ui table">
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -43,22 +51,22 @@
                     </thead>
                     <tbody>
                         {% for property in app.user.listPreferences %}
-                        <tr>
-                            <td>{{ property.id }}</td>
-                            <td>{{ property.name }}</td>
-                            <td class="small">{{ property.description }}</td>
-                            <td>
-                                {% if property.type == 'date' %}
-                                <input id="{{ property.id }}" name="{{ property.id }}" class="datepicker" type="text" value="{{ property.value }}" data-yearDescending="false" {% if property.min is not null %} data-minYear="{{ property.min }}" {% endif %} {% if property.max is not null %} data-maxYear="{{ property.max }}" {% endif %} data-format="DD-MM-YYYY" data-template="DD MMM YYYY" />
-                                {% elseif property.type == 'datetime' %}
-                                <input id="{{ property.id }}" name="{{ property.id }}" class="datetimepicker" type="text" value="{{ property.value }}" data-yearDescending="false" {% if property.min is not null %} data-minYear="{{ property.min }}" {% endif %} {% if property.max is not null %} data-maxYear="{{ property.max }}" {% endif %} data-format="DD-MM-YYYY HH:mm" data-template="DD MMM YYYY     HH mm" />
-                                {% elseif property.type == 'datetime' %}
-                                <input id="{{ property.id }}" type="number" {% if property.min is not null %} min="{{ property.min }}" {% endif %} {% if property.max is not null %} max="{{ property.max }}" {% endif %} />
-                                {% else %}
-                                <input id="{{ property.id }}" name="{{ property.id }}" type="{{ property.type }}" value="{{ property.value }}" />
-                                {% endif %}
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>{{ property.id }}</td>
+                                <td>{{ property.name }}</td>
+                                <td class="small">{{ property.description }}</td>
+                                <td>
+                                    {% if property.type == 'date' %}
+                                        <input id="{{ property.id }}" name="{{ property.id }}" class="datepicker" type="text" value="{{ property.value }}" data-yearDescending="false" {% if property.min is not null %} data-minYear="{{ property.min }}" {% endif %} {% if property.max is not null %} data-maxYear="{{ property.max }}" {% endif %} data-format="DD-MM-YYYY" data-template="DD MMM YYYY" />
+                                    {% elseif property.type == 'datetime' %}
+                                        <input id="{{ property.id }}" name="{{ property.id }}" class="datetimepicker" type="text" value="{{ property.value }}" data-yearDescending="false" {% if property.min is not null %} data-minYear="{{ property.min }}" {% endif %} {% if property.max is not null %} data-maxYear="{{ property.max }}" {% endif %} data-format="DD-MM-YYYY HH:mm" data-template="DD MMM YYYY     HH mm" />
+                                    {% elseif property.type == 'datetime' %}
+                                        <input id="{{ property.id }}" type="number" {% if property.min is not null %} min="{{ property.min }}" {% endif %} {% if property.max is not null %} max="{{ property.max }}" {% endif %} />
+                                    {% else %}
+                                        <input id="{{ property.id }}" name="{{ property.id }}" type="{{ property.type }}" value="{{ property.value }}" />
+                                    {% endif %}
+                                </td>
+                            </tr>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -66,74 +74,53 @@
                 <button type="reset" class="ym-button" id="reset-btn">Reset</button>
             </form>
         </div>
-		{% if crewAwaitingRequests is not empty or user.getRequestsByType(1) is not empty %}
-        <h4>Crew</h4>
-        <div class="tabbody">
-            {% if user.getRequestsByType(1) is not empty %}
-                <h5>Pending requests</h5>
-                {% for pendingRequest in user.getRequestsByType(1) %}
-                    [{{ pendingRequest.crew.game.name }}] 
-                    You asked for <strong>{{ pendingRequest.crew.manager.userName }}</strong>'s Crew on {{ pendingRequest.getCreatedAt|date('H:i:s - d-m-Y') }}.<br />
-                {% endfor %}
-            {% endif %}
-            {% if crewAwaitingRequests is not empty %}
-                <h5>Users awaiting your answer</h5>
-                {% for crewAwaitingRequest in crewAwaitingRequests %}
-                    <h6>{{ crewAwaitingRequest.crew.game.name }}</h6>
+
+        <div class="ui tab segment" data-tab="crew">
+            {% if crewAwaitingRequests is not empty or user.getRequestsByType(1) is not empty %}
+                {% if user.getRequestsByType(1) is not empty %}
+                    <h5>Pending requests</h5>
+                    {% for pendingRequest in user.getRequestsByType(1) %}
+                        [{{ pendingRequest.crew.game.name }}] 
+                        You asked for <strong>{{ pendingRequest.crew.manager.userName }}</strong>'s Crew on {{ pendingRequest.getCreatedAt|date('H:i:s - d-m-Y') }}.<br />
+                    {% endfor %}
+                {% endif %}
+                {% if crewAwaitingRequests is not empty %}
+                    <h5>Users awaiting your answer</h5>
+                    {% for crewAwaitingRequest in crewAwaitingRequests %}
+                        <h6>{{ crewAwaitingRequest.crew.game.name }}</h6>
                         Member <strong>{{ crewAwaitingRequest.requester.userName }}</strong> requested to be part of your crew.<br />
                         Do you accept?<br /><br />
-                    <form id="acceptCrewApplication">
-                        <input type="hidden" id="crewRequestId" value="{{ crewAwaitingRequest.id }}" />
-                        <button type="submit" value="accept" class="ym-button ym-success ym-save">Accept</button>
-                    </form>
-                    <form id="declineCrewApplication">
-                        <input type="hidden" id="crewRequestId" value="{{ crewAwaitingRequest.id }}" />
-                        <button type="submit" value="decline" class="ym-button ym-danger ym-delete">Decline</button>
-                    </form>
-                {% endfor %}
-            {% endif %}
-            {% if user.getRequestsByType(2) is not empty %}
-                <h5>Active crews</h5>
-                {% for activeCrew in user.getRequestsByType(2) %}
-                    [{{ activeCrew.game.name }}] 
-                    You are part in <strong>{{ activeCrew.manager.userName }}</strong>'s Crew since {{ activeCrew.getUpdatedAt|date('H:i:s - d-m-Y') }}.<br />
-                {% endfor %}
-            {% endif %}
-        </div>
-        {% endif %}
-        <h4>Championships</h4>
-        <div class="tabbody">
-            {% set cur_game = '' %}
-            <ul>
-                {% for championship in championships %}
-                {% if cur_game is null or cur_game != championship.game.name %}
-                    {% set cur_game = championship.game.name %}
-                    <li class="title">{{ cur_game }}</li>
+                        <form id="acceptCrewApplication">
+                            <input type="hidden" id="crewRequestId" value="{{ crewAwaitingRequest.id }}" />
+                            <button type="submit" value="accept" class="ym-button ym-success ym-save">Accept</button>
+                        </form>
+                        <form id="declineCrewApplication">
+                            <input type="hidden" id="crewRequestId" value="{{ crewAwaitingRequest.id }}" />
+                            <button type="submit" value="decline" class="ym-button ym-danger ym-delete">Decline</button>
+                        </form>
+                    {% endfor %}
                 {% endif %}
-                    <li>
-                        <a href="{{ path('rfcCore_championships_show', { 'championshipId': championship.id, 'gameId': championship.game.id  }) }}">{{ championship.name }}</a>
-                        {% if championship.championshipAgreed %}[Agreed!]{% endif %}
-                        <br />
-                        Number events : {{ championship.listEvents|length }}<br />
-                        <div>
-                            <small>
-                                <span class="label label-primary">
-                                    Begin : {{ championship.beginDate|date("Y/m/d H:i") }}
-                                </span>
-                                > 
-                                <span class="label label-primary">
-                                    End : {{ championship.endDate|date("Y/m/d H:i") }}
-                                </span>
-                            </small>
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
+                {% if user.getRequestsByType(2) is not empty %}
+                    <h5>Active crews</h5>
+                    {% for activeCrew in user.getRequestsByType(2) %}
+                        [{{ activeCrew.game.name }}] 
+                        You are part in <strong>{{ activeCrew.manager.userName }}</strong>'s Crew since {{ activeCrew.getUpdatedAt|date('H:i:s - d-m-Y') }}.<br />
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
         </div>
-        <h4>Statistics</h4>
-        <div class="tabbody">
-            /!\ Under construction /!\
+
+        <div class="ui tab segment" data-tab="championships">
+            
+            {% include 'RFCCoreBundle:User:championships.html.twig' with { 'championships' : championships } %}
         </div>
+
+        <div class="ui tab segment" data-tab="statistics">
+
+            {% include 'RFCCoreBundle:User:statistics.html.twig' %}
+
+        </div>
+        
     </div>
 
 {% endblock %}

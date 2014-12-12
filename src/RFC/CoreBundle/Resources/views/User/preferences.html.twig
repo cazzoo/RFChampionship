@@ -1,0 +1,52 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# src/RFC/CoreBundle/Resources/views/User/preferences.html.twig #}
+
+<form id="system-properties">
+    <table id="mainProperties" class="ui table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for property in app.user.listPreferences %}
+                <tr>
+                    <td>{{ property.id }}</td>
+                    <td>{{ property.name }}</td>
+                    <td class="small">{{ property.description }}</td>
+                    <td>
+                        {% if property.type == 'date' %}
+                            <input id="{{ property.id }}" name="{{ property.id }}" class="datepicker" type="text" value="{{ property.value }}" data-yearDescending="false" {% if property.min is not null %} data-minYear="{{ property.min }}" {% endif %} {% if property.max is not null %} data-maxYear="{{ property.max }}" {% endif %} data-format="DD-MM-YYYY" data-template="DD MMM YYYY" />
+                        {% elseif property.type == 'datetime' %}
+                            <input id="{{ property.id }}" name="{{ property.id }}" class="datetimepicker" type="text" value="{{ property.value }}" data-yearDescending="false" {% if property.min is not null %} data-minYear="{{ property.min }}" {% endif %} {% if property.max is not null %} data-maxYear="{{ property.max }}" {% endif %} data-format="DD-MM-YYYY HH:mm" data-template="DD MMM YYYY     HH mm" />
+                        {% elseif property.type == 'datetime' %}
+                            <input id="{{ property.id }}" type="number" {% if property.min is not null %} min="{{ property.min }}" {% endif %} {% if property.max is not null %} max="{{ property.max }}" {% endif %} />
+                        {% else %}
+                            <input id="{{ property.id }}" name="{{ property.id }}" type="{{ property.type }}" value="{{ property.value }}" />
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="ym-button" id="confirm-btn">Confirm</button>
+    <button type="reset" class="ym-button" id="reset-btn">Reset</button>
+</form>

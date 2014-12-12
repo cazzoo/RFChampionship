@@ -20,24 +20,10 @@
 
     <div class="equal height row">
         <div class="ui middle aligned grid">
-            <div class="four wide column">
-                <div id="showSidebar">
-                    <div class="ui animated fade black big launch button">
-                        <div class="visible content">
-                            <i class="left arrow icon"></i>
-                            <span class="text">Menu</span>
-                        </div>
-                        <div class="hidden content">
-                            <i class="content icon"></i>
-                            <span class="text">Menu</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="height wide column">
                 <h1>{{ appSettings.getParam('site name').value }}</h1>
             </div>
-            <div class="four wide column">
+            <div class="height wide column">
                 {#% include 'RFCCoreBundle::Structure/notificationCenter.html.twig' %#}
                 {% include 'RFCCoreBundle::Structure/header.html.twig' %}
             </div>

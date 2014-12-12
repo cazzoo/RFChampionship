@@ -804,3 +804,7 @@ $('.sidebar.comments').sidebar('setting', {
     dimPage: false,
     transition: 'overlay'
 });
+
+$('#userPage .menu .item').tab({
+    alwaysRefresh: true
+});
