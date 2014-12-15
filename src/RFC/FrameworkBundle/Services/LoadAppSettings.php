@@ -30,9 +30,15 @@ class LoadAppSettings
                 $session->remove ( 'game' );
             }
         } else {
+            $game = $this->gameRepository->find ( $gameId );
             if (!$session->has ( 'game' )) {
-                $game = $this->gameRepository->find ( $gameId );
                 $session->set ( 'game', $game );
+            } else {
+                if (null != $game) {
+                    $session->set ( 'game', $game );
+                } else {
+                    $session->remove ( 'game' );
+                }
             }
         }
 
@@ -86,7 +92,7 @@ class LoadAppSettings
         $session = $request->getSession ();
 
         if ($session->has ( 'game' )) {
-            return game;
+            return $session->get ( 'game' );
         }
 
         return null;

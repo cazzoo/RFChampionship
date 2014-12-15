@@ -43,37 +43,37 @@ class Game extends Descriptor
     private $shortName;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Championship", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Championship", mappedBy="game", cascade={"persist", "remove"})
      */
     private $listChampionships;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\MetaRule", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\MetaRule", mappedBy="game", cascade={"persist", "remove"})
      */
     private $listMetaRules;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Rule", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Rule", mappedBy="game", cascade={"persist", "remove"})
      */
     private $listRules;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Track", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Track", mappedBy="game", cascade={"persist", "remove"})
      */
     private $listTracks;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Vehicle", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Vehicle", mappedBy="game", cascade={"persist", "remove"})
      */
     private $listVehicles;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Category", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Category", mappedBy="game", cascade={"persist", "remove"})
      */
     private $listCategories;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\TypeSession", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\TypeSession", mappedBy="game", cascade={"persist", "remove"})
      */
     private $listTypeSessions;
 

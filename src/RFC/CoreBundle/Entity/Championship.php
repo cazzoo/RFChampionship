@@ -49,7 +49,7 @@ class Championship extends KnowledgeData
     protected $game;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Event", mappedBy="championship")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Event", mappedBy="championship", cascade={"persist", "remove"})
      */
     private $listEvents;
 

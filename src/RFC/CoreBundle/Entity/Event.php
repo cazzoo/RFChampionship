@@ -63,7 +63,7 @@ class Event extends Descriptor
     private $championship;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Session", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Session", mappedBy="event", cascade={"persist", "remove"})
      */
     private $listSessions;
 

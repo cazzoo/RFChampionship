@@ -37,7 +37,7 @@ class Session extends Descriptor
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Result", mappedBy="session")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Result", mappedBy="session", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $listResults;

@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% if threadId is defined %}
+{% if threadId is defined and threadId is not null %}
     <div id="showComments" class="ui right floated black icon button">
         <i class="comments icon"></i>
     </div>

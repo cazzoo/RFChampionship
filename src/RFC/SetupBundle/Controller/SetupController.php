@@ -35,10 +35,18 @@ class SetupController extends Controller
     {
         $entityManager = $this->getDoctrine ()->getManager ();
 
-        $setups = $entityManager->getRepository ( 'RFCSetupBundle:Setup' )->findBy ( array(
-            'game' => $this->container->get ( 'session' )->get ( 'game' )->getId (),
-            'user' => $this->getUser ()) );
-        $steps  = $entityManager->getRepository ( 'RFCSetupBundle:Step' )->findAll ();
+        $session  = $this->container->get ( 'session' );
+        $gameId   = $session->get ( 'game' ) ? $session->get ( 'game' )->getId ()
+                : null;
+        $setups   = null;
+        $steps    = null;
+
+        if (null != $gameId) {
+            $setups = $entityManager->getRepository ( 'RFCSetupBundle:Setup' )->findBy ( array(
+                'game' => $gameId,
+                'user' => $this->getUser ()) );
+            $steps  = $entityManager->getRepository ( 'RFCSetupBundle:Step' )->findAll ();
+        }
 
         return $this->render ( 'RFCSetupBundle:Setup:index.html.twig',
                 array(

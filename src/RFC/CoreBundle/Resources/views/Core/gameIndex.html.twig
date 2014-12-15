@@ -22,9 +22,9 @@
 
     <h2>Bienvenue sur {{ game.name }}</h2>
     <p>
-    	{{ game.description }}
+        {{ game.description }}
     </p>
-    
+
     {% include 'RFCCoreBundle:Structure:gallery.html.twig' with {'listImages': game.listImages} %}
 
 {% endblock %}

@@ -53,14 +53,17 @@ class ChampionshipController extends RFCController
             'id' => $gameId) );
         $games = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
 
-        // Ajout du jeu sélectionné
-        $menu        = $this->get ( 'rfc_core.menu.breadcrumb' );
-        $menu->addChild ( $game->getName () )->setUri ( $this->get ( "router" )->generate ( 'rfcCore_gameSelection',
-                array(
-                'gameId' => $gameId
-        ) ) );
-        $manipulator = new \Knp\Menu\Util\MenuManipulator ();
-        $manipulator->moveToPosition ( $menu->getChild ( $game->getName () ), 0 );
+        if (null != $game) {
+            // Ajout du jeu sélectionné
+            $menu        = $this->get ( 'rfc_core.menu.breadcrumb' );
+            $menu->addChild ( $game->getName () )->setUri ( $this->get ( "router" )->generate ( 'rfcCore_gameSelection',
+                    array(
+                    'gameId' => $gameId
+            ) ) );
+            $manipulator = new \Knp\Menu\Util\MenuManipulator ();
+            $manipulator->moveToPosition ( $menu->getChild ( $game->getName () ),
+                0 );
+        }
 
         return $this->render ( 'RFCCoreBundle:Championship:index.html.twig',
                 array(

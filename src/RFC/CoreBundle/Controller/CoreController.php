@@ -41,7 +41,7 @@ class CoreController extends RFCController
         return $this->render ( 'RFCCoreBundle:Core:index.html.twig',
                 array(
                 'games' => $games
-        ) );
+            ) );
     }
 
     public function accessGameAction($gameId)
@@ -51,15 +51,17 @@ class CoreController extends RFCController
 
         $entityManager = $this->getDoctrine ()->getManager ();
         $g             = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->find ( $gameId );
-        $games         = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+        $threadId      = null;
 
-        $threadId = substr ( strrchr ( get_class ( $g ), "\\" ), 1 ).'_'.$g->getName ();
+        if (null != $g) {
+            $threadId = substr ( strrchr ( get_class ( $g ), "\\" ), 1 ).'_'.$g->getName ();
+        }
+
         return $this->render ( 'RFCCoreBundle:Core:gameIndex.html.twig',
                 array(
                 'game' => $g,
-                'games' => $games,
                 'threadId' => $threadId
-        ) );
+            ) );
     }
 
     public function showGalleryAction($elementId, $elementType)
@@ -88,6 +90,6 @@ class CoreController extends RFCController
         return $this->render ( 'RFCCoreBundle:Structure:gallery.html.twig',
                 array(
                 'listImages' => $entity->getListImages ()
-        ) );
+            ) );
     }
 }

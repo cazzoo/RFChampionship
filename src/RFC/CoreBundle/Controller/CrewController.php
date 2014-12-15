@@ -56,13 +56,16 @@ class CrewController extends RFCController
         }
 
         // Ajout du jeu sélectionné
-        $menu        = $this->get ( 'rfc_core.menu.breadcrumb' );
-        $menu->addChild ( $game->getName () )->setUri ( $this->get ( "router" )->generate ( 'rfcCore_gameSelection',
-                array(
-                'gameId' => $gameId
-        ) ) );
-        $manipulator = new \Knp\Menu\Util\MenuManipulator ();
-        $manipulator->moveToPosition ( $menu->getChild ( $game->getName () ), 0 );
+        if (null != $game) {
+            $menu        = $this->get ( 'rfc_core.menu.breadcrumb' );
+            $menu->addChild ( $game->getName () )->setUri ( $this->get ( "router" )->generate ( 'rfcCore_gameSelection',
+                    array(
+                    'gameId' => $gameId
+            ) ) );
+            $manipulator = new \Knp\Menu\Util\MenuManipulator ();
+            $manipulator->moveToPosition ( $menu->getChild ( $game->getName () ),
+                0 );
+        }
 
         return $this->render ( 'RFCCoreBundle:Crew:index.html.twig',
                 array(

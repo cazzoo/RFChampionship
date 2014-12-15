@@ -39,8 +39,21 @@
 {% endblock %}
 {% block page_content %}
 
-    {% block rfccore_body %}
-    {% endblock %}
+    {% if appSettings.getGame() is not null or games is defined %}
+
+        {% block rfccore_body %}
+        {% endblock %}
+
+    {% else %}
+
+        <div class="ui segment">
+            <h2>Le jeu demandé n'existe pas.</h2>
+            <a class="ui primary button" href="{{ path('rfcCore_accueil') }}">
+                Sélectionner un autre jeu
+            </a>
+        </div>
+
+    {% endif %}
 
 {% endblock %}
 
