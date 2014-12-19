@@ -47,7 +47,7 @@ class Crew
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $game;
 

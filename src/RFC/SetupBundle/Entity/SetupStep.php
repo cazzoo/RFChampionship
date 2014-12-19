@@ -47,12 +47,13 @@ class SetupStep
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\Setup", inversedBy="listSetupSteps")
+     * @ORM\joinColumn(onDelete="cascade")
      */
     private $setup;
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\Step")
-     * @ORM\joinColumn(onDelete="CASCADE")
+     * @ORM\joinColumn(onDelete="cascade")
      */
     private $step;
 
@@ -63,7 +64,6 @@ class SetupStep
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\SubStep")
-     * @ORM\joinColumn(onDelete="CASCADE")
      */
     private $subStep;
 

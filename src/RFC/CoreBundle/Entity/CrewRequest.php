@@ -73,7 +73,7 @@ class CrewRequest
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Crew", inversedBy="listCrewRequests")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $crew;
 

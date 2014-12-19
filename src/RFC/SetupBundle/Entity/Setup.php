@@ -49,17 +49,19 @@ class Setup extends KnowledgeData
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Track")
+     * @ORM\JoinColumn(nullable=true, onDelete="cascade")
      */
     private $track;
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Vehicle")
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $vehicle;
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     protected $game;
 
