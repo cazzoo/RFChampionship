@@ -69,10 +69,10 @@ class LoadAppSettings
             return null;
         } else {
             foreach ($session->get ( 'parameters' ) as $param) {
-                $paramUpperName = strtoupper ( trim ( preg_replace ( '/\s+/',
-                            ' ', $param->getName () ) ) );
-                $upperName      = strtoupper ( trim ( preg_replace ( '/\s+/',
-                            ' ', $name ) ) );
+                $paramUpperName = strtoupper ( preg_replace ( '/\s+/',
+                            '', trim ( $param->getName () ) ) );
+                $upperName      = strtoupper ( preg_replace ( '/\s+/',
+                            '', trim ( $name ) ) );
                 if ($paramUpperName == $upperName) {
                     return $param;
                 }

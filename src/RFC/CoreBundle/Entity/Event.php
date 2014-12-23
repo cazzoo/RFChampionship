@@ -43,16 +43,19 @@ class Event extends Descriptor
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Track")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $track;
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Vehicle")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $vehicle;
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Category")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $category;
 

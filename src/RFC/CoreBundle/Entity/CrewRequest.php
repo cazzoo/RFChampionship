@@ -72,7 +72,7 @@ class CrewRequest
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Crew", inversedBy="listCrewRequests")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Crew", inversedBy="listCrewRequests", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $crew;

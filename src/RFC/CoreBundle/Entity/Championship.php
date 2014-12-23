@@ -61,6 +61,7 @@ class Championship extends KnowledgeData
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\MetaRule")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $metaRule;
 
