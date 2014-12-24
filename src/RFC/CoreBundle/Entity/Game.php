@@ -82,7 +82,7 @@ class Game extends Descriptor
      */
     public function __construct()
     {
-        parent::__construct ();
+        parent::__construct();
         $this->listChampionships = new \Doctrine\Common\Collections\ArrayCollection ();
         $this->listMetaRules     = new \Doctrine\Common\Collections\ArrayCollection ();
         $this->listRules         = new \Doctrine\Common\Collections\ArrayCollection ();
@@ -146,7 +146,7 @@ class Game extends Descriptor
      */
     public function removeListChampionship(\RFC\CoreBundle\Entity\Championship $listChampionships)
     {
-        $this->listChampionships->removeElement ( $listChampionships );
+        $this->listChampionships->removeElement($listChampionships);
     }
 
     /**
@@ -179,7 +179,7 @@ class Game extends Descriptor
      */
     public function removeListMetaRule(\RFC\CoreBundle\Entity\MetaRule $listMetaRules)
     {
-        $this->listMetaRules->removeElement ( $listMetaRules );
+        $this->listMetaRules->removeElement($listMetaRules);
     }
 
     /**
@@ -212,7 +212,7 @@ class Game extends Descriptor
      */
     public function removeListRule(\RFC\CoreBundle\Entity\Rule $listRules)
     {
-        $this->listRules->removeElement ( $listRules );
+        $this->listRules->removeElement($listRules);
     }
 
     /**
@@ -267,5 +267,24 @@ class Game extends Descriptor
     {
         $this->listTypeSessions = $listTypeSessions;
         return $this;
+    }
+
+    /**
+     * Returns the last Event within all the championships that begins the lastest.
+     */
+    public function getNextEvent()
+    {
+        $nextEvent = null;
+        foreach ($this->listChampionships as $championships) {
+            $lastChampionshipEvent = $championships->getLastEvent();
+            if (null == $nextEvent) {
+                $nextEvent = $lastChampionshipEvent;
+            } else {
+                if ($nextEvent->getBeginDate() > $lastChampionshipEvent->getBeginDate()) {
+                    $nextEvent = $lastChampionshipEvent;
+                }
+            }
+        }
+        return $nextEvent;
     }
 }

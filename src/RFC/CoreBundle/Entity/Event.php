@@ -1,19 +1,19 @@
 <?php
 /*  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
-    Copyright (C) 2014 - //Racing-France//
+  Copyright (C) 2014 - //Racing-France//
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    any later version.
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 namespace RFC\CoreBundle\Entity;
 
@@ -28,7 +28,6 @@ use RFC\CoreBundle\Entity\Descriptor;
  */
 class Event extends Descriptor
 {
-
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -155,7 +154,7 @@ class Event extends Descriptor
     public function setListBroadcast($listBroadcast)
     {
         $this->listBroadcast = $listBroadcast;
-        
+
         return $this;
     }
 
@@ -178,7 +177,7 @@ class Event extends Descriptor
     public function setTrack($track)
     {
         $this->track = $track;
-        
+
         return $this;
     }
 
@@ -201,7 +200,7 @@ class Event extends Descriptor
     public function setVehicle($vehicle)
     {
         $this->vehicle = $vehicle;
-        
+
         return $this;
     }
 
@@ -224,7 +223,7 @@ class Event extends Descriptor
     public function setCategory($category)
     {
         $this->category = $category;
-        
+
         return $this;
     }
 
@@ -247,7 +246,7 @@ class Event extends Descriptor
     public function setChampionship(\RFC\CoreBundle\Entity\Championship $championship)
     {
         $this->championship = $championship;
-        
+
         return $this;
     }
 
@@ -270,7 +269,7 @@ class Event extends Descriptor
     public function addListSession(\RFC\CoreBundle\Entity\Session $listSessions)
     {
         $this->listSessions[] = $listSessions;
-        
+
         return $this;
     }
 
@@ -292,5 +291,24 @@ class Event extends Descriptor
     public function getListSessions()
     {
         return $this->listSessions;
+    }
+
+    /**
+     * Returns the last session of the event.
+     * @return the last session of the event
+     */
+    public function getLastSession()
+    {
+        $lastSession = null;
+        foreach ($this->listSessions as $session) {
+            if (null == $lastSession) {
+                $lastSession = $session;
+            } else {
+                if ($lastSession->getEndDate() < $session->getBeginDate()) {
+                    $lastSession = $session;
+                }
+            }
+            return $lastSession;
+        }
     }
 }

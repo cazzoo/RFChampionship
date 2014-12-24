@@ -25,6 +25,28 @@
         {{ game.description }}
     </p>
 
+    <div class="ui two column grid">
+        <div class="column">
+            <div class="ui segment">
+                {% if game.getNextEvent %}
+                    <h3>Next event &nbsp; <a href="{{ path('rfcCore_championships_show', { 'championshipId': game.getNextEvent.championship.id, 'gameId': game.id  }) }}">{{ game.getNextEvent.name }} </a></h3>
+                    <p>
+                        Category : {{ game.getNextEvent.category ? game.getNextEvent.category : "Not defined" }}<br />
+                        Vehicle : {{ game.getNextEvent.vehicle ? game.getNextEvent.vehicle :"Not defined" }}<br />
+                        Track : {{ game.getNextEvent.track ? game.getNextEvent.track :"Not defined"}}<br />
+                        Last session : {{ game.getNextEvent.getLastSession ? game.getNextEvent.getLastSession.name : "Not defined" }}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment">
+                <h3>Flash news!</h3>
+                <p>CECI EST UNE NOUVELLE</p>
+            </div>
+        </div>
+    </div>
+
     {% include 'RFCCoreBundle:Structure:gallery.html.twig' with {'listImages': game.listImages} %}
 
 {% endblock %}
