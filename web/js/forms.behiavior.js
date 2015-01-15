@@ -569,6 +569,7 @@ $(function () {
     // --------------------------------------------
 
     $(".eventItem").click(function () {
+        $('#sessionAddButton').hide();
         $('.eventItem .step').removeClass('active');
         $(this).find('.step').addClass("active");
         var data = {
@@ -585,8 +586,8 @@ $(function () {
             beforeSend: function () {
                 $('#listSessions').html("Chargement des sessions...");
             }
-        }).done(function (data) {
-            $('#listSessions').html(data);
+        }).done(function (datareturned) {
+            $('#listSessions').html(datareturned);
             $('.sessionItem').bind('click', function () {
                 $('.sessionItem').removeClass('active');
                 $(this).addClass("active");
@@ -599,8 +600,15 @@ $(function () {
 
                 return false;
             });
+            $('#sessionAddButton').attr("href", Routing.generate('admin_session_new', {
+                gameId: data.gameId,
+                championshipId: data.championshipId,
+                eventId: data.eventId}));
+            $('#sessionAddButton').show();
         }).fail(function () {
             $('#listSessions').html("Impossible de récupérer un résultat");
+            $('#sessionAddButton').attr("href", "");
+            $('#sessionAddButton').hide();
         });
         return false;
     });

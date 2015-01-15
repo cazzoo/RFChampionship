@@ -14,17 +14,14 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% if eventId is null %} 
-    Aucun Event sélectionné. Veuillez sélectionner un Event. 
+{% if eventId is null %}
+    Aucun Event sélectionné. Veuillez sélectionner un Event.
 {% else %}
 
     {% set canEdit = is_granted('ROLE_MANAGER') or is_granted('ROLE_CERTIFIED_MANAGER') %}
 
     {% if canEdit %}
         Ajouter une session
-        <a class="ui mini teal icon labeled button" href="{{ path('admin_session_new', {'gameId' : gameId, 'championshipId' : championshipId, 'eventId' : eventId}) }}">
-            <i class="add icon"></i>Add
-        </a>
     {% endif %}
 
     {% if sessions %}

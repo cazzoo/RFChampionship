@@ -5,6 +5,8 @@ admin_session_show:
 admin_session_new:
     pattern:  /new
     defaults: { _controller: "RFCAdminBundle:Session:new" }
+    options:
+        expose: true
 
 admin_session_create:
     pattern:  /create

@@ -44,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
                     <dt>Administrator</dt>
                     <dd>yyy</dd>
                     <dt>Site name</dt>
-                    <dd>{{ properties[0].value }}</dd>                
+                    <dd>{{ properties[0].value }}</dd>
                 </dl>
             </div>
         </div>
@@ -71,50 +71,54 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
                                         <td class="small">{{ property.description }}</td>
                                         <td>
                                             {% if property.type == 'date' %}
-                                                <input id="{{ property.id }}" 
-                                                       name="{{ property.id }}" 
-                                                       class="datepicker" 
-                                                       type="text" 
-                                                       value="{{ property.value }}" 
-                                                       data-yearDescending="false" 
-                                                       {% if property.min is not null %} data-minDate="{{ property.min }}" {% endif %} 
-                                                       {% if property.max is not null %} data-maxDate="{{ property.max }}" {% endif %} 
-                                                       data-format="DD-MM-YYYY" 
-                                                       data-template="DD MMM YYYY" />
+                                                <input id="{{ property.id }}"
+                                                       name="{{ property.id }}"
+                                                       class="datepicker"
+                                                       type="text"
+                                                       data-yearDescending="false"
+                                                       {% if property.min is not null %} data-minDate="{{ property.min }}" {% endif %}
+                                                       {% if property.max is not null %} data-maxDate="{{ property.max }}" {% endif %}
+                                                       data-format="DD-MM-YYYY"
+                                                       data-template="DD MMM YYYY"
+                                                       value="{{ property.value }}" />
                                             {% elseif property.type == 'datetime' %}
                                                 {% if property.min is not null %}
                                                     {% set dateMin = property.min|split(' ')[0] %}
                                                     {% set hourMin = property.min|split(' ')[1] %}
-                                                {% endif %} 
+                                                {% endif %}
                                                 {% if property.max is not null %}
                                                     {% set dateMax = property.max|split(' ')[0] %}
                                                     {% set hourMax = property.max|split(' ')[1] %}
-                                                {% endif %} 
-                                                <input id="{{ property.id }}" 
-                                                       name="{{ property.id }}" 
-                                                       class="datetimepicker" 
-                                                       type="text" 
-                                                       value="{{ property.value }}" 
-                                                       data-yearDescending="false" 
-                                                       {% if dateMin %} data-minDate="{{ dateMin }}" {% endif %} 
-                                                       {% if hourMin %} data-minTime="{{ hourMin }}" {% endif %} 
-                                                       {% if dateMax %} data-maxDate="{{ dateMax }}" {% endif %} 
-                                                       {% if hourMax %} data-maxTime="{{ hourMax }}" {% endif %} 
-                                                       data-format="DD-MM-YYYY HH:mm" 
-                                                       data-template="DD MMM YYYY     HH mm" />
+                                                {% endif %}
+                                                <input id="{{ property.id }}"
+                                                       name="{{ property.id }}"
+                                                       class="datetimepicker"
+                                                       type="text"
+                                                       data-yearDescending="false"
+                                                       {% if dateMin %} data-minDate="{{ dateMin }}" {% endif %}
+                                                       {% if hourMin %} data-minTime="{{ hourMin }}" {% endif %}
+                                                       {% if dateMax %} data-maxDate="{{ dateMax }}" {% endif %}
+                                                       {% if hourMax %} data-maxTime="{{ hourMax }}" {% endif %}
+                                                       data-format="DD-MM-YYYY HH:mm"
+                                                       data-template="DD MMM YYYY     HH mm"
+                                                       value="{{ property.value }}" />
                                             {% elseif property.type == 'number' %}
-                                                <input id="{{ property.id }}" type="number" {% if property.min is not null %} min="{{ property.min }}" {% endif %} {% if property.max is not null %} max="{{ property.max }}" {% endif %} />
+                                                <input id="{{ property.id }}"
+                                                       type="number" {% if property.min is not null %}
+                                                       min="{{ property.min }}" {% endif %} {% if property.max is not null %}
+                                                       max="{{ property.max }}" {% endif %}
+                                                       value="{{ property.value }}" />
                                             {% elseif property.type == 'select' %}
                                                 <div class="ui compact menu">
                                                     <div class="ui simple dropdown item">
                                                         <i class="dropdown icon"></i>
                                                         {{ property.id }}
-                                                        {% set  values= property.value|split(',') %}
+                                                        {% set  values = property.value|split(',') %}
                                                         <div class="menu">
                                                             {% for value in values %}
 
-                                                                {% set  item= value|split(':')[0] %}
-                                                                {% set  checked= value|split(':')[1] %}
+                                                                {% set item = value|split(':')[0] %}
+                                                                {% set checked = value|split(':')[1] %}
 
                                                                 <div class="item">
                                                                     <div class="ui checkbox" id="{{ property.id }}_{{ loop.index }}">
@@ -126,8 +130,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
                                                         </div>
                                                     </div>
                                                 </div>
+                                            {% elseif property.type == 'textarea' %}
+                                                <textarea id="{{property.id}}"
+                                                          name="{{property.id}}">
+                                                    {{ property.value }}
+                                                </textarea>
                                             {% else %}
-                                                <input id="{{ property.id }}" name="{{ property.id }}" type="{{ property.type }}" value="{{ property.value }}" />
+                                                <input id="{{ property.id }}"
+                                                       name="{{ property.id }}"
+                                                       type="{{ property.type }}"
+                                                       value="{{ property.value }}" />
                                             {% endif %}
                                         </td>
                                     </tr>

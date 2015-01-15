@@ -128,6 +128,9 @@
                 {# Colonne 1 : Events #}
                 <h3>
                     Events
+                    <a class="ui mini teal icon labeled button" href="{{ path('admin_event_new', { 'gameId': game.id, 'championshipId' : entity.id }) }}">
+                        <i class="add icon"></i>Add
+                    </a>
                 </h3>
                 {% if entity.listEvents is empty %}
                     Aucun Event n'est présent. Il faut en créer.
@@ -135,7 +138,7 @@
 
                     <div class="ui vertical ordered steps">
                         {% for event in entity.listEvents %}
-                            <div class="eventItem" data-eventid="{{event.id}}" data-gameid="{{ game.id }}" data-championshipid="{{entity.id}}">
+                            <div class="eventItem" data-eventid="{{ event.id }}" data-gameid="{{ game.id }}" data-championshipid="{{ entity.id }}">
                                 <div class="ui mini label">
                                     <i class="wait icon"></i>
                                     {{ event.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
@@ -149,8 +152,8 @@
                                             {{ event.description }}<br />
                                             <span>
                                                 Category : {{ event.category ? event.category : "Not defined" }}<br />
-                                                Vehicle : {{ event.vehicle ? event.vehicle :"Not defined" }}<br />
-                                                Track : {{ event.track ? event.track :"Not defined"}}
+                                                Vehicle : {{ event.vehicle ? event.vehicle : "Not defined" }}<br />
+                                                Track : {{ event.track ? event.track : "Not defined" }}
                                                 {% if event.listBroadcast is not empty %}
                                                     <br />Broadcast :
                                                     {% for broadcast in event.listBroadcast %}
@@ -170,7 +173,12 @@
         </div>
         <div class="eleven wide column">
             <div class="ui horizontal segment">
-                <h3>Sessions</h3>
+                <h3>
+                    Sessions
+                    <a id="sessionAddButton" class="ui mini teal icon labeled button" href="#">
+                        <i class="add icon"></i>Add
+                    </a>
+                </h3>
                 {# Colonne 2 : Sessions #}
                 <ul class="list-group" id="listSessions"></ul>
             </div>
