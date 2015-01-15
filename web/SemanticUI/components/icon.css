@@ -1,5 +1,5 @@
  /*
- * # Semantic UI
+ * # Semantic UI - 1.7.2
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -17,8 +17,8 @@
 
 @font-face {
   font-family: 'Icons';
-  src: url("..\themes/default/assets/fonts/icons.eot");
-  src: url("..\themes/default/assets/fonts/icons.eot?#iefix") format('embedded-opentype'), url("..\themes/default/assets/fonts/icons.svg#icons") format('svg'), url("..\themes/default/assets/fonts/icons.woff") format('woff'), url("..\themes/default/assets/fonts/icons.ttf") format('truetype');
+  src: url("../themes/default/assets/fonts/icons.eot");
+  src: url("../themes/default/assets/fonts/icons.eot?#iefix") format('embedded-opentype'), url("../themes/default/assets/fonts/icons.svg#icons") format('svg'), url("../themes/default/assets/fonts/icons.woff") format('woff'), url("../themes/default/assets/fonts/icons.ttf") format('truetype');
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -339,7 +339,7 @@ i.massive.icon {
 }
 /*
  * # Semantic - Icon
- * http://github.com/jlukic/semantic-ui/
+ * http://github.com/semantic-org/semantic-ui/
  *
  *
  * Copyright 2014 Contributor
