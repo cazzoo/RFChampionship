@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace RFC\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -33,12 +34,12 @@ use RFC\CoreBundle\Entity\Championship;
  */
 class User extends BaseUser
 {
+
     /**
      * Hook timestampable behavior
      * updates createdAt, updatedAt fields
      */
     use TimestampableEntity;
-
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -73,7 +74,7 @@ class User extends BaseUser
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Property")
-     */    
+     */
     protected $listPreferences;
 
     /**
@@ -90,12 +91,14 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->listChampionships = array();
-        $this->listCrewRequests = array();
-        $this->listPreferences = array();
+        $this->listCrewRequests  = array();
+        $this->listPreferences   = array();
     }
 
     public function eraseCredentials()
-    {}
+    {
+        
+    }
 
     /**
      * Set firstName
@@ -320,7 +323,8 @@ class User extends BaseUser
     public function getCrew($gameId)
     {
         foreach ($this->listCrewRequests as $crewRequest) {
-            if ($crewRequest->getState() == 2 && $crewRequest->getCrew()->getGame()->getId() == $gameId) {
+            if ($crewRequest->getState() == 2 && $crewRequest->getCrew()->getGame()->getId()
+                == $gameId) {
                 return $crewRequest->getCrew();
             }
         }
@@ -350,8 +354,7 @@ class User extends BaseUser
     public function getCrews()
     {
         $crews = array();
-        foreach ($this->getRequestsByType(2) as $crewRequest)
-        {
+        foreach ($this->getRequestsByType(2) as $crewRequest) {
             array_push($crews, $crewRequest->getCrew());
         }
         return $crews;
@@ -360,10 +363,10 @@ class User extends BaseUser
     public function getLastCrewRequest($crewId)
     {
         $lastRequest = null;
-        foreach ($this->listCrewRequests as $crewRequest)
-        {
-            if($crewId === $crewRequest->getCrew()->getId() && ($lastRequest === null || $lastRequest->getCreatedAt() < $crewRequest->getCreatedAt()))
-            {
+
+        foreach ($this->listCrewRequests as $crewRequest) {
+            if ($crewId === $crewRequest->getCrew()->getId() && ($lastRequest === null
+                || $lastRequest->getCreatedAt() < $crewRequest->getCreatedAt())) {
                 $lastRequest = $crewRequest;
             }
         }

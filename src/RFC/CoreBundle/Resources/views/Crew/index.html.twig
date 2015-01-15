@@ -30,7 +30,7 @@
         {% set userState = 0 %}
 
         {% if crew is not empty %}
-            {% if app.user.listCrewRequests is not empty %}
+            {% if( not crew.isManager(app.user.id) and app.user.listCrewRequests is not empty ) %}
                 {% set userState = app.user.getLastCrewRequest(crew.id).getState %}
             {% endif %}
             {% set members = crew.getActiveMembers %}
@@ -39,6 +39,7 @@
             {% if crew.isManager(app.user.id) or crew.isActiveMember(app.user.id) %}
                 {% set showCrewInfo = true %}
                 {% set showCrewFeed = true %}
+                {% set showRegistrationForm = false %}
             {% endif %}
         {% endif %}
 

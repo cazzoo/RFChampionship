@@ -25,9 +25,18 @@
 
     {% if app.user %}
 
+        {% set canEdit = is_granted('ROLE_MANAGER') or is_granted('ROLE_CERTIFIED_MANAGER') %}
+
+        {% if canEdit %}
+            <a class="red ui labeled icon button" href="{{ path('setup_step_index', { 'gameId': gameId }) }}">
+                <i class="wrench icon"></i>Manage setups
+            </a>
+        {% endif %}
+
         <a class="ui icon teal labeled button" href="{{ path('setup_new', {'gameId': gameId}) }}">
             <i class="add icon"></i> Create
         </a>
+        <br />
 
         {% if setups %}
 

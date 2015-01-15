@@ -19,4 +19,3 @@ setup_subStep_update:
 setup_subStep_delete:
     pattern:  /{subStepId}/delete
     defaults: { _controller: "RFCSetupBundle:SubStep:delete" }
-    requirements: { _method: post|delete }

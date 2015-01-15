@@ -21,11 +21,11 @@
 {% endblock %}
 {% block rfccore_body %}
 
-    <h1>Steps</h1>
-
-    <a class="ui icon teal labeled button" href="{{ path('setup_new', {'gameId': gameId}) }}">
-        <i class="add icon"></i> Create
-    </a>
+    <h1>
+        Steps <a class="ui icon teal labeled button" href="{{ path('setup_step_new', {'gameId': gameId}) }}">
+            <i class="add icon"></i> Create
+        </a>
+    </h1>
 
     {% if steps %}
 
@@ -37,39 +37,37 @@
                         <img src="/images/avatar/large/stevie.jpg">
                     </div>
                     <div class="content">
-                        <div class="header">{{ step.name }}</div>
+                        <div class="header">
+                            {{ step.name }}
+                            <a class="ui mini icon labeled teal button" href="{{ path('setup_subStep_new', {'gameId': gameId, 'stepId': step.id}) }}">
+                                <i class="add icon"></i> Add substep
+                            </a>
+
+                        </div>
                         <div class="meta">
-                            <span class="date">{{ step.listSubSteps|length }} subSteps</span>
+                            <span class="date">
+                                {{ step.listSubSteps|length }} subSteps
+                            </span>
                         </div>
                         <div class="description">
-                            <table class="ui very basic table">
-                                <tbody>
-                                    {% for subStep in step.listSubSteps %}
-                                        <tr>
-                                            <td>
-                                                {{ subStep.name }}
-                                            </td>
-                                            <td>
-                                                <a class="ui mini icon blue button" href="{{ path('setup_step_delete', {'gameId': gameId, 'stepId': subStep.step.id}) }}">
-                                                    <i class="edit icon"></i>
-                                                </a>
-                                                <a class="ui mini icon red button" href="{{ path('setup_step_edit', {'gameId': gameId, 'stepId': subStep.step.id}) }}">
-                                                    <i class="delete icon"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                                <tfoot class="full-width">
-                                    <tr>
-                                        <th colspan="2" class="center aligned">
-                                            <a class="ui mini icon labeled teal button" href="{{ path('setup_subStep_new', {'gameId': gameId, 'stepId': step.id}) }}">
-                                                <i class="add icon"></i> Add substep
+                            <div class="ui divided list">
+                                {% for subStep in step.listSubSteps %}
+                                    <div class="item">
+                                        <div class="right floated">
+                                            <a class="ui mini icon blue button" href="{{ path('setup_subStep_edit', {'gameId': gameId, 'stepId': step.id, 'subStepId': subStep.id }) }}">
+                                                <i class="edit icon"></i>
                                             </a>
-                                        </th>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                            <a class="ui mini icon red button" href="{{ path('setup_subStep_delete', {'gameId': gameId, 'stepId': step.id, 'subStepId': subStep.id}) }}">
+                                                <i class="delete icon"></i>
+                                            </a>
+                                        </div>
+                                        <i class="top aligned right triangle icon"></i>
+                                        <div class="content">
+                                            <div class="header">{{ subStep.name }}</div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                     <div class="extra content">

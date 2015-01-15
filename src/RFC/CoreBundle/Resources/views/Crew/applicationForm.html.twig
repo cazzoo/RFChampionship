@@ -16,52 +16,54 @@
 
 {# src/RFC/CoreBundle/Resources/views/Crew/applicationForm.html.twig #}
 
-{% if userState == 0 %}
+{% if showRegistrationForm %}
+    {% if userState == 0 %}
 
-    <div class="ui grid">
-        <div class="four wide column">
-            <p>
-                You're not part in any crew.<br />
-                Select a member as a manager to be part of his crew.
-            </p>
-        </div>
-        <div class="four wide column"></div>
-        <div class="four wide column"></div>
-        <div class="four wide column">
-            <div class="ui segment">
-                <form id="sendCrewRequest">
-                    <input type="hidden" id="requesterId" value="{{ app.user.id }}" />
-                    <input type="hidden" id="gameId" value="{{ game.id }}" />
-                    <select id="managerId">
-                        {% for user in users %}
-                            {% if user.id != app.user.id %}
-                                <option value="{{ user.id }}">{{ user.userName }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                    <button class="ui button">Send request</button>
-                </form>
+        <div class="ui grid">
+            <div class="four wide column">
+                <p>
+                    You're not part in any crew.<br />
+                    Select a member as a manager to be part of his crew.
+                </p>
+            </div>
+            <div class="four wide column"></div>
+            <div class="four wide column"></div>
+            <div class="four wide column">
+                <div class="ui segment">
+                    <form id="sendCrewRequest">
+                        <input type="hidden" id="requesterId" value="{{ app.user.id }}" />
+                        <input type="hidden" id="gameId" value="{{ game.id }}" />
+                        <select id="managerId">
+                            {% for user in users %}
+                                {% if user.id != app.user.id %}
+                                    <option value="{{ user.id }}">{{ user.userName }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <button class="ui button">Send request</button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-{% endif %}
+    {% endif %}
 
-{% if userState == 1 %}
+    {% if userState == 1 %}
 
-    <div class="ui grid">
-        <div class="four wide column">
-            <p>
-                You asked to being part of <strong>{{ crew.manager.userName }}</strong>'s crew but your request is not accepted yet.
-            </p>
-        </div>
-        <div class="four wide column"></div>
-        <div class="four wide column"></div>
-        <div class="four wide column">
-            <div class="ui segment">
-                <a class="ui right floated red icon mini button crewRetire" data-crewrequestid="{{ app.user.getLastCrewRequest(crew.id).id }}" ><i class="remove icon"></i>Cancel request</a>
+        <div class="ui grid">
+            <div class="four wide column">
+                <p>
+                    You asked to being part of <strong>{{ crew.manager.userName }}</strong>'s crew but your request is not accepted yet.
+                </p>
+            </div>
+            <div class="four wide column"></div>
+            <div class="four wide column"></div>
+            <div class="four wide column">
+                <div class="ui segment">
+                    <a class="ui right floated red icon mini button crewRetire" data-crewrequestid="{{ app.user.getLastCrewRequest(crew.id).id }}" ><i class="remove icon"></i>Cancel request</a>
+                </div>
             </div>
         </div>
-    </div>
 
+    {% endif %}
 {% endif %}

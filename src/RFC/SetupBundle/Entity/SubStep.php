@@ -30,7 +30,6 @@ use RFC\CoreBundle\Entity\Descriptor;
  */
 class SubStep extends Descriptor
 {
-
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -40,7 +39,7 @@ class SubStep extends Descriptor
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\SetupBundle\Entity\Step", inversedBy="listSubSteps")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $step;
 

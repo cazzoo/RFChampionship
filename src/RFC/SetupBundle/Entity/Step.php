@@ -30,7 +30,6 @@ use RFC\CoreBundle\Entity\Descriptor;
  */
 class Step extends Descriptor
 {
-
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id

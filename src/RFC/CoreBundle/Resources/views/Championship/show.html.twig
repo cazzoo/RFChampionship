@@ -30,7 +30,7 @@
                     <div class="image">
                         <img src="/images/wireframe/image.png">
                         <div class="ui corner blue icon label">
-                            <a href="#"><i class="setting icon"></i></a>
+                            <a href="{{ path('admin_championship_edit', {'gameId': game.id, 'championshipId': entity.id}) }}"><i class="setting icon"></i></a>
                         </div>
                     </div>
                     <div class="content">
@@ -69,9 +69,11 @@
 
                                     {% for manager in entity.listManagers %}
                                         <div class="item">
-                                            <img class="ui avatar image" src="/images/avatar/small/tom.jpg">
+                                            <img class="ui avatar image" src="{{ manager.avatarUrl }}">
                                             <div class="content">
-                                                <a class="header">{{ manager.username }}</a>
+                                                <a class="header" href="{{ path('rfcCore_members_show', {'gameId': game.id, 'userId': manager.id}) }}">
+                                                    {{ manager.username }}
+                                                </a>
                                             </div>
                                         </div>
                                     {% endfor %}
