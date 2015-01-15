@@ -123,6 +123,15 @@
     </div>
 {% endif %}
 
+{% if is_granted('ROLE_ADMIN') %}
+<div class="ui right floated white icon button">
+    <i class="cogs icon"></i>
+    <a href="{{ path('rfcCore_systemParameters') }}">
+        System parameters
+    </a>
+</div>
+{% endif %}
+
 <div class="ui right floated white icon button">
     <i class="game icon"></i>
     <a href="{{ path('rfcCore_accueil') }}">

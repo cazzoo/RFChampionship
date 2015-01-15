@@ -18,39 +18,53 @@ class LoadAppSettings
         $this->gameRepository     = $gameRepository;
     }
 
+    public function clearSession()
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $session = $request->getSession();
+
+        if ($session->has('game')) {
+            $session->remove('game');
+        }
+
+        if (!$session->has('parameters')) {
+            $session->remove('parameters');
+        }
+    }
+
     public function modifySession()
     {
-        $request = $this->requestStack->getCurrentRequest ();
-        $session = $request->getSession ();
+        $request = $this->requestStack->getCurrentRequest();
+        $session = $request->getSession();
 
-        $gameId = $request->get ( 'gameId' );
+        $gameId = $request->get('gameId');
 
         if (null == $gameId) {
-            if ($session->has ( 'game' )) {
-                $session->remove ( 'game' );
+            if ($session->has('game')) {
+                $session->remove('game');
             }
         } else {
-            $game = $this->gameRepository->find ( $gameId );
-            if (!$session->has ( 'game' )) {
-                $session->set ( 'game', $game );
+            $game = $this->gameRepository->find($gameId);
+            if (!$session->has('game')) {
+                $session->set('game', $game);
             } else {
                 if (null != $game) {
-                    $session->set ( 'game', $game );
+                    $session->set('game', $game);
                 } else {
-                    $session->remove ( 'game' );
+                    $session->remove('game');
                 }
             }
         }
 
-        if (!$session->has ( 'parameters' )) {
+        if (!$session->has('parameters')) {
             $data = $this->propertyRepository
-                ->createQueryBuilder ( 'p' )
-                ->where ( 'p.category != :category' )
-                ->setParameter ( 'category', 'user' )
-                ->getQuery ()
-                ->getResult ();
+                ->createQueryBuilder('p')
+                ->where('p.category != :category')
+                ->setParameter('category', 'user')
+                ->getQuery()
+                ->getResult();
 
-            $session->set ( 'parameters', $data );
+            $session->set('parameters', $data);
         }
     }
 
@@ -62,17 +76,17 @@ class LoadAppSettings
     public function getParam($name)
     {
 
-        $request = $this->requestStack->getCurrentRequest ();
-        $session = $request->getSession ();
+        $request = $this->requestStack->getCurrentRequest();
+        $session = $request->getSession();
 
-        if (!$session->has ( 'parameters' )) {
+        if (!$session->has('parameters')) {
             return null;
         } else {
-            foreach ($session->get ( 'parameters' ) as $param) {
-                $paramUpperName = strtoupper ( preg_replace ( '/\s+/',
-                            '', trim ( $param->getName () ) ) );
-                $upperName      = strtoupper ( preg_replace ( '/\s+/',
-                            '', trim ( $name ) ) );
+            foreach ($session->get('parameters') as $param) {
+                $paramUpperName = strtoupper(preg_replace('/\s+/', '',
+                        trim($param->getName())));
+                $upperName      = strtoupper(preg_replace('/\s+/', '',
+                        trim($name)));
                 if ($paramUpperName == $upperName) {
                     return $param;
                 }
@@ -88,11 +102,11 @@ class LoadAppSettings
     public function getGame()
     {
 
-        $request = $this->requestStack->getCurrentRequest ();
-        $session = $request->getSession ();
+        $request = $this->requestStack->getCurrentRequest();
+        $session = $request->getSession();
 
-        if ($session->has ( 'game' )) {
-            return $session->get ( 'game' );
+        if ($session->has('game')) {
+            return $session->get('game');
         }
 
         return null;

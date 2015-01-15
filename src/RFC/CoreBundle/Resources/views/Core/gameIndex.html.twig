@@ -36,6 +36,8 @@
                         Track : {{ game.getNextEvent.track ? game.getNextEvent.track :"Not defined"}}<br />
                         Last session : {{ game.getNextEvent.getLastSession ? game.getNextEvent.getLastSession.name : "Not defined" }}
                     </p>
+                {% else %}
+                    <h3>No championships for this game</h3>
                 {% endif %}
             </div>
         </div>

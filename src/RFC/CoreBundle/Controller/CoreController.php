@@ -29,19 +29,19 @@ class CoreController extends RFCController
     public function indexAction()
     {
 
-        $entityManager = $this->getDoctrine ()->getManager ();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $games = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+        $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
 
-        if (count ( $games ) == 1) {
+        if (count($games) == 1) {
 
-            return $this->redirect ( $games [0]->getId () );
+            return $this->redirect($games [0]->getId());
         }
 
-        return $this->render ( 'RFCCoreBundle:Core:index.html.twig',
+        return $this->render('RFCCoreBundle:Core:index.html.twig',
                 array(
                 'games' => $games
-            ) );
+            ));
     }
 
     public function accessGameAction($gameId)
@@ -49,47 +49,96 @@ class CoreController extends RFCController
 
         // var_dump($this->get('session')->get('parameters'));
 
-        $entityManager = $this->getDoctrine ()->getManager ();
-        $g             = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->find ( $gameId );
+        $entityManager = $this->getDoctrine()->getManager();
+        $g             = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         $threadId      = null;
 
         if (null != $g) {
-            $threadId = substr ( strrchr ( get_class ( $g ), "\\" ), 1 ).'_'.$g->getName ();
+            $threadId = substr(strrchr(get_class($g), "\\"), 1).'_'.$g->getName();
         }
 
-        return $this->render ( 'RFCCoreBundle:Core:gameIndex.html.twig',
+        return $this->render('RFCCoreBundle:Core:gameIndex.html.twig',
                 array(
                 'game' => $g,
                 'threadId' => $threadId
-            ) );
+            ));
+    }
+
+    public function systemParametersAction()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $properties = $entityManager->getRepository('RFCCoreBundle:Property')
+            ->createQueryBuilder('p')
+            ->where('p.category != :category')
+            ->setParameter('category', 'user')
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('RFCCoreBundle:Core:systemParameters.html.twig',
+                array(
+                    'games' => 0,
+                'properties' => $properties
+        ));
     }
 
     public function showGalleryAction($elementId, $elementType)
     {
-        $entityManager = $this->getDoctrine ()->getManager ();
+        $entityManager = $this->getDoctrine()->getManager();
         $entity        = null;
 
         switch ($elementType) {
             case 'game' :
-                $entity = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->find ( $elementId );
+                $entity = $entityManager->getRepository('RFCCoreBundle:Game')->find($elementId);
                 break;
             case 'vehicle' :
-                $entity = $entityManager->getRepository ( 'RFCCoreBundle:Vehicle' )->find ( $elementId );
+                $entity = $entityManager->getRepository('RFCCoreBundle:Vehicle')->find($elementId);
                 break;
             case 'track' :
-                $entity = $entityManager->getRepository ( 'RFCCoreBundle:Track' )->find ( $elementId );
+                $entity = $entityManager->getRepository('RFCCoreBundle:Track')->find($elementId);
                 break;
             case 'typeSession' :
-                $entity = $entityManager->getRepository ( 'RFCCoreBundle:TypeSession' )->find ( $elementId );
+                $entity = $entityManager->getRepository('RFCCoreBundle:TypeSession')->find($elementId);
                 break;
             case 'category' :
-                $entity = $entityManager->getRepository ( 'RFCCoreBundle:Category' )->find ( $elementId );
+                $entity = $entityManager->getRepository('RFCCoreBundle:Category')->find($elementId);
                 break;
         }
 
-        return $this->render ( 'RFCCoreBundle:Structure:gallery.html.twig',
+        return $this->render('RFCCoreBundle:Structure:gallery.html.twig',
                 array(
-                'listImages' => $entity->getListImages ()
-            ) );
+                'listImages' => $entity->getListImages()
+            ));
+    }
+
+    public function updatePropertiesAction()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $properties    = $entityManager->getRepository("RFCCoreBundle:Property")->findAll();
+
+        $params  = array();
+        $content = $this->get("request")->getContent();
+        if (!empty($content)) {
+            $params = json_decode($content, true); // 2nd param to get as array
+        }
+
+        foreach ($properties as $property) {
+            foreach ($params as $param) {
+                if ($property->getId() == $param['name']) {
+                    $property->setValue($param['value']);
+                }
+            }
+        }
+
+        try {
+            $entityManager->flush();
+            $this->container->get(' rfc_fwk.appSettingsLoader')->clearSession();
+            $jsonResponse = new JsonResponse($properties, 200);
+        } catch (\Exception $e) {
+            $jsonResponse = new JsonResponse($properties, 400);
+        }
+
+
+        return $jsonResponse;
     }
 }

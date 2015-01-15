@@ -143,8 +143,8 @@ function crewAcceptRequest(data) {
         addNotification('Crew acceptation completed', 'success');
     }).fail(function (jqXHR, textStatus, errorThrown) {
         addNotification('Error while accepting member to crew', 'error');
-        $('form#acceptCrewApplication button').removeClass('ym-disabled');
-        $('form#declineCrewApplication button').removeClass('ym-disabled');
+        $('form#acceptCrewApplication button').removeClass('disabled');
+        $('form#declineCrewApplication button').removeClass('disabled');
         $('form#acceptCrewApplication button').prop('disabled', false);
         $('form#declineCrewApplication button').prop('disabled', false);
     });
@@ -161,10 +161,10 @@ function updateProperties(data) {
     }).done(function (data) {
         // show messages
         addNotification('Properties updated', 'success');
-        $('form#system-properties button').removeClass('ym-disabled');
-        $('form#system-properties button').removeClass('ym-disabled');
-        $('form#system-properties button').prop('disabled', false);
-        $('form#system-properties button').prop('disabled', false);
+        $('form.system-properties button').removeClass('disabled');
+        $('form.system-properties button').removeClass('disabled');
+        $('form.system-properties button').prop('disabled', false);
+        $('form.system-properties button').prop('disabled', false);
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var msg = '';
         if (jqXHR && jqXHR.responseText) { // ajax error, errors = xhr object
@@ -175,10 +175,10 @@ function updateProperties(data) {
             });
         }
         addNotification('Error while saving properties : ' + msg, 'error');
-        $('form#system-properties button').removeClass('ym-disabled');
-        $('form#system-properties button').removeClass('ym-disabled');
-        $('form#system-properties button').prop('disabled', false);
-        $('form#system-properties button').prop('disabled', false);
+        $('form.system-properties button').removeClass('disabled');
+        $('form.system-properties button').removeClass('disabled');
+        $('form.system-properties button').prop('disabled', false);
+        $('form.system-properties button').prop('disabled', false);
     });
 }
 
@@ -496,16 +496,16 @@ $(function () {
         validateOnBlur: false
     });
 
-    $('form#system-properties').submit(function (e) {
-        var data = $('form#system-properties').serializeArray();
-        $('form#system-properties button').addClass('ym-disabled');
-        $('form#system-properties button').prop('disabled', true);
+    $('form.system-properties').submit(function (e) {
+        var data = $(this).serializeArray();
+        $(this).find('button').addClass('disabled');
+        $(this).find('button').prop('disabled', true);
         updateProperties(data);
         return false;
     });
 
-    $('form#system-properties').find('#reset-btn').click(function () {
-        $('form#system-properties')[0].reset();
+    $('form.system-properties').find('#reset-btn').click(function () {
+        $(this).parent().get(0).reset();
         return false;
     });
 
@@ -794,6 +794,8 @@ $(function () {
     });
 });
 
+$('.ui.checkbox').checkbox();
+
 $('.dropdown').dropdown();
 
 $('.popupLabel').popup({
@@ -805,6 +807,6 @@ $('.sidebar.comments').sidebar('setting', {
     transition: 'overlay'
 });
 
-$('#userPage .menu .item').tab({
+$('.uiTabs .menu .item').tab({
     alwaysRefresh: true
 });

@@ -1,6 +1,10 @@
 rfcCore_accueil:
     path:   /
-    defaults: { _controller: "RFCCoreBundle:Core:index" } 
+    defaults: { _controller: "RFCCoreBundle:Core:index" }
+    
+rfcCore_systemParameters:
+    path:   /systemParameters
+    defaults: { _controller: "RFCCoreBundle:Core:systemParameters" }
     
 rfcCore_gameSelection:
     path:   /{gameId}/

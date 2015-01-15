@@ -1,0 +1,146 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+Copyright (C) 2014 - //Racing-France//
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{% extends "RFCCoreBundle::layout.html.twig" %}
+
+{% block rfccore_body %}
+
+    <div class="uiTabs">
+
+        {% set categories = [] %}
+        {% for property in properties %}
+            {% set category = (property.category != "") ? property.category : "General" %}
+            {% if category not in categories %}
+                {% set categories = categories|merge([category]) %}
+            {% endif %}
+        {% endfor %}
+
+        <div class="ui pointing secondary menu">
+            <a class="item active" data-tab="infos">Informations</a>
+            {% for category in categories %}
+                <a class="item" data-tab="{{ category }}">{{ category }}</a>
+            {% endfor %}
+        </div>
+
+        <div class="ui active tab segment" data-tab="infos">
+
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>Site version</dt>
+                    <dd>xxx</dd>
+                    <dt>Administrator</dt>
+                    <dd>yyy</dd>
+                    <dt>Site name</dt>
+                    <dd>{{ properties[0].value }}</dd>                
+                </dl>
+            </div>
+        </div>
+
+        {% for category in categories %}
+            <div class="ui tab segment" data-tab="{{ category }}">
+                <form class="system-properties">
+                    <table class="ui table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for property in properties %}
+                                {% set cat = (property.category != "") ? property.category : "General" %}
+                                {% if cat == category %}
+                                    <tr>
+                                        <td>{{ property.id }}</td>
+                                        <td>{{ property.name }}</td>
+                                        <td class="small">{{ property.description }}</td>
+                                        <td>
+                                            {% if property.type == 'date' %}
+                                                <input id="{{ property.id }}" 
+                                                       name="{{ property.id }}" 
+                                                       class="datepicker" 
+                                                       type="text" 
+                                                       value="{{ property.value }}" 
+                                                       data-yearDescending="false" 
+                                                       {% if property.min is not null %} data-minDate="{{ property.min }}" {% endif %} 
+                                                       {% if property.max is not null %} data-maxDate="{{ property.max }}" {% endif %} 
+                                                       data-format="DD-MM-YYYY" 
+                                                       data-template="DD MMM YYYY" />
+                                            {% elseif property.type == 'datetime' %}
+                                                {% if property.min is not null %}
+                                                    {% set dateMin = property.min|split(' ')[0] %}
+                                                    {% set hourMin = property.min|split(' ')[1] %}
+                                                {% endif %} 
+                                                {% if property.max is not null %}
+                                                    {% set dateMax = property.max|split(' ')[0] %}
+                                                    {% set hourMax = property.max|split(' ')[1] %}
+                                                {% endif %} 
+                                                <input id="{{ property.id }}" 
+                                                       name="{{ property.id }}" 
+                                                       class="datetimepicker" 
+                                                       type="text" 
+                                                       value="{{ property.value }}" 
+                                                       data-yearDescending="false" 
+                                                       {% if dateMin %} data-minDate="{{ dateMin }}" {% endif %} 
+                                                       {% if hourMin %} data-minTime="{{ hourMin }}" {% endif %} 
+                                                       {% if dateMax %} data-maxDate="{{ dateMax }}" {% endif %} 
+                                                       {% if hourMax %} data-maxTime="{{ hourMax }}" {% endif %} 
+                                                       data-format="DD-MM-YYYY HH:mm" 
+                                                       data-template="DD MMM YYYY     HH mm" />
+                                            {% elseif property.type == 'number' %}
+                                                <input id="{{ property.id }}" type="number" {% if property.min is not null %} min="{{ property.min }}" {% endif %} {% if property.max is not null %} max="{{ property.max }}" {% endif %} />
+                                            {% elseif property.type == 'select' %}
+                                                <div class="ui compact menu">
+                                                    <div class="ui simple dropdown item">
+                                                        <i class="dropdown icon"></i>
+                                                        {{ property.id }}
+                                                        {% set  values= property.value|split(',') %}
+                                                        <div class="menu">
+                                                            {% for value in values %}
+
+                                                                {% set  item= value|split(':')[0] %}
+                                                                {% set  checked= value|split(':')[1] %}
+
+                                                                <div class="item">
+                                                                    <div class="ui checkbox" id="{{ property.id }}_{{ loop.index }}">
+                                                                        <input type="checkbox" {{ checked == 1 ?  'checked="checked"' }} >
+                                                                        <label>{{ item }}</label>
+                                                                    </div>
+                                                                </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <input id="{{ property.id }}" name="{{ property.id }}" type="{{ property.type }}" value="{{ property.value }}" />
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <button type="submit" class="ui primary button" id="confirm-btn">Confirm</button>
+                    <button type="reset" class="ui secondary button" id="reset-btn">Reset</button>
+                </form>
+            </div>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
