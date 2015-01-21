@@ -87,7 +87,7 @@ class User extends BaseUser
 
     public function __construct()
     {
-        parent::__construct();
+        parent::__construct ();
         $this->listChampionships = array();
         $this->listCrewRequests  = array();
         $this->listPreferences   = array();
@@ -235,16 +235,16 @@ class User extends BaseUser
         return $this;
     }
 
-    public function addListCrewRequest(CrewRequest $crewRequest)
+    public function addListCrewRequest(RFC\CoreBundle\Entity\CrewRequest $crewRequest)
     {
         $this->listCrewRequests[] = $crewRequest;
 
         return $this;
     }
 
-    public function removeListCrewRequest(CrewRequest $crewRequest)
+    public function removeListCrewRequest(RFC\CoreBundle\Entity\CrewRequest $crewRequest)
     {
-        $this->listCrewRequests->removeElement($crewRequest);
+        $this->listCrewRequests->removeElement ( $crewRequest );
     }
 
     /**
@@ -253,7 +253,7 @@ class User extends BaseUser
      * @param Championship $listChampionships
      * @return User
      */
-    public function addListChampionship(Championship $listChampionships)
+    public function addListChampionship(RFC\CoreBundle\Entity\Championship $listChampionships)
     {
         $this->listChampionships[] = $listChampionships;
 
@@ -265,9 +265,9 @@ class User extends BaseUser
      *
      * @param Championship $listChampionships
      */
-    public function removeListChampionship(Championship $listChampionships)
+    public function removeListChampionship(RFC\CoreBundle\Entity\Championship $listChampionships)
     {
-        $this->listChampionships->removeElement($listChampionships);
+        $this->listChampionships->removeElement ( $listChampionships );
     }
 
     /**
@@ -282,37 +282,37 @@ class User extends BaseUser
 
     public function isRoleAdmin()
     {
-        return $this->hasRole('ROLE_ADMIN');
+        return $this->hasRole ( 'ROLE_ADMIN' );
     }
 
     public function isRoleCertifiedManager()
     {
-        return $this->hasRole('ROLE_CERTIFIED_MANAGER');
+        return $this->hasRole ( 'ROLE_CERTIFIED_MANAGER' );
     }
 
     public function isRoleManager()
     {
-        return $this->hasRole('ROLE_MANAGER');
+        return $this->hasRole ( 'ROLE_MANAGER' );
     }
 
     public function isRoleUser()
     {
-        return $this->hasRole('ROLE_USER');
+        return $this->hasRole ( 'ROLE_USER' );
     }
 
     public function getHighestRole()
     {
         $role = 'ROLE_BANNED';
-        if ($this->isRoleUser()) {
+        if ($this->isRoleUser ()) {
             $role = 'ROLE_USER';
         }
-        if ($this->isRoleManager()) {
+        if ($this->isRoleManager ()) {
             $role = 'ROLE_MANAGER';
         }
-        if ($this->isRoleCertifiedManager()) {
+        if ($this->isRoleCertifiedManager ()) {
             $role = 'ROLE_CERTIFIED_MANAGER';
         }
-        if ($this->isRoleAdmin()) {
+        if ($this->isRoleAdmin ()) {
             $role = 'ROLE_ADMIN';
         }
         return $role;
@@ -321,9 +321,9 @@ class User extends BaseUser
     public function getCrew($gameId)
     {
         foreach ($this->listCrewRequests as $crewRequest) {
-            if ($crewRequest->getState() == 2 && $crewRequest->getCrew()->getGame()->getId()
+            if ($crewRequest->getState () == 2 && $crewRequest->getCrew ()->getGame ()->getId ()
                 == $gameId) {
-                return $crewRequest->getCrew();
+                return $crewRequest->getCrew ();
             }
         }
         return null;
@@ -337,8 +337,8 @@ class User extends BaseUser
     {
         $crewRequests = array();
         foreach ($this->listCrewRequests as $crewRequest) {
-            if ($crewRequest->getState() == $type) {
-                array_push($crewRequests, $crewRequest);
+            if ($crewRequest->getState () == $type) {
+                array_push ( $crewRequests, $crewRequest );
             }
         }
         return $crewRequests;
@@ -346,14 +346,14 @@ class User extends BaseUser
 
     public function getPendingRequests()
     {
-        return $this->getRequestsByType(4);
+        return $this->getRequestsByType ( 4 );
     }
 
     public function getCrews()
     {
         $crews = array();
-        foreach ($this->getRequestsByType(2) as $crewRequest) {
-            array_push($crews, $crewRequest->getCrew());
+        foreach ($this->getRequestsByType ( 2 ) as $crewRequest) {
+            array_push ( $crews, $crewRequest->getCrew () );
         }
         return $crews;
     }
@@ -363,8 +363,8 @@ class User extends BaseUser
         $lastRequest = null;
 
         foreach ($this->listCrewRequests as $crewRequest) {
-            if ($crewId === $crewRequest->getCrew()->getId() && ($lastRequest === null
-                || $lastRequest->getCreatedAt() < $crewRequest->getCreatedAt())) {
+            if ($crewId === $crewRequest->getCrew ()->getId () && ($lastRequest === null
+                || $lastRequest->getCreatedAt () < $crewRequest->getCreatedAt ())) {
                 $lastRequest = $crewRequest;
             }
         }
