@@ -23,8 +23,6 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use RFC\CoreBundle\Entity\CrewRequest;
-use RFC\CoreBundle\Entity\Championship;
 
 /**
  * User

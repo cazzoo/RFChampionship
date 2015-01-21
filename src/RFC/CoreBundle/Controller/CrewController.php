@@ -111,6 +111,8 @@ class CrewController extends RFCController
 
         try {
             $entityManager->flush();
+            $this->get('fos_user.user_manager')->refreshUser($manager);
+            $this->get('fos_user.user_manager')->refreshUser($requester);
             $jsonResponse = new JsonResponse($request, 200);
         } catch (Exception $e) {
             $jsonResponse = new JsonResponse($request, 400);
@@ -136,6 +138,7 @@ class CrewController extends RFCController
 
         try {
             $entityManager->flush();
+            $this->get('fos_user.user_manager')->refreshUser($crewRequest->requester);
             $jsonResponse = new JsonResponse($crewRequest, 200);
         } catch (Exception $e) {
             $jsonResponse = new JsonResponse($crewRequest, 400);
@@ -161,6 +164,7 @@ class CrewController extends RFCController
 
         try {
             $entityManager->flush();
+            $this->get('fos_user.user_manager')->refreshUser($crewRequest->requester);
             $jsonResponse = new JsonResponse($crewRequest, 200);
         } catch (Exception $e) {
             $jsonResponse = new JsonResponse($crewRequest, 400);

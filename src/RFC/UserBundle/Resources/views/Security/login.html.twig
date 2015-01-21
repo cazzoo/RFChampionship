@@ -18,24 +18,26 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
-<form id="loginForm" action="{{ path("fos_user_security_check") }}" method="post">
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+<div class="ui basic segment">
+    <form id="loginForm" action="{{ path("fos_user_security_check") }}" method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
-    <div class="ui input">
-        <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="{{ 'security.login.username'|trans }}" />
-    </div>
-    <br />
-    <div class="ui input">
-        <input type="password" id="password" name="_password" required="required" placeholder="{{ 'security.login.password'|trans }}" />
-    </div>
-    <br />
-    <div class="ui checkbox">
-        <input type="checkbox" name="_remember_me" id="remember_me">
-        <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
-    </div>
-</form>
-
-<div class="item icon">
-    <i class="sign in icon"></i>
-    <a id="loginButton">{{ 'security.login.submit'|trans }}</a>
+        <div class="ui input">
+            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="{{ 'security.login.username'|trans }}" />
+        </div>
+        <br />
+        <div class="ui input">
+            <input type="password" id="password" name="_password" required="required" placeholder="{{ 'security.login.password'|trans }}" />
+        </div>
+        <br />
+        <div class="ui checkbox">
+            <input type="checkbox" name="_remember_me" id="remember_me">
+            <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+        </div>
+    </form>
 </div>
+
+<a id="loginButton" class="ui item labeled icon">
+    <i class="sign in icon"></i>
+    {{ 'security.login.submit'|trans }}
+</a>
