@@ -41,17 +41,16 @@ class CoreController extends RFCController
         return $this->render('RFCCoreBundle:Core:index.html.twig',
                 array(
                 'games' => $games
-            ));
+        ));
     }
 
     public function accessGameAction($gameId)
     {
 
-        // var_dump($this->get('session')->get('parameters'));
-
         $entityManager = $this->getDoctrine()->getManager();
         $g             = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         $threadId      = null;
+        $users         = $entityManager->getRepository('RFCUserBundle:User')->findAll();
 
         if (null != $g) {
             $threadId = substr(strrchr(get_class($g), "\\"), 1).'_'.$g->getName();
@@ -60,8 +59,34 @@ class CoreController extends RFCController
         return $this->render('RFCCoreBundle:Core:gameIndex.html.twig',
                 array(
                 'game' => $g,
-                'threadId' => $threadId
-            ));
+                'threadId' => $threadId,
+                'users' => $users
+        ));
+    }
+
+    public function gameParametersAction($gameId)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $properties = $entityManager->getRepository('RFCCoreBundle:Property')
+            ->createQueryBuilder('p')
+            ->where('p.category = :categoryName')
+            ->andWhere('p.game = :gameId')
+            ->setParameters(array(
+                'categoryName' => 'game',
+                'gameId' => $gameId)
+            )->getQuery()
+            ->getResult();
+
+        $users = $entityManager->getRepository('RFCUserBundle:User')->findAll();
+        $game  = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
+
+        return $this->render('RFCCoreBundle:Core:gameParameters.html.twig',
+                array(
+                'game' => $game,
+                'properties' => $properties != null ? $properties : null,
+                'users' => $users
+        ));
     }
 
     public function systemParametersAction()
@@ -71,13 +96,16 @@ class CoreController extends RFCController
         $properties = $entityManager->getRepository('RFCCoreBundle:Property')
             ->createQueryBuilder('p')
             ->where('p.category != :category')
+            ->andWhere('p.game is NULL')
             ->setParameter('category', 'user')
             ->getQuery()
             ->getResult();
 
+        $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
+
         return $this->render('RFCCoreBundle:Core:systemParameters.html.twig',
                 array(
-                    'games' => 0,
+                'games' => $games,
                 'properties' => $properties
         ));
     }
@@ -108,7 +136,7 @@ class CoreController extends RFCController
         return $this->render('RFCCoreBundle:Structure:gallery.html.twig',
                 array(
                 'listImages' => $entity->getListImages()
-            ));
+        ));
     }
 
     public function updatePropertiesAction()

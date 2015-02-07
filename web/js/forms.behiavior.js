@@ -519,7 +519,7 @@ $(function () {
             managerId: $(this).find('#managerId').val(),
             gameId: $(this).find('#gameId').val()
         };
-        $('form#sendCrewRequest button').addClass('ym-disabled');
+        $('form#sendCrewRequest button').addClass('disabled');
         $('form#sendCrewRequest button').prop('disabled', true);
         crewApplyRequest(data);
         return false;
@@ -732,7 +732,7 @@ $(function () {
     // --------------------------------------------
     // ----------------- WYSIWYG editor
     // --------------------------------------------
-    $("textarea").wysibb();
+    //$("textarea").wysibb();
 
     // --------------------------------------------
     // Screen Championship creation

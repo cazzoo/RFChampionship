@@ -40,7 +40,7 @@
                                 {% endif %}
                             {% endfor %}
                         </select>
-                        <button class="ui button">Send request</button>
+                        <button type="submit" value="sendRequest" class="ui right floated green icon mini button"><i class="check icon"></i>Send request</button>
                     </form>
                 </div>
             </div>
@@ -60,7 +60,10 @@
             <div class="four wide column"></div>
             <div class="four wide column">
                 <div class="ui segment">
-                    <a class="ui right floated red icon mini button crewRetire" data-crewrequestid="{{ app.user.getLastCrewRequest(crew.id).id }}" ><i class="remove icon"></i>Cancel request</a>
+                    <form id="declineCrewApplication">
+                        <input type="hidden" id="crewRequestId" value="{{ app.user.getLastCrewRequest(crew.id).id }}" />
+                        <button type="submit" value="cancel" class="ui right floated red icon mini button"><i class="remove icon"></i>Cancel request</button>
+                    </form>
                 </div>
             </div>
         </div>

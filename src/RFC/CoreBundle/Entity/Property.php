@@ -62,6 +62,12 @@ class Property extends Descriptor
     private $max;
 
     /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game", inversedBy="listProperties")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $game;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -149,5 +155,28 @@ class Property extends Descriptor
     {
         $this->max = $max;
         return $this;
+    }
+
+    /**
+     * Set game
+     *
+     * @param Game $game
+     * @return KnowledgeData
+     */
+    public function setGame(Game $game)
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return Game
+     */
+    public function getGame()
+    {
+        return $this->game;
     }
 }

@@ -78,6 +78,11 @@ class Game extends Descriptor
     private $listTypeSessions;
 
     /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Property", mappedBy="game", cascade={"persist", "remove"})
+     */
+    private $listProperties;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -267,6 +272,37 @@ class Game extends Descriptor
     {
         $this->listTypeSessions = $listTypeSessions;
         return $this;
+    }
+
+    public function getListProperties()
+    {
+        return $this->listProperties;
+    }
+
+    public function setListProperties($listProperties)
+    {
+        $this->listProperties = $listProperties;
+        return $this;
+    }
+
+    public function getPropertyByName($name)
+    {
+        foreach ($this->listProperties as $property) {
+            if ($property->getName() == $name) {
+                return $property;
+            }
+        }
+        return null;
+    }
+
+    public function getFlashNews()
+    {
+        return $this->getPropertyByName("flashNews");
+    }
+
+    public function getWeeklyDriver()
+    {
+        return $this->getPropertyByName("weeklyDriver");
     }
 
     /**

@@ -4,6 +4,7 @@ admin_session_search:
     requirements: { _method: post }
     options:
         expose: true
+        
 admin_rule_search:
     pattern: /searchRule
     defaults: { _controller: "RFCAdminBundle:Rule:search" }

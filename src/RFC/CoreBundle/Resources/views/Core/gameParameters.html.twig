@@ -1,0 +1,262 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+Copyright (C) 2014 - //Racing-France//
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{% extends "RFCCoreBundle::layout.html.twig" %}
+
+{% block rfccore_body %}
+
+    {% set flashNews = null %}
+    {% set weeklyDriver = null %}
+
+    {% for property in properties %}
+        {% if property.name == 'flashNews' %}
+            {% set flashNews = property %}
+        {% endif %}
+        {% if property.name == 'weeklyDriver' %}
+            {% set weeklyDriver = property %}
+        {% endif %}
+    {% endfor %}
+
+    <div class="uiTabs">
+
+        <div class="ui pointing secondary menu">
+            <a class="item active" data-tab="general">General</a>
+            <a class="item" data-tab="sessionTypes">Session Types</a>
+            <a class="item" data-tab="rules">Rules</a>
+            <a class="item" data-tab="metaRules">Meta rules</a>
+            <a class="item" data-tab="vehicles">Vehicles</a>
+            <a class="item" data-tab="categories">Car categories</a>
+            <a class="item" data-tab="tracks">Tracks</a>
+        </div>
+
+        <div class="ui active tab segment" data-tab="general">
+            <div class="ui two columns grid">
+                <div class="column">
+                    <h2>Informations</h2>
+                    <dl class="dl-horizontal">
+                        <dt>Number championships</dt>
+                        <dd>{{ game.listChampionships|length }}</dd>
+                        <dt>Number vehicles</dt>
+                        <dd>{{ game.listVehicles|length }}</dd>
+                        <dt>Number tracks</dt>
+                        <dd>{{ game.listTracks|length }}</dd>
+                        <dt>Number categories</dt>
+                        <dd>{{ game.listCategories|length }}</dd>
+                        <dt>Number meta rules</dt>
+                        <dd>{{ game.listMetaRules|length }}</dd>
+                        <dt>Number rules</dt>
+                        <dd>{{ game.listRules|length }}</dd>
+                        <dt>Number session types</dt>
+                        <dd>{{ game.listTypeSessions|length }}</dd>
+                    </dl>
+                </div>
+                <div class="column">
+                    <h2>Game parameters</h2>
+                    <form class="ui form system-properties">
+                        <div class="field">
+                            <label>Game flash news</label>
+                            <textarea name="{{flashNews.id}}">{{flashNews.value}}</textarea>
+                        </div>
+                        <div class="field">
+                            <label>Weekly driver</label>
+                            <select name="{{weeklyDriver.id}}" class="ui dropdown" id="select">
+                                <option value=" ">Select the best driver of the week</option>
+                                {% for user in users %}
+                                    <option value="{{ user.id }}" {{ weeklyDriver.value == user.id ? ' selected="selected "' }}>{{ user.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button class="ui right floated button" type="submit" value="Submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui tab segment" data-tab="sessionTypes">
+            <a class="ui labeled icon button" href="{{ path('admin_typeSession_new', {'gameId' : game.Id}) }}"><i class="add icon"></i>Add</a>
+            <table class="ui striped table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Used for results</th>
+                        <th>Images</th>
+                    </tr>
+                </thead>
+                <tbody class="">
+                    {% for typeSession in game.listTypeSessions %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('admin_typeSession_edit', {'typeSessionId' : typeSession.id, 'gameId' : game.Id}) }}">{{ typeSession.name }}</a>
+                            </td>
+                            <td>{{ typeSession.description }}</td>
+                            <td>{{ typeSession.usedForResults }}</td>
+                            <td>
+                                {% if typeSession.listImages|length > 0 %}
+                                    <a class="ui button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'typeSession', 'elementId' : typeSession.id}) }}">show ({{ typeSession.listImages|length }})</a>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="ui tab segment" data-tab="rules">
+
+            <a class="ui labeled icon button" href="{{ path('admin_rule_new', {'gameId' : game.Id}) }}"><i class="add icon"></i>Add</a>
+
+            <div>
+                {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : game.listRules, 'game' : game} %}
+            </div>
+
+        </div>
+
+        <div class="ui tab segment" data-tab="metaRules">
+
+            <a class="ui labeled icon button" href="{{ path('admin_metaRule_new', {'gameId' : game.Id}) }}"><i class="add icon"></i>Add</a>
+
+            <div class="ui grid">
+                <div class="four wide column">
+                    {% for metaRule in game.listMetaRules %}
+                        <div>
+                            <div id="metaRule_{{ metaRule.id }};game_{{ game.id }}" class="metaRuleItem list-group-item active">
+                                <h4 class="list-group-item-heading">{{ metaRule.name }}</h4>
+                                <p class="list-group-item-text">{{ metaRule.description }}</p>
+                                <div class="editZone">
+                                    <a href="{{ path('admin_metaRule_edit', {'metaRuleId' : metaRule.id, 'gameId' : game.Id}) }}">Edit</a>
+                                </div>
+                            </div>
+                            <ul class="list-unstyled">
+                                <li><a class="ym-button" href="{{ path('admin_metaRule_show', {'metaRuleId' : metaRule.id, 'gameId' : game.Id }) }}">show</a></li>
+                                <li><a class="ym-button" href="{{ path('admin_metaRule_edit', {'metaRuleId' : metaRule.id, 'gameId' : game.Id}) }}">edit</a></li>
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="twelve wide column">
+                    <div id="listRules">
+                        {# Colonne 2 : Rules #}
+                        {% include 'RFCAdminBundle:Rule:affectMetaRule.html.twig' with {'rules' : game.listRules, 'game' : game, 'metaRuleId' : null} %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="ui tab segment" data-tab="vehicles">
+
+            <a class="ui labeled icon button" href="{{ path('admin_vehicle_new', {'gameId' : game.Id}) }}"><i class="add icon"></i>Add</a>
+            <table class="ui striped table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Images</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vehicle in game.listVehicles %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('admin_vehicle_edit', {'vehicleId' : vehicle.id, 'gameId' : game.Id}) }}">{{ vehicle.name }}</a>
+                            </td>
+                            <td>{{ vehicle.description }}</td>
+                            <td>
+                                {% if vehicle.listImages|length > 0 %}
+                                    <a class="ym-button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'vehicle', 'elementId' : vehicle.id}) }}">show ({{ vehicle.listImages|length }})</a>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="ui tab segment" data-tab="categories">
+
+            <a class="ui labeled icon button" href="{{ path('admin_category_new', {'gameId' : game.Id}) }}"><i class="add icon"></i>Add</a>
+
+            <table class="ui striped table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Images</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in game.listCategories %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('admin_category_edit', {'categoryId' : category.id, 'gameId' : game.Id}) }}">{{ category.name }}</a>
+                            </td>
+                            <td>{{ category.description }}</td>
+                            <td>
+                                {% if category.listImages|length > 0 %}
+                                    <a class="ym-button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'category', 'elementId' : category.id}) }}">show ({{ category.listImages|length }})</a>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="ui tab segment" data-tab="tracks">
+
+            <a class="ui labeled icon button" href="{{ path('admin_track_new', {'gameId' : game.Id}) }}"><i class="add icon"></i>Add</a>
+
+            <table class="ui striped table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Images</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for track in game.listTracks %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('admin_track_edit', {'trackId' : track.id, 'gameId' : game.Id}) }}">{{ track.name }}</a>
+                            </td>
+                            <td>{{ track.description }}</td>
+                            <td>
+                                {% if track.listImages|length > 0 %}
+                                    <a class="ym-button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'track', 'elementId' : track.id}) }}">show ({{ track.listImages|length }})</a>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+{% endblock %}

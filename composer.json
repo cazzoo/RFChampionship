@@ -28,8 +28,7 @@
 		"adesigns/calendar-bundle" : "dev-master",
 		"friendsofsymfony/comment-bundle" : "dev-master",
 		"knplabs/knp-menu" : "2.0.*@dev",
-		"knplabs/knp-menu-bundle" : "2.0.*@dev",
-		"lexik/workflow-bundle": "dev-master"
+		"knplabs/knp-menu-bundle" : "2.0.*@dev"
 	},
 	"scripts" : {
 		"post-install-cmd" : [

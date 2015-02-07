@@ -1,0 +1,64 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{% set canEdit = is_granted('ROLE_MANAGER') or is_granted('ROLE_CERTIFIED_MANAGER') %}
+
+{% if metaRuleId is defined and metaRuleId is null %}
+    Aucune MetaRule sélectionné. Veuillez sélectionner une MetaRule.
+{% else %}
+
+    {% set newArray = [] %}
+
+    {% for rule in rules %}
+        {%if rule not in metaRule.listRules %}
+            {% set newArray = newArray|merge([rule]) %}
+        {%endif%}
+    {% endfor %}
+
+    <div class="ui two columns grid sortableArea">
+        <div class="equal height divided row">
+            <div class="column">
+                <div class="ui yellow message">Available</div>
+                <div id="list1" class="ui animated selection list sortable">
+                    {% for rule in newArray %}
+                        <div class="item">
+                            <div class="content">
+                                <div class="header">{{ rule.typeSession }} - {{ rule.name }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui blue message">Affected</div>
+                <div id="list2" class="ui animated selection list sortable">
+                    {% for rule in metaRule.listRules %}
+                        <div class="item">
+                            <div class="content">
+                                <div class="header">{{ rule.typeSession }} - {{ rule.name }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui grid">
+        <div class="right floated two wide column">
+            <div id="saveRules" class="ui label button">Save</div>
+        </div>
+    </div>
+{% endif %}

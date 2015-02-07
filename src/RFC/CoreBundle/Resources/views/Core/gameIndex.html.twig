@@ -44,7 +44,17 @@
         <div class="column">
             <div class="ui segment">
                 <h3>Flash news!</h3>
-                <p>CECI EST UNE NOUVELLE</p>
+                <p>{{game.getFlashNews.value}}</p>
+            </div>
+            <div class="ui segment">
+                <h3>Best Driver of the week</h3>
+                <p>
+                    {% for user in users %}
+                        {% if user.id == game.getWeeklyDriver.value %}
+                            {{ user.userName }}
+                        {% endif %}
+                    {% endfor %}
+                </p>
             </div>
         </div>
     </div>

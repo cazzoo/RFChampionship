@@ -6,6 +6,10 @@ rfcCore_systemParameters:
     path:   /systemParameters
     defaults: { _controller: "RFCCoreBundle:Core:systemParameters" }
     
+rfcCore_gameParameters:
+    path:   /{gameId}/parameters
+    defaults: { _controller: "RFCCoreBundle:Core:gameParameters" }
+    
 rfcCore_gameSelection:
     path:   /{gameId}/
     defaults: { _controller: "RFCCoreBundle:Core:accessGame" } 
