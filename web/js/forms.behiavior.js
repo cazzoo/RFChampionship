@@ -623,6 +623,37 @@ $(function () {
     // --------------------------------------------
     // ----------------- Show rules / metaRules
     // --------------------------------------------
+
+    function updateListsHeight() {
+        $('.sortable').css('height', 'auto');
+        var highestListHeight = $('#list1').height() > $('#list2').height() ? $('#list1').height() : $('#list2').height();
+        $('.sortable').css('height', highestListHeight);
+    }
+
+    function handleRuleDragNDrop() {
+        $('.sortable').sortable({
+            connectWith: ".ui .list",
+            placeholder: "ui-state-highlight",
+            opacity: 0.8,
+            containment: '.sortableArea',
+            receive: function (event, ui) {
+                updateListsHeight();
+            }
+        });
+
+        updateListsHeight();
+
+        $('#saveRules').click(function () {
+            elements = $('#list2 .item .header');
+            var arr;
+            arr = [];
+            arr = $.map(elements, function (a) {
+                return a.innerHTML;
+            });
+            alert(arr.length === 0 ? null : arr.join(','));
+        });
+    }
+
     $("div.metaRuleItem").click(function () {
         $('.metaRuleItem').removeClass('active');
         $(this).addClass("active");
@@ -642,6 +673,7 @@ $(function () {
             }
         }).done(function (data) {
             $('#listRules').html(data);
+            handleRuleDragNDrop();
         }).fail(function () {
             $('#listRules').html("Impossible de récupérer un résultat");
         });
@@ -765,13 +797,6 @@ $(function () {
     // --------------------------------------------
     // ----------------- popupMenu : edit element
     // --------------------------------------------
-    $("div.metaRuleItem").find(".editZone").hide();
-
-    $("div.metaRuleItem").hover(function () {
-        $(this).children(".editZone").show();
-    }, function () {
-        $(this).children(".editZone").hide();
-    });
 
     $('#showSidebar .ui.button').click(function () {
         $('.main.menu.sidebar').sidebar('toggle');

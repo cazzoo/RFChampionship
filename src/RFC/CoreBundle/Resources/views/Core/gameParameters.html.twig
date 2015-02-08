@@ -133,20 +133,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
             <div class="ui grid">
                 <div class="four wide column">
+                    <br />
                     {% for metaRule in game.listMetaRules %}
-                        <div>
-                            <div id="metaRule_{{ metaRule.id }};game_{{ game.id }}" class="metaRuleItem list-group-item active">
-                                <h4 class="list-group-item-heading">{{ metaRule.name }}</h4>
-                                <p class="list-group-item-text">{{ metaRule.description }}</p>
-                                <div class="editZone">
-                                    <a href="{{ path('admin_metaRule_edit', {'metaRuleId' : metaRule.id, 'gameId' : game.Id}) }}">Edit</a>
+                        <div class="ui vertical steps">
+                            <div id="metaRule_{{ metaRule.id }};game_{{ game.id }}" class="step metaRuleItem" >
+                                <i class="truck icon"></i>
+                                <div class="content">
+                                    <div class="title">{{ metaRule.name }}</div>
+                                    <div class="description">
+                                        {{ metaRule.description }}
+                                    </div>
                                 </div>
                             </div>
-                            <ul class="list-unstyled">
-                                <li><a class="ym-button" href="{{ path('admin_metaRule_show', {'metaRuleId' : metaRule.id, 'gameId' : game.Id }) }}">show</a></li>
-                                <li><a class="ym-button" href="{{ path('admin_metaRule_edit', {'metaRuleId' : metaRule.id, 'gameId' : game.Id}) }}">edit</a></li>
-                            </ul>
                         </div>
+                        <a class="ui small button" href="{{ path('admin_metaRule_edit', {'metaRuleId' : metaRule.id, 'gameId' : game.Id}) }}">Edit</a>
                     {% endfor %}
                 </div>
                 <div class="twelve wide column">
