@@ -1,19 +1,19 @@
 <?php
 /*  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
-    Copyright (C) 2014 - //Racing-France//
+  Copyright (C) 2014 - //Racing-France//
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    any later version.
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 namespace RFC\CoreBundle\Entity;
 
@@ -28,7 +28,6 @@ use RFC\CoreBundle\Entity\Descriptor;
  */
 class Property extends Descriptor
 {
-
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -50,7 +49,7 @@ class Property extends Descriptor
      * @ORM\Column(name="category", type="string", length=32)
      */
     private $category;
-    
+
     /**
      * @ORM\Column(name="min", type="string", length=16, nullable=true)
      */
@@ -73,6 +72,20 @@ class Property extends Descriptor
     public function __construct()
     {
         parent::__construct();
+    }
+
+    /**
+     * Creates an empty property to be stored in the DB by the system
+     * @param type $id
+     * @return \self
+     */
+    public static function emptyProperty()
+    {
+        $instance = new self();
+        $instance->setValue("");
+        $instance->setType("");
+        $instance->setCommentsActive(false);
+        return $instance;
     }
 
     public function __toString()
@@ -99,7 +112,7 @@ class Property extends Descriptor
     public function setValue($value)
     {
         $this->value = $value;
-        
+
         return $this;
     }
 

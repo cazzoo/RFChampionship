@@ -91,6 +91,7 @@ class Game extends Descriptor
         $this->listChampionships = new \Doctrine\Common\Collections\ArrayCollection ();
         $this->listMetaRules     = new \Doctrine\Common\Collections\ArrayCollection ();
         $this->listRules         = new \Doctrine\Common\Collections\ArrayCollection ();
+        $this->listProperties    = new \Doctrine\Common\Collections\ArrayCollection ();
     }
 
     public function __toString()
@@ -132,26 +133,26 @@ class Game extends Descriptor
     }
 
     /**
-     * Add listChampionships
+     * Add championship
      *
-     * @param Championship $listChampionships 
+     * @param Championship $championship
      * @return Game
      */
-    public function addListChampionship(\RFC\CoreBundle\Entity\Championship $listChampionships)
+    public function addChampionship(\RFC\CoreBundle\Entity\Championship $championship)
     {
-        $this->listChampionships [] = $listChampionships;
+        $this->listChampionships [] = $listChampionship;
 
         return $this;
     }
 
     /**
-     * Remove listChampionships
+     * Remove championship
      *
-     * @param \RFC\CoreBundle\Entity\MetaRule $listChampionships
+     * @param \RFC\CoreBundle\Entity\Championship $championship
      */
-    public function removeListChampionship(\RFC\CoreBundle\Entity\Championship $listChampionships)
+    public function removeChampionship(\RFC\CoreBundle\Entity\Championship $championship)
     {
-        $this->listChampionships->removeElement($listChampionships);
+        $this->listChampionships->removeElement($championship);
     }
 
     /**
@@ -165,26 +166,26 @@ class Game extends Descriptor
     }
 
     /**
-     * Add listMetaRules
+     * Add MetaRule
      *
-     * @param \RFC\CoreBundle\Entity\MetaRule $listMetaRules
+     * @param \RFC\CoreBundle\Entity\MetaRule $metaRule
      * @return Game
      */
-    public function addListMetaRule(\RFC\CoreBundle\Entity\MetaRule $listMetaRules)
+    public function addMetaRule(\RFC\CoreBundle\Entity\MetaRule $metaRule)
     {
-        $this->listMetaRules [] = $listMetaRules;
+        $this->listMetaRules [] = $metaRule;
 
         return $this;
     }
 
     /**
-     * Remove listMetaRules
+     * Remove metaRule
      *
-     * @param \RFC\CoreBundle\Entity\MetaRule $listMetaRules        	
+     * @param \RFC\CoreBundle\Entity\MetaRule $metaRule
      */
-    public function removeListMetaRule(\RFC\CoreBundle\Entity\MetaRule $listMetaRules)
+    public function removeMetaRule(\RFC\CoreBundle\Entity\MetaRule $metaRule)
     {
-        $this->listMetaRules->removeElement($listMetaRules);
+        $this->listMetaRules->removeElement($metaRule);
     }
 
     /**
@@ -198,26 +199,49 @@ class Game extends Descriptor
     }
 
     /**
-     * Add listRules
+     * Add Rule
      *
-     * @param \RFC\CoreBundle\Entity\Rule $listRules        	
+     * @param \RFC\CoreBundle\Entity\Rule $rule
      * @return Game
      */
-    public function addListRule(\RFC\CoreBundle\Entity\Rule $listRules)
+    public function addRule(\RFC\CoreBundle\Entity\Rule $rule)
     {
-        $this->listRules [] = $listRules;
+        $this->listRules [] = $rule;
 
         return $this;
     }
 
     /**
-     * Remove listRules
+     * Add Property
      *
-     * @param \RFC\CoreBundle\Entity\Rule $listRules
+     * @param \RFC\CoreBundle\Entity\Property $property
+     * @return Game
      */
-    public function removeListRule(\RFC\CoreBundle\Entity\Rule $listRules)
+    public function addProperty(\RFC\CoreBundle\Entity\Property $property)
     {
-        $this->listRules->removeElement($listRules);
+        $this->listProperties [] = $property;
+
+        return $this;
+    }
+
+    /**
+     * Remove Rule
+     *
+     * @param \RFC\CoreBundle\Entity\Rule $rule
+     */
+    public function removeRule(\RFC\CoreBundle\Entity\Rule $rule)
+    {
+        $this->listRules->removeElement($rule);
+    }
+
+    /**
+     * Remove property
+     *
+     * @param \RFC\CoreBundle\Entity\Property $property
+     */
+    public function removeProperty(\RFC\CoreBundle\Entity\Property $property)
+    {
+        $this->listProperties->removeElement($property);
     }
 
     /**
