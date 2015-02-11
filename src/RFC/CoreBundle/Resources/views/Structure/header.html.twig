@@ -21,121 +21,53 @@
 {% endif %}
 
 <div class="ui right floated icon top right pointing dropdown {{ is_granted("IS_AUTHENTICATED_REMEMBERED") ? '' : 'inverted ' }}orange button">
+
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        {{app.user.username}}
+    {% endif %}
     <i class="user icon"></i>
-    <div class="menu">
-        <div class="header">User</div>
-        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <div class="header">
-                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
-            </div>
-        {% else %}
+    <div class="ui menu">
+        {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             {{ render(controller("FOSUserBundle:Security:login")) }}
         {% endif %}
-        <div class="divider"></div>
-        <div class="header">Actions</div>
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <div class="item">
+            <a class="item" href="{{ path('rfcCore_user') }}">
                 <i class="user icon"></i>
-                <a href="{{ path('rfcCore_user') }}">
-                    User panel
-                </a>
-            </div>
-            <div class="item">
+                User panel
+            </a>
+            <a class="item" href="{{ path('fos_user_security_logout') }}">
                 <i class="sign out icon"></i>
-                <a href="{{ path('fos_user_security_logout') }}">
-                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                </a>
-            </div>
+                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+            </a>
         {% else %}
-            <div class="item">
-                <i class="sign in icon"></i>
-                <a href="{{ path('fos_user_registration_register') }}">
-                    S'enregistrer
-                </a>
-            </div>
-            <div class="item">
-                <i class="undo icon"></i>
-                <a href="{{ path('fos_user_resetting_request') }}">
-                    Mot de passe oublié
-                </a>
-            </div>
+            <a class="item" href="{{ path('fos_user_registration_register') }}">
+                <i class="write icon"></i>
+                S'enregistrer
+            </a>
+            <a class="item" href="{{ path('fos_user_resetting_request') }}">
+                <i class="recycle icon"></i>
+                Mot de passe oublié
+            </a>
         {% endif %}
-        <div class="item">Help</div>
+        <div class="item">
+            <i class="help icon"></i>
+            Help
+        </div>
         {% if is_granted('ROLE_ADMIN') %}
             <div class="divider"></div>
             <div class="header">Administration</div>
-            <div class="item">
+            <a class="item" href="{{ path('RFCAdmin_index') }}">
                 <i class="settings icon"></i>
-                <a href="{{ path('RFCAdmin_index') }}">
-                    Access to admin panel
-                </a>
-            </div>
+                Access to admin panel
+            </a>
         {% endif %}
     </div>
 </div>
 
-{% if app.session.get('game') %}
-    {% set game = app.session.get('game') %}
-    <div class="ui right floated top right pointing dropdown purple button">
-
-        {{ game.name }}
-
-        <div class="menu">
-
-            <div class="item icon">
-                <i class="home icon"></i>
-                <a href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}">
-                    Game home
-                </a>
-            </div>
-            <div class="item icon">
-                <i class="trophy icon"></i>
-                <a href="{{ path('rfcCore_championships', {'gameId': game.id}) }}" class="ui item">
-                    Championships
-                </a>
-            </div>
-            <div class="item icon">
-                <i class="calendar icon"></i>
-                <a href="{{ path('rfcCore_calendar', {'gameId': game.id}) }}" class="ui item">
-                    Calendar
-                </a>
-            </div>
-            <div class="item icon">
-                <i class="comments icon"></i>
-                <a href="{{ path('rfcCore_crew', {'gameId': game.id}) }}" class="ui item">
-                    Crew
-                </a>
-            </div>
-            <div class="item icon">
-                <i class="car icon"></i>
-                <a href="{{ path('rfcSetup_index', {'gameId': game.id}) }}" class="ui item">
-                    Setup
-                </a>
-            </div>
-            <div class="item icon">
-                <i class="users icon"></i>
-                <a href="{{ path('rfcCore_members', {'gameId': game.id}) }}" class="ui item">
-                    Members
-                </a>
-            </div>
-
-        </div>
-    </div>
-{% endif %}
-
 {% if is_granted('ROLE_ADMIN') %}
-    <div class="ui right floated white icon button">
+    <a class="ui right floated white icon button" href="{{ path('rfcCore_systemParameters') }}">
         <i class="cogs icon"></i>
-        <a href="{{ path('rfcCore_systemParameters') }}">
-            System parameters
-        </a>
-    </div>
-{% endif %}
-
-<div class="ui right floated white icon button">
-    <i class="game icon"></i>
-    <a href="{{ path('rfcCore_accueil') }}">
-        Select a game
+        System
     </a>
-</div>
+{% endif %}
 

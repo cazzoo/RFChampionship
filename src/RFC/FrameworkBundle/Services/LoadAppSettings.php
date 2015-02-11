@@ -60,6 +60,7 @@ class LoadAppSettings
             $data = $this->propertyRepository
                 ->createQueryBuilder('p')
                 ->where('p.category != :category')
+                ->andWhere('p.game is NULL')
                 ->setParameter('category', 'user')
                 ->getQuery()
                 ->getResult();

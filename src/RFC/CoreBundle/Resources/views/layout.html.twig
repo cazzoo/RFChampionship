@@ -20,10 +20,13 @@
 
     <div class="equal height row">
         <div class="ui middle aligned grid">
-            <div class="height wide column">
+            <div class="six wide column">
+                <h1>{% include 'RFCCoreBundle::Structure/breadcrumbs.html.twig' %}</h1>
+            </div>
+            <div class="four wide column">
                 <h1>{{ appSettings.getParam('site name').value }}</h1>
             </div>
-            <div class="height wide column">
+            <div class="six wide column">
                 {#% include 'RFCCoreBundle::Structure/notificationCenter.html.twig' %#}
                 {% include 'RFCCoreBundle::Structure/header.html.twig' %}
             </div>
@@ -32,11 +35,6 @@
 
 {% endblock %}
 
-{% block breadcrumbs %}
-
-    {% include 'RFCCoreBundle::Structure/breadcrumbs.html.twig' %}
-
-{% endblock %}
 {% block page_content %}
 
     {% if appSettings.getGame() is not null or games is defined %}

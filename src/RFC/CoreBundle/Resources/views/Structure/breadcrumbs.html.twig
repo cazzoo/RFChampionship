@@ -14,6 +14,54 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-<div class="rcrumbs ui breadcrumb" id="breadcrumbs">
-    {{ knp_menu_render('breadcrumb', {'template': 'RFCCoreBundle:Structure:knp_menu.html.twig'}) }}
-</div>
+{% if app.session.get('game') %}
+    <a class="ui labelled icon" href="{{ path('rfcCore_accueil') }}">
+        <i class="angle left icon"></i>
+    </a>
+{% endif %}
+
+{% if app.session.get('game') %}
+    {% set game = app.session.get('game') %}
+
+    <div class="ui top right pointing dropdown">
+
+        {{ game.name }}
+        <i class="content icon"></i>
+
+        <div class="ui icon menu">
+
+            <a href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}" class="item">
+                <i class="home icon"></i>
+                Game home
+            </a>
+            <a href="{{ path('rfcCore_championships', {'gameId': game.id}) }}" class="item">
+                <i class="trophy icon"></i>
+                Championships
+            </a>
+            <a href="{{ path('rfcCore_calendar', {'gameId': game.id}) }}" class="item">
+                <i class="calendar icon"></i>
+                Calendar
+            </a>
+            <a href="{{ path('rfcCore_crew', {'gameId': game.id}) }}" class="item">
+                <i class="comments icon"></i>
+                Crew
+            </a>
+            <a href="{{ path('rfcSetup_index', {'gameId': game.id}) }}" class="item">
+                <i class="car icon"></i>
+                Setup
+            </a>
+            <a href="{{ path('rfcCore_members', {'gameId': game.id}) }}" class="item">
+                <i class="users icon"></i>
+                Members
+            </a>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('rfcCore_gameParameters', {'gameId': game.id}) }}" class="red item icon">
+                    <i class="game icon"></i>
+                    Game parameters
+                </a>
+            {% endif %}
+
+        </div>
+    </div>
+{% endif %}
