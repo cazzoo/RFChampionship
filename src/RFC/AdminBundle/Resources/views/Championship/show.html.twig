@@ -99,8 +99,8 @@ program. If not, see <http://www.gnu.org/licenses/>. #}
             <hr />
             <div>
                 <h3>
-                    Rules {% if entity.metaRuleAgreed != true %}<a
-                        class="btn btn-inverse btn-xs" role="button"
+                    Rules {% if entity.championshipAgreed != true %}<a
+                        class="ui button mini" role="button"
                         href="{{ path('admin_rule_new', {'gameId' : game[0].id}) }}"> <span
                             class="glyphicon glyphicon-plus"></span>
                     </a>{% endif %}

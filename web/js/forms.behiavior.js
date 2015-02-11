@@ -73,6 +73,9 @@ function getChampionshipResults(championshipId) {
     }).done(function (data) {
         addNotification('Championship results updated', 'success');
         $('#globalResults').html(data);
+        $('#viewFullLeaderboard').bind('click', function () {
+            $('.standard.globalResults.modal').modal('setting', 'transition', 'scale').modal('show');
+        });
     }).fail(
             function (jqXHR, textStatus, errorThrown) {
                 addNotification('Error while updating championship\'s results',
@@ -822,9 +825,11 @@ $(function () {
     $('.ui.card.gameCard:not()').click(function () {
         window.location = Routing.generate('rfcCore_gameSelection', {'gameId': $(this).data('gameid')});
     });
+
     $('.ui.card.gameCard .extra.content a, .ui.card.gameCard .extra.content div').click(function (e) {
         e.stopPropagation();
     });
+
 });
 
 $('.ui.checkbox').checkbox();

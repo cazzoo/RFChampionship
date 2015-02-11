@@ -16,19 +16,53 @@
 
 {# src/RFC/CoreBundle/Resources/views/Championship/globalResults.html.twig #}
 
-<hr />
+<table class="ui small striped table">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for key,entry in results|slice(0, 3) %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ key }}</td>
+                <td>{{ entry }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% if results|length > 3 %}
+    <div class="ui button" id="viewFullLeaderboard">View full leaderboard</div>
+{% endif %}
 
-<div class="ym-grid">
-	<div class="ym-g100">
-        <div class="ym-gbox">
-            <h2>
-				Global Results
-			</h2>
-			<div>
-				{% for key,entry in results %}
-					{{ key }} : {{ entry }} pts<br/>
-				{% endfor %}
-			</div>
-		</div>
-	</div>
+<div class="ui standard globalResults modal transition">
+    <i class="close icon"></i>
+    <div class="header">
+        Gobal results
+    </div>
+    <div class="content">
+        <div class="description">
+            <table class="ui small striped table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key,entry in results %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ key }}</td>
+                            <td>{{ entry }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

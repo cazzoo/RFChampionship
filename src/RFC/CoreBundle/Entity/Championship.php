@@ -42,6 +42,11 @@ class Championship extends KnowledgeData
     private $championshipAgreed;
 
     /**
+     * @ORM\Column(name="registrationInProgress", type="boolean")
+     */
+    private $registrationInProgress;
+
+    /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game", inversedBy="listChampionships")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -121,6 +126,29 @@ class Championship extends KnowledgeData
     public function getChampionshipAgreed()
     {
         return $this->championshipAgreed;
+    }
+
+    /**
+     * Set registrationrInProgress
+     *
+     * @param boolean $registrationInProgress
+     * @return Championship
+     */
+    public function setRegistrationInProgress($registrationInProgress)
+    {
+        $this->registrationInProgress = $registrationInProgress;
+
+        return $this;
+    }
+
+    /**
+     * Get registrationrInProgress
+     *
+     * @return boolean
+     */
+    public function getRegistrationInProgress()
+    {
+        return $this->registrationInProgress;
     }
 
     /**
