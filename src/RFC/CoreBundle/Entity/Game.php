@@ -140,7 +140,7 @@ class Game extends Descriptor
      */
     public function addChampionship(\RFC\CoreBundle\Entity\Championship $championship)
     {
-        $this->listChampionships [] = $listChampionship;
+        $this->listChampionships [] = $championship;
 
         return $this;
     }
@@ -254,6 +254,12 @@ class Game extends Descriptor
         return $this->listRules;
     }
 
+
+    /**
+     * Get listTracks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
     public function getListTracks()
     {
         return $this->listTracks;
@@ -265,6 +271,12 @@ class Game extends Descriptor
         return $this;
     }
 
+
+    /**
+     * Get listVehicles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
     public function getListVehicles()
     {
         return $this->listVehicles;
@@ -276,6 +288,12 @@ class Game extends Descriptor
         return $this;
     }
 
+
+    /**
+     * Get listCategories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
     public function getListCategories()
     {
         return $this->listCategories;
@@ -287,6 +305,12 @@ class Game extends Descriptor
         return $this;
     }
 
+
+    /**
+     * Get listTypeSessions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
     public function getListTypeSessions()
     {
         return $this->listTypeSessions;
@@ -298,6 +322,12 @@ class Game extends Descriptor
         return $this;
     }
 
+
+    /**
+     * Get listProperties
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
     public function getListProperties()
     {
         return $this->listProperties;

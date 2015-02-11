@@ -143,12 +143,12 @@ abstract class Descriptor
     }
 
     /**
-     * Add listImages
+     * Add image
      *
      * @param \RFC\CoreBundle\Entity\Image $image
      * @return Descriptor
      */
-    public function addListImage(\RFC\CoreBundle\Entity\Image $image)
+    public function addImage(\RFC\CoreBundle\Entity\Image $image)
     {
         $this->listImages[] = $image;
 
@@ -156,11 +156,11 @@ abstract class Descriptor
     }
 
     /**
-     * Remove listImages
+     * Remove image
      *
      * @param \RFC\CoreBundle\Entity\Image $image
      */
-    public function removeListImage(\RFC\CoreBundle\Entity\Image $image)
+    public function removeImage(\RFC\CoreBundle\Entity\Image $image)
     {
         $this->listImages->removeElement ( $image );
     }

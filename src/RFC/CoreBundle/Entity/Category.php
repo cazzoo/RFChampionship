@@ -1,19 +1,19 @@
 <?php
 /*  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
-    Copyright (C) 2014 - //Racing-France//
+  Copyright (C) 2014 - //Racing-France//
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    any later version.
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 namespace RFC\CoreBundle\Entity;
 
@@ -28,7 +28,6 @@ use RFC\CoreBundle\Entity\KnowledgeData;
  */
 class Category extends KnowledgeData
 {
-
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -57,8 +56,9 @@ class Category extends KnowledgeData
      */
     public function __construct()
     {
+        parent::__construct();
         $this->listVehicles = new \Doctrine\Common\Collections\ArrayCollection();
-    	$this->listImages = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listImages   = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -80,14 +80,14 @@ class Category extends KnowledgeData
     public function setListVehicles($listVehicles)
     {
         $this->listVehicles = $listVehicles;
-        
+
         return $this;
     }
 
     /**
      * Get listVehicles
      *
-     * @return \stdClass
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getListVehicles()
     {
@@ -95,25 +95,25 @@ class Category extends KnowledgeData
     }
 
     /**
-     * Add listVehicles
+     * Add vehicle
      *
-     * @param \RFC\CoreBundle\Entity\Vehicle $listVehicles            
+     * @param \RFC\CoreBundle\Entity\Vehicle $vehicle
      * @return Category
      */
-    public function addListVehicle(\RFC\CoreBundle\Entity\Vehicle $listVehicles)
+    public function addVehicle(\RFC\CoreBundle\Entity\Vehicle $vehicle)
     {
-        $this->listVehicles[] = $listVehicles;
-        
+        $this->listVehicles[] = $vehicle;
+
         return $this;
     }
 
     /**
-     * Remove listVehicles
+     * Remove vehicle
      *
-     * @param \RFC\CoreBundle\Entity\Vehicle $listVehicles            
+     * @param \RFC\CoreBundle\Entity\Vehicle $vehicle
      */
-    public function removeListVehicle(\RFC\CoreBundle\Entity\Vehicle $listVehicles)
+    public function removeVehicle(\RFC\CoreBundle\Entity\Vehicle $vehicle)
     {
-        $this->listVehicles->removeElement($listVehicles);
+        $this->listVehicles->removeElement($vehicle);
     }
 }

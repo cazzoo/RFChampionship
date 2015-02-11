@@ -90,7 +90,7 @@ class SessionController extends Controller {
 	public function newAction($gameId, $championshipId, $eventId) {
 		$entityManager = $this->getDoctrine ()->getManager ();
 		$entity = new Session ();
-		$event = $entityManager->getRepository ( 'RFCCoreBundle:Event' )->findById(array('id' => $eventId ));
+		$event = $entityManager->getRepository ( 'RFCCoreBundle:Event' )->findBy(array('id' => $eventId ));
 		$entity->setEvent ( $event [0] );
 		$form = $this->createCreateForm ( $entity, $gameId, $championshipId, $eventId );
 		

@@ -147,14 +147,14 @@ class Championship extends KnowledgeData
     }
 
     /**
-     * Set listManagers
+     * Set manager
      *
-     * @param array $listManagers            
+     * @param array $manager
      * @return Championship
      */
-    public function setListManagers($listManagers)
+    public function setManagers($manager)
     {
-        $this->listManagers = $listManagers;
+        $this->listManagers = $manager;
 
         return $this;
     }
@@ -172,7 +172,7 @@ class Championship extends KnowledgeData
     /**
      * Set metaRuleId
      *
-     * @param \stdClass $metaRule
+     * @param \RFC\CoreBundle\Entity\MetaRule $metaRule
      * @return Championship
      */
     public function setMetaRule($metaRule)
@@ -185,7 +185,7 @@ class Championship extends KnowledgeData
     /**
      * Get metaRuleId
      *
-     * @return \stdClass
+     * @return \RFC\CoreBundle\Entity\MetaRule
      */
     public function getMetaRule()
     {
@@ -216,14 +216,14 @@ class Championship extends KnowledgeData
     }
 
     /**
-     * Add listRules
+     * Add rule
      *
-     * @param \RFC\CoreBundle\Entity\Rule $listRules            
+     * @param \RFC\CoreBundle\Entity\Rule $rule
      * @return Championship
      */
-    public function addListRule(\RFC\CoreBundle\Entity\Rule $listRules)
+    public function addRule(\RFC\CoreBundle\Entity\Rule $rule)
     {
-        $this->listRules[] = $listRules;
+        $this->listRules[] = $rule;
 
         return $this;
     }
@@ -239,49 +239,49 @@ class Championship extends KnowledgeData
     }
 
     /**
-     * Add listEvents
+     * Add events
      *
-     * @param \RFC\CoreBundle\Entity\Event $listEvents
+     * @param \RFC\CoreBundle\Entity\Event $events
      * @return Championship
      */
-    public function addListEvent(\RFC\CoreBundle\Entity\Event $listEvents)
+    public function addEvent(\RFC\CoreBundle\Entity\Event $events)
     {
-        $this->listEvents[] = $listEvents;
+        $this->listEvents[] = $events;
 
         return $this;
     }
 
     /**
-     * Remove listEvents
+     * Remove events
      *
-     * @param \RFC\CoreBundle\Entity\Event $listEvents
+     * @param \RFC\CoreBundle\Entity\Event $events
      */
-    public function removeListEvent(\RFC\CoreBundle\Entity\Event $listEvents)
+    public function removeEvent(\RFC\CoreBundle\Entity\Event $events)
     {
-        $this->listEvents->removeElement($listEvents);
+        $this->listEvents->removeElement($events);
     }
 
     /**
-     * Add listManagers
+     * Add manager
      *
-     * @param \RFC\UserBundle\Entity\User $listManagers
+     * @param \RFC\UserBundle\Entity\User $manager
      * @return Championship
      */
-    public function addListManager(\RFC\UserBundle\Entity\User $listManagers)
+    public function addManager(\RFC\UserBundle\Entity\User $manager)
     {
-        $this->listManagers[] = $listManagers;
+        $this->listManagers[] = $manager;
 
         return $this;
     }
 
     /**
-     * Remove listManagers
+     * Remove manager
      *
-     * @param \RFC\UserBundle\Entity\User $listManagers
+     * @param \RFC\UserBundle\Entity\User $manager
      */
-    public function removeListManager(\RFC\UserBundle\Entity\User $listManagers)
+    public function removeListManager(\RFC\UserBundle\Entity\User $manager)
     {
-        $this->listManagers->removeElement($listManagers);
+        $this->listManagers->removeElement($manager);
     }
 
     public function getListUsers()
@@ -321,13 +321,11 @@ class Championship extends KnowledgeData
     public function getFirstEvent()
     {
         $firstEvent = null;
-        foreach($this->listEvents as $event) {
-            if(null == $firstEvent) {
+        foreach ($this->listEvents as $event) {
+            if (null == $firstEvent) {
                 $firstEvent = $event;
-            } else {
-                if($event->getBeginDate() < $firstEvent->getBeginDate()) {
-                    $firstEvent = $event;
-                }
+            } else if ($event->getBeginDate() < $firstEvent->getBeginDate()) {
+                $firstEvent = $event;
             }
         }
         return $firstEvent;
@@ -336,13 +334,11 @@ class Championship extends KnowledgeData
     public function getLastEvent()
     {
         $lastEvent = null;
-        foreach($this->listEvents as $event) {
-            if(null == $lastEvent) {
+        foreach ($this->listEvents as $event) {
+            if (null == $lastEvent) {
                 $lastEvent = $event;
-            } else {
-                if($event->getEndDate() > $lastEvent->getEndDate()) {
-                    $lastEvent = $event;
-                }
+            } else if ($event->getEndDate() > $lastEvent->getEndDate()) {
+                $lastEvent = $event;
             }
         }
         return $lastEvent;
@@ -367,8 +363,11 @@ class Championship extends KnowledgeData
                 $beginDate = $event->getBeginDate();
             }
         }
-        if ($beginDate != $template) return $beginDate;
-        else return null;
+        if ($beginDate != $template) {
+            return $beginDate;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -382,14 +381,19 @@ class Championship extends KnowledgeData
         $template->format('Y-m-d H:i:s');
         if ($this->listEvents[0] !== null) {
             $endDate = $this->listEvents[0]->getEndDate();
-        } else $endDate = $template;
+        } else {
+            $endDate = $template;
+        }
         foreach ($this->listEvents as $event) {
             if ($endDate < $event->getEndDate()) {
                 $endDate = $event->getEndDate();
             }
         }
-        if ($endDate != $template) return $endDate;
-        else return null;
+        if ($endDate != $template) {
+            return $endDate;
+        } else {
+            return null;
+        }
     }
 
     public function isManager($userId)

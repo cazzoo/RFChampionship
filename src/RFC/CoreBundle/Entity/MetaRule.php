@@ -97,14 +97,14 @@ class MetaRule extends KnowledgeData
     }
 
     /**
-     * Add listRules
+     * Add rule
      *
-     * @param \RFC\CoreBundle\Entity\Rule $listRules            
+     * @param \RFC\CoreBundle\Entity\Rule $rule
      * @return MetaRule
      */
-    public function addListRule(\RFC\CoreBundle\Entity\Rule $listRules)
+    public function addRule(\RFC\CoreBundle\Entity\Rule $rule)
     {
-        $this->listRules[] = $listRules;
+        $this->listRules[] = $rule;
         
         return $this;
     }
@@ -112,11 +112,11 @@ class MetaRule extends KnowledgeData
     /**
      * Remove listRules
      *
-     * @param \RFC\CoreBundle\Entity\Rule $listRules            
+     * @param \RFC\CoreBundle\Entity\Rule $rule
      */
-    public function removeListRule(\RFC\CoreBundle\Entity\Rule $listRules)
+    public function removeRule(\RFC\CoreBundle\Entity\Rule $rule)
     {
-        $this->listRules->removeElement($listRules);
+        $this->listRules->removeElement($rule);
     }
 
     /**

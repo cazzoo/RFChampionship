@@ -76,7 +76,6 @@ class Property extends Descriptor
 
     /**
      * Creates an empty property to be stored in the DB by the system
-     * @param type $id
      * @return \self
      */
     public static function emptyProperty()

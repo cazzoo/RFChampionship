@@ -261,26 +261,26 @@ class Event extends Descriptor
     }
 
     /**
-     * Add listSessions
+     * Add session
      *
-     * @param \RFC\CoreBundle\Entity\Session $listSessions            
+     * @param \RFC\CoreBundle\Entity\Session $session
      * @return Event
      */
-    public function addListSession(\RFC\CoreBundle\Entity\Session $listSessions)
+    public function addSession(\RFC\CoreBundle\Entity\Session $session)
     {
-        $this->listSessions[] = $listSessions;
+        $this->listSessions[] = $session;
 
         return $this;
     }
 
     /**
-     * Remove listSessions
+     * Remove session
      *
-     * @param \RFC\CoreBundle\Entity\Session $listSessions            
+     * @param \RFC\CoreBundle\Entity\Session $session
      */
-    public function removeListSession(\RFC\CoreBundle\Entity\Session $listSessions)
+    public function removeSession(\RFC\CoreBundle\Entity\Session $session)
     {
-        $this->listSessions->removeElement($listSessions);
+        $this->listSessions->removeElement($session);
     }
 
     /**

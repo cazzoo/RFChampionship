@@ -174,7 +174,7 @@ class Crew
      * @param \RFC\CoreBundle\Entity\CrewRequest $crewRequest
      * @return Crew
      */
-    public function addListCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
+    public function addCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
     {
         $this->listCrewRequests[] = $crewRequest;
 
@@ -182,11 +182,11 @@ class Crew
     }
 
     /**
-     * Remove listCrewRequests
+     * Remove CrewRequest
      *
      * @param \RFC\CoreBundle\Entity\CrewRequest $crewRequest
      */
-    public function removeListCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
+    public function removeCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
     {
         $this->listCrewRequests->removeElement ( $crewRequest );
     }
