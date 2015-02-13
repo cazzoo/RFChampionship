@@ -24,97 +24,183 @@
 
     <div class="ui three column grid">
 
-        <div class="column">
-            <div class="ui items">
-                <div class="item">
-                    
-                    <div class="image">
-                        <img src="/images/wireframe/image.png">
-                        {% if canEdit %}
-                            <div class="ui corner blue icon label">
-                                <a href="{{ path('admin_championship_edit', {'gameId': game.id, 'championshipId': entity.id}) }}"><i class="setting icon"></i></a>
-                            </div>
-                        {% endif %}
-                    </div>
-                    
-                    <div class="content">
-                        
-                        <div class="header">{{ entity.name }}</div>
-                        
-                        <div class="meta">
-                            <div class="ui horizontal icon label">
-                                <i class="ticket icon"></i>
-                                {{ entity.championshipAgreed ? 'Agreed' : 'Non agreed' }}
-                            </div>
-                            
-                            <div class="ui horizontal icon label popupLabel">
-                                <i class="cubes icon"></i>
-                                {% if entity.championshipAgreed %}
-                                    {{ entity.metaRule.name }}
-                                    {% if canEdit %}
-                                        <a class="detail" href="{{ path('admin_metaRule_edit', {'gameId' : game.id, 'metaRuleId' : entity.metaRule.id }) }}">
-                                            <i class="edit icon"></i> Edit
-                                        </a>
-                                    {% endif %}
-                                    {% set rules = entity.metaRule.listRules %}
-                                {% else %}
-                                    Rules
-                                    {% set rules = entity.listRules %}
-                                {% endif %}
-                            </div>
-                            
-                            <div class="ui flowing popup">
-                                {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}
-                            </div>
-                        </div>
-                            
-                        <div class="description">
-                            <div class="ui horizontal divider">Description</div>
-                            {{ entity.description ? entity.description : "Aucune" }}
-                        </div>
-                        
-                        <div class="extra">
+        <div class="equal height row">
 
-                            <div class="ui horizontal list">
-                                {% if entity.listManagers %}
-                                    <div class="ui horizontal divider">Manager(s)</div>
-                                    {% for manager in entity.listManagers %}
+            <div class="column">
+                <div class="ui items">
+                    <div class="item">
+
+                        <div class="image">
+                            <img src="/images/wireframe/image.png">
+                            {% if canEdit %}
+                                <div class="ui corner blue icon label">
+                                    <a href="{{ path('admin_championship_edit', {'gameId': game.id, 'championshipId': entity.id}) }}"><i class="setting icon"></i></a>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="content">
+
+                            <div class="header">{{ entity.name }}</div>
+
+                            <div class="meta">
+                                <div class="ui horizontal icon label">
+                                    <i class="ticket icon"></i>
+                                    {{ entity.championshipAgreed ? 'Agreed' : 'Non agreed' }}
+                                </div>
+
+                                <div class="ui horizontal icon label popupLabel">
+                                    <i class="cubes icon"></i>
+                                    {% if entity.championshipAgreed %}
+                                        {{ entity.metaRule.name }}
+                                        {% if canEdit %}
+                                            <a class="detail" href="{{ path('admin_metaRule_edit', {'gameId' : game.id, 'metaRuleId' : entity.metaRule.id }) }}">
+                                                <i class="edit icon"></i> Edit
+                                            </a>
+                                        {% endif %}
+                                        {% set rules = entity.metaRule.listRules %}
+                                    {% else %}
+                                        Rules
+                                        {% set rules = entity.listRules %}
+                                    {% endif %}
+                                </div>
+
+                                <div class="ui flowing popup">
+                                    {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}
+                                </div>
+                            </div>
+
+                            <div class="description">
+                                <div class="ui horizontal divider">Description</div>
+                                {{ entity.description ? entity.description : "Aucune" }}
+                            </div>
+
+                            <div class="extra">
+
+                                <div class="ui horizontal list">
+                                    {% if entity.listManagers %}
+                                        <div class="ui horizontal divider">Manager(s)</div>
+                                        {% for manager in entity.listManagers %}
+                                            <div class="item">
+                                                <img class="ui avatar image" src="{{ manager.avatarUrl }}">
+                                                <div class="content">
+                                                    <a class="header" href="{{ path('rfcCore_members_show', {'gameId': game.id, 'userId': manager.id}) }}">
+                                                        {{ manager.username }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
                                         <div class="item">
-                                            <img class="ui avatar image" src="{{ manager.avatarUrl }}">
                                             <div class="content">
-                                                <a class="header" href="{{ path('rfcCore_members_show', {'gameId': game.id, 'userId': manager.id}) }}">
-                                                    {{ manager.username }}
-                                                </a>
+                                                <div class="header">No manager(s)</div>
                                             </div>
                                         </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="item">
-                                        <div class="content">
-                                            <div class="header">No manager(s)</div>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                            </div>
+                                    {% endif %}
+                                </div>
 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="column">
-            <h3>
-                Participants
-            </h3>
+            <div class="center column">
 
-            <div id="registrationStatus">
-                {% include 'RFCCoreBundle:Championship:registration.html.twig' with {'gameId' : game.id, 'championshipId' : entity.id, 'status' : ''} %}
+                <div class="ui header">
+                    Participants
+                </div>
+
+                {% if entity.listUsers|length > 4 %}
+
+                    {% if entity.listUsers|length % 2 == 0 %}
+
+                        {% set listHalf =  entity.listUsers|length / 2 %}
+
+                    {% else %}
+
+                        {% set listHalf =  entity.listUsers|length / 2 + entity.listUsers|length % 2 %}
+
+                    {% endif %}
+
+                    <div class="ui two columns divided grid">
+                        <div class="column">
+                            <div class="ui mini list">
+
+                                {% for participant in entity.listUsers|slice(0, listHalf) %}
+
+                                    <div class="item">
+                                        <img class="ui avatar image" src="{{ participant.avatarUrl }}">
+                                        <div class="content">
+                                            <a class="header" href="{{ path('rfcCore_members_show', {'gameId': game.id, 'userId': participant.id}) }}">
+                                                {{ participant.username }}
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="ui mini list">
+
+                                {% for participant in entity.listUsers|slice(listHalf, entity.listUsers|length) %}
+
+                                    <div class="item">
+                                        <img class="ui avatar image" src="{{ participant.avatarUrl }}">
+                                        <div class="content">
+                                            <a class="header" href="{{ path('rfcCore_members_show', {'gameId': game.id, 'userId': participant.id}) }}">
+                                                {{ participant.username }}
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+
+                {% else %}
+
+                    <div class="ui grid">
+                        <div class="column">
+                            <div class="ui mini list">
+
+                                {% for participant in entity.listUsers %}
+
+                                    <div class="item">
+                                        <img class="ui avatar image" src="{{ participant.avatarUrl }}">
+                                        <div class="content">
+                                            <a class="header" href="{{ path('rfcCore_members_show', {'gameId': game.id, 'userId': participant.id}) }}">
+                                                {{ participant.username }}
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+
+                {% endif %}
+
+                <div id="registrationStatus">
+                    {% include 'RFCCoreBundle:Championship:registration.html.twig' with {'gameId' : game.id, 'championshipId' : entity.id, 'status' : ''} %}
+                </div>
+
             </div>
-        </div>
-        <div class="column">
-            <div id="globalResults"></div>
-        </div>
+            <div class="column">
 
+                <div class="ui header">
+                    Results
+                </div>
+                <div id="globalResults"></div>
+                
+            </div>
+
+        </div>
     </div>
 
     <div class="ui two column grid">
