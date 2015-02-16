@@ -303,12 +303,44 @@ class Event extends Descriptor
         foreach ($this->listSessions as $session) {
             if (null == $lastSession) {
                 $lastSession = $session;
-            } else {
-                if ($lastSession->getEndDate() < $session->getBeginDate()) {
-                    $lastSession = $session;
-                }
+            } else if ($lastSession->getEndDate() < $session->getBeginDate()) {
+                $lastSession = $session;
             }
-            return $lastSession;
         }
+        return $lastSession;
+    }
+
+    /**
+     *  Returns the nearest incoming session.
+     * @return the next session that is not started.
+     */
+    public function getNextSession()
+    {
+        $nextSession = null;
+        $now         = new \DateTime();
+        foreach ($this->listSessions as $session) {
+            if ($now < $session->getBeginDate() && (null == $nextSession || $nextSession->getBeginDate()
+                > $session->getBeginDate())) {
+                $nextSession = $session;
+            }
+        }
+        return $nextSession;
+    }
+
+    /**
+     *  Returns the nearest completed session.
+     * @return the previous session that is completed.
+     */
+    public function getPreviousSession()
+    {
+        $previousSession = null;
+        $now             = new \DateTime();
+        foreach ($this->listSessions as $session) {
+            if ($now > $session->getEndDate() && (null == $previousSession || $previousSession->getEndDate()
+                < $session->getEndDate())) {
+                $previousSession = $session;
+            }
+        }
+        return $previousSession;
     }
 }

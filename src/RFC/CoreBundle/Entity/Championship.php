@@ -433,4 +433,36 @@ class Championship extends KnowledgeData
         }
         return false;
     }
+
+    /**
+     *  Returns the nearest incoming session.
+     * @return the next session that is not started.
+     */
+    public function getNextSession()
+    {
+        $nextSession = null;
+        foreach ($this->listEvents as $event) {
+            $eventNextSession = $event->getNextSession();
+            if (null == $nextSession || $nextSession->getBeginDate() > $eventNextSession->getBeginDate()) {
+                $nextSession = $eventNextSession;
+            }
+        }
+        return $nextSession;
+    }
+
+    /**
+     *  Returns the nearest completed session.
+     * @return the previous session that is completed.
+     */
+    public function getPreviousSession()
+    {
+        $previousSession = null;
+        foreach ($this->listEvents as $event) {
+            $eventPreviousSession = $event->getPreviousSession();
+            if (null == $previousSession || $previousSession->getEndDate() < $eventPreviousSession->getEndDate()) {
+                $previousSession = $eventPreviousSession;
+            }
+        }
+        return $previousSession;
+    }
 }

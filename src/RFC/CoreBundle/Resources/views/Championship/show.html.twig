@@ -197,7 +197,7 @@
                     Results
                 </div>
                 <div id="globalResults"></div>
-                
+
             </div>
 
         </div>
@@ -207,11 +207,33 @@
         <div class="column">
             <div class="ui horizontal segment">
                 <h3>Previous Session</h3>
+                {% if entity.getPreviousSession %}
+                    <div class="ui mini label">
+                        {{ entity.getPreviousSession.event.name }} : {{ entity.getPreviousSession }}&nbsp;&nbsp;
+                        <i class="wait icon"></i>
+                        {{ entity.getPreviousSession.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
+                        <i class="chevron right icon"></i>
+                        {{ entity.getPreviousSession.endDate|date("Y/m/d H:i") }}
+                    </div>
+                {% else %}
+                    No previous session
+                {% endif %}
             </div>
         </div>
         <div class="column">
             <div class="ui horizontal segment">
                 <h3>Incoming Session</h3>
+                {% if entity.getNextSession %}
+                    <div class="ui mini label">
+                        {{ entity.getNextSession.event.name }} : {{ entity.getNextSession }}&nbsp;&nbsp;
+                        <i class="wait icon"></i>
+                        {{ entity.getNextSession.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
+                        <i class="chevron right icon"></i>
+                        {{ entity.getNextSession.endDate|date("Y/m/d H:i") }}
+                    </div>
+                {% else %}
+                    No incoming session
+                {% endif %}
             </div>
         </div>
     </div>
