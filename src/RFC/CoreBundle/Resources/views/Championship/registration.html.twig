@@ -47,11 +47,15 @@
                 </a>
             {% endif %}
         {% endif %}
-        <br />
 
     {% else %}
 
         You are not allowed to register as the championship as already begun.
 
     {% endif %}
+
+{% else %}
+
+    <div class="ui inverted red segment">You need to login to register to championship.</div>
+    
 {% endif %}

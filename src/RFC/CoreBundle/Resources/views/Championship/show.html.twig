@@ -104,64 +104,17 @@
                     </div>
                 </div>
             </div>
-            <div class="center column">
+            <div class="column">
 
                 <div class="ui header">
-                    Participants
+                    ({{entity.listUsers|length}}) Drivers registered
                 </div>
 
-                {% if entity.listUsers|length > 4 %}
+                {% if entity.listUsers|length > 4 and entity.listUsers|length < 8 %}
 
-                    {% if entity.listUsers|length % 2 == 0 %}
+                    {% include 'RFCCoreBundle:Championship:driversTwoColumnsList.html.twig' with {'listDrivers' : entity.listUsers|slice(0,8)} %}
 
-                        {% set listHalf =  entity.listUsers|length / 2 %}
-
-                    {% else %}
-
-                        {% set listHalf =  entity.listUsers|length / 2 + entity.listUsers|length % 2 %}
-
-                    {% endif %}
-
-                    <div class="ui two columns divided grid">
-                        <div class="column">
-                            <div class="ui mini list">
-
-                                {% for participant in entity.listUsers|slice(0, listHalf) %}
-
-                                    <div class="item">
-                                        <img class="ui avatar image" src="{{ participant.avatarUrl }}">
-                                        <div class="content">
-                                            <a class="header" href="{{ path('rfcCore_members_show', {'gameId': game.id, 'userId': participant.id}) }}">
-                                                {{ participant.username }}
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                {% endfor %}
-
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="ui mini list">
-
-                                {% for participant in entity.listUsers|slice(listHalf, entity.listUsers|length) %}
-
-                                    <div class="item">
-                                        <img class="ui avatar image" src="{{ participant.avatarUrl }}">
-                                        <div class="content">
-                                            <a class="header" href="{{ path('rfcCore_members_show', {'gameId': game.id, 'userId': participant.id}) }}">
-                                                {{ participant.username }}
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                {% endfor %}
-
-                            </div>
-                        </div>
-                    </div>
-
-                {% else %}
+                {% elseif entity.listUsers|length <= 4%}
 
                     <div class="ui grid">
                         <div class="column">
@@ -184,9 +137,28 @@
                         </div>
                     </div>
 
+                {% else %}
+
+                    <div class="ui basic center aligned segment">
+                        <p>Too much drivers to show.</p>
+                        <a id="viewFullDriverList" href="#" class="ui button">View full driver list</a>
+                    </div>
+
+                    <div class="ui standard driverList modal transition">
+                        <i class="close icon"></i>
+                        <div class="header">
+                            Full driver list
+                        </div>
+                        <div class="content">
+                            <div class="description">
+                                {% include 'RFCCoreBundle:Championship:driversTwoColumnsList.html.twig' with {'listDrivers' : entity.listUsers} %}
+                            </div>
+                        </div>
+                    </div>
+
                 {% endif %}
 
-                <div id="registrationStatus">
+                <div id="registrationStatus" class="ui basic segment">
                     {% include 'RFCCoreBundle:Championship:registration.html.twig' with {'gameId' : game.id, 'championshipId' : entity.id, 'status' : ''} %}
                 </div>
 

@@ -790,6 +790,9 @@ $(function () {
     getCurrentChampionshipResults();
     // Selecting event
     $(".eventItem:first").trigger("click");
+    $('#viewFullDriverList').click(function () {
+        $('.standard.driverList.modal').modal('setting', 'transition', 'scale').modal('show');
+    });
 
     // --------------------------------------------
     // Screen MetaRule show

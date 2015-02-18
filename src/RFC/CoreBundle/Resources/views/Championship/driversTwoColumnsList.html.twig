@@ -1,0 +1,48 @@
+{% if listDrivers|length % 2 == 0 %}
+
+    {% set listHalf =  listDrivers|length / 2 %}
+
+{% else %}
+
+    {% set listHalf =  listDrivers|length / 2 + listDrivers|length % 2 %}
+
+{% endif %}
+
+<div class="ui two columns divided grid">
+    <div class="column">
+        <div class="ui mini list">
+
+            {% for driver in listDrivers|slice(0, listHalf) %}
+
+                <div class="item">
+                    <img class="ui avatar image" src="{{ driver.avatarUrl }}">
+                    <div class="content">
+                        <a class="header" href="{{ path('rfcCore_members_show', {'gameId': game.id, 'userId': driver.id}) }}">
+                            {{ driver.username }}
+                        </a>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+    <div class="column">
+        <div class="ui mini list">
+
+            {% for driver in listDrivers|slice(listHalf, listDrivers|length) %}
+
+                <div class="item">
+                    <img class="ui avatar image" src="{{ driver.avatarUrl }}">
+                    <div class="content">
+                        <a class="header" href="{{ path('rfcCore_members_show', {'gameId': game.id, 'userId': driver.id}) }}">
+                            {{ driver.username }}
+                        </a>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
