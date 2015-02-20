@@ -1,19 +1,19 @@
 <?php
 /*  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
-    Copyright (C) 2014 - //Racing-France//
+  Copyright (C) 2014 - //Racing-France//
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    any later version.
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 namespace RFC\CoreBundle\Entity;
 
@@ -28,7 +28,6 @@ use RFC\CoreBundle\Entity\Descriptor;
  */
 class Session extends Descriptor
 {
-
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -68,12 +67,12 @@ class Session extends Descriptor
     {
         return $this->name;
     }
-    
+
     public function __construct()
     {
         parent::__construct();
-    	$this->listResults = new \Doctrine\Common\Collections\ArrayCollection();
-    } 
+        $this->listResults = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -84,28 +83,30 @@ class Session extends Descriptor
     {
         return $this->id;
     }
-    
-	public function getListResults() {
-		return $this->listResults;
-	}
-	
-	public function setListResults($listResults) {
-		$this->listResults = $listResults;
-		return $this;
-	}
-	
+
+    public function getListResults()
+    {
+        return $this->listResults;
+    }
+
+    public function setListResults($listResults)
+    {
+        $this->listResults = $listResults;
+        return $this;
+    }
+
     public function addResult(\RFC\CoreBundle\Entity\Result $result)
     {
         $this->listResults[] = $result;
-        
+
         return $this;
     }
-    
+
     public function removeResult(\RFC\CoreBundle\Entity\Result $result)
     {
         $this->listResults->removeElement($result);
     }
-		
+
     /**
      * Set beginDate
      *
@@ -115,7 +116,7 @@ class Session extends Descriptor
     public function setBeginDate($beginDate)
     {
         $this->beginDate = $beginDate;
-        
+
         return $this;
     }
 
@@ -138,7 +139,7 @@ class Session extends Descriptor
     public function setEndDate($endDate)
     {
         $this->endDate = $endDate;
-        
+
         return $this;
     }
 
@@ -161,7 +162,7 @@ class Session extends Descriptor
     public function setTypeSession($typeSession)
     {
         $this->typeSession = $typeSession;
-        
+
         return $this;
     }
 
@@ -184,7 +185,7 @@ class Session extends Descriptor
     public function setEvent(\RFC\CoreBundle\Entity\Event $event)
     {
         $this->event = $event;
-        
+
         return $this;
     }
 

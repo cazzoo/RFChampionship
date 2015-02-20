@@ -39,3 +39,10 @@ ajax_championship_getResults:
     requirements: { _method: post }
     options:
         expose: true
+
+ajax_event_getResults:
+    pattern: /getEventResults
+    defaults: { _controller: "RFCCoreBundle:Championship:getEventResults" }
+    requirements: { _method: post }
+    options:
+        expose: true

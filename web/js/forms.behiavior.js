@@ -74,14 +74,40 @@ function getChampionshipResults(championshipId) {
         addNotification('Championship results updated', 'success');
         $('#globalResults').html(data);
         $('#viewFullLeaderboard').bind('click', function () {
-            $('.standard.globalResults.modal').modal('setting', 'transition', 'scale').modal('show');
+
+            showModalAndActivatePopups($('.standard.globalResults.modal'));
+
         });
     }).fail(
             function (jqXHR, textStatus, errorThrown) {
                 addNotification('Error while updating championship\'s results',
                         'error');
             });
+
+    $('.steps .eventItem').each(function () {
+        getEventResult($(this).data('eventid'));
+    });
     return false;
+}
+
+function getEventResult(eventId) {
+    var data = {
+        'eventId': eventId
+    };
+    var jsonFormatted = JSON.stringify(data);
+    $.ajax({
+        type: "POST",
+        url: Routing.generate('ajax_event_getResults'),
+        data: jsonFormatted,
+        cache: false
+    }).done(function (data) {
+        addNotification('Event results updated', 'success');
+        $('.steps .eventItem[data-eventid="' + eventId + '"] div.eventResults .description').html(data);
+    }).fail(
+            function (jqXHR, textStatus, errorThrown) {
+                addNotification('Error while updating event\'s results',
+                        'error');
+            });
 }
 
 /*
@@ -453,6 +479,14 @@ function addImageFormDeleteLink($imageFormLi) {
     });
 }
 
+function showModalAndActivatePopups(modalDomElement) {
+    modalDomElement.modal({
+        onShow: function () {
+            $('.popupElement').popup();
+        }
+    }).modal('show');
+}
+
 function addImageForm(collectionHolder, $newLinkLi) {
     // Récupère l'élément ayant l'attribut
     // data-prototype comme expliqué
@@ -572,6 +606,7 @@ $(function () {
     // --------------------------------------------
 
     $(".eventItem").click(function () {
+        $('#session').html('');
         $('#sessionAddButton').hide();
         $('.eventItem .step').removeClass('active');
         $(this).find('.step').addClass("active");
@@ -791,7 +826,11 @@ $(function () {
     // Selecting event
     $(".eventItem:first").trigger("click");
     $('#viewFullDriverList').click(function () {
-        $('.standard.driverList.modal').modal('setting', 'transition', 'scale').modal('show');
+        showModalAndActivatePopups($('.standard.driverList.modal'));
+    });
+    $('.showEventResults').click(function () {
+        showModalAndActivatePopups($(this).next('.standard.eventResults.modal'));
+
     });
 
     // --------------------------------------------

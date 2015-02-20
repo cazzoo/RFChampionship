@@ -94,58 +94,6 @@ class Event extends Descriptor
     }
 
     /**
-     * Get Earlyer Date Form Sessions
-     *
-     * @return \DateTime
-     */
-    public function getBeginDate()
-    {
-        $template = new \DateTime('01/01/1900');
-        $template->format('Y-m-d H:i:s');
-        if ($this->listSessions[0] !== null) {
-            $beginDate = $this->listSessions[0]->getBeginDate();
-        } else {
-            $beginDate = $template;
-        }
-        foreach ($this->listSessions as $session) {
-            if ($beginDate > $session->getBeginDate()) {
-                $beginDate = $session->getBeginDate();
-            }
-        }
-        if ($beginDate != $template) {
-            return $beginDate;
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Get Lastest Date From Sessions
-     *
-     * @return \DateTime
-     */
-    public function getEndDate()
-    {
-        $template = new \DateTime('01/01/2100');
-        $template->format('Y-m-d H:i:s');
-        if ($this->listSessions[0] !== null) {
-            $endDate = $this->listSessions[0]->getEndDate();
-        } else {
-            $endDate = $template;
-        }
-        foreach ($this->listSessions as $session) {
-            if ($endDate < $session->getEndDate()) {
-                $endDate = $session->getEndDate();
-            }
-        }
-        if ($endDate != $template) {
-            return $endDate;
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * Set listBroadcast
      *
      * @param array $listBroadcast            
@@ -291,6 +239,58 @@ class Event extends Descriptor
     public function getListSessions()
     {
         return $this->listSessions;
+    }
+
+    /**
+     * Get Earlyer Date Form Sessions
+     *
+     * @return \DateTime
+     */
+    public function getBeginDate()
+    {
+        $template = new \DateTime('01/01/1900');
+        $template->format('Y-m-d H:i:s');
+        if ($this->listSessions[0] !== null) {
+            $beginDate = $this->listSessions[0]->getBeginDate();
+        } else {
+            $beginDate = $template;
+        }
+        foreach ($this->listSessions as $session) {
+            if ($beginDate > $session->getBeginDate()) {
+                $beginDate = $session->getBeginDate();
+            }
+        }
+        if ($beginDate != $template) {
+            return $beginDate;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get Lastest Date From Sessions
+     *
+     * @return \DateTime
+     */
+    public function getEndDate()
+    {
+        $template = new \DateTime('01/01/2100');
+        $template->format('Y-m-d H:i:s');
+        if ($this->listSessions[0] !== null) {
+            $endDate = $this->listSessions[0]->getEndDate();
+        } else {
+            $endDate = $template;
+        }
+        foreach ($this->listSessions as $session) {
+            if ($endDate < $session->getEndDate()) {
+                $endDate = $session->getEndDate();
+            }
+        }
+        if ($endDate != $template) {
+            return $endDate;
+        } else {
+            return null;
+        }
     }
 
     /**

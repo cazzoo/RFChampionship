@@ -1,0 +1,29 @@
+<table class="ui small striped table">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for userid,data in results %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ data.user.username }}</td>
+                {% set detailedResults = "" %}
+                {% for result in data.results %}
+                    {% if result.value != 0 %}
+                        {% set detailedResults = detailedResults ~ result.rule.typeSession.name ~ ' - ' ~ result.rule.name ~ ' : ' ~ result.value%}
+                        {% if not loop.last %}
+                            {% set detailedResults = detailedResults ~ ', ' %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                <td>
+                    {{ data.sum }}&nbsp;&nbsp;<i class="info icon link popupElement" data-content="{{ detailedResults }}"></i>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

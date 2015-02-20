@@ -25,11 +25,13 @@
         </tr>
     </thead>
     <tbody>
-        {% for key,entry in results|slice(0, 3) %}
+        {% for userid,data in results|slice(0, 3) %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ key }}</td>
-                <td>{{ entry }}</td>
+                <td>{{ data.user.username }}</td>
+                <td>
+                    {{ data.sum }}
+                </td>
             </tr>
         {% endfor %}
     </tbody>
@@ -45,24 +47,7 @@
     </div>
     <div class="content">
         <div class="description">
-            <table class="ui small striped table">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Name</th>
-                        <th>Points</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for key,entry in results %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td>{{ key }}</td>
-                            <td>{{ entry }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {% include 'RFCCoreBundle:Championship:resultsTable.html.twig' with { 'results' : results} %}
         </div>
     </div>
 </div>

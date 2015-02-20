@@ -32,47 +32,46 @@ class ChampionshipController extends RFCController
 
     public function indexAction($gameId)
     {
-        $entityManager = $this->getDoctrine ()->getManager ();
+        $entityManager = $this->getDoctrine()->getManager();
 
         $date = new DateTime ();
-        $date->setTimezone ( new DateTimeZone ( 'Europe/Paris' ) );
+        $date->setTimezone(new DateTimeZone('Europe/Paris'));
 
-        $currentChampionships = $entityManager->getRepository ( 'RFCCoreBundle:Championship' )->createQueryBuilder ( 'c' )->join ( 'c.listEvents',
-                'e' )->join ( 'e.listSessions', 's' )->where ( 's.endDate > :sysdate' )->andWhere ( 'c.game = :gameId' )->setParameters ( array(
+        $currentChampionships = $entityManager->getRepository('RFCCoreBundle:Championship')->createQueryBuilder('c')->join('c.listEvents',
+                'e')->join('e.listSessions', 's')->where('s.endDate > :sysdate')->andWhere('c.game = :gameId')->setParameters(array(
                 'sysdate' => $date,
                 'gameId' => $gameId
-            ) )->getQuery ()->getResult ();
+            ))->getQuery()->getResult();
 
-        $pastChampionships = $entityManager->getRepository ( 'RFCCoreBundle:Championship' )->createQueryBuilder ( 'c' )->join ( 'c.listEvents',
-                'e' )->join ( 'e.listSessions', 's' )->where ( 's.endDate < :sysdate' )->andWhere ( 'c.game = :gameId' )->setParameters ( array(
+        $pastChampionships = $entityManager->getRepository('RFCCoreBundle:Championship')->createQueryBuilder('c')->join('c.listEvents',
+                'e')->join('e.listSessions', 's')->where('s.endDate < :sysdate')->andWhere('c.game = :gameId')->setParameters(array(
                 'sysdate' => $date,
                 'gameId' => $gameId
-            ) )->getQuery ()->getResult ();
+            ))->getQuery()->getResult();
 
-        $game  = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findOneBy ( array(
-            'id' => $gameId) );
-        $games = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+        $game  = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array(
+            'id' => $gameId));
+        $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
 
         if (null != $game) {
             // Ajout du jeu sélectionné
-            $menu        = $this->get ( 'rfc_core.menu.breadcrumb' );
-            $menu->addChild ( $game->getName () )->setUri ( $this->get ( "router" )->generate ( 'rfcCore_gameSelection',
+            $menu        = $this->get('rfc_core.menu.breadcrumb');
+            $menu->addChild($game->getName())->setUri($this->get("router")->generate('rfcCore_gameSelection',
                     array(
                     'gameId' => $gameId
-            ) ) );
+            )));
             $manipulator = new \Knp\Menu\Util\MenuManipulator ();
-            $manipulator->moveToPosition ( $menu->getChild ( $game->getName () ),
-                0 );
+            $manipulator->moveToPosition($menu->getChild($game->getName()), 0);
         }
 
-        return $this->render ( 'RFCCoreBundle:Championship:index.html.twig',
+        return $this->render('RFCCoreBundle:Championship:index.html.twig',
                 array(
                 'currentChampionships' => $currentChampionships,
                 'pastChampionships' => $pastChampionships,
                 'gameId' => $gameId,
                 'game' => $game,
                 'games' => $games
-            ) );
+        ));
     }
 
     /**
@@ -80,31 +79,31 @@ class ChampionshipController extends RFCController
      */
     public function showAction($championshipId, $gameId)
     {
-        $entityManager = $this->getDoctrine ()->getManager ();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $entity = $entityManager->getRepository ( 'RFCCoreBundle:Championship' )->find ( $championshipId );
-        $game   = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findOneBy ( array(
-            'id' => $gameId) );
-        $games  = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+        $entity = $entityManager->getRepository('RFCCoreBundle:Championship')->find($championshipId);
+        $game   = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array(
+            'id' => $gameId));
+        $games  = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
 
         // Ajout du jeu sélectionné
-        $menu        = $this->get ( 'rfc_core.menu.breadcrumb' );
-        $menu->addChild ( $game->getName () )->setUri ( $this->get ( "router" )->generate ( 'rfcCore_gameSelection',
+        $menu        = $this->get('rfc_core.menu.breadcrumb');
+        $menu->addChild($game->getName())->setUri($this->get("router")->generate('rfcCore_gameSelection',
                 array(
                 'gameId' => $gameId
-        ) ) );
+        )));
         $manipulator = new \Knp\Menu\Util\MenuManipulator ();
-        $manipulator->moveToPosition ( $menu->getChild ( $game->getName () ), 0 );
+        $manipulator->moveToPosition($menu->getChild($game->getName()), 0);
 
         // Ajout de la miette de pain
-        $menu->addChild ( $entity->getName () )->setCurrent ( true );
+        $menu->addChild($entity->getName())->setCurrent(true);
 
         if (!$entity) {
-            throw $this->createNotFoundException ( 'Unable to find Championship entity.' );
+            throw $this->createNotFoundException('Unable to find Championship entity.');
         }
 
-        $threadId = substr ( strrchr ( get_class ( $entity ), "\\" ), 1 ).'_'.$entity->getName ();
-        return $this->render ( 'RFCCoreBundle:Championship:show.html.twig',
+        $threadId = substr(strrchr(get_class($entity), "\\"), 1).'_'.$entity->getName();
+        return $this->render('RFCCoreBundle:Championship:show.html.twig',
                 array(
                 'sessions' => null,
                 'eventId' => null,
@@ -112,74 +111,110 @@ class ChampionshipController extends RFCController
                 'game' => $game,
                 'games' => $games,
                 'threadId' => $threadId
-            ) );
+        ));
     }
 
     public function userRegistrationAction(Request $request)
     {
-        if ($request->isMethod ( 'POST' )) {
-            $params = \json_decode ( $request->getContent (), true );
+        if ($request->isMethod('POST')) {
+            $params = \json_decode($request->getContent(), true);
 
             $gameId         = $params ['gameId'];
             $championshipId = $params ['championshipId'];
             $userId         = $params ['userId'];
             $action         = $params ['action'];
 
-            $entityManager = $this->getDoctrine ()->getManager ();
+            $entityManager = $this->getDoctrine()->getManager();
 
-            $user         = $entityManager->getRepository ( 'RFCUserBundle:User' )->find ( $userId );
-            $championship = $entityManager->getRepository ( 'RFCCoreBundle:Championship' )->find ( $championshipId );
+            $user         = $entityManager->getRepository('RFCUserBundle:User')->find($userId);
+            $championship = $entityManager->getRepository('RFCCoreBundle:Championship')->find($championshipId);
 
             switch ($action) {
                 case 'register' :
-                    $championship->registerUser ( $user );
-                    $entityManager->flush ();
+                    $championship->registerUser($user);
+                    $entityManager->flush();
                     break;
                 case 'unregister' :
-                    $championship->unregisterUser ( $user );
-                    $entityManager->flush ();
+                    $championship->unregisterUser($user);
+                    $entityManager->flush();
                     break;
             }
             // Returning the status of the action : 0 = nothing done, 1 = registered, 2 = unregistered
-            return $this->render ( 'RFCCoreBundle:Championship:registration.html.twig',
+            return $this->render('RFCCoreBundle:Championship:registration.html.twig',
                     array(
                     'status' => $action,
                     'entity' => $championship,
                     'gameId' => $gameId
-                ) );
+            ));
         } else {
-            return $this->render ( 'RFCCoreBundle:Championship:registration.html.twig',
+            return $this->render('RFCCoreBundle:Championship:registration.html.twig',
                     array(
                     'status' => ''
-                ) );
+            ));
         }
     }
 
     public function getResultsAction(Request $request)
     {
-        if ($request->isMethod ( 'POST' )) {
-            $params = \json_decode ( $request->getContent (), true );
+        if ($request->isMethod('POST')) {
+            $params = \json_decode($request->getContent(), true);
 
             $results = array();
 
-            $championship = $this->getDoctrine ()->getManager ()
-                ->getRepository ( 'RFCCoreBundle:Championship' )
-                ->findOneBy ( array('id' => $params ['championshipId']) );
+            $championship = $this->getDoctrine()->getManager()
+                ->getRepository('RFCCoreBundle:Championship')
+                ->findOneBy(array('id' => $params ['championshipId']));
 
-            foreach ($championship->getListEvents () as $event) {
-                foreach ($event->getListSessions () as $session) {
-                    foreach ($session->getListResults () as $result) {
-                        if ($result->getUser () !== null) {
-                            $this->addPointsToUser ( $results, $result );
+            foreach ($championship->getListEvents() as $event) {
+                foreach ($event->getListSessions() as $session) {
+                    foreach ($session->getListResults() as $result) {
+                        if ($result->getUser() !== null) {
+                            $this->addPointsToUser($results, $result);
                         }
                     }
                 }
             }
 
-            return $this->render ( 'RFCCoreBundle:Championship:globalResults.html.twig',
+            usort($results,
+                function($a, $b) {
+                return $b['sum'] - $a['sum'];
+            });
+
+            return $this->render('RFCCoreBundle:Championship:globalResults.html.twig',
                     array(
                     'results' => $results
-                ) );
+            ));
+        }
+    }
+
+    public function getEventResultsAction(Request $request)
+    {
+        if ($request->isMethod('POST')) {
+            $params = \json_decode($request->getContent(), true);
+
+            $results = array();
+
+            $event = $this->getDoctrine()->getManager()
+                ->getRepository('RFCCoreBundle:Event')
+                ->findOneBy(array('id' => $params ['eventId']));
+
+            foreach ($event->getListSessions() as $session) {
+                foreach ($session->getListResults() as $result) {
+                    if ($result->getUser() !== null) {
+                        $this->addPointsToUser($results, $result);
+                    }
+                }
+            }
+
+            usort($results,
+                function($a, $b) {
+                return $b['sum'] - $a['sum'];
+            });
+
+            return $this->render('RFCCoreBundle:Championship:resultsTable.html.twig',
+                    array(
+                    'results' => $results
+            ));
         }
     }
 
@@ -194,12 +229,14 @@ class ChampionshipController extends RFCController
      */
     private function addPointsToUser(&$array, $result)
     {
-        $userId = $result->getUser ()->getUserName ();
-        $value  = $result->getValue ();
-        if (isset ( $array [$userId] )) {
-            $array [$userId] += $value;
+        $user  = $result->getUser();
+        $value = $result->getValue();
+        if (array_key_exists($user->getId(), $array)) {
+            array_push($array[$user->getId()]['results'], $result);
+            $array[$user->getId()]['sum'] += $value;
         } else {
-            $array [$userId] = $value;
+            $array[$user->getId()] = array('user' => $user, 'results' => array($result),
+                'sum' => $value);
         }
     }
 }
