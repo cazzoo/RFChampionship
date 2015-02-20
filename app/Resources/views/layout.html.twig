@@ -89,40 +89,17 @@
         </div>
 
         {% block javascripts %}
-            {% javascripts 'jquery' output='js/compiledJquery.js' %}
-            <script src="{{ asset('jquery/js/jquery-2.1.1.min.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery-ui.min.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery.rcrumbs.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery-migrate-1.2.1.min.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery.easing.1.3.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery.camera.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery.wysibb.min.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery.datetimepicker.js') }}"></script>
-            <script src="{{ asset('jquery/js/jquery.fancybox.js') }}"></script>
-            {% endjavascripts %}
-            {% javascripts 'SemanticUI' output='js/compiledSUI.js' %}
-            <script src="{{ asset('SemanticUI/semantic.js') }}"></script>
-            {% endjavascripts %}
-            {% javascripts 'FosJS' %}
-            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-            <script
-            src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-            {% endjavascripts %}
-            {% javascripts 'jQueryCalendar' %}
-            <script type="text/javascript"
-            src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
-            <script type="text/javascript"
-            src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>
-            {% endjavascripts %}
-            {% javascripts 'RFCJS' output='js/compiledRFC.js' %}
-            <script type="text/javascript"
-            src="{{asset('js/modernizr.js') }}"></script>
-            <script type="text/javascript"
-            src="{{asset('js/forms.behiavior.js') }}"></script>
-            <script type="text/javascript"
-            src="{{asset('js/timeline.js') }}"></script>
+            {% javascripts 'jquery/js/*' 
+                                        'SemanticUI/semantic.min.js'
+                                        'js/*'
+                                        output='js/compiled/RFC.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
+        <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>
 
     </body>
 </html>
