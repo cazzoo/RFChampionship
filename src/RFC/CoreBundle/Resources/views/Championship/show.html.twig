@@ -233,7 +233,20 @@
                                     <i class="wait icon"></i>
                                     {{ event.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
                                     <i class="chevron right icon"></i>
-                                    {{ event.endDate|date("Y/m/d H:i") }}
+                                    {{ event.endDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
+                                    <a class="ui mini icon green button showEventResults" href="#event_{{ event.id }}_results">
+                                        <i class="unhide icon"></i>
+                                    </a>
+                                    <div class="ui standard eventResults modal transition">
+                                        <i class="close icon"></i>
+                                        <div class="header">
+                                            Results for event : {{ event.name }}
+                                        </div>
+                                        <div class="content">
+                                            <div class="description"></div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <a class="step">
                                     <div class="content">
