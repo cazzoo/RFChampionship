@@ -97,18 +97,18 @@
 {% endblock %}
 
 {% block javascripts %}
-    {% javascripts 'Jquery' %}
+    {% javascripts 'jquery' output='js/compiledJquery.js' %}
     <script src="{{ asset('jquery/js/jquery-2.1.1.min.js') }}"></script>
+    <script src="{{ asset('jquery/js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('jquery/js/jquery.rcrumbs.js') }}"></script>
     <script src="{{ asset('jquery/js/jquery-migrate-1.2.1.min.js') }}"></script>
     <script src="{{ asset('jquery/js/jquery.easing.1.3.js') }}"></script>
-    <script src="{{ asset('jquery/js/jquery.mobile.customized.min.js') }}"></script>
     <script src="{{ asset('jquery/js/jquery.camera.js') }}"></script>
     <script src="{{ asset('jquery/js/jquery.wysibb.min.js') }}"></script>
     <script src="{{ asset('jquery/js/jquery.datetimepicker.js') }}"></script>
     <script src="{{ asset('jquery/js/jquery.fancybox.js') }}"></script>
     {% endjavascripts %}
-    {% javascripts 'SemanticUI' %}
+    {% javascripts 'SemanticUI' output='js/compiledSUI.js' %}
     <script src="{{ asset('SemanticUI/semantic.js') }}"></script>
     {% endjavascripts %}
     {% javascripts 'FosJS' %}
@@ -122,7 +122,7 @@
     <script type="text/javascript"
     src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>
     {% endjavascripts %}
-    {% javascripts 'RFCJS' %}
+    {% javascripts 'RFCJS' output='js/compiledRFC.js' %}
     <script type="text/javascript"
     src="{{asset('js/modernizr.js') }}"></script>
     <script type="text/javascript"
