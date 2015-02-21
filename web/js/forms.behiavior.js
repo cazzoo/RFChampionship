@@ -481,6 +481,7 @@ function addImageFormDeleteLink($imageFormLi) {
 
 function showModalAndActivatePopups(modalDomElement) {
     modalDomElement.modal({
+        detachable: false,
         onShow: function () {
             $('.popupElement').popup();
         }
