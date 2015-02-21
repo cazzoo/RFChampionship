@@ -36,7 +36,7 @@
                     {% endif %}
                     <tr>
                         <td>
-                            {{ rule.name }}
+                            <a href="{{ path('admin_rule_edit', {'ruleId' : rule.id, 'gameId' : game.Id})}}">{{ rule.name }}</a>
                         </td>
                         <td>
                             {{ rule.value }}
