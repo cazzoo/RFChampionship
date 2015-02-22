@@ -1,0 +1,32 @@
+
+
+{% if gitHubIssue is not defined %}{# issue is new, we show form #}
+
+    <form class="ui form" id="sendIssue">
+        <div class="field">
+            <label>Title</label>
+            <input id="title" name="title" type="text" class="ui input" />
+        </div>
+        <div class="field">
+            <label>Message</label>
+            <textarea name="message" id="message"></textarea>
+        </div>
+        <input class="ui right floated submit button" type="submit" />
+    </form>
+
+{% elseif gitHubIssue is null %}{# issue could not be created #}
+
+    <p>
+        Votre report n'a pas pu aboutir.<br />
+        Veuillez recommencer plus tard.
+    </p>
+
+{% else %}{# issue is well created #}
+
+    <p>
+        Votre report {{ gitHubIssue.title }} a été correctement envoyé.<br />
+        Vous pouvez y accéder via le lien suivant : <a class="ui button" href="{{ gitHubIssue.url }}">{{ gitHubIssue.number }}</a><br />
+        Merci pour votre contribution.
+    </p>
+
+{% endif %}

@@ -46,3 +46,10 @@ ajax_event_getResults:
     requirements: { _method: post }
     options:
         expose: true
+        
+ajax_core_reportIssue:
+    pattern: /commitIssueToGithub
+    defaults: { _controller: "RFCCoreBundle:Core:commitIssueToGithub" }
+    requirements: { _method: post }
+    options:
+        expose: true

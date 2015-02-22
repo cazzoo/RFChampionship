@@ -122,6 +122,21 @@ function getCurrentChampionshipResults() {
     }
 }
 
+function reportIssueToGitHub(data) {
+    var jsonFormatted = JSON.stringify(data);
+    $.ajax({
+        type: "POST",
+        url: Routing.generate('ajax_core_reportIssue'),
+        data: jsonFormatted,
+        dataType: 'html',
+        cache: false
+    }).done(function (data) {
+        $('#reportIssuePopup div.description').html(data);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        $('#reportIssuePopup div.description').html("Error while sending the issue");
+    });
+}
+
 function crewApplyRequest(data) {
     var jsonFormatted = JSON.stringify(data);
     $.ajax({
@@ -847,6 +862,16 @@ $(function () {
 
     $('.ui.card.gameCard .extra.content a, .ui.card.gameCard .extra.content div').click(function (e) {
         e.stopPropagation();
+    });
+
+    $('#reportIssue').click(function () {
+        showModalAndActivatePopups($('#reportIssuePopup.modal'));
+    });
+
+    $('form#sendIssue').submit(function (event) {
+        var serializedForm = $(this).serializeArray();
+        reportIssueToGitHub(serializedForm);
+        event.preventDefault();
     });
 
 });

@@ -21,7 +21,9 @@
 
 namespace RFC\CoreBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use RFC\FrameworkBundle\Controller\RFCController;
+use GitHubClient;
 
 class CoreController extends RFCController
 {
@@ -168,5 +170,36 @@ class CoreController extends RFCController
 
 
         return $jsonResponse;
+    }
+
+    public function commitIssueToGithubAction(Request $request)
+    {
+
+        $owner = 'cazzoo';
+        $repo  = 'RFChampionship';
+        $title = 'Titre vide';
+        $body  = '';
+
+        if ($request->isMethod('POST')) {
+            $params = \json_decode($request->getContent(), true);
+
+            $user = $this->container->get('security.context')->getToken()->getUser();
+
+            $title = $params[0]['value'];
+            $body  = 'Reporter : '.$user->getUserName();
+            $body .= "\r\n".$params[1]['value'];
+
+            $client = new GitHubClient();
+            $client->setCredentials('Racing-France', 'r112481632f');
+            $issue  = $client->issues->createAnIssue($owner, $repo, $title,
+                $body);
+
+            return $this->render('RFCCoreBundle:Core:reportIssue.html.twig',
+                    array(
+                    'gitHubIssue' => $issue
+            ));
+        } else {
+            return $this->render('RFCCoreBundle:Core:reportIssue.html.twig');
+        }
     }
 }

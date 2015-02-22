@@ -71,3 +71,20 @@
     </a>
 {% endif %}
 
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    <div id="reportIssue" class="ui right floated red labeled icon button">
+        <i class="warning icon"></i> Report issue / anomaly
+    </div>
+
+    <div id="reportIssuePopup" class="ui standard modal transition">
+        <i class="close icon"></i>
+        <div class="header">
+            Report issue
+        </div>
+        <div class="content">
+            <div class="description">
+                {% include 'RFCCoreBundle:Core:reportIssue.html.twig' %}
+            </div>
+        </div>
+    </div>
+{% endif %}
