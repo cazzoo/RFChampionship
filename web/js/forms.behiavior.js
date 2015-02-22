@@ -496,7 +496,6 @@ function addImageFormDeleteLink($imageFormLi) {
 
 function showModalAndActivatePopups(modalDomElement) {
     modalDomElement.modal({
-        detachable: false,
         onShow: function () {
             $('.popupElement').popup();
         }
@@ -821,7 +820,9 @@ $(function () {
         showModalAndActivatePopups($('.standard.driverList.modal'));
     });
     $('.showEventResults').click(function () {
-        showModalAndActivatePopups($(this).next('.standard.eventResults.modal'));
+        var eventClicked = $(this).data('eventid');
+        var modalPopup = $('.standard.eventResults.modal[data-eventid="'+eventClicked+'"]');
+        showModalAndActivatePopups(modalPopup);
 
     });
 
