@@ -443,7 +443,8 @@ class Championship extends KnowledgeData
         $nextSession = null;
         foreach ($this->listEvents as $event) {
             $eventNextSession = $event->getNextSession();
-            if (null == $nextSession || $nextSession->getBeginDate() > $eventNextSession->getBeginDate()) {
+            if (null != $eventNextSession && (null == $nextSession || $nextSession->getBeginDate()
+                > $eventNextSession->getBeginDate())) {
                 $nextSession = $eventNextSession;
             }
         }
@@ -459,7 +460,8 @@ class Championship extends KnowledgeData
         $previousSession = null;
         foreach ($this->listEvents as $event) {
             $eventPreviousSession = $event->getPreviousSession();
-            if (null == $previousSession || $previousSession->getEndDate() < $eventPreviousSession->getEndDate()) {
+            if (null != $eventPreviousSession && (null == $previousSession || $previousSession->getEndDate()
+                < $eventPreviousSession->getEndDate())) {
                 $previousSession = $eventPreviousSession;
             }
         }
