@@ -228,6 +228,11 @@
 
                     <div class="ui vertical ordered steps">
                         {% for event in entity.listEvents %}
+                            {% if canEdit %}
+                                <a class="ui mini icon blue button" href="{{ path('admin_event_edit', { 'eventId': event.id, 'gameId': game.id, 'championshipId': entity.id}) }}">
+                                    <i class="edit icon"></i>
+                                </a>
+                            {% endif %}
                             <div class="eventItem" data-eventid="{{ event.id }}" data-gameid="{{ game.id }}" data-championshipid="{{ entity.id }}">
                                 <div class="ui mini label">
                                     <i class="wait icon"></i>
