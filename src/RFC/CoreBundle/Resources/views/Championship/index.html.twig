@@ -20,6 +20,10 @@
 
 {% block rfccore_body %}
 
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="ui primary labeled icon button" href="{{ path('admin_championship_new', {'gameId': game.id}) }}"><i class="add icon"></i>Add</a>
+    {% endif %}
+
     <div class="ui three column stackable grid">
         <div class="four wide column">
             <h1>Championnats passés</h1>
