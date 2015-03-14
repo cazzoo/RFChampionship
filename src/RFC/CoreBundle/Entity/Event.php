@@ -294,8 +294,26 @@ class Event extends Descriptor
     }
 
     /**
+     * Returns the current pending session (session that now is between begin and end date of the session)
+     * @return Session the current session
+     */
+    public function getCurrentSession()
+    {
+        $currentSession = null;
+        $now            = new \DateTime();
+
+        foreach ($this->listSessions as $session) {
+            if ($now > $session->getBeginDate() && $now < $session->getEndDate()) {
+                $currentSession = $session;
+            }
+        }
+
+        return $currentSession;
+    }
+
+    /**
      * Returns the last session of the event.
-     * @return the last session of the event
+     * @return Session the last session of the event
      */
     public function getLastSession()
     {
@@ -312,7 +330,7 @@ class Event extends Descriptor
 
     /**
      *  Returns the nearest incoming session.
-     * @return the next session that is not started.
+     * @return Session the next session that is not started.
      */
     public function getNextSession()
     {
@@ -329,7 +347,7 @@ class Event extends Descriptor
 
     /**
      *  Returns the nearest completed session.
-     * @return the previous session that is completed.
+     * @return Session the previous session that is completed.
      */
     public function getPreviousSession()
     {

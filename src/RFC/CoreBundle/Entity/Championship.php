@@ -434,6 +434,68 @@ class Championship extends KnowledgeData
         return false;
     }
 
+    public function getCurrentEvent()
+    {
+        $currentEvent = null;
+        $now          = new \DateTime();
+
+        foreach ($this->listEvents as $event) {
+            if ($now > $event->getBeginDate() && $now < $event->getEndDate()) {
+                $currentEvent = $event;
+            }
+        }
+        return $currentEvent;
+    }
+
+    /**
+     * Returns the next incoming event regarding the current date.
+     * @return Event the next event
+     */
+    public function getNextEvent()
+    {
+        $nextEvent = null;
+        $now       = new \DateTime();
+
+        foreach ($this->listEvents as $event) {
+            if ($now < $event->getBeginDate() && (null == $nextEvent || $nextEvent->getBeginDate()
+                > $event->getBeginDate())) {
+                $nextEvent = $event;
+            }
+        }
+
+        return $nextEvent;
+    }
+
+    /**
+     * Returns the previous finished event regarding the current date.
+     * @return Event the previous event
+     */
+    public function getPreviousEvent()
+    {
+        $previousEvent = null;
+        $now           = new \DateTime();
+
+        foreach ($this->listEvents as $event) {
+            if ($now > $event->getEndDate() && (null == $previousEvent || $previousEvent->getEndDate()
+                > $event->getEndDate())) {
+                $previousEvent = $event;
+            }
+        }
+
+        return $previousEvent;
+    }
+
+    public function getCurrentSession()
+    {
+        $currentSession = null;
+
+        if (null != $this->getCurrentEvent()) {
+            $currentSession = $this->getCurrentEvent()->getCurrentSession();
+        }
+
+        return $currentSession;
+    }
+
     /**
      *  Returns the nearest incoming session.
      * @return the next session that is not started.
@@ -441,13 +503,19 @@ class Championship extends KnowledgeData
     public function getNextSession()
     {
         $nextSession = null;
-        foreach ($this->listEvents as $event) {
-            $eventNextSession = $event->getNextSession();
-            if (null != $eventNextSession && (null == $nextSession || $nextSession->getBeginDate()
-                > $eventNextSession->getBeginDate())) {
-                $nextSession = $eventNextSession;
-            }
+
+        if (null != $this->getCurrentEvent()) {
+            $nextSession = $this->getCurrentEvent()->getNextSession();
+        } else {
+            $nextSession = $this->getNextEvent()->getNextSession();
         }
+        /* foreach ($this->listEvents as $event) {
+          $eventNextSession = $event->getNextSession();
+          if (null != $eventNextSession && (null == $nextSession || $nextSession->getBeginDate()
+          > $eventNextSession->getBeginDate())) {
+          $nextSession = $eventNextSession;
+          }
+          } */
         return $nextSession;
     }
 
@@ -458,13 +526,19 @@ class Championship extends KnowledgeData
     public function getPreviousSession()
     {
         $previousSession = null;
-        foreach ($this->listEvents as $event) {
-            $eventPreviousSession = $event->getPreviousSession();
-            if (null != $eventPreviousSession && (null == $previousSession || $previousSession->getEndDate()
-                < $eventPreviousSession->getEndDate())) {
-                $previousSession = $eventPreviousSession;
-            }
+
+        if (null != $this->getCurrentEvent()) {
+            $previousSession = $this->getCurrentEvent()->getPreviousSession();
+        } else {
+            $previousSession = $this->getPreviousEvent()->getPreviousSession();
         }
+        /* foreach ($this->listEvents as $event) {
+          $eventPreviousSession = $event->getPreviousSession();
+          if (null != $eventPreviousSession && (null == $previousSession || $previousSession->getEndDate()
+          < $eventPreviousSession->getEndDate())) {
+          $previousSession = $eventPreviousSession;
+          }
+          } */
         return $previousSession;
     }
 }

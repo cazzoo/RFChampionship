@@ -27,17 +27,78 @@
 
     <div class="ui two column grid">
         <div class="column">
-            <div class="ui segment">
-                {% if game.getNextEvent %}
-                    <h3>Next event &nbsp; <a href="{{ path('rfcCore_championships_show', { 'championshipId': game.getNextEvent.championship.id, 'gameId': game.id  }) }}">{{ game.getNextEvent.name }} </a></h3>
-                    <p>
-                        Category : {{ game.getNextEvent.category ? game.getNextEvent.category : "Not defined" }}<br />
-                        Vehicle : {{ game.getNextEvent.vehicle ? game.getNextEvent.vehicle :"Not defined" }}<br />
-                        Track : {{ game.getNextEvent.track ? game.getNextEvent.track :"Not defined"}}<br />
-                        Last session : {{ game.getNextEvent.getLastSession ? game.getNextEvent.getLastSession.name : "Not defined" }}
-                    </p>
+            <h3 class="ui top attached header">Pending sessions &nbsp; </h3>
+            <div class="ui attached segment">
+                {% if game.getCurrentSessions|length > 0 %}
+                    {% for session in game.getCurrentSessions %}
+                        <h4 class="ui dividing header">
+                            <a href="{{ path('rfcCore_championships_show', { 'championshipId': session.event.championship.id, 'gameId': game.id  }) }}">{{ session.event.name }} : {{ session.name }}</a>
+                        </h4>
+                        <div class="ui center aligned basic segment">
+                            <div class="ui horizontal divided list">
+                                <div class="item">
+                                    <i class="map marker icon"></i>
+                                    <div class="content">
+                                        <div class="header">Category</div>
+                                        <div class="description">{{ session.event.category ? session.event.category : "Not defined" }}</div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="map marker icon"></i>
+                                    <div class="content">
+                                        <div class="header">Vehicle</div>
+                                        <div class="description">{{ session.event.vehicle ? session.event.vehicle :"Not defined" }}</div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="map marker icon"></i>
+                                    <div class="content">
+                                        <div class="header">Track</div>
+                                        <div class="description">{{ session.event.track ? session.event.track :"Not defined"}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 {% else %}
-                    <h3>No championships for this game</h3>
+                    <h3>No current session for this game. All the current championships are now finished.</h3>
+                {% endif %}
+            </div>
+            <h3 class="ui top attached header">Future sessions &nbsp; </h3>
+            <div class="ui attached segment">
+                {% if game.getNextSessions|length > 0 %}
+                    {% for session in game.getNextSessions %}
+                        <h4 class="ui dividing header">
+                            <a href="{{ path('rfcCore_championships_show', { 'championshipId': session.event.championship.id, 'gameId': game.id  }) }}">{{ session.event.name }} : {{ session.name }}</a>
+                        </h4>
+                        <div class="ui center aligned basic segment">
+                            <div class="ui horizontal divided list center aligned">
+                                <div class="item">
+                                    <i class="map marker icon"></i>
+                                    <div class="content">
+                                        <div class="header">Category</div>
+                                        <div class="description">{{ session.event.category ? session.event.category : "Not defined" }}</div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="map marker icon"></i>
+                                    <div class="content">
+                                        <div class="header">Vehicle</div>
+                                        <div class="description">{{ session.event.vehicle ? session.event.vehicle :"Not defined" }}</div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="map marker icon"></i>
+                                    <div class="content">
+                                        <div class="header">Track</div>
+                                        <div class="description">{{ session.event.track ? session.event.track :"Not defined"}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h3>No incoming session for this game. All the current championships are now finished.</h3>
                 {% endif %}
             </div>
         </div>

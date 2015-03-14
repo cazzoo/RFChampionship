@@ -175,7 +175,7 @@
         </div>
     </div>
 
-    <div class="ui two column grid">
+    <div class="ui three column grid">
         <div class="column">
             <div class="ui horizontal segment">
                 <h3>Previous Session</h3>
@@ -189,6 +189,22 @@
                     </div>
                 {% else %}
                     No previous session
+                {% endif %}
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui horizontal segment">
+                <h3>Current Session</h3>
+                {% if entity.getCurrentSession %}
+                    <div class="ui mini label">
+                        {{ entity.getCurrentSession.event.name }} : {{ entity.getCurrentSession }}&nbsp;&nbsp;
+                        <i class="wait icon"></i>
+                        {{ entity.getCurrentSession.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
+                        <i class="chevron right icon"></i>
+                        {{ entity.getCurrentSession.endDate|date("Y/m/d H:i") }}
+                    </div>
+                {% else %}
+                    No current session
                 {% endif %}
             </div>
         </div>
@@ -226,55 +242,63 @@
                     Aucun Event n'est présent. Il faut en créer.
                 {% else %}
 
-                    <div class="ui vertical ordered steps">
-                        {% for event in entity.listEvents %}
-                            {% if canEdit %}
-                                <a class="ui mini icon blue button" href="{{ path('admin_event_edit', { 'eventId': event.id, 'gameId': game.id, 'championshipId': entity.id}) }}">
-                                    <i class="edit icon"></i>
-                                </a>
-                            {% endif %}
-                            <div class="eventItem" data-eventid="{{ event.id }}" data-gameid="{{ game.id }}" data-championshipid="{{ entity.id }}">
+                    {% for event in entity.listEvents %}
+
+                        <div class="ui card eventItem" data-eventid="{{ event.id }}" data-gameid="{{ game.id }}" data-championshipid="{{ entity.id }}">
+                            <div class="image">
+                                {% if canEdit %}
+                                    <a class="ui corner red label" href="{{ path('admin_event_edit', { 'eventId': event.id, 'gameId': game.id, 'championshipId': entity.id}) }}">
+                                        <i class="edit icon"></i>
+                                    </a>
+                                {% endif %}
+                                <img src="/images/wireframe/image.png">
+                            </div>
+                            <div class="content">
+                                <div class="header">
+                                    {{ event.name }}
+                                </div>
+                                <div class="meta">
+                                    Meta
+                                </div>
+                                <div class="description">
+                                    {{ event.description }}<br />
+                                    <span>
+                                        Category : {{ event.category ? event.category : "Not defined" }}<br />
+                                        Vehicle : {{ event.vehicle ? event.vehicle : "Not defined" }}<br />
+                                        Track : {{ event.track ? event.track : "Not defined" }}
+                                        {% if event.listBroadcast is not empty %}
+                                            <br />Broadcast :
+                                            {% for broadcast in event.listBroadcast %}
+                                                {{ broadcast }}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="extra content">
                                 <div class="ui mini label">
                                     <i class="wait icon"></i>
                                     {{ event.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
                                     <i class="chevron right icon"></i>
-                                    {{ event.endDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
-                                    <a class="ui mini icon green button showEventResults" data-eventid="{{ event.id }}" href="#event_{{ event.id }}_results">
-                                        <i class="unhide icon"></i>
-                                    </a>
-                                    <div class="ui standard eventResults modal transition" data-eventid="{{ event.id }}">
-                                        <i class="close icon"></i>
-                                        <div class="header">
-                                            Results for event : {{ event.name }}
-                                        </div>
-                                        <div class="content">
-                                            <div class="description"></div>
-                                        </div>
-                                    </div>
-
+                                    {{ event.endDate|date("Y/m/d H:i") }}
                                 </div>
-                                <a class="step">
-                                    <div class="content">
-                                        <div class="title stepItem">{{ event.name }}</div>
-                                        <div class="description">
-                                            {{ event.description }}<br />
-                                            <span>
-                                                Category : {{ event.category ? event.category : "Not defined" }}<br />
-                                                Vehicle : {{ event.vehicle ? event.vehicle : "Not defined" }}<br />
-                                                Track : {{ event.track ? event.track : "Not defined" }}
-                                                {% if event.listBroadcast is not empty %}
-                                                    <br />Broadcast :
-                                                    {% for broadcast in event.listBroadcast %}
-                                                        {{ broadcast }}
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </a>
                             </div>
-                        {% endfor %}
-                    </div>
+                            <a class="ui bottom attached green button showEventResults" data-eventid="{{ event.id }}" href="#event_{{ event.id }}_results">
+                                <i class="unhide icon"></i> Show results
+                            </a>
+                        </div>
+
+                        {# Event results modal window #}
+                        <div class="ui standard eventResults modal transition" data-eventid="{{ event.id }}">
+                            <i class="close icon"></i>
+                            <div class="header">
+                                Results for event : {{ event.name }}
+                            </div>
+                            <div class="content">
+                                <div class="description"></div>
+                            </div>
+                        </div>
+                    {% endfor %}
 
                 {% endif %}
             </div>

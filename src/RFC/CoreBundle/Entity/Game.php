@@ -254,7 +254,6 @@ class Game extends Descriptor
         return $this->listRules;
     }
 
-
     /**
      * Get listTracks
      *
@@ -270,7 +269,6 @@ class Game extends Descriptor
         $this->listTracks = $listTracks;
         return $this;
     }
-
 
     /**
      * Get listVehicles
@@ -288,7 +286,6 @@ class Game extends Descriptor
         return $this;
     }
 
-
     /**
      * Get listCategories
      *
@@ -305,7 +302,6 @@ class Game extends Descriptor
         return $this;
     }
 
-
     /**
      * Get listTypeSessions
      *
@@ -321,7 +317,6 @@ class Game extends Descriptor
         $this->listTypeSessions = $listTypeSessions;
         return $this;
     }
-
 
     /**
      * Get listProperties
@@ -360,21 +355,36 @@ class Game extends Descriptor
     }
 
     /**
-     * Returns the last Event within all the championships that begins the lastest.
+     * Get and returns all the pending events.
+     * @return array all the pending events for each championships
      */
-    public function getNextEvent()
+    public function getCurrentSessions()
     {
-        $nextEvent = null;
-        foreach ($this->listChampionships as $championships) {
-            $lastChampionshipEvent = $championships->getLastEvent();
-            if (null == $nextEvent) {
-                $nextEvent = $lastChampionshipEvent;
-            } else {
-                if ($nextEvent->getBeginDate() > $lastChampionshipEvent->getBeginDate()) {
-                    $nextEvent = $lastChampionshipEvent;
-                }
+        $currentSessions = Array();
+
+        foreach ($this->listChampionships as $championship) {
+            if (null != $championship->getCurrentEvent()) {
+                array_push($currentSessions, $championship->getCurrentSession());
             }
         }
-        return $nextEvent;
+
+        return $currentSessions;
+    }
+
+    /**
+     * Get and returns all the future sessions that are not started yet.
+     * @return array all the future sessions
+     */
+    public function getNextSessions()
+    {
+        $nextSessions = Array();
+
+        foreach ($this->listChampionships as $championship) {
+            if (null != $championship->getCurrentEvent() && null != $championship->getCurrentEvent()->getNextSession()) {
+                array_push($nextSessions, $championship->getNextSession());
+            }
+        }
+
+        return $nextSessions;
     }
 }

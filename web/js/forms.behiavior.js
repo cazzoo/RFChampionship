@@ -84,7 +84,7 @@ function getChampionshipResults(championshipId) {
                         'error');
             });
 
-    $('.steps .eventItem').each(function () {
+    $('.eventItem').each(function () {
         getEventResult($(this).data('eventid'));
     });
     return false;
@@ -102,7 +102,7 @@ function getEventResult(eventId) {
         cache: false
     }).done(function (data) {
         addNotification('Event results updated', 'success');
-        $('.steps .eventItem[data-eventid="' + eventId + '"] div.eventResults .description').html(data);
+        $('.eventItem[data-eventid="' + eventId + '"] div.eventResults .description').html(data);
     }).fail(
             function (jqXHR, textStatus, errorThrown) {
                 addNotification('Error while updating event\'s results',
@@ -620,11 +620,9 @@ $(function () {
     // ----------------- Show events
     // --------------------------------------------
 
-    $(".eventItem").click(function () {
+    $(".eventItem").not('a').click(function () {
         $('#session').html('');
         $('#sessionAddButton').hide();
-        $('.eventItem .step').removeClass('active');
-        $(this).find('.step').addClass("active");
         var data = {
             eventId: $(this).data('eventid'),
             gameId: $(this).data('gameid'),
