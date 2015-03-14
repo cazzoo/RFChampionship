@@ -5,6 +5,10 @@
 // Récupère le div qui contient la collection de tags
 var collectionHolder = $('ul.images');
 
+// The current eventId loaded
+var eventId = 0;
+var eventCount = $('.eventItem').length;
+
 // ajoute un lien « add a tag »
 var $addImageLink = $('<a href="#" class="add_image_link">Ajouter une image</a>');
 var $newLinkLi = $('<li></li>').append($addImageLink);
@@ -525,6 +529,72 @@ function addImageForm(collectionHolder, $newLinkLi) {
     addImageFormDeleteLink($newFormLi);
 }
 
+/**
+ * Show the eventItem div
+ * @param {type} id
+ * @returns {undefined}
+ */
+function showEvent(id) {
+    $('.previousEvent i').removeClass('disabled');
+    $('.nextEvent i').removeClass('disabled');
+    if (1 === id) {
+        $('.previousEvent i').addClass('disabled');
+    } else if (id === eventCount) {
+        $('.nextEvent i').addClass('disabled');
+    }
+    $('.eventItem').hide();
+    $('.eventItem[data-eventid=' + id + ']').show();
+    eventId = id;
+    loadEventSessions(id);
+}
+
+function loadEventSessions(id) {
+    $('#session').html('');
+    $('#sessionAddButton').hide();
+
+    var event = $('.eventItem[data-eventid=' + id + ']');
+    var data = {
+        eventId: event.data('eventid'),
+        gameId: event.data('gameid'),
+        championshipId: event.data('championshipid')
+    };
+    var jsonFormatted = JSON.stringify(data);
+
+    $.ajax({
+        type: "POST",
+        url: Routing.generate('admin_session_search'),
+        data: jsonFormatted,
+        cache: false,
+        beforeSend: function () {
+            $('#listSessions').html("Chargement des sessions...");
+        }
+    }).done(function (datareturned) {
+        $('#listSessions').html(datareturned);
+        $('.sessionItem').bind('click', function () {
+            $('.sessionItem').removeClass('active');
+            $(this).addClass("active");
+
+            var data = {
+                sessionId: $(this).data('session')
+            };
+
+            loadSessionData(data);
+
+            return false;
+        });
+        $('#sessionAddButton').attr("href", Routing.generate('admin_session_new', {
+            gameId: data.gameId,
+            championshipId: data.championshipId,
+            eventId: data.eventId}));
+        $('#sessionAddButton').show();
+    }).fail(function () {
+        $('#listSessions').html("Impossible de récupérer un résultat");
+        $('#sessionAddButton').attr("href", "");
+        $('#sessionAddButton').hide();
+    });
+    return false;
+}
+
 $(function () {
 
     // Screen Admin : System
@@ -620,48 +690,12 @@ $(function () {
     // ----------------- Show events
     // --------------------------------------------
 
-    $(".eventItem").not('a').click(function () {
-        $('#session').html('');
-        $('#sessionAddButton').hide();
-        var data = {
-            eventId: $(this).data('eventid'),
-            gameId: $(this).data('gameid'),
-            championshipId: $(this).data('championshipid')
-        };
-        var jsonFormatted = JSON.stringify(data);
-        $.ajax({
-            type: "POST",
-            url: Routing.generate('admin_session_search'),
-            data: jsonFormatted,
-            cache: false,
-            beforeSend: function () {
-                $('#listSessions').html("Chargement des sessions...");
-            }
-        }).done(function (datareturned) {
-            $('#listSessions').html(datareturned);
-            $('.sessionItem').bind('click', function () {
-                $('.sessionItem').removeClass('active');
-                $(this).addClass("active");
+    $('.nextEvent').click(function () {
+        showEvent(eventId + 1);
+    });
 
-                var data = {
-                    sessionId: $(this).data('session')
-                };
-
-                loadSessionData(data);
-
-                return false;
-            });
-            $('#sessionAddButton').attr("href", Routing.generate('admin_session_new', {
-                gameId: data.gameId,
-                championshipId: data.championshipId,
-                eventId: data.eventId}));
-            $('#sessionAddButton').show();
-        }).fail(function () {
-            $('#listSessions').html("Impossible de récupérer un résultat");
-            $('#sessionAddButton').attr("href", "");
-            $('#sessionAddButton').hide();
-        });
-        return false;
+    $('.previousEvent').click(function () {
+        showEvent(eventId - 1);
     });
 
     // --------------------------------------------
@@ -813,13 +847,14 @@ $(function () {
     // Get championship results on load
     getCurrentChampionshipResults();
     // Selecting event
-    $(".eventItem:first").trigger("click");
+    //$(".eventItem:first").trigger("click");
+    showEvent(1);
     $('#viewFullDriverList').click(function () {
         showModalAndActivatePopups($('.standard.driverList.modal'));
     });
     $('.showEventResults').click(function () {
         var eventClicked = $(this).data('eventid');
-        var modalPopup = $('.standard.eventResults.modal[data-eventid="'+eventClicked+'"]');
+        var modalPopup = $('.standard.eventResults.modal[data-eventid="' + eventClicked + '"]');
         showModalAndActivatePopups(modalPopup);
 
     });

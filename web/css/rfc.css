@@ -9,3 +9,11 @@
 .ui.list.sortable {
     min-height: 50px;
 }
+
+#championshipEvents .column a > *{
+    width: 0;
+}
+.card.eventItem{
+    margin: 0;
+    padding: 0;
+}
