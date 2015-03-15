@@ -116,15 +116,32 @@ function getEventResult(eventId) {
             });
 }
 
+/**
+ * This method returns if we are on current page based on URL.
+ * It needs to have both slashes at left and right of the page tested.
+ * Ex: isCurrentPage('Championship') returns true if we are in http://URL/Championship/2
+ * also, returns false if http://URL/Championship
+ * @param {type} pageName the name we want to retrieve from the URL.
+ * @returns {Boolean} true if pageName found in URL and false if not
+ */
+function isCurrentPage(pageName) {
+    var regexp = new RegExp("/" + pageName + "/");
+    if (regexp.test($(location).attr('href'))) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 /*
  * Returns the results for the current championship (fetched by the URL)
  */
 function getCurrentChampionshipResults() {
-    var regexp = /Championship_\d*/;
+    var regexp = /\/Championship\/\d*/;
     var match;
     if (regexp.test($(location).attr('href'))) {
         match = regexp.exec($(location).attr('href'));
-        getChampionshipResults(match[0].split("_")[1]);
+        getChampionshipResults(match[0].split("/")[2]);
     }
 }
 
@@ -858,7 +875,9 @@ $(function () {
         selectedEventKey = parseInt(GetURLHash());
     }
 
-    showEvent(selectedEventKey);
+    if (isCurrentPage('Championship')) {
+        showEvent(selectedEventKey);
+    }
 
     $('#viewFullDriverList').click(function () {
         showModalAndActivatePopups($('.standard.driverList.modal'));

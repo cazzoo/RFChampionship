@@ -57,13 +57,13 @@ rfcCore_members_show:
         userId: \d*
         
 rfcCore_championships:
-    path:   /{gameId}/Championships
+    path:   /{gameId}/Championship
     defaults: { _controller: "RFCCoreBundle:Championship:index" }
     requirements:
         gameId: \d*
         
 rfcCore_championships_show:
-    path:   /{gameId}/Championship_{championshipId}/
+    path:   /{gameId}/Championship/{championshipId}
     defaults: { _controller: "RFCCoreBundle:Championship:show" }
     requirements:
         gameId: \d*
