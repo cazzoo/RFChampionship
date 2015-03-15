@@ -19,7 +19,6 @@ namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\Descriptor;
-use RFC\CoreBundle\Entity\Game;
 
 /**
  * KnowledgeData

@@ -20,6 +20,8 @@ namespace RFC\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\KnowledgeData;
 use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\Common\Collections\ArrayCollection;
+use RFC\UserBundle\Entity\User;
 
 /**
  * Championship
@@ -85,9 +87,9 @@ class Championship extends KnowledgeData
     public function __construct()
     {
         parent::__construct();
-        $this->listEvents   = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listManagers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listRules    = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listEvents   = new ArrayCollection();
+        $this->listManagers = new ArrayCollection();
+        $this->listRules    = new ArrayCollection();
     }
 
     public function __toString()
@@ -129,7 +131,7 @@ class Championship extends KnowledgeData
     }
 
     /**
-     * Set registrationrInProgress
+     * Set registrationInProgress
      *
      * @param boolean $registrationInProgress
      * @return Championship
@@ -154,10 +156,10 @@ class Championship extends KnowledgeData
     /**
      * Set listEvents
      *
-     * @param array $listEvents            
+     * @param ArrayCollection $listEvents
      * @return Championship
      */
-    public function setListEvents($listEvents)
+    public function setListEvents(ArrayCollection $listEvents)
     {
         $this->listEvents = $listEvents;
 
@@ -167,7 +169,7 @@ class Championship extends KnowledgeData
     /**
      * Get listEvents
      *
-     * @return array
+     * @return ArrayCollection
      */
     public function getListEvents()
     {
@@ -175,14 +177,14 @@ class Championship extends KnowledgeData
     }
 
     /**
-     * Set manager
+     * Set managers
      *
-     * @param array $manager
+     * @param ArrayCollection $managers
      * @return Championship
      */
-    public function setManagers($manager)
+    public function setManagers(ArrayCollection $managers)
     {
-        $this->listManagers = $manager;
+        $this->listManagers = $managers;
 
         return $this;
     }
@@ -190,7 +192,7 @@ class Championship extends KnowledgeData
     /**
      * Get listManagers
      *
-     * @return array
+     * @return ArrayCollection
      */
     public function getListManagers()
     {
@@ -198,12 +200,12 @@ class Championship extends KnowledgeData
     }
 
     /**
-     * Set metaRuleId
+     * Set metaRule
      *
-     * @param \RFC\CoreBundle\Entity\MetaRule $metaRule
+     * @param MetaRule $metaRule
      * @return Championship
      */
-    public function setMetaRule($metaRule)
+    public function setMetaRule(MetaRule $metaRule)
     {
         $this->metaRule = $metaRule;
 
@@ -213,7 +215,7 @@ class Championship extends KnowledgeData
     /**
      * Get metaRuleId
      *
-     * @return \RFC\CoreBundle\Entity\MetaRule
+     * @return MetaRule
      */
     public function getMetaRule()
     {
@@ -223,10 +225,10 @@ class Championship extends KnowledgeData
     /**
      * Set listRules
      *
-     * @param array $listRules            
+     * @param ArrayCollection $listRules
      * @return Championship
      */
-    public function setListRules($listRules)
+    public function setListRules(ArrayCollection $listRules)
     {
         $this->listRules = $listRules;
 
@@ -236,7 +238,7 @@ class Championship extends KnowledgeData
     /**
      * Get listRules
      *
-     * @return array
+     * @return ArrayCollection
      */
     public function getListRules()
     {
@@ -246,10 +248,10 @@ class Championship extends KnowledgeData
     /**
      * Add rule
      *
-     * @param \RFC\CoreBundle\Entity\Rule $rule
+     * @param Rule $rule
      * @return Championship
      */
-    public function addRule(\RFC\CoreBundle\Entity\Rule $rule)
+    public function addRule(Rule $rule)
     {
         $this->listRules[] = $rule;
 
@@ -257,45 +259,45 @@ class Championship extends KnowledgeData
     }
 
     /**
-     * Remove listRules
+     * Remove rule from listRules
      *
-     * @param \RFC\CoreBundle\Entity\Rule $listRules            
+     * @param Rule $rule
      */
-    public function removeListRule(\RFC\CoreBundle\Entity\Rule $listRules)
+    public function removeListRule(Rule $rule)
     {
-        $this->listRules->removeElement($listRules);
+        $this->listRules->removeElement($rule);
     }
 
     /**
      * Add events
      *
-     * @param \RFC\CoreBundle\Entity\Event $events
+     * @param Event $event
      * @return Championship
      */
-    public function addEvent(\RFC\CoreBundle\Entity\Event $events)
+    public function addEvent(Event $event)
     {
-        $this->listEvents[] = $events;
+        $this->listEvents[] = $event;
 
         return $this;
     }
 
     /**
-     * Remove events
+     * Remove event
      *
-     * @param \RFC\CoreBundle\Entity\Event $events
+     * @param Event $event
      */
-    public function removeEvent(\RFC\CoreBundle\Entity\Event $events)
+    public function removeEvent(Event $event)
     {
-        $this->listEvents->removeElement($events);
+        $this->listEvents->removeElement($event);
     }
 
     /**
      * Add manager
      *
-     * @param \RFC\UserBundle\Entity\User $manager
+     * @param User $manager
      * @return Championship
      */
-    public function addManager(\RFC\UserBundle\Entity\User $manager)
+    public function addManager(User $manager)
     {
         $this->listManagers[] = $manager;
 
@@ -305,19 +307,28 @@ class Championship extends KnowledgeData
     /**
      * Remove manager
      *
-     * @param \RFC\UserBundle\Entity\User $manager
+     * @param User $manager
      */
-    public function removeListManager(\RFC\UserBundle\Entity\User $manager)
+    public function removeListManager(User $manager)
     {
         $this->listManagers->removeElement($manager);
     }
 
+    /**
+     *
+     * @return ArrayCollection
+     */
     public function getListUsers()
     {
         return $this->listUsers;
     }
 
-    public function setListUsers($listUsers)
+    /**
+     *
+     * @param ArrayCollection $listUsers
+     * @return Championship
+     */
+    public function setListUsers(ArrayCollection $listUsers)
     {
         $this->listUsers = $listUsers;
         return $this;
@@ -326,10 +337,10 @@ class Championship extends KnowledgeData
     /**
      * Add User to list of participants
      *
-     * @param \RFC\UserBundle\Entity\User $user
+     * @param User $user
      * @return Championship
      */
-    public function registerUser(\RFC\UserBundle\Entity\User $user)
+    public function registerUser(User $user)
     {
         $this->listUsers[] = $user;
 
@@ -339,13 +350,17 @@ class Championship extends KnowledgeData
     /**
      * Remove User from list of participants
      *
-     * @param \RFC\UserBundle\Entity\User $user
+     * @param User $user
      */
-    public function unregisterUser(\RFC\UserBundle\Entity\User $user)
+    public function unregisterUser(User $user)
     {
         $this->listUsers->removeElement($user);
     }
 
+    /**
+     *
+     * @return Event
+     */
     public function getFirstEvent()
     {
         $firstEvent = null;
@@ -359,6 +374,10 @@ class Championship extends KnowledgeData
         return $firstEvent;
     }
 
+    /**
+     *
+     * @return Event
+     */
     public function getLastEvent()
     {
         $lastEvent = null;
@@ -424,6 +443,11 @@ class Championship extends KnowledgeData
         }
     }
 
+    /**
+     *
+     * @param $userId
+     * @return boolean
+     */
     public function isManager($userId)
     {
         foreach ($this->listManagers as $manager) {
@@ -485,6 +509,10 @@ class Championship extends KnowledgeData
         return $previousEvent;
     }
 
+    /**
+     *
+     * @return Session
+     */
     public function getCurrentSession()
     {
         $currentSession = null;
@@ -498,7 +526,7 @@ class Championship extends KnowledgeData
 
     /**
      *  Returns the nearest incoming session.
-     * @return the next session that is not started.
+     * @return Session the next session that is not started.
      */
     public function getNextSession()
     {
@@ -509,19 +537,12 @@ class Championship extends KnowledgeData
         } else {
             $nextSession = $this->getNextEvent()->getNextSession();
         }
-        /* foreach ($this->listEvents as $event) {
-          $eventNextSession = $event->getNextSession();
-          if (null != $eventNextSession && (null == $nextSession || $nextSession->getBeginDate()
-          > $eventNextSession->getBeginDate())) {
-          $nextSession = $eventNextSession;
-          }
-          } */
         return $nextSession;
     }
 
     /**
      *  Returns the nearest completed session.
-     * @return the previous session that is completed.
+     * @return Session the previous session that is completed.
      */
     public function getPreviousSession()
     {
@@ -532,13 +553,6 @@ class Championship extends KnowledgeData
         } else if(null != $this->getPreviousEvent()){
             $previousSession = $this->getPreviousEvent()->getPreviousSession();
         }
-        /* foreach ($this->listEvents as $event) {
-          $eventPreviousSession = $event->getPreviousSession();
-          if (null != $eventPreviousSession && (null == $previousSession || $previousSession->getEndDate()
-          < $eventPreviousSession->getEndDate())) {
-          $previousSession = $eventPreviousSession;
-          }
-          } */
         return $previousSession;
     }
 }

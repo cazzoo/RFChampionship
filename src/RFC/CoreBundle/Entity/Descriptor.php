@@ -17,9 +17,11 @@
 
 namespace RFC\CoreBundle\Entity;
 
+use \RFC\CoreBundle\Entity\Image;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Descriptor
@@ -57,7 +59,7 @@ abstract class Descriptor
 
     public function __construct()
     {
-        $this->listImages = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listImages = new ArrayCollection();
     }
 
     /**
@@ -145,10 +147,10 @@ abstract class Descriptor
     /**
      * Add image
      *
-     * @param \RFC\CoreBundle\Entity\Image $image
+     * @param Image $image
      * @return Descriptor
      */
-    public function addImage(\RFC\CoreBundle\Entity\Image $image)
+    public function addImage(Image $image)
     {
         $this->listImages[] = $image;
 
@@ -158,9 +160,9 @@ abstract class Descriptor
     /**
      * Remove image
      *
-     * @param \RFC\CoreBundle\Entity\Image $image
+     * @param Image $image
      */
-    public function removeImage(\RFC\CoreBundle\Entity\Image $image)
+    public function removeImage(Image $image)
     {
         $this->listImages->removeElement ( $image );
     }

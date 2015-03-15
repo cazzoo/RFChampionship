@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace RFC\SetupBundle\Form;
 
 use RFC\CoreBundle\Entity\TrackRepository;
@@ -24,65 +25,72 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class SetupType extends AbstractType {
-	public function __construct($gameId) {
-		$this->gameId = $gameId;
-	}
-	
-	/**
-	 *
-	 * @param FormBuilderInterface $builder        	
-	 * @param array $options        	
-	 */
-	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$gameId = $this->gameId;
-		
-		$builder->add ( 'name' )->add ( 'description', 'textarea', array (
-				'required' => false 
-		) )->add ( 'vehicle', 'entity', array (
-				'required' => true,
-				'class' => 'RFCCoreBundle:Vehicle',
-				'query_builder' => function (VehicleRepository $er) use($gameId) {
-					return $er->createQueryBuilder ( 'v' )->where ( 'v.game = :gameId' )->setParameter ( 'gameId', $gameId );
-				} 
-		) )->add ( 'track', 'entity', array (
-				'required' => false,
-				'class' => 'RFCCoreBundle:Track',
-				'query_builder' => function (TrackRepository $er) use($gameId) {
-					return $er->createQueryBuilder ( 't' )->where ( 't.game = :gameId' )->setParameter ( 'gameId', $gameId );
-				} 
-		) )->add ( 'commentsActive', 'checkbox', array (
-				'required' => false 
-		) )->add ( 'user', 'entity', array (
-				'class' => 'RFC\UserBundle\Entity\User' 
-		) )->add ( 'game', 'entity', array (
-				'class' => 'RFC\CoreBundle\Entity\Game'
-		) );
-	}
-	
-	/**
-	 *
-	 * @param OptionsResolverInterface $resolver        	
-	 */
-	public function setDefaultOptions(OptionsResolverInterface $resolver) {
-		$resolver->setDefaults ( array (
-				'data_class' => 'RFC\SetupBundle\Entity\Setup' 
-		) );
-		
-		$resolver->setRequired ( array (
-				'em' 
-		) );
-		
-		$resolver->setAllowedTypes ( array (
-				'em' => 'Doctrine\Common\Persistence\ObjectManager' 
-		) );
-	}
-	
-	/**
-	 *
-	 * @return string
-	 */
-	public function getName() {
-		return 'rfc_setupbundle_setup';
-	}
+class SetupType extends AbstractType
+{
+    private $gameId;
+
+    public function __construct($gameId)
+    {
+        $this->gameId = $gameId;
+    }
+
+    /**
+     *
+     * @param FormBuilderInterface $builder        	
+     * @param array $options        	
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $gameId = $this->gameId;
+
+        $builder->add('name')->add('description', 'textarea',
+            array(
+            'required' => false
+        ))->add('vehicle', 'entity',
+            array(
+            'required' => true,
+            'class' => 'RFCCoreBundle:Vehicle',
+            'query_builder' => function (VehicleRepository $er) use($gameId) {
+                return $er->createQueryBuilder('v')->where('v.game = :gameId')->setParameter('gameId',
+                        $gameId);
+            }
+        ))->add('track', 'entity',
+            array(
+            'required' => false,
+            'class' => 'RFCCoreBundle:Track',
+            'query_builder' => function (TrackRepository $er) use($gameId) {
+                return $er->createQueryBuilder('t')->where('t.game = :gameId')->setParameter('gameId',
+                        $gameId);
+            }
+        ))->add('commentsActive', 'checkbox',
+            array(
+            'required' => false
+        ))->add('user', 'entity',
+            array(
+            'class' => 'RFC\UserBundle\Entity\User'
+        ))->add('game', 'entity',
+            array(
+            'class' => 'RFC\CoreBundle\Entity\Game'
+        ));
+    }
+
+    /**
+     *
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'RFC\SetupBundle\Entity\Setup'
+        ));
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'rfc_setupbundle_setup';
+    }
 }

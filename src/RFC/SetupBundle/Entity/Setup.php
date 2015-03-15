@@ -20,7 +20,11 @@
 namespace RFC\SetupBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use RFC\CoreBundle\Entity\KnowledgeData;
+use RFC\UserBundle\Entity\User;
+use RFC\CoreBundle\Entity\Vehicle;
+use RFC\CoreBundle\Entity\Track;
 
 /**
  * Game
@@ -71,7 +75,7 @@ class Setup extends KnowledgeData
     public function __construct()
     {
         parent::__construct();
-        $this->listSetupSteps = new \Doctrine\Common\Collections\ArrayCollection ();
+        $this->listSetupSteps = new ArrayCollection ();
     }
 
     public function __toString()
@@ -89,12 +93,21 @@ class Setup extends KnowledgeData
         return $this->id;
     }
 
+    /**
+     *
+     * @return ArrayCollection
+     */
     public function getListSetupSteps()
     {
         return $this->listSetupSteps;
     }
 
-    public function setListSetupSteps($listSetupSteps)
+    /**
+     *
+     * @param ArrayCollection $listSetupSteps
+     * @return Setup
+     */
+    public function setListSetupSteps(ArrayCollection $listSetupSteps)
     {
         $this->listSetupSteps = $listSetupSteps;
         return $this;
@@ -103,7 +116,7 @@ class Setup extends KnowledgeData
     /**
      * Add $setupStep
      *
-     * @param SetupStep $setupStep        	
+     * @param SetupStep $setupStep
      * @return Setup
      */
     public function addListSetupSteps(SetupStep $setupStep)
@@ -123,34 +136,61 @@ class Setup extends KnowledgeData
         $this->listSetupSteps->removeElement($setupStep);
     }
 
+    /**
+     *
+     * @return User
+     */
     public function getUser()
     {
         return $this->user;
     }
 
-    public function setUser($user)
+    /**
+     *
+     * @param User $user
+     * @return Setup
+     */
+    public function setUser(User $user)
     {
         $this->user = $user;
         return $this;
     }
 
+    /**
+     *
+     * @return Track
+     */
     public function getTrack()
     {
         return $this->track;
     }
 
-    public function setTrack($track)
+    /**
+     *
+     * @param Track $track
+     * @return Setup
+     */
+    public function setTrack(Track $track)
     {
         $this->track = $track;
         return $this;
     }
 
+    /**
+     *
+     * @return Vehicle
+     */
     public function getVehicle()
     {
         return $this->vehicle;
     }
 
-    public function setVehicle($vehicle)
+    /**
+     *
+     * @param Vehicle $vehicle
+     * @return Setup
+     */
+    public function setVehicle(Vehicle $vehicle)
     {
         $this->vehicle = $vehicle;
         return $this;
@@ -158,6 +198,7 @@ class Setup extends KnowledgeData
 
     /**
      * Returns all the steps and their version in a nested array
+     * @return array the steps ordered
      */
     public function getOrderedSteps()
     {
@@ -185,6 +226,7 @@ class Setup extends KnowledgeData
 
     /**
      * Returns the last step that contains data
+     * @return Step the last step completed
      */
     public function getLastStepCompleted()
     {
@@ -203,8 +245,8 @@ class Setup extends KnowledgeData
     /**
      * Returns the last version of a SetupStep
      *
-     * @param type $stepNumber
-     *        	the step number
+     * @param int $stepNumber
+     * @return int the last setupstep version number
      */
     public function getLastSetupStepVersion($stepNumber)
     {

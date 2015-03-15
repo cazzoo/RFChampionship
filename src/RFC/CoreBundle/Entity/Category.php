@@ -19,6 +19,7 @@ namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\KnowledgeData;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Category
@@ -57,8 +58,8 @@ class Category extends KnowledgeData
     public function __construct()
     {
         parent::__construct();
-        $this->listVehicles = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listImages   = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listVehicles = new ArrayCollection();
+        $this->listImages   = new ArrayCollection();
     }
 
     /**
@@ -74,10 +75,10 @@ class Category extends KnowledgeData
     /**
      * Set listVehicles
      *
-     * @param \stdClass $listVehicles            
+     * @param ArrayCollection $listVehicles
      * @return Category
      */
-    public function setListVehicles($listVehicles)
+    public function setListVehicles(ArrayCollection $listVehicles)
     {
         $this->listVehicles = $listVehicles;
 
@@ -87,7 +88,7 @@ class Category extends KnowledgeData
     /**
      * Get listVehicles
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getListVehicles()
     {
@@ -97,10 +98,10 @@ class Category extends KnowledgeData
     /**
      * Add vehicle
      *
-     * @param \RFC\CoreBundle\Entity\Vehicle $vehicle
+     * @param Vehicle $vehicle
      * @return Category
      */
-    public function addVehicle(\RFC\CoreBundle\Entity\Vehicle $vehicle)
+    public function addVehicle(Vehicle $vehicle)
     {
         $this->listVehicles[] = $vehicle;
 
@@ -110,9 +111,9 @@ class Category extends KnowledgeData
     /**
      * Remove vehicle
      *
-     * @param \RFC\CoreBundle\Entity\Vehicle $vehicle
+     * @param Vehicle $vehicle
      */
-    public function removeVehicle(\RFC\CoreBundle\Entity\Vehicle $vehicle)
+    public function removeVehicle(Vehicle $vehicle)
     {
         $this->listVehicles->removeElement($vehicle);
     }

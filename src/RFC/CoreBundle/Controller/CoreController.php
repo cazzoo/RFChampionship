@@ -177,8 +177,6 @@ class CoreController extends RFCController
 
         $owner = 'cazzoo';
         $repo  = 'RFChampionship';
-        $title = 'Titre vide';
-        $body  = '';
 
         if ($request->isMethod('POST')) {
             $params = \json_decode($request->getContent(), true);

@@ -33,27 +33,26 @@ class SetupController extends Controller
 
     public function indexAction($gameId)
     {
-        $entityManager = $this->getDoctrine ()->getManager ();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $session  = $this->container->get ( 'session' );
-        $gameId   = $session->get ( 'game' ) ? $session->get ( 'game' )->getId ()
-                : null;
-        $setups   = null;
-        $steps    = null;
+        $session = $this->container->get('session');
+        $gameId  = $session->get('game') ? $session->get('game')->getId() : null;
+        $setups  = null;
+        $steps   = null;
 
         if (null != $gameId) {
-            $setups = $entityManager->getRepository ( 'RFCSetupBundle:Setup' )->findBy ( array(
+            $setups = $entityManager->getRepository('RFCSetupBundle:Setup')->findBy(array(
                 'game' => $gameId,
-                'user' => $this->getUser ()) );
-            $steps  = $entityManager->getRepository ( 'RFCSetupBundle:Step' )->findAll ();
+                'user' => $this->getUser()));
+            $steps  = $entityManager->getRepository('RFCSetupBundle:Step')->findAll();
         }
 
-        return $this->render ( 'RFCSetupBundle:Setup:index.html.twig',
+        return $this->render('RFCSetupBundle:Setup:index.html.twig',
                 array(
                 'gameId' => $gameId,
                 'setups' => $setups,
                 'steps' => $steps
-            ) );
+        ));
     }
 
     /**
@@ -65,20 +64,20 @@ class SetupController extends Controller
      */
     public function showAction($setupId, $gameId)
     {
-        $entityManager = $this->getDoctrine ()->getManager ();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $setup     = $entityManager->getRepository ( 'RFCSetupBundle:Setup' )->findOneBy ( array(
-            'id' => $setupId) );
-        $stepCount = $entityManager->getRepository ( 'RFCSetupBundle:Step' )->findBy ( array(
+        $setup     = $entityManager->getRepository('RFCSetupBundle:Setup')->findOneBy(array(
+            'id' => $setupId));
+        $stepCount = $entityManager->getRepository('RFCSetupBundle:Step')->findBy(array(
             'game' => $gameId
-            ) );
+        ));
 
-        return $this->render ( 'RFCSetupBundle:Setup:show.html.twig',
+        return $this->render('RFCSetupBundle:Setup:show.html.twig',
                 array(
                 'gameId' => $gameId,
                 'setup' => $setup,
-                'stepCount' => count ( $stepCount )
-            ) );
+                'stepCount' => count($stepCount)
+        ));
     }
 
     /**
@@ -88,36 +87,36 @@ class SetupController extends Controller
     {
         $entity = new Setup ();
 
-        $form = $this->createCreateForm ( $entity, $gameId );
-        $form->handleRequest ( $request );
+        $form = $this->createCreateForm($entity, $gameId);
+        $form->handleRequest($request);
 
-        if ($form->isValid ()) {
-            $entityManager = $this->getDoctrine ()->getManager ();
-            $steps         = $entityManager->getRepository ( 'RFCSetupBundle:Step' )->findby ( array(
+        if ($form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $steps         = $entityManager->getRepository('RFCSetupBundle:Step')->findby(array(
                 'game' => $gameId
-                ) );
+            ));
             foreach ($steps as $step) {
                 $setupStep = new SetupStep ();
-                $setupStep->setSetup ( $entity );
-                $setupStep->setStep ( $step );
-                $setupStep->setVersion ( 0 );
-                $setupStep->setValue ( '' );
-                $entity->addListSetupSteps ( $setupStep );
+                $setupStep->setSetup($entity);
+                $setupStep->setStep($step);
+                $setupStep->setVersion(0);
+                $setupStep->setValue('');
+                $entity->addListSetupSteps($setupStep);
             }
-            $entityManager->persist ( $entity );
-            $entityManager->flush ();
+            $entityManager->persist($entity);
+            $entityManager->flush();
 
-            return $this->redirect ( $this->generateUrl ( 'rfcSetup_index',
+            return $this->redirect($this->generateUrl('rfcSetup_index',
                         array(
                         'gameId' => $gameId
-                ) ) );
+            )));
         }
 
-        return $this->render ( 'RFCSetupBundle:Setup:new.html.twig',
+        return $this->render('RFCSetupBundle:Setup:new.html.twig',
                 array(
                 'entity' => $entity,
-                'form' => $form->createView ()
-            ) );
+                'form' => $form->createView()
+        ));
     }
 
     /**
@@ -126,17 +125,22 @@ class SetupController extends Controller
     public function newAction($gameId)
     {
         $entity = new Setup ();
-        $user   = $this->container->get ( 'security.context' )->getToken ()->getUser ();
-        $entity->setUser ( $user );
-        $entity->setGame ( $this->container->get ( 'session' )->get ( 'game' ) );
-        $form   = $this->createCreateForm ( $entity, $gameId );
+        $user   = $this->container->get('security.context')->getToken()->getUser();
+        $entity->setUser($user);
 
-        return $this->render ( 'RFCSetupBundle:Setup:new.html.twig',
+        $entityManager = $this->getDoctrine()->getManager();
+        $game = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
+
+        $entity->setGame($game);
+
+        $form   = $this->createCreateForm($entity, $gameId);
+
+        return $this->render('RFCSetupBundle:Setup:new.html.twig',
                 array(
                 'entity' => $entity,
-                'form' => $form->createView (),
+                'form' => $form->createView(),
                 'gameId' => $gameId
-            ) );
+        ));
     }
 
     /**
@@ -144,22 +148,22 @@ class SetupController extends Controller
      */
     public function editAction($setupId, $gameId)
     {
-        $entityManager = $this->getDoctrine ()->getManager ();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $entity = $entityManager->getRepository ( 'RFCSetupBundle:Setup' )->find ( $setupId );
+        $entity = $entityManager->getRepository('RFCSetupBundle:Setup')->find($setupId);
 
         if (!$entity) {
-            throw $this->createNotFoundException ( 'Unable to find Setup entity.' );
+            throw $this->createNotFoundException('Unable to find Setup entity.');
         }
 
-        $editForm = $this->createEditForm ( $entity, $gameId );
+        $editForm = $this->createEditForm($entity, $gameId);
 
-        return $this->render ( 'RFCSetupBundle:Setup:edit.html.twig',
+        return $this->render('RFCSetupBundle:Setup:edit.html.twig',
                 array(
                 'entity' => $entity,
                 'gameId' => $gameId,
-                'edit_form' => $editForm->createView ()
-            ) );
+                'edit_form' => $editForm->createView()
+        ));
     }
 
     /**
@@ -167,67 +171,67 @@ class SetupController extends Controller
      */
     public function updateAction(Request $request, $setupId, $gameId)
     {
-        $entityManager = $this->getDoctrine ()->getManager ();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $entity = $entityManager->getRepository ( 'RFCSetupBundle:Setup' )->find ( $setupId );
+        $entity = $entityManager->getRepository('RFCSetupBundle:Setup')->find($setupId);
 
         if (!$entity) {
-            throw $this->createNotFoundException ( 'Unable to find Setup entity.' );
+            throw $this->createNotFoundException('Unable to find Setup entity.');
         }
 
-        $editForm = $this->createEditForm ( $entity, $gameId );
-        $editForm->handleRequest ( $request );
+        $editForm = $this->createEditForm($entity, $gameId);
+        $editForm->handleRequest($request);
 
-        if ($editForm->isValid ()) {
-            $entityManager->flush ();
+        if ($editForm->isValid()) {
+            $entityManager->flush();
 
-            return $this->redirect ( $this->generateUrl ( 'rfcSetup_index',
+            return $this->redirect($this->generateUrl('rfcSetup_index',
                         array(
                         'gameId' => $gameId
-                ) ) );
+            )));
         }
 
-        return $this->render ( 'RFCSetupBundle:Setup:edit.html.twig',
+        return $this->render('RFCSetupBundle:Setup:edit.html.twig',
                 array(
                 'entity' => $entity,
-                'edit_form' => $editForm->createView (),
+                'edit_form' => $editForm->createView(),
                 'gameId' => $gameId
-            ) );
+        ));
     }
 
     public function upgradeAction($setupId, $gameId)
     {
-        $entityManager = $this->getDoctrine ()->getManager ();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $entity = $entityManager->getRepository ( 'RFCSetupBundle:Setup' )->find ( $setupId );
-        $steps  = $entityManager->getRepository ( 'RFCSetupBundle:Step' )->findBy ( array(
+        $entity = $entityManager->getRepository('RFCSetupBundle:Setup')->find($setupId);
+        $steps  = $entityManager->getRepository('RFCSetupBundle:Step')->findBy(array(
             'game' => $gameId
-            ) );
+        ));
 
         if (!$entity) {
-            throw $this->createNotFoundException ( 'Unable to find Setup entity.' );
+            throw $this->createNotFoundException('Unable to find Setup entity.');
         }
 
-        $stepInEntity  = $entity->getOrderedSteps ();
-        $lastStepOrder = end ( $stepInEntity )[0]->getStep ()->getStepOrder ();
+        $stepInEntity  = $entity->getOrderedSteps();
+        $lastStepOrder = end($stepInEntity)[0]->getStep()->getStepOrder();
 
         foreach ($steps as $step) {
-            if ($step->getStepOrder () > $lastStepOrder) {
+            if ($step->getStepOrder() > $lastStepOrder) {
                 $setupStep = new SetupStep ();
-                $setupStep->setSetup ( $entity );
-                $setupStep->setStep ( $step );
-                $setupStep->setVersion ( 0 );
-                $setupStep->setValue ( '' );
-                $entity->addListSetupSteps ( $setupStep );
+                $setupStep->setSetup($entity);
+                $setupStep->setStep($step);
+                $setupStep->setVersion(0);
+                $setupStep->setValue('');
+                $entity->addListSetupSteps($setupStep);
             }
         }
 
-        $entityManager->flush ();
+        $entityManager->flush();
 
-        return $this->redirect ( $this->generateUrl ( 'rfcSetup_index',
+        return $this->redirect($this->generateUrl('rfcSetup_index',
                     array(
                     'gameId' => $gameId
-            ) ) );
+        )));
     }
 
     /**
@@ -235,20 +239,20 @@ class SetupController extends Controller
      */
     public function deleteAction($setupId, $gameId)
     {
-        $entityManager = $this->getDoctrine ()->getManager ();
-        $entity        = $entityManager->getRepository ( 'RFCSetupBundle:Setup' )->find ( $setupId );
+        $entityManager = $this->getDoctrine()->getManager();
+        $entity        = $entityManager->getRepository('RFCSetupBundle:Setup')->find($setupId);
 
         if (!$entity) {
-            throw $this->createNotFoundException ( 'Unable to find Setup entity.' );
+            throw $this->createNotFoundException('Unable to find Setup entity.');
         }
 
-        $entityManager->remove ( $entity );
-        $entityManager->flush ();
+        $entityManager->remove($entity);
+        $entityManager->flush();
 
-        return $this->redirect ( $this->generateUrl ( 'rfcSetup_index',
+        return $this->redirect($this->generateUrl('rfcSetup_index',
                     array(
                     'gameId' => $gameId
-            ) ) );
+        )));
     }
 
     /**
@@ -261,20 +265,19 @@ class SetupController extends Controller
      */
     private function createCreateForm(Setup $entity, $gameId)
     {
-        $form = $this->createForm ( new SetupType ( $gameId ), $entity,
+        $form = $this->createForm(new SetupType($gameId), $entity,
             array(
-            'em' => $this->getDoctrine ()->getManager (),
-            'action' => $this->generateUrl ( 'setup_create',
+            'action' => $this->generateUrl('setup_create',
                 array(
                 'gameId' => $gameId
-            ) ),
+            )),
             'method' => 'POST'
-            ) );
+        ));
 
-        $form->add ( 'submit', 'submit',
+        $form->add('submit', 'submit',
             array(
             'label' => 'Create'
-        ) );
+        ));
 
         return $form;
     }
@@ -289,38 +292,38 @@ class SetupController extends Controller
      */
     private function createEditForm(Setup $entity, $gameId)
     {
-        $form = $this->createForm ( new SetupType ( $gameId ), $entity,
+        $form = $this->createForm(new SetupType($gameId), $entity,
             array(
-            'em' => $this->getDoctrine ()->getManager (),
-            'action' => $this->generateUrl ( 'setup_update',
+            'em' => $this->getDoctrine()->getManager(),
+            'action' => $this->generateUrl('setup_update',
                 array(
-                'setupId' => $entity->getId (),
+                'setupId' => $entity->getId(),
                 'gameId' => $gameId
-            ) ),
+            )),
             'method' => 'PUT'
-            ) );
+        ));
 
-        $form->add ( 'submit', 'submit',
+        $form->add('submit', 'submit',
             array(
             'label' => 'Update'
-        ) );
+        ));
 
         return $form;
     }
 
     public function showSetupStepAction($setupStepId, $setupId, $gameId)
     {
-        $entityManager = $this->getDoctrine ()->getManager ();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $setupStep = $entityManager->getRepository ( 'RFCSetupBundle:SetupStep' )->findOneBy ( array(
-            'id' => $setupStepId) );
+        $setupStep = $entityManager->getRepository('RFCSetupBundle:SetupStep')->findOneBy(array(
+            'id' => $setupStepId));
 
-        return $this->render ( 'RFCSetupBundle:SetupStep:show.html.twig',
+        return $this->render('RFCSetupBundle:SetupStep:show.html.twig',
                 array(
                 'setupStep' => $setupStep,
                 'gameId' => $gameId,
                 'setupId' => $setupId
-            ) );
+        ));
     }
 
     /**
@@ -328,32 +331,32 @@ class SetupController extends Controller
      */
     public function editSetupStepAction($setupStepId, $setupId, $gameId)
     {
-        $entityManager = $this->getDoctrine ()->getManager ();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $entity    = $entityManager->getRepository ( 'RFCSetupBundle:SetupStep' )->find ( $setupStepId );
-        $stepCount = $entityManager->getRepository ( 'RFCSetupBundle:Step' )->findBy ( array(
+        $entity    = $entityManager->getRepository('RFCSetupBundle:SetupStep')->find($setupStepId);
+        $stepCount = $entityManager->getRepository('RFCSetupBundle:Step')->findBy(array(
             'game' => $gameId
-            ) );
+        ));
 
-        $subSteps = $entityManager->getRepository ( 'RFCSetupBundle:SubStep' )->findBy ( array(
-            'step' => $entity->getStep ()->getId ()
-            ) );
+        $subSteps = $entityManager->getRepository('RFCSetupBundle:SubStep')->findBy(array(
+            'step' => $entity->getStep()->getId()
+        ));
 
         if (!$entity) {
-            throw $this->createNotFoundException ( 'Unable to find SetupStep entity.' );
+            throw $this->createNotFoundException('Unable to find SetupStep entity.');
         }
 
-        $editForm = $this->createEditSetupStepForm ( $entity, $setupId, $gameId );
+        $editForm = $this->createEditSetupStepForm($entity, $setupId, $gameId);
 
-        return $this->render ( 'RFCSetupBundle:SetupStep:edit.html.twig',
+        return $this->render('RFCSetupBundle:SetupStep:edit.html.twig',
                 array(
                 'entity' => $entity,
-                'edit_form' => $editForm->createView (),
+                'edit_form' => $editForm->createView(),
                 'setupId' => $setupId,
                 'gameId' => $gameId,
-                'stepCount' => count ( $stepCount ),
+                'stepCount' => count($stepCount),
                 'subSteps' => $subSteps
-            ) );
+        ));
     }
 
     /**
@@ -362,36 +365,36 @@ class SetupController extends Controller
     public function updateSetupStepAction(Request $request, $setupStepId,
                                           $setupId, $gameId)
     {
-        $entityManager = $this->getDoctrine ()->getManager ();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $entity = $entityManager->getRepository ( 'RFCSetupBundle:SetupStep' )->find ( $setupStepId );
+        $entity = $entityManager->getRepository('RFCSetupBundle:SetupStep')->find($setupStepId);
 
         if (!$entity) {
-            throw $this->createNotFoundException ( 'Unable to find SetupStep entity.' );
+            throw $this->createNotFoundException('Unable to find SetupStep entity.');
         }
 
-        if ($entity->getVersion () !== 0 || ($entity->getVersion () == 0 && $entity->getValue ()
+        if ($entity->getVersion() !== 0 || ($entity->getVersion() == 0 && $entity->getValue()
             != null)) {
             $copy   = clone $entity;
-            $copy->setVersion ( $entity->getVersion () + 1 );
-            $entityManager->persist ( $copy );
+            $copy->setVersion($entity->getVersion() + 1);
+            $entityManager->persist($copy);
             $entity = $copy;
         }
 
-        $editForm = $this->createEditSetupStepForm ( $entity, $setupId, $gameId );
-        $editForm->handleRequest ( $request );
+        $editForm = $this->createEditSetupStepForm($entity, $setupId, $gameId);
+        $editForm->handleRequest($request);
 
-        $url = $this->generateUrl ( 'setup_show',
+        $url = $this->generateUrl('setup_show',
             array(
             'setupId' => $setupId,
             'gameId' => $gameId
-            ) );
+        ));
 
-        if ($editForm->isValid ()) {
-            $entityManager->flush ();
+        if ($editForm->isValid()) {
+            $entityManager->flush();
 
-            $stepNumber = $entity->getStep ()->getStepOrder ();
-            switch ($entity->getSubStep ()->getAction ()) {
+            $stepNumber = $entity->getStep()->getStepOrder();
+            switch ($entity->getSubStep()->getAction()) {
                 case 'next' :
                     $stepNumber += 1;
                     break;
@@ -399,12 +402,11 @@ class SetupController extends Controller
                     break;
             }
 
-            return $this->redirect ( sprintf ( '%s#stepNumber=%s', $url,
-                        $stepNumber ) );
+            return $this->redirect(sprintf('%s#stepNumber=%s', $url, $stepNumber));
         }
 
-        return $this->redirect ( sprintf ( '%s#stepNumber=%s', $url,
-                    $entity->getStep ()->getStepOrder () ) );
+        return $this->redirect(sprintf('%s#stepNumber=%s', $url,
+                    $entity->getStep()->getStepOrder()));
     }
 
     /**
@@ -418,30 +420,30 @@ class SetupController extends Controller
     private function createEditSetupStepForm(SetupStep $entity, $setupId,
                                              $gameId)
     {
-        $form = $this->createForm ( new SetupStepType ( $entity->getStep ()->getId () ),
+        $form = $this->createForm(new SetupStepType($entity->getStep()->getId()),
             $entity,
             array(
-            'em' => $this->getDoctrine ()->getManager (),
-            'action' => $this->generateUrl ( 'setupStep_update',
+            'em' => $this->getDoctrine()->getManager(),
+            'action' => $this->generateUrl('setupStep_update',
                 array(
-                'setupStepId' => $entity->getId (),
+                'setupStepId' => $entity->getId(),
                 'setupId' => $setupId,
                 'gameId' => $gameId
-            ) ),
+            )),
             'method' => 'PUT'
-            ) );
+        ));
 
-        $form->add ( 'reset', 'reset',
+        $form->add('reset', 'reset',
             array(
             'label' => 'Reset',
             'attr' => array('class' => 'ui button secondary')
-        ) );
+        ));
 
-        $form->add ( 'submit', 'submit',
+        $form->add('submit', 'submit',
             array(
             'label' => 'Save',
             'attr' => array('class' => 'ui button primary')
-        ) );
+        ));
 
         return $form;
     }

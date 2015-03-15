@@ -22,6 +22,8 @@ namespace RFC\CoreBundle\Entity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use RFC\UserBundle\Entity\User;
 
 /**
  * Crew
@@ -67,7 +69,7 @@ class Crew
      */
     public function __construct()
     {
-        $this->listCrewRequests = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listCrewRequests = new ArrayCollection();
     }
 
     /**
@@ -80,12 +82,21 @@ class Crew
         return $this->id;
     }
 
+    /**
+     *
+     * @return Game
+     */
     public function getGame()
     {
         return $this->game;
     }
 
-    public function setGame($game)
+    /**
+     *
+     * @param Game $game
+     * @return Crew
+     */
+    public function setGame(Game $game)
     {
         $this->game = $game;
         return $this;
@@ -93,19 +104,29 @@ class Crew
 
     /**
      * Return the manager
-     *
+     * @return User
      */
     public function getManager()
     {
         return $this->manager;
     }
 
-    public function setManager($user)
+    /**
+     *
+     * @param User $user
+     * @return Crew
+     */
+    public function setManager(User $user)
     {
         $this->manager = $user;
         return $this;
     }
 
+    /**
+     *
+     * @param int $userId
+     * @return boolean
+     */
     public function isManager($userId)
     {
         return ($userId === $this->manager->getId ()) ? true : false;
@@ -132,6 +153,11 @@ class Crew
         return $this->getMembers ( 2 );
     }
 
+    /**
+     *
+     * @param int $userId
+     * @return boolean
+     */
     public function isActiveMember($userId)
     {
         foreach ($this->getActiveMembers () as $member) {
@@ -157,6 +183,11 @@ class Crew
         return false;
     }
 
+    /**
+     *
+     * @param int $userId
+     * @return int
+     */
     public function getUserState($userId)
     {
         if ($this->isActiveMember ( $userId )) {
@@ -171,10 +202,10 @@ class Crew
     /**
      * Add CrewRequest
      *
-     * @param \RFC\CoreBundle\Entity\CrewRequest $crewRequest
+     * @param CrewRequest $crewRequest
      * @return Crew
      */
-    public function addCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
+    public function addCrewRequest(CrewRequest $crewRequest)
     {
         $this->listCrewRequests[] = $crewRequest;
 
@@ -184,9 +215,9 @@ class Crew
     /**
      * Remove CrewRequest
      *
-     * @param \RFC\CoreBundle\Entity\CrewRequest $crewRequest
+     * @param CrewRequest $crewRequest
      */
-    public function removeCrewRequest(\RFC\CoreBundle\Entity\CrewRequest $crewRequest)
+    public function removeCrewRequest(CrewRequest $crewRequest)
     {
         $this->listCrewRequests->removeElement ( $crewRequest );
     }
@@ -194,13 +225,18 @@ class Crew
     /**
      * Get listCrewRequests
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getListCrewRequests()
     {
         return $this->listCrewRequests;
     }
 
+    /**
+     *
+     * @param int $userId
+     * @return type
+     */
     public function getUserCrewRequest($userId)
     {
         foreach ($this->listCrewRequests as $crewRequest) {

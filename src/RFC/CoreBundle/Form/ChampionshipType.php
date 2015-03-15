@@ -29,6 +29,8 @@ use RFC\CoreBundle\Entity\MetaRuleRepository;
 class ChampionshipType extends AbstractType
 {
 
+    private $gameId;
+
     public function __construct($gameId)
     {
         $this->gameId = $gameId;
@@ -42,7 +44,6 @@ class ChampionshipType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $gameId          = $this->gameId;
-        $gameTransformer = new GameToIntTransformer($options ['em']);
 
         $builder->add('name')->add('description', 'textarea',
                 array(

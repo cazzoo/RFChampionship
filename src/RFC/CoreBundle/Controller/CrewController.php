@@ -90,14 +90,14 @@ class CrewController extends RFCController
             'game' => $params ['gameId'],
             'manager' => $params ['managerId']
         ));
+        $manager       = $entityManager->getRepository('RFCUserBundle:User')->findOneBy(array(
+            'id' => $params ['managerId']));
 
         // Create crew if none exists for this game and manager
         if ($crew === null) {
-            $game    = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array(
+            $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array(
                 'id' => $params ['gameId']));
-            $manager = $entityManager->getRepository('RFCUserBundle:User')->findOneBy(array(
-                'id' => $params ['managerId']));
-            $crew    = new Crew ();
+            $crew = new Crew ();
             $crew->setGame($game);
             $crew->setManager($manager);
             $entityManager->persist($crew);

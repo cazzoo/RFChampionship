@@ -25,6 +25,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use RFC\CoreBundle\Entity\Championship;
 use RFC\CoreBundle\Entity\CrewRequest;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * User
@@ -90,9 +91,9 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct ();
-        $this->listChampionships = array();
-        $this->listCrewRequests  = array();
-        $this->listPreferences   = array();
+        $this->listChampionships = ArrayCollection();
+        $this->listCrewRequests  = ArrayCollection();
+        $this->listPreferences   = ArrayCollection();
     }
 
     public function eraseCredentials()
@@ -215,23 +216,41 @@ class User extends BaseUser
         return $this->steamId;
     }
 
+    /**
+     *
+     * @return ArrayCollection
+     */
     public function getListPreferences()
     {
         return $this->listPreferences;
     }
 
-    public function setListPreferences($listPreferences)
+    /**
+     *
+     * @param ArrayCollection $listPreferences
+     * @return User
+     */
+    public function setListPreferences(ArrayCollection $listPreferences)
     {
         $this->listPreferences = $listPreferences;
         return $this;
     }
 
+    /**
+     *
+     * @return ArrayCollection
+     */
     public function getListCrewRequests()
     {
         return $this->listCrewRequests;
     }
 
-    public function setListCrewRequests($listCrewRequests)
+    /**
+     *
+     * @param ArrayCollection $listCrewRequests
+     * @return User
+     */
+    public function setListCrewRequests(ArrayCollection $listCrewRequests)
     {
         $this->listCrewRequests = $listCrewRequests;
         return $this;
@@ -275,7 +294,7 @@ class User extends BaseUser
     /**
      * Get listChampionships
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getListChampionships()
     {

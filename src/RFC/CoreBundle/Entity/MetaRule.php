@@ -19,6 +19,7 @@ namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\KnowledgeData;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * MetaRule
@@ -55,7 +56,7 @@ class MetaRule extends KnowledgeData
     public function __construct()
     {
         parent::__construct();
-        $this->listRules = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listRules = new ArrayCollection();
     }
 
     public function __toString()
@@ -76,10 +77,10 @@ class MetaRule extends KnowledgeData
     /**
      * Set listRules
      *
-     * @param \array $listRules            
+     * @param ArrayCollection $listRules
      * @return MetaRule
      */
-    public function setListRules($listRules)
+    public function setListRules(ArrayCollection $listRules)
     {
         $this->listRules = $listRules;
         
@@ -89,7 +90,7 @@ class MetaRule extends KnowledgeData
     /**
      * Get listRules
      *
-     * @return \array
+     * @return ArrayCollection
      */
     public function getListRules()
     {
@@ -99,10 +100,10 @@ class MetaRule extends KnowledgeData
     /**
      * Add rule
      *
-     * @param \RFC\CoreBundle\Entity\Rule $rule
+     * @param Rule $rule
      * @return MetaRule
      */
-    public function addRule(\RFC\CoreBundle\Entity\Rule $rule)
+    public function addRule(Rule $rule)
     {
         $this->listRules[] = $rule;
         
@@ -112,9 +113,9 @@ class MetaRule extends KnowledgeData
     /**
      * Remove listRules
      *
-     * @param \RFC\CoreBundle\Entity\Rule $rule
+     * @param Rule $rule
      */
-    public function removeRule(\RFC\CoreBundle\Entity\Rule $rule)
+    public function removeRule(Rule $rule)
     {
         $this->listRules->removeElement($rule);
     }

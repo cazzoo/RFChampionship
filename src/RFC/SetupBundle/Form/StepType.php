@@ -41,7 +41,8 @@ class StepType extends AbstractType
                 'behiavior' => 'Behiavior'
             ),
             'required' => true
-        ))->add('tip', 'textarea', array(
+        ))->add('tip', 'textarea',
+            array(
             'required' => false
         ))->add('category', 'text')->add('complexity', 'integer')->add('description',
             'textarea', array(

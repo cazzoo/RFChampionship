@@ -19,6 +19,7 @@ namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\Descriptor;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Event
@@ -75,7 +76,7 @@ class Event extends Descriptor
     public function __construct()
     {
         parent::__construct();
-        $this->listSessions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listSessions = new ArrayCollection();
     }
 
     public function __toString()
@@ -86,7 +87,7 @@ class Event extends Descriptor
     /**
      * Get id
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -96,7 +97,7 @@ class Event extends Descriptor
     /**
      * Set listBroadcast
      *
-     * @param array $listBroadcast            
+     * @param ArrayCollection $listBroadcast
      * @return Event
      */
     public function setListBroadcast($listBroadcast)
@@ -109,7 +110,7 @@ class Event extends Descriptor
     /**
      * Get listBroadcast
      *
-     * @return array
+     * @return ArrayCollection
      */
     public function getListBroadcast()
     {
@@ -119,10 +120,10 @@ class Event extends Descriptor
     /**
      * Set track
      *
-     * @param \stdClass $track            
+     * @param Track $track
      * @return Event
      */
-    public function setTrack($track)
+    public function setTrack(Track $track)
     {
         $this->track = $track;
 
@@ -132,7 +133,7 @@ class Event extends Descriptor
     /**
      * Get track
      *
-     * @return \stdClass
+     * @return Track
      */
     public function getTrack()
     {
@@ -142,10 +143,10 @@ class Event extends Descriptor
     /**
      * Set vehicle
      *
-     * @param \stdClass $vehicle            
+     * @param Vehicle $vehicle
      * @return Event
      */
-    public function setVehicle($vehicle)
+    public function setVehicle(Vehicle $vehicle)
     {
         $this->vehicle = $vehicle;
 
@@ -155,7 +156,7 @@ class Event extends Descriptor
     /**
      * Get vehicle
      *
-     * @return \stdClass
+     * @return Vehicle
      */
     public function getVehicle()
     {
@@ -165,10 +166,10 @@ class Event extends Descriptor
     /**
      * Set category
      *
-     * @param \stdClass $category            
+     * @param Category $category
      * @return Event
      */
-    public function setCategory($category)
+    public function setCategory(Category $category)
     {
         $this->category = $category;
 
@@ -178,7 +179,7 @@ class Event extends Descriptor
     /**
      * Get category
      *
-     * @return \stdClass
+     * @return Category
      */
     public function getCategory()
     {
@@ -188,10 +189,10 @@ class Event extends Descriptor
     /**
      * Set championship
      *
-     * @param \RFC\CoreBundle\Entity\Championship $championship            
+     * @param Championship $championship            
      * @return Event
      */
-    public function setChampionship(\RFC\CoreBundle\Entity\Championship $championship)
+    public function setChampionship(Championship $championship)
     {
         $this->championship = $championship;
 
@@ -201,7 +202,7 @@ class Event extends Descriptor
     /**
      * Get championship
      *
-     * @return \RFC\CoreBundle\Entity\Championship
+     * @return Championship
      */
     public function getChampionship()
     {
@@ -211,10 +212,10 @@ class Event extends Descriptor
     /**
      * Add session
      *
-     * @param \RFC\CoreBundle\Entity\Session $session
+     * @param Session $session
      * @return Event
      */
-    public function addSession(\RFC\CoreBundle\Entity\Session $session)
+    public function addSession(Session $session)
     {
         $this->listSessions[] = $session;
 
@@ -224,9 +225,9 @@ class Event extends Descriptor
     /**
      * Remove session
      *
-     * @param \RFC\CoreBundle\Entity\Session $session
+     * @param Session $session
      */
-    public function removeSession(\RFC\CoreBundle\Entity\Session $session)
+    public function removeSession(Session $session)
     {
         $this->listSessions->removeElement($session);
     }
@@ -234,7 +235,7 @@ class Event extends Descriptor
     /**
      * Get listSessions
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getListSessions()
     {

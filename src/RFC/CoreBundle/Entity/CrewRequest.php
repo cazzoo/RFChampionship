@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace RFC\CoreBundle\Entity;
 
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -36,7 +37,6 @@ class CrewRequest
      * updates createdAt, updatedAt fields
      */
     use TimestampableEntity;
-    
     public static $stateEnum = array(
         '1' => 'New',
         '2' => 'Accepted',
@@ -58,12 +58,11 @@ class CrewRequest
     {
         return array_values(self::$stateEnum);
     }
-    
+
     public static function getKeyForValue($value)
     {
         return array_search($value, self::getStateValues(), true);
     }
-
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -91,32 +90,45 @@ class CrewRequest
     /**
      * Get id
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
         return $this->id;
     }
-	
+
+    /**
+     *
+     * @return Crew
+     */
     public function getCrew()
     {
         return $this->crew;
     }
 
-    public function setCrew($crew)
+    /**
+     *
+     * @param Crew $crew
+     * @return CrewRequest
+     */
+    public function setCrew(Crew $crew)
     {
         $this->crew = $crew;
         return $this;
     }
 
+    /**
+     *
+     * @return int
+     */
     public function getState()
     {
         return $this->state;
     }
 
     /**
-     * @param integer $state
-     * @return \RFC\CoreBundle\Entity\CrewRequest
+     * @param int $state
+     * @return CrewRequest
      */
     public function setState($state)
     {
@@ -124,12 +136,21 @@ class CrewRequest
         return $this;
     }
 
+    /**
+     *
+     * @return User
+     */
     public function getRequester()
     {
         return $this->requester;
     }
 
-    public function setRequester($requester)
+    /**
+     *
+     * @param User $requester
+     * @return CrewRequest
+     */
+    public function setRequester(User $requester)
     {
         $this->requester = $requester;
         return $this;

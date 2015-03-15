@@ -21,6 +21,7 @@ namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\Descriptor;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Game
@@ -88,10 +89,10 @@ class Game extends Descriptor
     public function __construct()
     {
         parent::__construct();
-        $this->listChampionships = new \Doctrine\Common\Collections\ArrayCollection ();
-        $this->listMetaRules     = new \Doctrine\Common\Collections\ArrayCollection ();
-        $this->listRules         = new \Doctrine\Common\Collections\ArrayCollection ();
-        $this->listProperties    = new \Doctrine\Common\Collections\ArrayCollection ();
+        $this->listChampionships = new ArrayCollection ();
+        $this->listMetaRules     = new ArrayCollection ();
+        $this->listRules         = new ArrayCollection ();
+        $this->listProperties    = new ArrayCollection ();
     }
 
     public function __toString()
@@ -138,7 +139,7 @@ class Game extends Descriptor
      * @param Championship $championship
      * @return Game
      */
-    public function addChampionship(\RFC\CoreBundle\Entity\Championship $championship)
+    public function addChampionship(Championship $championship)
     {
         $this->listChampionships [] = $championship;
 
@@ -148,9 +149,9 @@ class Game extends Descriptor
     /**
      * Remove championship
      *
-     * @param \RFC\CoreBundle\Entity\Championship $championship
+     * @param Championship $championship
      */
-    public function removeChampionship(\RFC\CoreBundle\Entity\Championship $championship)
+    public function removeChampionship(Championship $championship)
     {
         $this->listChampionships->removeElement($championship);
     }
@@ -158,7 +159,7 @@ class Game extends Descriptor
     /**
      * Get listChampionships
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getListChampionships()
     {
@@ -168,10 +169,10 @@ class Game extends Descriptor
     /**
      * Add MetaRule
      *
-     * @param \RFC\CoreBundle\Entity\MetaRule $metaRule
+     * @param MetaRule $metaRule
      * @return Game
      */
-    public function addMetaRule(\RFC\CoreBundle\Entity\MetaRule $metaRule)
+    public function addMetaRule(MetaRule $metaRule)
     {
         $this->listMetaRules [] = $metaRule;
 
@@ -181,9 +182,9 @@ class Game extends Descriptor
     /**
      * Remove metaRule
      *
-     * @param \RFC\CoreBundle\Entity\MetaRule $metaRule
+     * @param MetaRule $metaRule
      */
-    public function removeMetaRule(\RFC\CoreBundle\Entity\MetaRule $metaRule)
+    public function removeMetaRule(MetaRule $metaRule)
     {
         $this->listMetaRules->removeElement($metaRule);
     }
@@ -191,7 +192,7 @@ class Game extends Descriptor
     /**
      * Get listMetaRules
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getListMetaRules()
     {
@@ -201,10 +202,10 @@ class Game extends Descriptor
     /**
      * Add Rule
      *
-     * @param \RFC\CoreBundle\Entity\Rule $rule
+     * @param Rule $rule
      * @return Game
      */
-    public function addRule(\RFC\CoreBundle\Entity\Rule $rule)
+    public function addRule(Rule $rule)
     {
         $this->listRules [] = $rule;
 
@@ -214,10 +215,10 @@ class Game extends Descriptor
     /**
      * Add Property
      *
-     * @param \RFC\CoreBundle\Entity\Property $property
+     * @param Property $property
      * @return Game
      */
-    public function addProperty(\RFC\CoreBundle\Entity\Property $property)
+    public function addProperty(Property $property)
     {
         $this->listProperties [] = $property;
 
@@ -227,9 +228,9 @@ class Game extends Descriptor
     /**
      * Remove Rule
      *
-     * @param \RFC\CoreBundle\Entity\Rule $rule
+     * @param Rule $rule
      */
-    public function removeRule(\RFC\CoreBundle\Entity\Rule $rule)
+    public function removeRule(Rule $rule)
     {
         $this->listRules->removeElement($rule);
     }
@@ -237,9 +238,9 @@ class Game extends Descriptor
     /**
      * Remove property
      *
-     * @param \RFC\CoreBundle\Entity\Property $property
+     * @param Property $property
      */
-    public function removeProperty(\RFC\CoreBundle\Entity\Property $property)
+    public function removeProperty(Property $property)
     {
         $this->listProperties->removeElement($property);
     }
@@ -247,7 +248,7 @@ class Game extends Descriptor
     /**
      * Get listRules
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getListRules()
     {
@@ -257,14 +258,14 @@ class Game extends Descriptor
     /**
      * Get listTracks
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getListTracks()
     {
         return $this->listTracks;
     }
 
-    public function setListTracks($listTracks)
+    public function setListTracks(ArrayCollection $listTracks)
     {
         $this->listTracks = $listTracks;
         return $this;
@@ -273,14 +274,14 @@ class Game extends Descriptor
     /**
      * Get listVehicles
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getListVehicles()
     {
         return $this->listVehicles;
     }
 
-    public function setListVehicles($listVehicles)
+    public function setListVehicles(ArrayCollection $listVehicles)
     {
         $this->listVehicles = $listVehicles;
         return $this;
@@ -289,14 +290,14 @@ class Game extends Descriptor
     /**
      * Get listCategories
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getListCategories()
     {
         return $this->listCategories;
     }
 
-    public function setListCategories($listCategories)
+    public function setListCategories(ArrayCollection $listCategories)
     {
         $this->listCategories = $listCategories;
         return $this;
@@ -305,14 +306,14 @@ class Game extends Descriptor
     /**
      * Get listTypeSessions
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getListTypeSessions()
     {
         return $this->listTypeSessions;
     }
 
-    public function setListTypeSessions($listTypeSessions)
+    public function setListTypeSessions(ArrayCollection $listTypeSessions)
     {
         $this->listTypeSessions = $listTypeSessions;
         return $this;
@@ -321,14 +322,14 @@ class Game extends Descriptor
     /**
      * Get listProperties
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getListProperties()
     {
         return $this->listProperties;
     }
 
-    public function setListProperties($listProperties)
+    public function setListProperties(ArrayCollection $listProperties)
     {
         $this->listProperties = $listProperties;
         return $this;

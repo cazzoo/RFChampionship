@@ -20,6 +20,7 @@ namespace RFC\CoreBundle\Entity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use RFC\UserBundle\Entity\User;
 
 /**
  * Result
@@ -82,10 +83,10 @@ class Result
     /**
      * Set user
      *
-     * @param \RFC\UserBundle\Entity\User $user        
+     * @param User $user        
      * @return $user
      */
-    public function setUser($user)
+    public function setUser(User $user)
     {
         $this->user = $user;
         
@@ -95,7 +96,7 @@ class Result
     /**
      * Get user
      *
-     * @return \RFC\UserBundle\Entity\User $user
+     * @return User $user
      */
     public function getUser()
     {
@@ -105,10 +106,10 @@ class Result
     /**
      * Set rule
      *
-     * @param \RFC\CoreBundle\Entity\Rule $rule            
+     * @param Rule $rule            
      * @return Result
      */
-    public function setRule(\RFC\CoreBundle\Entity\Rule $rule)
+    public function setRule(Rule $rule)
     {
         $this->rule = $rule;
         
@@ -118,7 +119,7 @@ class Result
     /**
      * Get rule
      *
-     * @return \RFC\CoreBundle\Entity\Rule
+     * @return Rule
      */
     public function getRule()
     {
@@ -174,10 +175,10 @@ class Result
     /**
      * Set session
      *
-     * @param \RFC\CoreBundle\Entity\Session $session            
+     * @param Session $session            
      * @return Result
      */
-    public function setSession(\RFC\CoreBundle\Entity\Session $session)
+    public function setSession(Session $session)
     {
         $this->session = $session;
         
@@ -187,7 +188,7 @@ class Result
     /**
      * Get session
      *
-     * @return \RFC\CoreBundle\Entity\Session
+     * @return Session
      */
     public function getSession()
     {

@@ -19,6 +19,7 @@ namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\Descriptor;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Session
@@ -71,7 +72,7 @@ class Session extends Descriptor
     public function __construct()
     {
         parent::__construct();
-        $this->listResults = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listResults = new ArrayCollection();
     }
 
     /**
@@ -84,25 +85,29 @@ class Session extends Descriptor
         return $this->id;
     }
 
+    /**
+     *
+     * @return ArrayCollection
+     */
     public function getListResults()
     {
         return $this->listResults;
     }
 
-    public function setListResults($listResults)
+    public function setListResults(ArrayCollection $listResults)
     {
         $this->listResults = $listResults;
         return $this;
     }
 
-    public function addResult(\RFC\CoreBundle\Entity\Result $result)
+    public function addResult(Result $result)
     {
         $this->listResults[] = $result;
 
         return $this;
     }
 
-    public function removeResult(\RFC\CoreBundle\Entity\Result $result)
+    public function removeResult(Result $result)
     {
         $this->listResults->removeElement($result);
     }
@@ -179,10 +184,10 @@ class Session extends Descriptor
     /**
      * Set event
      *
-     * @param \RFC\CoreBundle\Entity\Event $event            
+     * @param Event $event            
      * @return Session
      */
-    public function setEvent(\RFC\CoreBundle\Entity\Event $event)
+    public function setEvent(Event $event)
     {
         $this->event = $event;
 
@@ -192,7 +197,7 @@ class Session extends Descriptor
     /**
      * Get event
      *
-     * @return \RFC\CoreBundle\Entity\Event
+     * @return Event
      */
     public function getEvent()
     {

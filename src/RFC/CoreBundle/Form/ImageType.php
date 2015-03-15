@@ -16,42 +16,48 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace RFC\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ImageType extends AbstractType {
-	
-	/**
-	 *
-	 * @param FormBuilderInterface $builder        	
-	 * @param array $options        	
-	 */
-	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'name' )->add ( 'description', 'textarea', array (
-				'required' => false 
-		) )->add ( 'url', 'text', array (
-				'required' => false 
-		) )->add ( 'alt' );
-	}
-	
-	/**
-	 *
-	 * @param OptionsResolverInterface $resolver        	
-	 */
-	public function setDefaultOptions(OptionsResolverInterface $resolver) {
-		$resolver->setDefaults ( array (
-				'data_class' => 'RFC\CoreBundle\Entity\Image' 
-		) );
-	}
-	
-	/**
-	 *
-	 * @return string
-	 */
-	public function getName() {
-		return 'rfc_corebundle_image';
-	}
+class ImageType extends AbstractType
+{
+
+    /**
+     *
+     * @param FormBuilderInterface $builder        	
+     * @param array $options        	
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('name')->add('description', 'textarea',
+            array(
+            'required' => false
+        ))->add('url', 'text', array(
+            'required' => false
+        ))->add('alt');
+    }
+
+    /**
+     *
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'RFC\CoreBundle\Entity\Image'
+        ));
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'rfc_corebundle_image';
+    }
 }
