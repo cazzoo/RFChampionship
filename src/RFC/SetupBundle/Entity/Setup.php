@@ -246,7 +246,7 @@ class Setup extends KnowledgeData
      * Returns the last version of a SetupStep
      *
      * @param int $stepNumber
-     * @return int the last setupstep version number
+     * @return SetupStep the last setupstep version number
      */
     public function getLastSetupStepVersion($stepNumber)
     {

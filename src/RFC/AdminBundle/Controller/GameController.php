@@ -76,9 +76,9 @@ class GameController extends Controller
 
     /**
      * Adds the defaults elements to the give game and returns it.
-     * @param type $game
+     * @param Game $game
      */
-    private function addDefaultProperties($game)
+    private function addDefaultProperties(Game $game)
     {
         $flashNews = Property::emptyProperty();
         $flashNews->setGame($game);

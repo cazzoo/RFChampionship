@@ -39,17 +39,6 @@ class CalendarEventListener
 
     public function loadEvents(CalendarEvent $calendarEvent)
     {
-        $startDate = $calendarEvent->getStartDatetime();
-        $endDate   = $calendarEvent->getEndDatetime();
-
-        // The original request so you can get filters from the calendar
-        // Use the filter in your query for example
-
-        $request = $calendarEvent->getRequest();
-        $filter  = $request->get('filter');
-
-        // load events using your custom logic here,
-        // for instance, retrieving events from a repository
 
         $sessions = $this->entityManager->getRepository('RFCCoreBundle:Session')->findAll();
 
@@ -82,8 +71,7 @@ class CalendarEventListener
                 $eventEntity->setBgColor('#5cb85c'); // green
                 $eventEntity->setFgColor('#FFFFFF');
             }
-            // $eventEntity->setUrl('http://www.google.com'); // url to send user to when event label is clicked
-            // $eventEntity->setCssClass('my-custom-class'); // a custom class you may want to apply to event labels
+            
             $game           = $session->getEvent()->getChampionship()->getGame();
             $championshipId = $session->getEvent()->getChampionship()->getId();
             $event          = $session->getEvent();
@@ -91,13 +79,12 @@ class CalendarEventListener
                 array(
                 'gameId' => $game->getId(),
                 'championshipId' => $championshipId
-                ));
+            ));
 
             $url .= '#eventId='.$event->getId();
 
             $eventEntity->setUrl($url);
 
-            // finally, add the event to the CalendarEvent for displaying on the calendar
             $calendarEvent->addEvent($eventEntity);
         }
     }
