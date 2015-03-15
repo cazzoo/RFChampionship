@@ -301,6 +301,18 @@ class User extends BaseUser
         return $this->listChampionships;
     }
 
+    /**
+     * Set listChampionships
+     *
+     * @param ArrayCollection the collection to replace
+     * @return User
+     */
+    public function setListChampionships(ArrayCollection $listChampionships)
+    {
+        $this->listChampionships = $listChampionships;
+        return $this;
+    }
+
     public function isRoleAdmin()
     {
         return $this->hasRole('ROLE_ADMIN');

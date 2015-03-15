@@ -515,13 +515,10 @@ class Championship extends KnowledgeData
      */
     public function getCurrentSession()
     {
-        $currentSession = null;
-
         if (null != $this->getCurrentEvent()) {
-            $currentSession = $this->getCurrentEvent()->getCurrentSession();
+            return $this->getCurrentEvent()->getCurrentSession();
         }
-
-        return $currentSession;
+        return null;
     }
 
     /**
@@ -530,14 +527,12 @@ class Championship extends KnowledgeData
      */
     public function getNextSession()
     {
-        $nextSession = null;
-
         if (null != $this->getCurrentEvent()) {
-            $nextSession = $this->getCurrentEvent()->getNextSession();
-        } else {
-            $nextSession = $this->getNextEvent()->getNextSession();
+            return $this->getCurrentEvent()->getNextSession();
+        } else if (null != $this->getNextEvent()) {
+            return $this->getNextEvent()->getNextSession();
         }
-        return $nextSession;
+        return null;
     }
 
     /**
@@ -546,13 +541,11 @@ class Championship extends KnowledgeData
      */
     public function getPreviousSession()
     {
-        $previousSession = null;
-
         if (null != $this->getCurrentEvent()) {
-            $previousSession = $this->getCurrentEvent()->getPreviousSession();
-        } else if(null != $this->getPreviousEvent()){
-            $previousSession = $this->getPreviousEvent()->getPreviousSession();
+            return $this->getCurrentEvent()->getPreviousSession();
+        } else if (null != $this->getPreviousEvent()) {
+            return $this->getPreviousEvent()->getPreviousSession();
         }
-        return $previousSession;
+        return null;
     }
 }
