@@ -711,13 +711,15 @@ $(function () {
     // --------------------------------------------
 
     $('.nextEvent').click(function () {
-        showEvent(parseInt(selectedEventKey) + 1);
-        location.hash = "eventId=" + selectedEventKey;
+        var nextEventItem = $('.eventItem[data-eventkey='+selectedEventKey+']').next();
+        showEvent(nextEventItem.data('eventkey'));
+        location.hash = "eventId=" + nextEventItem.data('eventid');
     });
 
     $('.previousEvent').click(function () {
-        showEvent(parseInt(selectedEventKey) - 1);
-        location.hash = "eventId=" + selectedEventKey;
+        var prevEventItem = $('.eventItem[data-eventkey='+selectedEventKey+']').prev();
+        showEvent(prevEventItem.data('eventkey'));
+        location.hash = "eventId=" + prevEventItem.data('eventid');
     });
 
     // --------------------------------------------
@@ -869,10 +871,11 @@ $(function () {
     getCurrentChampionshipResults();
     // Selecting event
 
-    if (!url[url.length - 1].match(/^#eventId\=\d/)) {
+    if (!url[url.length - 1].match(/#eventId\=\d/)) {
         selectedEventKey = 1;
     } else {
-        selectedEventKey = parseInt(GetURLHash());
+        var eventItem = $('.eventItem[data-eventid='+parseInt(GetURLHash())+']').data('eventkey');
+        selectedEventKey = eventItem ? eventItem : 1;
     }
 
     if (isCurrentPage('Championship')) {

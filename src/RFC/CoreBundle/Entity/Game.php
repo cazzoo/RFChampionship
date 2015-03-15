@@ -380,7 +380,8 @@ class Game extends Descriptor
         $nextSessions = Array();
 
         foreach ($this->listChampionships as $championship) {
-            if (null != $championship->getCurrentEvent() && null != $championship->getCurrentEvent()->getNextSession()) {
+            if ((null != $championship->getCurrentEvent() && null != $championship->getCurrentEvent()->getNextSession())
+                || (null != $championship->getNextEvent() && null != $championship->getNextEvent()->getNextSession())) {
                 array_push($nextSessions, $championship->getNextSession());
             }
         }
