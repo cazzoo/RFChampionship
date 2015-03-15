@@ -253,7 +253,7 @@
                             <div class="ten wide column">
                                 {% for event in entity.listEvents %}
 
-                                    <div class="ui card eventItem" data-eventid="{{ event.id }}" data-gameid="{{ game.id }}" data-championshipid="{{ entity.id }}">
+                                    <div class="ui card eventItem" data-eventid="{{ event.id }}" data-eventkey="{{ loop.index }}" data-gameid="{{ game.id }}" data-championshipid="{{ entity.id }}">
                                         <div class="image">
                                             {% if canEdit %}
                                                 <a class="ui corner red label" href="{{ path('admin_event_edit', { 'eventId': event.id, 'gameId': game.id, 'championshipId': entity.id}) }}">
@@ -292,7 +292,7 @@
                                                 {{ event.endDate|date("Y/m/d H:i") }}
                                             </div>
                                         </div>
-                                        <a class="ui bottom attached green button showEventResults" data-eventid="{{ event.id }}" href="#event_{{ event.id }}_results">
+                                        <a class="ui bottom attached green button showEventResults" href="#event_{{ event.id }}_results">
                                             <i class="unhide icon"></i> Show results
                                         </a>
                                     </div>

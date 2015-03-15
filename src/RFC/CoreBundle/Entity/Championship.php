@@ -529,7 +529,7 @@ class Championship extends KnowledgeData
 
         if (null != $this->getCurrentEvent()) {
             $previousSession = $this->getCurrentEvent()->getPreviousSession();
-        } else {
+        } else if(null != $this->getPreviousEvent()){
             $previousSession = $this->getPreviousEvent()->getPreviousSession();
         }
         /* foreach ($this->listEvents as $event) {

@@ -8,7 +8,7 @@ var collectionHolder = $('ul.images');
 var url = $(location).attr('href').split('/');
 
 // The current eventId loaded
-var selectedEventId = 0;
+var selectedEventKey = 0;
 var eventCount = $('.eventItem').length;
 
 // ajoute un lien « add a tag »
@@ -108,7 +108,7 @@ function getEventResult(eventId) {
         cache: false
     }).done(function (data) {
         addNotification('Event results updated', 'success');
-        $('.eventItem[data-eventid="' + eventId + '"] div.eventResults .description').html(data);
+        $('div.eventResults[data-eventid="' + eventId + '"').find('.description').html(data);
     }).fail(
             function (jqXHR, textStatus, errorThrown) {
                 addNotification('Error while updating event\'s results',
@@ -545,9 +545,10 @@ function showEvent(id) {
         $('.nextEvent i').addClass('disabled');
     }
     $('.eventItem').hide();
-    $('.eventItem[data-eventid=' + id + ']').show();
-    selectedEventId = id;
-    loadEventSessions(id);
+    var eventElement = $('.eventItem[data-eventkey=' + id + ']');
+    eventElement.show();
+    selectedEventKey = id;
+    loadEventSessions(eventElement.data('eventid'));
 }
 
 function loadEventSessions(id) {
@@ -693,13 +694,13 @@ $(function () {
     // --------------------------------------------
 
     $('.nextEvent').click(function () {
-        showEvent(parseInt(selectedEventId) + 1);
-        location.hash = "eventId=" + selectedEventId;
+        showEvent(parseInt(selectedEventKey) + 1);
+        location.hash = "eventId=" + selectedEventKey;
     });
 
     $('.previousEvent').click(function () {
-        showEvent(parseInt(selectedEventId) - 1);
-        location.hash = "eventId=" + selectedEventId;
+        showEvent(parseInt(selectedEventKey) - 1);
+        location.hash = "eventId=" + selectedEventKey;
     });
 
     // --------------------------------------------
@@ -852,18 +853,19 @@ $(function () {
     // Selecting event
 
     if (!url[url.length - 1].match(/^#eventId\=\d/)) {
-        selectedEventId = 1;
+        selectedEventKey = 1;
     } else {
-        selectedEventId = parseInt(GetURLHash());
+        selectedEventKey = parseInt(GetURLHash());
     }
 
-    showEvent(selectedEventId);
+    showEvent(selectedEventKey);
 
     $('#viewFullDriverList').click(function () {
         showModalAndActivatePopups($('.standard.driverList.modal'));
     });
+
     $('.showEventResults').click(function () {
-        var eventClicked = $(this).data('eventid');
+        var eventClicked = $(this).parent().data('eventid');
         var modalPopup = $('.standard.eventResults.modal[data-eventid="' + eventClicked + '"]');
         showModalAndActivatePopups(modalPopup);
 
