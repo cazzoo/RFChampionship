@@ -363,7 +363,7 @@ class Game extends Descriptor
         $currentSessions = Array();
 
         foreach ($this->listChampionships as $championship) {
-            if (null != $championship->getCurrentEvent()) {
+            if (null != $championship->getCurrentSession()) {
                 array_push($currentSessions, $championship->getCurrentSession());
             }
         }

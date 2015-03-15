@@ -27,7 +27,7 @@
 
     <div class="ui two column grid">
         <div class="column">
-            <h3 class="ui top attached header">Pending sessions &nbsp; </h3>
+            <h3 class="ui top attached header">Pending sessions</h3>
             <div class="ui attached segment">
                 {% if game.getCurrentSessions|length > 0 %}
                     {% for session in game.getCurrentSessions %}
@@ -64,7 +64,7 @@
                     <h3>No current session for this game. All the current championships are now finished.</h3>
                 {% endif %}
             </div>
-            <h3 class="ui top attached header">Future sessions &nbsp; </h3>
+            <h3 class="ui top attached header">Future sessions</h3>
             <div class="ui attached segment">
                 {% if game.getNextSessions|length > 0 %}
                     {% for session in game.getNextSessions %}

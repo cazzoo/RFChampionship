@@ -5,8 +5,10 @@
 // Récupère le div qui contient la collection de tags
 var collectionHolder = $('ul.images');
 
+var url = $(location).attr('href').split('/');
+
 // The current eventId loaded
-var eventId = 0;
+var selectedEventId = 0;
 var eventCount = $('.eventItem').length;
 
 // ajoute un lien « add a tag »
@@ -544,7 +546,7 @@ function showEvent(id) {
     }
     $('.eventItem').hide();
     $('.eventItem[data-eventid=' + id + ']').show();
-    eventId = id;
+    selectedEventId = id;
     loadEventSessions(id);
 }
 
@@ -691,11 +693,13 @@ $(function () {
     // --------------------------------------------
 
     $('.nextEvent').click(function () {
-        showEvent(eventId + 1);
+        showEvent(parseInt(selectedEventId) + 1);
+        location.hash = "eventId=" + selectedEventId;
     });
 
     $('.previousEvent').click(function () {
-        showEvent(eventId - 1);
+        showEvent(parseInt(selectedEventId) - 1);
+        location.hash = "eventId=" + selectedEventId;
     });
 
     // --------------------------------------------
@@ -812,7 +816,6 @@ $(function () {
     });
 
     // Loading the page. Get if we have a step specified or default
-    var url = $(location).attr('href').split('/');
     if (url[url.length - 3] === 'Setup' && url[url.length - 1].match(/^show/)) {
         var stepAction = GetURLHash();
         if (stepAction === undefined) {
@@ -847,8 +850,15 @@ $(function () {
     // Get championship results on load
     getCurrentChampionshipResults();
     // Selecting event
-    //$(".eventItem:first").trigger("click");
-    showEvent(1);
+
+    if (!url[url.length - 1].match(/^#eventId\=\d/)) {
+        selectedEventId = 1;
+    } else {
+        selectedEventId = parseInt(GetURLHash());
+    }
+
+    showEvent(selectedEventId);
+
     $('#viewFullDriverList').click(function () {
         showModalAndActivatePopups($('.standard.driverList.modal'));
     });
