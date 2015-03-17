@@ -21,12 +21,10 @@
 {% endblock %}
 {% block rfccore_body %}
 
-    <h2>My setups</h2>
+    {% set canEdit = is_granted('ROLE_MANAGER') or is_granted('ROLE_CERTIFIED_MANAGER') %}
 
-    {% if app.user %}
-
-        {% set canEdit = is_granted('ROLE_MANAGER') or is_granted('ROLE_CERTIFIED_MANAGER') %}
-
+    <h2>
+        My setups
         {% if canEdit %}
             <a class="red ui labeled icon button" href="{{ path('setup_step_index', { 'gameId': gameId }) }}">
                 <i class="wrench icon"></i>Manage setups
@@ -35,12 +33,13 @@
 
         <a class="ui icon teal labeled button" href="{{ path('setup_new', {'gameId': gameId}) }}">
             <i class="add icon"></i> Create
-        </a>
-        <br />
+        </a></h2>
+
+    {% if app.user %}
 
         {% if setups %}
 
-            <div class="ui five cards">
+            <div class="ui five doubling cards">
 
                 {% for setup in setups %}
                     <div class="ui card">

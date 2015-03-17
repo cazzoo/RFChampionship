@@ -34,7 +34,7 @@
 
     {% for subStep in subSteps %}
         <div class="subStepInfo" data-substepid="{{ subStep.id }}">
-            <div class="ui stacked attached segment">
+            <div class="ui stacked attached {{ subStep.optimalAction ? 'green ' : 'orange ' }}segment">
                 {% include 'RFCSetupBundle:SubStep:show.html.twig' with {'subStep': subStep} %}
             </div>
         </div>
