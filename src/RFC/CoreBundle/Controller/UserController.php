@@ -101,6 +101,7 @@ class UserController extends RFCController {
             'delete_form' => $deleteForm->createView(),
         );
     }
+
     private function createEditForm(User $entity)
     {
         $form = $this->createForm(new UserFormType('RFC\UserBundle\Entity\User'), $entity, array(

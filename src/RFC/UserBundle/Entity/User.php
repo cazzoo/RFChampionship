@@ -91,9 +91,9 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        $this->listChampionships = ArrayCollection();
-        $this->listCrewRequests  = ArrayCollection();
-        $this->listPreferences   = ArrayCollection();
+        $this->listChampionships = new ArrayCollection();
+        $this->listCrewRequests  = new ArrayCollection();
+        $this->listPreferences   = new ArrayCollection();
     }
 
     public function eraseCredentials()
