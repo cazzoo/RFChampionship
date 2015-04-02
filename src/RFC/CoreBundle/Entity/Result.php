@@ -46,6 +46,7 @@ class Result
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
