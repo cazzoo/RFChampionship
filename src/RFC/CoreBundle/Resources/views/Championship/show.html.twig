@@ -175,6 +175,13 @@
         </div>
     </div>
 
+    <div class="ui small progress" id='championshipProgessbar' data-begindate="{{ entity.getBeginDate|date("Y/m/d H:i:s") }}" data-enddate="{{ entity.getEndDate|date("Y/m/d H:i:s") }}">
+        <div class="bar">
+            <div class="progress"></div>
+        </div>
+        <div class="label">Championship Progress</div>
+    </div>
+
     <div class="ui three column grid">
         <div class="column">
             <div class="ui horizontal segment">
@@ -254,6 +261,11 @@
                                 {% for event in entity.listEvents %}
 
                                     <div class="ui card eventItem" data-eventid="{{ event.id }}" data-eventkey="{{ loop.index }}" data-gameid="{{ game.id }}" data-championshipid="{{ entity.id }}">
+                                        <div class="ui small progress" data-begindate="{{ event.beginDate|date("Y/m/d H:i:s") }}" data-enddate="{{ event.endDate|date("Y/m/d H:i:s") }}">
+                                            <div class="bar">
+                                                <div class="progress"></div>
+                                            </div>
+                                        </div>
                                         <div class="image">
                                             {% if canEdit %}
                                                 <a class="ui corner red label" href="{{ path('admin_event_edit', { 'eventId': event.id, 'gameId': game.id, 'championshipId': entity.id}) }}">

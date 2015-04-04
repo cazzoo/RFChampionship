@@ -548,6 +548,24 @@ function addImageForm(collectionHolder, $newLinkLi) {
     addImageFormDeleteLink($newFormLi);
 }
 
+
+function updateProgressBar(progressItem) {
+    var now = new Date();
+    var beginDate = new Date(progressItem.data('begindate'));
+    var endDate = new Date(progressItem.data('enddate'));
+    var percentProgress = 0;
+    if (now > beginDate.getTime() && now < endDate.getTime()) {
+        percentProgress = (endDate.getTime() - beginDate.getTime()) / (endDate.getTime() - now.getTime());
+    } else if (now.getTime() < beginDate.getTime()) {
+        percentProgress = 0;
+    } else if (now.getTime() > endDate.getTime()) {
+        percentProgress = 100;
+    }
+    progressItem.progress({
+        percent: percentProgress
+    });
+}
+
 /**
  * Show the eventItem div
  * @param {type} id
@@ -565,6 +583,8 @@ function showEvent(id) {
     var eventElement = $('.eventItem[data-eventkey=' + id + ']');
     eventElement.show();
     selectedEventKey = id;
+    updateProgressBar(eventElement.find('.ui.progress'));
+    updateProgressBar($('#championshipProgessbar'));
     loadEventSessions(eventElement.data('eventid'));
 }
 
@@ -711,13 +731,13 @@ $(function () {
     // --------------------------------------------
 
     $('.nextEvent').click(function () {
-        var nextEventItem = $('.eventItem[data-eventkey='+selectedEventKey+']').next();
+        var nextEventItem = $('.eventItem[data-eventkey=' + selectedEventKey + ']').next();
         showEvent(nextEventItem.data('eventkey'));
         location.hash = "eventId=" + nextEventItem.data('eventid');
     });
 
     $('.previousEvent').click(function () {
-        var prevEventItem = $('.eventItem[data-eventkey='+selectedEventKey+']').prev();
+        var prevEventItem = $('.eventItem[data-eventkey=' + selectedEventKey + ']').prev();
         showEvent(prevEventItem.data('eventkey'));
         location.hash = "eventId=" + prevEventItem.data('eventid');
     });
@@ -874,7 +894,7 @@ $(function () {
     if (!url[url.length - 1].match(/#eventId\=\d/)) {
         selectedEventKey = 1;
     } else {
-        var eventItem = $('.eventItem[data-eventid='+parseInt(GetURLHash())+']').data('eventkey');
+        var eventItem = $('.eventItem[data-eventid=' + parseInt(GetURLHash()) + ']').data('eventkey');
         selectedEventKey = eventItem ? eventItem : 1;
     }
 
