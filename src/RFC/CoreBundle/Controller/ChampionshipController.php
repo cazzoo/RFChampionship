@@ -167,9 +167,11 @@ class ChampionshipController extends RFCController
 
             foreach ($championship->getListEvents() as $event) {
                 foreach ($event->getListSessions() as $session) {
-                    foreach ($session->getListResults() as $result) {
-                        if ($result->getUser() !== null) {
-                            $this->addPointsToUser($results, $result);
+                    if ($session->getTypeSession()->isUsedForResults()) {
+                        foreach ($session->getListResults() as $result) {
+                            if ($result->getUser() !== null) {
+                                $this->addPointsToUser($results, $result);
+                            }
                         }
                     }
                 }
@@ -199,9 +201,11 @@ class ChampionshipController extends RFCController
                 ->findOneBy(array('id' => $params ['eventId']));
 
             foreach ($event->getListSessions() as $session) {
-                foreach ($session->getListResults() as $result) {
-                    if ($result->getUser() !== null) {
-                        $this->addPointsToUser($results, $result);
+                if ($session->getTypeSession()->isUsedForResults()) {
+                    foreach ($session->getListResults() as $result) {
+                        if ($result->getUser() !== null) {
+                            $this->addPointsToUser($results, $result);
+                        }
                     }
                 }
             }
