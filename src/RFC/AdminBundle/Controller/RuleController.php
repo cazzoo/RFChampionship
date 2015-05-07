@@ -17,15 +17,16 @@
 
 namespace RFC\AdminBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use RFC\CoreBundle\Entity\Rule;
 use RFC\CoreBundle\Form\RuleType;
+use RFC\FrameworkBundle\Controller\RFCController;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Rule controller.
  */
-class RuleController extends Controller
+class RuleController extends RFCController
 {
 
     /**
@@ -81,7 +82,7 @@ class RuleController extends Controller
      * @param Rule $entity
      *            The entity
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createCreateForm(Rule $entity, $gameId)
     {
@@ -177,7 +178,7 @@ class RuleController extends Controller
      * @param Rule $entity
      *            The entity
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createEditForm(Rule $entity, $gameId)
     {
@@ -268,7 +269,7 @@ class RuleController extends Controller
      * @param mixed $ruleId
      *            The entity id
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createDeleteForm($ruleId, $gameId)
     {

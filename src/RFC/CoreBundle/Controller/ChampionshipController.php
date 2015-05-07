@@ -19,8 +19,6 @@
 
 namespace RFC\CoreBundle\Controller;
 
-use DateTime;
-use DateTimeZone;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -34,20 +32,21 @@ class ChampionshipController extends RFCController
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        $date = new DateTime ();
-        $date->setTimezone(new DateTimeZone('Europe/Paris'));
-
-        $currentChampionships = $entityManager->getRepository('RFCCoreBundle:Championship')->createQueryBuilder('c')->join('c.listEvents',
-                'e')->join('e.listSessions', 's')->where('s.endDate > :sysdate')->andWhere('c.game = :gameId')->setParameters(array(
-                'sysdate' => $date,
+        $championships = $entityManager->getRepository('RFCCoreBundle:Championship')->createQueryBuilder('c')->join('c.listEvents',
+                'e')->join('e.listSessions', 's')->where('c.game = :gameId')->setParameters(array(
                 'gameId' => $gameId
             ))->getQuery()->getResult();
 
-        $pastChampionships = $entityManager->getRepository('RFCCoreBundle:Championship')->createQueryBuilder('c')->join('c.listEvents',
-                'e')->join('e.listSessions', 's')->where('s.endDate < :sysdate')->andWhere('c.game = :gameId')->setParameters(array(
-                'sysdate' => $date,
-                'gameId' => $gameId
-            ))->getQuery()->getResult();
+        $pastChampionships = array();
+        $currentChampionships = array();
+        foreach ($championships as $championship) {
+            if($championship->getIsFinished())
+            {
+                array_push($pastChampionships, $championship);
+            } else {
+                array_push($currentChampionships, $championship);
+            }
+        }
 
         $game  = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array(
             'id' => $gameId));

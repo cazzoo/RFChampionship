@@ -19,16 +19,18 @@
 
 namespace RFC\AdminBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Exception;
 use RFC\CoreBundle\Entity\Result;
 use RFC\CoreBundle\Form\ResultType;
+use RFC\FrameworkBundle\Controller\RFCController;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Result controller.
  */
-class ResultController extends Controller
+class ResultController extends RFCController
 {
 
     /**
@@ -79,7 +81,7 @@ class ResultController extends Controller
      * @param Result $entity
      *        	The entity
      *        	
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createCreateForm(Result $entity)
     {
@@ -164,7 +166,7 @@ class ResultController extends Controller
      * @param Result $entity
      *        	The entity
      *        	
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createEditForm(Result $entity)
     {
@@ -248,7 +250,7 @@ class ResultController extends Controller
      * @param mixed $resultId
      *        	The entity id
      *        	
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createDeleteForm($resultId)
     {
@@ -326,7 +328,7 @@ class ResultController extends Controller
         try {
             $entityManager->flush();
             $jsonResponse = new JsonResponse($results, 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $jsonResponse = new JsonResponse($results, 400);
         }
 

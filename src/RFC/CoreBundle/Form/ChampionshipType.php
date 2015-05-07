@@ -22,13 +22,11 @@ namespace RFC\CoreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use RFC\CoreBundle\Form\DataTransformer\GameToIntTransformer;
 use RFC\CoreBundle\Entity\RuleRepository;
 use RFC\CoreBundle\Entity\MetaRuleRepository;
 
 class ChampionshipType extends AbstractType
 {
-
     private $gameId;
 
     public function __construct($gameId)
@@ -43,51 +41,53 @@ class ChampionshipType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $gameId          = $this->gameId;
+        $gameId = $this->gameId;
 
         $builder->add('name')->add('description', 'textarea',
-                array(
-                'required' => false
-            ))->add('championshipAgreed', 'checkbox',
-                array(
-                'required' => false
-            ))->add('registrationInProgress', 'checkbox',
-                array(
-                'required' => false
-            ))->add('listManagers', 'entity',
-                array(
-                'required' => false,
-                'class' => 'RFCUserBundle:User',
-                'multiple' => true
-            ))->add('metaRule', 'entity',
-                array(
-                'required' => false,
-                'class' => 'RFCCoreBundle:MetaRule',
-                'query_builder' => function (MetaRuleRepository $mr) use($gameId) {
-                    return $mr->createQueryBuilder('m')->where('m.game = :gameId')->setParameter('gameId',
-                            $gameId);
-                }
-            ))->add('listRules', 'entity',
-                array(
-                'required' => false,
-                'class' => 'RFCCoreBundle:Rule',
-                'multiple' => true,
-                'expanded' => true,
-                'query_builder' => function (RuleRepository $er) use($gameId) {
-                    return $er->createQueryBuilder('r')->where('r.game = :gameId')->setParameter('gameId',
-                            $gameId);
-                }
-            ))->add('commentsActive', 'checkbox',
-                array(
-                'required' => false
-            ))
-            /* ->add($builder->create('game', 'hidden')
-              ->addModelTransformer($gameTransformer)) */
-            ->
-            add('game', 'entity',
-                array(
-                'class' => 'RFC\CoreBundle\Entity\Game'
-            ));
+            array(
+            'required' => false
+        ))->add('championshipAgreed', 'checkbox',
+            array(
+            'required' => false
+        ))->add('registrationInProgress', 'checkbox',
+            array(
+            'required' => false
+        ))->add('listManagers', 'entity',
+            array(
+            'required' => false,
+            'class' => 'RFCUserBundle:User',
+            'multiple' => true
+        ))->add('metaRule', 'entity',
+            array(
+            'required' => false,
+            'class' => 'RFCCoreBundle:MetaRule',
+            'query_builder' => function (MetaRuleRepository $mr) use($gameId) {
+                return $mr->createQueryBuilder('m')->where('m.game = :gameId')->setParameter('gameId',
+                        $gameId);
+            }
+        ))->add('listRules', 'entity',
+            array(
+            'required' => false,
+            'class' => 'RFCCoreBundle:Rule',
+            'multiple' => true,
+            'expanded' => true,
+            'query_builder' => function (RuleRepository $er) use($gameId) {
+                return $er->createQueryBuilder('r')->where('r.game = :gameId')->setParameter('gameId',
+                        $gameId);
+            }
+        ))->add('commentsActive', 'checkbox',
+            array(
+            'required' => false
+        ))->add('game', 'entity',
+            array(
+            'class' => 'RFC\CoreBundle\Entity\Game'
+        ))->add('listImages', 'collection',
+            array(
+            'type' => new ImageType(),
+            'allow_add' => true,
+            'allow_delete' => true,
+            'by_reference' => false
+        ));
     }
 
     /**

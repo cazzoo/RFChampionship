@@ -17,15 +17,16 @@
 
 namespace RFC\AdminBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use RFC\CoreBundle\Entity\Event;
 use RFC\CoreBundle\Form\EventType;
+use RFC\FrameworkBundle\Controller\RFCController;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Event controller.
  */
-class EventController extends Controller
+class EventController extends RFCController
 {
 
     /**
@@ -81,7 +82,7 @@ class EventController extends Controller
      * @param Event $entity
      *            The entity
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createCreateForm(Event $entity, $gameId, $championshipId)
     {
@@ -173,7 +174,7 @@ class EventController extends Controller
      * @param Event $entity
      *            The entity
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createEditForm(Event $entity, $gameId, $championshipId)
     {
@@ -261,7 +262,7 @@ class EventController extends Controller
      * @param mixed $eventId
      *            The entity id
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createDeleteForm($eventId, $gameId, $championshipId)
     {

@@ -17,15 +17,17 @@
 
 namespace RFC\AdminBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Menu\Util\MenuManipulator;
 use RFC\CoreBundle\Entity\Category;
 use RFC\CoreBundle\Form\CategoryType;
+use RFC\FrameworkBundle\Controller\RFCController;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Category controller.
  */
-class CategoryController extends Controller
+class CategoryController extends RFCController
 {
 
     /**
@@ -47,7 +49,7 @@ class CategoryController extends Controller
             ->generate('admin_game_manage', array(
             'gameId' => $gameId
         )));
-        $manipulator = new \Knp\Menu\Util\MenuManipulator();
+        $manipulator = new MenuManipulator();
         $manipulator->moveToPosition($menu->getChild($game->getName()), 1);
         
         return $this->render('RFCAdminBundle:Category:index.html.twig', array(
@@ -88,7 +90,7 @@ class CategoryController extends Controller
      * @param Category $entity
      *            The entity
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createCreateForm(Category $entity, $gameId)
     {
@@ -178,7 +180,7 @@ class CategoryController extends Controller
      * @param Category $entity
      *            The entity
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createEditForm(Category $entity, $gameId)
     {
@@ -263,7 +265,7 @@ class CategoryController extends Controller
      * @param mixed $categoryId
      *            The entity id
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createDeleteForm($categoryId, $gameId)
     {

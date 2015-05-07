@@ -19,16 +19,18 @@
 
 namespace RFC\AdminBundle\Controller;
 
+use Knp\Menu\Util\MenuManipulator;
 use RFC\CoreBundle\Entity\Game;
 use RFC\CoreBundle\Entity\Property;
 use RFC\CoreBundle\Form\GameType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use RFC\FrameworkBundle\Controller\RFCController;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Game controller.
  */
-class GameController extends Controller
+class GameController extends RFCController
 {
 
     /**
@@ -101,7 +103,7 @@ class GameController extends Controller
      * @param Game $entity
      *            The entity
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createCreateForm(Game $entity)
     {
@@ -182,7 +184,7 @@ class GameController extends Controller
      * @param Game $entity
      *            The entity
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createEditForm(Game $entity)
     {
@@ -261,7 +263,7 @@ class GameController extends Controller
      * @param mixed $gameId
      *            The entity id
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createDeleteForm($gameId)
     {
@@ -297,7 +299,7 @@ class GameController extends Controller
                     'gameId' => $gameId
             )))
             ->setCurrent(true);
-        $manipulator = new \Knp\Menu\Util\MenuManipulator();
+        $manipulator = new MenuManipulator();
         $manipulator->moveToPosition($menu->getChild($game->getName()), 1);
 
         return $this->render('RFCAdminBundle:Game:manage.html.twig',

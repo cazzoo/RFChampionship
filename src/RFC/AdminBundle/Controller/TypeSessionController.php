@@ -17,15 +17,17 @@
 
 namespace RFC\AdminBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Menu\Util\MenuManipulator;
 use RFC\CoreBundle\Entity\TypeSession;
 use RFC\CoreBundle\Form\TypeSessionType;
+use RFC\FrameworkBundle\Controller\RFCController;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * TypeSession controller.
  */
-class TypeSessionController extends Controller
+class TypeSessionController extends RFCController
 {
 
     /**
@@ -47,7 +49,7 @@ class TypeSessionController extends Controller
             ->generate('admin_game_manage', array(
             'gameId' => $gameId
         )));
-        $manipulator = new \Knp\Menu\Util\MenuManipulator();
+        $manipulator = new MenuManipulator();
         $manipulator->moveToPosition($menu->getChild($game->getName()), 1);
         
         return $this->render('RFCAdminBundle:TypeSession:index.html.twig', array(
@@ -89,7 +91,7 @@ class TypeSessionController extends Controller
      * @param TypeSession $entity
      *            The entity
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createCreateForm(TypeSession $entity, $gameId)
     {
@@ -179,7 +181,7 @@ class TypeSessionController extends Controller
      * @param TypeSession $entity
      *            The entity
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createEditForm(TypeSession $entity, $gameId)
     {
@@ -264,7 +266,7 @@ class TypeSessionController extends Controller
      * @param mixed $typeSessionId
      *            The entity id
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createDeleteForm($typeSessionId, $gameId)
     {

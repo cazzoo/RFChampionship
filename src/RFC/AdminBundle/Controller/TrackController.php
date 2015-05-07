@@ -17,15 +17,17 @@
 
 namespace RFC\AdminBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Menu\Util\MenuManipulator;
 use RFC\CoreBundle\Entity\Track;
 use RFC\CoreBundle\Form\TrackType;
+use RFC\FrameworkBundle\Controller\RFCController;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Track controller.
  */
-class TrackController extends Controller {
+class TrackController extends RFCController {
 	
 	/**
 	 * Lists all Track entities.
@@ -43,7 +45,7 @@ class TrackController extends Controller {
 		$menu->addChild ( $game->getName () )->setUri ( $this->get ( "router" )->generate ( 'admin_game_manage', array (
 				'gameId' => $gameId 
 		) ) );
-		$manipulator = new \Knp\Menu\Util\MenuManipulator ();
+		$manipulator = new MenuManipulator ();
 		$manipulator->moveToPosition ( $menu->getChild ( $game->getName () ), 1 );
 		
 		return $this->render ( 'RFCAdminBundle:Track:index.html.twig', array (
@@ -83,7 +85,7 @@ class TrackController extends Controller {
 	 * @param Track $entity
 	 *        	The entity
 	 *        	
-	 * @return \Symfony\Component\Form\Form The form
+	 * @return Form The form
 	 */
 	private function createCreateForm(Track $entity, $gameId) {
 		$form = $this->createForm ( new TrackType (), $entity, array (
@@ -168,7 +170,7 @@ class TrackController extends Controller {
 	 * @param Track $entity
 	 *        	The entity
 	 *        	
-	 * @return \Symfony\Component\Form\Form The form
+	 * @return Form The form
 	 */
 	private function createEditForm(Track $entity, $gameId) {
 		$form = $this->createForm ( new TrackType (), $entity, array (
@@ -249,7 +251,7 @@ class TrackController extends Controller {
 	 * @param mixed $trackId
 	 *        	The entity id
 	 *        	
-	 * @return \Symfony\Component\Form\Form The form
+	 * @return Form The form
 	 */
 	private function createDeleteForm($trackId, $gameId) {
 		return $this->createFormBuilder ()->setAction ( $this->generateUrl ( 'admin_track_delete', array (

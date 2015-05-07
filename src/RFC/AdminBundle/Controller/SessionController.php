@@ -19,15 +19,16 @@
 
 namespace RFC\AdminBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use RFC\CoreBundle\Entity\Session;
 use RFC\CoreBundle\Form\SessionType;
+use RFC\FrameworkBundle\Controller\RFCController;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Session controller.
  */
-class SessionController extends Controller
+class SessionController extends RFCController
 {
 
     /**
@@ -71,7 +72,7 @@ class SessionController extends Controller
      * @param Session $entity
      *        	The entity
      *
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createCreateForm(Session $entity, $gameId, $championshipId,
                                       $eventId)
@@ -180,7 +181,7 @@ class SessionController extends Controller
      * @param Session $entity
      *        	The entity
      *
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createEditForm(Session $entity, $gameId, $championshipId,
                                     $eventId)
@@ -285,7 +286,7 @@ class SessionController extends Controller
      * @param mixed $sessionId
      *        	The entity id
      *
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createDeleteForm($sessionId, $gameId, $championshipId,
                                       $eventId)

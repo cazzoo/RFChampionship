@@ -18,15 +18,17 @@
  */
 namespace RFC\AdminBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Menu\Util\MenuManipulator;
 use RFC\CoreBundle\Entity\Championship;
 use RFC\CoreBundle\Form\ChampionshipType;
+use RFC\FrameworkBundle\Controller\RFCController;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Championship controller.
  */
-class ChampionshipController extends Controller
+class ChampionshipController extends RFCController
 {
 
     /**
@@ -48,7 +50,7 @@ class ChampionshipController extends Controller
             ->generate('admin_game_manage', array(
             'gameId' => $gameId
         )));
-        $manipulator = new \Knp\Menu\Util\MenuManipulator();
+        $manipulator = new MenuManipulator();
         $manipulator->moveToPosition($menu->getChild($game->getName()), 1);
         
         return $this->render('RFCAdminBundle:Championship:index.html.twig', array(
@@ -91,7 +93,7 @@ class ChampionshipController extends Controller
      * @param Championship $entity
      *            The entity
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createCreateForm(Championship $entity, $gameId)
     {
@@ -184,7 +186,7 @@ class ChampionshipController extends Controller
      * @param Championship $entity
      *            The entity
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createEditForm(Championship $entity, $gameId)
     {
@@ -270,7 +272,7 @@ class ChampionshipController extends Controller
      * @param mixed $championshipId
      *            The entity id
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createDeleteForm($championshipId, $gameId)
     {

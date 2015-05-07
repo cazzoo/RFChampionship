@@ -17,6 +17,8 @@
 
 namespace RFC\CoreBundle\Entity;
 
+use DateTime;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\KnowledgeData;
 use Doctrine\ORM\Mapping\JoinTable;
@@ -547,5 +549,17 @@ class Championship extends KnowledgeData
             return $this->getPreviousEvent()->getPreviousSession();
         }
         return null;
+    }
+
+    /**
+     * Returns if the championship is finished or not
+     * @return boolean
+     */
+    public function getIsFinished()
+    {
+        $date = new \DateTime ();
+        $date->setTimezone(new \DateTimeZone('Europe/Paris'));
+
+        return $this->getEndDate() < $date->format('Y-m-d H:i:s');
     }
 }

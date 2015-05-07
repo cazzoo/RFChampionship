@@ -17,15 +17,17 @@
 
 namespace RFC\AdminBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Menu\Util\MenuManipulator;
 use RFC\CoreBundle\Entity\MetaRule;
 use RFC\CoreBundle\Form\MetaRuleType;
+use RFC\FrameworkBundle\Controller\RFCController;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * MetaRule controller.
  */
-class MetaRuleController extends Controller
+class MetaRuleController extends RFCController
 {
 
     /**
@@ -53,7 +55,7 @@ class MetaRuleController extends Controller
             ->generate('admin_game_manage', array(
             'gameId' => $gameId
         )));
-        $manipulator = new \Knp\Menu\Util\MenuManipulator();
+        $manipulator = new MenuManipulator();
         $manipulator->moveToPosition($menu->getChild($game->getName()), 1);
         
         return $this->render('RFCAdminBundle:MetaRule:index.html.twig', array(
@@ -96,7 +98,7 @@ class MetaRuleController extends Controller
      * @param MetaRule $entity
      *            The entity
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createCreateForm(MetaRule $entity, $gameId)
     {
@@ -186,7 +188,7 @@ class MetaRuleController extends Controller
      * @param MetaRule $entity
      *            The entity
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createEditForm(MetaRule $entity, $gameId)
     {
@@ -271,7 +273,7 @@ class MetaRuleController extends Controller
      * @param mixed $metaRuleId
      *            The entity id
      *            
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createDeleteForm($metaRuleId, $gameId)
     {
