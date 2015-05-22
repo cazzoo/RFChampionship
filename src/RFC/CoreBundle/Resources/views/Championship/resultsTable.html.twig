@@ -13,8 +13,8 @@
                 <td>{{ data.user.username }}</td>
                 {% set detailedResults = "" %}
                 {% for result in data.results %}
-                    {% if result.value != 0 %}
-                        {% set detailedResults = detailedResults ~ result.rule.typeSession.name ~ ' - ' ~ result.rule.name ~ ' : ' ~ result.value%}
+                    {% if result.rule.value != 0 %}
+                        {% set detailedResults = detailedResults ~ result.rule.typeSession.name ~ ' - ' ~ result.rule.name ~ ' : ' ~ result.rule.value %}
                         {% if not loop.last %}
                             {% set detailedResults = detailedResults ~ ', ' %}
                         {% endif %}

@@ -233,7 +233,7 @@ class ChampionshipController extends RFCController
     private function addPointsToUser(&$array, $result)
     {
         $user  = $result->getUser();
-        $value = $result->getValue();
+        $value = $result->getRule()->getValue();
         if (array_key_exists($user->getId(), $array)) {
             array_push($array[$user->getId()]['results'], $result);
             $array[$user->getId()]['sum'] += $value;

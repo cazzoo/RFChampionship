@@ -56,11 +56,6 @@ class Result
     private $rule;
 
     /**
-     * @ORM\Column(name="value", type="string", length=255)
-     */
-    private $value;
-
-    /**
      * @ORM\Column(name="comments", type="text")
      */
     private $comments;
