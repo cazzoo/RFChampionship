@@ -44,30 +44,44 @@
                             <div class="header">{{ entity.name }}</div>
 
                             <div class="meta">
-                                <div class="ui horizontal icon label">
-                                    <i class="ticket icon"></i>
-                                    {{ entity.championshipAgreed ? 'Agreed' : 'Non agreed' }}
+                                
+                                <div class="ui tiny black tag labels">
+                                    <div class="ui icon label">
+                                        <i class="ticket icon"></i>
+                                        {{ entity.championshipAgreed ? 'Agreed' : 'Non agreed' }}
+                                    </div>
+
+                                    <div class="ui icon label">
+                                        <i class="cubes icon"></i>
+                                        {% if entity.championshipAgreed %}
+                                            <a id="viewRulesDetails" href="#">
+                                                {{ entity.metaRule.name }}
+                                            </a>
+                                            {% set rules = entity.metaRule.listRules %}
+                                        {% else %}
+                                            Rules
+                                            {% set rules = entity.listRules %}
+                                        {% endif %}
+                                    </div>
                                 </div>
 
-                                <div class="ui horizontal icon label popupLabel">
-                                    <i class="cubes icon"></i>
-                                    {% if entity.championshipAgreed %}
-                                        {{ entity.metaRule.name }}
+                                <div class="ui standard rulesDetails modal transition">
+                                    <i class="close icon"></i>
+                                    <div class="header">
+                                        {{ entity.metaRule.name }} 
                                         {% if canEdit %}
-                                            <a class="detail" href="{{ path('admin_metaRule_edit', {'gameId' : game.id, 'metaRuleId' : entity.metaRule.id }) }}">
+                                            <a class="ui primary labeled icon button" href="{{ path('admin_metaRule_edit', {'gameId' : game.id, 'metaRuleId' : entity.metaRule.id }) }}">
                                                 <i class="edit icon"></i> Edit
                                             </a>
                                         {% endif %}
-                                        {% set rules = entity.metaRule.listRules %}
-                                    {% else %}
-                                        Rules
-                                        {% set rules = entity.listRules %}
-                                    {% endif %}
+                                    </div>
+                                    <div class="content">
+                                        <div class="description">
+                                            {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="ui fluidflowing popup">
-                                    {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}
-                                </div>
                             </div>
 
                             <div class="description">

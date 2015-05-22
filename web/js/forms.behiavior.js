@@ -910,7 +910,10 @@ $(function () {
         var eventClicked = $(this).parent().data('eventid');
         var modalPopup = $('.standard.eventResults.modal[data-eventid="' + eventClicked + '"]');
         showModalAndActivatePopups(modalPopup);
-
+    });
+    
+    $('#viewRulesDetails').click(function() {
+        showModalAndActivatePopups($('.standard.rulesDetails.modal'));
     });
 
     // --------------------------------------------
