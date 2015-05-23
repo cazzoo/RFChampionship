@@ -23,12 +23,11 @@
 {% if app.session.get('game') %}
     {% set game = app.session.get('game') %}
 
-    <div class="ui top right pointing dropdown">
+    <div class="ui top right pointing dropdown icon">
 
-        {{ game.name }}
-        <i class="content icon"></i>
+        {{ game.name }} <i class="arrow down icon"></i>
 
-        <div class="ui icon menu">
+        <div class="ui menu">
 
             <a href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}" class="item">
                 <i class="home icon"></i>
