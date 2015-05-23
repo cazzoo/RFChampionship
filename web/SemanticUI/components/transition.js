@@ -1,9 +1,9 @@
 /*!
- * # Semantic UI 1.12.2 - Transition
+ * # Semantic UI 2.0.0 - Transition
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributors
+ * Copyright 2015 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -47,7 +47,6 @@ $.fn.transition = function() {
         error,
         className,
         metadata,
-        animationStart,
         animationEnd,
         animationName,
 
@@ -76,8 +75,6 @@ $.fn.transition = function() {
 
           // get vendor specific events
           animationEnd    = module.get.animationEndEvent();
-          animationName   = module.get.animationName();
-          animationStart  = module.get.animationStartEvent();
 
           if(methodInvoked) {
             methodInvoked = module.invoke(query);
@@ -178,7 +175,7 @@ $.fn.transition = function() {
             }
             else {
               module.debug('New animation started, completing previous early', settings.animation);
-              module.complete();
+              instance.complete();
             }
           }
           if( module.can.animate() ) {
@@ -227,6 +224,7 @@ $.fn.transition = function() {
             }
             else {
               module.restore.conditions();
+              module.show();
             }
             module.remove.animation();
             module.remove.animating();
@@ -273,7 +271,6 @@ $.fn.transition = function() {
             module.set.display();
             $module
               .addClass(className.animating + ' ' + className.transition + ' ' + animation)
-              .addClass(animation)
               .one(animationEnd + '.complete' + eventNamespace, module.complete)
             ;
             if(settings.useFailSafe) {
@@ -281,7 +278,7 @@ $.fn.transition = function() {
             }
             module.set.duration(settings.duration);
             settings.onStart.call(this);
-            module.debug('Starting tween', animation, $module.attr('class'));
+            module.debug('Starting tween', animation);
           },
           duration: function(animationName, duration) {
             duration = duration || settings.duration;
@@ -293,10 +290,6 @@ $.fn.transition = function() {
               module.verbose('Setting animation duration', duration);
               $module
                 .css({
-                  '-webkit-animation-duration': duration,
-                  '-moz-animation-duration': duration,
-                  '-ms-animation-duration': duration,
-                  '-o-animation-duration': duration,
                   'animation-duration':  duration
                 })
               ;
@@ -363,17 +356,15 @@ $.fn.transition = function() {
 
         save: {
           displayType: function(displayType) {
-            $module.data(metadata.displayType, displayType);
+            if(displayType !== 'none') {
+              $module.data(metadata.displayType, displayType);
+            }
           },
           transitionExists: function(animation, exists) {
             $.fn.transition.exists[animation] = exists;
             module.verbose('Saving existence of transition', animation, exists);
           },
           conditions: function() {
-            var
-              clasName = $module.attr('class') || false,
-              style    = $module.attr('style') || ''
-            ;
             $module.removeClass(settings.animation);
             module.remove.direction();
             module.cache = {
@@ -413,7 +404,7 @@ $.fn.transition = function() {
               duration = module.get.duration()
             ;
             module.timer = setTimeout(function() {
-              $module.trigger(animationEnd);
+              $module.triggerHandler(animationEnd);
             }, duration + settings.failSafeDelay);
             module.verbose('Adding fail safe timer', module.timer);
           }
@@ -439,7 +430,7 @@ $.fn.transition = function() {
             module.remove.completeCallback();
           },
           queueCallback: function() {
-            $module.off('.queue' + eventNamespace)
+            $module.off('.queue' + eventNamespace);
           },
           completeCallback: function() {
             $module.off('.complete' + eventNamespace);
@@ -579,24 +570,6 @@ $.fn.transition = function() {
           transitionExists: function(animation) {
             return $.fn.transition.exists[animation];
           },
-          animationName: function() {
-            var
-              element     = document.createElement('div'),
-              animations  = {
-                'animation'       :'animationName',
-                'OAnimation'      :'oAnimationName',
-                'MozAnimation'    :'mozAnimationName',
-                'WebkitAnimation' :'webkitAnimationName'
-              },
-              animation
-            ;
-            for(animation in animations){
-              if( element.style[animation] !== undefined ){
-                return animations[animation];
-              }
-            }
-            return false;
-          },
           animationStartEvent: function() {
             var
               element     = document.createElement('div'),
@@ -639,10 +612,10 @@ $.fn.transition = function() {
         can: {
           transition: function(forced) {
             var
-              elementClass      = $module.attr('class'),
-              tagName           = $module.prop('tagName'),
               animation         = settings.animation,
               transitionExists  = module.get.transitionExists(animation),
+              elementClass,
+              tagName,
               $clone,
               currentAnimation,
               inAnimation,
@@ -651,6 +624,9 @@ $.fn.transition = function() {
             ;
             if( transitionExists === undefined || forced) {
               module.verbose('Determining whether animation exists');
+              elementClass = $module.attr('class');
+              tagName      = $module.prop('tagName');
+
               $clone = $('<' + tagName + ' />').addClass( elementClass ).insertAfter($module);
               currentAnimation = $clone
                 .addClass(animation)
@@ -658,11 +634,11 @@ $.fn.transition = function() {
                 .removeClass(className.outward)
                 .addClass(className.animating)
                 .addClass(className.transition)
-                .css(animationName)
+                .css('animationName')
               ;
               inAnimation = $clone
                 .addClass(className.inward)
-                .css(animationName)
+                .css('animationName')
               ;
               displayType = $clone
                 .attr('class', elementClass)
@@ -726,7 +702,7 @@ $.fn.transition = function() {
             return $module.css('visibility') === 'hidden';
           },
           supported: function() {
-            return(animationName !== false && animationEnd !== false);
+            return(animationEnd !== false);
           }
         },
 
@@ -760,18 +736,18 @@ $.fn.transition = function() {
 
         stop: function() {
           module.debug('Stopping current animation');
-          $module.trigger(animationEnd);
+          $module.triggerHandler(animationEnd);
         },
 
         stopAll: function() {
           module.debug('Stopping all animation');
           module.remove.queueCallback();
-          $module.trigger(animationEnd);
+          $module.triggerHandler(animationEnd);
         },
 
         clear: {
           queue: function() {
-            module.debug('Clearing animation queue')
+            module.debug('Clearing animation queue');
             module.remove.queueCallback();
           }
         },
@@ -855,7 +831,7 @@ $.fn.transition = function() {
               });
             }
             clearTimeout(module.performance.timer);
-            module.performance.timer = setTimeout(module.performance.display, 100);
+            module.performance.timer = setTimeout(module.performance.display, 500);
           },
           display: function() {
             var
@@ -969,7 +945,7 @@ $.fn.transition.settings = {
   debug         : false,
 
   // verbose debug output
-  verbose       : true,
+  verbose       : false,
 
   // performance data output
   performance   : true,
@@ -1026,7 +1002,7 @@ $.fn.transition.settings = {
 
   // possible errors
   error: {
-    noAnimation : 'There is no css animation matching the one you specified.',
+    noAnimation : 'There is no css animation matching the one you specified. Please make sure your css is vendor prefixed, and you have included transition css.',
     repeated    : 'That animation is already occurring, cancelling repeated animation',
     method      : 'The method you called is not defined',
     support     : 'This browser does not support CSS animations'

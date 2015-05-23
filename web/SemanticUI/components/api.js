@@ -1,9 +1,9 @@
 /*!
- * # Semantic UI 1.12.2 - API
+ * # Semantic UI 2.0.0 - API
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributors
+ * Copyright 2015 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -74,21 +74,9 @@ $.api = $.fn.api = function(parameters) {
       module = {
 
         initialize: function() {
-          var
-            triggerEvent = module.get.event()
-          ;
-          // bind events
           if(!methodInvoked) {
-            if( triggerEvent ) {
-              module.debug('Attaching API events to element', triggerEvent);
-              $module
-                .on(triggerEvent + eventNamespace, module.event.trigger)
-              ;
-            }
-            else if(settings.on == 'now') {
-              module.debug('Querying API now', triggerEvent);
-              module.query();
-            }
+            module.create.cache();
+            module.bind.events();
           }
           module.instantiate();
         },
@@ -107,6 +95,54 @@ $.api = $.fn.api = function(parameters) {
             .removeData(moduleNamespace)
             .off(eventNamespace)
           ;
+        },
+
+        bind: {
+          events: function() {
+            var
+              triggerEvent = module.get.event()
+            ;
+            if( triggerEvent ) {
+              module.debug('Attaching API events to element', triggerEvent);
+              $module
+                .on(triggerEvent + eventNamespace, module.event.trigger)
+              ;
+            }
+            else if(settings.on == 'now') {
+              module.debug('Querying API now', triggerEvent);
+              module.query();
+            }
+          }
+        },
+
+        read: {
+          cachedResponse: function(url) {
+            var
+              response
+            ;
+            if(!module.cache) {
+              module.create.cache();
+            }
+            response = (module.cache.response[url] !== undefined)
+              ? module.cache.response[url]
+              : false
+            ;
+            module.debug('Using cached response', url, response);
+            return response;
+          }
+        },
+        write: {
+          cachedResponse: function(url, response) {
+            if(!module.cache) {
+              module.create.cache();
+            }
+            if(response && response === '') {
+              module.debug('Response empty, not caching', response);
+              return;
+            }
+            module.verbose('Storing cached response for url', url, response);
+            module.cache.response[url] = response;
+          }
         },
 
         query: function() {
@@ -137,7 +173,7 @@ $.api = $.fn.api = function(parameters) {
           }
 
           // call beforesend and get any settings changes
-          requestSettings         = module.get.settings();
+          requestSettings = module.get.settings();
 
           // check if before send cancelled request
           if(requestSettings === false) {
@@ -161,7 +197,7 @@ $.api = $.fn.api = function(parameters) {
           }
 
           // exit conditions reached, missing url parameters
-          if( !url ) {
+          if( !url && !module.is.mocked()) {
             if( module.is.form() ) {
               url = $module.attr('action') || '';
               module.debug('No url or action specified, defaulting to form action', url);
@@ -190,23 +226,29 @@ $.api = $.fn.api = function(parameters) {
           module.debug('Sending data', data, ajaxSettings.method);
           module.verbose('Using AJAX settings', ajaxSettings);
 
-          if( module.is.loading() ) {
-            // throttle additional requests
+          // pull from cache
+          if(settings.cache === 'local' && module.read.cachedResponse(url)) {
+            module.request = module.create.request();
+            module.request.resolveWith(context, [ module.read.cachedResponse(url) ]);
+            return;
+          }
+
+          if( !module.is.loading() ) {
+            module.request = module.create.request();
+            module.xhr     = module.create.xhr();
+            settings.onRequest.call(context, module.request, module.xhr);
+          }
+          else {
+            // throttle repeated api requests
+            module.debug('Repeated request throttled', settings.throttle);
             module.timer = setTimeout(function() {
               module.request = module.create.request();
               module.xhr     = module.create.xhr();
               settings.onRequest.call(context, module.request, module.xhr);
             }, settings.throttle);
           }
-          else {
-            // immediately on first request
-            module.request = module.create.request();
-            module.xhr     = module.create.xhr();
-            settings.onRequest.call(context, module.request, module.xhr);
-          }
 
         },
-
 
         is: {
           disabled: function() {
@@ -214,6 +256,9 @@ $.api = $.fn.api = function(parameters) {
           },
           form: function() {
             return $module.is('form');
+          },
+          mocked: function() {
+            return (settings.mockResponse || settings.mockResponseAsync);
           },
           input: function() {
             return $module.is('input');
@@ -351,11 +396,11 @@ $.api = $.fn.api = function(parameters) {
               ;
               // page triggers abort on navigation, dont show error
               setTimeout(function() {
-                if(status !== 'abort') {
-                  module.request.rejectWith(context, [xhr, status, httpMessage]);
+                if(xhr.readyState !== undefined && xhr.readyState === 0) {
+                  module.request.rejectWith(context, [xhr, 'aborted', httpMessage]);
                 }
                 else {
-                  module.reset();
+                  module.request.rejectWith(context, [xhr, status, httpMessage]);
                 }
               }, timeLeft);
             }
@@ -366,7 +411,23 @@ $.api = $.fn.api = function(parameters) {
               settings.onComplete.call(context, response, $module);
             },
             done: function(response) {
+              var
+                translatedResponse = ( $.isFunction(settings.onResponse) )
+                  ? settings.onResponse.call(context, $.extend(true, {}, response))
+                  : false
+              ;
               module.debug('API Response Received', response);
+
+              if(settings.cache === 'local' && url) {
+                module.write.cachedResponse(url, response);
+                module.debug('Adding url to local cache', module.cache);
+              }
+
+              if(translatedResponse) {
+                module.debug('Modified API response in onResponse callback', settings.onResponse, translatedResponse, response);
+                response = translatedResponse;
+              }
+
               if(settings.dataType == 'json') {
                 if( $.isFunction(settings.successTest) ) {
                   module.debug('Checking JSON returned success', settings.successTest, response);
@@ -386,67 +447,102 @@ $.api = $.fn.api = function(parameters) {
                 settings.onSuccess.call(context, response, $module);
               }
             },
-            error: function(xhr, status, httpMessage) {
+            fail: function(xhr, status, httpMessage) {
               var
                 errorMessage = (settings.error[status] !== undefined)
                   ? settings.error[status]
                   : httpMessage,
                 response
               ;
-              // let em know unless request aborted
-              if(xhr !== undefined) {
-                // readyState 4 = done, anything less is not really sent
-                if(xhr.readyState !== undefined && xhr.readyState == 4) {
 
-                  // if http status code returned and json returned error, look for it
-                  if( xhr.status != 200 && httpMessage !== undefined && httpMessage !== '') {
-                    module.error(error.statusMessage + httpMessage, ajaxSettings.url);
-                  }
-                  else {
-                    if(status == 'error' && settings.dataType == 'json') {
-                      try {
-                        response = $.parseJSON(xhr.responseText);
-                        if(response && response.error !== undefined) {
-                          errorMessage = response.error;
-                        }
-                      }
-                      catch(e) {
-                        module.error(error.JSONParse);
-                      }
-                    }
-                  }
-                  module.remove.loading();
-                  module.set.error();
-                  // show error state only for duration specified in settings
-                  if(settings.errorDuration) {
-                    setTimeout(module.remove.error, settings.errorDuration);
-                  }
-                  module.debug('API Request error:', errorMessage);
-                  settings.onError.call(context, errorMessage, $module);
+              // request aborted, don't show error state
+              if(status == 'aborted') {
+                module.debug('Request Aborted (Most likely caused by page navigation or CORS Policy)', status, httpMessage);
+                module.reset();
+                settings.onAbort.call(context, status, $module);
+                return;
+              }
+
+              if(xhr !== undefined) {
+                // if http status code returned and json returned error, look for it
+                if( xhr.status != 200 && httpMessage !== undefined && httpMessage !== '') {
+                  module.error(error.statusMessage + httpMessage, ajaxSettings.url);
                 }
                 else {
-                  settings.onAbort.call(context, errorMessage, $module);
-                  module.debug('Request Aborted (Most likely caused by page change or CORS Policy)', status, httpMessage);
+                  if(status == 'error' && settings.dataType == 'json') {
+                    try {
+                      response = $.parseJSON(xhr.responseText);
+                      if(response && response.error !== undefined) {
+                        errorMessage = response.error;
+                      }
+                    }
+                    catch(e) {
+                      module.error(error.JSONParse);
+                    }
+                  }
                 }
+                module.remove.loading();
+                // show error state if specified with length
+                if(settings.errorDuration !== false) {
+                  module.set.error();
+                  setTimeout(module.remove.error, settings.errorDuration);
+                }
+                module.debug('API Request error:', errorMessage);
+                settings.onError.call(context, errorMessage, $module);
               }
             }
           }
         },
 
         create: {
+
+          cache: function() {
+            module.verbose('Creating local response cache');
+            module.cache = {
+              response: {}
+            };
+          },
+
+          // api promise
           request: function() {
             return $.Deferred()
               .always(module.event.request.complete)
               .done(module.event.request.done)
-              .fail(module.event.request.error)
+              .fail(module.event.request.fail)
             ;
           },
+          // xhr promise
           xhr: function() {
-            return $.ajax(ajaxSettings)
-              .always(module.event.xhr.always)
-              .done(module.event.xhr.done)
-              .fail(module.event.xhr.fail)
+            var
+              callback
             ;
+            if( module.is.mocked() ) {
+              if(settings.mockResponse) {
+                if($.isFunction(settings.mockResponse)) {
+                  module.debug('Using sync mocked response callback', settings.mockResponse);
+                  module.request.resolveWith(context, [ settings.mockResponse.call(context, settings) ]);
+                }
+                else {
+                  module.debug('Using mocked response', settings.mockResponse);
+                  module.request.resolveWith(context, [ settings.mockResponse ]);
+                }
+              }
+              else if( $.isFunction(settings.mockResponseAsync) ) {
+                callback = function(response) {
+                  module.verbose('Async callback returned response', response);
+                  module.request.resolveWith(context, [response]);
+                };
+                module.debug('Using async mocked response', settings.mockResponseAsync);
+                settings.mockResponseAsync.call(context, settings, callback);
+              }
+            }
+            else {
+              return $.ajax(ajaxSettings)
+                .always(module.event.xhr.always)
+                .done(module.event.xhr.done)
+                .fail(module.event.xhr.fail)
+              ;
+            }
           }
         },
 
@@ -483,7 +579,7 @@ $.api = $.fn.api = function(parameters) {
             var
               runSettings
             ;
-            runSettings = settings.beforeSend.call($module, settings);
+            runSettings = settings.beforeSend.call(context, settings);
             if(runSettings) {
               if(runSettings.success !== undefined) {
                 module.debug('Legacy success callback detected', runSettings);
@@ -576,7 +672,7 @@ $.api = $.fn.api = function(parameters) {
                 url = settings.api[action];
                 module.debug('Found template url', url);
               }
-              else if( !module.is.form() ) {
+              else if( !module.is.form() && !module.is.mocked() ) {
                 module.error(error.missingAction, settings.action, settings.api);
               }
             }
@@ -591,7 +687,6 @@ $.api = $.fn.api = function(parameters) {
           if( xhr && xhr.state() !== 'resolved') {
             module.debug('Cancelling API request');
             xhr.abort();
-            module.request.rejectWith(settings.apiSettings);
           }
         },
 
@@ -670,7 +765,7 @@ $.api = $.fn.api = function(parameters) {
               });
             }
             clearTimeout(module.performance.timer);
-            module.performance.timer = setTimeout(module.performance.display, 100);
+            module.performance.timer = setTimeout(module.performance.display, 500);
           },
           display: function() {
             var
@@ -787,6 +882,9 @@ $.api.settings = {
   verbose         : false,
   performance     : true,
 
+  // cache
+  cache           : true,
+
   // event binding
   on              : 'auto',
   filter          : '.disabled',
@@ -814,11 +912,17 @@ $.api.settings = {
   data            : {},
   dataType        : 'json',
 
-  // callbacks
+  // mock response
+  mockResponse      : false,
+  mockResponseAsync : false,
+
+  // callbacks before request
   beforeSend  : function(settings) { return settings; },
   beforeXHR   : function(xhr) {},
-
   onRequest   : function(promise, xhr) {},
+
+  // after request
+  onResponse  : false, // function(response) { },
   onSuccess   : function(response, $module) {},
   onComplete  : function(response, $module) {},
   onFailure   : function(errorMessage, $module) {},
@@ -846,8 +950,8 @@ $.api.settings = {
   },
 
   regExp  : {
-    required: /\{\$*[A-z0-9]+\}/g,
-    optional: /\{\/\$*[A-z0-9]+\}/g,
+    required : /\{\$*[A-z0-9]+\}/g,
+    optional : /\{\/\$*[A-z0-9]+\}/g,
   },
 
   className: {

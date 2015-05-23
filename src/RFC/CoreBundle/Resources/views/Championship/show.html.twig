@@ -44,7 +44,7 @@
                             <div class="header">{{ entity.name }}</div>
 
                             <div class="meta">
-                                
+
                                 <div class="ui tiny black tag labels">
                                     <div class="ui icon label">
                                         <i class="ticket icon"></i>
@@ -267,25 +267,31 @@
 
                     <div class="ui middle aligned grid" id="championshipEvents">
                         <div class="row">
-                            <div class="three wide column">
-                                <a class="previousEvent"><i class="huge left chevron icon"></i></a>
+                            <div class="two wide column">
+                                <a class="previousEvent">
+                                    <i class="huge left chevron icon"></i>
+                                </a>
                             </div>
 
-                            <div class="ten wide column">
+                            <div class="twelve wide column">
                                 {% for event in entity.listEvents %}
 
                                     <div class="ui card eventItem" data-eventid="{{ event.id }}" data-eventkey="{{ loop.index }}" data-gameid="{{ game.id }}" data-championshipid="{{ entity.id }}">
+
+                                        {% if canEdit %}
+                                            <div class="ui corner red label">
+                                                <a href="{{ path('admin_event_edit', { 'eventId': event.id, 'gameId': game.id, 'championshipId': entity.id}) }}">
+                                                    <i class="edit icon"></i>
+                                                </a>
+                                            </div>
+                                        {% endif %}
+
                                         <div class="ui small progress" data-begindate="{{ event.beginDate|date("Y/m/d H:i:s") }}" data-enddate="{{ event.endDate|date("Y/m/d H:i:s") }}">
                                             <div class="bar">
                                                 <div class="progress"></div>
                                             </div>
                                         </div>
                                         <div class="image">
-                                            {% if canEdit %}
-                                                <a class="ui corner red label" href="{{ path('admin_event_edit', { 'eventId': event.id, 'gameId': game.id, 'championshipId': entity.id}) }}">
-                                                    <i class="edit icon"></i>
-                                                </a>
-                                            {% endif %}
                                             <img src="/images/wireframe/image.png">
                                         </div>
                                         <div class="content">
@@ -326,8 +332,10 @@
                                 {% endfor %}
                             </div>
 
-                            <div class="three wide column">
-                                <a class="nextEvent"><i class="huge right chevron icon"></i></a>
+                            <div class="two wide column">
+                                <a class="nextEvent">
+                                    <i class="huge right chevron icon"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -348,8 +356,6 @@
             </div>
         </div>
     </div>
-
-    <div class="ui divider"></div>
 
     <div id="session"></div>
 
