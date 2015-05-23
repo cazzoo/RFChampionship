@@ -8,7 +8,6 @@
 /vendor/
 /web/bundles/
 /app/bootstrap*
-/app/config/parameters.yml
 ## generic files to ignore
 *~
 *.lock
@@ -16,3 +15,4 @@
 *.swp
 *.out
 composer.phar
+/update.sh

@@ -34,9 +34,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
         <div class="ui pointing secondary menu">
             <a class="item active" data-tab="general">General</a>
-            <a class="item" data-tab="sessionTypes">Session Types</a>
+            <a class="item" data-tab="sessiontypes">Session Types</a>
             <a class="item" data-tab="rules">Rules</a>
-            <a class="item" data-tab="metaRules">Meta rules</a>
+            <a class="item" data-tab="metarules">Meta rules</a>
             <a class="item" data-tab="vehicles">Vehicles</a>
             <a class="item" data-tab="categories">Car categories</a>
             <a class="item" data-tab="tracks">Tracks</a>
@@ -85,7 +85,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
             </div>
         </div>
 
-        <div class="ui tab segment" data-tab="sessionTypes">
+        <div class="ui tab segment" data-tab="sessiontypes">
             <a class="ui labeled icon button" href="{{ path('admin_typeSession_new', {'gameId' : game.Id}) }}"><i class="add icon"></i>Add</a>
             <table class="ui striped table">
                 <thead>
@@ -127,7 +127,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
         </div>
 
-        <div class="ui tab segment" data-tab="metaRules">
+        <div class="ui tab segment" data-tab="metarules">
 
             <a class="ui labeled icon button" href="{{ path('admin_metaRule_new', {'gameId' : game.Id}) }}"><i class="add icon"></i>Add</a>
 

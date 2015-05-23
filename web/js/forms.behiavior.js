@@ -732,14 +732,18 @@ $(function () {
 
     $('.nextEvent').click(function () {
         var nextEventItem = $('.eventItem[data-eventkey=' + selectedEventKey + ']').next();
-        showEvent(nextEventItem.data('eventkey'));
-        location.hash = "eventId=" + nextEventItem.data('eventid');
+        if (nextEventItem.data('eventkey') !== undefined) {
+            showEvent(nextEventItem.data('eventkey'));
+            location.hash = "eventId=" + nextEventItem.data('eventid');
+        }
     });
 
     $('.previousEvent').click(function () {
         var prevEventItem = $('.eventItem[data-eventkey=' + selectedEventKey + ']').prev();
-        showEvent(prevEventItem.data('eventkey'));
-        location.hash = "eventId=" + prevEventItem.data('eventid');
+        if (prevEventItem.data('eventkey') !== undefined) {
+            showEvent(prevEventItem.data('eventkey'));
+            location.hash = "eventId=" + prevEventItem.data('eventid');
+        }
     });
 
     // --------------------------------------------
@@ -911,8 +915,8 @@ $(function () {
         var modalPopup = $('.standard.eventResults.modal[data-eventid="' + eventClicked + '"]');
         showModalAndActivatePopups(modalPopup);
     });
-    
-    $('#viewRulesDetails').click(function() {
+
+    $('#viewRulesDetails').click(function () {
         showModalAndActivatePopups($('.standard.rulesDetails.modal'));
     });
 
@@ -926,8 +930,8 @@ $(function () {
     // ----------------- popupMenu : edit element
     // --------------------------------------------
 
-    $('#showSidebar .ui.button').click(function () {
-        $('.main.menu.sidebar').sidebar('toggle');
+    $('#showSidebar').click(function () {
+        $('.sidebar.footer').sidebar('toggle');
     });
 
     $('#showComments.ui.button').click(function () {

@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
         <div class="ui pointing secondary menu">
             <a class="item active" data-tab="infos">Informations</a>
             {% for category in categories %}
-                <a class="item" data-tab="{{ category }}">{{ category }}</a>
+                <a class="item" data-tab="{{ category|lower }}">{{ category }}</a>
             {% endfor %}
         </div>
 
@@ -61,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
         </div>
 
         {% for category in categories %}
-            <div class="ui tab segment" data-tab="{{ category }}">
+            <div class="ui tab segment" data-tab="{{ category|lower }}">
                 <form class="system-properties">
                     <table class="ui table">
                         <thead>
