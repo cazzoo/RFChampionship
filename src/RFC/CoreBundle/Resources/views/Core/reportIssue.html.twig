@@ -4,11 +4,11 @@
 
     <form class="ui form" id="sendIssue">
         <div class="field">
-            <label>Title</label>
+            <label>{% trans %}core.issue.title{% endtrans %}</label>
             <input id="title" name="title" type="text" class="ui input" />
         </div>
         <div class="field">
-            <label>Message</label>
+            <label>{% trans %}core.issue.message{% endtrans %}</label>
             <textarea name="message" id="message"></textarea>
         </div>
         <input class="ui right floated submit button" type="submit" />
@@ -17,16 +17,15 @@
 {% elseif gitHubIssue is null %}{# issue could not be created #}
 
     <p>
-        Votre report n'a pas pu aboutir.<br />
-        Veuillez recommencer plus tard.
+        {% trans %}core.issue.notSent{% endtrans %}
     </p>
 
 {% else %}{# issue is well created #}
 
     <p>
-        Votre report {{ gitHubIssue.title }} a été correctement envoyé.<br />
-        Vous pouvez y accéder via le lien suivant : <a class="ui mini blue button" target="_blank" href="{{ gitHubIssue.html_url }}">{{ gitHubIssue.number }}</a><br />
-        Merci pour votre contribution.
+        {% trans with {'%issueTitle%' : gitHubIssue.title} %}core.issue.sent{% endtrans %}<br />
+        {% trans %}core.issue.link{% endtrans %} <a class="ui mini blue button" target="_blank" href="{{ gitHubIssue.html_url }}">{{ gitHubIssue.number }}</a><br />
+        {% trans %}core.issue.thanks{% endtrans %}
     </p>
 
 {% endif %}

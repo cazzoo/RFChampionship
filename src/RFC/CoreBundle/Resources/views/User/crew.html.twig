@@ -18,33 +18,33 @@
 
 {% if crewAwaitingRequests is not empty or user.getRequestsByType(1) is not empty %}
     {% if user.getRequestsByType(1) is not empty %}
-        <h5>Pending requests</h5>
+        <h5>{% trans %}core.user.crew.pendingRequests{% endtrans %}</h5>
         {% for pendingRequest in user.getRequestsByType(1) %}
-            [{{ pendingRequest.crew.game.name }}] 
-            You asked for <strong>{{ pendingRequest.crew.manager.userName }}</strong>'s Crew on {{ pendingRequest.getCreatedAt|date('H:i:s - d-m-Y') }}.<br />
+            <div class="ui label">{{ pendingRequest.crew.game.name }}</div>
+            {% trans with { '%username%': pendingRequest.crew.manager.userName, '%date%' : pendingRequest.getCreatedAt|date('H:i:s - d-m-Y') } %}core.user.crew.pendingInfo{% endtrans %}<br />
         {% endfor %}
     {% endif %}
     {% if crewAwaitingRequests is not empty %}
-        <h5>Users awaiting your answer</h5>
+        <h5>{% trans %}core.user.crew.requestsToJoin{% endtrans %}</h5>
         {% for crewAwaitingRequest in crewAwaitingRequests %}
             <h6>{{ crewAwaitingRequest.crew.game.name }}</h6>
-            Member <strong>{{ crewAwaitingRequest.requester.userName }}</strong> requested to be part of your crew.<br />
-            Do you accept?<br /><br />
+            {% trans with { '%username%': crewAwaitingRequest.requester.userName } %}core.user.crew.requestToJoinInfo{% endtrans %}<br />
+            {% trans %}core.user.crew.requestQuestion{% endtrans %}<br /><br />
             <form id="acceptCrewApplication">
                 <input type="hidden" id="crewRequestId" value="{{ crewAwaitingRequest.id }}" />
-                <button type="submit" value="accept" class="ym-button ym-success ym-save">Accept</button>
+                <button type="submit" value="accept" class="ui button primary">{% trans %}core.actions.accept{% endtrans %}</button>
             </form>
             <form id="declineCrewApplication">
                 <input type="hidden" id="crewRequestId" value="{{ crewAwaitingRequest.id }}" />
-                <button type="submit" value="decline" class="ym-button ym-danger ym-delete">Decline</button>
+                <button type="submit" value="decline" class="ui button secondary">{% trans %}core.actions.decline{% endtrans %}</button>
             </form>
         {% endfor %}
     {% endif %}
     {% if user.getRequestsByType(2) is not empty %}
-        <h5>Active crews</h5>
+        <h5>{% trans %}core.user.crew.activeCrews{% endtrans %}</h5>
         {% for activeCrew in user.getRequestsByType(2) %}
-            [{{ activeCrew.game.name }}] 
-            You are part in <strong>{{ activeCrew.manager.userName }}</strong>'s Crew since {{ activeCrew.getUpdatedAt|date('H:i:s - d-m-Y') }}.<br />
+            <div class="ui label">{{ activeCrew.game.name }}</div>
+            {% trans with { '%username%': activeCrew.manager.userName, '%date%' : activeCrew.getUpdatedAt|date('H:i:s - d-m-Y')} %}core.user.crew.activeCrewInfo{% endtrans %}<br />
         {% endfor %}
     {% endif %}
 {% endif %}

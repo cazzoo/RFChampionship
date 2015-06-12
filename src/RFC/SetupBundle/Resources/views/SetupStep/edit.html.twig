@@ -17,36 +17,36 @@
 {# src/RFC/SetupBundle/Resources/views/SetupStep/edit.html.twig #}
 
 <h5 class="ui top attached header">
-    Version {{ entity.version }}
+    {% trans with { '%version%' : entity.version } %}setup.substep.version{% endtrans %}
 </h5>
 <div class="ui attached segment">
 
     {{ form_start(edit_form) }}
-    Date : {{ entity.createdAt|date("Y/m/d H:i") }}
+    {% trans with { '%date%': entity.createdAt|date("Y/m/d H:i") } %}setup.substep.date{% endtrans %}
     {{ form_errors(edit_form) }}
 
     {{ form_row(edit_form.value) }}
     {{ form_row(edit_form.subStep) }}
 
     <h5 class="ui top attached header">
-        SubStep
-    </h5>
+        {% trans %}setup.substep.substepTitle{% endtrans %}
+        </h5>
 
-    {% for subStep in subSteps %}
-        <div class="subStepInfo" data-substepid="{{ subStep.id }}">
-            <div class="ui stacked attached {{ subStep.optimalAction ? 'green ' : 'orange ' }}segment">
-                {% include 'RFCSetupBundle:SubStep:show.html.twig' with {'subStep': subStep} %}
+        {% for subStep in subSteps %}
+            <div class="subStepInfo" data-substepid="{{ subStep.id }}">
+                <div class="ui stacked attached {{ subStep.optimalAction ? 'green ' : 'orange ' }}segment">
+                    {% include 'RFCSetupBundle:SubStep:show.html.twig' with {'subStep': subStep} %}
+                </div>
             </div>
-        </div>
-    {% endfor %}
-    
-    {{ form_rest(edit_form) }}
+        {% endfor %}
 
-    <div class="ui basic segment">
-        {{ form_widget(edit_form.reset) }}
-        {{ form_widget(edit_form.submit) }}
+        {{ form_rest(edit_form) }}
+
+        <div class="ui basic segment">
+            {{ form_widget(edit_form.reset) }}
+            {{ form_widget(edit_form.submit) }}
+        </div>
+
     </div>
 
-</div>
-
-{{ form_end(edit_form) }}
+    {{ form_end(edit_form) }}

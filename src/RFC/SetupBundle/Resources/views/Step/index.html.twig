@@ -16,18 +16,20 @@
 
 {# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
 {% extends "RFCCoreBundle::layout.html.twig" %}
-{% block title %}
-    Accueil - {{ parent() }}
-{% endblock %}
+
 {% block rfccore_body %}
 
     <h1>
-        Steps <a class="ui icon teal labeled button" href="{{ path('setup_step_new', {'gameId': gameId}) }}">
-            <i class="add icon"></i> Create
-        </a>
+        {% trans %}setup.configure.title{% endtrans %}
     </h1>
 
     {% if steps %}
+
+        <h2>
+            {% trans with {'%stepCount%' : steps|length } %}setup.configure.data{% endtrans %}<a class="ui icon teal labeled button" href="{{ path('setup_step_new', {'gameId': gameId}) }}">
+                <i class="add icon"></i> {% trans %}setup.actions.create{% endtrans %}
+            </a>
+        </h2>
 
         <div class="ui five doubling cards">
 
@@ -40,13 +42,13 @@
                         <div class="header">
                             {{ step.name }}
                             <a class="ui mini icon labeled teal button" href="{{ path('setup_subStep_new', {'gameId': gameId, 'stepId': step.id}) }}">
-                                <i class="add icon"></i> Add substep
+                                <i class="add icon"></i>{% trans %}setup.actions.addSubSteps{% endtrans %}
                             </a>
 
                         </div>
                         <div class="meta">
                             <span class="date">
-                                {{ step.listSubSteps|length }} subSteps
+                                {{ step.listSubSteps|length }} {% transchoice step.listSubSteps|length %}setup.dictionnary.subStep{% endtranschoice %}
                             </span>
                         </div>
                         <div class="description">
@@ -73,10 +75,10 @@
                     <div class="extra content">
                         <div class="right floated">
                             <a class="ui mini icon labeled primary button" href="{{ path('setup_step_edit', {'gameId': gameId, 'stepId': step.id}) }}">
-                                <i class="edit icon"></i> Edit
+                                <i class="edit icon"></i>{% trans %}setup.actions.edit{% endtrans %}
                             </a>
                             <a class="ui mini icon labeled red button" href="{{ path('setup_step_delete', {'gameId': gameId, 'stepId': step.id}) }}">
-                                <i class="delete icon"></i> Delete
+                                <i class="delete icon"></i>{% trans %}setup.actions.delete{% endtrans %}
                             </a>
                         </div>
                     </div>
@@ -86,7 +88,11 @@
         </div>
 
     {% else %}
-        No steps available
+        {% trans %}setup.configure.noData{% endtrans %}
     {% endif %}
+
+    <a class="ui icon labeled primary button" href="{{ path('rfcSetup_index', {'gameId': gameId}) }}">
+        <i class="left arrow icon"></i>{% trans %}setup.actions.backPage{% endtrans %}
+    </a>
 
 {% endblock %}

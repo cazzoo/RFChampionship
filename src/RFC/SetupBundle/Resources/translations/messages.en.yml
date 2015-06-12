@@ -1,0 +1,46 @@
+setup:
+    index:
+        title: 'My setups'
+        loginRequired: 'You need to log-in access the setup screen.'
+        noSetups: 'No currently have no setups created'
+    configure:
+        title: 'Configuration page'
+        data: 'You have %stepCount% steps created.'
+        noData: 'You currently have no steps created.'
+    actions:
+        manage: 'Configure data'
+        create: 'Create'
+        addSubSteps: 'Add Substeps'
+        edit: 'Edit'
+        delete: 'Delete'
+        backPage: 'Back to previous page'
+        upgrade: 'Upgrade'
+        configure: 'Configure'
+    dictionnary:
+        step: 'Step'
+        subStep: 'one:Substep|some:Substeps'
+    step:
+        creationTitle: 'Step creation'
+        editionTitle: 'Step edition'
+    substep:
+        creationTitle: 'Step creation'
+        editionTitle: 'Step edition'
+        view:
+            description: 'Description: %description%'
+            condition: 'Condition: %condition%'
+            hint: 'Hint: %hint%'
+                
+    substep:
+        version: 'Version %version%'
+        date: 'Date %date%'
+        value: 'Value %value%'
+        substepTitle: 'Substep'
+        revision: 'Rev. %version%'
+    view:
+        outdated: 'This setup is outdated. Please upgrade it.'
+        noSetup: 'No setup for this ID (%setupid%).'
+        vehicle: 'Vehicle: %vehicle%'
+        track: 'Track: %track%'
+        completed: 'Setup completed'
+        progress: 'Step %count%/%total%'
+            

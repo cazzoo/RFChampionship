@@ -88,6 +88,12 @@ class User extends BaseUser
      */
     protected $listChampionships;
 
+    /**
+     * @ORM\Column(name="locale", type="string", length=5)
+     *
+     */
+    protected $locale;
+
     public function __construct()
     {
         parent::__construct();
@@ -311,6 +317,19 @@ class User extends BaseUser
     {
         $this->listChampionships = $listChampionships;
         return $this;
+    }
+
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
     }
 
     public function isRoleAdmin()

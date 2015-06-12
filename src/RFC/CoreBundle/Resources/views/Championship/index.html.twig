@@ -21,17 +21,17 @@
 {% block rfccore_body %}
 
     {% if is_granted('ROLE_ADMIN') %}
-        <a class="ui primary labeled icon button" href="{{ path('admin_championship_new', {'gameId': game.id}) }}"><i class="add icon"></i>Add</a>
+        <a class="ui primary labeled icon button" href="{{ path('admin_championship_new', {'gameId': appSettings.getGame().id}) }}"><i class="add icon"></i>{{ 'core.action.add'|trans}}</a>
     {% endif %}
 
     <div class="ui three column stackable grid">
         <div class="four wide column">
-            <h1>Championnats passés</h1>
-            {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with {'championships' : pastChampionships, 'game' : game} %}
+            <h1>{% trans %}core.championship.past {% endtrans %}</h1>
+            {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with {'championships' : pastChampionships} %}
         </div>
         <div class="twelve wide column">
-            <h1>Championnats en cours / à venir</h1>
-            {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with {'championships' : currentChampionships, 'game' : game} %}
+            <h1>{% trans %}core.championship.future {% endtrans %}</h1>
+            {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with {'championships' : currentChampionships} %}
         </div>
     </div>
 

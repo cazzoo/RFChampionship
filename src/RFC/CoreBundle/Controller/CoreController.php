@@ -36,7 +36,6 @@ class CoreController extends RFCController
         $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
 
         if (count($games) == 1) {
-
             return $this->redirect($games [0]->getId());
         }
 
@@ -48,7 +47,6 @@ class CoreController extends RFCController
 
     public function accessGameAction($gameId)
     {
-
         $entityManager = $this->getDoctrine()->getManager();
         $g             = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         $threadId      = null;

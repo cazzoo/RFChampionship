@@ -48,67 +48,32 @@ class ChampionshipController extends RFCController
             }
         }
 
-        $game  = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array(
-            'id' => $gameId));
-        $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
-
-        if (null != $game) {
-            // Ajout du jeu sélectionné
-            $menu        = $this->get('rfc_core.menu.breadcrumb');
-            $menu->addChild($game->getName())->setUri($this->get("router")->generate('rfcCore_gameSelection',
-                    array(
-                    'gameId' => $gameId
-            )));
-            $manipulator = new \Knp\Menu\Util\MenuManipulator ();
-            $manipulator->moveToPosition($menu->getChild($game->getName()), 0);
-        }
-
         return $this->render('RFCCoreBundle:Championship:index.html.twig',
                 array(
                 'currentChampionships' => $currentChampionships,
-                'pastChampionships' => $pastChampionships,
-                'gameId' => $gameId,
-                'game' => $game,
-                'games' => $games
+                'pastChampionships' => $pastChampionships
         ));
     }
 
     /**
      * Finds and displays a Championship entity.
      */
-    public function showAction($championshipId, $gameId)
+    public function showAction($championshipId)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
         $entity = $entityManager->getRepository('RFCCoreBundle:Championship')->find($championshipId);
-        $game   = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array(
-            'id' => $gameId));
-        $games  = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
-
-        // Ajout du jeu sélectionné
-        $menu        = $this->get('rfc_core.menu.breadcrumb');
-        $menu->addChild($game->getName())->setUri($this->get("router")->generate('rfcCore_gameSelection',
-                array(
-                'gameId' => $gameId
-        )));
-        $manipulator = new \Knp\Menu\Util\MenuManipulator ();
-        $manipulator->moveToPosition($menu->getChild($game->getName()), 0);
-
-        // Ajout de la miette de pain
-        $menu->addChild($entity->getName())->setCurrent(true);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Championship entity.');
         }
 
-        $threadId = substr(strrchr(get_class($entity), "\\"), 1).'_'.$entity->getName();
+        $threadId = $entity->isCommentsActive() ? substr(strrchr(get_class($entity), "\\"), 1).'_'.$championshipId : null;
         return $this->render('RFCCoreBundle:Championship:show.html.twig',
                 array(
                 'sessions' => null,
                 'eventId' => null,
-                'entity' => $entity,
-                'game' => $game,
-                'games' => $games,
+                'championship' => $entity,
                 'threadId' => $threadId
         ));
     }

@@ -19,9 +19,9 @@
 <table class="ui small striped table">
     <thead>
         <tr>
-            <th>Rank</th>
-            <th>Name</th>
-            <th>Points</th>
+            <th>{% trans %}core.championship.result.rank{% endtrans %}</th>
+            <th>{% trans %}core.championship.result.name{% endtrans %}</th>
+            <th>{% trans %}core.championship.result.points{% endtrans %}</th>
         </tr>
     </thead>
     <tbody>
@@ -37,13 +37,13 @@
     </tbody>
 </table>
 {% if results|length > 3 %}
-    <div class="ui button" id="viewFullLeaderboard">View full leaderboard</div>
+    <div class="ui button" id="viewFullLeaderboard">{% trans %}core.championship.result.showLeaderboard{% endtrans %}</div>
 {% endif %}
 
 <div class="ui standard globalResults modal transition">
     <i class="close icon"></i>
     <div class="header">
-        Gobal results
+        {% trans %}core.championship.result.popupGobalResults{% endtrans %}
     </div>
     <div class="content">
         <div class="description">

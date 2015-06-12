@@ -22,11 +22,11 @@
             <div class="header">{{ subStep.name }}</div>
             <div class="meta">{{ subStep.action }}</div>
             <div class="description">
-                <p>Description : {{ subStep.description }}</p>
-                <p>Condition : {{ subStep.stepCondition }}</p>
+                <p>{% trans with {'%description%' : subStep.description } %}setup.substep.view.description{% endtrans %}</p>
+                <p>{% trans with {'%condition%' : subStep.stepCondition } %}setup.substep.view.condition{% endtrans %}</p>
             </div>
             <div class="extra">
-                Hint : {{ subStep.toDoText }}
+                {% trans with {'%hint%' : subStep.toDoText } %}setup.substep.view.hint{% endtrans %}
             </div>
         </div>
     </div>

@@ -21,12 +21,12 @@
 
 namespace RFC\SetupBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\HttpFoundation\Request;
 use RFC\SetupBundle\Entity\Step;
 use RFC\SetupBundle\Form\StepType;
 
-class StepController extends Controller
+class StepController extends RFCController
 {
 
     public function indexAction($gameId)

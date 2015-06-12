@@ -16,14 +16,12 @@
 
 {# src/RFC/SetupBundle/Resources/views/Setup/index.html.twig #}
 {% extends "RFCCoreBundle::layout.html.twig" %}
-    {% block title %}
-        Admin - {{ parent() }}
-{% endblock %}
+
 {% block rfccore_body %}
 
-<h2>Step creation</h2>
+    <h2>{% trans %}setup.step.editionTitle{% endtrans %}</h2>
 
-{{ form_start(edit_form) }}
+    {{ form_start(edit_form) }}
     {{ form_errors(edit_form) }}
 
     {{ form_row(edit_form.name) }}
@@ -36,9 +34,10 @@
     {{ form_row(edit_form.commentsActive) }}
     {{ form_row(edit_form.game) }}
 
-{{ form_end(edit_form) }}
+    {{ form_end(edit_form) }}
 
-<ul class="record_actions">
-	<li><a href="{{ path('setup_step_index', {'gameId' : gameId}) }}"> Back to the list </a></li>
-</ul>
+    <a class="ui icon labeled primary button" href="{{ path('rfcSetup_index', {'gameId': gameId}) }}">
+        <i class="left arrow icon"></i>{% trans %}setup.actions.backPage{% endtrans %}
+    </a>
+
 {% endblock %}

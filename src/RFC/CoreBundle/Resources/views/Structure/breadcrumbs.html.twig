@@ -29,35 +29,35 @@
 
         <div class="ui menu">
 
-            <a href="{{ path('rfcCore_gameSelection', {'gameId': game.id}) }}" class="item">
+            <a href="{{ path('rfcCore_gameSelection', {'gameId': appSettings.getGame().id}) }}" class="item">
                 <i class="home icon"></i>
-                Game home
+                {% trans %}core.menu.game{% endtrans %}
             </a>
-            <a href="{{ path('rfcCore_championships', {'gameId': game.id}) }}" class="item">
+            <a href="{{ path('rfcCore_championships', {'gameId': appSettings.getGame().id}) }}" class="item">
                 <i class="trophy icon"></i>
-                Championships
+                {% trans %}core.menu.championships{% endtrans %}
             </a>
-            <a href="{{ path('rfcCore_calendar', {'gameId': game.id}) }}" class="item">
+            <a href="{{ path('rfcCore_calendar', {'gameId': appSettings.getGame().id}) }}" class="item">
                 <i class="calendar icon"></i>
-                Calendar
+                {% trans %}core.menu.calendar{% endtrans %}
             </a>
-            <a href="{{ path('rfcCore_crew', {'gameId': game.id}) }}" class="item">
+            <a href="{{ path('rfcCore_crew', {'gameId': appSettings.getGame().id}) }}" class="item">
                 <i class="comments icon"></i>
-                Crew
+                {% trans %}core.menu.crew{% endtrans %}
             </a>
-            <a href="{{ path('rfcSetup_index', {'gameId': game.id}) }}" class="item">
+            <a href="{{ path('rfcSetup_index', {'gameId': appSettings.getGame().id}) }}" class="item">
                 <i class="car icon"></i>
-                Setup
+                {% trans %}core.menu.setups{% endtrans %}
             </a>
-            <a href="{{ path('rfcCore_members', {'gameId': game.id}) }}" class="item">
+            <a href="{{ path('rfcCore_members', {'gameId': appSettings.getGame().id}) }}" class="item">
                 <i class="users icon"></i>
-                Members
+                {% trans %}core.menu.members{% endtrans %}
             </a>
 
             {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('rfcCore_gameParameters', {'gameId': game.id}) }}" class="red item icon">
+                <a href="{{ path('rfcCore_gameParameters', {'gameId': appSettings.getGame().id}) }}" class="red item icon">
                     <i class="game icon"></i>
-                    Game parameters
+                    {% trans %}core.menu.parameters{% endtrans %}
                 </a>
             {% endif %}
 

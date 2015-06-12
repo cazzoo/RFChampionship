@@ -20,126 +20,37 @@
 
 {% block rfccore_body %}
 
-    {% set canEdit = (is_granted('ROLE_MANAGER') and entity.isManager(app.user.id)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
+    {% set canEdit = (is_granted('ROLE_MANAGER') and championship.isManager(app.user.id)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
 
     <div class="ui three column grid">
 
         <div class="equal height row">
 
             <div class="column">
-                <div class="ui items">
-                    <div class="item">
-
-                        <div class="image">
-                            <img src="/images/wireframe/image.png">
-                            {% if canEdit %}
-                                <div class="ui corner blue icon label">
-                                    <a href="{{ path('admin_championship_edit', {'gameId': game.id, 'championshipId': entity.id}) }}"><i class="setting icon"></i></a>
-                                </div>
-                            {% endif %}
-                        </div>
-
-                        <div class="content">
-
-                            <div class="header">{{ entity.name }}</div>
-
-                            <div class="meta">
-
-                                <div class="ui tiny black tag labels">
-                                    <div class="ui icon label">
-                                        <i class="ticket icon"></i>
-                                        {{ entity.championshipAgreed ? 'Agreed' : 'Non agreed' }}
-                                    </div>
-
-                                    <div class="ui icon label">
-                                        <i class="cubes icon"></i>
-                                        {% if entity.championshipAgreed %}
-                                            <a id="viewRulesDetails" href="#">
-                                                {{ entity.metaRule.name }}
-                                            </a>
-                                            {% set rules = entity.metaRule.listRules %}
-                                        {% else %}
-                                            Rules
-                                            {% set rules = entity.listRules %}
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="ui standard rulesDetails modal transition">
-                                    <i class="close icon"></i>
-                                    <div class="header">
-                                        {{ entity.metaRule.name }} 
-                                        {% if canEdit %}
-                                            <a class="ui primary labeled icon button" href="{{ path('admin_metaRule_edit', {'gameId' : game.id, 'metaRuleId' : entity.metaRule.id }) }}">
-                                                <i class="edit icon"></i> Edit
-                                            </a>
-                                        {% endif %}
-                                    </div>
-                                    <div class="content">
-                                        <div class="description">
-                                            {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules, 'game' : game} %}
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="description">
-                                <div class="ui horizontal divider">Description</div>
-                                {{ entity.description ? entity.description : "Aucune" }}
-                            </div>
-
-                            <div class="extra">
-
-                                <div class="ui horizontal list">
-                                    {% if entity.listManagers %}
-                                        <div class="ui horizontal divider">Manager(s)</div>
-                                        {% for manager in entity.listManagers %}
-                                            <div class="item">
-                                                <img class="ui avatar image" src="{{ manager.avatarUrl }}">
-                                                <div class="content">
-                                                    <a class="header" href="{{ path('rfcCore_members_show', {'gameId': game.id, 'userId': manager.id}) }}">
-                                                        {{ manager.username }}
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        {% endfor %}
-                                    {% else %}
-                                        <div class="item">
-                                            <div class="content">
-                                                <div class="header">No manager(s)</div>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% include 'RFCCoreBundle:Championship:championshipInfo.html.twig' with {'championship' : championship} %}
             </div>
             <div class="column">
 
                 <div class="ui header">
-                    ({{entity.listUsers|length}}) Drivers registered
+                    {% trans with { '%participantCount%' : championship.listUsers|length} %}core.championship.participants.title{% endtrans %}
                 </div>
 
-                {% if entity.listUsers|length > 4 and entity.listUsers|length < 8 %}
+                {% if championship.listUsers|length > 4 and championship.listUsers|length < 8 %}
 
-                    {% include 'RFCCoreBundle:Championship:driversTwoColumnsList.html.twig' with {'listDrivers' : entity.listUsers|slice(0,8)} %}
+                    {% include 'RFCCoreBundle:Championship:driversTwoColumnsList.html.twig' with {'listDrivers' : championship.listUsers|slice(0,8)} %}
 
-                {% elseif entity.listUsers|length <= 4%}
+                {% elseif championship.listUsers|length <= 4%}
 
                     <div class="ui grid">
                         <div class="column">
                             <div class="ui mini list">
 
-                                {% for participant in entity.listUsers %}
+                                {% for participant in championship.listUsers %}
 
                                     <div class="item">
                                         <img class="ui avatar image" src="{{ participant.avatarUrl }}">
                                         <div class="content">
-                                            <a class="header" href="{{ path('rfcCore_members_show', {'gameId': game.id, 'userId': participant.id}) }}">
+                                            <a class="header" href="{{ path('rfcCore_members_show', {'gameId': appSettings.getGame().id, 'userId': participant.id}) }}">
                                                 {{ participant.username }}
                                             </a>
                                         </div>
@@ -154,18 +65,18 @@
                 {% else %}
 
                     <div class="ui basic center aligned segment">
-                        <p>Too much drivers to show.</p>
-                        <a id="viewFullDriverList" href="#" class="ui button">View full driver list</a>
+                        <p>{% trans %}core.championship.participants.tooMuch{% endtrans %}</p>
+                        <a id="viewFullDriverList" href="#" class="ui button">{% trans %}core.championship.participants.showFullList{% endtrans %}</a>
                     </div>
 
                     <div class="ui standard driverList modal transition">
                         <i class="close icon"></i>
                         <div class="header">
-                            Full driver list
+                            {% trans %}core.championship.participants.popupParticipant{% endtrans %}
                         </div>
                         <div class="content">
                             <div class="description">
-                                {% include 'RFCCoreBundle:Championship:driversTwoColumnsList.html.twig' with {'listDrivers' : entity.listUsers} %}
+                                {% include 'RFCCoreBundle:Championship:driversTwoColumnsList.html.twig' with {'listDrivers' : championship.listUsers} %}
                             </div>
                         </div>
                     </div>
@@ -173,14 +84,14 @@
                 {% endif %}
 
                 <div id="registrationStatus" class="ui basic segment">
-                    {% include 'RFCCoreBundle:Championship:registration.html.twig' with {'gameId' : game.id, 'championshipId' : entity.id, 'status' : ''} %}
+                    {% include 'RFCCoreBundle:Championship:registration.html.twig' with {'gameId' : appSettings.getGame().id, 'championship' : championship, 'status' : ''} %}
                 </div>
 
             </div>
             <div class="column">
 
                 <div class="ui header">
-                    Results
+                    {% trans %}core.championship.result.title{% endtrans %}
                 </div>
                 <div id="globalResults"></div>
 
@@ -189,59 +100,59 @@
         </div>
     </div>
 
-    <div class="ui small progress" id='championshipProgessbar' data-begindate="{{ entity.getBeginDate|date("Y/m/d H:i:s") }}" data-enddate="{{ entity.getEndDate|date("Y/m/d H:i:s") }}">
+    <div class="ui small progress" id='championshipProgessbar' data-begindate="{{ championship.getBeginDate|date("Y/m/d H:i:s") }}" data-enddate="{{ championship.getEndDate|date("Y/m/d H:i:s") }}">
         <div class="bar">
             <div class="progress"></div>
         </div>
-        <div class="label">Championship Progress</div>
+        <div class="label">{% trans %}core.championship.progress.title{% endtrans %}</div>
     </div>
 
     <div class="ui three column grid">
         <div class="column">
             <div class="ui horizontal segment">
-                <h3>Previous Session</h3>
-                {% if entity.getPreviousSession %}
+                <h3>{% trans %}core.championship.progress.previousTitle{% endtrans %}</h3>
+                {% if championship.getPreviousSession %}
                     <div class="ui mini label">
-                        {{ entity.getPreviousSession.event.name }} : {{ entity.getPreviousSession }}&nbsp;&nbsp;
+                        {{ championship.getPreviousSession.event.name }} : {{ championship.getPreviousSession }}&nbsp;&nbsp;
                         <i class="wait icon"></i>
-                        {{ entity.getPreviousSession.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
+                        {{ championship.getPreviousSession.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
                         <i class="chevron right icon"></i>
-                        {{ entity.getPreviousSession.endDate|date("Y/m/d H:i") }}
+                        {{ championship.getPreviousSession.endDate|date("Y/m/d H:i") }}
                     </div>
                 {% else %}
-                    No previous session
+                    {% trans %}core.championship.progress.previousNoSession{% endtrans %}
                 {% endif %}
             </div>
         </div>
         <div class="column">
             <div class="ui horizontal segment">
-                <h3>Current Session</h3>
-                {% if entity.getCurrentSession %}
+                <h3>{% trans %}core.championship.progress.currentTitle{% endtrans %}</h3>
+                {% if championship.getCurrentSession %}
                     <div class="ui mini label">
-                        {{ entity.getCurrentSession.event.name }} : {{ entity.getCurrentSession }}&nbsp;&nbsp;
+                        {{ championship.getCurrentSession.event.name }} : {{ championship.getCurrentSession }}&nbsp;&nbsp;
                         <i class="wait icon"></i>
-                        {{ entity.getCurrentSession.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
+                        {{ championship.getCurrentSession.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
                         <i class="chevron right icon"></i>
-                        {{ entity.getCurrentSession.endDate|date("Y/m/d H:i") }}
+                        {{ championship.getCurrentSession.endDate|date("Y/m/d H:i") }}
                     </div>
                 {% else %}
-                    No current session
+                    {% trans %}core.championship.progress.currentNoSession{% endtrans %}
                 {% endif %}
             </div>
         </div>
         <div class="column">
             <div class="ui horizontal segment">
-                <h3>Incoming Session</h3>
-                {% if entity.getNextSession %}
+                <h3>{% trans %}core.championship.progress.nextTitle{% endtrans %}</h3>
+                {% if championship.getNextSession %}
                     <div class="ui mini label">
-                        {{ entity.getNextSession.event.name }} : {{ entity.getNextSession }}&nbsp;&nbsp;
+                        {{ championship.getNextSession.event.name }} : {{ championship.getNextSession }}&nbsp;&nbsp;
                         <i class="wait icon"></i>
-                        {{ entity.getNextSession.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
+                        {{ championship.getNextSession.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
                         <i class="chevron right icon"></i>
-                        {{ entity.getNextSession.endDate|date("Y/m/d H:i") }}
+                        {{ championship.getNextSession.endDate|date("Y/m/d H:i") }}
                     </div>
                 {% else %}
-                    No incoming session
+                    {% trans %}core.championship.progress.nextNoSession{% endtrans %}
                 {% endif %}
             </div>
         </div>
@@ -254,15 +165,15 @@
             <div class="ui basic segment">
                 {# Colonne 1 : Events #}
                 <h3>
-                    Events
+                    {% transchoice championship.listEvents|length %}core.championship.event.title{% endtranschoice %}
                     {% if canEdit %}
-                        <a class="ui mini teal icon labeled button" href="{{ path('admin_event_new', { 'gameId': game.id, 'championshipId' : entity.id }) }}">
-                            <i class="add icon"></i>Add
+                        <a class="ui mini teal icon labeled button" href="{{ path('admin_event_new', { 'gameId': appSettings.getGame().id, 'championshipId' : championship.id }) }}">
+                            <i class="add icon"></i>{% trans %}core.action.add{% endtrans %}
                         </a>
                     {% endif %}
                 </h3>
-                {% if entity.listEvents is empty %}
-                    Aucun Event n'est présent. Il faut en créer.
+                {% if championship.listEvents is empty %}
+                    {% trans %}core.championship.event.noEvents{% endtrans %}
                 {% else %}
 
                     <div class="ui middle aligned grid" id="championshipEvents">
@@ -274,13 +185,13 @@
                             </div>
 
                             <div class="twelve wide column">
-                                {% for event in entity.listEvents %}
+                                {% for event in championship.listEvents %}
 
-                                    <div class="ui card eventItem" data-eventid="{{ event.id }}" data-eventkey="{{ loop.index }}" data-gameid="{{ game.id }}" data-championshipid="{{ entity.id }}">
+                                    <div class="ui card eventItem" data-eventid="{{ event.id }}" data-eventkey="{{ loop.index }}" data-gameid="{{ appSettings.getGame().id }}" data-championshipid="{{ championship.id }}">
 
                                         {% if canEdit %}
                                             <div class="ui corner red label">
-                                                <a href="{{ path('admin_event_edit', { 'eventId': event.id, 'gameId': game.id, 'championshipId': entity.id}) }}">
+                                                <a href="{{ path('admin_event_edit', { 'eventId': event.id, 'gameId': appSettings.getGame().id, 'championshipId': championship.id}) }}">
                                                     <i class="edit icon"></i>
                                                 </a>
                                             </div>
@@ -299,16 +210,21 @@
                                                 {{ event.name }}
                                             </div>
                                             <div class="meta">
-                                                Meta
+                                                <div class="ui mini label">
+                                                    <i class="wait icon"></i>
+                                                    {{ event.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
+                                                    <i class="chevron right icon"></i>
+                                                    {{ event.endDate|date("Y/m/d H:i") }}
+                                                </div>
                                             </div>
                                             <div class="description">
                                                 {{ event.description }}<br />
                                                 <span>
-                                                    Category : {{ event.category ? event.category : "Not defined" }}<br />
-                                                    Vehicle : {{ event.vehicle ? event.vehicle : "Not defined" }}<br />
-                                                    Track : {{ event.track ? event.track : "Not defined" }}
+                                                    {% trans with { '%category%' : event.category ?: 'core.championship.event.description.notDefined'|trans } %}core.championship.event.description.category{% endtrans %}<br />
+                                                    {% trans with { '%vehicle%' : event.vehicle ?: 'core.championship.event.description.notDefined'|trans } %}core.championship.event.description.vehicle{% endtrans %}<br />
+                                                    {% trans with { '%track%' : event.track ?: 'core.championship.event.description.notDefined'|trans } %}core.championship.event.description.track{% endtrans %}
                                                     {% if event.listBroadcast is not empty %}
-                                                        <br />Broadcast :
+                                                        <br />{% trans %}core.championship.event.description.broadcast{% endtrans %}
                                                         {% for broadcast in event.listBroadcast %}
                                                             {{ broadcast }}
                                                         {% endfor %}
@@ -316,19 +232,10 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="extra content">
-                                            <div class="ui mini label">
-                                                <i class="wait icon"></i>
-                                                {{ event.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
-                                                <i class="chevron right icon"></i>
-                                                {{ event.endDate|date("Y/m/d H:i") }}
-                                            </div>
-                                        </div>
                                         <a class="ui bottom attached green button showEventResults" href="#event_{{ event.id }}_results">
-                                            <i class="unhide icon"></i> Show results
+                                            <i class="unhide icon"></i> {% trans %}core.championship.event.showResults{% endtrans %}
                                         </a>
                                     </div>
-
                                 {% endfor %}
                             </div>
 
@@ -346,9 +253,9 @@
         <div class="eleven wide column">
             <div class="ui basic segment">
                 <h3>
-                    Sessions
+                    {% trans %}core.championship.event.session{% endtrans %}
                     <a id="sessionAddButton" class="ui mini teal icon labeled button" href="#">
-                        <i class="add icon"></i>Add
+                        <i class="add icon"></i>{% trans %}core.action.add{% endtrans %}
                     </a>
                 </h3>
                 {# Colonne 2 : Sessions #}
@@ -360,11 +267,11 @@
     <div id="session"></div>
 
     {# Event results modal window #}
-    {% for event in entity.listEvents %}
+    {% for event in championship.listEvents %}
         <div class="ui standard eventResults modal transition" data-eventid="{{ event.id }}">
             <i class="close icon"></i>
             <div class="header">
-                Results for event : {{ event.name }}
+                {% trans %}core.championship.result.popupEventResults{% endtrans %} {{ event.name }}
             </div>
             <div class="content">
                 <div class="description"></div>

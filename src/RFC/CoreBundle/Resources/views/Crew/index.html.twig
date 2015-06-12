@@ -20,7 +20,7 @@
 
 {% block rfccore_body %}
 
-    <h2>My Crew</h2>
+    <h2>{% trans %}core.crew.title{% endtrans %}</h2>
 
     {% if app.user %}
 
@@ -49,7 +49,7 @@
         {% include 'RFCCoreBundle:Crew:crewFeed.html.twig' %}
 
     {% else %}
-        You need to log-in / register to belong a crew.
+        {% trans %}core.crew.requirements{% endtrans %}
     {% endif %}
 
 {% endblock %}

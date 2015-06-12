@@ -1,0 +1,171 @@
+core:
+  index:
+      gameData: 'Game data'
+      noGames: 'No games (yet!)'
+      soon: 'Soon in'
+      commingSoon: 'THIS IS COMING SOON!'
+  game:
+    welcome: 'Welcome on'
+    gamelist: 'Game list'
+    pendingSession: 'Pending sessions'
+    currentSession: 'Current Session'
+    flashNews: 'Flash news!'
+    bestDriver: 'Best driver of the week'
+    noSessions:
+      current: 'No current session for this game. All the current championships are now finished.'
+      future: 'No incoming session for this game. All the current championships are now finished.'
+  championship:
+      past: 'Past championships'
+      future: 'Current/incoming championships'
+      event:
+          title: 'one:Event|some:Events'
+          noEvents: 'No existing events. Some need to be created.'
+          session: 'Sessions'
+          showResults: 'Show event results'
+          description:
+              notDefined: 'Not defined'
+              category: 'Category: %category%'
+              vehicle: 'Vehicle: %vehicle%'
+              track: 'Track: %track%'
+              broadcast: 'Broadcast:'
+      info:
+          description: 'Description'
+          manager: '{0}No Manager|one:Manager|some:Managers'
+      participants:
+          title: '(%participantCount%) Drivers registered'
+          tooMuch: 'Too much drivers to show.'
+          showFullList: 'View full participants'
+          popupParticipant: 'Full participants list'
+      progress:
+          title: 'Championship progress'
+          previousTitle: 'Previous session'
+          previousNoSession: 'No previous session'
+          currentTitle: 'Current session'
+          currentNoSession: 'No current session'
+          nextTitle: 'Next session'
+          nextNoSession: 'No incoming session'
+      registration:
+        alreadyRegistered: 'You are already registered for this championship'
+        notRegistered: 'You are not registered for this championship'
+        championshipStarted: 'You are not allowed to register as the championship as already begun.'
+        notLogged: 'You need to login to register to championship.'
+      result:
+        rank: 'Rank'
+        name: 'Name'
+        points: 'Points'
+        showLeaderboard: 'View full leaderboard'
+        popupGobalResults: 'Gobal results'
+        popupEventResults: 'Results for event:'
+        title: 'Results'
+  crew:
+      title: 'My crew'
+      requirements: 'You need to log-in / register to belong a crew.'
+      application:
+          selectManager: "You're not part in any crew.<br />Select a member as a manager to be part of his crew."
+          awaiting: "You asked to being part of <strong>%username%</strong>'s crew but your request is not accepted yet."
+      info:
+          membership: "You're belonging to <strong>%username%</strong>'s crew.<br />\n                Feel free to share things with the crew."
+          manager: 'Manager'
+          activeMembers: 'Active members'
+          noActiveMembers: 'Not yet active members'
+  members:
+      title: 'Member list'
+      table:
+          username: 'Userbame'
+          steamID: 'Steam ID'
+          mentor: 'Mentor'
+      view:
+          noMember: 'No user for this ID (%userid%).'
+          role: 'one:Role|some:Roles'
+          userName: 'Username'
+          firstName: 'First name'
+          lastName: 'Last name'
+          age: 'Age'
+          email: 'Email'
+          lastLogin: 'Last login date'
+          mentor: '{0}No mentor|one:Mentor|some:Mentors'
+  parameters:
+    general: 'General'
+    informations: 'Informations'
+    siteVersion: 'Site version'
+    administrator: 'Administrator'
+    siteName: 'Site name'
+    quickLinks: 'Quick links'
+    game:
+        data:
+            championships: 'Championships count'
+            vehicles: 'Vehicles count'
+            tracks: 'Tracks count'
+            categories: 'Categories count'
+            metaRules: 'Meta rules count'
+            rules: 'Rules count'
+            sessionTypes: 'Session types count'
+        flashNews: 'Flash news!'
+        parameters: 'Game parameters'
+        weeklyDriver: 'Weekly driver'
+        weeklyDriverSelect: 'Select the best driver of the week'
+  dictionnary:
+    category: 'one:Category|some:Categories'
+    championship: 'one:Championship|some:Championships'
+    metaRule: 'one:Meta rule|some:Meta rules'
+    rule: 'one:Rule|some:Rules'
+    vehicle: 'one:Vehicle|some:Vehicles'
+    track: 'one:Track|some:Tracks'
+    sessionType: 'one:Session type|some:Session types'
+    preference: 'one:Preference|some:Preferences'
+    crew: 'one:Crew|some:Crews'
+    statistic: 'one:Statistic|some:Statistics'
+    information: 'one:Information|some:Informations'
+  menu:
+      calendar: 'Calendar'
+      championships: 'Championships'
+      crew: 'Crew'
+      game: 'Game home'
+      members: 'Members'
+      parameters: 'Game parameters'
+      setups: 'Setups'
+  misc:
+    showFooter: 'show footer'
+    hookHelp: 'RFChampionship is a clever tool'
+  action:
+      add: 'Add'
+      addGame: 'Add game'
+      confirm: 'Confirm'
+      edit: 'Edit'
+      go:
+          gameIndex: 'Goto game index'
+          gameParameters: 'Goto game parameters'
+      register: 'Register'
+      reset: 'Reset'
+      show: 'Show'
+      submit: 'Submit'
+      unregister: 'Un-register'
+      sendRequest: 'Send request'
+      cancelRequest: 'Cancel request'
+      accept: 'Accept'
+      decline: 'Decline'
+  table:
+      id: 'Id'
+      name: 'Name'
+      description: 'Description'
+      value: 'Value'
+      usedForResults: 'Used for results'
+      images: 'Images'
+  issue:
+    title: 'Title'
+    message: "Message"
+    notSent: 'Your issue reporting has not be send.<br />\n        Please try again later.'
+    sent: 'Your issue reporting %issueTitle% has be sent.'
+    link: 'You can access it following this link:'
+    thanks: 'Thanks for your contribution.'
+  user:
+    crew:
+        pendingRequests: 'Pending requests'
+        pendingInfo: "You asked for <strong>%username%</strong>'s Crew on %date%."
+        requestsToJoin: 'Users awaiting your answer'
+        requestToJoinInfo: 'Member <strong>%username%</strong> requested to be part of your crew.'
+        requestQuestion: 'Do you accept?'
+        activeCrews: 'Active crews'
+        activeCrewInfo: "You are part in <strong>%username%</strong>'s Crew since %date%."
+    championships: 'Championships'
+    statistics: 'Statistics'

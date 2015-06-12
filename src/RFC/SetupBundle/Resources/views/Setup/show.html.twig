@@ -16,9 +16,7 @@
 
 {# src/RFC/SetupBundle/Resources/views/SetupStep/index.html.twig #}
 {% extends "RFCCoreBundle::layout.html.twig" %}
-{% block title %}
-    Accueil - {{ parent() }}
-{% endblock %}
+
 {% block rfccore_body %}
 
     {% if setup %}
@@ -37,12 +35,12 @@
                         {{ setup.description }}
                     </div>
                     <div class="description">
-                        Vehicle : {{ setup.vehicle.name }}<br />
-                        Track : {{ setup.track ? setup.track.name : '-' }}<br />
+                        {% trans with {'%vehicle%' : setup.vehicle.name } %}setup.view.vehicle{% endtrans %}<br />
+                        {% trans with {'%track%' : setup.track ? setup.track.name : '-' } %}setup.view.track{% endtrans %}<br />
                     </div>
                     <div class="extra">
                         {% if setup.getOrderedSteps|length < stepCount %}
-                            This setup is outdated. Please upgrade it.
+                            {% trans %}setup.view.outdated{% endtrans %}
                         {% endif %}
                     </div>
                 </div>
@@ -53,10 +51,11 @@
         {% include 'RFCSetupBundle:SetupStep:index.html.twig' with arraySetupStep %}
 
     {% else %}
-        No setups available
+        {% trans with { '%setupid%': app.request.get('setupId') }%}setup.view.noSetup{% endtrans %}
     {% endif %}
 
-    <br />
-    <a class="ym-button add" href="{{ path('rfcSetup_index', {'gameId': gameId}) }}">Back to list</a>
+    <a class="ui icon labeled primary button" href="{{ path('rfcSetup_index', {'gameId': gameId}) }}">
+        <i class="left arrow icon"></i>{% trans %}setup.actions.backPage{% endtrans %}
+    </a>
 
 {% endblock %}

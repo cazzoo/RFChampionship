@@ -59,11 +59,6 @@ class MembersController extends RFCController
         $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
         $user = $entityManager->getRepository('RFCUserBundle:User')->findOneBy(array('id' =>$userId));
         
-        // Ajout de la miette de pain
-        $menu = $this->get('rfc_core.menu.breadcrumb');
-        $menu->addChild($user->getUserName())
-            ->setCurrent(true);
-        
         return $this->render('RFCCoreBundle:Members:show.html.twig', array(
             'game' => $game,
             'games' => $games,

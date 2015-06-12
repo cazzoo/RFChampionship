@@ -26,7 +26,7 @@
                         <a class="{{ completed ? 'completed ' }}step">
                             <div class="content">
                                 <div class="title stepItem">{{setupStep[0].step.name}}</div>
-                                <div class="description">v. {{ setupStep[0].setup.getLastSetupStepVersion(setupStep[0].step.stepOrder).version }}</div>
+                                <div class="description">{% trans with { '%version%' : setupStep[0].setup.getLastSetupStepVersion(setupStep[0].step.stepOrder).version } %}setup.substep.revision{% endtrans %}</div>
                             </div>
                         </a>
                     </div>
@@ -52,7 +52,7 @@
                                                 <span class="right floated time">{{setupSteps[0].step.indicatorType}}</span>
                                                 <select class="selectVersion">
                                                     {% for setupStep in setupSteps|reverse %}
-                                                        <option value="{{ setupStep.id }}" data-gameid="{{ gameId }}" data-setupid="{{ setupStep.setup.id }}" >Version {{ setupStep.version }}</option>
+                                                        <option value="{{ setupStep.id }}" data-gameid="{{ gameId }}" data-setupid="{{ setupStep.setup.id }}" >{% trans with { '%version%' : setupStep.version } %}setup.substep.version{% endtrans %}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>

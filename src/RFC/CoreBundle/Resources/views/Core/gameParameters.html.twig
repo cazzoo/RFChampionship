@@ -33,80 +33,80 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
     <div class="uiTabs">
 
         <div class="ui pointing secondary menu">
-            <a class="item active" data-tab="general">General</a>
-            <a class="item" data-tab="sessiontypes">Session Types</a>
-            <a class="item" data-tab="rules">Rules</a>
-            <a class="item" data-tab="metarules">Meta rules</a>
-            <a class="item" data-tab="vehicles">Vehicles</a>
-            <a class="item" data-tab="categories">Car categories</a>
-            <a class="item" data-tab="tracks">Tracks</a>
+            <a class="item active" data-tab="general">{% trans %}core.parameters.general{% endtrans %}</a>
+            <a class="item" data-tab="sessiontypes">{% transchoice game.listTypeSessions|length %}core.dictionnary.sessionType{% endtranschoice %}</a>
+            <a class="item" data-tab="rules">{% transchoice game.listRules|length %}core.dictionnary.rule{% endtranschoice %}</a>
+            <a class="item" data-tab="metarules">{% transchoice game.listMetaRules|length %}core.dictionnary.metaRule{% endtranschoice %}</a>
+            <a class="item" data-tab="vehicles">{% transchoice game.listVehicles|length %}core.dictionnary.vehicle{% endtranschoice %}</a>
+            <a class="item" data-tab="categories">{% transchoice game.listCategories|length %}core.dictionnary.category{% endtranschoice %}</a>
+            <a class="item" data-tab="tracks">{% transchoice game.listTracks|length %}core.dictionnary.track{% endtranschoice %}</a>
         </div>
 
         <div class="ui active tab segment" data-tab="general">
             <div class="ui two columns grid">
                 <div class="column">
-                    <h2>Informations</h2>
+                    <h2>{% trans %}core.parameters.informations{% endtrans %}</h2>
                     <dl class="dl-horizontal">
-                        <dt>Number championships</dt>
+                        <dt>{% trans %}core.parameters.game.data.championships{% endtrans %}</dt>
                         <dd>{{ game.listChampionships|length }}</dd>
-                        <dt>Number vehicles</dt>
+                        <dt>{% trans %}core.parameters.game.data.vehicles{% endtrans %}</dt>
                         <dd>{{ game.listVehicles|length }}</dd>
-                        <dt>Number tracks</dt>
+                        <dt>{% trans %}core.parameters.game.data.tracks{% endtrans %}</dt>
                         <dd>{{ game.listTracks|length }}</dd>
-                        <dt>Number categories</dt>
+                        <dt>{% trans %}core.parameters.game.data.categories{% endtrans %}</dt>
                         <dd>{{ game.listCategories|length }}</dd>
-                        <dt>Number meta rules</dt>
+                        <dt>{% trans %}core.parameters.game.data.metaRules{% endtrans %}</dt>
                         <dd>{{ game.listMetaRules|length }}</dd>
-                        <dt>Number rules</dt>
+                        <dt>{% trans %}core.parameters.game.data.rules{% endtrans %}</dt>
                         <dd>{{ game.listRules|length }}</dd>
-                        <dt>Number session types</dt>
+                        <dt>{% trans %}core.parameters.game.data.sessionTypes{% endtrans %}</dt>
                         <dd>{{ game.listTypeSessions|length }}</dd>
                     </dl>
                 </div>
                 <div class="column">
-                    <h2>Game parameters</h2>
+                    <h2>{% trans %}core.parameters.game.parameters{% endtrans %}</h2>
                     <form class="ui form system-properties">
                         <div class="field">
-                            <label>Game flash news</label>
+                            <label>{% trans %}core.parameters.game.flashNews{% endtrans %}</label>
                             <textarea name="{{flashNews.id}}">{{flashNews.value}}</textarea>
                         </div>
                         <div class="field">
-                            <label>Weekly driver</label>
+                            <label>{% trans %}core.parameters.game.weeklyDriver{% endtrans %}</label>
                             <select name="{{weeklyDriver.id}}" class="ui dropdown" id="select">
-                                <option value=" ">Select the best driver of the week</option>
+                                <option value=" ">{% trans %}core.parameters.game.weeklyDriverSelect{% endtrans %}</option>
                                 {% for user in users %}
                                     <option value="{{ user.id }}" {{ weeklyDriver.value == user.id ? ' selected="selected "' }}>{{ user.username }}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <button class="ui right floated button" type="submit" value="Submit">Submit</button>
+                        <button class="ui right floated button" type="submit" value="Submit">{% trans %}core.action.submit{% endtrans %}</button>
                     </form>
                 </div>
             </div>
         </div>
 
         <div class="ui tab segment" data-tab="sessiontypes">
-            <a class="ui labeled icon button" href="{{ path('admin_typeSession_new', {'gameId' : game.Id}) }}"><i class="add icon"></i>Add</a>
+            <a class="ui labeled icon button" href="{{ path('admin_typeSession_new', {'gameId' : appSettings.getGame().id}) }}"><i class="add icon"></i>{% trans %}core.action.add{% endtrans %}</a>
             <table class="ui striped table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Used for results</th>
-                        <th>Images</th>
+                        <th>{% trans %}core.table.name{% endtrans %}</th>
+                        <th>{% trans %}core.table.description{% endtrans %}</th>
+                        <th>{% trans %}core.table.usedForResults{% endtrans %}</th>
+                        <th>{% trans %}core.table.images{% endtrans %}</th>
                     </tr>
                 </thead>
                 <tbody class="">
                     {% for typeSession in game.listTypeSessions %}
                         <tr>
                             <td>
-                                <a href="{{ path('admin_typeSession_edit', {'typeSessionId' : typeSession.id, 'gameId' : game.Id}) }}">{{ typeSession.name }}</a>
+                                <a href="{{ path('admin_typeSession_edit', {'typeSessionId' : typeSession.id, 'gameId' : appSettings.getGame().id}) }}">{{ typeSession.name }}</a>
                             </td>
                             <td>{{ typeSession.description }}</td>
                             <td>{{ typeSession.usedForResults }}</td>
                             <td>
                                 {% if typeSession.listImages|length > 0 %}
-                                    <a class="ui button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'typeSession', 'elementId' : typeSession.id}) }}">show ({{ typeSession.listImages|length }})</a>
+                                    <a class="ui button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'typeSession', 'elementId' : typeSession.id}) }}">{% trans %}core.action.show{% endtrans %} ({{ typeSession.listImages|length }})</a>
                                 {% else %}
                                     -
                                 {% endif %}
@@ -119,7 +119,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
         <div class="ui tab segment" data-tab="rules">
 
-            <a class="ui labeled icon button" href="{{ path('admin_rule_new', {'gameId' : game.Id}) }}"><i class="add icon"></i>Add</a>
+            <a class="ui labeled icon button" href="{{ path('admin_rule_new', {'gameId' : appSettings.getGame().id}) }}"><i class="add icon"></i>{% trans %}core.action.add{% endtrans %}</a>
 
             <div>
                 {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : game.listRules, 'game' : game} %}
@@ -129,14 +129,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
         <div class="ui tab segment" data-tab="metarules">
 
-            <a class="ui labeled icon button" href="{{ path('admin_metaRule_new', {'gameId' : game.Id}) }}"><i class="add icon"></i>Add</a>
+            <a class="ui labeled icon button" href="{{ path('admin_metaRule_new', {'gameId' : appSettings.getGame().id}) }}"><i class="add icon"></i>{% trans %}core.action.add{% endtrans %}</a>
 
             <div class="ui grid">
                 <div class="four wide column">
                     <br />
                     {% for metaRule in game.listMetaRules %}
                         <div class="ui vertical steps">
-                            <div id="metaRule_{{ metaRule.id }};game_{{ game.id }}" class="step metaRuleItem" >
+                            <div id="metaRule_{{ metaRule.id }};game_{{ appSettings.getGame().id }}" class="step metaRuleItem" >
                                 <i class="truck icon"></i>
                                 <div class="content">
                                     <div class="title">{{ metaRule.name }}</div>
@@ -146,7 +146,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
                                 </div>
                             </div>
                         </div>
-                        <a class="ui small button" href="{{ path('admin_metaRule_edit', {'metaRuleId' : metaRule.id, 'gameId' : game.Id}) }}">Edit</a>
+                        <a class="ui small button" href="{{ path('admin_metaRule_edit', {'metaRuleId' : metaRule.id, 'gameId' : appSettings.getGame().id}) }}">{% trans %}core.action.edit{% endtrans %}</a>
                     {% endfor %}
                 </div>
                 <div class="twelve wide column">
@@ -161,25 +161,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
         <div class="ui tab segment" data-tab="vehicles">
 
-            <a class="ui labeled icon button" href="{{ path('admin_vehicle_new', {'gameId' : game.Id}) }}"><i class="add icon"></i>Add</a>
+            <a class="ui labeled icon button" href="{{ path('admin_vehicle_new', {'gameId' : appSettings.getGame().id}) }}"><i class="add icon"></i>{% trans %}core.action.add{% endtrans %}</a>
             <table class="ui striped table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Images</th>
+                        <th>{% trans %}core.table.name{% endtrans %}</th>
+                        <th>{% trans %}core.table.description{% endtrans %}</th>
+                        <th>{% trans %}core.table.images{% endtrans %}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for vehicle in game.listVehicles %}
                         <tr>
                             <td>
-                                <a href="{{ path('admin_vehicle_edit', {'vehicleId' : vehicle.id, 'gameId' : game.Id}) }}">{{ vehicle.name }}</a>
+                                <a href="{{ path('admin_vehicle_edit', {'vehicleId' : vehicle.id, 'gameId' : appSettings.getGame().id}) }}">{{ vehicle.name }}</a>
                             </td>
                             <td>{{ vehicle.description }}</td>
                             <td>
                                 {% if vehicle.listImages|length > 0 %}
-                                    <a class="ym-button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'vehicle', 'elementId' : vehicle.id}) }}">show ({{ vehicle.listImages|length }})</a>
+                                    <a class="ym-button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'vehicle', 'elementId' : vehicle.id}) }}">{% trans %}core.action.show{% endtrans %} ({{ vehicle.listImages|length }})</a>
                                 {% else %}
                                     -
                                 {% endif %}
@@ -193,26 +193,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
         <div class="ui tab segment" data-tab="categories">
 
-            <a class="ui labeled icon button" href="{{ path('admin_category_new', {'gameId' : game.Id}) }}"><i class="add icon"></i>Add</a>
+            <a class="ui labeled icon button" href="{{ path('admin_category_new', {'gameId' : appSettings.getGame().id}) }}"><i class="add icon"></i>{% trans %}core.action.add{% endtrans %}</a>
 
             <table class="ui striped table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Images</th>
+                        <th>{% trans %}core.table.name{% endtrans %}</th>
+                        <th>{% trans %}core.table.description{% endtrans %}</th>
+                        <th>{% trans %}core.table.images{% endtrans %}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for category in game.listCategories %}
                         <tr>
                             <td>
-                                <a href="{{ path('admin_category_edit', {'categoryId' : category.id, 'gameId' : game.Id}) }}">{{ category.name }}</a>
+                                <a href="{{ path('admin_category_edit', {'categoryId' : category.id, 'gameId' : appSettings.getGame().id}) }}">{{ category.name }}</a>
                             </td>
                             <td>{{ category.description }}</td>
                             <td>
                                 {% if category.listImages|length > 0 %}
-                                    <a class="ym-button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'category', 'elementId' : category.id}) }}">show ({{ category.listImages|length }})</a>
+                                    <a class="ui button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'category', 'elementId' : category.id}) }}">{% trans %}core.action.show{% endtrans %} ({{ category.listImages|length }})</a>
                                 {% else %}
                                     -
                                 {% endif %}
@@ -226,26 +226,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
         <div class="ui tab segment" data-tab="tracks">
 
-            <a class="ui labeled icon button" href="{{ path('admin_track_new', {'gameId' : game.Id}) }}"><i class="add icon"></i>Add</a>
+            <a class="ui labeled icon button" href="{{ path('admin_track_new', {'gameId' : appSettings.getGame().id}) }}"><i class="add icon"></i>{% trans %}core.action.add{% endtrans %}</a>
 
             <table class="ui striped table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Images</th>
+                        <th>{% trans %}core.table.name{% endtrans %}</th>
+                        <th>{% trans %}core.table.description{% endtrans %}</th>
+                        <th>{% trans %}core.table.images{% endtrans %}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for track in game.listTracks %}
                         <tr>
                             <td>
-                                <a href="{{ path('admin_track_edit', {'trackId' : track.id, 'gameId' : game.Id}) }}">{{ track.name }}</a>
+                                <a href="{{ path('admin_track_edit', {'trackId' : track.id, 'gameId' : appSettings.getGame().id}) }}">{{ track.name }}</a>
                             </td>
                             <td>{{ track.description }}</td>
                             <td>
                                 {% if track.listImages|length > 0 %}
-                                    <a class="ym-button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'track', 'elementId' : track.id}) }}">show ({{ track.listImages|length }})</a>
+                                    <a class="ym-button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'track', 'elementId' : track.id}) }}">{% trans %}core.action.show{% endtrans %} ({{ track.listImages|length }})</a>
                                 {% else %}
                                     -
                                 {% endif %}

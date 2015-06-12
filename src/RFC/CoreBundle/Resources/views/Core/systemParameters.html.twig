@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
         {% endfor %}
 
         <div class="ui pointing secondary menu">
-            <a class="item active" data-tab="infos">Informations</a>
+            <a class="item active" data-tab="infos">{% trans %}core.parameters.informations{% endtrans %}</a>
             {% for category in categories %}
                 <a class="item" data-tab="{{ category|lower }}">{{ category }}</a>
             {% endfor %}
@@ -38,23 +38,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
         <div class="ui active tab segment" data-tab="infos">
             <div class="ui two columns grid">
                 <div class="column">
-                    <h2>Informations</h2>
+                    <h2>{% trans %}core.parameters.informations{% endtrans %}</h2>
                     <dl class="dl-horizontal">
-                        <dt>Site version</dt>
+                        <dt>{% trans %}core.parameters.siteVersion{% endtrans %}</dt>
                         <dd>xxx</dd>
-                        <dt>Administrator</dt>
+                        <dt>{% trans %}core.parameters.administrator{% endtrans %}</dt>
                         <dd>yyy</dd>
-                        <dt>Site name</dt>
+                        <dt>{% trans %}core.parameters.siteName{% endtrans %}</dt>
                         <dd>{{ properties[0].value }}</dd>
                     </dl>
                 </div>
                 <div class="column">
-                    <h2>Quick links</h2>
-                        <a class="ui icon primary button" href="{{ path('admin_game_new') }}"><i class="icon add"></i>Add game</a>
+                    <h2>{% trans %}core.parameters.quickLinks{% endtrans %}</h2>
+                        <a class="ui icon primary button" href="{{ path('admin_game_new') }}"><i class="icon add"></i>{% trans %}core.action.addGame{% endtrans %}</a>
                     {% for game in games %}
                         <h3>{{ game.name }}</h3>
-                        <a class="ui labeled mini button" href=" {{ path('rfcCore_gameSelection', {'gameId' : game.id}) }}">Game index</a>
-                        <a class="ui labeled mini button" href=" {{ path('rfcCore_gameParameters', {'gameId' : game.id}) }}">Game parameters</a>
+                        <a class="ui labeled mini button" href=" {{ path('rfcCore_gameSelection', {'gameId' : game.id}) }}">{% trans %}core.action.go.gameIndex{% endtrans %}</a>
+                        <a class="ui labeled mini button" href=" {{ path('rfcCore_gameParameters', {'gameId' : game.id}) }}">{% trans %}core.action.go.gameParameters{% endtrans %}</a>
                     {% endfor %}
                 </div>
             </div>
@@ -66,10 +66,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
                     <table class="ui table">
                         <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Value</th>
+                                <th>{% trans %}core.table.id{% endtrans %}</th>
+                                <th>{% trans %}core.table.name{% endtrans %}</th>
+                                <th>{% trans %}core.table.description{% endtrans %}</th>
+                                <th>{% trans %}core.table.value{% endtrans %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -158,8 +158,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
                             {% endfor %}
                         </tbody>
                     </table>
-                    <button type="submit" class="ui primary button" id="confirm-btn">Confirm</button>
-                    <button type="reset" class="ui secondary button" id="reset-btn">Reset</button>
+                    <button type="submit" class="ui primary button" id="confirm-btn">{% trans %}core.action.confirm{% endtrans %}</button>
+                    <button type="reset" class="ui secondary button" id="reset-btn">{% trans %}core.action.reset{% endtrans %}</button>
                 </form>
             </div>
         {% endfor %}

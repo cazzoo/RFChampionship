@@ -24,16 +24,23 @@
     {% set canEdit = is_granted('ROLE_MANAGER') or is_granted('ROLE_CERTIFIED_MANAGER') %}
 
     <h2>
-        My setups
+        {% trans %}setup.index.title{% endtrans %}
         {% if canEdit %}
             <a class="red ui labeled icon button" href="{{ path('setup_step_index', { 'gameId': gameId }) }}">
-                <i class="wrench icon"></i>Manage setups
+                <i class="wrench icon"></i>{% trans %}setup.actions.manage{% endtrans %}
             </a>
         {% endif %}
 
-        <a class="ui icon teal labeled button" href="{{ path('setup_new', {'gameId': gameId}) }}">
-            <i class="add icon"></i> Create
-        </a></h2>
+
+        {% if app.user %}
+
+            <a class="ui icon teal labeled button" href="{{ path('setup_new', {'gameId': gameId}) }}">
+                <i class="add icon"></i>{% trans %}setup.actions.create{% endtrans %}
+            </a>
+
+        {% endif %}
+
+    </h2>
 
     {% if app.user %}
 
@@ -42,36 +49,47 @@
             <div class="ui five doubling cards">
 
                 {% for setup in setups %}
+
+                    {% set currentStep = setup.getLastStepCompleted %}
+                    {% set stepsComplete = currentStep ? currentStep.step.stepOrder == setup.getOrderedSteps|length : false %}
+                    {% set setupUpToDate = setup.getOrderedSteps|length == steps|length %}
+
                     <div class="ui card">
                         <div class="image">
                             <img src="/images/avatar/large/stevie.jpg">
                         </div>
                         <div class="content">
+                            {% if not setupUpToDate %}
+                                <div class="ui orange right ribbon label">
+                                    <i class="warning icon"></i> {% trans %}setup.view.outdated{% endtrans %}
+                                </div>
+                            {% endif %}
+                            {% if stepsComplete %}
+                                <div class="ui green right ribbon label">
+                                    <i class="checkmark icon"></i> {% trans %}setup.view.completed{% endtrans %}
+                                </div>
+                            {% endif %}
                             <div class="header">{{ setup.name }}</div>
                             <div class="meta">
                                 <span class="date">{{ setup.vehicle.name }} {{ setup.track ? '@' ~ setup.track.name }}</span>
                             </div>
                             <div class="description">
-                                {% set currentStep = setup.getLastStepCompleted %}
-                                {% set stepsComplete = currentStep ? currentStep.step.stepOrder == setup.getOrderedSteps|length : false %}
-                                {% set setupUpToDate = setup.getOrderedSteps|length == steps|length %}
-                                Step {{ currentStep ? currentStep.step.stepOrder : '0' }} / {{ setup.getOrderedSteps|length }} {{ currentStep ? currentStep.value is not empty and stepsComplete ? 'Complete' }}
+                                {% trans with { '%count%' : currentStep ? currentStep.step.stepOrder : '0', '%total%' : setup.getOrderedSteps|length } %}setup.view.progress{% endtrans %}
                             </div>
                         </div>
                         <div class="extra content">
                             <div class="right floated">
                                 {% if setupUpToDate %}
                                     <a class="ui mini icon labeled primary button" href="{{ path('setup_show', {'gameId': gameId, 'setupId': setup.id}) }}">
-                                        <i class="setting icon"></i> Configure
+                                        <i class="setting icon"></i> {% trans %}setup.actions.configure{% endtrans %}
                                     </a>
                                 {% else %}
-                                    Setup outdated, consider upgrading it! <br />
-                                    <a class="ui mini icon labeled button" href="{{ path('setup_upgrade', {'gameId': gameId, 'setupId': setup.id}) }}">
-                                        <i class="wizard icon"></i> Upgrade
+                                    <a class="ui mini icon labeled primary button" href="{{ path('setup_upgrade', {'gameId': gameId, 'setupId': setup.id}) }}">
+                                        <i class="wizard icon"></i> {% trans %}setup.actions.upgrade{% endtrans %}
                                     </a>
                                 {% endif %}
                                 <a class="ui mini icon labeled red button" href="{{ path('setup_delete', {'gameId': gameId, 'setupId': setup.id}) }}">
-                                    <i class="delete icon"></i> Delete
+                                    <i class="delete icon"></i> {% trans %}setup.actions.delete{% endtrans %}
                                 </a>
                             </div>
                         </div>
@@ -81,11 +99,11 @@
             </div>
 
         {% else %}
-            No setups available
+            {% trans %}setup.index.noSetups{% endtrans %}
         {% endif %}
 
     {% else %}
-        You need to log-in access the setup screen.
+        {% trans %}setup.index.loginRequired{% endtrans %}
     {% endif %}
 
 {% endblock %}

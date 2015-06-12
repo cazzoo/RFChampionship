@@ -25,18 +25,16 @@ use RFC\SetupBundle\Entity\Setup;
 use RFC\SetupBundle\Entity\SetupStep;
 use RFC\SetupBundle\Form\SetupStepType;
 use RFC\SetupBundle\Form\SetupType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\HttpFoundation\Request;
 
-class SetupController extends Controller
+class SetupController extends RFCController
 {
 
     public function indexAction($gameId)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        $session = $this->container->get('session');
-        $gameId  = $session->get('game') ? $session->get('game')->getId() : null;
         $setups  = null;
         $steps   = null;
 

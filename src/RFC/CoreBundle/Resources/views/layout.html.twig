@@ -45,9 +45,9 @@
     {% else %}
 
         <div class="ui segment">
-            <h2>Le jeu demandé n'existe pas.</h2>
+            <h2>{% trans %}The specified game does not exists.{% endtrans %}</h2>
             <a class="ui primary button" href="{{ path('rfcCore_accueil') }}">
-                Sélectionner un autre jeu
+                {% trans %}Select a game{% endtrans %}
             </a>
         </div>
 

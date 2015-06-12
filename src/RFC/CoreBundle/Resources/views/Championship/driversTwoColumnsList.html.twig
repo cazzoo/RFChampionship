@@ -17,7 +17,7 @@
                 <div class="item">
                     <img class="ui avatar image" src="{{ driver.avatarUrl }}">
                     <div class="content">
-                        <a class="header" href="{{ path('rfcCore_members_show', {'gameId': game.id, 'userId': driver.id}) }}">
+                        <a class="header" href="{{ path('rfcCore_members_show', {'gameId': appSettings.getGame().id, 'userId': driver.id}) }}">
                             {{ driver.username }}
                         </a>
                     </div>
@@ -35,7 +35,7 @@
                 <div class="item">
                     <img class="ui avatar image" src="{{ driver.avatarUrl }}">
                     <div class="content">
-                        <a class="header" href="{{ path('rfcCore_members_show', {'gameId': game.id, 'userId': driver.id}) }}">
+                        <a class="header" href="{{ path('rfcCore_members_show', {'gameId': appSettings.getGame().id, 'userId': driver.id}) }}">
                             {{ driver.username }}
                         </a>
                     </div>

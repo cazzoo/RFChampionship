@@ -32,7 +32,7 @@
                     <div class="meta">
                         <div class="ui horizontal icon label">
                             <i class="fork icon"></i>
-                            Roles
+                            {% transchoice user.roles|length %}core.members.view.role{% endtranschoice %}
                             {% for role in user.roles %}
                                 <div class="detail">{{ role }}</div>
                             {% endfor %}
@@ -43,33 +43,33 @@
                         <div class="ui form">
                             <div class="three fields">
                                 <div class="field">
-                                    <label>UserName</label>
+                                    <label>{% trans %}core.members.view.userName{% endtrans %}</label>
                                     <input placeholder="{{ user.username }}" readonly="readonly" type="text">
                                 </div>
                                 <div class="field">
-                                    <label>First Name</label>
+                                    <label>{% trans %}core.members.view.firstName{% endtrans %}</label>
                                     <input placeholder="{{ user.firstName }}" readonly="readonly" type="text">
                                 </div>
                                 <div class="field">
-                                    <label>Last Name</label>
+                                    <label>{% trans %}core.members.view.lastName{% endtrans %}</label>
                                     <input placeholder="{{ user.lastName }}" readonly="readonly" type="text">
                                 </div>
                                 <div class="field">
-                                    <label>Age</label>
+                                    <label>{% trans %}core.members.view.age{% endtrans %}</label>
                                     <input placeholder="{{ user.age }}" readonly="readonly" type="text">
                                 </div>
                                 <div class="field">
-                                    <label>Email</label>
+                                    <label>{% trans %}core.members.view.email{% endtrans %}</label>
                                     <input placeholder="{{ user.steamId }}" readonly="readonly" type="text">
                                 </div>
                                 <div class="field">
-                                    <label>Last login</label>
+                                    <label>{% trans %}core.members.view.lastLogin{% endtrans %}</label>
                                     <input placeholder="{{ user.lastLogin|date('H:i:s - d-m-Y') }}" readonly="readonly" type="text">
                                     {# TODO : |localizeddate('long', 'short') #}
                                 </div>
                             </div>
                             <div class="field">
-                                <label>Mentor(s)</label>
+                                <label>{% transchoice user.getCrews|length %}core.members.view.mentor{% endtranschoice %}</label>
                                 <div class="ui mini horizontal divided list">
                                     {% for crew in user.getCrews %}
                                         <div class="item">
@@ -93,14 +93,14 @@
 
                     </div>
                     <div class="extra">
-                        <a class="ui right floated blue labeled icon button" href="#"><i class="edit icon"></i>Edit</a>
+                        <a class="ui right floated blue labeled icon button" href="#"><i class="edit icon"></i>{% trans %}core.action.edit{% endtrans %}</a>
                     </div>
                 </div>
             </div>
         </div>
 
     {% else %}
-        No user for this ID ({{ app.request.get('userId') }}).
+        {% trans with { '%userid%': app.request.get('userId') }%}core.members.view.noMember{% endtrans %}
     {% endif %}
 
 {% endblock %}

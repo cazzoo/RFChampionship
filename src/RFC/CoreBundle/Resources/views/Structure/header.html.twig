@@ -33,58 +33,60 @@
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             <a class="item" href="{{ path('rfcCore_user') }}">
                 <i class="user icon"></i>
-                User panel
-            </a>
-            <a class="item" href="{{ path('fos_user_security_logout') }}">
-                <i class="sign out icon"></i>
-                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-            </a>
-        {% else %}
-            <a class="item" href="{{ path('fos_user_registration_register') }}">
-                <i class="write icon"></i>
-                S'enregistrer
-            </a>
-            <a class="item" href="{{ path('fos_user_resetting_request') }}">
-                <i class="recycle icon"></i>
-                Mot de passe oublié
-            </a>
-        {% endif %}
-        <div class="item">
-            <i class="help icon"></i>
-            Help
-        </div>
-        {% if is_granted('ROLE_ADMIN') %}
-            <div class="divider"></div>
-            <div class="header">Administration</div>
-            <a class="item" href="{{ path('RFCAdmin_index') }}">
-                <i class="settings icon"></i>
-                Access to admin panel
-            </a>
-        {% endif %}
-    </div>
-</div>
+                {% trans %}User panel{% endtrans %}
+                </a>
+                <a class="item" href="{{ path('fos_user_security_logout') }}">
+                    <i class="sign out icon"></i>
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+                {% else %}
+                    <a class="item" href="{{ path('fos_user_registration_register') }}">
+                        <i class="write icon"></i>
+                        {% trans %}Register new account{% endtrans %}
+                        </a>
+                        <a class="item" href="{{ path('fos_user_resetting_request') }}">
+                            <i class="recycle icon"></i>
+                            {% trans %}Forgotten password{% endtrans %}
+                            </a>
+                            {% endif %}
+                                <div class="item">
+                                    <i class="help icon"></i>
+                                    {% trans %}Help{% endtrans %}
+                                    </div>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <div class="divider"></div>
+                                        <div class="header">
+                                            {% trans %}Administration{% endtrans %}
+                                        </div>
+                                        <a class="item" href="{{ path('RFCAdmin_index') }}">
+                                            <i class="settings icon"></i>
+                                            {% trans %}Access to admin panel{% endtrans %}
+                                            </a>
+                                            {% endif %}
+                                            </div>
+                                        </div>
 
-{% if is_granted('ROLE_ADMIN') %}
-    <a class="ui right floated white icon button" href="{{ path('rfcCore_systemParameters') }}">
-        <i class="cogs icon"></i>
-        System
-    </a>
-{% endif %}
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <a class="ui right floated white icon button" href="{{ path('rfcCore_systemParameters') }}">
+                                                <i class="cogs icon"></i>
+                                                {% trans %}System{% endtrans %}
+                                                </a>
+                                                {% endif %}
 
-{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-    <div id="reportIssue" class="ui right floated red labeled icon button">
-        <i class="warning icon"></i> Report issue / anomaly
-    </div>
+                                                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                                        <div id="reportIssue" class="ui right floated red labeled icon button">
+                                                            <i class="warning icon"></i> {% trans %}Report issue / anomaly{% endtrans %}
+                                                        </div>
 
-    <div id="reportIssuePopup" class="ui standard modal transition">
-        <i class="close icon"></i>
-        <div class="header">
-            Report issue
-        </div>
-        <div class="content">
-            <div class="description">
-                {% include 'RFCCoreBundle:Core:reportIssue.html.twig' %}
-            </div>
-        </div>
-    </div>
-{% endif %}
+                                                        <div id="reportIssuePopup" class="ui standard modal transition">
+                                                            <i class="close icon"></i>
+                                                            <div class="header">
+                                                                {% trans %}Report issue{% endtrans %}
+                                                                </div>
+                                                                <div class="content">
+                                                                    <div class="description">
+                                                                        {% include 'RFCCoreBundle:Core:reportIssue.html.twig' %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {% endif %}

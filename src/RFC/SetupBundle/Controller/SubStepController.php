@@ -21,12 +21,12 @@
 
 namespace RFC\SetupBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\HttpFoundation\Request;
 use RFC\SetupBundle\Entity\SubStep;
 use RFC\SetupBundle\Form\SubStepType;
 
-class SubStepController extends Controller
+class SubStepController extends RFCController
 {
 
     /**
