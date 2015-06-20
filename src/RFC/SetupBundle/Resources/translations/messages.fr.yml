@@ -1,0 +1,37 @@
+setup:
+  index:
+    title: 'Mes configurations'
+    loginRequired: 'Vous devez être connecté pour accéder à la page des configurations'
+    noSetups: 'Pour le moment aucune configurations créé'
+  configure:
+    title: 'Page de configuration'
+    data: 'Vous avez %stepCount% étapes de crées'
+    noData: 'Vous avez actuellement aucune étape de créé.'
+  actions:
+    manage: 'Configurer les données'
+    create: 'Créer'
+    addSubSteps: 'Ajouter des étapes'
+    edit: 'Éditer'
+    delete: 'Supprimer'
+    backPage: 'Retourner à la page précédente'
+    upgrade: 'Actualiser'
+    configure: 'Configurer'
+  dictionnary:
+    step: 'Étape'
+    subStep: 'one:Sous-étape|some:Sous-étapes'
+  step:
+    creationTitle: 'Création d''étape'
+    editionTitle: 'Édition d''étape'
+  substep:
+    version: 'Version %version%'
+    date: 'Date %date%'
+    value: 'Valeur %value%'
+    substepTitle: 'Sous-étape'
+    revision: 'Ver. %version%'
+  view:
+    outdated: 'Cette configuration est obsolète. Veuillez la modifier.'
+    noSetup: 'Aucune configuration pour cet identifiant (%setupid%).'
+    vehicle: 'Véhicule: %vehicle%'
+    track: 'Circuit: %track%'
+    completed: 'Configuration terminée'
+    progress: 'Étape %nombre%/%total%'

@@ -1,3 +1,171 @@
 core:
+  index:
+    gameData: 'Données de jeu'
+    noGames: 'Pas (encore) de jeu'
+    soon: 'Bientôt dans'
+    commingSoon: 'Bientôt disponible!'
   game:
     welcome: 'Bienvenue sur'
+    gamelist: 'Liste de jeux'
+    pendingSession: 'Session en cours'
+    currentSession: 'Session en cours'
+    flashNews: 'Nouveautés'
+    bestDriver: 'Meilleur pilote de la semaine'
+    noSessions:
+      current: 'Aucune session actuelle pour ce jeu. Tous les championnats actuels ne sont pas finis.'
+      future: 'Aucune session à venir pour ce jeu. Tous les championnats actuels ne sont pas finis.'
+  championship:
+    past: 'Anciens championnats'
+    future: 'Championnats en cours'
+    event:
+      title: 'one:Événement|some:Événements'
+      noEvents: 'Aucun événement existant. Au moins un doit être créé.'
+      session: 'Sessions'
+      showResults: 'Résultats des événements'
+      description:
+        notDefined: 'Non défini'
+        category: 'Catégorie : %categorie%'
+        vehicle: 'Véhicule : %vehicule%'
+        track: 'Circuit : %track%'
+        broadcast: 'Diffusion :'
+    info:
+      description: 'Description'
+      manager: '{0}Pas de manager|one:Manager|some:Managers'
+    participants:
+      title: '(%participantCount%) pilotes enregistrés'
+      tooMuch: 'Trop de pilotes à afficher.'
+      showFullList: 'Afficher tous les participants'
+      popupParticipant: 'Liste complète des participants'
+    progress:
+      title: 'Progression du championnat'
+      previousTitle: 'Session précédente'
+      previousNoSession: 'Aucune session précédente'
+      currentTitle: 'Session en cours'
+      currentNoSession: 'Aucune session en cours'
+      nextTitle: 'Prochaine session'
+      nextNoSession: 'Aucune session entrante'
+    registration:
+      alreadyRegistered: 'Vous êtes toujours inscrits pour ce championnat'
+      notRegistered: 'Vous n''êtes pas inscrit pour ce championnat'
+      championshipStarted: 'Vous n''êtes pas autorisé à vous inscrire au championnat en cours.'
+      notLogged: 'Vous devez vous connecter pour vous inscrire à ce championnat.'
+    result:
+      rank: 'Rang'
+      name: 'Nom'
+      points: 'Points'
+      showLeaderboard: 'Voir classement complet'
+      popupGobalResults: 'Résultat global'
+      popupEventResults: 'Résultat de l''événement :'
+      title: 'Résultat'
+  crew:
+    title: 'Mon équipage'
+    requirements: 'Vous devez vous identifier / créer un compte pour appartenir a un groupe'
+    application:
+      selectManager: "Vous ne faites partie d'aucune équipe.<br/> Sélectionnez un membre en tant que chef pour rejoindre son équipe."
+      awaiting: "Vous avez demandé à faire partie de l'équipe  de <strong>%username%</strong> mais votre demande n'a pas encore été acceptée."
+    info:
+      membership: "Vous appartenez à l'équipage de %username%<br/>N'hésitez pas à partager des choses avec votre équipe."
+      manager: 'Manager'
+      activeMembers: 'Membres actifs'
+      noActiveMembers: 'Membres en attente d''activation'
+  members:
+    title: 'Liste des membres'
+    table:
+      username: 'Nom d''utilisateur'
+      steamID: 'Identifiant Steam'
+      mentor: 'Conseiller'
+    view:
+      noMember: 'Aucun membre pour l''identifiant (%userid%).'
+      role: 'one:Rôle|some:Rôles'
+      userName: 'Nom d''utilisateur'
+      firstName: 'Prénom'
+      lastName: 'Nom'
+      age: 'Age'
+      email: 'Email'
+      lastLogin: 'Dernière date de connexion'
+      mentor: '{0}Aucun conseiller|one:Conseiller/some:Conseillers'
+  parameters:
+    general: 'Général'
+    informations: 'Informations'
+    siteVersion: 'Version du site'
+    administrator: 'Administrateur'
+    siteName: 'Nom du site'
+    quickLinks: 'Liens rapides'
+    game:
+      data:
+        championships: 'Nombre de championnats'
+        vehicles: 'Nombre de véhicules'
+        tracks: 'Nombre de circuits'
+        categories: 'Nombre de catégories'
+        metaRules: 'Nombre de méta-règles'
+        rules: 'Nombre de règles'
+        sessionTypes: 'Nombre de types de session'
+      flashNews: 'Nouveautés'
+      parameters: 'Paramètres de jeu'
+      weeklyDriver: 'Pilote de la semaine'
+      weeklyDriverSelect: 'Sélectionner le meilleur pilote de la semaine'
+  dictionnary:
+    category: 'one:Catégorie|some:Catégories'
+    championship: 'one:Championnat|some:Championnats'
+    metaRule: 'one:Règle|some:Règles'
+    rule: 'one:Règle|some:Règles'
+    vehicle: 'one:Véhicule|some:Véhicules'
+    track: 'one:Circuit|some:Circuits'
+    sessionType: 'one:Type de session|some:Types de sessions'
+    preference: 'one:Préférence|some:Préférences'
+    crew: 'one:Équipage|some:Équipages'
+    statistic: 'one:Statistique|some:Statistiques'
+    information: 'one:Information|some:Informations'
+  menu:
+    calendar: 'Calendrier'
+    championships: 'Championnats'
+    crew: 'Équipage'
+    game: 'Accueil du jeu'
+    members: 'Membres'
+    parameters: 'Paramètres de jeu'
+    setups: 'Configurations'
+  misc:
+    showFooter: 'Voir le pied-de-page'
+    hookHelp: 'RFChampionship est un outil modulable et intelligent'
+  action:
+    add: 'Ajouter'
+    addGame: 'Ajouter un jeu'
+    confirm: 'Confirmer'
+    edit: 'Éditer'
+    go:
+      gameIndex: 'Aller à l''accueil du jeu'
+      gameParameters: 'Allez aux paramètres de jeu'
+    register: 'S''inscrire'
+    reset: 'Réinitialiser'
+    show: 'Voir'
+    submit: 'Soumettre'
+    unregister: 'Se désinscrire'
+    sendRequest: 'Envoyer la requête'
+    cancelRequest: 'Annuler la requête'
+    accept: 'Accepter'
+    decline: 'Refuser'
+  table:
+    id: 'Identifiant'
+    name: 'Nom'
+    description: 'Description'
+    value: 'Valeur'
+    usedForResults: 'Utilisé pour les résultats'
+    images: 'Images'
+  issue:
+    title: 'Titre'
+    message: "Message"
+    notSent: 'Votre rapport d''anomalie n''a pas été envoyé.<br/>\n Veuillez essayer ultérieurement.'
+    sent: 'Votre rapport d''anomalie %issueTitle% a été envoyé.'
+    link: 'Vous pouvez y accéder en suivant ce lien :'
+    thanks: 'Merci de votre contribution'
+  user:
+    crew:
+      pendingRequests: 'Requêtes en attente'
+      pendingInfo: "Vous avez demandé à faire partie de l'équipage de  <strong>%username%</strong> le %date%."
+      requestsToJoin: 'Des membres attendent votre réponse'
+      requestToJoinInfo: 'Le membre <strong>%username%</strong> demande à faire partie de votre équipage.'
+      requestQuestion: 'Acceptez-vous ?'
+      activeCrews: 'Équipages actifs'
+      activeCrewInfo: "Vous faites partie de l'équipage de <strong>%username%</strong> depuis le %date%."
+    championships: 'Championnats'
+    statistics: 'Statistiques'
