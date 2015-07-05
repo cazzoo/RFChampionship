@@ -17,6 +17,7 @@ core:
   championship:
       past: 'Past championships'
       future: 'Current/incoming championships'
+      draft: 'Draft championships'
       event:
           title: 'one:Event|some:Events'
           noEvents: 'No existing events. Some need to be created.'

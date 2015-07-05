@@ -32,26 +32,30 @@ class ChampionshipController extends RFCController
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        $championships = $entityManager->getRepository('RFCCoreBundle:Championship')->createQueryBuilder('c')->join('c.listEvents',
-                'e')->join('e.listSessions', 's')->where('c.game = :gameId')->setParameters(array(
+        $championships = $entityManager->getRepository('RFCCoreBundle:Championship')->createQueryBuilder('c')->where('c.game = :gameId')->setParameters(array(
                 'gameId' => $gameId
             ))->getQuery()->getResult();
 
-        $pastChampionships = array();
+        $pastChampionships    = array();
         $currentChampionships = array();
+        $draftChampionships   = array();
         foreach ($championships as $championship) {
-            if($championship->getIsFinished())
-            {
-                array_push($pastChampionships, $championship);
+            if ($championship->getIsDraft()) {
+                array_push($draftChampionships, $championship);
             } else {
-                array_push($currentChampionships, $championship);
+                if ($championship->getIsFinished()) {
+                    array_push($pastChampionships, $championship);
+                } else {
+                    array_push($currentChampionships, $championship);
+                }
             }
         }
 
         return $this->render('RFCCoreBundle:Championship:index.html.twig',
                 array(
                 'currentChampionships' => $currentChampionships,
-                'pastChampionships' => $pastChampionships
+                'pastChampionships' => $pastChampionships,
+                'draftChampionships' => $draftChampionships
         ));
     }
 
@@ -68,7 +72,8 @@ class ChampionshipController extends RFCController
             throw $this->createNotFoundException('Unable to find Championship entity.');
         }
 
-        $threadId = $entity->isCommentsActive() ? substr(strrchr(get_class($entity), "\\"), 1).'_'.$championshipId : null;
+        $threadId = $entity->isCommentsActive() ? substr(strrchr(get_class($entity),
+                    "\\"), 1).'_'.$championshipId : null;
         return $this->render('RFCCoreBundle:Championship:show.html.twig',
                 array(
                 'sessions' => null,

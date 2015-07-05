@@ -22,7 +22,7 @@
 
     {% if is_granted('ROLE_ADMIN') %}
         <a class="ui primary labeled icon button" href="{{ path('admin_championship_new', {'gameId': appSettings.getGame().id}) }}"><i class="add icon"></i>{{ 'core.action.add'|trans}}</a>
-    {% endif %}
+        {% endif %}
 
     <div class="ui three column stackable grid">
         <div class="four wide column">
@@ -34,5 +34,10 @@
             {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with {'championships' : currentChampionships} %}
         </div>
     </div>
+
+    {% if is_granted('ROLE_MANAGER') %}
+        <h1>{% trans %}core.championship.draft{% endtrans %}</h1>
+        {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with {'championships' : draftChampionships} %}
+    {% endif %}
 
 {% endblock %}

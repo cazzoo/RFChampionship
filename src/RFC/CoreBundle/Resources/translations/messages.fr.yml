@@ -17,6 +17,7 @@ core:
   championship:
     past: 'Anciens championnats'
     future: 'Championnats en cours'
+    draft: 'Championnats brouillons'
     event:
       title: 'one:Événement|some:Événements'
       noEvents: 'Aucun événement existant. Au moins un doit être créé.'
@@ -24,8 +25,8 @@ core:
       showResults: 'Résultats des événements'
       description:
         notDefined: 'Non défini'
-        category: 'Catégorie : %categorie%'
-        vehicle: 'Véhicule : %vehicule%'
+        category: 'Catégorie : %category%'
+        vehicle: 'Véhicule : %vehicle%'
         track: 'Circuit : %track%'
         broadcast: 'Diffusion :'
     info:

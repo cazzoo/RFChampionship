@@ -560,6 +560,16 @@ class Championship extends KnowledgeData
         $date = new \DateTime ();
         $date->setTimezone(new \DateTimeZone('Europe/Paris'));
 
-        return $this->getEndDate() < $date->format('Y-m-d H:i:s');
+        return $this->getEndDate()->format('Y-m-d H:i:s') < $date->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * Returns whether the championship has session dates or not
+     * @return false if the entity has BeginDate or EndDate through session(s) or true if not
+     */
+    public function getIsDraft()
+    {
+        return ($this->getBeginDate() != null || $this->getEndDate() != null) ? false
+                : true;
     }
 }
