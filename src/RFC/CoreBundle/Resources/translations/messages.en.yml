@@ -4,6 +4,7 @@ core:
         system: 'System'
         reportIssue: 'Report issue / anomaly'
         userPanel: 'User panel'
+        participate: 'Participate'
         register: 'Register new account'
         forgottenPassword: 'Forgotten password'
         help: 'Help'

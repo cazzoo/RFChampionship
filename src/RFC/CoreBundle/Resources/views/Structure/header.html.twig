@@ -25,6 +25,8 @@
     <i class="user icon"></i>
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         {{app.user.username}}
+    {% else %}
+        {% trans %}core.structure.menu.participate{% endtrans %}
     {% endif %}
     <i class="dropdown icon"></i>
     <div class="menu">
