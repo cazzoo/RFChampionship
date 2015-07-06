@@ -28,7 +28,7 @@ i.icon {
   display: inline-block;
   opacity: 1;
   margin: 0em 0.25rem 0em 0em;
-  width: 1.23em;
+  width: 1.18em;
   height: 1em;
   font-family: 'Icons';
   font-style: normal;
@@ -38,6 +38,7 @@ i.icon {
   speak: none;
   font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
 }
@@ -57,6 +58,7 @@ i.icon:before {
 
 i.icon.loading {
   height: 1em;
+  line-height: 1;
   -webkit-animation: icon-loading 2s linear infinite;
           animation: icon-loading 2s linear infinite;
 }
@@ -179,7 +181,7 @@ i.bordered.icon {
   vertical-align: baseline;
   width: 2em;
   height: 2em;
-  padding: 0.5em 0.385em !important;
+  padding: 0.5em 0.41em !important;
   box-shadow: 0em 0em 0em 0.1em rgba(0, 0, 0, 0.1) inset;
 }
 i.bordered.inverted.icon {
@@ -243,6 +245,19 @@ i.inverted.yellow.icon {
 i.inverted.bordered.yellow.icon,
 i.inverted.circular.yellow.icon {
   background-color: #fbbd08 !important;
+  color: #ffffff !important;
+}
+
+/* Olive */
+i.olive.icon {
+  color: #b5cc18 !important;
+}
+i.inverted.olive.icon {
+  color: #d9e778 !important;
+}
+i.inverted.bordered.olive.icon,
+i.inverted.circular.olive.icon {
+  background-color: #b5cc18 !important;
   color: #ffffff !important;
 }
 
@@ -339,14 +354,14 @@ i.inverted.circular.brown.icon {
 
 /* Grey */
 i.grey.icon {
-  color: #889090 !important;
+  color: #767676 !important;
 }
 i.inverted.grey.icon {
   color: #dcddde !important;
 }
 i.inverted.bordered.grey.icon,
 i.inverted.circular.grey.icon {
-  background-color: #889090 !important;
+  background-color: #767676 !important;
   color: #ffffff !important;
 }
 
@@ -356,6 +371,7 @@ i.inverted.circular.grey.icon {
 
 i.small.icon,
 i.small.icons {
+  line-height: 1;
   font-size: 0.92857143em;
 }
 i.icon,
@@ -364,23 +380,27 @@ i.icons {
 }
 i.large.icon,
 i.large.icons {
-  font-size: 1.5em;
+  line-height: 1;
   vertical-align: middle;
+  font-size: 1.5em;
 }
 i.big.icon,
 i.big.icons {
-  font-size: 2em;
+  line-height: 1;
   vertical-align: middle;
+  font-size: 2em;
 }
 i.huge.icon,
 i.huge.icons {
-  font-size: 4em;
+  line-height: 1;
   vertical-align: middle;
+  font-size: 4em;
 }
 i.massive.icon,
 i.massive.icons {
-  font-size: 8em;
+  line-height: 1;
   vertical-align: middle;
+  font-size: 8em;
 }
 
 
