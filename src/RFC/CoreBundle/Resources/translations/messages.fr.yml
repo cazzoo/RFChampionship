@@ -1,4 +1,14 @@
 core:
+  structure:
+      menu:
+        system: 'Système'
+        reportIssue: 'Signaler un problème / une anomalie'
+        userPanel: 'Panel utilisateur'
+        register: "S'enregistrer"
+        forgottenPassword: 'Mot de passe oublié'
+        help: 'Aide'
+        reportIssue:
+          title: 'Signaler un problème'
   index:
     gameData: 'Données de jeu'
     noGames: 'Pas (encore) de jeu'

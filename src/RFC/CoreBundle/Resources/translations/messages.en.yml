@@ -1,4 +1,14 @@
 core:
+  structure:
+      menu:
+        system: 'System'
+        reportIssue: 'Report issue / anomaly'
+        userPanel: 'User panel'
+        register: 'Register new account'
+        forgottenPassword: 'Forgotten password'
+        help: 'Help'
+        reportIssue:
+          title: 'Report issue'
   index:
       gameData: 'Game data'
       noGames: 'No games (yet!)'

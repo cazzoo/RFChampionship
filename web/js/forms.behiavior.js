@@ -947,6 +947,12 @@ $(function () {
      * $(this).find('a').attr('href'); if (href) { window.location = href; } });
      */
 
+    $('#userMenu').dropdown({
+        on: 'hover',
+        duration: 75,
+        transition: 'fade down'
+    });
+
     $('#loginButton').click(function () {
         $('#loginForm').submit();
     });
