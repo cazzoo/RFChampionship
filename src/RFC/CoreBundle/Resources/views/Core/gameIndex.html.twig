@@ -27,7 +27,7 @@
 
     <div class="ui two column stackable grid">
         <div class="column">
-            <h3 class="ui top attached header">{% trans %}core.game.pendingSession{% endtrans %}</h3>
+            <h3 class="ui top attached header">{% trans %}core.game.currentSessions{% endtrans %}</h3>
             <div class="ui attached segment">
                 {% if game.getCurrentSessions|length > 0 %}
                     {% for session in game.getCurrentSessions %}
@@ -67,7 +67,7 @@
                     <h3>{% trans %}core.game.noSessions.current{% endtrans %}</h3>
                 {% endif %}
             </div>
-            <h3 class="ui top attached header">{% trans %}core.game.currentSession{% endtrans %}</h3>
+            <h3 class="ui top attached header">{% trans %}core.game.incomingSessions{% endtrans %}</h3>
             <div class="ui attached segment">
                 {% if game.getNextSessions|length > 0 %}
                     {% for session in game.getNextSessions %}

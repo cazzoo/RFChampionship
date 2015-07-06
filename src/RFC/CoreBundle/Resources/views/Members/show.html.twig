@@ -60,7 +60,7 @@
                                 </div>
                                 <div class="field">
                                     <label>{% trans %}core.members.view.email{% endtrans %}</label>
-                                    <input placeholder="{{ user.steamId }}" readonly="readonly" type="text">
+                                    <input placeholder="{{ user.email }}" readonly="readonly" type="text">
                                 </div>
                                 <div class="field">
                                     <label>{% trans %}core.members.view.lastLogin{% endtrans %}</label>
@@ -93,7 +93,7 @@
 
                     </div>
                     <div class="extra">
-                        <a class="ui right floated blue labeled icon button" href="#"><i class="edit icon"></i>{% trans %}core.action.edit{% endtrans %}</a>
+                        <a class="ui right floated blue labeled icon button" href="{{ path('admin_user_edit', { 'userId': user.id }) }}"><i class="edit icon"></i>{% trans %}core.action.edit{% endtrans %}</a>
                     </div>
                 </div>
             </div>

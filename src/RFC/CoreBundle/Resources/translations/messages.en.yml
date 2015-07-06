@@ -7,8 +7,8 @@ core:
   game:
     welcome: 'Welcome on'
     gamelist: 'Game list'
-    pendingSession: 'Pending sessions'
-    currentSession: 'Current Session'
+    incomingSessions: 'Incomming sessions'
+    currentSessions: 'Current Sessions'
     flashNews: 'Flash news!'
     bestDriver: 'Best driver of the week'
     noSessions:
