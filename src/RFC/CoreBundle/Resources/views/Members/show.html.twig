@@ -92,9 +92,11 @@
                         </div>
 
                     </div>
-                    <div class="extra">
-                        <a class="ui right floated blue labeled icon button" href="{{ path('admin_user_edit', { 'userId': user.id }) }}"><i class="edit icon"></i>{% trans %}core.action.edit{% endtrans %}</a>
-                    </div>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="extra">
+                            <a class="ui right floated blue labeled icon button" href="{{ path('admin_user_edit', { 'userId': user.id }) }}"><i class="edit icon"></i>{% trans %}core.action.edit{% endtrans %}</a>
+                        </div>
+                    {% endif %} 
                 </div>
             </div>
         </div>
