@@ -78,11 +78,10 @@ function getChampionshipResults(championshipId) {
         cache: false
     }).done(function (data) {
         addNotification('Championship results updated', 'success');
+        $('.ui.globalResults.modal').remove();
         $('#globalResults').html(data);
         $('#viewFullLeaderboard').bind('click', function () {
-
             showModalAndActivatePopups($('.standard.globalResults.modal'));
-
         });
     }).fail(
             function (jqXHR, textStatus, errorThrown) {
@@ -977,9 +976,9 @@ $(function () {
 
 });
 
-$('.ui.checkbox').checkbox();
+//$('.ui.checkbox').checkbox();
 
-$('.dropdown').dropdown();
+$('.dropdown').not('#userMenu').dropdown();
 
 $('.popupLabel').popup({
     inline: true
