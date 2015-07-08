@@ -16,7 +16,7 @@
 
 {% if app.user %}
 
-    {% if championship.registrationInProgress or (not championship.registrationInProgress and championship.getBeginDate|date("Y/m/d H:i") < "now"|date("Y/m/d H:i")) }} %}
+    {% if championship.registrationInProgress or (not championship.registrationInProgress and championship.getBeginDate|date("Y/m/d H:i") < "now"|date("Y/m/d H:i")) %}
 
         {% if status == '' %}
             {% if app.user.username in championship.listUsers %}
