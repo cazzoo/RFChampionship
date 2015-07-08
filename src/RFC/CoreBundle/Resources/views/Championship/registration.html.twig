@@ -16,7 +16,7 @@
 
 {% if app.user %}
 
-    {% if championship.registrationInProgress %}
+    {% if championship.registrationInProgress or (not championship.registrationInProgress and championship.getBeginDate|date("Y/m/d H:i") < "now"|date("Y/m/d H:i")) }} %}
 
         {% if status == '' %}
             {% if app.user.username in championship.listUsers %}
@@ -57,5 +57,5 @@
 {% else %}
 
     <div class="ui inverted red segment">{% trans %}core.championship.registration.notLogged{% endtrans %}</div>
-    
+
 {% endif %}

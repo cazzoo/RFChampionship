@@ -112,7 +112,7 @@ class ChampionshipController extends RFCController
             return $this->render('RFCCoreBundle:Championship:registration.html.twig',
                     array(
                     'status' => $action,
-                    'entity' => $championship,
+                    'championship' => $championship,
                     'gameId' => $gameId
             ));
         } else {
