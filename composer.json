@@ -29,7 +29,8 @@
         "friendsofsymfony/comment-bundle": "dev-master",
         "knplabs/knp-menu": "2.0.*@dev",
         "knplabs/knp-menu-bundle": "2.0.*@dev",
-        "tan-tan-kanarek/github-php-client": "dev-master"
+        "tan-tan-kanarek/github-php-client": "dev-master",
+        "ras/flash-alert-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
