@@ -1,4 +1,5 @@
 <?php
+
 /*
  * //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
  * Copyright (C) 2014 - //Racing-France//
@@ -26,25 +27,23 @@ use RFC\UserBundle\Entity\User;
 use RFC\UserBundle\Form\UserFormType;
 use Symfony\Component\HttpFoundation\Request;
 
-class UserController extends RFCController
-{
+class UserController extends RFCController {
 
-    public function indexAction()
-    {
-        if ($this->getUser() !== null) {
-            $entityManager = $this->getDoctrine()->getManager();
+    public function indexAction(Request $request) {
 
-            $games         = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
-            $championships = $entityManager
-                    ->getRepository('RFCCoreBundle:Championship')
-                    ->createQueryBuilder('c')
-                    ->join('c.listUsers', 'u', 'WITH', 'u.id = :userId')
-                    ->setParameter('userId', $this->getUser()->getId())
-                    ->getQuery()->getResult();
+        $entityManager = $this->getDoctrine()->getManager();
 
-            $user = $this->container->get('security.context')->getToken()->getUser();
+        $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
+        $championships = $entityManager
+                        ->getRepository('RFCCoreBundle:Championship')
+                        ->createQueryBuilder('c')
+                        ->join('c.listUsers', 'u', 'WITH', 'u.id = :userId')
+                        ->setParameter('userId', $this->getUser()->getId())
+                        ->getQuery()->getResult();
 
-            $crewAwaitingRequests = $entityManager
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        $crewAwaitingRequests = $entityManager
                 ->getRepository('RFCCoreBundle:CrewRequest')
                 ->createQueryBuilder('cr')
                 ->join('cr.crew', 'c')
@@ -54,36 +53,61 @@ class UserController extends RFCController
                 ->getQuery()
                 ->getResult();
 
-            $userForm = $this->createForm(new UserFormType('RFC\UserBundle\Entity\User'),
-                $user,
-                array(
-                'action' => $this->generateUrl('rfcCore_user_update'),
-                'method' => 'PUT',
-            ));
+        $userForm = $this->createEditForm($user);
+        $userForm->handleRequest($request);
 
-            $userForm->add('submit', 'submit', array('label' => 'Update'));
+        if ($userForm->isValid()) {
+            $entityManager->flush();
+            
+             $this->get('ras_flash_alert.alert_reporter')->addSuccess("Vos paramètres ont été correctement mis à jour");
 
-            $userFormView = $userForm->createView();
+            return $this->redirect($this->generateUrl('rfcCore_user'));
+        } else {
+            
+            $this->get('ras_flash_alert.alert_reporter')->addError("Un des champs du formulaire est incorrect");
+            
+            return $this->render('RFCCoreBundle:User:index.html.twig', [
+                        'games' => $games,
+                        'championships' => $championships,
+                        'user' => $user,
+                        'userForm' => $userForm->createView(),
+                        'crewAwaitingRequests' => $crewAwaitingRequests
+            ]);
+        }
 
-            return $this->render('RFCCoreBundle:User:index.html.twig',
-                    ['games' => $games,
+        return $this->render('RFCCoreBundle:User:index.html.twig', [
+                    'games' => $games,
                     'championships' => $championships,
                     'user' => $user,
-                    'userForm' => $userFormView,
+                    'userForm' => $userForm->createView(),
                     'crewAwaitingRequests' => $crewAwaitingRequests
-            ]);
-        } else {
-            return $this->redirect($this->generateUrl('fos_user_security_login'));
-        }
+        ]);
     }
 
     /**
      * Edits an existing User entity.
      */
-    public function updateAction(Request $request)
-    {
-        $user          = $this->container->get('security.context')->getToken()->getUser();
+    public function updateAction(Request $request) {
+
         $entityManager = $this->getDoctrine()->getManager();
+
+        $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
+        $championships = $entityManager
+                        ->getRepository('RFCCoreBundle:Championship')
+                        ->createQueryBuilder('c')
+                        ->join('c.listUsers', 'u', 'WITH', 'u.id = :userId')
+                        ->setParameter('userId', $this->getUser()->getId())
+                        ->getQuery()->getResult();
+
+        $crewAwaitingRequests = $entityManager
+                ->getRepository('RFCCoreBundle:CrewRequest')
+                ->createQueryBuilder('cr')
+                ->join('cr.crew', 'c')
+                ->where('cr.state = 1')
+                ->andwhere('c.manager = :userId')
+                ->setParameter('userId', $this->getUser()->getId())
+                ->getQuery()
+                ->getResult();
 
         $entity = $entityManager->getRepository('RFCUserBundle:User')->find($user->getId());
 
@@ -100,16 +124,17 @@ class UserController extends RFCController
             return $this->redirect($this->generateUrl('rfcCore_user'));
         }
 
-        return $this->redirect($this->generateUrl('rfcCore_user'));
+        return $this->render('RFCCoreBundle:User:index.html.twig', [
+                    'games' => $games,
+                    'championships' => $championships,
+                    'user' => $entity,
+                    'userForm' => $editForm,
+                    'crewAwaitingRequests' => $crewAwaitingRequests
+        ]);
     }
 
-    private function createEditForm(User $entity)
-    {
-        $form = $this->createForm(new UserFormType('RFC\UserBundle\Entity\User'),
-            $entity,
-            array(
-            'action' => $this->generateUrl('admin_user_update',
-                array('userId' => $entity->getId())),
+    private function createEditForm(User $entity) {
+        $form = $this->createForm(new UserFormType('RFC\UserBundle\Entity\User'), $entity, array('action' => $this->generateUrl('rfcCore_user', array('userId' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -118,14 +143,4 @@ class UserController extends RFCController
         return $form;
     }
 
-    private function createDeleteForm($userId)
-    {
-        return $this->createFormBuilder()
-                ->setAction($this->generateUrl('admin_user_delete',
-                        array('userId' => $userId)))
-                ->setMethod('DELETE')
-                ->add('submit', 'submit', array('label' => 'Delete'))
-                ->getForm()
-        ;
-    }
 }
