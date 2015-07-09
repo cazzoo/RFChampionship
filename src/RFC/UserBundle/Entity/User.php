@@ -26,12 +26,15 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use RFC\CoreBundle\Entity\Championship;
 use RFC\CoreBundle\Entity\CrewRequest;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @UniqueEntity("favoriteNumber",  message="user.fav_number.not_unique", ignoreNull=true)
  */
 class User extends BaseUser
 {
@@ -72,6 +75,13 @@ class User extends BaseUser
      * @ORM\Column(name="steamId", type="string", length=255, nullable=true)
      */
     protected $steamId;
+
+    /**
+     * @ORM\Column(name="favoriteNumber", type="integer", nullable=true, unique=true)
+     * @Assert\GreaterThan( value = 0, message="constraint.positive" )
+     * 
+     */
+    protected $favoriteNumber;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Property")
@@ -220,6 +230,17 @@ class User extends BaseUser
     public function getSteamId()
     {
         return $this->steamId;
+    }
+
+    function getFavoriteNumber()
+    {
+        return $this->favoriteNumber;
+    }
+
+    function setFavoriteNumber($favoriteNumber)
+    {
+        $this->favoriteNumber = $favoriteNumber;
+        return $this;
     }
 
     /**

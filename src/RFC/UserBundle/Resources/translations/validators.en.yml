@@ -1,0 +1,2 @@
+constraint.positive : 'Only positive number allowed.'
+user.fav_number.not_unique: 'Your favorite number is already used. Please chose another.'

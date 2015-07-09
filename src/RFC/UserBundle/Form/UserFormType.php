@@ -45,10 +45,10 @@ class UserFormType extends BaseType
                 array(
                 'required' => false
             ))
-            ->add('enabled', 'checkbox',
-                array(
-                'required' => false))
+            ->add('enabled', 'checkbox', array(
+                'required' => false))->add('favoriteNumber')
             ->add('locale', 'choice',
-                array('choices' => array('en_UK' => 'English', 'fr_FR' => 'French'), 'required' => true));
+                array('choices' => array('en_UK' => 'English', 'fr_FR' => 'French'),
+                'required' => true));
     }
 }
