@@ -18,6 +18,7 @@
  */
 
 // src/RFC/CoreBundle/Controller/UserController.php
+
 namespace RFC\CoreBundle\Controller;
 
 use RFC\FrameworkBundle\Controller\RFCController;
@@ -25,58 +26,63 @@ use RFC\UserBundle\Entity\User;
 use RFC\UserBundle\Form\UserFormType;
 use Symfony\Component\HttpFoundation\Request;
 
-class UserController extends RFCController {
-    
-    public function indexAction() {
-        if ($this->getUser () !== null) {
-            $entityManager = $this->getDoctrine ()->getManager ();
+class UserController extends RFCController
+{
 
-            $games = $entityManager->getRepository ( 'RFCCoreBundle:Game' )->findAll ();
+    public function indexAction()
+    {
+        if ($this->getUser() !== null) {
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $games         = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
             $championships = $entityManager
-                ->getRepository ( 'RFCCoreBundle:Championship' )
-                ->createQueryBuilder ( 'c' )
-                ->join ( 'c.listUsers', 'u', 'WITH', 'u.id = :userId' )
-                ->setParameter ( 'userId', $this->getUser ()->getId () )
-                ->getQuery ()->getResult ();
+                    ->getRepository('RFCCoreBundle:Championship')
+                    ->createQueryBuilder('c')
+                    ->join('c.listUsers', 'u', 'WITH', 'u.id = :userId')
+                    ->setParameter('userId', $this->getUser()->getId())
+                    ->getQuery()->getResult();
 
-            $user = $this->container->get ( 'security.context' )->getToken ()->getUser ();
-            
+            $user = $this->container->get('security.context')->getToken()->getUser();
+
             $crewAwaitingRequests = $entityManager
-                ->getRepository ( 'RFCCoreBundle:CrewRequest' )
-                ->createQueryBuilder ( 'cr' )
-                ->join ( 'cr.crew', 'c')
-                ->where ('cr.state = 1')
-                ->andwhere ('c.manager = :userId')
-                ->setParameter ( 'userId', $this->getUser ()->getId () )
-                ->getQuery ()
-                ->getResult ();
-            
-            $userForm = $this->createForm(new UserFormType('RFC\UserBundle\Entity\User'), $user, array(
+                ->getRepository('RFCCoreBundle:CrewRequest')
+                ->createQueryBuilder('cr')
+                ->join('cr.crew', 'c')
+                ->where('cr.state = 1')
+                ->andwhere('c.manager = :userId')
+                ->setParameter('userId', $this->getUser()->getId())
+                ->getQuery()
+                ->getResult();
+
+            $userForm = $this->createForm(new UserFormType('RFC\UserBundle\Entity\User'),
+                $user,
+                array(
                 'action' => $this->generateUrl('rfcCore_user_update'),
                 'method' => 'PUT',
             ));
 
             $userForm->add('submit', 'submit', array('label' => 'Update'));
-            
+
             $userFormView = $userForm->createView();
 
-            return $this->render ( 'RFCCoreBundle:User:index.html.twig',                    ['games' => $games,
-                'championships' => $championships,
-                'user' => $user,
-                'userForm' => $userFormView,
-                'crewAwaitingRequests' => $crewAwaitingRequests
-                ] );
+            return $this->render('RFCCoreBundle:User:index.html.twig',
+                    ['games' => $games,
+                    'championships' => $championships,
+                    'user' => $user,
+                    'userForm' => $userFormView,
+                    'crewAwaitingRequests' => $crewAwaitingRequests
+            ]);
         } else {
-            return $this->redirect ( $this->generateUrl ( 'fos_user_security_login' ) );
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
     }
-    
+
     /**
      * Edits an existing User entity.
      */
     public function updateAction(Request $request)
     {
-        $user = $this->container->get ( 'security.context' )->getToken ()->getUser ();
+        $user          = $this->container->get('security.context')->getToken()->getUser();
         $entityManager = $this->getDoctrine()->getManager();
 
         $entity = $entityManager->getRepository('RFCUserBundle:User')->find($user->getId());
@@ -85,7 +91,6 @@ class UserController extends RFCController {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($user->getId());
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
@@ -95,17 +100,16 @@ class UserController extends RFCController {
             return $this->redirect($this->generateUrl('rfcCore_user'));
         }
 
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        return $this->redirect($this->generateUrl('rfcCore_user'));
     }
 
     private function createEditForm(User $entity)
     {
-        $form = $this->createForm(new UserFormType('RFC\UserBundle\Entity\User'), $entity, array(
-            'action' => $this->generateUrl('admin_user_update', array('userId' => $entity->getId())),
+        $form = $this->createForm(new UserFormType('RFC\UserBundle\Entity\User'),
+            $entity,
+            array(
+            'action' => $this->generateUrl('admin_user_update',
+                array('userId' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -117,10 +121,11 @@ class UserController extends RFCController {
     private function createDeleteForm($userId)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_user_delete', array('userId' => $userId)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+                ->setAction($this->generateUrl('admin_user_delete',
+                        array('userId' => $userId)))
+                ->setMethod('DELETE')
+                ->add('submit', 'submit', array('label' => 'Delete'))
+                ->getForm()
         ;
     }
 }

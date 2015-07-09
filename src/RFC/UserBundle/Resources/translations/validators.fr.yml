@@ -1,0 +1,2 @@
+constraint.positive : 'Seules les valeurs positives sont autorisées.'
+user.fav_number.not_unique: 'Votre numéro favori est déjà pris. Choisissez-en un nouveau.'
