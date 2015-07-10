@@ -14,14 +14,7 @@
 
             {% for driver in listDrivers|slice(0, listHalf) %}
 
-                <div class="item">
-                    <img class="ui avatar image" src="{{ driver.avatarUrl }}">
-                    <div class="content">
-                        <a class="header" href="{{ path('rfcCore_members_show', {'gameId': appSettings.getGame().id, 'userId': driver.id}) }}">
-                            {{ driver.username }}
-                        </a>
-                    </div>
-                </div>
+                {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : driver} %}
 
             {% endfor %}
 
@@ -32,14 +25,7 @@
 
             {% for driver in listDrivers|slice(listHalf, listDrivers|length) %}
 
-                <div class="item">
-                    <img class="ui avatar image" src="{{ driver.avatarUrl }}">
-                    <div class="content">
-                        <a class="header" href="{{ path('rfcCore_members_show', {'gameId': appSettings.getGame().id, 'userId': driver.id}) }}">
-                            {{ driver.username }}
-                        </a>
-                    </div>
-                </div>
+                {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : driver} %}
 
             {% endfor %}
 

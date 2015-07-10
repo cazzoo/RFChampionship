@@ -16,3 +16,11 @@
 
 {# src/RFC/CoreBundle/Resources/views/User/index.html.twig #}
 
+<div class="ui item">
+    <img class="ui avatar image" src="{{ user.avatarUrl }}">
+    <div class="content">
+        <a class="header" href="{{ path('rfcCore_members_show', {'gameId': appSettings.getGame().id, 'userId': user.id}) }}">
+            {{ user.username }}{{ user.favoriteNumber ? ' (' ~ user.favoriteNumber ~ ')' }}
+        </a>
+    </div>
+</div>

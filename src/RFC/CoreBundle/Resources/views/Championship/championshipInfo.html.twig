@@ -83,14 +83,7 @@
                 {% if championship.listManagers %}
                     <div class="ui horizontal divider">{% transchoice championship.listManagers|length %}core.championship.info.manager{% endtranschoice %}</div>
                     {% for manager in championship.listManagers %}
-                        <div class="item">
-                            <img class="ui avatar image" src="{{ manager.avatarUrl }}">
-                            <div class="content">
-                                <a class="header" href="{{ path('rfcCore_members_show', {'gameId': appSettings.getGame().id, 'userId': manager.id}) }}">
-                                    {{ manager.username }}
-                                </a>
-                            </div>
-                        </div>
+                        {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : manager} %}
                     {% endfor %}
                 {% else %}
                     <div class="item">

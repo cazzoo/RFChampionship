@@ -118,7 +118,7 @@
                 <p>
                     {% for user in users %}
                         {% if user.id == game.getWeeklyDriver.value %}
-                            {{ user.userName }}
+                            {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : user} %}
                         {% endif %}
                     {% endfor %}
                 </p>

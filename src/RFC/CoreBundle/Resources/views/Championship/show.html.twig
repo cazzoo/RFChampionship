@@ -47,14 +47,7 @@
 
                                 {% for participant in championship.listUsers %}
 
-                                    <div class="item">
-                                        <img class="ui avatar image" src="{{ participant.avatarUrl }}">
-                                        <div class="content">
-                                            <a class="header" href="{{ path('rfcCore_members_show', {'gameId': appSettings.getGame().id, 'userId': participant.id}) }}">
-                                                {{ participant.username }}
-                                            </a>
-                                        </div>
-                                    </div>
+                                    {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : participant} %}
 
                                 {% endfor %}
 
