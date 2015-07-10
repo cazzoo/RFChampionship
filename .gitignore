@@ -16,3 +16,6 @@
 *.out
 composer.phar
 /update.sh
+/web/js/35a8e64*.js
+/web/js/compiled/*
+web/css/48ed673*.css
