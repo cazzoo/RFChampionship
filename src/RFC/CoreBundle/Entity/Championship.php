@@ -90,7 +90,7 @@ class Championship extends KnowledgeData {
     private $teamNumber;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Team")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Team", mappedBy="championship")
      */
     private $listTeams;
 

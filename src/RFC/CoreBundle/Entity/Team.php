@@ -20,6 +20,7 @@ namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\KnowledgeData;
+use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -45,11 +46,13 @@ class Team extends Descriptor {
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\UserBundle\Entity\User")
+     * @JoinTable(name="team_mainDrivers")
      */
     private $listMainDrivers;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\UserBundle\Entity\User")
+     * @JoinTable(name="team_secondaryDrivers")
      */
     private $listSecondaryDrivers;
 
