@@ -39,7 +39,7 @@ class Team extends Descriptor {
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship", inversedBy="championships")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $championship;
@@ -182,13 +182,13 @@ class Team extends Descriptor {
         return $this->maxMainDrivers;
     }
 
-    function getMaxSecondaryDrivers() {
-        return $this->maxSecondaryDrivers;
-    }
-
     function setMaxMainDrivers($maxMainDrivers) {
         $this->maxMainDrivers = $maxMainDrivers;
         return $this;
+    }
+
+    function getMaxSecondaryDrivers() {
+        return $this->maxSecondaryDrivers;
     }
 
     function setMaxSecondaryDrivers($maxSecondaryDrivers) {

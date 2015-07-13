@@ -87,7 +87,7 @@ class Championship extends KnowledgeData {
     /**
      * @ORM\Column(type="integer")
      */
-    private $teamNumber;
+    private $teamCount;
 
     /**
      * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Team", mappedBy="championship")
@@ -432,12 +432,12 @@ class Championship extends KnowledgeData {
         return null;
     }
 
-    function getTeamNumber() {
-        return $this->teamNumber;
+    function getTeamCount() {
+        return $this->teamCount;
     }
 
-    function setTeamNumber($teamNumber) {
-        $this->teamNumber = $teamNumber;
+    function setTeamCount($teamCount) {
+        $this->teamCount = $teamCount;
         return $this;
     }
 
@@ -453,6 +453,7 @@ class Championship extends KnowledgeData {
                 $t->setName($data->getName());
                 $this->addTeam($t);
             } else {
+                // We wait here an array with only one integer that represents the number of teams we want
                 for ($i = 0; $i < $baseData[0]; $i++) {
                     $t = new Team();
                     // We generate a dummy text : Team + number of team
@@ -464,7 +465,7 @@ class Championship extends KnowledgeData {
     }
 
     /**
-     *
+     * The first event of the championship
      * @return Event
      */
     public function getFirstEvent() {
@@ -480,7 +481,7 @@ class Championship extends KnowledgeData {
     }
 
     /**
-     *
+     * The last event of the championship
      * @return Event
      */
     public function getLastEvent() {
