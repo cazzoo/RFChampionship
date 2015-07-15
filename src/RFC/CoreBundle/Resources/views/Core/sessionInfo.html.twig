@@ -1,0 +1,60 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# src/RFC/CoreBundle/Resources/views/Core/gameIndex.html.twig #}
+
+<h4 class="ui dividing header">
+    <a href="{{ path('rfcCore_championships_show', { 'championshipId': session.event.championship.id, 'gameId': appSettings.getGame().id  }) }}#eventId={{ session.event.id }}">{{session.event.championship.name}} : {{ session.event.name }} : {{ session.name }}</a>
+</h4>
+
+{% set categories = session.event.championship.listCategories ? session.event.championship.listCategories : session.event.listCategories %}
+{% set vehicles = session.event.championship.listVehicles ? session.event.championship.listVehicles : session.event.listVehicles %}
+
+<div class="two column center aligned stackable ui grid">
+    <div class="column">
+        {% if categories|length > 0 %}
+                <i class="ellipsis vertical icon"></i>
+            {% transchoice categories|length %}core.dictionnary.category{% endtranschoice %}
+        {% else %}
+            <i class="car icon"></i>
+            {% transchoice vehicles|length %}core.dictionnary.vehicle{% endtranschoice %}
+        {% endif %}
+        <div class="six column doubling ui grid">
+            {% if categories|length > 0 %}
+                {% for category in categories %}
+                    <div class="column">
+                        {{ category.name }}
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% for vehicle in vehicles %}
+                    <div class="column">
+                        {{ vehicle.name }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="column">
+        <i class="road icon"></i>
+        {% transchoice 1 %}core.dictionnary.track{% endtranschoice %}
+        <div class="one column ui grid">
+            <div class="column">
+                {{ session.event.track ? session.event.track : "Not defined" }}
+            </div>
+        </div>
+    </div>
+</div>

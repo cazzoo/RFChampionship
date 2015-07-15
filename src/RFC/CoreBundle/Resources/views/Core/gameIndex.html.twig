@@ -31,37 +31,7 @@
             <div class="ui attached segment">
                 {% if game.getCurrentSessions|length > 0 %}
                     {% for session in game.getCurrentSessions %}
-                        <h4 class="ui dividing header">
-                            <a href="{{ path('rfcCore_championships_show', { 'championshipId': session.event.championship.id, 'gameId': appSettings.getGame().id  }) }}#eventId={{ session.event.id }}">{{session.event.championship.name}} : {{ session.event.name }} : {{ session.name }}</a>
-                        </h4>
-                        <div class="ui center aligned basic segment">
-                            <div class="ui horizontal divided list">
-                                {% if session.event.category %}
-                                    <div class="item">
-                                        <i class="map marker icon"></i>
-                                        <div class="content">
-                                            <div class="header">{% trans %}core.dictionnary.category{% endtrans %}</div>
-                                            <div class="description">{{ session.event.category ? session.event.category : "Not defined" }}</div>
-                                        </div>
-                                    </div>
-                                {% else %}
-                                    <div class="item">
-                                        <i class="map marker icon"></i>
-                                        <div class="content">
-                                            <div class="header">{% trans %}core.dictionnary.vehicle{% endtrans %}</div>
-                                            <div class="description">{{ session.event.vehicle ? session.event.vehicle :"Not defined" }}</div>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                <div class="item">
-                                    <i class="map marker icon"></i>
-                                    <div class="content">
-                                        <div class="header">{% trans %}core.dictionnary.track{% endtrans %}</div>
-                                        <div class="description">{{ session.event.track ? session.event.track :"Not defined"}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% include 'RFCCoreBundle:Core:sessionInfo.html.twig' with {'session' : session} %}
                     {% endfor %}
                 {% else %}
                     <h3>{% trans %}core.game.noSessions.current{% endtrans %}</h3>
@@ -71,37 +41,8 @@
             <div class="ui attached segment">
                 {% if game.getNextSessions|length > 0 %}
                     {% for session in game.getNextSessions %}
-                        <h4 class="ui dividing header">
-                            <a href="{{ path('rfcCore_championships_show', { 'championshipId': session.event.championship.id, 'gameId': appSettings.getGame().id  }) }}#eventId={{ session.event.id }}">{{session.event.championship.name}} : {{ session.event.name }} : {{ session.name }}</a>
-                        </h4>
-                        <div class="ui center aligned basic segment">
-                            <div class="ui horizontal divided list center aligned">
-                                {% if session.event.category %}
-                                    <div class="item">
-                                        <i class="map marker icon"></i>
-                                        <div class="content">
-                                            <div class="header">{% transchoice 1 %}core.dictionnary.category{% endtranschoice %}</div>
-                                            <div class="description">{{ session.event.category ? session.event.category : "-" }}</div>
-                                        </div>
-                                    </div>
-                                {% else %}
-                                    <div class="item">
-                                        <i class="map marker icon"></i>
-                                        <div class="content">
-                                            <div class="header">{% transchoice 1 %}core.dictionnary.vehicle{% endtranschoice %}</div>
-                                            <div class="description">{{ session.event.vehicle ? session.event.vehicle :"-" }}</div>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                <div class="item">
-                                    <i class="map marker icon"></i>
-                                    <div class="content">
-                                        <div class="header">{% transchoice 1 %}core.dictionnary.track{% endtranschoice %}</div>
-                                        <div class="description">{{ session.event.track ? session.event.track :"-"}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+                        {% include 'RFCCoreBundle:Core:sessionInfo.html.twig' with {'session' : session} %}
                     {% endfor %}
                 {% else %}
                     <h3>{% trans %}core.game.noSessions.future{% endtrans %}</h3>
