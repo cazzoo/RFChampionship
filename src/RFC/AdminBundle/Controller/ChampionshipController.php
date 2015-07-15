@@ -333,4 +333,39 @@ class ChampionshipController extends RFCController
                 ))
                 ->getForm();
     }
+
+    /**
+     * Upgrade an old fashioned championship using the category & vehicle single attributes for using new and nicer lists for both.
+     */
+    public function championshipUpgradeAction()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $championships        = $entityManager->getRepository('RFCCoreBundle:Championship')->findAll();
+        $updatedEvents = array();
+
+        foreach ($championships as $championship) {
+            if ($championship->getOutdated()) {
+                foreach ($championship->getListEvents() as $event) {
+                    if ($event->getVehicle() !== null) {
+                        $event->getListVehicles()->add($event->getVehicle());
+                        $event->setVehicle(null);
+                        array_push($updatedEvents, $event);
+                    }
+                    if ($event->getCategory() !== null) {
+                        $event->getListCategories()->add($event->getCategory());
+                        $event->setCategory(null);
+                        array_push($updatedEvents, $event);
+                    }
+                }
+            }
+        }
+
+        $entityManager->flush();
+
+        return $this->render('RFCAdminBundle:Championship:upgrade.html.twig',
+                array(
+                'updatedEvents' => $updatedEvents
+        ));
+    }
 }

@@ -160,7 +160,7 @@ class Event extends Descriptor
      * @param Vehicle $vehicle
      * @return Event
      */
-    public function setVehicle(Vehicle $vehicle)
+    public function setVehicle($vehicle)
     {
         $this->vehicle = $vehicle;
 
@@ -183,7 +183,7 @@ class Event extends Descriptor
      * @param Category $category
      * @return Event
      */
-    public function setCategory(Category $category)
+    public function setCategory($category)
     {
         $this->category = $category;
 

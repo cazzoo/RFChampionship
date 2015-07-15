@@ -1,5 +1,4 @@
 <?php
-
 /*  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
   Copyright (C) 2014 - //Racing-France//
 
@@ -28,31 +27,36 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Event controller.
  */
-class EventController extends RFCController {
+class EventController extends RFCController
+{
 
     /**
      * Lists all Event entities.
      */
-    public function indexAction($gameId, $championshipId) {
+    public function indexAction($gameId, $championshipId)
+    {
         $entityManager = $this->getDoctrine()->getManager();
 
         $entities = $entityManager->getRepository('RFCCoreBundle:Event')->findBy(array(
             'championship' => $championshipId
         ));
 
-        return $this->render('RFCAdminBundle:Event:index.html.twig', array(
-                    'entities' => $entities,
-                    'gameId' => $gameId,
-                    'championshipId' => $championshipId
+        return $this->render('RFCAdminBundle:Event:index.html.twig',
+                array(
+                'entities' => $entities,
+                'gameId' => $gameId,
+                'championshipId' => $championshipId
         ));
     }
 
     /**
      * Creates a new Event entity.
      */
-    public function createAction(Request $request, $gameId, $championshipId) {
+    public function createAction(Request $request, $gameId, $championshipId)
+    {
         $entity = new Event();
-        $form = $this->createCreateForm($entity, $gameId, $championshipId, false);
+        $form   = $this->createCreateForm($entity, $gameId, $championshipId,
+            false);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -60,18 +64,20 @@ class EventController extends RFCController {
             $entityManager->persist($entity);
             $entityManager->flush();
 
-            return $this->redirect($this->generateUrl('admin_championship_show', array(
-                                'eventId' => $entity->getId(),
-                                'gameId' => $gameId,
-                                'championshipId' => $championshipId
+            return $this->redirect($this->generateUrl('admin_championship_show',
+                        array(
+                        'eventId' => $entity->getId(),
+                        'gameId' => $gameId,
+                        'championshipId' => $championshipId
             )));
         }
 
-        return $this->render('RFCAdminBundle:Event:new.html.twig', array(
-                    'entity' => $entity,
-                    'form' => $form->createView(),
-                    'gameId' => $gameId,
-                    'championshipId' => $championshipId
+        return $this->render('RFCAdminBundle:Event:new.html.twig',
+                array(
+                'entity' => $entity,
+                'form' => $form->createView(),
+                'gameId' => $gameId,
+                'championshipId' => $championshipId
         ));
     }
 
@@ -83,22 +89,27 @@ class EventController extends RFCController {
      *            
      * @return Form The form
      */
-    private function createCreateForm(Event $entity, $gameId, $championshipId, $teamChampionship) {
+    private function createCreateForm(Event $entity, $gameId, $championshipId,
+                                      $teamChampionship)
+    {
 
         if ($teamChampionship) {
             $entityType = new SimpleEventType($gameId);
         } else {
             $entityType = new EventType($gameId);
         }
-        $form = $this->createForm($entityType, $entity, array(
-            'action' => $this->generateUrl('admin_event_create', array(
+        $form = $this->createForm($entityType, $entity,
+            array(
+            'action' => $this->generateUrl('admin_event_create',
+                array(
                 'gameId' => $gameId,
                 'championshipId' => $championshipId
             )),
             'method' => 'POST'
         ));
 
-        $form->add('submit', 'submit', array(
+        $form->add('submit', 'submit',
+            array(
             'label' => 'Create'
         ));
 
@@ -108,9 +119,10 @@ class EventController extends RFCController {
     /**
      * Displays a form to create a new Event entity.
      */
-    public function newAction($gameId, $championshipId) {
-        $entity = new Event();
-        $entityManager = $this->getDoctrine()->getManager();
+    public function newAction($gameId, $championshipId)
+    {
+        $entity             = new Event();
+        $entityManager      = $this->getDoctrine()->getManager();
         $entityChampionship = $entityManager->getRepository('RFCCoreBundle:Championship')->find($championshipId);
         $entity->setChampionship($entityChampionship);
 
@@ -126,20 +138,23 @@ class EventController extends RFCController {
             $teamChampionship = true;
         }
 
-        $form = $this->createCreateForm($entity, $gameId, $championshipId, $teamChampionship);
+        $form = $this->createCreateForm($entity, $gameId, $championshipId,
+            $teamChampionship);
 
-        return $this->render('RFCAdminBundle:Event:new.html.twig', array(
-                    'entity' => $entity,
-                    'form' => $form->createView(),
-                    'gameId' => $gameId,
-                    'championshipId' => $championshipId
+        return $this->render('RFCAdminBundle:Event:new.html.twig',
+                array(
+                'entity' => $entity,
+                'form' => $form->createView(),
+                'gameId' => $gameId,
+                'championshipId' => $championshipId
         ));
     }
 
     /**
      * Finds and displays a Event entity.
      */
-    public function showAction($eventId, $gameId, $championshipId) {
+    public function showAction($eventId, $gameId, $championshipId)
+    {
         $entityManager = $this->getDoctrine()->getManager();
 
         $entity = $entityManager->getRepository('RFCCoreBundle:Event')->find($eventId);
@@ -150,18 +165,20 @@ class EventController extends RFCController {
 
         $deleteForm = $this->createDeleteForm($eventId, $gameId, $championshipId);
 
-        return $this->render('RFCAdminBundle:Event:show.html.twig', array(
-                    'entity' => $entity,
-                    'delete_form' => $deleteForm->createView(),
-                    'gameId' => $gameId,
-                    'championshipId' => $championshipId
+        return $this->render('RFCAdminBundle:Event:show.html.twig',
+                array(
+                'entity' => $entity,
+                'delete_form' => $deleteForm->createView(),
+                'gameId' => $gameId,
+                'championshipId' => $championshipId
         ));
     }
 
     /**
      * Displays a form to edit an existing Event entity.
      */
-    public function editAction($eventId, $gameId, $championshipId) {
+    public function editAction($eventId, $gameId, $championshipId)
+    {
         $entityManager = $this->getDoctrine()->getManager();
 
         $entity = $entityManager->getRepository('RFCCoreBundle:Event')->find($eventId);
@@ -170,15 +187,16 @@ class EventController extends RFCController {
             throw $this->createNotFoundException('Unable to find Event entity.');
         }
 
-        $editForm = $this->createEditForm($entity, $gameId, $championshipId);
+        $editForm   = $this->createEditForm($entity, $gameId, $championshipId);
         $deleteForm = $this->createDeleteForm($eventId, $gameId, $championshipId);
 
-        return $this->render('RFCAdminBundle:Event:edit.html.twig', array(
-                    'entity' => $entity,
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
-                    'gameId' => $gameId,
-                    'championshipId' => $championshipId
+        return $this->render('RFCAdminBundle:Event:edit.html.twig',
+                array(
+                'entity' => $entity,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+                'gameId' => $gameId,
+                'championshipId' => $championshipId
         ));
     }
 
@@ -190,9 +208,12 @@ class EventController extends RFCController {
      *            
      * @return Form The form
      */
-    private function createEditForm(Event $entity, $gameId, $championshipId) {
-        $form = $this->createForm(new EventType($gameId), $entity, array(
-            'action' => $this->generateUrl('admin_event_update', array(
+    private function createEditForm(Event $entity, $gameId, $championshipId)
+    {
+        $form = $this->createForm(new EventType($gameId), $entity,
+            array(
+            'action' => $this->generateUrl('admin_event_update',
+                array(
                 'eventId' => $entity->getId(),
                 'gameId' => $gameId,
                 'championshipId' => $championshipId
@@ -200,7 +221,8 @@ class EventController extends RFCController {
             'method' => 'PUT'
         ));
 
-        $form->add('submit', 'submit', array(
+        $form->add('submit', 'submit',
+            array(
             'label' => 'Update'
         ));
 
@@ -210,7 +232,9 @@ class EventController extends RFCController {
     /**
      * Edits an existing Event entity.
      */
-    public function updateAction(Request $request, $eventId, $gameId, $championshipId) {
+    public function updateAction(Request $request, $eventId, $gameId,
+                                 $championshipId)
+    {
         $entityManager = $this->getDoctrine()->getManager();
 
         $entity = $entityManager->getRepository('RFCCoreBundle:Event')->find($eventId);
@@ -220,38 +244,42 @@ class EventController extends RFCController {
         }
 
         $deleteForm = $this->createDeleteForm($eventId, $gameId, $championshipId);
-        $editForm = $this->createEditForm($entity, $gameId, $championshipId);
+        $editForm   = $this->createEditForm($entity, $gameId, $championshipId);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $entityManager->flush();
 
-            return $this->redirect($this->generateUrl('admin_championship_show', array(
-                                'eventId' => $eventId,
-                                'gameId' => $gameId,
-                                'championshipId' => $championshipId
+            return $this->redirect($this->generateUrl('admin_championship_show',
+                        array(
+                        'eventId' => $eventId,
+                        'gameId' => $gameId,
+                        'championshipId' => $championshipId
             )));
         }
 
-        return $this->render('RFCAdminBundle:Event:edit.html.twig', array(
-                    'entity' => $entity,
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
-                    'gameId' => $gameId,
-                    'championshipId' => $championshipId
+        return $this->render('RFCAdminBundle:Event:edit.html.twig',
+                array(
+                'entity' => $entity,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+                'gameId' => $gameId,
+                'championshipId' => $championshipId
         ));
     }
 
     /**
      * Deletes a Event entity.
      */
-    public function deleteAction(Request $request, $eventId, $gameId, $championshipId) {
+    public function deleteAction(Request $request, $eventId, $gameId,
+                                 $championshipId)
+    {
         $form = $this->createDeleteForm($eventId, $gameId, $championshipId);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entity = $entityManager->getRepository('RFCCoreBundle:Event')->find($eventId);
+            $entity        = $entityManager->getRepository('RFCCoreBundle:Event')->find($eventId);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Event entity.');
@@ -261,9 +289,10 @@ class EventController extends RFCController {
             $entityManager->flush();
         }
 
-        return $this->redirect($this->generateUrl('admin_event', array(
-                            'gameId' => $gameId,
-                            'championshipId' => $championshipId
+        return $this->redirect($this->generateUrl('admin_event',
+                    array(
+                    'gameId' => $gameId,
+                    'championshipId' => $championshipId
         )));
     }
 
@@ -275,18 +304,20 @@ class EventController extends RFCController {
      *            
      * @return Form The form
      */
-    private function createDeleteForm($eventId, $gameId, $championshipId) {
+    private function createDeleteForm($eventId, $gameId, $championshipId)
+    {
         return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('admin_event_delete', array(
-                                    'eventId' => $eventId,
-                                    'gameId' => $gameId,
-                                    'championshipId' => $championshipId
-                        )))
-                        ->setMethod('DELETE')
-                        ->add('submit', 'submit', array(
-                            'label' => 'Delete'
-                        ))
-                        ->getForm();
+                ->setAction($this->generateUrl('admin_event_delete',
+                        array(
+                        'eventId' => $eventId,
+                        'gameId' => $gameId,
+                        'championshipId' => $championshipId
+                )))
+                ->setMethod('DELETE')
+                ->add('submit', 'submit',
+                    array(
+                    'label' => 'Delete'
+                ))
+                ->getForm();
     }
-
 }
