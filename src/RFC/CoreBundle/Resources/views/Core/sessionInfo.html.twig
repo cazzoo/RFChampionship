@@ -20,15 +20,15 @@
     <a href="{{ path('rfcCore_championships_show', { 'championshipId': session.event.championship.id, 'gameId': appSettings.getGame().id  }) }}#eventId={{ session.event.id }}">{{session.event.championship.name}} : {{ session.event.name }} : {{ session.name }}</a>
 </h4>
 
-{% set categories = session.event.championship.listCategories ? session.event.championship.listCategories : session.event.listCategories %}
-{% set vehicles = session.event.championship.listVehicles ? session.event.championship.listVehicles : session.event.listVehicles %}
+    {% set categories = session.event.championship.listCategories|length > 0 ? session.event.championship.listCategories : session.event.listCategories %}
+{% set vehicles = session.event.championship.listVehicles|length > 0 ? session.event.championship.listVehicles : session.event.listVehicles %}
 
 <div class="two column center aligned stackable ui grid">
     <div class="column">
         {% if categories|length > 0 %}
-                <i class="ellipsis vertical icon"></i>
+            <i class="ellipsis vertical icon"></i>
             {% transchoice categories|length %}core.dictionnary.category{% endtranschoice %}
-        {% else %}
+        {% elseif vehicles|length > 0 %}
             <i class="car icon"></i>
             {% transchoice vehicles|length %}core.dictionnary.vehicle{% endtranschoice %}
         {% endif %}

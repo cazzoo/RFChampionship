@@ -211,19 +211,62 @@
                                                 </div>
                                             </div>
                                             <div class="description">
-                                                {{ event.description }}<br />
-                                                <span>
-                                                    {% trans with { '%category%' : event.category ?: 'core.championship.event.description.notDefined'|trans } %}core.championship.event.description.category{% endtrans %}<br />
-                                                    {% trans with { '%vehicle%' : event.vehicle ?: 'core.championship.event.description.notDefined'|trans } %}core.championship.event.description.vehicle{% endtrans %}<br />
-                                                    {% trans with { '%track%' : event.track ?: 'core.championship.event.description.notDefined'|trans } %}core.championship.event.description.track{% endtrans %}
-                                                    {% if event.listBroadcast is not empty %}
-                                                        <br />{% trans %}core.championship.event.description.broadcast{% endtrans %}
-                                                        {% for broadcast in event.listBroadcast %}
-                                                            {{ broadcast }}
-                                                        {% endfor %}
-                                                    {% endif %}
-                                                </span>
+                                                {{ event.description }}
                                             </div>
+                                        </div>
+
+                                        <div class="extra content">
+
+                                            {% set categories = event.championship.listCategories|length > 0 ? event.championship.listCategories : event.listCategories %}
+                                            {% set vehicles = event.championship.listVehicles|length > 0 ? event.championship.listVehicles : event.listVehicles %}
+
+                                            {% if categories|length > 0 %}
+                                                <i class="ellipsis vertical icon"></i>
+                                                {% transchoice categories|length %}core.dictionnary.category{% endtranschoice %} :
+                                            {% elseif vehicles|length > 0 %}
+                                                <i class="car icon"></i>
+                                                {% transchoice vehicles|length %}core.dictionnary.vehicle{% endtranschoice %} :
+                                            {% endif %}
+                                            <div class="ui horizontal list">
+                                                {% if categories|length > 0 %}
+                                                    {% for category in categories %}
+                                                        <div class="item">
+                                                            <div class="description">
+                                                                {{ category.name }}
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    {% for vehicle in vehicles %}
+                                                        <div class="column">
+                                                            {{ vehicle.name }}
+                                                        </div>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+
+                                            <br />
+
+                                            <i class="road icon"></i>
+                                            {% transchoice 1 %}core.dictionnary.track{% endtranschoice %} : 
+                                            <div class="ui horizontal list">
+                                                <div class="item">
+                                                    <div class="description">
+                                                        {{ event.track }}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {% if event.listBroadcast is not empty %}
+                                                <br />
+                                                <i class="file video icon"></i>
+                                                {% trans %}core.championship.event.description.broadcast{% endtrans %} : 
+                                                {% for broadcast in event.listBroadcast %}
+                                                    {{ broadcast }}
+                                                {% endfor %}
+                                            {% endif %} 
+
                                         </div>
                                         <a class="ui bottom attached green button showEventResults" href="#event_{{ event.id }}_results">
                                             <i class="unhide icon"></i> {% trans %}core.championship.event.showResults{% endtrans %}
