@@ -554,7 +554,7 @@ function updateProgressBar(progressItem) {
     var endDate = new Date(progressItem.data('enddate'));
     var percentProgress = 0;
     if (now > beginDate.getTime() && now < endDate.getTime()) {
-        percentProgress = (endDate.getTime() - beginDate.getTime()) / (endDate.getTime() - now.getTime());
+        percentProgress = (now.getTime() - beginDate.getTime()) / (endDate.getTime() - beginDate.getTime()) * 100;
     } else if (now.getTime() < beginDate.getTime()) {
         percentProgress = 0;
     } else if (now.getTime() > endDate.getTime()) {
@@ -743,6 +743,11 @@ $(function () {
             showEvent(prevEventItem.data('eventkey'));
             location.hash = "eventId=" + prevEventItem.data('eventid');
         }
+    });
+    
+    $('.eventQuickLinks').click(function() {
+        var event = $('.eventItem[data-eventid='+$(this).attr('href').substring(9) + ']');
+        showEvent(event.data('eventkey'));
     });
 
     // --------------------------------------------
@@ -992,3 +997,72 @@ $('.sidebar.comments').sidebar('setting', {
 $('.uiTabs .menu .item').tab({
     alwaysRefresh: true
 });
+
+//------------------- Championship creation 
+$("#rfc_corebundle_championship_teamChampionship").change(function () {
+    if ($(this).is(':checked')) {
+        $("#rfc_corebundle_championship_teamCountSelection").parent().show();
+        $("#rfc_corebundle_championship_teamCountSelection").val($('#rfc_corebundle_championship_teamCountSelection option:first').val());
+        $("#rfc_corebundle_championship_teamCountSelection").change();
+        $("#rfc_corebundle_championship_teamCount").parent().show();
+        $("#rfc_corebundle_championship_MaximumMainDrivers").parent().show();
+        $("#rfc_corebundle_championship_MaximumSecondaryDrivers").parent().show();
+    } else {
+        $("#rfc_corebundle_championship_teamCountSelection").parent().hide();
+        $("#rfc_corebundle_championship_teamCount").parent().hide();
+        $("#rfc_corebundle_championship_MaximumMainDrivers").parent().hide();
+        $("#rfc_corebundle_championship_MaximumSecondaryDrivers").parent().hide();
+    }
+});
+
+$("#rfc_corebundle_championship_teamCountSelection").change(function () {
+    updateChampionshipCreationValues(0);
+    switch ($(this).val()) {
+        case 'byVehicles':
+            $("#rfc_corebundle_championship_listVehicles").parent().show();
+            $("#rfc_corebundle_championship_listVehicles").change();
+            $("#rfc_corebundle_championship_listCategories").parent().hide();
+            $("#rfc_corebundle_championship_teamCount").prop('readonly', true);
+            break;
+        case 'byCategories':
+            $("#rfc_corebundle_championship_listCategories").parent().show();
+            $("#rfc_corebundle_championship_listCategories").change();
+            $("#rfc_corebundle_championship_listVehicles").parent().hide();
+            $("#rfc_corebundle_championship_teamCount").prop('readonly', true);
+            break;
+        case 'byChoice':
+            $("#rfc_corebundle_championship_listVehicles").parent().show();
+            $("#rfc_corebundle_championship_listCategories").parent().show();
+            if (null !== $("#rfc_corebundle_championship_listCategories").val()) {
+                $("#rfc_corebundle_championship_listCategories").change();
+            } else if (null !== $("#rfc_corebundle_championship_listVehicles").val()) {
+                $("#rfc_corebundle_championship_listVehicles").change();
+            }
+            $("#rfc_corebundle_championship_teamCount").prop('readonly', false);
+            break;
+        default :
+            break;
+    }
+});
+
+$("[id^=rfc_corebundle_][id$=_listCategories]").change(function () {
+    $("[id^=rfc_corebundle_][id$=_listVehicles]").val(null);
+    if ($("[id^=rfc_corebundle_][id$=_teamCountSelection]").val() !== 'byChoice') {
+        $("[id^=rfc_corebundle_][id$=_teamCount]").val(null === $("[id^=rfc_corebundle_][id$=_listCategories]").val() ? 0 : $("[id^=rfc_corebundle_][id$=_listCategories]").val().length);
+    }
+});
+
+$("[id^=rfc_corebundle_][id$=_listVehicles]").change(function () {
+    $("[id^=rfc_corebundle_][id$=_listCategories]").val(null);
+    if ($("[id^=rfc_corebundle_][id$=_teamCountSelection]").val() !== 'byChoice') {
+        $("[id^=rfc_corebundle_][id$=_teamCount]").val(null === $("[id^=rfc_corebundle_][id$=_listVehicles]").val() ? 0 : $("[id^=rfc_corebundle_][id$=_listVehicles]").val().length);
+    }
+});
+
+function updateChampionshipCreationValues(teamCount) {
+    $("#rfc_corebundle_championship_teamCount").val(teamCount);
+    $("#rfc_corebundle_championship_MaximumMainDrivers").val('0');
+    $("#rfc_corebundle_championship_MaximumSecondaryDrivers").val('0');
+}
+
+$("#rfc_corebundle_championship_teamChampionship").change();

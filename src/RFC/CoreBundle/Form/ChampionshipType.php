@@ -19,11 +19,14 @@
 
 namespace RFC\CoreBundle\Form;
 
+use RFC\CoreBundle\Entity\CategoryRepository;
+use RFC\CoreBundle\Entity\MetaRuleRepository;
+use RFC\CoreBundle\Entity\RuleRepository;
+use RFC\CoreBundle\Entity\VehicleRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use RFC\CoreBundle\Entity\RuleRepository;
-use RFC\CoreBundle\Entity\MetaRuleRepository;
 
 class ChampionshipType extends AbstractType
 {
@@ -44,20 +47,64 @@ class ChampionshipType extends AbstractType
         $gameId = $this->gameId;
 
         $builder->add('name')->add('description', 'textarea',
-            array(
-            'required' => false
-        ))->add('championshipAgreed', 'checkbox',
-            array(
-            'required' => false
-        ))->add('registrationInProgress', 'checkbox',
-            array(
-            'required' => false
-        ))->add('listManagers', 'entity',
-            array(
-            'required' => false,
-            'class' => 'RFCUserBundle:User',
-            'multiple' => true
-        ))->add('metaRule', 'entity',
+                array(
+                'required' => false
+            ))->add('championshipAgreed', 'checkbox',
+                array(
+                'required' => false
+            ))->add('registrationInProgress', 'checkbox',
+                array(
+                'required' => false
+            ))->add('teamChampionship', 'checkbox',
+                array(
+                'required' => false,
+                'mapped' => false))
+            ->add('teamCountSelection', 'choice',
+                array(
+                'mapped' => false,
+                'choices' => array(
+                    'byChoice' => 'Based on manager choice',
+                    'byVehicles' => 'Based on vehicle selection',
+                    'byCategories' => 'Based on category selection')
+            ))->add('listCategories', 'entity',
+                array(
+                'required' => false,
+                'class' => 'RFCCoreBundle:Category',
+                'multiple' => true,
+                'query_builder' => function (CategoryRepository $cr) use($gameId) {
+                    return $cr->createQueryBuilder('m')->where('m.game = :gameId')->setParameter('gameId',
+                            $gameId);
+                }
+            ))->add('listVehicles', 'entity',
+                array(
+                'required' => false,
+                'multiple' => true,
+                'class' => 'RFCCoreBundle:Vehicle',
+                'query_builder' => function (VehicleRepository $vr) use($gameId) {
+                    return $vr->createQueryBuilder('m')->where('m.game = :gameId')->setParameter('gameId',
+                            $gameId);
+                }
+            ))
+            ->add('teamCount', 'integer',
+                array(
+                'required' => false
+            ))
+            ->add('MaximumMainDrivers', 'integer',
+                array(
+                'required' => false,
+                'mapped' => false
+            ))
+            ->add('MaximumSecondaryDrivers', 'integer',
+                array(
+                'required' => false,
+                'mapped' => false
+            ))
+            ->add('listManagers', 'entity',
+                array(
+                'required' => false,
+                'class' => 'RFCUserBundle:User',
+                'multiple' => true
+            ))->add('metaRule', 'entity',
             array(
             'required' => false,
             'class' => 'RFCCoreBundle:MetaRule',
@@ -94,18 +141,10 @@ class ChampionshipType extends AbstractType
      *
      * @param OptionsResolverInterface $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'RFC\CoreBundle\Entity\Championship'
-        ));
-
-        $resolver->setRequired(array(
-            'em'
-        ));
-
-        $resolver->setAllowedTypes(array(
-            'em' => 'Doctrine\Common\Persistence\ObjectManager'
         ));
     }
 

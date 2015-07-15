@@ -105,13 +105,13 @@
             <div class="ui horizontal segment">
                 <h3>{% trans %}core.championship.progress.previousTitle{% endtrans %}</h3>
                 {% if championship.getPreviousSession %}
-                    <div class="ui mini label">
+                    <a class="ui mini label eventQuickLinks" href="#eventId={{ championship.getPreviousSession.event.id }}">
                         {{ championship.getPreviousSession.event.name }} : {{ championship.getPreviousSession }}&nbsp;&nbsp;
                         <i class="wait icon"></i>
                         {{ championship.getPreviousSession.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
                         <i class="chevron right icon"></i>
                         {{ championship.getPreviousSession.endDate|date("Y/m/d H:i") }}
-                    </div>
+                    </a>
                 {% else %}
                     {% trans %}core.championship.progress.previousNoSession{% endtrans %}
                 {% endif %}
@@ -121,13 +121,13 @@
             <div class="ui horizontal segment">
                 <h3>{% trans %}core.championship.progress.currentTitle{% endtrans %}</h3>
                 {% if championship.getCurrentSession %}
-                    <div class="ui mini label">
+                    <a class="ui mini label eventQuickLinks" href="#eventId={{ championship.getCurrentSession.event.id }}">
                         {{ championship.getCurrentSession.event.name }} : {{ championship.getCurrentSession }}&nbsp;&nbsp;
                         <i class="wait icon"></i>
                         {{ championship.getCurrentSession.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
                         <i class="chevron right icon"></i>
                         {{ championship.getCurrentSession.endDate|date("Y/m/d H:i") }}
-                    </div>
+                    </a>
                 {% else %}
                     {% trans %}core.championship.progress.currentNoSession{% endtrans %}
                 {% endif %}
@@ -137,13 +137,13 @@
             <div class="ui horizontal segment">
                 <h3>{% trans %}core.championship.progress.nextTitle{% endtrans %}</h3>
                 {% if championship.getNextSession %}
-                    <div class="ui mini label">
+                    <a class="ui mini label eventQuickLinks" href="#eventId={{ championship.getNextSession.event.id }}">
                         {{ championship.getNextSession.event.name }} : {{ championship.getNextSession }}&nbsp;&nbsp;
                         <i class="wait icon"></i>
                         {{ championship.getNextSession.beginDate|date("Y/m/d H:i") }}&nbsp;&nbsp;
                         <i class="chevron right icon"></i>
                         {{ championship.getNextSession.endDate|date("Y/m/d H:i") }}
-                    </div>
+                    </a>
                 {% else %}
                     {% trans %}core.championship.progress.nextNoSession{% endtrans %}
                 {% endif %}
