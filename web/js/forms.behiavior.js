@@ -575,7 +575,8 @@ function showEvent(id) {
     $('.nextEvent i').removeClass('disabled');
     if (1 === id) {
         $('.previousEvent i').addClass('disabled');
-    } else if (id === eventCount) {
+    }
+    if (id === eventCount) {
         $('.nextEvent i').addClass('disabled');
     }
     $('.eventItem').hide();
@@ -744,9 +745,9 @@ $(function () {
             location.hash = "eventId=" + prevEventItem.data('eventid');
         }
     });
-    
-    $('.eventQuickLinks').click(function() {
-        var event = $('.eventItem[data-eventid='+$(this).attr('href').substring(9) + ']');
+
+    $('.eventQuickLinks').click(function () {
+        var event = $('.eventItem[data-eventid=' + $(this).attr('href').substring(9) + ']');
         showEvent(event.data('eventkey'));
     });
 
