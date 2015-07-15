@@ -52,9 +52,8 @@ class EventType extends AbstractType
             'required' => false
         ))->add('track', 'entity',
             array(
-            'required' => false,
+            'required' => true,
             'class' => 'RFCCoreBundle:Track',
-            'required' => false,
             'query_builder' => function (TrackRepository $er) use($gameId) {
                 return $er->createQueryBuilder('t')->where('t.game = :gameId')->setParameter('gameId',
                         $gameId);

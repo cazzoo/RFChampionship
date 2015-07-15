@@ -87,7 +87,8 @@ class ChampionshipType extends AbstractType
             ))
             ->add('teamCount', 'integer',
                 array(
-                'required' => false
+                'required' => false,
+                'mapped' => false
             ))
             ->add('MaximumMainDrivers', 'integer',
                 array(
