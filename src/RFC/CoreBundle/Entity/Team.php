@@ -20,9 +20,10 @@
 namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RFC\CoreBundle\Entity\Descriptor;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\Common\Collections\ArrayCollection;
+use RFC\CoreBundle\Entity\Descriptor;
+use RFC\UserBundle\Entity\User;
 
 /**
  * Team

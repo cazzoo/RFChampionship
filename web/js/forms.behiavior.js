@@ -925,6 +925,17 @@ $(function () {
         showModalAndActivatePopups($('.standard.rulesDetails.modal'));
     });
 
+    $('#showTeamList').click(function () {
+        showModalAndActivatePopups($('.standard.teamList.modal'));
+    });
+
+    $('.grid.teams .card').dimmer({
+        on: 'hover'
+    });
+    
+    $('.ui.button.registerMain').api();
+
+
     // --------------------------------------------
     // Screen MetaRule show
     // --------------------------------------------

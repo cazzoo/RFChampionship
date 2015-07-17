@@ -18,34 +18,50 @@
 
     {% if championship.registrationInProgress or (not championship.registrationInProgress and championship.getBeginDate|date("Y/m/d H:i") > "now"|date("Y/m/d H:i")) %}
 
-        {% if status == '' %}
-            {% if app.user.username in championship.listUsers %}
-                <span class="info">{% trans %}core.championship.registration.alreadyRegistered{% endtrans %}</span><br />
-                <a id="action_unregister;game_{{ gameId }};championship_{{ championship.id }};user_{{ app.user.id }}" class="ui icon labeled button actionRegisterUnregister">
-                    <i class="sign out icon"></i>
-                    {% trans %}core.action.unregister{% endtrans %}
-                </a>
+        {% if not championship.getTeamChampionship() %}
+            {% if status == '' %}
+                {% if app.user.username in championship.listUsers %}
+                    <span class="info">{% trans %}core.championship.registration.alreadyRegistered{% endtrans %}</span><br />
+                    <a id="action_unregister;game_{{ gameId }};championship_{{ championship.id }};user_{{ app.user.id }}" class="ui icon labeled button actionRegisterUnregister">
+                        <i class="sign out icon"></i>
+                        {% trans %}core.action.unregister{% endtrans %}
+                    </a>
+                {% else %}
+                    <span class="info">{% trans %}core.championship.registration.notRegistered{% endtrans %}</span><br />
+                    <a id="action_register;game_{{ gameId }};championship_{{ championship.id }};user_{{ app.user.id }}" class="ui icon labeled button actionRegisterUnregister">
+                        <i class="sign in icon"></i>
+                        {% trans %}core.action.register{% endtrans %}
+                    </a>
+                {% endif %}
             {% else %}
-                <span class="info">{% trans %}core.championship.registration.notRegistered{% endtrans %}</span><br />
-                <a id="action_register;game_{{ gameId }};championship_{{ championship.id }};user_{{ app.user.id }}" class="ui icon labeled button actionRegisterUnregister">
-                    <i class="sign in icon"></i>
-                    {% trans %}core.action.register{% endtrans %}
-                </a>
+                {% if status == 'register' %}
+                    <span class="info">{% trans %}core.championship.registration.alreadyRegistered{% endtrans %}</span><br />
+                    <a id="action_unregister;game_{{ gameId }};championship_{{ championship.id }};user_{{ app.user.id }}" class="ui icon labeled button actionRegisterUnregister">
+                        <i class="sign out icon"></i>
+                        {% trans %}core.action.unregister{% endtrans %}
+                    </a>
+                {% elseif status == 'unregister' %}
+                    <span class="info">{% trans %}core.championship.registration.notRegistered{% endtrans %}</span><br />
+                    <a id="action_register;game_{{ gameId }};championship_{{ championship.id }};user_{{ app.user.id }}" class="ui icon labeled button actionRegisterUnregister">
+                        <i class="sign in icon"></i>
+                        {% trans %}core.action.register{% endtrans %}
+                    </a>
+                {% endif %}
             {% endif %}
         {% else %}
-            {% if status == 'register' %}
-                <span class="info">{% trans %}core.championship.registration.alreadyRegistered{% endtrans %}</span><br />
-                <a id="action_unregister;game_{{ gameId }};championship_{{ championship.id }};user_{{ app.user.id }}" class="ui icon labeled button actionRegisterUnregister">
-                    <i class="sign out icon"></i>
-                    {% trans %}core.action.unregister{% endtrans %}
-                </a>
-            {% elseif status == 'unregister' %}
-                <span class="info">{% trans %}core.championship.registration.notRegistered{% endtrans %}</span><br />
-                <a id="action_register;game_{{ gameId }};championship_{{ championship.id }};user_{{ app.user.id }}" class="ui icon labeled button actionRegisterUnregister">
-                    <i class="sign in icon"></i>
-                    {% trans %}core.action.register{% endtrans %}
-                </a>
-            {% endif %}
+            This is a team championship
+            <a id="showTeamList" class="ui button">Show teams</a>
+            <div class="ui standard teamList modal transition">
+                <i class="close icon"></i>
+                <div class="header">
+                    {% trans %}core.championship.participants.popupTeams{% endtrans %}
+                </div>
+                <div class="content">
+                    <div class="description">
+                        {% include 'RFCCoreBundle:Championship:listTeams.html.twig' with {'championship' : championship} %}
+                    </div>
+                </div>
+            </div>
         {% endif %}
 
     {% else %}

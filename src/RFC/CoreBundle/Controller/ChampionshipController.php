@@ -20,7 +20,9 @@
 namespace RFC\CoreBundle\Controller;
 
 use RFC\FrameworkBundle\Controller\RFCController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Exception\Exception;
 
 /**
  * Championship controller.
@@ -210,6 +212,39 @@ class ChampionshipController extends RFCController
         } else {
             $array[$user->getId()] = array('user' => $user, 'results' => array($result),
                 'sum' => $value);
+        }
+    }
+
+    /**
+     * This action register a specified user to a specified team
+     * @param type $teamid the team on which we add the user
+     * @param type $drivertype the type of the driver added (main|secondary)
+     * @param type $driverid The driver we want to add
+     * @return JsonResponse 200 if success (with team object), 400 if issue when flusing
+     */
+    public function userRegisterTeamAction($teamid, $drivertype, $driverid)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $team = $entityManager->getRepository('RFCCoreBundle:Team')->findOneBy(['id' =>
+            $teamid]);
+        $user = $entityManager->getRepository('RFCUserBundle:User')->findOneBy(['id' =>
+            $driverid]);
+
+        switch ($drivertype) {
+            case 'main':
+                $team->addMainDriver($user);
+                break;
+            case 'secondary':
+                $team->addSecondaryDriver($user);
+                break;
+        }
+
+        try {
+            $entityManager->flush();
+            return new JsonResponse($team, 200);
+        } catch (Exception $ex) {
+            return new JsonResponse($ex, 400);
         }
     }
 }

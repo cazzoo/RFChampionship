@@ -1,0 +1,6 @@
+ajax_user_register_championship:
+    pattern: /team/{teamid}/register/{drivertype}/{driverid}
+    defaults: { _controller: "RFCCoreBundle:Championship:userRegisterTeam" }
+    requirements: { _method: post|get }
+    options:
+        expose: true

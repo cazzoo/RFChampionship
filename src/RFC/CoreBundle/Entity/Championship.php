@@ -761,6 +761,15 @@ class Championship extends KnowledgeData
                 : true;
     }
 
+    /**
+     * Returns true if the championship is team based. False otherwise.
+     * @return boolean the championship is team based or not
+     */
+    public function getTeamChampionship()
+    {
+       return ((count($this->listVehicles) > 0) || (count($this->listCategories) > 0)) ? true : false;
+    }
+
     public function getOutdated()
     {
         foreach ($this->getListEvents() as $event) {

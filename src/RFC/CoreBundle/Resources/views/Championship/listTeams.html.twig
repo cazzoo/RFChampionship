@@ -1,0 +1,64 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+<div class="ui three column stackable doubling grid teams">
+    {% for team in championship.listTeams %}
+        <div class="column">
+            <div class="ui fluid card">
+                <div class="image">
+                    <img src="/img/dummy_200x200.png">
+                </div>
+                <div class="content">
+                    <a class="header">{{ team.name }}</a>
+                    <div class="meta">
+                        <span class="date">This team has {{ team.listMainDrivers|length }} main drivers and {{ team.listSecondaryDrivers|length }} secondary drivers.</span>
+                    </div>
+                    <div class="description">
+                        <div class="ui two column center aligned horizontally divided stackable grid">
+                            <div class="column">
+                                Main drivers
+                                {% for mainDriver in team.listMainDrivers %}
+                                    {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : mainDriver} %}
+                                {% endfor %}
+                            </div>
+                            <div class="column">
+                                Secondary drivers
+                                {% for secondaryDriver in team.listSecondaryDrivers %}
+                                    {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : secondaryDriver} %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="extra content">
+                    <a>
+                        <i class="users icon"></i>
+                        <div>Main slot : {{ team.listMainDrivers|length }} / {{ team.maxMainDrivers == 0 ?  'unlimited' : team.maxMainDrivers }}</div>
+                        <div>Secondary slot : {{ team.listSecondaryDrivers|length }} / {{ team.maxSecondaryDrivers == 0 ?  'unlimited' : team.maxSecondaryDrivers }}</div>
+                    </a>
+                </div>
+                <div class="ui dimmer">
+                    <div class="content">
+                        <div class="center">
+                            <a class="ui primary button registerMain" data-action="user register team" data-gameid="{{ team.championship.game.id }}" data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}" data-driverid="{{ app.user.id }}" data-drivertype="main" >Register as main driver</a>
+                            <a class="ui secondary button registerSecondary" data-action="user register team" data-gameid="{{ team.championship.game.id }}" data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}" data-driverid="{{ app.user.id }}" data-drivertype="secondary">Register as secondary driver</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
