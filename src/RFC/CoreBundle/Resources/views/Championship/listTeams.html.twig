@@ -53,8 +53,10 @@
                 <div class="ui dimmer">
                     <div class="content">
                         <div class="center">
-                            <a class="ui primary button registerMain" data-action="user register team" data-gameid="{{ team.championship.game.id }}" data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}" data-driverid="{{ app.user.id }}" data-drivertype="main" >Register as main driver</a>
-                            <a class="ui secondary button registerSecondary" data-action="user register team" data-gameid="{{ team.championship.game.id }}" data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}" data-driverid="{{ app.user.id }}" data-drivertype="secondary">Register as secondary driver</a>
+                            <a class="ui primary button teamRegistration" data-action="user register team" data-gameid="{{ team.championship.game.id }}" data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}" data-driverid="{{ app.user.id }}" data-drivertype="main" >Register as main driver</a>
+                            <a class="ui secondary button teamRegistration" data-action="user register team" data-gameid="{{ team.championship.game.id }}" data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}" data-driverid="{{ app.user.id }}" data-drivertype="secondary">Register as secondary driver</a>
+                            <a class="ui primary red button teamRegistration" data-action="user unregister team" data-gameid="{{ team.championship.game.id }}" data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}" data-driverid="{{ app.user.id }}" data-drivertype="main">Unregister as main driver</a>
+                            <a class="ui secondary red button teamRegistration" data-action="user unregister team" data-gameid="{{ team.championship.game.id }}" data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}" data-driverid="{{ app.user.id }}" data-drivertype="secondary">Unregister as secondary driver</a>
                         </div>
                     </div>
                 </div>

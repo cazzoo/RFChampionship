@@ -933,8 +933,7 @@ $(function () {
         on: 'hover'
     });
     
-    $('.ui.button.registerMain').api();
-
+    $('.ui.button.teamRegistration').api();
 
     // --------------------------------------------
     // Screen MetaRule show

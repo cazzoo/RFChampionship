@@ -247,4 +247,41 @@ class ChampionshipController extends RFCController
             return new JsonResponse($ex, 400);
         }
     }
+
+    /**
+     * This action register a specified user to a specified team
+     * @param type $teamid the team on which we add the user
+     * @param type $drivertype the type of the driver added (main|secondary)
+     * @param type $driverid The driver we want to add
+     * @return JsonResponse 200 if success (with team object), 400 if issue when flusing
+     */
+    public function userUnregisterTeamAction($teamid, $drivertype, $driverid)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $team = $entityManager->getRepository('RFCCoreBundle:Team')->findOneBy(['id' =>
+            $teamid]);
+        $user = $entityManager->getRepository('RFCUserBundle:User')->findOneBy(['id' =>
+            $driverid]);
+
+        switch ($drivertype) {
+            case 'main':
+                if ($team->getListMainDrivers()->contains($user)) {
+                    $team->removeMainDriver($user);
+                }
+                break;
+            case 'secondary':
+                if ($team->getListSecondaryDrivers()->contains($user)) {
+                    $team->removeSecondaryDriver($user);
+                }
+                break;
+        }
+
+        try {
+            $entityManager->flush();
+            return new JsonResponse($team, 200);
+        } catch (Exception $ex) {
+            return new JsonResponse($ex, 400);
+        }
+    }
 }
