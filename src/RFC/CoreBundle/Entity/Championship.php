@@ -478,9 +478,31 @@ class Championship extends KnowledgeData
      *
      * @return ArrayCollection
      */
-    public function getListCategories()
+    public
+    function getListCategories()
     {
         return $this->listCategories;
+    }
+
+    public function getListUsersTeams($type = 'main')
+    {
+        $users = array();
+        foreach ($this->listTeams as $team) {
+            switch ($type) {
+                case 'main':
+                    if (!$team->getListMainDrivers()->isEmpty()) {
+                        array_push($users, $team->getListMainDrivers()->toArray());
+                    }
+                    break;
+                case 'secondary':
+                    if (!$team->getListSecondaryDrivers()->isEmpty()) {
+                        array_push($users, $team->getListSecondaryDrivers()->toArray());
+                    }
+                    break;
+            }
+
+        }
+        return $users;
     }
 
     /**
@@ -488,8 +510,10 @@ class Championship extends KnowledgeData
      * @param ArrayCollection $listCategories
      * @return Championship
      */
-    public function setListCategories(ArrayCollection $listCategories)
-    {
+    public
+    function setListCategories(
+        ArrayCollection $listCategories
+    ) {
         $this->listCategories = $listCategories;
         return $this;
     }
@@ -498,7 +522,8 @@ class Championship extends KnowledgeData
      *
      * @return ArrayCollection
      */
-    public function getListVehicles()
+    public
+    function getListVehicles()
     {
         return $this->listVehicles;
     }
@@ -508,8 +533,10 @@ class Championship extends KnowledgeData
      * @param ArrayCollection $listVehicles
      * @return Championship
      */
-    public function setListVehicles(ArrayCollection $listVehicles)
-    {
+    public
+    function setListVehicles(
+        ArrayCollection $listVehicles
+    ) {
         $this->listVehicles = $listVehicles;
         return $this;
     }
@@ -518,8 +545,10 @@ class Championship extends KnowledgeData
      * This method generates the teams assigning default options like name and max values
      * @param Array $baseData The base data on which we create the team, It could be list of Vehicles, list of Categories or number
      */
-    public function generateTeams(Array $baseData)
-    {
+    public
+    function generateTeams(
+        Array $baseData
+    ) {
         foreach ($baseData[0] as $data) {
             if (get_class($data) == 'RFC\CoreBundle\Entity\Vehicle' || get_class($data)
                 == 'RFC\CoreBundle\Entity\Category'
@@ -552,7 +581,8 @@ class Championship extends KnowledgeData
      * The first event of the championship
      * @return Event
      */
-    public function getFirstEvent()
+    public
+    function getFirstEvent()
     {
         $firstEvent = null;
         foreach ($this->listEvents as $event) {
@@ -571,7 +601,8 @@ class Championship extends KnowledgeData
      * The last event of the championship
      * @return Event
      */
-    public function getLastEvent()
+    public
+    function getLastEvent()
     {
         $lastEvent = null;
         foreach ($this->listEvents as $event) {
@@ -591,7 +622,8 @@ class Championship extends KnowledgeData
      *
      * @return \DateTime
      */
-    public function getBeginDate()
+    public
+    function getBeginDate()
     {
         $template = new \DateTime('01/01/1900');
         $template->format('Y-m-d H:i:s');
@@ -617,7 +649,8 @@ class Championship extends KnowledgeData
      *
      * @return \DateTime
      */
-    public function getEndDate()
+    public
+    function getEndDate()
     {
         $template = new \DateTime('01/01/2100');
         $template->format('Y-m-d H:i:s');
@@ -643,8 +676,10 @@ class Championship extends KnowledgeData
      * @param $userId
      * @return boolean
      */
-    public function isManager($userId)
-    {
+    public
+    function isManager(
+        $userId
+    ) {
         foreach ($this->listManagers as $manager) {
             if ($userId == $manager->getId()) {
                 return true;
@@ -653,7 +688,8 @@ class Championship extends KnowledgeData
         return false;
     }
 
-    public function getCurrentEvent()
+    public
+    function getCurrentEvent()
     {
         $currentEvent = null;
         $now = new \DateTime();
@@ -670,7 +706,8 @@ class Championship extends KnowledgeData
      * Returns the next incoming event regarding the current date.
      * @return Event the next event
      */
-    public function getNextEvent()
+    public
+    function getNextEvent()
     {
         $nextEvent = null;
         $now = new \DateTime();
@@ -690,7 +727,8 @@ class Championship extends KnowledgeData
      * Returns the previous finished event regarding the current date.
      * @return Event the previous event
      */
-    public function getPreviousEvent()
+    public
+    function getPreviousEvent()
     {
         $previousEvent = null;
         $now = new \DateTime();
@@ -710,7 +748,8 @@ class Championship extends KnowledgeData
      *
      * @return Session
      */
-    public function getCurrentSession()
+    public
+    function getCurrentSession()
     {
         if (null != $this->getCurrentEvent()) {
             return $this->getCurrentEvent()->getCurrentSession();
@@ -722,7 +761,8 @@ class Championship extends KnowledgeData
      *  Returns the nearest incoming session.
      * @return Session the next session that is not started.
      */
-    public function getNextSession()
+    public
+    function getNextSession()
     {
         if (null != $this->getCurrentEvent()) {
             return $this->getCurrentEvent()->getNextSession();
@@ -738,7 +778,8 @@ class Championship extends KnowledgeData
      *  Returns the nearest completed session.
      * @return Session the previous session that is completed.
      */
-    public function getPreviousSession()
+    public
+    function getPreviousSession()
     {
         if (null != $this->getCurrentEvent()) {
             return $this->getCurrentEvent()->getPreviousSession();
@@ -754,7 +795,8 @@ class Championship extends KnowledgeData
      * Returns if the championship is finished or not
      * @return boolean
      */
-    public function getIsFinished()
+    public
+    function getIsFinished()
     {
         $date = new \DateTime ();
         $date->setTimezone(new \DateTimeZone('Europe/Paris'));
@@ -766,7 +808,8 @@ class Championship extends KnowledgeData
      * Returns whether the championship has session dates or not
      * @return false if the entity has BeginDate or EndDate through session(s) or true if not
      */
-    public function getIsDraft()
+    public
+    function getIsDraft()
     {
         return ($this->getBeginDate() != null || $this->getEndDate() != null) ? false
             : true;
@@ -776,12 +819,14 @@ class Championship extends KnowledgeData
      * Returns true if the championship is team based. False otherwise.
      * @return boolean the championship is team based or not
      */
-    public function getTeamChampionship()
+    public
+    function getTeamChampionship()
     {
         return ((count($this->listVehicles) > 0) || (count($this->listCategories) > 0)) ? true : false;
     }
 
-    public function getOutdated()
+    public
+    function getOutdated()
     {
         foreach ($this->getListEvents() as $event) {
             if (($event->getVehicle() !== null && count($event->getListVehicle()

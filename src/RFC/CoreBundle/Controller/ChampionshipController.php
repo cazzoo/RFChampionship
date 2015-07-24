@@ -265,7 +265,7 @@ class ChampionshipController extends RFCController
             $message = 'Successfully added to team';
         }
 
-        $data = ['success' => $added, 'message' => $message, 'data' => $jsonData];
+        $data = ['success' => $added, 'action' => 'register user team ' . $drivertype, 'message' => $message, 'data' => $jsonData];
 
         return new JsonResponse($data, 200);
     }
@@ -321,7 +321,7 @@ class ChampionshipController extends RFCController
             $entityManager->flush();
         }
 
-        $data = ['success' => $success, 'message' => $message, 'data' => $jsonData];
+        $data = ['success' => $success, 'action' => 'unregister user team ' . $drivertype, 'message' => $message, 'data' => $jsonData];
 
         return new JsonResponse($data, 200);
     }

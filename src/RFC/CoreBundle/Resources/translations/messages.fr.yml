@@ -45,6 +45,7 @@ core:
       manager: '{0}Pas de manager|one:Manager|some:Managers'
     participants:
       title: '(%participantCount%) pilotes enregistrés'
+      titleTeam: '(%participantCountMain%) pilotes titulaires et (%participantCountSecondary%) pilotes secondaires enregistrés'
       tooMuch: 'Trop de pilotes à afficher.'
       showFullList: 'Afficher tous les participants'
       popupParticipant: 'Liste complète des participants'

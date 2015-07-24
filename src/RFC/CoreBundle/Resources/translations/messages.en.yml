@@ -44,7 +44,8 @@ core:
           description: 'Description'
           manager: '{0}No Manager|one:Manager|some:Managers'
       participants:
-          title: '(%participantCount%) Drivers registered'
+          title: '(%participantCount%) drivers registered'
+          titleTeam: '(%participantCountMain%) main drivers and (%participantCountSecondary%) secondary drivers registered'
           tooMuch: 'Too much drivers to show.'
           showFullList: 'View full participants'
           popupParticipant: 'Full participants list'

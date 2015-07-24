@@ -936,6 +936,8 @@ $(function () {
 
     $('.ui.button.teamRegistration').api({
             onSuccess: function (response) {
+                console.log(response.data);
+                console.log(response.action.split(" ")[0]);
             }
         }
     );
@@ -977,7 +979,7 @@ $(function () {
         $('#loginForm').submit();
     });
 
-    $('.ui.card.gameCard:not()').click(function () {
+    $('.ui.card.gameCard').click(function () {
         window.location = Routing.generate('rfcCore_gameSelection', {'gameId': $(this).data('gameid')});
     });
 
