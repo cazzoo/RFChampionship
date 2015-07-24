@@ -22,6 +22,8 @@ namespace RFC\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Groups;
 use RFC\CoreBundle\Entity\Descriptor;
 use RFC\UserBundle\Entity\User;
 
@@ -37,34 +39,40 @@ class Team extends Descriptor
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Exclude()
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship", inversedBy="listTeams")
      * @ORM\JoinColumn(nullable=false)
+     * @Exclude()
      */
     protected $championship;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\UserBundle\Entity\User")
      * @JoinTable(name="team_mainDrivers")
+     * @Groups({"list"})
      */
     private $listMainDrivers;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\UserBundle\Entity\User")
      * @JoinTable(name="team_secondaryDrivers")
+     * @Groups({"list"})
      */
     private $listSecondaryDrivers;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"list"})
      */
     private $maxMainDrivers;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"list"})
      */
     private $maxSecondaryDrivers;
 
@@ -79,7 +87,7 @@ class Team extends Descriptor
     public function __construct()
     {
         parent::__construct();
-        $this->listMainDrivers      = new ArrayCollection();
+        $this->listMainDrivers = new ArrayCollection();
         $this->listSecondaryDrivers = new ArrayCollection();
     }
 
@@ -130,23 +138,30 @@ class Team extends Descriptor
      * Add user
      *
      * @param User $user
-     * @return Team
+     * @return addSuccess $this or false
      */
     public function addMainDriver(User $user)
     {
-        $this->listMainDrivers[] = $user;
-
-        return $this;
+        if ($this->listMainDrivers->contains($user)) {
+            return false;
+        }
+        return $this->listMainDrivers->add($user) ? $this : false;
     }
 
     /**
      * Remove user
      *
      * @param User $user
+     * @return removeSuccess $this or false
      */
-    public function removeMainDriver(User $user)
-    {
-        $this->listMainDrivers->removeElement($user);
+    public
+    function removeMainDriver(
+        User $user
+    ) {
+        if (!$this->listMainDrivers->contains($user)) {
+            return false;
+        }
+        return $this->listMainDrivers->removeElement($user) ? $this : false;
     }
 
     /**
@@ -174,23 +189,32 @@ class Team extends Descriptor
      * Add user
      *
      * @param User $user
-     * @return Team
+     * @return addSuccess $this or false
      */
-    public function addSecondaryDriver(User $user)
-    {
-        $this->listSecondaryDrivers[] = $user;
-
-        return $this;
+    public
+    function addSecondaryDriver(
+        User $user
+    ) {
+        if ($this->listSecondaryDrivers->contains($user)) {
+            return false;
+        }
+        return $this->listSecondaryDrivers->add($user) ? $this : false;
     }
 
     /**
      * Remove user
      *
      * @param User $user
+     * @return removeSuccess $this or false
      */
-    public function removeSecondaryDriver(User $user)
-    {
-        $this->listSecondaryDrivers->removeElement($user);
+    public
+    function removeSecondaryDriver(
+        User $user
+    ) {
+        if (!$this->listSecondaryDrivers->contains($user)) {
+            return false;
+        }
+        return $this->listSecondaryDrivers->removeElement($user) ? $this : false;
     }
 
     function getMaxMainDrivers()

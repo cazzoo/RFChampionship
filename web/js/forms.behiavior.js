@@ -84,10 +84,10 @@ function getChampionshipResults(championshipId) {
             showModalAndActivatePopups($('.standard.globalResults.modal'));
         });
     }).fail(
-            function (jqXHR, textStatus, errorThrown) {
-                addNotification('Error while updating championship\'s results',
-                        'error');
-            });
+        function (jqXHR, textStatus, errorThrown) {
+            addNotification('Error while updating championship\'s results',
+                'error');
+        });
 
     $('.eventItem').each(function () {
         getEventResult($(this).data('eventid'));
@@ -109,10 +109,10 @@ function getEventResult(eventId) {
         addNotification('Event results updated', 'success');
         $('div.eventResults[data-eventid="' + eventId + '"').find('.description').html(data);
     }).fail(
-            function (jqXHR, textStatus, errorThrown) {
-                addNotification('Error while updating event\'s results',
-                        'error');
-            });
+        function (jqXHR, textStatus, errorThrown) {
+            addNotification('Error while updating event\'s results',
+                'error');
+        });
 }
 
 /**
@@ -298,37 +298,37 @@ function loadSetupStepData(data, firstElement, stepId) {
             receiver.parent().addClass('loading');
         }
     }).done(
-            function (data) {
-                receiver.parent().removeClass('loading');
-                addNotification('Version loaded', 'success');
-                receiver.html(data);
-                if (firstElement) {
-                    // Show subStep on select
-                    $('.setupStepContent #rfc_setupbundle_setupStep_subStep')
-                            .unbind('change');
-                    $('.setupStepContent[data-stepid=' + stepId + '] .setupStepValues select')
-                            .bind(
-                                    'change',
-                                    function () {
-                                        var selected = $(this).find(
-                                                'option:selected').val();
-                                        showSubStepInfo(selected);
+        function (data) {
+            receiver.parent().removeClass('loading');
+            addNotification('Version loaded', 'success');
+            receiver.html(data);
+            if (firstElement) {
+                // Show subStep on select
+                $('.setupStepContent #rfc_setupbundle_setupStep_subStep')
+                    .unbind('change');
+                $('.setupStepContent[data-stepid=' + stepId + '] .setupStepValues select')
+                    .bind(
+                    'change',
+                    function () {
+                        var selected = $(this).find(
+                            'option:selected').val();
+                        showSubStepInfo(selected);
 
-                                    });
-                    $('.setupStepContent[data-stepid=' + stepId
-                            + '] .setupStepValues select').trigger('change');
-                }
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-        receiver.html("Aucune version n'a pu être chargée");
-        addNotification('Error while loading version', 'error');
-    });
+                    });
+                $('.setupStepContent[data-stepid=' + stepId
+                    + '] .setupStepValues select').trigger('change');
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            receiver.html("Aucune version n'a pu être chargée");
+            addNotification('Error while loading version', 'error');
+        });
 }
 
 function selectVersion(elementSelected) {
     var stepId = elementSelected.parents('.setupStepContent').data('stepid');
     var entityData = elementSelected.find(":selected");
     var firstElement = elementSelected.find('option:first-child').val() === entityData
-            .val() ? true : false;
+        .val() ? true : false;
     var data = {
         setupStepId: entityData.val(),
         gameId: entityData.data("gameid"),
@@ -408,7 +408,7 @@ function getDateFormatted() {
     var seconde = ('0' + now.getSeconds()).slice(-2);
 
     return jour + "/" + mois + "/" + annee + " - " + heure + ":" + minute + ":"
-            + seconde;
+        + seconde;
 }
 
 var notificationBox = $('#notificationCenter').find('#messages');
@@ -418,11 +418,11 @@ var lastNotificationId = 0;
 function animate(element_ID, animation) {
     $(element_ID).addClass('animated ' + animation);
     $(element_ID)
-            .one(
-                    'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
-                    function () {
-                        $(element_ID).removeClass('animated ' + animation);
-                    });
+        .one(
+        'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+        function () {
+            $(element_ID).removeClass('animated ' + animation);
+        });
 }
 
 function addNotification(message, type) {
@@ -433,8 +433,8 @@ function addNotification(message, type) {
     notification.type = typeof type !== 'undefined' ? type : 'info';
     notifications.push(notification);
     animate(
-            $('#notificationCenter').find('.bubble').html(notifications.length),
-            'bounce');
+        $('#notificationCenter').find('.bubble').html(notifications.length),
+        'bounce');
     var icon = "";
     switch (type) {
         case 'info':
@@ -454,16 +454,16 @@ function addNotification(message, type) {
             break;
     }
     $(notificationBox).append(
-            "<li class=\"container-clearFix ym-clearfix\"><span class=\"left\">"
-            + icon + notification.date + " - " + notification.message
-            + "</span><span class=\"right\"><a href=\"#\" id=\"message"
-            + notification.id
-            + "\" class=\"ym-close\">&nbsp;</a></span></li>");
+        "<li class=\"container-clearFix ym-clearfix\"><span class=\"left\">"
+        + icon + notification.date + " - " + notification.message
+        + "</span><span class=\"right\"><a href=\"#\" id=\"message"
+        + notification.id
+        + "\" class=\"ym-close\">&nbsp;</a></span></li>");
     $(notificationBox).find('#message' + notification.id).bind("click",
-            function () {
-                removeNotification(notification.id);
-                return false;
-            });
+        function () {
+            removeNotification(notification.id);
+            return false;
+        });
     lastNotificationId++;
 }
 
@@ -471,32 +471,32 @@ function drawNotifications() {
     var htmlToDraw = "";
     for (i = 0; i < notifications.length; i++) {
         htmlToDraw += "<li class=\"container-clearFix ym-clearfix\"><span class=\"left\">"
-                + icon
-                + notification.date
-                + " - "
-                + notification.message
-                + "</span><span class=\"right\"><a href=\"#\" id=\"message"
-                + notification.id
-                + "\" class=\"ym-close\">&nbsp;</a></span></li>";
+            + icon
+            + notification.date
+            + " - "
+            + notification.message
+            + "</span><span class=\"right\"><a href=\"#\" id=\"message"
+            + notification.id
+            + "\" class=\"ym-close\">&nbsp;</a></span></li>";
     }
     $(notificationBox).html(htmlToDraw);
     animate(
-            $('#notificationCenter').find('.bubble').html(notifications.length),
-            'bounce');
+        $('#notificationCenter').find('.bubble').html(notifications.length),
+        'bounce');
     lastNotificationId = notifications.length;
 }
 
 function removeNotification(id) {
     notifications.splice(arrayObjectIndexOf(notifications, id, 'id'), 1);
     $(notificationBox).find("li").find("#message" + id).parent().parent()
-            .fadeOut(300, function () {
-                $(this).remove();
-            });
+        .fadeOut(300, function () {
+            $(this).remove();
+        });
     animate(
-            $('#notificationCenter').find('.bubble').html(notifications.length),
-            'fadeOut');
+        $('#notificationCenter').find('.bubble').html(notifications.length),
+        'fadeOut');
     if (notifications.length < 1
-            && $("#notificationCenter").find("#messages").parent().is(
+        && $("#notificationCenter").find("#messages").parent().is(
             ":visible")) {
         $("#notificationCenter").find("#messages").parent().slideToggle();
     }
@@ -534,7 +534,7 @@ function addImageForm(collectionHolder, $newLinkLi) {
     // un nombre basé sur
     // la longueur de la collection courante
     var newForm = prototype.replace(/__name__/g,
-            collectionHolder.children().length);
+        collectionHolder.children().length);
 
     // Affiche le formulaire dans la page dans un li,
     // avant le lien "ajouter
@@ -625,7 +625,8 @@ function loadEventSessions(id) {
         $('#sessionAddButton').attr("href", Routing.generate('admin_session_new', {
             gameId: data.gameId,
             championshipId: data.championshipId,
-            eventId: data.eventId}));
+            eventId: data.eventId
+        }));
         $('#sessionAddButton').show();
     }).fail(function () {
         $('#listSessions').html("Impossible de récupérer un résultat");
@@ -755,7 +756,7 @@ $(function () {
     // ----------------- Register/unregister
     // --------------------------------------------
     $("#registrationStatus").on('click', '.actionRegisterUnregister',
-            registerChampionshipBehiavior);
+        registerChampionshipBehiavior);
 
     // Screen MetaRule
     // --------------------------------------------
@@ -932,18 +933,22 @@ $(function () {
     $('.grid.teams .card').dimmer({
         on: 'hover'
     });
-    
-    $('.ui.button.teamRegistration').api();
 
-    // --------------------------------------------
-    // Screen MetaRule show
-    // --------------------------------------------
-    // Selecting metaRule
+    $('.ui.button.teamRegistration').api({
+            onSuccess: function (response) {
+            }
+        }
+    );
+
+// --------------------------------------------
+// Screen MetaRule show
+// --------------------------------------------
+// Selecting metaRule
     $(".metaRuleItem:first").trigger("click");
 
-    // --------------------------------------------
-    // ----------------- popupMenu : edit element
-    // --------------------------------------------
+// --------------------------------------------
+// ----------------- popupMenu : edit element
+// --------------------------------------------
 
     $('#showSidebar').click(function () {
         $('.sidebar.footer').sidebar('toggle');
@@ -953,9 +958,9 @@ $(function () {
         $('.sidebar.comments').sidebar('toggle');
     });
 
-    // --------------------------------------------
-    // ----------------- Clickable table row
-    // --------------------------------------------
+// --------------------------------------------
+// ----------------- Clickable table row
+// --------------------------------------------
     /*
      * $('tr').has('td').has('a').hover(function() { $(this).css('cursor',
      * 'pointer'); }); $('tr').has('td').has('a').click(function() { var href =
@@ -990,7 +995,8 @@ $(function () {
         event.preventDefault();
     });
 
-});
+})
+;
 
 //$('.ui.checkbox').checkbox();
 

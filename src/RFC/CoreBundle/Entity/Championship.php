@@ -108,13 +108,13 @@ class Championship extends KnowledgeData
     public function __construct()
     {
         parent::__construct();
-        $this->listEvents     = new ArrayCollection();
-        $this->listManagers   = new ArrayCollection();
-        $this->listRules      = new ArrayCollection();
-        $this->listUsers      = new ArrayCollection();
-        $this->listTeams      = new ArrayCollection();
+        $this->listEvents = new ArrayCollection();
+        $this->listManagers = new ArrayCollection();
+        $this->listRules = new ArrayCollection();
+        $this->listUsers = new ArrayCollection();
+        $this->listTeams = new ArrayCollection();
         $this->listCategories = new ArrayCollection();
-        $this->listVehicles   = new ArrayCollection();
+        $this->listVehicles = new ArrayCollection();
     }
 
     public function __toString()
@@ -522,7 +522,8 @@ class Championship extends KnowledgeData
     {
         foreach ($baseData[0] as $data) {
             if (get_class($data) == 'RFC\CoreBundle\Entity\Vehicle' || get_class($data)
-                == 'RFC\CoreBundle\Entity\Category') {
+                == 'RFC\CoreBundle\Entity\Category'
+            ) {
                 $t = new Team();
                 // We generate the team name using the Data name
                 $t->setName($data->getName());
@@ -536,7 +537,7 @@ class Championship extends KnowledgeData
                 for ($i = 0; $i < $baseData[0]; $i++) {
                     $t = new Team();
                     // We generate a dummy text : Team + number of team
-                    $t->setName('Team '.($i + 1));
+                    $t->setName('Team ' . ($i + 1));
                     $t->setMaxMainDrivers($baseData[1]);
                     $t->setMaxSecondaryDrivers($baseData[2]);
                     $t->setCommentsActive(false);
@@ -557,8 +558,10 @@ class Championship extends KnowledgeData
         foreach ($this->listEvents as $event) {
             if (null == $firstEvent) {
                 $firstEvent = $event;
-            } else if ($event->getBeginDate() < $firstEvent->getBeginDate()) {
-                $firstEvent = $event;
+            } else {
+                if ($event->getBeginDate() < $firstEvent->getBeginDate()) {
+                    $firstEvent = $event;
+                }
             }
         }
         return $firstEvent;
@@ -574,8 +577,10 @@ class Championship extends KnowledgeData
         foreach ($this->listEvents as $event) {
             if (null == $lastEvent) {
                 $lastEvent = $event;
-            } else if ($event->getEndDate() > $lastEvent->getEndDate()) {
-                $lastEvent = $event;
+            } else {
+                if ($event->getEndDate() > $lastEvent->getEndDate()) {
+                    $lastEvent = $event;
+                }
             }
         }
         return $lastEvent;
@@ -651,7 +656,7 @@ class Championship extends KnowledgeData
     public function getCurrentEvent()
     {
         $currentEvent = null;
-        $now          = new \DateTime();
+        $now = new \DateTime();
 
         foreach ($this->listEvents as $event) {
             if ($now > $event->getBeginDate() && $now < $event->getEndDate()) {
@@ -668,11 +673,12 @@ class Championship extends KnowledgeData
     public function getNextEvent()
     {
         $nextEvent = null;
-        $now       = new \DateTime();
+        $now = new \DateTime();
 
         foreach ($this->listEvents as $event) {
             if ($now < $event->getBeginDate() && (null == $nextEvent || $nextEvent->getBeginDate()
-                > $event->getBeginDate())) {
+                    > $event->getBeginDate())
+            ) {
                 $nextEvent = $event;
             }
         }
@@ -687,11 +693,12 @@ class Championship extends KnowledgeData
     public function getPreviousEvent()
     {
         $previousEvent = null;
-        $now           = new \DateTime();
+        $now = new \DateTime();
 
         foreach ($this->listEvents as $event) {
             if ($now > $event->getEndDate() && (null == $previousEvent || $previousEvent->getEndDate()
-                < $event->getEndDate())) {
+                    < $event->getEndDate())
+            ) {
                 $previousEvent = $event;
             }
         }
@@ -719,8 +726,10 @@ class Championship extends KnowledgeData
     {
         if (null != $this->getCurrentEvent()) {
             return $this->getCurrentEvent()->getNextSession();
-        } else if (null != $this->getNextEvent()) {
-            return $this->getNextEvent()->getNextSession();
+        } else {
+            if (null != $this->getNextEvent()) {
+                return $this->getNextEvent()->getNextSession();
+            }
         }
         return null;
     }
@@ -733,8 +742,10 @@ class Championship extends KnowledgeData
     {
         if (null != $this->getCurrentEvent()) {
             return $this->getCurrentEvent()->getPreviousSession();
-        } else if (null != $this->getPreviousEvent()) {
-            return $this->getPreviousEvent()->getPreviousSession();
+        } else {
+            if (null != $this->getPreviousEvent()) {
+                return $this->getPreviousEvent()->getPreviousSession();
+            }
         }
         return null;
     }
@@ -758,7 +769,7 @@ class Championship extends KnowledgeData
     public function getIsDraft()
     {
         return ($this->getBeginDate() != null || $this->getEndDate() != null) ? false
-                : true;
+            : true;
     }
 
     /**
@@ -767,15 +778,16 @@ class Championship extends KnowledgeData
      */
     public function getTeamChampionship()
     {
-       return ((count($this->listVehicles) > 0) || (count($this->listCategories) > 0)) ? true : false;
+        return ((count($this->listVehicles) > 0) || (count($this->listCategories) > 0)) ? true : false;
     }
 
     public function getOutdated()
     {
         foreach ($this->getListEvents() as $event) {
             if (($event->getVehicle() !== null && count($event->getListVehicle()
-                    === 0)) || ($event->getCategory() !== null && count($event->getListCategories()
-                    === 0))) {
+                        === 0)) || ($event->getCategory() !== null && count($event->getListCategories()
+                        === 0))
+            ) {
                 return true;
             }
         }
