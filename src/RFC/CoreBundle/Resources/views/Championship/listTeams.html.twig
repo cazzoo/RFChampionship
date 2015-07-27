@@ -66,36 +66,50 @@
                         <i class="users icon"></i>
 
                         <div>Main slot : {{ team.listMainDrivers|length }}
-                            / {{ team.maxMainDrivers == 0 ?  'unlimited' : team.maxMainDrivers }}</div>
+                            / {{ team.maxMainDrivers == -1 ?  'unlimited' : team.maxMainDrivers }}</div>
                         <div>Secondary slot : {{ team.listSecondaryDrivers|length }}
-                            / {{ team.maxSecondaryDrivers == 0 ?  'unlimited' : team.maxSecondaryDrivers }}</div>
+                            / {{ team.maxSecondaryDrivers == -1 ?  'unlimited' : team.maxSecondaryDrivers }}</div>
                     </a>
                 </div>
                 <div class="ui dimmer">
                     <div class="content">
                         <div class="center">
                             {% if registeredAsMainDriver is null and registeredAsSecondaryDriver is null %}
-                                <a class="ui primary button teamRegistration" data-action="user register team"
-                                   data-gameid="{{ team.championship.game.id }}"
-                                   data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
-                                   data-driverid="{{ app.user.id }}" data-drivertype="main">Register as main driver</a>
-                                <a class="ui primary secondary button teamRegistration" data-action="user register team"
-                                   data-gameid="{{ team.championship.game.id }}"
-                                   data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
-                                   data-driverid="{{ app.user.id }}" data-drivertype="secondary">Register as secondary
-                                    driver</a>
+                                {% if team.maxMainDrivers == -1 or (team.maxMainDrivers > 0 and team.listMainDrivers|length < team.maxMainDrivers) %}
+                                    <a class="ui primary button teamRegistration" data-action="user register team"
+                                       data-gameid="{{ team.championship.game.id }}"
+                                       data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
+                                       data-driverid="{{ app.user.id }}" data-drivertype="main">
+                                        Register as main driver
+                                    </a>
+                                {% else %}
+                                    {% if team.listSecondaryDrivers|length < team.maxSecondaryDrivers %}
+                                        There is not more main slots available for this team, please register as secondary or choose another team.
+                                        <a class="ui primary secondary button teamRegistration"
+                                           data-action="user register team"
+                                           data-gameid="{{ team.championship.game.id }}"
+                                           data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
+                                           data-driverid="{{ app.user.id }}" data-drivertype="secondary">
+                                            Register as secondary driver
+                                        </a>
+                                    {% else %}
+                                        All the main and secondary slots are taken. Please register to another team.
+                                    {% endif %}
+                                {% endif %}
                             {% elseif registeredAsMainDriver == team %}
                                 <a class="ui red button teamRegistration" data-action="user unregister team"
                                    data-gameid="{{ team.championship.game.id }}"
                                    data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
-                                   data-driverid="{{ app.user.id }}" data-drivertype="main">Unregister as main
-                                    driver</a>
+                                   data-driverid="{{ app.user.id }}" data-drivertype="main">
+                                    Unregister as main driver
+                                </a>
                             {% elseif registeredAsSecondaryDriver == team %}
                                 <a class="ui red button teamRegistration" data-action="user unregister team"
                                    data-gameid="{{ team.championship.game.id }}"
                                    data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
-                                   data-driverid="{{ app.user.id }}" data-drivertype="secondary">Unregister as secondary
-                                    driver</a>
+                                   data-driverid="{{ app.user.id }}" data-drivertype="secondary">
+                                    Unregister as secondary driver
+                                </a>
                             {% elseif registeredAsMainDriver is not null and registeredAsMainDriver != team %}
                                 You are already registered as main driver in team {{ registeredAsMainDriver.name }}.
                             {% elseif registeredAsSecondaryDriver is not null and registeredAsSecondaryDriver != team %}
