@@ -1,13 +1,13 @@
 ajax_user_register_team:
     pattern: /team/{teamid}/register/{drivertype}/{driverid}
     defaults: { _controller: "RFCCoreBundle:Championship:userRegisterTeam" }
-    requirements: { _method: post|get }
+    requirements: { _method: post }
     options:
         expose: true
         
 ajax_user_unregister_team:
     pattern: /team/{teamid}/unregister/{drivertype}/{driverid}
     defaults: { _controller: "RFCCoreBundle:Championship:userUnregisterTeam" }
-    requirements: { _method: post|get }
+    requirements: { _method: post }
     options:
         expose: true

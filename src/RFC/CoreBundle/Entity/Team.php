@@ -39,14 +39,14 @@ class Team extends Descriptor
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Exclude()
+     * @Groups({"id"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship", inversedBy="listTeams")
      * @ORM\JoinColumn(nullable=false)
-     * @Exclude()
+     * @Groups({"api"})
      */
     protected $championship;
 

@@ -935,6 +935,7 @@ $(function () {
     });
 
     $('.ui.button.teamRegistration').api({
+            method: 'POST',
             onSuccess: function (response) {
                 console.log(response.data);
                 console.log(response.action.split(" ")[0]);

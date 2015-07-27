@@ -22,9 +22,10 @@ namespace RFC\CoreBundle\Entity;
 use DateTime;
 use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
-use RFC\CoreBundle\Entity\KnowledgeData;
+use JMS\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\Common\Collections\ArrayCollection;
+use RFC\CoreBundle\Entity\KnowledgeData;
 use RFC\UserBundle\Entity\User;
 
 /**
@@ -39,6 +40,7 @@ class Championship extends KnowledgeData
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"id", "api"})
      */
     private $id;
 

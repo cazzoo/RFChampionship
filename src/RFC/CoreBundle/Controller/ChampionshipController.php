@@ -256,7 +256,7 @@ class ChampionshipController extends RFCController
 
         $serializer = $this->get('jms_serializer');
         $context = SerializationContext::create();
-        $context->setGroups(['list']);
+        $context->setGroups(['api']);
         $jsonData = $serializer->serialize($team, 'json', $context);
 
         $message = 'Error with insertion, you are already registered on this team';
@@ -265,7 +265,12 @@ class ChampionshipController extends RFCController
             $message = 'Successfully added to team';
         }
 
-        $data = ['success' => $added, 'action' => 'register user team ' . $drivertype, 'message' => $message, 'data' => $jsonData];
+        $data = [
+            'success' => $added,
+            'action' => 'register user team ' . $drivertype,
+            'message' => $message,
+            'data' => $jsonData
+        ];
 
         return new JsonResponse($data, 200);
     }
@@ -312,7 +317,7 @@ class ChampionshipController extends RFCController
         $success = true;
         $serializer = $this->get('jms_serializer');
         $context = SerializationContext::create();
-        $context->setGroups(['list']);
+        $context->setGroups(['api']);
         $jsonData = $serializer->serialize($team, 'json', $context);
 
         $message = 'Error with suppression, you are not registered on this team';
@@ -321,8 +326,28 @@ class ChampionshipController extends RFCController
             $entityManager->flush();
         }
 
-        $data = ['success' => $success, 'action' => 'unregister user team ' . $drivertype, 'message' => $message, 'data' => $jsonData];
+        $data = [
+            'success' => $success,
+            'action' => 'unregister user team ' . $drivertype,
+            'message' => $message,
+            'data' => $jsonData
+        ];
 
         return new JsonResponse($data, 200);
+    }
+
+    function renderTeamPopupAction($championshipId)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $championship = $entityManager->getRepository('RFCCoreBundle:Championship')->findOneBy([
+            'id' =>
+                $championshipId
+        ]);
+
+        return $this->render('RFCCoreBundle:Championship:listTeams.html.twig',
+            array(
+                'championship' => $championship
+            ));
     }
 }

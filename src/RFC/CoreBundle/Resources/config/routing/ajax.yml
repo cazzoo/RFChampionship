@@ -53,3 +53,11 @@ ajax_core_reportIssue:
     requirements: { _method: post }
     options:
         expose: true
+
+ajax_championship_renderTeamPopup:
+    pattern: /renderTeamPopup/{championshipId}
+    defaults: { _controller: "RFCCoreBundle:Championship:renderTeamPopup" }
+    requirements: { _method: post }
+        #championshipId: \d*
+    options:
+        expose: true
