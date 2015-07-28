@@ -937,8 +937,9 @@ $(function () {
     $('.ui.button.teamRegistration').api({
             method: 'POST',
             onSuccess: function (response) {
-                console.log(response.data);
+                console.log($.parseJSON(response.data));
                 console.log(response.action.split(" ")[0]);
+                Twig.render(listTeams, {championship: $.parseJSON(response.data)});
             }
         }
     );

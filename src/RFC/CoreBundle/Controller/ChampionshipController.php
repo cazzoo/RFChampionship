@@ -257,7 +257,7 @@ class ChampionshipController extends RFCController
         $serializer = $this->get('jms_serializer');
         $context = SerializationContext::create();
         $context->setGroups(['api']);
-        $jsonData = $serializer->serialize($team, 'json', $context);
+        $jsonData = $serializer->serialize($team->getChampionship(), 'json', $context);
 
         $message = 'Error with insertion, you are already registered on this team';
         if ($added) {
@@ -334,20 +334,5 @@ class ChampionshipController extends RFCController
         ];
 
         return new JsonResponse($data, 200);
-    }
-
-    function renderTeamPopupAction($championshipId)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $championship = $entityManager->getRepository('RFCCoreBundle:Championship')->findOneBy([
-            'id' =>
-                $championshipId
-        ]);
-
-        return $this->render('RFCCoreBundle:Championship:listTeams.html.twig',
-            array(
-                'championship' => $championship
-            ));
     }
 }
