@@ -17,47 +17,59 @@
 {# src/RFC/CoreBundle/Resources/views/User/index.html.twig #}
 
 {% twig_js name="teamRegistration" %}
-{% if app.user %}
-    {% if registeredAsMainDriver is null and registeredAsSecondaryDriver is null %}
-        {% if team.maxMainDrivers == -1 or (team.maxMainDrivers > 0 and team.listMainDrivers|length < team.maxMainDrivers) %}
-            <a class="ui primary button teamRegistration" data-action="user register team"
+
+{% set inProgressBeforeEnd = championship.registrationInProgress and championship.endDate|date("Y/m/d H:i") > "now"|date("Y/m/d H:i") %}
+{% set notInProgressBeforeBegin = not championship.registrationInProgress and championship.beginDate|date("Y/m/d H:i") > "now"|date("Y/m/d H:i") %}
+
+{% if app.user and not championship.isDraft %}
+    {% if inProgressBeforeEnd or notInProgressBeforeBegin %}
+        {% if registeredAsMainDriver is null and registeredAsSecondaryDriver is null %}
+            {% if team.maxMainDrivers == -1 or (team.maxMainDrivers > 0 and team.listMainDrivers|length < team.maxMainDrivers) %}
+                <a class="ui primary button teamRegistration" data-action="user register team"
+                   data-gameid="{{ team.championship.game.id }}"
+                   data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
+                   data-driverid="{{ app.user.id }}" data-drivertype="main">
+                    Register as main driver
+                </a>
+            {% else %}
+                {% if team.listSecondaryDrivers|length < team.maxSecondaryDrivers %}
+                    There is not more main slots available for this team, please register as secondary or choose another team.
+                    <a class="ui primary secondary button teamRegistration"
+                       data-action="user register team"
+                       data-gameid="{{ team.championship.game.id }}"
+                       data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
+                       data-driverid="{{ app.user.id }}" data-drivertype="secondary">
+                        Register as secondary driver
+                    </a>
+                {% else %}
+                    All the main and secondary slots are taken. Please register to another team.
+                {% endif %}
+            {% endif %}
+        {% elseif registeredAsMainDriver == team %}
+            <a class="ui red button teamRegistration" data-action="user unregister team"
                data-gameid="{{ team.championship.game.id }}"
                data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
                data-driverid="{{ app.user.id }}" data-drivertype="main">
-                Register as main driver
+                Unregister as main driver
             </a>
-        {% else %}
-            {% if team.listSecondaryDrivers|length < team.maxSecondaryDrivers %}
-                There is not more main slots available for this team, please register as secondary or choose another team.
-                <a class="ui primary secondary button teamRegistration"
-                   data-action="user register team"
-                   data-gameid="{{ team.championship.game.id }}"
-                   data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
-                   data-driverid="{{ app.user.id }}" data-drivertype="secondary">
-                    Register as secondary driver
-                </a>
-            {% else %}
-                All the main and secondary slots are taken. Please register to another team.
-            {% endif %}
+        {% elseif registeredAsSecondaryDriver == team %}
+            <a class="ui red button teamRegistration" data-action="user unregister team"
+               data-gameid="{{ team.championship.game.id }}"
+               data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
+               data-driverid="{{ app.user.id }}" data-drivertype="secondary">
+                Unregister as secondary driver
+            </a>
+        {% elseif registeredAsMainDriver is not null and registeredAsMainDriver != team %}
+            You are already registered as main driver in team {{ registeredAsMainDriver.name }}.
+        {% elseif registeredAsSecondaryDriver is not null and registeredAsSecondaryDriver != team %}
+            You are already registered as secondary driver in team {{ registeredAsSecondaryDriver.name }}.
         {% endif %}
-    {% elseif registeredAsMainDriver == team %}
-        <a class="ui red button teamRegistration" data-action="user unregister team"
-           data-gameid="{{ team.championship.game.id }}"
-           data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
-           data-driverid="{{ app.user.id }}" data-drivertype="main">
-            Unregister as main driver
-        </a>
-    {% elseif registeredAsSecondaryDriver == team %}
-        <a class="ui red button teamRegistration" data-action="user unregister team"
-           data-gameid="{{ team.championship.game.id }}"
-           data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
-           data-driverid="{{ app.user.id }}" data-drivertype="secondary">
-            Unregister as secondary driver
-        </a>
-    {% elseif registeredAsMainDriver is not null and registeredAsMainDriver != team %}
-        You are already registered as main driver in team {{ registeredAsMainDriver.name }}.
-    {% elseif registeredAsSecondaryDriver is not null and registeredAsSecondaryDriver != team %}
-        You are already registered as secondary driver in team {{ registeredAsSecondaryDriver.name }}.
+    {% else %}
+        {% if championship.registrationInProgress and championship.endDate|date("Y/m/d H:i") < "now"|date("Y/m/d H:i") %}
+            {% trans %}core.championship.registration.championshipEnded{% endtrans %}
+        {% elseif not championship.registrationInProgress and championship.beginDate|date("Y/m/d H:i") < "now"|date("Y/m/d H:i") %}
+            {% trans %}core.championship.registration.championshipStarted{% endtrans %}
+        {% endif %}
     {% endif %}
 {% else %}
     You must be logged in to register to a team.

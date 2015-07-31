@@ -14,9 +14,12 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% if app.user %}
+{% if app.user and not championship.isDraft %}
 
-    {% if championship.registrationInProgress or (not championship.registrationInProgress and championship.getBeginDate|date("Y/m/d H:i") > "now"|date("Y/m/d H:i")) %}
+    {% set inProgressBeforeEnd = championship.registrationInProgress and championship.endDate|date("Y/m/d H:i") > "now"|date("Y/m/d H:i") %}
+    {% set notInProgressBeforeBegin = not championship.registrationInProgress and championship.beginDate|date("Y/m/d H:i") > "now"|date("Y/m/d H:i") %}
+
+    {% if inProgressBeforeEnd or notInProgressBeforeBegin %}
 
         {% if status == '' %}
             {% if app.user.username in championship.listUsers %}
@@ -53,9 +56,11 @@
         {% endif %}
 
     {% else %}
-
-        {% trans %}core.championship.registration.championshipStarted{% endtrans %}
-
+        {% if championship.registrationInProgress and championship.endDate|date("Y/m/d H:i") < "now"|date("Y/m/d H:i") %}
+            {% trans %}core.championship.registration.championshipEnded{% endtrans %}
+        {% elseif not championship.registrationInProgress and championship.beginDate|date("Y/m/d H:i") < "now"|date("Y/m/d H:i") %}
+            {% trans %}core.championship.registration.championshipStarted{% endtrans %}
+        {% endif %}
     {% endif %}
 
 {% else %}

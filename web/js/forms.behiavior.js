@@ -689,6 +689,7 @@ function handleTeamRegistration(response) {
             method: 'POST',
             beforeSend: function (settings) {
                 $('.content>.center a.ui.button.teamRegistration').not($(this)).addClass('disabled');
+                return settings;
             },
             onSuccess: function (response) {
                 handleTeamRegistration(response);
@@ -999,6 +1000,7 @@ $(function () {
             method: 'POST',
             beforeSend: function (settings) {
                 $('.content>.center a.ui.button.teamRegistration').not($(this)).addClass('disabled');
+                return settings;
             },
             onSuccess: function (response) {
                 handleTeamRegistration(response);

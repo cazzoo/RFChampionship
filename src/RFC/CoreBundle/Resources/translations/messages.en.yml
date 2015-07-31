@@ -61,6 +61,7 @@ core:
         alreadyRegistered: 'You are already registered for this championship'
         notRegistered: 'You are not registered for this championship'
         championshipStarted: 'You are not allowed to register as the championship as already begun.'
+        championshipEnded: 'The championship has ended, you cannot register anymore to this.'
         notLogged: 'You need to login to register to championship.'
       result:
         rank: 'Rank'

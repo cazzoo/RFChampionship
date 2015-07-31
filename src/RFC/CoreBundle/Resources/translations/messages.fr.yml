@@ -60,7 +60,8 @@ core:
     registration:
       alreadyRegistered: 'Vous êtes toujours inscrits pour ce championnat'
       notRegistered: 'Vous n''êtes pas inscrit pour ce championnat'
-      championshipStarted: 'Vous n''êtes pas autorisé à vous inscrire au championnat en cours.'
+      championshipStarted: 'Vous n''êtes pas autorisé à vous inscrire au championnat ayant débuté.'
+      championshipEnded: 'Le championnat est terminé, vous ne pouvez plus vous inscrire.'
       notLogged: 'Vous devez vous connecter pour vous inscrire à ce championnat.'
     result:
       rank: 'Rang'
