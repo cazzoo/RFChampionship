@@ -34,14 +34,13 @@
                             <div class="column">
                                 Main drivers
                                 {% for mainDriver in team.listMainDrivers %}
-                                    {% include 'userLink.html' with {'user' : mainDriver} %}
+                                    {% include 'RFCCoreBundle:twigjs:userLink.html.twig' with {'game': championship.game, 'user' : mainDriver} %}
                                 {% endfor %}
                             </div>
                             <div class="column">
                                 Secondary drivers
                                 {% for secondaryDriver in team.listSecondaryDrivers %}
-                                    {% include '
-                                    userLink.html' with {'user' : secondaryDriver} %}
+                                    {% include 'RFCCoreBundle:twigjs:userLink.html.twig' with {'game': championship.game, 'user' : secondaryDriver} %}
                                 {% endfor %}
                             </div>
                         </div>

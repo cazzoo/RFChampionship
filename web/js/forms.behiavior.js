@@ -941,6 +941,7 @@ $(function () {
                 var championship = $.parseJSON(response.data).championship;
                 var renderedTeams = Twig.render(listTeams, {'app': app, 'championship': championship});
                 $('.ui.standard.teamList.modal.transition > .content > .description').html(renderedTeams);
+                jQuery('body').trigger( 'post-load');
             }
         }
     );
