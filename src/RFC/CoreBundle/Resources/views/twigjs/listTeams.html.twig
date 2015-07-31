@@ -34,13 +34,14 @@
                             <div class="column">
                                 Main drivers
                                 {% for mainDriver in team.listMainDrivers %}
-                                    {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : mainDriver} %}
+                                    {% include 'userLink.html' with {'user' : mainDriver} %}
                                 {% endfor %}
                             </div>
                             <div class="column">
                                 Secondary drivers
                                 {% for secondaryDriver in team.listSecondaryDrivers %}
-                                    {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : secondaryDriver} %}
+                                    {% include '
+                                    userLink.html' with {'user' : secondaryDriver} %}
                                 {% endfor %}
                             </div>
                         </div>
@@ -62,8 +63,7 @@
                             {% if registeredAsMainDriver is null and registeredAsSecondaryDriver is null %}
                                 {% if team.maxMainDrivers == -1 or (team.maxMainDrivers > 0 and team.listMainDrivers|length < team.maxMainDrivers) %}
                                     <a class="ui primary button teamRegistration" data-action="user register team"
-                                       data-gameid="{{ team.championship.game.id }}"
-                                       data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
+                                       data-teamid="{{ team.id }}"
                                        data-driverid="{{ app.user.id }}" data-drivertype="main">
                                         Register as main driver
                                     </a>
@@ -71,9 +71,7 @@
                                     {% if team.listSecondaryDrivers|length < team.maxSecondaryDrivers %}
                                         There is not more main slots available for this team, please register as secondary or choose another team.
                                         <a class="ui primary secondary button teamRegistration"
-                                           data-action="user register team"
-                                           data-gameid="{{ team.championship.game.id }}"
-                                           data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
+                                           data-teamid="{{ team.id }}"
                                            data-driverid="{{ app.user.id }}" data-drivertype="secondary">
                                             Register as secondary driver
                                         </a>
@@ -83,15 +81,13 @@
                                 {% endif %}
                             {% elseif registeredAsMainDriver == team %}
                                 <a class="ui red button teamRegistration" data-action="user unregister team"
-                                   data-gameid="{{ team.championship.game.id }}"
-                                   data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
+                                   data-teamid="{{ team.id }}"
                                    data-driverid="{{ app.user.id }}" data-drivertype="main">
                                     Unregister as main driver
                                 </a>
                             {% elseif registeredAsSecondaryDriver == team %}
                                 <a class="ui red button teamRegistration" data-action="user unregister team"
-                                   data-gameid="{{ team.championship.game.id }}"
-                                   data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
+                                   data-teamid="{{ team.id }}"
                                    data-driverid="{{ app.user.id }}" data-drivertype="secondary">
                                     Unregister as secondary driver
                                 </a>

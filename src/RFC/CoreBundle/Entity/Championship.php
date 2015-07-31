@@ -89,6 +89,7 @@ class Championship extends KnowledgeData
 
     /**
      * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Team", mappedBy="championship", cascade={"persist", "remove"})
+     * @Groups({"api"})
      */
     private $listTeams;
 

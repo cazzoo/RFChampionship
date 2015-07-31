@@ -49,9 +49,14 @@ class User extends BaseUser
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"list", "details"})
+     * @Groups({"api", "list", "details"})
      */
     protected $id;
+
+    /**
+     * @Groups({"api"})
+     */
+    protected $username;
 
     /**
      * @ORM\Column(name="firstName", type="string", length=255, nullable=true)
@@ -73,7 +78,7 @@ class User extends BaseUser
 
     /**
      * @ORM\Column(name="avatarUrl", type="string", length=255, nullable=true)
-     * @Groups({"details"})
+     * @Groups({"api", "details"})
      */
     protected $avatarUrl;
 
@@ -86,7 +91,7 @@ class User extends BaseUser
     /**
      * @ORM\Column(name="favoriteNumber", type="integer", nullable=true, unique=true)
      * @Assert\GreaterThan( value = 0, message="constraint.positive" )
-     * @Groups({"details"})
+     * @Groups({"api", "details"})
      */
     protected $favoriteNumber;
 

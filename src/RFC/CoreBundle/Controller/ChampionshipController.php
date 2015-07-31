@@ -257,7 +257,8 @@ class ChampionshipController extends RFCController
         $serializer = $this->get('jms_serializer');
         $context = SerializationContext::create();
         $context->setGroups(['api']);
-        $jsonData = $serializer->serialize($team->getChampionship(), 'json', $context);
+        $data = ['championship' => $team->getChampionship(), 'app' => ['user' => $user]];
+        $jsonData = $serializer->serialize($data, 'json', $context);
 
         $message = 'Error with insertion, you are already registered on this team';
         if ($added) {
@@ -318,7 +319,8 @@ class ChampionshipController extends RFCController
         $serializer = $this->get('jms_serializer');
         $context = SerializationContext::create();
         $context->setGroups(['api']);
-        $jsonData = $serializer->serialize($team, 'json', $context);
+        $data = ['championship' => $team->getChampionship(), 'app' => ['user' => $user]];
+        $jsonData = $serializer->serialize($data, 'json', $context);
 
         $message = 'Error with suppression, you are not registered on this team';
         if ($removed) {

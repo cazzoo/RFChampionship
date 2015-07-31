@@ -39,9 +39,14 @@ class Team extends Descriptor
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"id"})
+     * @Groups({"api", "id"})
      */
     private $id;
+
+    /**
+     * @Groups({"api"})
+     */
+    protected $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship", inversedBy="listTeams")
@@ -53,26 +58,26 @@ class Team extends Descriptor
     /**
      * @ORM\ManyToMany(targetEntity="RFC\UserBundle\Entity\User")
      * @JoinTable(name="team_mainDrivers")
-     * @Groups({"list"})
+     * @Groups({"list","api"})
      */
     private $listMainDrivers;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\UserBundle\Entity\User")
      * @JoinTable(name="team_secondaryDrivers")
-     * @Groups({"list"})
+     * @Groups({"list","api"})
      */
     private $listSecondaryDrivers;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"list"})
+     * @Groups({"list","api"})
      */
     private $maxMainDrivers;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"list"})
+     * @Groups({"list","api"})
      */
     private $maxSecondaryDrivers;
 
