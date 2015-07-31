@@ -57,6 +57,7 @@ class Championship extends KnowledgeData
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game", inversedBy="listChampionships")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"api"})
      */
     protected $game;
 
