@@ -34,6 +34,11 @@ twig:
         fos_csrf_provider: "@form.csrf_provider"
         appSettings: "@rfc_fwk.appSettingsLoader"
 
+bazinga_js_translation:
+    active_locales:
+        - fr
+        - en
+
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"

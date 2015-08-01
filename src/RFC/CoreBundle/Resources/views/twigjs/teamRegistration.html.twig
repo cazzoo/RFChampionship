@@ -18,10 +18,11 @@
 
 {% twig_js name="teamRegistration" %}
 
-{% set inProgressBeforeEnd = championship.registrationInProgress and championship.endDate|date("Y/m/d H:i") > "now"|date("Y/m/d H:i") %}
-{% set notInProgressBeforeBegin = not championship.registrationInProgress and championship.beginDate|date("Y/m/d H:i") > "now"|date("Y/m/d H:i") %}
+{% set registrationInProgress = team.championship.registrationInProgress %}
+{% set inProgressBeforeEnd = registrationInProgress and team.championship.isBeforeEndDate %}
+{% set notInProgressBeforeBegin = (not registrationInProgress) and team.championship.isBeforeBeginDate %}
 
-{% if app.user and not championship.isDraft %}
+{% if app.user and not team.championship.isDraft %}
     {% if inProgressBeforeEnd or notInProgressBeforeBegin %}
         {% if registeredAsMainDriver is null and registeredAsSecondaryDriver is null %}
             {% if team.maxMainDrivers == -1 or (team.maxMainDrivers > 0 and team.listMainDrivers|length < team.maxMainDrivers) %}
@@ -65,10 +66,10 @@
             You are already registered as secondary driver in team {{ registeredAsSecondaryDriver.name }}.
         {% endif %}
     {% else %}
-        {% if championship.registrationInProgress and championship.endDate|date("Y/m/d H:i") < "now"|date("Y/m/d H:i") %}
-            {% trans %}core.championship.registration.championshipEnded{% endtrans %}
-        {% elseif not championship.registrationInProgress and championship.beginDate|date("Y/m/d H:i") < "now"|date("Y/m/d H:i") %}
-            {% trans %}core.championship.registration.championshipStarted{% endtrans %}
+        {% if team.championship.isAfterEndDate %}
+            {% trans %} core.championship.registration.championshipEnded {% endtrans %}
+        {% elseif not registrationInProgress and team.championship.isAfterBeginDate %}
+            {% trans %} core.championship.registration.championshipStarted {% endtrans %}
         {% endif %}
     {% endif %}
 {% else %}

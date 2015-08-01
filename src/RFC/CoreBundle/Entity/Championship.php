@@ -789,6 +789,53 @@ class Championship extends KnowledgeData
     }
 
     /**
+     * @Groups({"api"})
+     * @VirtualProperty
+     * @SerializedName("isBeforeBeginDate")
+     * @return bool
+     */
+    public function getIsBeforeBeginDate()
+    {
+        return new \DateTime() < $this->getBeginDate();
+    }
+
+    /**
+     * @Groups({"api"})
+     * @VirtualProperty
+     * @SerializedName("isAfterBeginDate")
+     * @return bool
+     */
+    public function getIsAfterBeginDate()
+    {
+        return new \DateTime() > $this->getBeginDate();
+    }
+
+    /**
+     * @Groups({"api"})
+     * @VirtualProperty
+     * @SerializedName("isBeforeEndDate")
+     * @return bool
+     */
+    public function getIsBeforeEndDate()
+    {
+        return new \DateTime() < $this->getEndDate();
+    }
+
+    /**
+     * @Groups({"api"})
+     * @VirtualProperty
+     * @SerializedName("isAfterEndDate")
+     * @return bool
+     */
+    public function getIsAfterEndDate()
+    {
+        return new \DateTime() > $this->getEndDate();
+    }
+
+    /**
+     * @Groups({"api"})
+     * @VirtualProperty
+     * @SerializedName("isFinished")
      * Returns if the championship is finished or not
      * @return boolean
      */

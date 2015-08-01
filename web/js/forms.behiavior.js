@@ -1,3 +1,20 @@
+// Twig-js extension : support translation in twig files
+Twig.setFilter("trans", function(id, params, domain, locale) {
+
+    params = params || {};
+
+    // normalizes params (removes placeholder prefixes and suffixes)
+    for (var key in params) {
+        if (params.hasOwnProperty(key) &&
+            key[0] == Translator.placeHolderPrefix &&
+            key[key.length - 1] == Translator.placeHolderSuffix) {
+            params[key.substr(1,key.length-2)] = params[key];
+            delete params[key];
+        }
+    }
+
+    return Translator.trans(id, params, domain, locale);
+});
 // --------------------------------------------
 // ----------------- Variables
 // --------------------------------------------
@@ -660,6 +677,7 @@ function handleTeamRegistration(response) {
     var _championship = championship;
     $.each(championship.listTeams, function (keyTeam, team) {
         var teamCard = $('.ui.fluid.card[data-teamid=' + team.id + ']');
+        team.championship = _championship;
         var renderedTeamRegistration = Twig.render(teamRegistration, {
             'app': app,
             'registeredAsMainDriver': registeredAsMainDriver,

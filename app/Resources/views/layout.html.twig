@@ -17,7 +17,7 @@
 {# app/Resources/views/layout.html.twig #}
 
 <!DOCTYPE html>
-<html>
+<html lang="{{ app.request.locale|split('_')[0] }}">
 
 <head>
 
@@ -89,16 +89,23 @@
 </div>
 
 {% block javascripts %}
-    {% javascripts 'jquery/js/*'
+    {% javascripts
+    '%kernel.root_dir%/../vendor/jms/twig-js/twig.js'
+    'jquery/js/*'
     'SemanticUI/semantic.min.js'
     'js/*'
-    '%kernel.root_dir%/../vendor/jms/twig-js/twig.js'
     output='js/compiled/RFC.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% javascripts
-    "../src/RFC/CoreBundle/Resources/views/twigjs/userLink.html.twig"
+        'bundles/bazingajstranslation/js/translator.min.js'
+        'js/translations/config.js'
+        'js/translations/*/*.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts
     "../src/RFC/CoreBundle/Resources/views/twigjs/teamRegistration.html.twig"
+    "../src/RFC/CoreBundle/Resources/views/twigjs/userLink.html.twig"
     filter="twig_js"%}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}

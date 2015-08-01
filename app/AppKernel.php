@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle (),
             new FOS\CommentBundle\FOSCommentBundle (),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
             new JMS\TwigJsBundle\JMSTwigJsBundle(),
             new Ras\Bundle\FlashAlertBundle\RasFlashAlertBundle(),
             new RFC\FrameworkBundle\RFCFrameworkBundle (),
