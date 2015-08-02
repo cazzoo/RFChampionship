@@ -44,10 +44,12 @@
                 </div>
 
                 {% if teamChampionship %}
-                    This is a team championship
-                    <a id="showTeamList" class="ui button">Show teams</a>
+                    <div class="ui center aligned basic segment">
+                        <a id="showTeamList" class="ui button">{% trans %}core.action.showTeams {% endtrans %}</a>
+                    </div>
                     <div class="ui standard teamList modal transition">
                         <i class="close icon"></i>
+
                         <div class="header">
                             {% trans %}core.championship.participants.popupTeams{% endtrans %}
                         </div>
@@ -110,9 +112,6 @@
             </div>
             <div class="column">
 
-                <div class="ui header">
-                    {% trans %}core.championship.result.title{% endtrans %}
-                </div>
                 <div id="globalResults"></div>
 
             </div>
