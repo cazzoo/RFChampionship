@@ -131,7 +131,8 @@ class ChampionshipController extends RFCController
         if ($request->isMethod('POST')) {
             $params = \json_decode($request->getContent(), true);
 
-            $results = array();
+            $userResults = array();
+            $teamResults = array();
 
             $championship = $this->getDoctrine()->getManager()
                 ->getRepository('RFCCoreBundle:Championship')
@@ -142,21 +143,28 @@ class ChampionshipController extends RFCController
                     if ($session->getTypeSession()->isUsedForResults()) {
                         foreach ($session->getListResults() as $result) {
                             if ($result->getUser() !== null) {
-                                $this->addPointsToUser($results, $result);
+                                $this->addPointsToUser($userResults, $result);
+                                $this->addPointsToTeam($teamResults, $result);
                             }
                         }
                     }
                 }
             }
 
-            usort($results,
+            usort($userResults,
+                function ($a, $b) {
+                    return $b['sum'] - $a['sum'];
+                });
+
+            usort($teamResults,
                 function ($a, $b) {
                     return $b['sum'] - $a['sum'];
                 });
 
             return $this->render('RFCCoreBundle:Championship:globalResults.html.twig',
                 array(
-                    'results' => $results
+                    'userResults' => $userResults,
+                    'teamResults' => $teamResults
                 ));
         }
     }
@@ -166,7 +174,8 @@ class ChampionshipController extends RFCController
         if ($request->isMethod('POST')) {
             $params = \json_decode($request->getContent(), true);
 
-            $results = array();
+            $userResults = array();
+            $teamResults = array();
 
             $event = $this->getDoctrine()->getManager()
                 ->getRepository('RFCCoreBundle:Event')
@@ -176,20 +185,27 @@ class ChampionshipController extends RFCController
                 if ($session->getTypeSession()->isUsedForResults()) {
                     foreach ($session->getListResults() as $result) {
                         if ($result->getUser() !== null) {
-                            $this->addPointsToUser($results, $result);
+                            $this->addPointsToUser($userResults, $result);
+                            $this->addPointsToTeam($teamResults, $result);
                         }
                     }
                 }
             }
 
-            usort($results,
+            usort($userResults,
+                function ($a, $b) {
+                    return $b['sum'] - $a['sum'];
+                });
+
+            usort($teamResults,
                 function ($a, $b) {
                     return $b['sum'] - $a['sum'];
                 });
 
             return $this->render('RFCCoreBundle:Championship:resultsTable.html.twig',
                 array(
-                    'results' => $results
+                    'userResults' => $userResults,
+                    'teamResults' => $teamResults
                 ));
         }
     }
@@ -206,16 +222,46 @@ class ChampionshipController extends RFCController
     private function addPointsToUser(&$array, $result)
     {
         $user = $result->getUser();
+        $session = $result->getSession();
         $value = $result->getRule()->getValue();
         if (array_key_exists($user->getId(), $array)) {
-            array_push($array[$user->getId()]['results'], $result);
+            $array[$user->getId()]['results'][$session->getId()] = [$session, $result];
             $array[$user->getId()]['sum'] += $value;
         } else {
-            $array[$user->getId()] = array(
+            $array[$user->getId()] = [
                 'user' => $user,
-                'results' => array($result),
+                'results' => [$session->getId() => [$session, $result]],
                 'sum' => $value
-            );
+            ];
+        }
+    }
+
+    /**
+     * Add points to team.
+     * Create one entry if team is not in array.
+     *
+     * @param array $array
+     *            the array with all the users
+     * @param RFCCoreBundle :Result $result
+     *            the result to add (user / value)
+     */
+    private function addPointsToTeam(&$array, $result)
+    {
+        $user = $result->getUser();
+        $session = $result->getSession();
+        $team = $session->getEvent()->getChampionship()->getTeamByUserId($user->getId());
+        $value = $result->getRule()->getValue();
+        if ($team) {
+            if (array_key_exists($team->getId(), $array)) {
+                $array[$team->getId()]['results'][$user->getId()] = [$session, $user, $result];
+                $array[$team->getId()]['sum'] += $value;
+            } else {
+                $array[$team->getId()] = [
+                    'team' => $team,
+                    'results' => [$user->getId() => [$session, $user, $result]],
+                    'sum' => $value
+                ];
+            }
         }
     }
 

@@ -1,20 +1,3 @@
-// Twig-js extension : support translation in twig files
-Twig.setFilter("trans", function(id, params, domain, locale) {
-
-    params = params || {};
-
-    // normalizes params (removes placeholder prefixes and suffixes)
-    for (var key in params) {
-        if (params.hasOwnProperty(key) &&
-            key[0] == Translator.placeHolderPrefix &&
-            key[key.length - 1] == Translator.placeHolderSuffix) {
-            params[key.substr(1,key.length-2)] = params[key];
-            delete params[key];
-        }
-    }
-
-    return Translator.trans(id, params, domain, locale);
-});
 // --------------------------------------------
 // ----------------- Variables
 // --------------------------------------------
@@ -97,6 +80,7 @@ function getChampionshipResults(championshipId) {
         addNotification('Championship results updated', 'success');
         $('.ui.globalResults.modal').remove();
         $('#globalResults').html(data);
+        $('.uiTabs .item').tab();
         $('#viewFullLeaderboard').bind('click', function () {
             showModalAndActivatePopups($('.standard.globalResults.modal'));
         });

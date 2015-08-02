@@ -49,6 +49,7 @@ core:
           tooMuch: 'Too much drivers to show.'
           showFullList: 'View full participants'
           popupParticipant: 'Full participants list'
+          popupTeams: 'Championship teams'
       progress:
           title: 'Championship progress'
           previousTitle: 'Previous session'
@@ -69,6 +70,8 @@ core:
         points: 'Points'
         showLeaderboard: 'View full leaderboard'
         popupGobalResults: 'Gobal results'
+        driversResults: 'Drivers results'
+        teamsResults: 'Teams results'
         popupEventResults: 'Results for event:'
         title: 'Results'
   crew:
@@ -158,6 +161,7 @@ core:
       cancelRequest: 'Cancel request'
       accept: 'Accept'
       decline: 'Decline'
+      showTeams: 'Show teams'
   table:
       id: 'Id'
       name: 'Name'

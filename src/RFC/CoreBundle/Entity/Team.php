@@ -44,11 +44,6 @@ class Team extends Descriptor
     private $id;
 
     /**
-     * @Groups({"api"})
-     */
-    protected $name;
-
-    /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship", inversedBy="listTeams")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"api"})

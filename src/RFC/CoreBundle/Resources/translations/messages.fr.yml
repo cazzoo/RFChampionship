@@ -49,6 +49,7 @@ core:
       tooMuch: 'Trop de pilotes à afficher.'
       showFullList: 'Afficher tous les participants'
       popupParticipant: 'Liste complète des participants'
+      popupTeams: 'Equipes du championnat'
     progress:
       title: 'Progression du championnat'
       previousTitle: 'Session précédente'
@@ -69,6 +70,8 @@ core:
       points: 'Points'
       showLeaderboard: 'Voir classement complet'
       popupGobalResults: 'Résultat global'
+      driversResults: 'Résultats par pilote'
+      teamsResults: 'Résultats par équipe'
       popupEventResults: 'Résultat de l''événement :'
       title: 'Résultat'
   crew:
@@ -158,6 +161,7 @@ core:
     cancelRequest: 'Annuler la requête'
     accept: 'Accepter'
     decline: 'Refuser'
+    showTeams: 'Afficher les équipes'
   table:
     id: 'Identifiant'
     name: 'Nom'

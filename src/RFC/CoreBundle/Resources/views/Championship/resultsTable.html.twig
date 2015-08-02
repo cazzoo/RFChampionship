@@ -1,29 +1,69 @@
-<table class="ui small striped table">
-    <thead>
+{% if teamResults|length > 0 %}
+
+    <h1>{% trans %}core.championship.result.teamsResults{% endtrans %}</h1>
+
+    <table class="ui small striped table">
+        <thead>
         <tr>
             <th>{% trans %}core.championship.result.rank{% endtrans %}</th>
             <th>{% trans %}core.championship.result.name{% endtrans %}</th>
             <th>{% trans %}core.championship.result.points{% endtrans %}</th>
         </tr>
-    </thead>
-    <tbody>
-        {% for userid,data in results %}
+        </thead>
+        <tbody>
+        {% for teamid,data in teamResults %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ data.user.username }}</td>
+                <td>{{ data.team.name }}</td>
                 {% set detailedResults = "" %}
                 {% for result in data.results %}
-                    {% if result.rule.value != 0 %}
-                        {% set detailedResults = detailedResults ~ result.rule.typeSession.name ~ ' - ' ~ result.rule.name ~ ' : ' ~ result.rule.value %}
+                    {% if result[2].rule.value != 0 %}
+                        {% set detailedResults = detailedResults ~ result[0].event.name ~ ': ' ~ result[2].rule.typeSession.name ~ ' - ' ~ result[2].rule.name ~ ' : ' ~ result[2].rule.value ~ '(' ~ result[1].username ~ ')' %}
                         {% if not loop.last %}
                             {% set detailedResults = detailedResults ~ ', ' %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 <td>
-                    {{ data.sum }}&nbsp;&nbsp;<i class="info icon link popupElement" data-content="{{ detailedResults }}"></i>
+                    {{ data.sum }}&nbsp;&nbsp;<i class="info icon link popupElement"
+                                                 data-content="{{ detailedResults }}"></i>
                 </td>
             </tr>
         {% endfor %}
+        </tbody>
+    </table>
+
+{% endif %}
+
+<h1>{% trans %}core.championship.result.driversResults{% endtrans %}</h1>
+
+<table class="ui small striped table">
+    <thead>
+    <tr>
+        <th>{% trans %}core.championship.result.rank{% endtrans %}</th>
+        <th>{% trans %}core.championship.result.name{% endtrans %}</th>
+        <th>{% trans %}core.championship.result.points{% endtrans %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for userid,data in userResults %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ data.user.username }}</td>
+            {% set detailedResults = "" %}
+            {% for result in data.results %}
+                {% if result[1].rule.value != 0 %}
+                    {% set detailedResults = detailedResults ~ result[0].event.name ~ ': ' ~ result[1].rule.typeSession.name ~ ' - ' ~ result[1].rule.name ~ ' : ' ~ result[1].rule.value %}
+                    {% if not loop.last %}
+                        {% set detailedResults = detailedResults ~ ', ' %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            <td>
+                {{ data.sum }}&nbsp;&nbsp;<i class="info icon link popupElement"
+                                             data-content="{{ detailedResults }}"></i>
+            </td>
+        </tr>
+    {% endfor %}
     </tbody>
 </table>
