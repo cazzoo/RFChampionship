@@ -44,10 +44,12 @@ core:
           description: 'Description'
           manager: '{0}No Manager|one:Manager|some:Managers'
       participants:
-          title: '(%participantCount%) Drivers registered'
+          title: '(%participantCount%) drivers registered'
+          titleTeam: '(%participantCountMain%) main drivers and (%participantCountSecondary%) secondary drivers registered'
           tooMuch: 'Too much drivers to show.'
           showFullList: 'View full participants'
           popupParticipant: 'Full participants list'
+          popupTeams: 'Championship teams'
       progress:
           title: 'Championship progress'
           previousTitle: 'Previous session'
@@ -60,6 +62,7 @@ core:
         alreadyRegistered: 'You are already registered for this championship'
         notRegistered: 'You are not registered for this championship'
         championshipStarted: 'You are not allowed to register as the championship as already begun.'
+        championshipEnded: 'The championship has ended, you cannot register anymore to this.'
         notLogged: 'You need to login to register to championship.'
       result:
         rank: 'Rank'
@@ -67,6 +70,8 @@ core:
         points: 'Points'
         showLeaderboard: 'View full leaderboard'
         popupGobalResults: 'Gobal results'
+        driversResults: 'Drivers results'
+        teamsResults: 'Teams results'
         popupEventResults: 'Results for event:'
         title: 'Results'
   crew:
@@ -156,6 +161,7 @@ core:
       cancelRequest: 'Cancel request'
       accept: 'Accept'
       decline: 'Decline'
+      showTeams: 'Show teams'
   table:
       id: 'Id'
       name: 'Name'

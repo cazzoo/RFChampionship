@@ -34,6 +34,11 @@ twig:
         fos_csrf_provider: "@form.csrf_provider"
         appSettings: "@rfc_fwk.appSettingsLoader"
 
+bazinga_js_translation:
+    active_locales:
+        - fr
+        - en
+
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
@@ -98,6 +103,9 @@ fos_comment:
             vote: RFC\CoreBundle\Entity\Vote
 
 services:
+    jms_serializer.cache_naming_strategy:
+        class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
+
     calendar_listener:
         class:    RFC\CoreBundle\EventListener\CalendarEventListener
         arguments: ["@doctrine.orm.entity_manager", "@router"]

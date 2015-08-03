@@ -52,29 +52,28 @@ class EventType extends AbstractType
             'required' => false
         ))->add('track', 'entity',
             array(
-            'required' => false,
+            'required' => true,
             'class' => 'RFCCoreBundle:Track',
-            'required' => false,
             'query_builder' => function (TrackRepository $er) use($gameId) {
                 return $er->createQueryBuilder('t')->where('t.game = :gameId')->setParameter('gameId',
                         $gameId);
             }
-        ))->add('vehicle', 'entity',
-            array(
-            'required' => false,
-            'class' => 'RFCCoreBundle:Vehicle',
-            'required' => false,
-            'query_builder' => function (VehicleRepository $er) use($gameId) {
-                return $er->createQueryBuilder('v')->where('v.game = :gameId')->setParameter('gameId',
-                        $gameId);
-            }
-        ))->add('category', 'entity',
+        ))->add('listCategories', 'entity',
             array(
             'required' => false,
             'class' => 'RFCCoreBundle:Category',
+            'multiple' => true,
+            'query_builder' => function (CategoryRepository $cr) use($gameId) {
+                return $cr->createQueryBuilder('m')->where('m.game = :gameId')->setParameter('gameId',
+                        $gameId);
+            }
+        ))->add('listVehicles', 'entity',
+            array(
             'required' => false,
-            'query_builder' => function (CategoryRepository $er) use($gameId) {
-                return $er->createQueryBuilder('c')->where('c.game = :gameId')->setParameter('gameId',
+            'multiple' => true,
+            'class' => 'RFCCoreBundle:Vehicle',
+            'query_builder' => function (VehicleRepository $vr) use($gameId) {
+                return $vr->createQueryBuilder('m')->where('m.game = :gameId')->setParameter('gameId',
                         $gameId);
             }
         ))->add('commentsActive', 'checkbox',

@@ -80,14 +80,15 @@ function getChampionshipResults(championshipId) {
         addNotification('Championship results updated', 'success');
         $('.ui.globalResults.modal').remove();
         $('#globalResults').html(data);
+        $('.uiTabs .item').tab();
         $('#viewFullLeaderboard').bind('click', function () {
             showModalAndActivatePopups($('.standard.globalResults.modal'));
         });
     }).fail(
-            function (jqXHR, textStatus, errorThrown) {
-                addNotification('Error while updating championship\'s results',
-                        'error');
-            });
+        function (jqXHR, textStatus, errorThrown) {
+            addNotification('Error while updating championship\'s results',
+                'error');
+        });
 
     $('.eventItem').each(function () {
         getEventResult($(this).data('eventid'));
@@ -109,10 +110,10 @@ function getEventResult(eventId) {
         addNotification('Event results updated', 'success');
         $('div.eventResults[data-eventid="' + eventId + '"').find('.description').html(data);
     }).fail(
-            function (jqXHR, textStatus, errorThrown) {
-                addNotification('Error while updating event\'s results',
-                        'error');
-            });
+        function (jqXHR, textStatus, errorThrown) {
+            addNotification('Error while updating event\'s results',
+                'error');
+        });
 }
 
 /**
@@ -298,37 +299,37 @@ function loadSetupStepData(data, firstElement, stepId) {
             receiver.parent().addClass('loading');
         }
     }).done(
-            function (data) {
-                receiver.parent().removeClass('loading');
-                addNotification('Version loaded', 'success');
-                receiver.html(data);
-                if (firstElement) {
-                    // Show subStep on select
-                    $('.setupStepContent #rfc_setupbundle_setupStep_subStep')
-                            .unbind('change');
-                    $('.setupStepContent[data-stepid=' + stepId + '] .setupStepValues select')
-                            .bind(
-                                    'change',
-                                    function () {
-                                        var selected = $(this).find(
-                                                'option:selected').val();
-                                        showSubStepInfo(selected);
+        function (data) {
+            receiver.parent().removeClass('loading');
+            addNotification('Version loaded', 'success');
+            receiver.html(data);
+            if (firstElement) {
+                // Show subStep on select
+                $('.setupStepContent #rfc_setupbundle_setupStep_subStep')
+                    .unbind('change');
+                $('.setupStepContent[data-stepid=' + stepId + '] .setupStepValues select')
+                    .bind(
+                    'change',
+                    function () {
+                        var selected = $(this).find(
+                            'option:selected').val();
+                        showSubStepInfo(selected);
 
-                                    });
-                    $('.setupStepContent[data-stepid=' + stepId
-                            + '] .setupStepValues select').trigger('change');
-                }
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-        receiver.html("Aucune version n'a pu être chargée");
-        addNotification('Error while loading version', 'error');
-    });
+                    });
+                $('.setupStepContent[data-stepid=' + stepId
+                    + '] .setupStepValues select').trigger('change');
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            receiver.html("Aucune version n'a pu être chargée");
+            addNotification('Error while loading version', 'error');
+        });
 }
 
 function selectVersion(elementSelected) {
     var stepId = elementSelected.parents('.setupStepContent').data('stepid');
     var entityData = elementSelected.find(":selected");
     var firstElement = elementSelected.find('option:first-child').val() === entityData
-            .val() ? true : false;
+        .val() ? true : false;
     var data = {
         setupStepId: entityData.val(),
         gameId: entityData.data("gameid"),
@@ -408,7 +409,7 @@ function getDateFormatted() {
     var seconde = ('0' + now.getSeconds()).slice(-2);
 
     return jour + "/" + mois + "/" + annee + " - " + heure + ":" + minute + ":"
-            + seconde;
+        + seconde;
 }
 
 var notificationBox = $('#notificationCenter').find('#messages');
@@ -418,11 +419,11 @@ var lastNotificationId = 0;
 function animate(element_ID, animation) {
     $(element_ID).addClass('animated ' + animation);
     $(element_ID)
-            .one(
-                    'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
-                    function () {
-                        $(element_ID).removeClass('animated ' + animation);
-                    });
+        .one(
+        'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+        function () {
+            $(element_ID).removeClass('animated ' + animation);
+        });
 }
 
 function addNotification(message, type) {
@@ -433,8 +434,8 @@ function addNotification(message, type) {
     notification.type = typeof type !== 'undefined' ? type : 'info';
     notifications.push(notification);
     animate(
-            $('#notificationCenter').find('.bubble').html(notifications.length),
-            'bounce');
+        $('#notificationCenter').find('.bubble').html(notifications.length),
+        'bounce');
     var icon = "";
     switch (type) {
         case 'info':
@@ -454,16 +455,16 @@ function addNotification(message, type) {
             break;
     }
     $(notificationBox).append(
-            "<li class=\"container-clearFix ym-clearfix\"><span class=\"left\">"
-            + icon + notification.date + " - " + notification.message
-            + "</span><span class=\"right\"><a href=\"#\" id=\"message"
-            + notification.id
-            + "\" class=\"ym-close\">&nbsp;</a></span></li>");
+        "<li class=\"container-clearFix ym-clearfix\"><span class=\"left\">"
+        + icon + notification.date + " - " + notification.message
+        + "</span><span class=\"right\"><a href=\"#\" id=\"message"
+        + notification.id
+        + "\" class=\"ym-close\">&nbsp;</a></span></li>");
     $(notificationBox).find('#message' + notification.id).bind("click",
-            function () {
-                removeNotification(notification.id);
-                return false;
-            });
+        function () {
+            removeNotification(notification.id);
+            return false;
+        });
     lastNotificationId++;
 }
 
@@ -471,32 +472,32 @@ function drawNotifications() {
     var htmlToDraw = "";
     for (i = 0; i < notifications.length; i++) {
         htmlToDraw += "<li class=\"container-clearFix ym-clearfix\"><span class=\"left\">"
-                + icon
-                + notification.date
-                + " - "
-                + notification.message
-                + "</span><span class=\"right\"><a href=\"#\" id=\"message"
-                + notification.id
-                + "\" class=\"ym-close\">&nbsp;</a></span></li>";
+            + icon
+            + notification.date
+            + " - "
+            + notification.message
+            + "</span><span class=\"right\"><a href=\"#\" id=\"message"
+            + notification.id
+            + "\" class=\"ym-close\">&nbsp;</a></span></li>";
     }
     $(notificationBox).html(htmlToDraw);
     animate(
-            $('#notificationCenter').find('.bubble').html(notifications.length),
-            'bounce');
+        $('#notificationCenter').find('.bubble').html(notifications.length),
+        'bounce');
     lastNotificationId = notifications.length;
 }
 
 function removeNotification(id) {
     notifications.splice(arrayObjectIndexOf(notifications, id, 'id'), 1);
     $(notificationBox).find("li").find("#message" + id).parent().parent()
-            .fadeOut(300, function () {
-                $(this).remove();
-            });
+        .fadeOut(300, function () {
+            $(this).remove();
+        });
     animate(
-            $('#notificationCenter').find('.bubble').html(notifications.length),
-            'fadeOut');
+        $('#notificationCenter').find('.bubble').html(notifications.length),
+        'fadeOut');
     if (notifications.length < 1
-            && $("#notificationCenter").find("#messages").parent().is(
+        && $("#notificationCenter").find("#messages").parent().is(
             ":visible")) {
         $("#notificationCenter").find("#messages").parent().slideToggle();
     }
@@ -534,7 +535,7 @@ function addImageForm(collectionHolder, $newLinkLi) {
     // un nombre basé sur
     // la longueur de la collection courante
     var newForm = prototype.replace(/__name__/g,
-            collectionHolder.children().length);
+        collectionHolder.children().length);
 
     // Affiche le formulaire dans la page dans un li,
     // avant le lien "ajouter
@@ -554,7 +555,7 @@ function updateProgressBar(progressItem) {
     var endDate = new Date(progressItem.data('enddate'));
     var percentProgress = 0;
     if (now > beginDate.getTime() && now < endDate.getTime()) {
-        percentProgress = (endDate.getTime() - beginDate.getTime()) / (endDate.getTime() - now.getTime());
+        percentProgress = (now.getTime() - beginDate.getTime()) / (endDate.getTime() - beginDate.getTime()) * 100;
     } else if (now.getTime() < beginDate.getTime()) {
         percentProgress = 0;
     } else if (now.getTime() > endDate.getTime()) {
@@ -575,7 +576,8 @@ function showEvent(id) {
     $('.nextEvent i').removeClass('disabled');
     if (1 === id) {
         $('.previousEvent i').addClass('disabled');
-    } else if (id === eventCount) {
+    }
+    if (id === eventCount) {
         $('.nextEvent i').addClass('disabled');
     }
     $('.eventItem').hide();
@@ -624,7 +626,8 @@ function loadEventSessions(id) {
         $('#sessionAddButton').attr("href", Routing.generate('admin_session_new', {
             gameId: data.gameId,
             championshipId: data.championshipId,
-            eventId: data.eventId}));
+            eventId: data.eventId
+        }));
         $('#sessionAddButton').show();
     }).fail(function () {
         $('#listSessions').html("Impossible de récupérer un résultat");
@@ -634,347 +637,436 @@ function loadEventSessions(id) {
     return false;
 }
 
+function handleTeamRegistration(response) {
+    var app = $.parseJSON(response.data).app;
+    var championship = $.parseJSON(response.data).championship;
+    var registeredAsMainDriver = null;
+    var registeredAsSecondaryDriver = null;
+    // Loop on each teams to prepare some data
+    $.each(championship.listTeams, function (keyTeam, team) {
+        $.each(team.listMainDrivers, function (keyMainDriver, mainDriver) {
+            if (app.user.id == mainDriver.id) {
+                registeredAsMainDriver = team;
+                return true;
+            }
+        });
+        $.each(team.listSecondaryDrivers, function (keySecondaryDriver, secondaryDriver) {
+            if (app.user.id == secondaryDriver.id) {
+                registeredAsSecondaryDriver = team;
+                return true;
+            }
+        });
+    });
+    // Loop on each teams to replace data regarding action
+    var _championship = championship;
+    $.each(championship.listTeams, function (keyTeam, team) {
+        var teamCard = $('.ui.fluid.card[data-teamid=' + team.id + ']');
+        team.championship = _championship;
+        var renderedTeamRegistration = Twig.render(teamRegistration, {
+            'app': app,
+            'registeredAsMainDriver': registeredAsMainDriver,
+            'registeredAsSecondaryDriver': registeredAsSecondaryDriver,
+            'team': team
+        });
+        var renderedTeamMainDrivers = '';
+        $.each(team.listMainDrivers, function (keyMainDriver, mainDriver) {
+            renderedTeamMainDrivers += Twig.render(userLink, {
+                'user': mainDriver,
+                'game': _championship.game
+            });
+        });
+        var renderedTeamSecondaryDrivers = '';
+        $.each(team.listSecondaryDrivers, function (keySecondaryDriver, secondaryDriver) {
+            renderedTeamSecondaryDrivers += Twig.render(userLink, {
+                'user': secondaryDriver,
+                'game': _championship.game
+            });
+        });
+        teamCard.find('.content>.center').html(renderedTeamRegistration);
+        teamCard.find('.description .column .mainDrivers').html(renderedTeamMainDrivers);
+        teamCard.find('.description .column .secondaryDrivers').html(renderedTeamSecondaryDrivers);
+        teamCard.find('.countRegisteredMainDrivers').html(team.listMainDrivers.length);
+        teamCard.find('.countRegisteredSecondaryDrivers').html(team.listSecondaryDrivers.length);
+        teamCard.find('.content>.center .ui.button.teamRegistration').api({
+            method: 'POST',
+            beforeSend: function (settings) {
+                $('.content>.center a.ui.button.teamRegistration').not($(this)).addClass('disabled');
+                return settings;
+            },
+            onSuccess: function (response) {
+                handleTeamRegistration(response);
+            }
+        });
+    });
+}
+
 $(function () {
 
-    // Screen Admin : System
-    // --------------------------------------------
-    // ----------------- Properties editing
-    // --------------------------------------------
+        // Screen Admin : System
+        // --------------------------------------------
+        // ----------------- Properties editing
+        // --------------------------------------------
 
-    $('.datetimepicker').datetimepicker({
-        format: 'Y/m/d H:i',
-        formatDate: 'Y/m/d H:i',
-        mask: true,
-        dayOfWeekStart: 1,
-        validateOnBlur: false
-    });
-    $('.datepicker').datetimepicker({
-        timepicker: false,
-        format: 'Y/m/d',
-        formatDate: 'Y/m/d',
-        mask: true,
-        dayOfWeekStart: 1,
-        validateOnBlur: false
-    });
+        $('.datetimepicker').datetimepicker({
+            format: 'Y/m/d H:i',
+            formatDate: 'Y/m/d H:i',
+            mask: true,
+            dayOfWeekStart: 1,
+            validateOnBlur: false
+        });
+        $('.datepicker').datetimepicker({
+            timepicker: false,
+            format: 'Y/m/d',
+            formatDate: 'Y/m/d',
+            mask: true,
+            dayOfWeekStart: 1,
+            validateOnBlur: false
+        });
 
-    $('form.system-properties').submit(function (e) {
-        var data = $(this).serializeArray();
-        $(this).find('button').addClass('disabled');
-        $(this).find('button').prop('disabled', true);
-        updateProperties(data);
-        return false;
-    });
+        $('form.system-properties').submit(function (e) {
+            var data = $(this).serializeArray();
+            $(this).find('button').addClass('disabled');
+            $(this).find('button').prop('disabled', true);
+            updateProperties(data);
+            return false;
+        });
 
-    $('form.system-properties').find('#reset-btn').click(function () {
-        $(this).parent().get(0).reset();
-        return false;
-    });
+        $('form.system-properties').find('#reset-btn').click(function () {
+            $(this).parent().get(0).reset();
+            return false;
+        });
 
-    // Screen Core : Crew
-    // --------------------------------------------
-    // ----------------- Crew application
-    // --------------------------------------------
-    $('form#sendCrewRequest').submit(function (e) {
-        var data = {
-            requesterId: $(this).find('#requesterId').val(),
-            managerId: $(this).find('#managerId').val(),
-            gameId: $(this).find('#gameId').val()
-        };
-        $('form#sendCrewRequest button').addClass('disabled');
-        $('form#sendCrewRequest button').prop('disabled', true);
-        crewApplyRequest(data);
-        return false;
-    });
+        // Screen Core : Crew
+        // --------------------------------------------
+        // ----------------- Crew application
+        // --------------------------------------------
+        $('form#sendCrewRequest').submit(function (e) {
+            var data = {
+                requesterId: $(this).find('#requesterId').val(),
+                managerId: $(this).find('#managerId').val(),
+                gameId: $(this).find('#gameId').val()
+            };
+            $('form#sendCrewRequest button').addClass('disabled');
+            $('form#sendCrewRequest button').prop('disabled', true);
+            crewApplyRequest(data);
+            return false;
+        });
 
-    $('form#cancelCrewRequest').submit(function () {
-        var data = {
-            crewRequestId: $(this).find('#crewRequestId').val()
-        };
-        $('form#cancelCrewRequest button').addClass('ym-disabled');
-        $('form#cancelCrewRequest button').prop('disabled', true);
-        crewDeclineRequest(data);
-        return false;
-    });
+        $('form#cancelCrewRequest').submit(function () {
+            var data = {
+                crewRequestId: $(this).find('#crewRequestId').val()
+            };
+            $('form#cancelCrewRequest button').addClass('ym-disabled');
+            $('form#cancelCrewRequest button').prop('disabled', true);
+            crewDeclineRequest(data);
+            return false;
+        });
 
-    // Screen Core : User
-    // --------------------------------------------
-    // ----------------- Crew validation
-    // --------------------------------------------
-    $('form#acceptCrewApplication').submit(function (e) {
-        var data = {
-            crewRequestId: $(this).find('#crewRequestId').val()
-        };
-        $('form#acceptCrewApplication button').addClass('ym-disabled');
-        $('form#acceptCrewApplication button').prop('disabled', true);
-        $('form#declineCrewApplication button').addClass('ym-disabled');
-        $('form#declineCrewApplication button').prop('disabled', true);
-        crewAcceptRequest(data);
-        return false;
-    });
+        // Screen Core : User
+        // --------------------------------------------
+        // ----------------- Crew validation
+        // --------------------------------------------
+        $('form#acceptCrewApplication').submit(function (e) {
+            var data = {
+                crewRequestId: $(this).find('#crewRequestId').val()
+            };
+            $('form#acceptCrewApplication button').addClass('ym-disabled');
+            $('form#acceptCrewApplication button').prop('disabled', true);
+            $('form#declineCrewApplication button').addClass('ym-disabled');
+            $('form#declineCrewApplication button').prop('disabled', true);
+            crewAcceptRequest(data);
+            return false;
+        });
 
-    $('form#declineCrewApplication').submit(function (e) {
-        var data = {
-            crewRequestId: $(this).find('#crewRequestId').val()
-        };
-        $('form#acceptCrewApplication button').addClass('ym-disabled');
-        $('form#acceptCrewApplication button').prop('disabled', true);
-        $('form#declineCrewApplication button').addClass('ym-disabled');
-        $('form#declineCrewApplication button').prop('disabled', true);
-        crewDeclineRequest(data);
-        return false;
-    });
+        $('form#declineCrewApplication').submit(function (e) {
+            var data = {
+                crewRequestId: $(this).find('#crewRequestId').val()
+            };
+            $('form#acceptCrewApplication button').addClass('ym-disabled');
+            $('form#acceptCrewApplication button').prop('disabled', true);
+            $('form#declineCrewApplication button').addClass('ym-disabled');
+            $('form#declineCrewApplication button').prop('disabled', true);
+            crewDeclineRequest(data);
+            return false;
+        });
 
-    // Screen Championship
-    // --------------------------------------------
-    // ----------------- Show events
-    // --------------------------------------------
+        // Screen Championship
+        // --------------------------------------------
+        // ----------------- Show events
+        // --------------------------------------------
 
-    $('.nextEvent').click(function () {
-        var nextEventItem = $('.eventItem[data-eventkey=' + selectedEventKey + ']').next();
-        if (nextEventItem.data('eventkey') !== undefined) {
-            showEvent(nextEventItem.data('eventkey'));
-            location.hash = "eventId=" + nextEventItem.data('eventid');
-        }
-    });
+        $('.nextEvent').click(function () {
+            var nextEventItem = $('.eventItem[data-eventkey=' + selectedEventKey + ']').next();
+            if (nextEventItem.data('eventkey') !== undefined) {
+                showEvent(nextEventItem.data('eventkey'));
+                location.hash = "eventId=" + nextEventItem.data('eventid');
+            }
+        });
 
-    $('.previousEvent').click(function () {
-        var prevEventItem = $('.eventItem[data-eventkey=' + selectedEventKey + ']').prev();
-        if (prevEventItem.data('eventkey') !== undefined) {
-            showEvent(prevEventItem.data('eventkey'));
-            location.hash = "eventId=" + prevEventItem.data('eventid');
-        }
-    });
+        $('.previousEvent').click(function () {
+            var prevEventItem = $('.eventItem[data-eventkey=' + selectedEventKey + ']').prev();
+            if (prevEventItem.data('eventkey') !== undefined) {
+                showEvent(prevEventItem.data('eventkey'));
+                location.hash = "eventId=" + prevEventItem.data('eventid');
+            }
+        });
 
-    // --------------------------------------------
-    // ----------------- Register/unregister
-    // --------------------------------------------
-    $("#registrationStatus").on('click', '.actionRegisterUnregister',
+        $('.eventQuickLinks').click(function () {
+            var event = $('.eventItem[data-eventid=' + $(this).attr('href').substring(9) + ']');
+            showEvent(event.data('eventkey'));
+        });
+
+        // --------------------------------------------
+        // ----------------- Register/unregister
+        // --------------------------------------------
+        $("#registrationStatus").on('click', '.actionRegisterUnregister',
             registerChampionshipBehiavior);
 
-    // Screen MetaRule
-    // --------------------------------------------
-    // ----------------- Show rules / metaRules
-    // --------------------------------------------
+        // Screen MetaRule
+        // --------------------------------------------
+        // ----------------- Show rules / metaRules
+        // --------------------------------------------
 
-    function updateListsHeight() {
-        $('.sortable').css('height', 'auto');
-        var highestListHeight = $('#list1').height() > $('#list2').height() ? $('#list1').height() : $('#list2').height();
-        $('.sortable').css('height', highestListHeight);
-    }
+        function updateListsHeight() {
+            $('.sortable').css('height', 'auto');
+            var highestListHeight = $('#list1').height() > $('#list2').height() ? $('#list1').height() : $('#list2').height();
+            $('.sortable').css('height', highestListHeight);
+        }
 
-    function handleRuleDragNDrop() {
-        $('.sortable').sortable({
-            connectWith: ".ui .list",
-            placeholder: "ui-state-highlight",
-            opacity: 0.8,
-            containment: '.sortableArea',
-            receive: function (event, ui) {
-                updateListsHeight();
-            }
-        });
-
-        updateListsHeight();
-
-        $('#saveRules').click(function () {
-            elements = $('#list2 .item .header');
-            var arr;
-            arr = [];
-            arr = $.map(elements, function (a) {
-                return a.innerHTML;
+        function handleRuleDragNDrop() {
+            $('.sortable').sortable({
+                connectWith: ".ui .list",
+                placeholder: "ui-state-highlight",
+                opacity: 0.8,
+                containment: '.sortableArea',
+                receive: function (event, ui) {
+                    updateListsHeight();
+                }
             });
-            alert(arr.length === 0 ? null : arr.join(','));
-        });
-    }
 
-    $("div.metaRuleItem").click(function () {
-        $('.metaRuleItem').removeClass('active');
-        $(this).addClass("active");
-        var entityData = $(this).attr('id').split(';');
-        var data = {
-            metaRuleId: entityData[0].substr(9),
-            gameId: entityData[1].substr(5)
-        };
-        var jsonFormatted = JSON.stringify(data);
-        $.ajax({
-            type: "POST",
-            url: Routing.generate('admin_rule_search'),
-            data: jsonFormatted,
-            cache: false,
-            beforeSend: function () {
-                $('#listRules').html("Chargement des règles...");
+            updateListsHeight();
+
+            $('#saveRules').click(function () {
+                elements = $('#list2 .item .header');
+                var arr;
+                arr = [];
+                arr = $.map(elements, function (a) {
+                    return a.innerHTML;
+                });
+                alert(arr.length === 0 ? null : arr.join(','));
+            });
+        }
+
+        $("div.metaRuleItem").click(function () {
+            $('.metaRuleItem').removeClass('active');
+            $(this).addClass("active");
+            var entityData = $(this).attr('id').split(';');
+            var data = {
+                metaRuleId: entityData[0].substr(9),
+                gameId: entityData[1].substr(5)
+            };
+            var jsonFormatted = JSON.stringify(data);
+            $.ajax({
+                type: "POST",
+                url: Routing.generate('admin_rule_search'),
+                data: jsonFormatted,
+                cache: false,
+                beforeSend: function () {
+                    $('#listRules').html("Chargement des règles...");
+                }
+            }).done(function (data) {
+                $('#listRules').html(data);
+                handleRuleDragNDrop();
+            }).fail(function () {
+                $('#listRules').html("Impossible de récupérer un résultat");
+            });
+            return false;
+        });
+
+        // --------------------------------------------
+        // ----------------- Image collection behiavior
+        // --------------------------------------------
+
+        // ajoute un lien de suppression à tous les éléments li
+        // de
+        // formulaires de tag existants
+        collectionHolder.find('li').each(function () {
+            addImageFormDeleteLink($(this));
+        });
+
+        // ajoute l'ancre « ajouter un tag » et li à la balise
+        // ul
+        collectionHolder.append($newLinkLi);
+
+        $addImageLink.on('click', function (e) {
+            // empêche le lien de créer un « # » dans l'URL
+            e.preventDefault();
+
+            // ajoute un nouveau formulaire tag (voir le
+            // prochain bloc de code)
+            addImageForm(collectionHolder, $newLinkLi);
+        });
+
+        // --------------------------------------------
+        // ----------------- Notification center
+        // --------------------------------------------
+        $("#notificationCenter").find("#messages").parent().hide();
+        $("#notificationCenter").find(".bubble").click(function () {
+            if (notifications.length > 0) {
+                $("#notificationCenter").find("#messages").parent().slideToggle();
             }
-        }).done(function (data) {
-            $('#listRules').html(data);
-            handleRuleDragNDrop();
-        }).fail(function () {
-            $('#listRules').html("Impossible de récupérer un résultat");
+            return false;
         });
-        return false;
-    });
+        drawNotifications();
 
-    // --------------------------------------------
-    // ----------------- Image collection behiavior
-    // --------------------------------------------
+        // --------------------------------------------
+        // ----------------- SetupStep
+        // --------------------------------------------
+        // Hide steps
+        $('.setupStepContainer .setupStepContent').hide();
 
-    // ajoute un lien de suppression à tous les éléments li
-    // de
-    // formulaires de tag existants
-    collectionHolder.find('li').each(function () {
-        addImageFormDeleteLink($(this));
-    });
+        $('.setupStepSelector .step').on('click', function () {
+            showStep($(this).parents('.setupStepSelector').data('stepnumber'));
+        });
 
-    // ajoute l'ancre « ajouter un tag » et li à la balise
-    // ul
-    collectionHolder.append($newLinkLi);
-
-    $addImageLink.on('click', function (e) {
-        // empêche le lien de créer un « # » dans l'URL
-        e.preventDefault();
-
-        // ajoute un nouveau formulaire tag (voir le
-        // prochain bloc de code)
-        addImageForm(collectionHolder, $newLinkLi);
-    });
-
-    // --------------------------------------------
-    // ----------------- Notification center
-    // --------------------------------------------
-    $("#notificationCenter").find("#messages").parent().hide();
-    $("#notificationCenter").find(".bubble").click(function () {
-        if (notifications.length > 0) {
-            $("#notificationCenter").find("#messages").parent().slideToggle();
+        // Loading the page. Get if we have a step specified or default
+        if (url[url.length - 3] === 'Setup' && url[url.length - 1].match(/^show/)) {
+            var stepAction = GetURLHash();
+            if (stepAction === undefined) {
+                showStep(1);
+            } else {
+                showStep(stepAction);
+            }
         }
-        return false;
-    });
-    drawNotifications();
 
-    // --------------------------------------------
-    // ----------------- SetupStep
-    // --------------------------------------------
-    // Hide steps
-    $('.setupStepContainer .setupStepContent').hide();
+        // --------------------------------------------
+        // ----------------- WYSIWYG editor
+        // --------------------------------------------
+        //$("textarea").wysibb();
 
-    $('.setupStepSelector .step').on('click', function () {
-        showStep($(this).parents('.setupStepSelector').data('stepnumber'));
-    });
+        // --------------------------------------------
+        // Screen Championship creation
+        // --------------------------------------------
+        // Toggleing rules list
+        toggleRules(0);
+        $('#rfc_corebundle_championship_isAgreed').change(function () {
+            toggleRules(200);
+        });
 
-    // Loading the page. Get if we have a step specified or default
-    if (url[url.length - 3] === 'Setup' && url[url.length - 1].match(/^show/)) {
-        var stepAction = GetURLHash();
-        if (stepAction === undefined) {
-            showStep(1);
+        // --------------------------------------------
+        // ----------------- Set tabs element as tabs
+        // --------------------------------------------
+        //$(".jquery_tabs").accessibleTabs();
+
+        // --------------------------------------------
+        // Screen Championship show
+        // --------------------------------------------
+        // Get championship results on load
+        getCurrentChampionshipResults();
+        // Selecting event
+
+        if (!url[url.length - 1].match(/#eventId\=\d/)) {
+            selectedEventKey = 1;
         } else {
-            showStep(stepAction);
+            var eventItem = $('.eventItem[data-eventid=' + parseInt(GetURLHash()) + ']').data('eventkey');
+            selectedEventKey = eventItem ? eventItem : 1;
         }
+
+        if (isCurrentPage('Championship')) {
+            showEvent(selectedEventKey);
+        }
+
+        $('#viewFullDriverList').click(function () {
+            showModalAndActivatePopups($('.standard.driverList.modal'));
+        });
+
+        $('.showEventResults').click(function () {
+            var eventClicked = $(this).parent().data('eventid');
+            var modalPopup = $('.standard.eventResults.modal[data-eventid="' + eventClicked + '"]');
+            showModalAndActivatePopups(modalPopup);
+        });
+
+        $('#viewRulesDetails').click(function () {
+            showModalAndActivatePopups($('.standard.rulesDetails.modal'));
+        });
+
+        $('#showTeamList').click(function () {
+            showModalAndActivatePopups($('.standard.teamList.modal'));
+        });
+
+        $('.grid.teams .card .image').dimmer({
+            on: 'hover'
+        });
+
+        $('.ui.button.teamRegistration').api({
+            method: 'POST',
+            beforeSend: function (settings) {
+                $('.content>.center a.ui.button.teamRegistration').not($(this)).addClass('disabled');
+                return settings;
+            },
+            onSuccess: function (response) {
+                handleTeamRegistration(response);
+            }
+        });
+
+// --------------------------------------------
+// Screen MetaRule show
+// --------------------------------------------
+// Selecting metaRule
+        $(".metaRuleItem:first").trigger("click");
+
+// --------------------------------------------
+// ----------------- popupMenu : edit element
+// --------------------------------------------
+
+        $('#showSidebar').click(function () {
+            $('.sidebar.footer').sidebar('toggle');
+        });
+
+        $('#showComments.ui.button').click(function () {
+            $('.sidebar.comments').sidebar('toggle');
+        });
+
+// --------------------------------------------
+// ----------------- Clickable table row
+// --------------------------------------------
+        /*
+         * $('tr').has('td').has('a').hover(function() { $(this).css('cursor',
+         * 'pointer'); }); $('tr').has('td').has('a').click(function() { var href =
+         * $(this).find('a').attr('href'); if (href) { window.location = href; } });
+         */
+
+        $('#userMenu').dropdown({
+            on: 'hover',
+            duration: 75,
+            transition: 'fade down'
+        });
+
+        $('#loginButton').click(function () {
+            $('#loginForm').submit();
+        });
+
+        $('.ui.card.gameCard').click(function () {
+            window.location = Routing.generate('rfcCore_gameSelection', {'gameId': $(this).data('gameid')});
+        });
+
+        $('.ui.card.gameCard .extra.content a, .ui.card.gameCard .extra.content div').click(function (e) {
+            e.stopPropagation();
+        });
+
+        $('#reportIssue').click(function () {
+            showModalAndActivatePopups($('#reportIssuePopup.modal'));
+        });
+
+        $('form#sendIssue').submit(function (event) {
+            var serializedForm = $(this).serializeArray();
+            reportIssueToGitHub(serializedForm);
+            event.preventDefault();
+        });
+
     }
-
-    // --------------------------------------------
-    // ----------------- WYSIWYG editor
-    // --------------------------------------------
-    //$("textarea").wysibb();
-
-    // --------------------------------------------
-    // Screen Championship creation
-    // --------------------------------------------
-    // Toggleing rules list
-    toggleRules(0);
-    $('#rfc_corebundle_championship_isAgreed').change(function () {
-        toggleRules(200);
-    });
-
-    // --------------------------------------------
-    // ----------------- Set tabs element as tabs
-    // --------------------------------------------
-    //$(".jquery_tabs").accessibleTabs();
-
-    // --------------------------------------------
-    // Screen Championship show
-    // --------------------------------------------
-    // Get championship results on load
-    getCurrentChampionshipResults();
-    // Selecting event
-
-    if (!url[url.length - 1].match(/#eventId\=\d/)) {
-        selectedEventKey = 1;
-    } else {
-        var eventItem = $('.eventItem[data-eventid=' + parseInt(GetURLHash()) + ']').data('eventkey');
-        selectedEventKey = eventItem ? eventItem : 1;
-    }
-
-    if (isCurrentPage('Championship')) {
-        showEvent(selectedEventKey);
-    }
-
-    $('#viewFullDriverList').click(function () {
-        showModalAndActivatePopups($('.standard.driverList.modal'));
-    });
-
-    $('.showEventResults').click(function () {
-        var eventClicked = $(this).parent().data('eventid');
-        var modalPopup = $('.standard.eventResults.modal[data-eventid="' + eventClicked + '"]');
-        showModalAndActivatePopups(modalPopup);
-    });
-
-    $('#viewRulesDetails').click(function () {
-        showModalAndActivatePopups($('.standard.rulesDetails.modal'));
-    });
-
-    // --------------------------------------------
-    // Screen MetaRule show
-    // --------------------------------------------
-    // Selecting metaRule
-    $(".metaRuleItem:first").trigger("click");
-
-    // --------------------------------------------
-    // ----------------- popupMenu : edit element
-    // --------------------------------------------
-
-    $('#showSidebar').click(function () {
-        $('.sidebar.footer').sidebar('toggle');
-    });
-
-    $('#showComments.ui.button').click(function () {
-        $('.sidebar.comments').sidebar('toggle');
-    });
-
-    // --------------------------------------------
-    // ----------------- Clickable table row
-    // --------------------------------------------
-    /*
-     * $('tr').has('td').has('a').hover(function() { $(this).css('cursor',
-     * 'pointer'); }); $('tr').has('td').has('a').click(function() { var href =
-     * $(this).find('a').attr('href'); if (href) { window.location = href; } });
-     */
-
-    $('#userMenu').dropdown({
-        on: 'hover',
-        duration: 75,
-        transition: 'fade down'
-    });
-
-    $('#loginButton').click(function () {
-        $('#loginForm').submit();
-    });
-
-    $('.ui.card.gameCard:not()').click(function () {
-        window.location = Routing.generate('rfcCore_gameSelection', {'gameId': $(this).data('gameid')});
-    });
-
-    $('.ui.card.gameCard .extra.content a, .ui.card.gameCard .extra.content div').click(function (e) {
-        e.stopPropagation();
-    });
-
-    $('#reportIssue').click(function () {
-        showModalAndActivatePopups($('#reportIssuePopup.modal'));
-    });
-
-    $('form#sendIssue').submit(function (event) {
-        var serializedForm = $(this).serializeArray();
-        reportIssueToGitHub(serializedForm);
-        event.preventDefault();
-    });
-
-});
+)
+;
 
 //$('.ui.checkbox').checkbox();
 
@@ -992,3 +1084,72 @@ $('.sidebar.comments').sidebar('setting', {
 $('.uiTabs .menu .item').tab({
     alwaysRefresh: true
 });
+
+//------------------- Championship creation 
+$("#rfc_corebundle_championship_teamChampionship").change(function () {
+    if ($(this).is(':checked')) {
+        $("#rfc_corebundle_championship_teamCountSelection").parent().show();
+        $("#rfc_corebundle_championship_teamCountSelection").val($('#rfc_corebundle_championship_teamCountSelection option:first').val());
+        $("#rfc_corebundle_championship_teamCountSelection").change();
+        $("#rfc_corebundle_championship_teamCount").parent().show();
+        $("#rfc_corebundle_championship_MaximumMainDrivers").parent().show();
+        $("#rfc_corebundle_championship_MaximumSecondaryDrivers").parent().show();
+    } else {
+        $("#rfc_corebundle_championship_teamCountSelection").parent().hide();
+        $("#rfc_corebundle_championship_teamCount").parent().hide();
+        $("#rfc_corebundle_championship_MaximumMainDrivers").parent().hide();
+        $("#rfc_corebundle_championship_MaximumSecondaryDrivers").parent().hide();
+    }
+});
+
+$("#rfc_corebundle_championship_teamCountSelection").change(function () {
+    updateChampionshipCreationValues(0);
+    switch ($(this).val()) {
+        case 'byVehicles':
+            $("#rfc_corebundle_championship_listVehicles").parent().show();
+            $("#rfc_corebundle_championship_listVehicles").change();
+            $("#rfc_corebundle_championship_listCategories").parent().hide();
+            $("#rfc_corebundle_championship_teamCount").prop('readonly', true);
+            break;
+        case 'byCategories':
+            $("#rfc_corebundle_championship_listCategories").parent().show();
+            $("#rfc_corebundle_championship_listCategories").change();
+            $("#rfc_corebundle_championship_listVehicles").parent().hide();
+            $("#rfc_corebundle_championship_teamCount").prop('readonly', true);
+            break;
+        case 'byChoice':
+            $("#rfc_corebundle_championship_listVehicles").parent().show();
+            $("#rfc_corebundle_championship_listCategories").parent().show();
+            if (null !== $("#rfc_corebundle_championship_listCategories").val()) {
+                $("#rfc_corebundle_championship_listCategories").change();
+            } else if (null !== $("#rfc_corebundle_championship_listVehicles").val()) {
+                $("#rfc_corebundle_championship_listVehicles").change();
+            }
+            $("#rfc_corebundle_championship_teamCount").prop('readonly', false);
+            break;
+        default :
+            break;
+    }
+});
+
+$("[id^=rfc_corebundle_][id$=_listCategories]").change(function () {
+    $("[id^=rfc_corebundle_][id$=_listVehicles]").val(null);
+    if ($("[id^=rfc_corebundle_][id$=_teamCountSelection]").val() !== 'byChoice') {
+        $("[id^=rfc_corebundle_][id$=_teamCount]").val(null === $("[id^=rfc_corebundle_][id$=_listCategories]").val() ? 0 : $("[id^=rfc_corebundle_][id$=_listCategories]").val().length);
+    }
+});
+
+$("[id^=rfc_corebundle_][id$=_listVehicles]").change(function () {
+    $("[id^=rfc_corebundle_][id$=_listCategories]").val(null);
+    if ($("[id^=rfc_corebundle_][id$=_teamCountSelection]").val() !== 'byChoice') {
+        $("[id^=rfc_corebundle_][id$=_teamCount]").val(null === $("[id^=rfc_corebundle_][id$=_listVehicles]").val() ? 0 : $("[id^=rfc_corebundle_][id$=_listVehicles]").val().length);
+    }
+});
+
+function updateChampionshipCreationValues(teamCount) {
+    $("#rfc_corebundle_championship_teamCount").val(teamCount);
+    $("#rfc_corebundle_championship_MaximumMainDrivers").val('0');
+    $("#rfc_corebundle_championship_MaximumSecondaryDrivers").val('0');
+}
+
+$("#rfc_corebundle_championship_teamChampionship").change();

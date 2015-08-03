@@ -45,9 +45,11 @@ core:
       manager: '{0}Pas de manager|one:Manager|some:Managers'
     participants:
       title: '(%participantCount%) pilotes enregistrés'
+      titleTeam: '(%participantCountMain%) pilotes titulaires et (%participantCountSecondary%) pilotes secondaires enregistrés'
       tooMuch: 'Trop de pilotes à afficher.'
       showFullList: 'Afficher tous les participants'
       popupParticipant: 'Liste complète des participants'
+      popupTeams: 'Equipes du championnat'
     progress:
       title: 'Progression du championnat'
       previousTitle: 'Session précédente'
@@ -59,7 +61,8 @@ core:
     registration:
       alreadyRegistered: 'Vous êtes toujours inscrits pour ce championnat'
       notRegistered: 'Vous n''êtes pas inscrit pour ce championnat'
-      championshipStarted: 'Vous n''êtes pas autorisé à vous inscrire au championnat en cours.'
+      championshipStarted: 'Vous n''êtes pas autorisé à vous inscrire au championnat ayant débuté.'
+      championshipEnded: 'Le championnat est terminé, vous ne pouvez plus vous inscrire.'
       notLogged: 'Vous devez vous connecter pour vous inscrire à ce championnat.'
     result:
       rank: 'Rang'
@@ -67,6 +70,8 @@ core:
       points: 'Points'
       showLeaderboard: 'Voir classement complet'
       popupGobalResults: 'Résultat global'
+      driversResults: 'Résultats par pilote'
+      teamsResults: 'Résultats par équipe'
       popupEventResults: 'Résultat de l''événement :'
       title: 'Résultat'
   crew:
@@ -156,6 +161,7 @@ core:
     cancelRequest: 'Annuler la requête'
     accept: 'Accepter'
     decline: 'Refuser'
+    showTeams: 'Afficher les équipes'
   table:
     id: 'Identifiant'
     name: 'Nom'

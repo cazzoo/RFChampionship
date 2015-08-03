@@ -23,6 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use JMS\Serializer\Annotation\Groups;
 use RFC\CoreBundle\Entity\Championship;
 use RFC\CoreBundle\Entity\CrewRequest;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -48,59 +49,73 @@ class User extends BaseUser
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"api", "list", "details"})
      */
     protected $id;
 
     /**
+     * @Groups({"api"})
+     */
+    protected $username;
+
+    /**
      * @ORM\Column(name="firstName", type="string", length=255, nullable=true)
+     * @Groups({"list", "details"})
      */
     protected $firstName;
 
     /**
      * @ORM\Column(name="lastName", type="string", length=255, nullable=true)
+     * @Groups({"list", "details"})
      */
     protected $lastName;
 
     /**
      * @ORM\Column(name="age", type="integer", nullable=true)
+     * @Groups({"details"})
      */
     protected $age;
 
     /**
      * @ORM\Column(name="avatarUrl", type="string", length=255, nullable=true)
+     * @Groups({"api", "details"})
      */
     protected $avatarUrl;
 
     /**
      * @ORM\Column(name="steamId", type="string", length=255, nullable=true)
+     * @Groups({"details"})
      */
     protected $steamId;
 
     /**
      * @ORM\Column(name="favoriteNumber", type="integer", nullable=true, unique=true)
      * @Assert\GreaterThan( value = 0, message="constraint.positive" )
-     * 
+     * @Groups({"api", "details"})
      */
     protected $favoriteNumber;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Property")
+     * @Groups({"relations"})
      */
     protected $listPreferences;
 
     /**
      * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\CrewRequest", mappedBy="requester", cascade={"persist", "remove"})
+     * @Groups({"relations"})
      */
     protected $listCrewRequests;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Championship", mappedBy="listUsers", cascade={"persist"})
+     * @Groups({"relations"})
      */
     protected $listChampionships;
 
     /**
      * @ORM\Column(name="locale", type="string", length=5)
-     *
+     * @Groups({"details"})
      */
     protected $locale;
 
@@ -108,19 +123,19 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->listChampionships = new ArrayCollection();
-        $this->listCrewRequests  = new ArrayCollection();
-        $this->listPreferences   = new ArrayCollection();
+        $this->listCrewRequests = new ArrayCollection();
+        $this->listPreferences = new ArrayCollection();
     }
 
     public function eraseCredentials()
     {
-        
+
     }
 
     /**
      * Set firstName
      *
-     * @param string $firstName            
+     * @param string $firstName
      * @return User
      */
     public function setFirstName($firstName)
@@ -143,7 +158,7 @@ class User extends BaseUser
     /**
      * Set lastName
      *
-     * @param string $lastName            
+     * @param string $lastName
      * @return User
      */
     public function setLastName($lastName)
@@ -166,7 +181,7 @@ class User extends BaseUser
     /**
      * Set age
      *
-     * @param integer $age            
+     * @param integer $age
      * @return User
      */
     public function setAge($age)
@@ -189,7 +204,7 @@ class User extends BaseUser
     /**
      * Set avatarUrl
      *
-     * @param string $avatarUrl            
+     * @param string $avatarUrl
      * @return User
      */
     public function setAvatarUrl($avatarUrl)
@@ -212,7 +227,7 @@ class User extends BaseUser
     /**
      * Set steamId
      *
-     * @param string $steamId            
+     * @param string $steamId
      * @return User
      */
     public function setSteamId($steamId)
@@ -395,7 +410,8 @@ class User extends BaseUser
     {
         foreach ($this->listCrewRequests as $crewRequest) {
             if ($crewRequest->getState() == 2 && $crewRequest->getCrew()->getGame()->getId()
-                == $gameId) {
+                == $gameId
+            ) {
                 return $crewRequest->getCrew();
             }
         }
@@ -437,7 +453,8 @@ class User extends BaseUser
 
         foreach ($this->listCrewRequests as $crewRequest) {
             if ($crewId === $crewRequest->getCrew()->getId() && ($lastRequest === null
-                || $lastRequest->getCreatedAt() < $crewRequest->getCreatedAt())) {
+                    || $lastRequest->getCreatedAt() < $crewRequest->getCreatedAt())
+            ) {
                 $lastRequest = $crewRequest;
             }
         }

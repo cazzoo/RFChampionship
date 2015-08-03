@@ -16,38 +16,147 @@
 
 {# src/RFC/CoreBundle/Resources/views/Championship/globalResults.html.twig #}
 
-<table class="ui small striped table">
-    <thead>
-        <tr>
-            <th>{% trans %}core.championship.result.rank{% endtrans %}</th>
-            <th>{% trans %}core.championship.result.name{% endtrans %}</th>
-            <th>{% trans %}core.championship.result.points{% endtrans %}</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for userid,data in results|slice(0, 3) %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ data.user.username }}</td>
-                <td>
-                    {{ data.sum }}
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% if results|length > 3 %}
-    <div class="ui button" id="viewFullLeaderboard">{% trans %}core.championship.result.showLeaderboard{% endtrans %}</div>
+{% if teamResults|length > 0 %}
+    <div class="ui uiTabs secondary menu">
+        <a class="item active" data-tab="teams">{% trans %}core.championship.result.teamsResults{% endtrans %}</a>
+        <a class="item" data-tab="users">{% trans %}core.championship.result.driversResults{% endtrans %}</a>
+    </div>
+
+    <div class="ui tab basic segment active" data-tab="teams">
+
+        <div class="ui center aligned three column grid">
+            <div class="row">
+                <div class="column">
+                    {{ teamResults[1] ? teamResults[1].team.name }}
+                </div>
+                <div class="column">
+                    {{ teamResults[0].team.name }}
+                </div>
+                <div class="column">
+                    {{ teamResults[2] ? teamResults[2].team.name }}
+                </div>
+            </div>
+            <div class="bottom aligned row">
+                <div class="column">
+                    <div class="ui red segment">
+                        <br/>
+                        <br/>
+
+                        {{ teamResults[1].sum }}
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="ui orange segment">
+                        <br/>
+                        <br/>
+                        <br/>
+
+                        {{ teamResults[0].sum }}
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="ui yellow segment">
+                        <br/>
+
+                        {{ teamResults[2].sum }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 {% endif %}
+
+{% if teamResults|length == 0 %}
+    <div class="ui header">
+        {% trans %}core.championship.result.driversResults{% endtrans %}
+    </div>
+{% endif %}
+
+<div class="ui {{ teamResults|length > 0 ? 'tab ' }}basic segment"{{ teamResults|length > 0 ? ' data-tab="users"' }}>
+    {% if userResults|length > 3 %}
+
+        <div class="ui center aligned three column grid">
+            <div class="row">
+                <div class="column">
+                    {{ userResults[1].user.username }}
+                </div>
+                <div class="column">
+                    {{ userResults[0].user.username }}
+                </div>
+                <div class="column">
+                    {{ userResults[2].user.username }}
+                </div>
+            </div>
+            <div class="bottom aligned row">
+                <div class="column">
+                    <div class="ui red segment">
+                        <br/>
+                        <br/>
+
+                        {{ userResults[1].sum }}
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="ui orange segment">
+                        <br/>
+                        <br/>
+                        <br/>
+
+                        {{ userResults[0].sum }}
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="ui yellow segment">
+                        <br/>
+
+                        {{ userResults[2].sum }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        <table class="ui small striped table">
+            <thead>
+            <tr>
+                <th>{% trans %}core.championship.result.rank{% endtrans %}</th>
+                <th>{% trans %}core.championship.result.name{% endtrans %}</th>
+                <th>{% trans %}core.championship.result.points{% endtrans %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for userid,data in userResults %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ data.user.username }}</td>
+                    <td>
+                        {{ data.sum }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+
+<div class="ui center aligned grid">
+    <div class="bottom aligned row">
+        <div class="ui button" id="viewFullLeaderboard">
+            {% trans %}core.championship.result.showLeaderboard{% endtrans %}
+        </div>
+    </div>
+</div>
 
 <div class="ui standard globalResults modal transition">
     <i class="close icon"></i>
+
     <div class="header">
         {% trans %}core.championship.result.popupGobalResults{% endtrans %}
     </div>
     <div class="content">
         <div class="description">
-            {% include 'RFCCoreBundle:Championship:resultsTable.html.twig' with { 'results' : results} %}
+            {% include 'RFCCoreBundle:Championship:resultsTable.html.twig' with { 'userResults' : userResults, 'teamResults' : teamResults} %}
         </div>
     </div>
 </div>

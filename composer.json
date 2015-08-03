@@ -30,7 +30,9 @@
         "knplabs/knp-menu": "2.0.*@dev",
         "knplabs/knp-menu-bundle": "2.0.*@dev",
         "tan-tan-kanarek/github-php-client": "dev-master",
-        "ras/flash-alert-bundle": "dev-master"
+        "ras/flash-alert-bundle": "dev-master",
+        "jms/twig-js-bundle": "dev-master",
+        "willdurand/js-translation-bundle": "^2.2"
     },
     "scripts": {
         "post-install-cmd": [

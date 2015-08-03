@@ -22,6 +22,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Descriptor
@@ -39,6 +40,7 @@ abstract class Descriptor
 
     /**
      * @ORM\Column(name="name", type="string", length=255)
+     * @Groups({"api"})
      */
     protected $name;
 

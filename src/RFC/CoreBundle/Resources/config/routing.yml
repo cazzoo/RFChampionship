@@ -79,3 +79,8 @@ rfcCore_championships_show:
 RFCAjax:
      resource: "@RFCCoreBundle/Resources/config/routing/ajax.yml"
      prefix:   /
+     
+RFCApi:
+     resource: "@RFCCoreBundle/Resources/config/routing/api.yml"
+     prefix:   /
+     

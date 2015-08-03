@@ -66,6 +66,18 @@ class Event extends Descriptor
     private $championship;
 
     /**
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Category")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $listCategories;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Vehicle")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $listVehicles;
+
+    /**
      * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Session", mappedBy="event", cascade={"persist", "remove"})
      */
     private $listSessions;
@@ -77,6 +89,8 @@ class Event extends Descriptor
     {
         parent::__construct();
         $this->listSessions = new ArrayCollection();
+        $this->listCategories = new ArrayCollection();
+        $this->listVehicles = new ArrayCollection();
     }
 
     public function __toString()
@@ -146,7 +160,7 @@ class Event extends Descriptor
      * @param Vehicle $vehicle
      * @return Event
      */
-    public function setVehicle(Vehicle $vehicle)
+    public function setVehicle($vehicle)
     {
         $this->vehicle = $vehicle;
 
@@ -169,7 +183,7 @@ class Event extends Descriptor
      * @param Category $category
      * @return Event
      */
-    public function setCategory(Category $category)
+    public function setCategory($category)
     {
         $this->category = $category;
 
@@ -184,6 +198,42 @@ class Event extends Descriptor
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     *
+     * @return ArrayCollection
+     */
+    public function getListCategories() {
+        return $this->listCategories;
+    }
+
+    /**
+     *
+     * @param ArrayCollection $listCategories
+     * @return Championship
+     */
+    public function setListCategories(ArrayCollection $listCategories) {
+        $this->listCategories = $listCategories;
+        return $this;
+    }
+
+    /**
+     *
+     * @return ArrayCollection
+     */
+    public function getListVehicles() {
+        return $this->listVehicles;
+    }
+
+    /**
+     *
+     * @param ArrayCollection $listVehicles
+     * @return Championship
+     */
+    public function setListVehicles(ArrayCollection $listVehicles) {
+        $this->listVehicles = $listVehicles;
+        return $this;
     }
 
     /**

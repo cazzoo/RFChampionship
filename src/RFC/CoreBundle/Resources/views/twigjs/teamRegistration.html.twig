@@ -1,0 +1,77 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# src/RFC/CoreBundle/Resources/views/User/index.html.twig #}
+
+{% twig_js name="teamRegistration" %}
+
+{% set registrationInProgress = team.championship.registrationInProgress %}
+{% set inProgressBeforeEnd = registrationInProgress and team.championship.isBeforeEndDate %}
+{% set notInProgressBeforeBegin = (not registrationInProgress) and team.championship.isBeforeBeginDate %}
+
+{% if app.user and not team.championship.isDraft %}
+    {% if inProgressBeforeEnd or notInProgressBeforeBegin %}
+        {% if registeredAsMainDriver is null and registeredAsSecondaryDriver is null %}
+            {% if team.maxMainDrivers == -1 or (team.maxMainDrivers > 0 and team.listMainDrivers|length < team.maxMainDrivers) %}
+                <a class="ui primary button teamRegistration" data-action="user register team"
+                   data-gameid="{{ team.championship.game.id }}"
+                   data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
+                   data-driverid="{{ app.user.id }}" data-drivertype="main">
+                    Register as main driver
+                </a>
+            {% else %}
+                {% if team.listSecondaryDrivers|length < team.maxSecondaryDrivers %}
+                    There is not more main slots available for this team, please register as secondary or choose another team.
+                    <a class="ui primary secondary button teamRegistration"
+                       data-action="user register team"
+                       data-gameid="{{ team.championship.game.id }}"
+                       data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
+                       data-driverid="{{ app.user.id }}" data-drivertype="secondary">
+                        Register as secondary driver
+                    </a>
+                {% else %}
+                    All the main and secondary slots are taken. Please register to another team.
+                {% endif %}
+            {% endif %}
+        {% elseif registeredAsMainDriver == team %}
+            <a class="ui red button teamRegistration" data-action="user unregister team"
+               data-gameid="{{ team.championship.game.id }}"
+               data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
+               data-driverid="{{ app.user.id }}" data-drivertype="main">
+                Unregister as main driver
+            </a>
+        {% elseif registeredAsSecondaryDriver == team %}
+            <a class="ui red button teamRegistration" data-action="user unregister team"
+               data-gameid="{{ team.championship.game.id }}"
+               data-championshipid="{{ team.championship.id }}" data-teamid="{{ team.id }}"
+               data-driverid="{{ app.user.id }}" data-drivertype="secondary">
+                Unregister as secondary driver
+            </a>
+        {% elseif registeredAsMainDriver is not null and registeredAsMainDriver != team %}
+            You are already registered as main driver in team {{ registeredAsMainDriver.name }}.
+        {% elseif registeredAsSecondaryDriver is not null and registeredAsSecondaryDriver != team %}
+            You are already registered as secondary driver in team {{ registeredAsSecondaryDriver.name }}.
+        {% endif %}
+    {% else %}
+        {% if team.championship.isAfterEndDate %}
+            {% trans %} core.championship.registration.championshipEnded {% endtrans %}
+        {% elseif not registrationInProgress and team.championship.isAfterBeginDate %}
+            {% trans %} core.championship.registration.championshipStarted {% endtrans %}
+        {% endif %}
+    {% endif %}
+{% else %}
+    You must be logged in to register to a team.
+{% endif %}

@@ -36,8 +36,12 @@
     </div>
 
     {% if is_granted('ROLE_MANAGER') %}
-        <h1>{% trans %}core.championship.draft{% endtrans %}</h1>
-        {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with {'championships' : draftChampionships} %}
+        <div class="ui grid">
+            <div class="column">
+                <h1>{% trans %}core.championship.draft{% endtrans %}</h1>
+                {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with {'championships' : draftChampionships} %}
+            </div>
+        </div>
     {% endif %}
 
 {% endblock %}

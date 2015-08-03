@@ -1,6 +1,9 @@
 RFCAdmin_index:
     path:   /admin/
     defaults: { _controller: RFCAdminBundle:Admin:index }
+RFCAdmin_championship_upgrade:
+    pattern: /admin/championshipUpgrade
+    defaults: { _controller: RFCAdminBundle:Championship:championshipUpgrade }
 RFCAdmin_user:
     resource: "@RFCAdminBundle/Resources/config/routing/user.yml"
     prefix:   /admin/user

@@ -22,6 +22,7 @@ namespace RFC\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\Descriptor;
 use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Game
@@ -35,6 +36,7 @@ class Game extends Descriptor
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"api"})
      */
     private $id;
 

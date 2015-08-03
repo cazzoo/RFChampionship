@@ -1,0 +1,90 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{% set registeredAsMainDriver = null %}
+{% set registeredAsSecondaryDriver = null %}
+{% if app.user %}
+    {% for team in championship.listTeams %}
+        {% for mainDriver in team.listMainDrivers %}
+            {% if app.user.id == mainDriver.id %}
+                {% set registeredAsMainDriver = team %}
+            {% endif %}
+        {% endfor %}
+        {% for secondaryDriver in team.listSecondaryDrivers %}
+            {% if app.user.id == secondaryDriver.id %}
+                {% set registeredAsSecondaryDriver = team %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
+<div class="ui three column stackable doubling grid teams">
+    {% for team in championship.listTeams %}
+
+        <div class="column">
+            <div class="ui fluid card" data-teamid="{{ team.id }}">
+                <div class="dimmable image">
+                    <div class="ui dimmer">
+                        <div class="content">
+                            <div class="center">
+                                {% include 'RFCCoreBundle:twigjs:teamRegistration.html.twig' with {'app': app, 'registeredAsMainDriver': registeredAsMainDriver, 'registeredAsSecondaryDriver': registeredAsSecondaryDriver, 'team': team} %}
+                            </div>
+                        </div>
+                    </div>
+                    <img src="/img/dummy_200x200.png">
+                </div>
+                <div class="content">
+                    <a class="header">{{ team.name }}</a>
+
+                    <div class="meta">
+                        <span class="date">This team has {{ team.listMainDrivers|length }}
+                            main drivers and {{ team.listSecondaryDrivers|length }} secondary drivers.</span>
+                    </div>
+                    <div class="description">
+                        <div class="ui two column center aligned horizontally divided stackable grid">
+                            <div class="column">
+                                Main drivers
+                                <div class="mainDrivers">
+                                    {% for mainDriver in team.listMainDrivers %}
+                                        {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : mainDriver} %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="column">
+                                Secondary drivers
+                                <div class="secondaryDrivers">
+                                    {% for secondaryDriver in team.listSecondaryDrivers %}
+                                        {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : secondaryDriver} %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="extra content">
+                    <span>
+                        <i class="users icon"></i>
+
+                        <div>Main slot : <span class="countRegisteredMainDrivers">{{ team.listMainDrivers|length }}</span>
+                            / {{ team.maxMainDrivers == -1 ?  'unlimited' : team.maxMainDrivers }}</div>
+                        <div>Secondary slot : <span class="countRegisteredSecondaryDrivers">{{ team.listSecondaryDrivers|length }}</span>
+                            / {{ team.maxSecondaryDrivers == -1 ?  'unlimited' : team.maxSecondaryDrivers }}</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

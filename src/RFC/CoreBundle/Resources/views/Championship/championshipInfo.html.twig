@@ -47,7 +47,7 @@
                         </a>
                         {% set rules = championship.metaRule.listRules %}
                     {% else %}
-                        {% trans %}core.dictionnary.rule{% endtrans %}
+                        {% transchoice championship.listRules|length %}core.dictionnary.rule{% endtranschoice %}
                         {% set rules = championship.listRules %}
                     {% endif %}
                 </div>
@@ -56,11 +56,13 @@
             <div class="ui standard rulesDetails modal transition">
                 <i class="close icon"></i>
                 <div class="header">
-                    {{ championship.metaRule.name }} 
-                    {% if canEdit %}
-                        <a class="ui primary labeled icon button" href="{{ path('admin_metaRule_edit', {'gameId' : appSettings.getGame().id, 'metaRuleId' : championship.metaRule.id }) }}">
-                            <i class="edit icon"></i> {% trans %}core.action.edit{% endtrans %}
-                        </a>
+                    {% if championship.metaRule %}
+                        {{ championship.metaRule.name }} 
+                        {% if canEdit %}
+                            <a class="ui primary labeled icon button" href="{{ path('admin_metaRule_edit', {'gameId' : appSettings.getGame().id, 'metaRuleId' : championship.metaRule.id }) }}">
+                                <i class="edit icon"></i> {% trans %}core.action.edit{% endtrans %}
+                            </a>
+                        {% endif %}
                     {% endif %}
                 </div>
                 <div class="content">
