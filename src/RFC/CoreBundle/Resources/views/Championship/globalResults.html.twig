@@ -30,7 +30,7 @@
                     {{ teamResults[1] ? teamResults[1].team.name }}
                 </div>
                 <div class="column">
-                    {{ teamResults[0].team.name }}
+                    <b>{{ teamResults[0] ? teamResults[0].team.name }}</b>
                 </div>
                 <div class="column">
                     {{ teamResults[2] ? teamResults[2].team.name }}
@@ -38,7 +38,7 @@
             </div>
             <div class="bottom aligned row">
                 <div class="column">
-                    <div class="ui red segment">
+                    <div class="ui orange segment">
                         <br/>
                         <br/>
 
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="column">
-                    <div class="ui orange segment">
+                    <div class="ui red segment">
                         <br/>
                         <br/>
                         <br/>
@@ -82,7 +82,7 @@
                     {{ userResults[1].user.username }}
                 </div>
                 <div class="column">
-                    {{ userResults[0].user.username }}
+                    <b>{{ userResults[0].user.username }}</b>
                 </div>
                 <div class="column">
                     {{ userResults[2].user.username }}
@@ -90,7 +90,7 @@
             </div>
             <div class="bottom aligned row">
                 <div class="column">
-                    <div class="ui red segment">
+                    <div class="ui orange segment">
                         <br/>
                         <br/>
 
@@ -98,7 +98,7 @@
                     </div>
                 </div>
                 <div class="column">
-                    <div class="ui orange segment">
+                    <div class="ui red segment">
                         <br/>
                         <br/>
                         <br/>
