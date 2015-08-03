@@ -892,7 +892,7 @@ class Championship extends KnowledgeData
      */
     public function getTeamChampionship()
     {
-        return ((count($this->listVehicles) > 0) || (count($this->listCategories) > 0)) ? true : false;
+        return count($this->listTeams) > 0 ? true : false;
     }
 
     public function getOutdated()
