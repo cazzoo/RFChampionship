@@ -257,17 +257,21 @@ function loadSessionData(data) {
         data: jsonFormatted,
         cache: false,
         beforeSend: function () {
-            $('#session').html("Chargement de la session...");
+            $('.ui.standard.session.modal.transition >.content >.description').html("Chargement de la session...");
+            //$('#session').html("Chargement de la session...");
         }
     }).done(function (data) {
         addNotification('Session loaded', 'success');
-        $('#session').html(data);
+        $('.ui.standard.session.modal.transition >.content >.description').html(data);
+        //$('#session').html(data);
         $('form#setResults').bind('submit', function () {
             handleSessionResults($(this));
             return false;
         });
+        $('.standard.session.modal').modal('refresh');
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        $('#session').html("Aucune session n'a pu être chargée");
+        $('.ui.standard.session.modal.transition >.content >.description').html("Aucune session n'a pu être chargée");
+        //$('#session').html("Aucune session n'a pu être chargée");
         addNotification('Error while loading session', 'error');
     });
 }
@@ -618,9 +622,8 @@ function loadEventSessions(id) {
             var data = {
                 sessionId: $(this).data('session')
             };
-
             loadSessionData(data);
-
+            showModalAndActivatePopups($('.standard.session.modal'));
             return false;
         });
         $('#sessionAddButton').attr("href", Routing.generate('admin_session_new', {

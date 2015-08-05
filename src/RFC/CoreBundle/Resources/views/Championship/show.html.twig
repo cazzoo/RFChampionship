@@ -23,7 +23,7 @@
     {% set canEdit = (is_granted('ROLE_MANAGER') and championship.isManager(app.user.id)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
     {% set teamChampionship = championship.getTeamChampionship() %}
 
-    <div class="ui three column grid">
+    <div class="ui three column stackable grid">
 
         <div class="equal height row">
 
@@ -337,7 +337,16 @@
         </div>
     </div>
 
-    <div id="session"></div>
+    {# Session info modal window #}
+    <div class="ui standard session modal transition">
+        <i class="close icon"></i>
+        <div class="header">
+            {% trans %}core.championship.result.popupSessionInfo{% endtrans %}
+        </div>
+        <div class="content">
+            <div class="description"></div>
+        </div>
+    </div>
 
     {# Event results modal window #}
     {% for event in championship.listEvents %}
