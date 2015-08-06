@@ -247,12 +247,12 @@ class User extends BaseUser
         return $this->steamId;
     }
 
-    function getFavoriteNumber()
+    public function getFavoriteNumber()
     {
         return $this->favoriteNumber;
     }
 
-    function setFavoriteNumber($favoriteNumber)
+    public function setFavoriteNumber($favoriteNumber)
     {
         $this->favoriteNumber = $favoriteNumber;
         return $this;

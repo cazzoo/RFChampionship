@@ -22,9 +22,7 @@ namespace RFC\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\Common\Collections\ArrayCollection;
-use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\Groups;
-use RFC\CoreBundle\Entity\Descriptor;
 use RFC\UserBundle\Entity\User;
 
 /**
@@ -101,12 +99,15 @@ class Team extends Descriptor
         return $this->id;
     }
 
-    function getChampionship()
+    public function getChampionship()
     {
         return $this->championship;
     }
 
-    function setChampionship($championship)
+    /**
+     * @param Championship $championship
+     */
+    public function setChampionship($championship)
     {
         $this->championship = $championship;
     }
@@ -190,8 +191,7 @@ class Team extends Descriptor
      * @param User $user
      * @return addSuccess $this or false
      */
-    public
-    function addSecondaryDriver(
+    public function addSecondaryDriver(
         User $user
     ) {
         if ($this->listSecondaryDrivers->contains($user)) {
@@ -206,8 +206,7 @@ class Team extends Descriptor
      * @param User $user
      * @return removeSuccess $this or false
      */
-    public
-    function removeSecondaryDriver(
+    public function removeSecondaryDriver(
         User $user
     ) {
         if (!$this->listSecondaryDrivers->contains($user)) {
@@ -216,23 +215,23 @@ class Team extends Descriptor
         return $this->listSecondaryDrivers->removeElement($user) ? $this : false;
     }
 
-    function getMaxMainDrivers()
+    public function getMaxMainDrivers()
     {
         return $this->maxMainDrivers;
     }
 
-    function setMaxMainDrivers($maxMainDrivers)
+    public function setMaxMainDrivers($maxMainDrivers)
     {
         $this->maxMainDrivers = $maxMainDrivers;
         return $this;
     }
 
-    function getMaxSecondaryDrivers()
+    public function getMaxSecondaryDrivers()
     {
         return $this->maxSecondaryDrivers;
     }
 
-    function setMaxSecondaryDrivers($maxSecondaryDrivers)
+    public function setMaxSecondaryDrivers($maxSecondaryDrivers)
     {
         $this->maxSecondaryDrivers = $maxSecondaryDrivers;
         return $this;

@@ -282,6 +282,7 @@ function loadSessionData(data) {
         //$('#session').html(data);
         $('form#setResults').bind('submit', function () {
             handleSessionResults($(this));
+            $('.ui.standard.session.modal').modal('hide');
             return false;
         });
         $('.standard.session.modal').modal('refresh');
@@ -386,7 +387,6 @@ function setSessionResults(data) {
         }
     }).done(function (dataResult) {
         addNotification('Results saved', 'success');
-        $('.sessionItem.active').trigger('click');
         getCurrentChampionshipResults();
     }).fail(function (jqXHR, textStatus, errorThrown) {
         $('#session').html("Aucuns résultats n'a pu être enregistré");
@@ -638,8 +638,9 @@ function loadEventSessions(id) {
             var data = {
                 sessionId: $(this).data('session')
             };
-            loadSessionData(data);
+
             showModalAndActivatePopups($('.standard.session.modal'));
+            loadSessionData(data);
             return false;
         });
         $('#sessionAddButton').attr("href", Routing.generate('admin_session_new', {

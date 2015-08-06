@@ -71,7 +71,7 @@ class LoadAppSettings
 
     /**
      *
-     * @param type $paramName the name of the param we want to get
+     * @param string $name : the name of the param we want to get
      * @return type the param or null if not found
      */
     public function getParam($name)

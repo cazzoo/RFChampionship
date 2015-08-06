@@ -75,8 +75,6 @@ class ChampionshipController extends RFCController
 
         if ($form->isValid()) {
 
-            $formData = $request->request->get('rfc_corebundle_championship');
-
             // If the championship is team based
             if ($form->get('teamChampionship')->getData()) {
                 switch ($form->get('teamCountSelection')->getData()) {

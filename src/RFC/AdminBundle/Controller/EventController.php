@@ -85,7 +85,11 @@ class EventController extends RFCController
      *
      * @param Event $entity
      *            The entity
-     *            
+     * @param boolean $gameId
+     *            The game id
+     * @param boolean $championshipId
+     *            The championship id
+     * @param boolean $teamChampionship
      * @return Form The form
      */
     private function createCreateForm(Event $entity, $gameId, $championshipId,

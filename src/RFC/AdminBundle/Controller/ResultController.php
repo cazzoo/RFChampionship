@@ -281,10 +281,10 @@ class ResultController extends RFCController
         /**
          * If the results already exists : case we update the results
          */
-        if (!empty($firstResult [3])) {
+        if (!empty($firstResult [2])) {
             foreach ($contents ['results'] as $contentResult) {
                 $resultData = explode(',', $contentResult);
-                array_push($resultsIds, $resultData [3]);
+                array_push($resultsIds, $resultData [2]);
             }
         }
 
@@ -302,10 +302,9 @@ class ResultController extends RFCController
         foreach ($contents ['results'] as $contentResult) {
             $resultDataItem = explode(',', $contentResult);
             $ruleId         = $resultDataItem [0];
-            $value          = $resultDataItem [1];
-            $userId         = $resultDataItem [2];
-            $resultId       = $resultDataItem [3];
-            $comments       = $resultDataItem [4];
+            $userId         = $resultDataItem [1];
+            $resultId       = $resultDataItem [2];
+            $comments       = $resultDataItem [3];
             $user           = $this->getUserById($userId, $users);
             $rule           = $this->getRuleById($ruleId, $rules);
 
@@ -316,7 +315,6 @@ class ResultController extends RFCController
             }
             $result->setRule($rule);
             $result->setSession($session);
-            $result->setValue($value);
             if ($user) {
                 $result->setUser($user);
             }

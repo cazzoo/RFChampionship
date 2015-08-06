@@ -123,29 +123,6 @@ class Result
     }
 
     /**
-     * Set value
-     *
-     * @param string $value            
-     * @return Result
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-        
-        return $this;
-    }
-
-    /**
-     * Get value
-     *
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
      * Set comments
      *
      * @param string $comments
