@@ -124,7 +124,7 @@ core:
   dictionnary:
     category: 'one:Catégorie|some:Catégories'
     championship: 'one:Championnat|some:Championnats'
-    metaRule: 'one:Règle|some:Règles'
+    metaRule: 'one:Méta-Règle|some:Méta-Règles'
     rule: 'one:Règle|some:Règles'
     vehicle: 'one:Véhicule|some:Véhicules'
     track: 'one:Circuit|some:Circuits'
