@@ -41,9 +41,6 @@ bazinga_js_translation:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    variables:
-        locale: [en, fr]
-    #java: /usr/bin/java
     filters:
         cssrewrite: ~
 
