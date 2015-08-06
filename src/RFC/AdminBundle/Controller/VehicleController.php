@@ -36,22 +36,22 @@ class VehicleController extends RFCController
     public function indexAction($gameId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        
+
         $vehicles = $entityManager->getRepository('RFCCoreBundle:Vehicle')->findBy(array(
             'game' => $gameId
         ));
-        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
-        
+        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' => $gameId));
+
         // Ajout du jeu sélectionné
         $menu = $this->get('rfc_admin.menu.breadcrumb');
         $menu->addChild($game->getName())
             ->setUri($this->get("router")
-            ->generate('admin_game_manage', array(
-            'gameId' => $gameId
-        )));
+                ->generate('admin_game_manage', array(
+                    'gameId' => $gameId
+                )));
         $manipulator = new MenuManipulator();
         $manipulator->moveToPosition($menu->getChild($game->getName()), 1);
-        
+
         return $this->render('RFCAdminBundle:Vehicle:index.html.twig', array(
             'vehicles' => $vehicles,
             'gameId' => $gameId,
@@ -67,17 +67,17 @@ class VehicleController extends RFCController
         $entity = new Vehicle();
         $form = $this->createCreateForm($entity, $gameId);
         $form->handleRequest($request);
-        
+
         if ($form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($entity);
             $entityManager->flush();
-            
-            return $this->redirect($this->generateUrl('admin_vehicle', array(
-	            'gameId' => $gameId
-            )));
+
+            return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
+                    'gameId' => $gameId,
+                )) . '#/vehicles');
         }
-        
+
         return $this->render('RFCAdminBundle:Vehicle:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView()
@@ -89,7 +89,7 @@ class VehicleController extends RFCController
      *
      * @param Vehicle $entity
      *            The entity
-     *            
+     *
      * @return Form The form
      */
     private function createCreateForm(Vehicle $entity, $gameId)
@@ -102,11 +102,11 @@ class VehicleController extends RFCController
             )),
             'method' => 'POST'
         ));
-        
+
         $form->add('submit', 'submit', array(
             'label' => 'Create'
         ));
-        
+
         return $form;
     }
 
@@ -120,7 +120,7 @@ class VehicleController extends RFCController
         $entityGame = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         $entity->setGame($entityGame);
         $form = $this->createCreateForm($entity, $gameId);
-        
+
         return $this->render('RFCAdminBundle:Vehicle:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
@@ -134,15 +134,15 @@ class VehicleController extends RFCController
     public function showAction($vehicleId, $gameId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        
+
         $entity = $entityManager->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
-        
-        if (! $entity) {
+
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find Vehicle entity.');
         }
-        
+
         $deleteForm = $this->createDeleteForm($vehicleId, $gameId);
-        
+
         return $this->render('RFCAdminBundle:Vehicle:show.html.twig', array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
@@ -156,16 +156,16 @@ class VehicleController extends RFCController
     public function editAction($vehicleId, $gameId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        
+
         $entity = $entityManager->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
-        
-        if (! $entity) {
+
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find Vehicle entity.');
         }
-        
+
         $editForm = $this->createEditForm($entity, $gameId);
         $deleteForm = $this->createDeleteForm($vehicleId, $gameId);
-        
+
         return $this->render('RFCAdminBundle:Vehicle:edit.html.twig', array(
             'entity' => $entity,
             'gameId' => $gameId,
@@ -179,7 +179,7 @@ class VehicleController extends RFCController
      *
      * @param Vehicle $entity
      *            The entity
-     *            
+     *
      * @return Form The form
      */
     private function createEditForm(Vehicle $entity, $gameId)
@@ -193,11 +193,11 @@ class VehicleController extends RFCController
             )),
             'method' => 'PUT'
         ));
-        
+
         $form->add('submit', 'submit', array(
             'label' => 'Update'
         ));
-        
+
         return $form;
     }
 
@@ -207,25 +207,25 @@ class VehicleController extends RFCController
     public function updateAction(Request $request, $vehicleId, $gameId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        
+
         $entity = $entityManager->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
-        
-        if (! $entity) {
+
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find Vehicle entity.');
         }
-        
+
         $deleteForm = $this->createDeleteForm($vehicleId, $gameId);
         $editForm = $this->createEditForm($entity, $gameId);
         $editForm->handleRequest($request);
-        
+
         if ($editForm->isValid()) {
             $entityManager->flush();
-            
-            return $this->redirect($this->generateUrl('admin_vehicle', array(
-                'gameId' => $gameId
-            )));
+
+            return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
+                    'gameId' => $gameId,
+                )) . '#/vehicles');
         }
-        
+
         return $this->render('RFCAdminBundle:Vehicle:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
@@ -241,22 +241,22 @@ class VehicleController extends RFCController
     {
         $form = $this->createDeleteForm($vehicleId, $gameId);
         $form->handleRequest($request);
-        
+
         if ($form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entity = $entityManager->getRepository('RFCCoreBundle:Vehicle')->find($vehicleId);
-            
-            if (! $entity) {
+
+            if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Vehicle entity.');
             }
-            
+
             $entityManager->remove($entity);
             $entityManager->flush();
         }
-        
-        return $this->redirect($this->generateUrl('admin_vehicle', array(
-            'gameId' => $gameId
-        )));
+
+        return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
+                'gameId' => $gameId,
+            )) . '#/vehicles');
     }
 
     /**
@@ -264,20 +264,20 @@ class VehicleController extends RFCController
      *
      * @param mixed $vehicleId
      *            The entity id
-     *            
+     *
      * @return Form The form
      */
     private function createDeleteForm($vehicleId, $gameId)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_vehicle_delete', array(
-            'vehicleId' => $vehicleId,
-            'gameId' => $gameId
-        )))
+                'vehicleId' => $vehicleId,
+                'gameId' => $gameId
+            )))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array(
-            'label' => 'Delete'
-        ))
+                'label' => 'Delete'
+            ))
             ->getForm();
     }
 }

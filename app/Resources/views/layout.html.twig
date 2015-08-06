@@ -31,9 +31,8 @@
               rel="stylesheet" type="text/css"/>
 
         <!-- Loading jquery calendar -->
-        <link
-                href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}"
-                rel="stylesheet"/>
+        <link href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}"
+              rel="stylesheet"/>
 
         <!-- Loading Custom CSS-->
         <link href="{{ asset('css/jquery.camera.css') }}"
@@ -42,8 +41,6 @@
               rel="stylesheet" type="text/css"/>
         <link href="{{ asset('css/jquery.datetimepicker.css') }}"
               rel="stylesheet" type="text/css"/>
-        {#<link href="{{ asset('css/adminStyle.css') }}" rel="stylesheet"
-              type="text/css" />#}
         <link href="{{ asset('css/timeline.css') }}" rel="stylesheet"
               type="text/css"/>
         <link href="{{ asset('css/animate.css') }}" rel="stylesheet"
@@ -90,31 +87,38 @@
 
 {% block javascripts %}
     {% javascripts
-    '%kernel.root_dir%/../vendor/jms/twig-js/twig.js'
-    'jquery/js/*'
-    'SemanticUI/semantic.min.js'
-    'js/*'
-    output='js/compiled/RFC.js' %}
+        '%kernel.root_dir%/../vendor/jms/twig-js/twig.js' output='js/twig-js.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts
+        'jquery/js/*.js'
+        'SemanticUI/semantic.min.js'
+        'bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js'
+        'bundles/adesignscalendar/js/calendar-settings.js'
+        'jquery/*.js'
+    output='js/RFC.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts filter='?yui_js'
+        'bundles/fosjsrouting/js/router.js'
+        'js/fos_js_routes.js'
+    output='js/routing.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% javascripts
         'bundles/bazingajstranslation/js/translator.min.js'
         'js/translations/config.js'
-        'js/translations/*/*.js' %}
+        'js/translations/*/*.js'
+        output='js/lang.js' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% javascripts
-    "../src/RFC/CoreBundle/Resources/views/twigjs/teamRegistration.html.twig"
-    "../src/RFC/CoreBundle/Resources/views/twigjs/userLink.html.twig"
-    filter="twig_js"%}
+        '../src/RFC/CoreBundle/Resources/views/twigjs/teamRegistration.html.twig'
+        '../src/RFC/CoreBundle/Resources/views/twigjs/userLink.html.twig'
+    filter="twig_js" output='js/templates.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
-<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-<script type="text/javascript"
-        src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>
 
 </body>
 </html>

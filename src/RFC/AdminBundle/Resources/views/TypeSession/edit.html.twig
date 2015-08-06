@@ -14,34 +14,35 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
-- {{ parent() }} {% endblock %} {% block rfccore_body %}
-<h1>Type Session edit</h1>
+{% extends "RFCCoreBundle::layout.html.twig" %}
+{% block title %} Admin - {{ parent() }} {% endblock %}
+{% block rfccore_body %}
 
-{{ form_start(edit_form) }}
+    <h1>Type Session edit</h1>
+
+    {{ form_start(edit_form) }}
     {{ form_errors(edit_form) }}
 
     {{ form_row(edit_form.name) }}
     {{ form_row(edit_form.description) }}
     {{ form_row(edit_form.usedForResults) }}
     {{ form_row(edit_form.commentsActive) }}
-    
+
     <h3>Images</h3>
     <ul class="images" data-prototype="{{ form_widget(edit_form.listImages.vars.prototype)|e }}">
         {# itère sur chaque image existantz et affiche ses champs #}
         {% for image in edit_form.listImages %}
             <li>{{ form_row(image.name) }}
-            {{ form_row(image.description) }}
-            {{ form_row(image.url) }}
-            {{ form_row(image.alt) }}</li>
+                {{ form_row(image.description) }}
+                {{ form_row(image.url) }}
+                {{ form_row(image.alt) }}</li>
         {% endfor %}
     </ul>
 
-{{ form_end(edit_form) }}
+    {{ form_end(edit_form) }}
 
-<ul class="record_actions">
-	<li><a href="{{ path('admin_typeSession', {'gameId' : gameId}) }}">
-			Back to the list </a></li>
-	<li>{{ form(delete_form) }}</li>
-</ul>
+    <a href="{{ path('rfcCore_gameParameters', {'gameId' : gameId}) }}#/sessiontypes"> Back to the list </a>
+
+    {{ form(delete_form) }}
+
 {% endblock %}

@@ -41,11 +41,11 @@ class RuleController extends RFCController
         ));
 
         return $this->render('RFCAdminBundle:Rule:index.html.twig',
-                array(
+            array(
                 'rules' => $rules,
                 'metaRuleId' => null,
                 'gameId' => $gameId
-        ));
+            ));
     }
 
     /**
@@ -54,7 +54,7 @@ class RuleController extends RFCController
     public function createAction(Request $request, $gameId)
     {
         $entity = new Rule();
-        $form   = $this->createCreateForm($entity, $gameId);
+        $form = $this->createCreateForm($entity, $gameId);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -62,18 +62,17 @@ class RuleController extends RFCController
             $entityManager->persist($entity);
             $entityManager->flush();
 
-            return $this->redirect($this->generateUrl('admin_metaRule',
-                        array(
-                        'gameId' => $gameId
-            )));
+            return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
+                    'gameId' => $gameId,
+                )) . '#/rules');
         }
 
         return $this->render('RFCAdminBundle:Rule:new.html.twig',
-                array(
+            array(
                 'entity' => $entity,
                 'form' => $form->createView(),
                 'gameId' => $gameId
-        ));
+            ));
     }
 
     /**
@@ -81,26 +80,26 @@ class RuleController extends RFCController
      *
      * @param Rule $entity
      *            The entity
-     *            
+     *
      * @return Form The form
      */
     private function createCreateForm(Rule $entity, $gameId)
     {
         $form = $this->createForm(new RuleType($gameId), $entity,
             array(
-            'em' => $this->getDoctrine()
-                ->getManager(),
-            'action' => $this->generateUrl('admin_rule_create',
-                array(
-                'gameId' => $gameId
-            )),
-            'method' => 'POST'
-        ));
+                'em' => $this->getDoctrine()
+                    ->getManager(),
+                'action' => $this->generateUrl('admin_rule_create',
+                    array(
+                        'gameId' => $gameId
+                    )),
+                'method' => 'POST'
+            ));
 
         $form->add('submit', 'submit',
             array(
-            'label' => 'Create'
-        ));
+                'label' => 'Create'
+            ));
 
         return $form;
     }
@@ -110,18 +109,18 @@ class RuleController extends RFCController
      */
     public function newAction($gameId)
     {
-        $entity        = new Rule();
+        $entity = new Rule();
         $entityManager = $this->getDoctrine()->getManager();
-        $entityGame    = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
+        $entityGame = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         $entity->setGame($entityGame);
-        $form          = $this->createCreateForm($entity, $gameId);
+        $form = $this->createCreateForm($entity, $gameId);
 
         return $this->render('RFCAdminBundle:Rule:new.html.twig',
-                array(
+            array(
                 'entity' => $entity,
                 'form' => $form->createView(),
                 'gameId' => $gameId
-        ));
+            ));
     }
 
     /**
@@ -140,11 +139,11 @@ class RuleController extends RFCController
         $deleteForm = $this->createDeleteForm($ruleId, $gameId);
 
         return $this->render('RFCAdminBundle:Rule:show.html.twig',
-                array(
+            array(
                 'entity' => $entity,
                 'delete_form' => $deleteForm->createView(),
                 'gameId' => $gameId
-        ));
+            ));
     }
 
     /**
@@ -160,16 +159,16 @@ class RuleController extends RFCController
             throw $this->createNotFoundException('Unable to find Rule entity.');
         }
 
-        $editForm   = $this->createEditForm($entity, $gameId);
+        $editForm = $this->createEditForm($entity, $gameId);
         $deleteForm = $this->createDeleteForm($ruleId, $gameId);
 
         return $this->render('RFCAdminBundle:Rule:edit.html.twig',
-                array(
+            array(
                 'entity' => $entity,
                 'gameId' => $gameId,
                 'edit_form' => $editForm->createView(),
                 'delete_form' => $deleteForm->createView()
-        ));
+            ));
     }
 
     /**
@@ -177,27 +176,27 @@ class RuleController extends RFCController
      *
      * @param Rule $entity
      *            The entity
-     *            
+     *
      * @return Form The form
      */
     private function createEditForm(Rule $entity, $gameId)
     {
         $form = $this->createForm(new RuleType($gameId), $entity,
             array(
-            'em' => $this->getDoctrine()
-                ->getManager(),
-            'action' => $this->generateUrl('admin_rule_update',
-                array(
-                'ruleId' => $entity->getId(),
-                'gameId' => $gameId
-            )),
-            'method' => 'PUT'
-        ));
+                'em' => $this->getDoctrine()
+                    ->getManager(),
+                'action' => $this->generateUrl('admin_rule_update',
+                    array(
+                        'ruleId' => $entity->getId(),
+                        'gameId' => $gameId
+                    )),
+                'method' => 'PUT'
+            ));
 
         $form->add('submit', 'submit',
             array(
-            'label' => 'Update'
-        ));
+                'label' => 'Update'
+            ));
 
         return $form;
     }
@@ -216,25 +215,24 @@ class RuleController extends RFCController
         }
 
         $deleteForm = $this->createDeleteForm($ruleId, $gameId);
-        $editForm   = $this->createEditForm($entity, $gameId);
+        $editForm = $this->createEditForm($entity, $gameId);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $entityManager->flush();
 
-            return $this->redirect($this->generateUrl('admin_metaRule',
-                        array(
-                        'gameId' => $gameId
-            )));
+            return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
+                    'gameId' => $gameId,
+                )) . '#/rules');
         }
 
         return $this->render('RFCAdminBundle:Rule:edit.html.twig',
-                array(
+            array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
                 'delete_form' => $deleteForm->createView(),
                 'gameId' => $gameId
-        ));
+            ));
     }
 
     /**
@@ -247,7 +245,7 @@ class RuleController extends RFCController
 
         if ($form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entity        = $entityManager->getRepository('RFCCoreBundle:Rule')->find($ruleId);
+            $entity = $entityManager->getRepository('RFCCoreBundle:Rule')->find($ruleId);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Rule entity.');
@@ -257,10 +255,9 @@ class RuleController extends RFCController
             $entityManager->flush();
         }
 
-        return $this->redirect($this->generateUrl('admin_rule',
-                    array(
-                    'gameId' => $gameId
-        )));
+        return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
+                'gameId' => $gameId,
+            )) . '#/rules');
     }
 
     /**
@@ -268,23 +265,23 @@ class RuleController extends RFCController
      *
      * @param mixed $ruleId
      *            The entity id
-     *            
+     *
      * @return Form The form
      */
     private function createDeleteForm($ruleId, $gameId)
     {
         return $this->createFormBuilder()
-                ->setAction($this->generateUrl('admin_rule_delete',
-                        array(
-                        'ruleId' => $ruleId,
-                        'gameId' => $gameId
+            ->setAction($this->generateUrl('admin_rule_delete',
+                array(
+                    'ruleId' => $ruleId,
+                    'gameId' => $gameId
                 )))
-                ->setMethod('DELETE')
-                ->add('submit', 'submit',
-                    array(
+            ->setMethod('DELETE')
+            ->add('submit', 'submit',
+                array(
                     'label' => 'Delete'
                 ))
-                ->getForm();
+            ->getForm();
     }
 
     public function searchAction(Request $request)
@@ -292,20 +289,20 @@ class RuleController extends RFCController
         if ($request->isMethod('POST')) {
             $params = \json_decode($request->getContent(), true);
 
-            $gameId     = $params ['gameId'];
+            $gameId = $params ['gameId'];
             $metaRuleId = $params ['metaRuleId'];
 
             $rules = $this->getDoctrine()->getManager()
-                    ->getRepository('RFCCoreBundle:Rule')->getForMetaRule($metaRuleId);
+                ->getRepository('RFCCoreBundle:Rule')->getForMetaRule($metaRuleId);
 
             $metaRule = $this->getDoctrine()->getManager()->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
 
             return $this->render('RFCAdminBundle:Rule:affectMetaRule.html.twig',
-                    array(
+                array(
                     'gameId' => $gameId,
                     'rules' => $rules,
                     'metaRule' => $metaRule
-            ));
+                ));
         }
     }
 }

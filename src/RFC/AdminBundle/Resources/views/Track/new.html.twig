@@ -14,32 +14,32 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% extends "RFCAdminBundle::layout.html.twig" %} {% block title %} Admin
-- {{ parent() }} {% endblock %} {% block rfccore_body %}
-<h1>Track creation</h1>
+{% extends "RFCCoreBundle::layout.html.twig" %}
+{% block title %} Admin - {{ parent() }} {% endblock %}
+{% block rfccore_body %}
 
-{{ form_start(form) }}
+    <h1>Track creation</h1>
+
+    {{ form_start(form) }}
     {{ form_errors(form) }}
 
     {{ form_row(form.name) }}
     {{ form_row(form.description) }}
     {{ form_row(form.commentsActive) }}
-    
+
     <h3>Images</h3>
     <ul class="images" data-prototype="{{ form_widget(form.listImages.vars.prototype)|e }}">
         {# itère sur chaque image existantz et affiche ses champs #}
         {% for image in form.listImages %}
             <li>{{ form_row(image.name) }}
-            {{ form_row(image.description) }}
-            {{ form_row(image.url) }}
-            {{ form_row(image.alt) }}</li>
+                {{ form_row(image.description) }}
+                {{ form_row(image.url) }}
+                {{ form_row(image.alt) }}</li>
         {% endfor %}
     </ul>
 
-{{ form_end(form) }}
+    {{ form_end(form) }}
 
-<ul class="record_actions">
-	<li><a href="{{ path('admin_track', {'gameId' : gameId}) }}"> Back to
-			the list </a></li>
-</ul>
+    <a href="{{ path('rfcCore_gameParameters', {'gameId' : gameId}) }}#/tracks"> Back to the list </a>
+
 {% endblock %}

@@ -1,3 +1,19 @@
+Twig.setFilter("trans", function(id, params, domain, locale) {
+
+    params = params || {};
+
+    // normalizes params (removes placeholder prefixes and suffixes)
+    for (var key in params) {
+        if (params.hasOwnProperty(key) &&
+            key[0] == Translator.placeHolderPrefix &&
+            key[key.length - 1] == Translator.placeHolderSuffix) {
+            params[key.substr(1,key.length-2)] = params[key];
+            delete params[key];
+        }
+    }
+
+    return Translator.trans(id, params, domain, locale);
+});
 // --------------------------------------------
 // ----------------- Variables
 // --------------------------------------------
@@ -1085,7 +1101,9 @@ $('.sidebar.comments').sidebar('setting', {
 });
 
 $('.uiTabs .menu .item').tab({
-    alwaysRefresh: true
+    alwaysRefresh: true,
+    history: true,
+    historyType: 'hash'
 });
 
 //------------------- Championship creation 

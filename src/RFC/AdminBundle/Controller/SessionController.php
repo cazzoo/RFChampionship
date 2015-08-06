@@ -47,12 +47,10 @@ class SessionController extends RFCController
             $entityManager->persist($entity);
             $entityManager->flush();
 
-            return $this->redirect($this->generateUrl('admin_championship_show',
+            return $this->redirect($this->generateUrl('rfcCore_championships_show',
                         array(
-                        'sessionId' => $entity->getId(),
                         'gameId' => $gameId,
-                        'championshipId' => $championshipId,
-                        'eventId' => $eventId
+                        'championshipId' => $championshipId
             )));
         }
 
@@ -230,12 +228,10 @@ class SessionController extends RFCController
         if ($editForm->isValid()) {
             $entityManager->flush();
 
-            return $this->redirect($this->generateUrl('admin_championship_show',
+            return $this->redirect($this->generateUrl('rfcCore_championships_show',
                         array(
-                        'sessionId' => $entity->getId(),
                         'gameId' => $gameId,
-                        'championshipId' => $championshipId,
-                        'eventId' => $eventId
+                        'championshipId' => $championshipId
             )));
         }
 
@@ -272,11 +268,10 @@ class SessionController extends RFCController
             $entityManager->flush();
         }
 
-        return $this->redirect($this->generateUrl('admin_session'),
+        return $this->redirect($this->generateUrl('rfcCore_championships_show'),
                 array(
                 'gameId' => $gameId,
-                'championshipId' => $championshipId,
-                'eventId' => $eventId
+                'championshipId' => $championshipId
         ));
     }
 

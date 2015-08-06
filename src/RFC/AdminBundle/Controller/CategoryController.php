@@ -73,9 +73,9 @@ class CategoryController extends RFCController
             $entityManager->persist($entity);
             $entityManager->flush();
             
-            return $this->redirect($this->generateUrl('admin_category', array(
+            return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
 	            'gameId' => $gameId,
-            )));
+            )) . '#/categories');
         }
         
         return $this->render('RFCAdminBundle:Category:new.html.twig', array(
@@ -221,9 +221,9 @@ class CategoryController extends RFCController
         if ($editForm->isValid()) {
             $entityManager->flush();
             
-            return $this->redirect($this->generateUrl('admin_category', array(
+            return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
 	            'gameId' => $gameId,
-            )));
+            )) . '#/categories');
         }
         
         return $this->render('RFCAdminBundle:Category:edit.html.twig', array(
@@ -253,10 +253,10 @@ class CategoryController extends RFCController
             $entityManager->remove($entity);
             $entityManager->flush();
         }
-        
-        return $this->redirect($this->generateUrl('admin_category', array(
-            'gameId' => $gameId
-        )));
+
+        return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
+                'gameId' => $gameId,
+            )) . '#/categories');
     }
 
     /**

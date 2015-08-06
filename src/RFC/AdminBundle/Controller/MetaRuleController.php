@@ -36,7 +36,7 @@ class MetaRuleController extends RFCController
     public function indexAction($gameId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        
+
         $metaRules = $entityManager->getRepository('RFCCoreBundle:MetaRule')->findBy(array(
             'game' => $gameId
         ));
@@ -44,20 +44,20 @@ class MetaRuleController extends RFCController
             'game' => $gameId
         ), array(
             'typeSession' => 'ASC',
-        	'value' => 'DESC'
+            'value' => 'DESC'
         ));
-        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
-        
+        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' => $gameId));
+
         // Ajout du jeu sélectionné
         $menu = $this->get('rfc_admin.menu.breadcrumb');
         $menu->addChild($game->getName())
             ->setUri($this->get("router")
-            ->generate('admin_game_manage', array(
-            'gameId' => $gameId
-        )));
+                ->generate('admin_game_manage', array(
+                    'gameId' => $gameId
+                )));
         $manipulator = new MenuManipulator();
         $manipulator->moveToPosition($menu->getChild($game->getName()), 1);
-        
+
         return $this->render('RFCAdminBundle:MetaRule:index.html.twig', array(
             'metaRules' => $metaRules,
             'rules' => $rules,
@@ -74,17 +74,17 @@ class MetaRuleController extends RFCController
         $entity = new MetaRule();
         $form = $this->createCreateForm($entity, $gameId);
         $form->handleRequest($request);
-        
+
         if ($form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($entity);
             $entityManager->flush();
-            
-            return $this->redirect($this->generateUrl('admin_metaRule', array(
-                'gameId' => $gameId
-            )));
+
+            return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
+                    'gameId' => $gameId,
+                )) . '#/metarules');
         }
-        
+
         return $this->render('RFCAdminBundle:MetaRule:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
@@ -97,7 +97,7 @@ class MetaRuleController extends RFCController
      *
      * @param MetaRule $entity
      *            The entity
-     *            
+     *
      * @return Form The form
      */
     private function createCreateForm(MetaRule $entity, $gameId)
@@ -110,11 +110,11 @@ class MetaRuleController extends RFCController
             )),
             'method' => 'POST'
         ));
-        
+
         $form->add('submit', 'submit', array(
             'label' => 'Create'
         ));
-        
+
         return $form;
     }
 
@@ -128,7 +128,7 @@ class MetaRuleController extends RFCController
         $entityGame = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         $entity->setGame($entityGame);
         $form = $this->createCreateForm($entity, $gameId);
-        
+
         return $this->render('RFCAdminBundle:MetaRule:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
@@ -142,15 +142,15 @@ class MetaRuleController extends RFCController
     public function showAction($metaRuleId, $gameId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        
+
         $entity = $entityManager->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
-        
-        if (! $entity) {
+
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find MetaRule entity.');
         }
-        
+
         $deleteForm = $this->createDeleteForm($metaRuleId, $gameId);
-        
+
         return $this->render('RFCAdminBundle:MetaRule:show.html.twig', array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
@@ -164,16 +164,16 @@ class MetaRuleController extends RFCController
     public function editAction($metaRuleId, $gameId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        
+
         $entity = $entityManager->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
-        
-        if (! $entity) {
+
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find MetaRule entity.');
         }
-        
+
         $editForm = $this->createEditForm($entity, $gameId);
         $deleteForm = $this->createDeleteForm($metaRuleId, $gameId);
-        
+
         return $this->render('RFCAdminBundle:MetaRule:edit.html.twig', array(
             'entity' => $entity,
             'gameId' => $gameId,
@@ -187,7 +187,7 @@ class MetaRuleController extends RFCController
      *
      * @param MetaRule $entity
      *            The entity
-     *            
+     *
      * @return Form The form
      */
     private function createEditForm(MetaRule $entity, $gameId)
@@ -201,11 +201,11 @@ class MetaRuleController extends RFCController
             )),
             'method' => 'PUT'
         ));
-        
+
         $form->add('submit', 'submit', array(
             'label' => 'Update'
         ));
-        
+
         return $form;
     }
 
@@ -215,25 +215,25 @@ class MetaRuleController extends RFCController
     public function updateAction(Request $request, $metaRuleId, $gameId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        
+
         $entity = $entityManager->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
-        
-        if (! $entity) {
+
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find MetaRule entity.');
         }
-        
+
         $deleteForm = $this->createDeleteForm($metaRuleId, $gameId);
         $editForm = $this->createEditForm($entity, $gameId);
         $editForm->handleRequest($request);
-        
+
         if ($editForm->isValid()) {
             $entityManager->flush();
-            
-            return $this->redirect($this->generateUrl('admin_metaRule', array(
-                'gameId' => $gameId
-            )));
+
+            return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
+                    'gameId' => $gameId,
+                )) . '#/metarules');
         }
-        
+
         return $this->render('RFCAdminBundle:MetaRule:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
@@ -249,22 +249,22 @@ class MetaRuleController extends RFCController
     {
         $form = $this->createDeleteForm($metaRuleId, $gameId);
         $form->handleRequest($request);
-        
+
         if ($form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entity = $entityManager->getRepository('RFCCoreBundle:MetaRule')->find($metaRuleId);
-            
-            if (! $entity) {
+
+            if (!$entity) {
                 throw $this->createNotFoundException('Unable to find MetaRule entity.');
             }
-            
+
             $entityManager->remove($entity);
             $entityManager->flush();
         }
-        
-        return $this->redirect($this->generateUrl('admin_metaRule', array(
-            'gameId' => $gameId
-        )));
+
+        return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
+                'gameId' => $gameId,
+            )) . '#/metarules');
     }
 
     /**
@@ -272,20 +272,20 @@ class MetaRuleController extends RFCController
      *
      * @param mixed $metaRuleId
      *            The entity id
-     *            
+     *
      * @return Form The form
      */
     private function createDeleteForm($metaRuleId, $gameId)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_metaRule_delete', array(
-            'metaRuleId' => $metaRuleId,
-            'gameId' => $gameId
-        )))
+                'metaRuleId' => $metaRuleId,
+                'gameId' => $gameId
+            )))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array(
-            'label' => 'Delete'
-        ))
+                'label' => 'Delete'
+            ))
             ->getForm();
     }
 }

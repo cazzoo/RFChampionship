@@ -14,19 +14,19 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% extends 'RFCAdminBundle::layout.html.twig' %}
+{% extends 'RFCCoreBundle::layout.html.twig' %}
 
-{% block body -%}
+{% block title %} Admin - {{ parent() }} {% endblock %}
+{% block rfccore_body %}
+
     <h1>Event edit</h1>
 
     {{ form(edit_form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_event', { 'gameId': gameId, 'championshipId' : championshipId }) }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    <a href="{{ path('rfcCore_championships_show', { 'gameId': gameId, 'championshipId' : championshipId }) }}">
+        Back to the championship
+    </a>
+
+    {{ form(delete_form) }}
+
 {% endblock %}

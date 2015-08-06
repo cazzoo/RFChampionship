@@ -105,7 +105,7 @@ class ChampionshipController extends RFCController
             $entityManager->persist($entity);
             $entityManager->flush();
 
-            return $this->redirect($this->generateUrl('admin_championship_show',
+            return $this->redirect($this->generateUrl('rfcCore_championships_show',
                         array(
                         'championshipId' => $entity->getId(),
                         'gameId' => $gameId
@@ -268,7 +268,7 @@ class ChampionshipController extends RFCController
         if ($editForm->isValid()) {
             $entityManager->flush();
 
-            return $this->redirect($this->generateUrl('admin_championship_show',
+            return $this->redirect($this->generateUrl('rfcCore_championships_show',
                         array(
                         'championshipId' => $championshipId,
                         'gameId' => $gameId
@@ -304,7 +304,7 @@ class ChampionshipController extends RFCController
             $entityManager->flush();
         }
 
-        return $this->redirect($this->generateUrl('admin_championship',
+        return $this->redirect($this->generateUrl('rfcCore_gameSelection',
                     array(
                     'gameId' => $gameId
         )));

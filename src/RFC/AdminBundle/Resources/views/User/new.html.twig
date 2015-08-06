@@ -14,13 +14,14 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% extends "RFCAdminBundle::layout.html.twig" %} {% block title %} Admin
-- {{ parent() }} {% endblock %} {% block rfccore_body %}
-<h1>User creation</h1>
+{% extends "RFCCoreBundle::layout.html.twig" %}
+{% block title %} Admin - {{ parent() }} {% endblock %}
+{% block rfccore_body %}
 
-{{ form(form) }}
+    <h1>User creation</h1>
 
-<ul class="record_actions">
-	<li><a href="{{ path('admin_user') }}"> Back to the list </a></li>
-</ul>
+    {{ form(form) }}
+
+    <a href="{{ path('rfcCore_members') }}"> Back to the list </a>
+
 {% endblock %}

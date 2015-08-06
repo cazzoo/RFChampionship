@@ -36,22 +36,22 @@ class TypeSessionController extends RFCController
     public function indexAction($gameId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        
+
         $typeSessions = $entityManager->getRepository('RFCCoreBundle:TypeSession')->findBy(array(
             'game' => $gameId
         ));
-        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
-        
+        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' => $gameId));
+
         // Ajout du jeu sélectionné
         $menu = $this->get('rfc_admin.menu.breadcrumb');
         $menu->addChild($game->getName())
             ->setUri($this->get("router")
-            ->generate('admin_game_manage', array(
-            'gameId' => $gameId
-        )));
+                ->generate('admin_game_manage', array(
+                    'gameId' => $gameId
+                )));
         $manipulator = new MenuManipulator();
         $manipulator->moveToPosition($menu->getChild($game->getName()), 1);
-        
+
         return $this->render('RFCAdminBundle:TypeSession:index.html.twig', array(
             'typeSessions' => $typeSessions,
             'gameId' => $gameId,
@@ -67,17 +67,17 @@ class TypeSessionController extends RFCController
         $entity = new TypeSession();
         $form = $this->createCreateForm($entity, $gameId);
         $form->handleRequest($request);
-        
+
         if ($form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($entity);
             $entityManager->flush();
-            
-            return $this->redirect($this->generateUrl('admin_typeSession', array(
-	            'gameId' => $gameId
-            )));
+
+            return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
+                    'gameId' => $gameId,
+                )) . '#/sessiontypes');
         }
-        
+
         return $this->render('RFCAdminBundle:TypeSession:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
@@ -90,7 +90,7 @@ class TypeSessionController extends RFCController
      *
      * @param TypeSession $entity
      *            The entity
-     *            
+     *
      * @return Form The form
      */
     private function createCreateForm(TypeSession $entity, $gameId)
@@ -103,11 +103,11 @@ class TypeSessionController extends RFCController
             )),
             'method' => 'POST'
         ));
-        
+
         $form->add('submit', 'submit', array(
             'label' => 'Create'
         ));
-        
+
         return $form;
     }
 
@@ -121,7 +121,7 @@ class TypeSessionController extends RFCController
         $entityGame = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
         $entity->setGame($entityGame);
         $form = $this->createCreateForm($entity, $gameId);
-        
+
         return $this->render('RFCAdminBundle:TypeSession:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
@@ -135,15 +135,15 @@ class TypeSessionController extends RFCController
     public function showAction($typeSessionId, $gameId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        
+
         $entity = $entityManager->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
-        
-        if (! $entity) {
+
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find TypeSession entity.');
         }
-        
+
         $deleteForm = $this->createDeleteForm($typeSessionId, $gameId);
-        
+
         return $this->render('RFCAdminBundle:TypeSession:show.html.twig', array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
@@ -157,16 +157,16 @@ class TypeSessionController extends RFCController
     public function editAction($typeSessionId, $gameId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        
+
         $entity = $entityManager->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
-        
-        if (! $entity) {
+
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find TypeSession entity.');
         }
-        
+
         $editForm = $this->createEditForm($entity, $gameId);
         $deleteForm = $this->createDeleteForm($typeSessionId, $gameId);
-        
+
         return $this->render('RFCAdminBundle:TypeSession:edit.html.twig', array(
             'entity' => $entity,
             'gameId' => $gameId,
@@ -180,7 +180,7 @@ class TypeSessionController extends RFCController
      *
      * @param TypeSession $entity
      *            The entity
-     *            
+     *
      * @return Form The form
      */
     private function createEditForm(TypeSession $entity, $gameId)
@@ -194,11 +194,11 @@ class TypeSessionController extends RFCController
             )),
             'method' => 'PUT'
         ));
-        
+
         $form->add('submit', 'submit', array(
             'label' => 'Update'
         ));
-        
+
         return $form;
     }
 
@@ -208,25 +208,25 @@ class TypeSessionController extends RFCController
     public function updateAction(Request $request, $typeSessionId, $gameId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        
+
         $entity = $entityManager->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
-        
-        if (! $entity) {
+
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find TypeSession entity.');
         }
-        
+
         $deleteForm = $this->createDeleteForm($typeSessionId, $gameId);
         $editForm = $this->createEditForm($entity, $gameId);
         $editForm->handleRequest($request);
-        
+
         if ($editForm->isValid()) {
             $entityManager->flush();
-            
-            return $this->redirect($this->generateUrl('admin_typeSession', array(
-                'gameId' => $gameId
-            )));
+
+            return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
+                    'gameId' => $gameId,
+                )) . '#/sessiontypes');
         }
-        
+
         return $this->render('RFCAdminBundle:TypeSession:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
@@ -242,22 +242,22 @@ class TypeSessionController extends RFCController
     {
         $form = $this->createDeleteForm($typeSessionId, $gameId);
         $form->handleRequest($request);
-        
+
         if ($form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entity = $entityManager->getRepository('RFCCoreBundle:TypeSession')->find($typeSessionId);
-            
-            if (! $entity) {
+
+            if (!$entity) {
                 throw $this->createNotFoundException('Unable to find TypeSession entity.');
             }
-            
+
             $entityManager->remove($entity);
             $entityManager->flush();
         }
-        
-        return $this->redirect($this->generateUrl('admin_typeSession', array(
-            'gameId' => $gameId
-        )));
+
+        return $this->redirect($this->generateUrl('rfcCore_gameParameters', array(
+                'gameId' => $gameId,
+            )) . '#/sessiontypes');
     }
 
     /**
@@ -265,20 +265,20 @@ class TypeSessionController extends RFCController
      *
      * @param mixed $typeSessionId
      *            The entity id
-     *            
+     *
      * @return Form The form
      */
     private function createDeleteForm($typeSessionId, $gameId)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_typeSession_delete', array(
-            'typeSessionId' => $typeSessionId,
-            'gameId' => $gameId
-        )))
+                'typeSessionId' => $typeSessionId,
+                'gameId' => $gameId
+            )))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array(
-            'label' => 'Delete'
-        ))
+                'label' => 'Delete'
+            ))
             ->getForm();
     }
 }
