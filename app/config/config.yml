@@ -75,6 +75,7 @@ stof_doctrine_extensions:
     orm:
         default:
             timestampable: true
+            uploadable: true
             
 fos_user:
     db_driver:     orm                        

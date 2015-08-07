@@ -43,9 +43,9 @@ class GameController extends RFCController
         $entities = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
 
         return $this->render('RFCAdminBundle:Game:index.html.twig',
-                array(
+            array(
                 'games' => $entities
-        ));
+            ));
     }
 
     /**
@@ -53,27 +53,35 @@ class GameController extends RFCController
      */
     public function createAction(Request $request)
     {
-        $entity        = new Game();
+        $entity = new Game();
         $updatedEntity = $this->addDefaultProperties($entity);
-        $form          = $this->createCreateForm($updatedEntity);
+        $form = $this->createCreateForm($updatedEntity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($updatedEntity);
+
+            $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
+
+            // Here, "getMyFile" returns the "UploadedFile" instance that the form bound in your $myFile property
+            foreach ($updatedEntity->getListImages() as $image) {
+                $uploadableManager->markEntityToUpload($updatedEntity, $image);
+            }
+
             $entityManager->flush();
 
             return $this->redirect($this->generateUrl('admin_game_manage',
-                        array(
-                        'gameId' => $updatedEntity->getId()
-            )));
+                array(
+                    'gameId' => $updatedEntity->getId()
+                )));
         }
 
         return $this->render('RFCAdminBundle:Game:new.html.twig',
-                array(
+            array(
                 'entity' => $updatedEntity,
                 'form' => $form->createView()
-        ));
+            ));
     }
 
     /**
@@ -102,16 +110,16 @@ class GameController extends RFCController
      *
      * @param Game $entity
      *            The entity
-     *            
+     *
      * @return Form The form
      */
     private function createCreateForm(Game $entity)
     {
         $form = $this->createForm(new GameType(), $entity,
             array(
-            'action' => $this->generateUrl('admin_game_create'),
-            'method' => 'POST'
-        ));
+                'action' => $this->generateUrl('admin_game_create'),
+                'method' => 'POST'
+            ));
 
         return $form;
     }
@@ -126,10 +134,10 @@ class GameController extends RFCController
         $form = $this->createCreateForm($entity);
 
         return $this->render('RFCAdminBundle:Game:new.html.twig',
-                array(
+            array(
                 'entity' => $entity,
                 'form' => $form->createView()
-        ));
+            ));
     }
 
     /**
@@ -148,10 +156,10 @@ class GameController extends RFCController
         $deleteForm = $this->createDeleteForm($gameId);
 
         return $this->render('RFCAdminBundle:Game:show.html.twig',
-                array(
+            array(
                 'entity' => $entity,
                 'delete_form' => $deleteForm->createView()
-        ));
+            ));
     }
 
     /**
@@ -167,15 +175,15 @@ class GameController extends RFCController
             throw $this->createNotFoundException('Unable to find Game entity.');
         }
 
-        $editForm   = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($gameId);
 
         return $this->render('RFCAdminBundle:Game:edit.html.twig',
-                array(
+            array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
                 'delete_form' => $deleteForm->createView()
-        ));
+            ));
     }
 
     /**
@@ -183,19 +191,19 @@ class GameController extends RFCController
      *
      * @param Game $entity
      *            The entity
-     *            
+     *
      * @return Form The form
      */
     private function createEditForm(Game $entity)
     {
         $form = $this->createForm(new GameType(), $entity,
             array(
-            'action' => $this->generateUrl('admin_game_update',
-                array(
-                'gameId' => $entity->getId()
-            )),
-            'method' => 'PUT'
-        ));
+                'action' => $this->generateUrl('admin_game_update',
+                    array(
+                        'gameId' => $entity->getId()
+                    )),
+                'method' => 'PUT'
+            ));
 
         return $form;
     }
@@ -214,24 +222,32 @@ class GameController extends RFCController
         }
 
         $deleteForm = $this->createDeleteForm($gameId);
-        $editForm   = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+
+            $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
+
+            // Here, "getMyFile" returns the "UploadedFile" instance that the form bound in your $myFile property
+            foreach ($entity->getListImages() as $image) {
+                $uploadableManager->markEntityToUpload($entity, $image);
+            }
+
             $entityManager->flush();
 
             return $this->redirect($this->generateUrl('admin_game_manage',
-                        array(
-                        'gameId' => $gameId
-            )));
+                array(
+                    'gameId' => $gameId
+                )));
         }
 
         return $this->render('RFCAdminBundle:Game:edit.html.twig',
-                array(
+            array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
                 'delete_form' => $deleteForm->createView()
-        ));
+            ));
     }
 
     /**
@@ -244,7 +260,7 @@ class GameController extends RFCController
 
         if ($form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entity        = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
+            $entity = $entityManager->getRepository('RFCCoreBundle:Game')->find($gameId);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Game entity.');
@@ -262,22 +278,22 @@ class GameController extends RFCController
      *
      * @param mixed $gameId
      *            The entity id
-     *            
+     *
      * @return Form The form
      */
     private function createDeleteForm($gameId)
     {
         return $this->createFormBuilder()
-                ->setAction($this->generateUrl('admin_game_delete',
-                        array(
-                        'gameId' => $gameId
+            ->setAction($this->generateUrl('admin_game_delete',
+                array(
+                    'gameId' => $gameId
                 )))
-                ->setMethod('DELETE')
-                ->add('submit', 'submit',
-                    array(
+            ->setMethod('DELETE')
+            ->add('submit', 'submit',
+                array(
                     'label' => 'Delete'
                 ))
-                ->getForm();
+            ->getForm();
     }
 
     public function manageAction($gameId)
@@ -291,20 +307,20 @@ class GameController extends RFCController
         }
 
         // Ajout du jeu sélectionné
-        $menu        = $this->get('rfc_admin.menu.breadcrumb');
+        $menu = $this->get('rfc_admin.menu.breadcrumb');
         $menu->addChild($game->getName())
             ->setUri($this->get("router")
                 ->generate('admin_game_manage',
                     array(
-                    'gameId' => $gameId
-            )))
+                        'gameId' => $gameId
+                    )))
             ->setCurrent(true);
         $manipulator = new MenuManipulator();
         $manipulator->moveToPosition($menu->getChild($game->getName()), 1);
 
         return $this->render('RFCAdminBundle:Game:manage.html.twig',
-                array(
+            array(
                 'game' => $game
-        ));
+            ));
     }
 }

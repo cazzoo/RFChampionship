@@ -17,7 +17,6 @@
 
 namespace RFC\CoreBundle\Entity;
 
-use \RFC\CoreBundle\Entity\Image;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
@@ -55,7 +54,7 @@ abstract class Descriptor
     protected $commentsActive;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\File", cascade={"persist"})
      */
     protected $listImages;
 

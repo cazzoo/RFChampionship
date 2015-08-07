@@ -907,23 +907,19 @@ $(function () {
         // ----------------- Image collection behiavior
         // --------------------------------------------
 
-        // ajoute un lien de suppression à tous les éléments li
-        // de
-        // formulaires de tag existants
+        // ajoute un lien de suppression à tous les éléments li de formulaires de tag existants
         collectionHolder.find('li').each(function () {
             addImageFormDeleteLink($(this));
         });
 
-        // ajoute l'ancre « ajouter un tag » et li à la balise
-        // ul
+        // ajoute l'ancre « ajouter un tag » et li à la balise ul
         collectionHolder.append($newLinkLi);
 
         $addImageLink.on('click', function (e) {
             // empêche le lien de créer un « # » dans l'URL
             e.preventDefault();
 
-            // ajoute un nouveau formulaire tag (voir le
-            // prochain bloc de code)
+            // ajoute un nouveau formulaire tag (voir le prochain bloc de code)
             addImageForm(collectionHolder, $newLinkLi);
         });
 
