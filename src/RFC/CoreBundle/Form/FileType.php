@@ -27,10 +27,12 @@ class FileType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text')
+        $builder->add('name')
             ->add('description', 'textarea', array('required' => false))
             ->add('path', 'file', array(
-                'data_class' => null
+                'required' => false,
+                'data_class' => null,
+                'mapped' => true
             ))
             ->add('commentsActive', 'checkbox', array('required' => false));
     }

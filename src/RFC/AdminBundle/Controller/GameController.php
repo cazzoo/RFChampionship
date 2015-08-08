@@ -229,7 +229,7 @@ class GameController extends RFCController
             $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
 
             foreach ($entity->getListImages() as $image) {
-                $uploadableManager->markEntityToUpload($image, $image);
+                $uploadableManager->markEntityToUpload($image, $image->getPath());
             }
 
             $entityManager->flush();

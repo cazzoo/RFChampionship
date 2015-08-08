@@ -67,9 +67,9 @@
         {% endif %}
     {% else %}
         {% if team.championship.isAfterEndDate %}
-            {{ core.championship.registration.championshipEnded|trans }}
+            {{ "core.championship.registration.championshipEnded"|trans }}
         {% elseif not registrationInProgress and team.championship.isAfterBeginDate %}
-            {{ core.championship.registration.championshipStarted|trans }}
+            {{ "core.championship.registration.championshipStarted"|trans }}
         {% endif %}
     {% endif %}
 {% else %}

@@ -35,10 +35,10 @@ class File extends Descriptor
     private $id;
 
     /**
-     * @ORM\Column(name="name", type="string", nullable=true)
+     * @ORM\Column(name="filename", type="string", nullable=true)
      * @Gedmo\UploadableFileName
      */
-    protected $name;
+    protected $filename;
 
     /**
      * @ORM\Column(name="path", type="string", nullable=true)
@@ -67,6 +67,28 @@ class File extends Descriptor
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * Set filename
+     *
+     * @return Descriptor
+     */
+    public function setFileName($filename)
+    {
+        $this->filename = $filename;
+
+        return $this;
     }
 
     /**

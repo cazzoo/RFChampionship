@@ -35,7 +35,8 @@
         {% for image in edit_form.listImages %}
             <li>{{ form_row(image.name) }}
                 {{ form_row(image.description) }}
-                {{ form_row(image.path) }}</li>
+                {{ dump(image) }}
+                {{ form_row(image) }}</li>
             {% endfor %}
     </ul>
 
