@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% extends "RFCCoreBundle::layout.html.twig" %}
+{% extends "RFCCoreBundle::layoutNoGame.html.twig" %}
 {% block title %}
     Admin - {{ parent() }}
 {% endblock %} 
@@ -41,6 +41,8 @@
     </ul>
 
     <input type="submit"/>
+
+    {{ form_rest(form) }}
 
     <a href="{{ path('admin_game') }}"> Back to the list </a>
 

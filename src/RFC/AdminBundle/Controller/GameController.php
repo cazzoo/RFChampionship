@@ -64,14 +64,13 @@ class GameController extends RFCController
 
             $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
 
-            // Here, "getMyFile" returns the "UploadedFile" instance that the form bound in your $myFile property
             foreach ($updatedEntity->getListImages() as $image) {
-                $uploadableManager->markEntityToUpload($updatedEntity, $image);
+                $uploadableManager->markEntityToUpload($image, $image->getPath());
             }
 
             $entityManager->flush();
 
-            return $this->redirect($this->generateUrl('admin_game_manage',
+            return $this->redirect($this->generateUrl('rfcCore_gameSelection',
                 array(
                     'gameId' => $updatedEntity->getId()
                 )));
@@ -229,14 +228,13 @@ class GameController extends RFCController
 
             $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
 
-            // Here, "getMyFile" returns the "UploadedFile" instance that the form bound in your $myFile property
             foreach ($entity->getListImages() as $image) {
-                $uploadableManager->markEntityToUpload($entity, $image);
+                $uploadableManager->markEntityToUpload($image, $image);
             }
 
             $entityManager->flush();
 
-            return $this->redirect($this->generateUrl('admin_game_manage',
+            return $this->redirect($this->generateUrl('rfcCore_gameSelection',
                 array(
                     'gameId' => $gameId
                 )));

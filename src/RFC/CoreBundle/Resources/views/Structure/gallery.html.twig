@@ -20,7 +20,8 @@
     <h4>{% trans %}Gallery{% endtrans %}</h4>
     <div id="gameSlideshow" class="camera_wrap">
         {% for image in listImages %}
-            <div data-src="{{ image.url }}">
+            {{ image.name }}
+            <div data-src="{{ image.path }}">
                 <div class="camera_caption">
                     <strong>{{image.name}}</strong> <br />
                     {{ image.description }}

@@ -19,7 +19,7 @@ namespace RFC\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 class FileType extends AbstractType
@@ -29,11 +29,13 @@ class FileType extends AbstractType
     {
         $builder->add('name', 'text')
             ->add('description', 'textarea', array('required' => false))
-            ->add('path', 'file')
+            ->add('path', 'file', array(
+                'data_class' => null
+            ))
             ->add('commentsActive', 'checkbox', array('required' => false));
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'RFC\CoreBundle\Entity\File',
