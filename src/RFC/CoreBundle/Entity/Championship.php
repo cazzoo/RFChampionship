@@ -124,11 +124,6 @@ class Championship extends KnowledgeData
         $this->listVehicles = new ArrayCollection();
     }
 
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
     /**
      * Get id
      *

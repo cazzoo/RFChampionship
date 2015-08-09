@@ -22,7 +22,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\HasLifecycleCallbacks()
  * @Gedmo\Uploadable(path="uploads/", filenameGenerator="SHA1", allowOverwrite=true)
  */
 class File extends Descriptor
@@ -38,7 +37,7 @@ class File extends Descriptor
      * @ORM\Column(name="filename", type="string", nullable=true)
      * @Gedmo\UploadableFileName
      */
-    protected $filename;
+    private $filename;
 
     /**
      * @ORM\Column(name="path", type="string", nullable=true)
@@ -57,6 +56,8 @@ class File extends Descriptor
      * @Gedmo\UploadableFileSize
      */
     private $size;
+
+    private $file;
 
 
     /**

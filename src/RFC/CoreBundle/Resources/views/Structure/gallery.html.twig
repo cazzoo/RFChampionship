@@ -17,16 +17,28 @@
 {# src/RFC/CoreBundle/Resources/views/Structure/gallery.html.twig #}
 
 {% if listImages is not empty %}
-    <h4>{% trans %}Gallery{% endtrans %}</h4>
-    <div id="gameSlideshow" class="camera_wrap">
-        {% for image in listImages %}
-            {{ image.name }}
-            <div data-src="{{ image.path }}">
-                <div class="camera_caption">
-                    <strong>{{image.name}}</strong> <br />
-                    {{ image.description }}
+
+    <div class="ui black center aligned segment">
+
+        <div class="ui header">{% trans %}Gallery{% endtrans %}</div>
+
+        <div class="owl-carousel">
+
+            {% for image in listImages %}
+                <div>
+                    {{ image.name }}
+                    <img class="ui image" src="/{{ image.path }}">
+
+                    {% if image.description %}
+                        <div class="ui bottom attached label">
+                            {{ image.description }}
+                        </div>
+                    {% endif %}
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+
+        </div>
+
     </div>
+
 {% endif %}

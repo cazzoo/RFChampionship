@@ -47,11 +47,6 @@ class Category extends KnowledgeData
      */
     private $listVehicles;
 
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
     /**
      * Constructor
      */

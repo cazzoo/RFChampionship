@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% extends "RFCCoreBundle::layout.html.twig" %}
+{% extends "RFCCoreBundle::layoutNoGame.html.twig" %}
 {% block title %}
     Admin - {{ parent() }}
 {% endblock %} 
@@ -31,20 +31,25 @@
 
     <h3>Images</h3>
     <ul class="images" data-prototype="{{ form_widget(edit_form.listImages.vars.prototype)|e }}">
-        {# itère sur chaque image existantz et affiche ses champs #}
         {% for image in edit_form.listImages %}
-            <li>{{ form_row(image.name) }}
+            <li>
+                {{ form_row(image.name) }}
                 {{ form_row(image.description) }}
-                {{ dump(image) }}
-                {{ form_row(image) }}</li>
-            {% endfor %}
+                {% if image.path.vars.data.path is defined %}
+                    <img src="{{ image.path.vars.data.path }}">
+                {% endif %}
+                {{ form_row(image.path) }}
+                {{ form_row(image.commentsActive) }}
+            </li>
+        {% endfor %}
     </ul>
 
-    <input type="submit" />
+    <input type="submit"/>
+
     {{ form_end(edit_form) }}
 
-    <ul class="record_actions">
-        <li><a href="{{ path('admin_game_manage', {'gameId': entity.id}) }}"> Back to the game </a></li>
-        <li>{{ form(delete_form) }}</li>
-    </ul>
+    <a href="{{ path('rfcCore_gameParameters', {'gameId': entity.id}) }}"> Back to the game </a>
+
+    {{ form(delete_form) }}
+
 {% endblock %}

@@ -195,6 +195,7 @@ class GameController extends RFCController
      */
     private function createEditForm(Game $entity)
     {
+
         $form = $this->createForm(new GameType(), $entity,
             array(
                 'action' => $this->generateUrl('admin_game_update',
@@ -229,7 +230,9 @@ class GameController extends RFCController
             $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
 
             foreach ($entity->getListImages() as $image) {
-                $uploadableManager->markEntityToUpload($image, $image->getPath());
+                if ($image->getPath() !== null) {
+                    $uploadableManager->markEntityToUpload($image, $image->getPath());
+                }
             }
 
             $entityManager->flush();

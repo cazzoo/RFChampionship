@@ -41,11 +41,6 @@ class Vehicle extends KnowledgeData
      */
     protected $game;
 
-    public function __toString()
-    {
-        return $this->getName ();
-    }
-
     public function __construct()
     {
         parent::__construct();

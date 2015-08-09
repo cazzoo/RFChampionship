@@ -20,20 +20,24 @@ namespace RFC\CoreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use RFC\CoreBundle\Form\DataTransformer\StringToFileTransformer;
 
 class FileType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        $transformer = new StringToFileTransformer("", "/uploads");
+
         $builder->add('name')
             ->add('description', 'textarea', array('required' => false))
-            ->add('path', 'file', array(
-                'required' => false,
-                'data_class' => null,
-                'mapped' => true
-            ))
+            ->add(
+                $builder->create('path', 'file', array(
+                    'data_class' => 'RFC\CoreBundle\Entity\File',
+                    'mapped' => true,
+                    'required' => false
+                ))->addModelTransformer($transformer))
             ->add('commentsActive', 'checkbox', array('required' => false));
     }
 

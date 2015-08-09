@@ -31,11 +31,11 @@
 
     <h3>Images</h3>
     <ul class="images" data-prototype="{{ form_widget(form.listImages.vars.prototype)|e }}">
-        {# itère sur chaque image existantz et affiche ses champs #}
         {% for image in form.listImages %}
             <li>
                 {{ form_row(image.name) }}
                 {{ form_row(image.description) }}
+                {{ form_row(image.path) }}
             </li>
         {% endfor %}
     </ul>

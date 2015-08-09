@@ -63,6 +63,11 @@ abstract class Descriptor
         $this->listImages = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     /**
      * Get name
      *

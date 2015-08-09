@@ -74,11 +74,6 @@ class Team extends Descriptor
      */
     private $maxSecondaryDrivers;
 
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
     /**
      * Constructor
      */
