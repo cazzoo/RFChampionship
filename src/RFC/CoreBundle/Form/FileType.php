@@ -33,7 +33,7 @@ class FileType extends AbstractType
         $builder->add('name')
             ->add('description', 'textarea', array('required' => false))
             ->add('path', 'file', array(
-                'data_class' => 'RFC\CoreBundle\Entity\File',
+                'data_class' => null,
                 'required' => false
             ))
             /*->add('path', 'file', array(
