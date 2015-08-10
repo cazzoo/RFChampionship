@@ -64,10 +64,9 @@
     {% if label is empty -%}
         {% set label = name|humanize %}
     {%- endif -%}
-    <button class="ui button" type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
+    <button class="ui button"
+            type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
 {%- endblock button_widget %}
-
-    {# Misc #}
 
     {% block form -%}
         <div class="ui segment">
@@ -77,7 +76,7 @@
             </div>
             {{ form_end(form) }}
         </div>
-        {%- endblock form %}
+    {%- endblock form %}
 
         {% block form_start -%}
             {% set method = method|upper %}

@@ -28,16 +28,17 @@ class FileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $transformer = new StringToFileTransformer("", "/uploads");
+        //$transformer = new StringToFileTransformer("", "/uploads");
 
         $builder->add('name')
             ->add('description', 'textarea', array('required' => false))
-            ->add(
-                $builder->create('path', 'file', array(
-                    'data_class' => 'RFC\CoreBundle\Entity\File',
-                    'mapped' => true,
-                    'required' => false
-                ))->addModelTransformer($transformer))
+            ->add('path', 'file', array(
+                'data_class' => 'RFC\CoreBundle\Entity\File',
+                'required' => false
+            ))
+            /*->add('path', 'file', array(
+                'required' => false
+            ))*/
             ->add('commentsActive', 'checkbox', array('required' => false));
     }
 

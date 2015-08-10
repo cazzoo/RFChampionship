@@ -21,6 +21,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use RFC\CoreBundle\Form\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class GameType extends AbstractType
 {
@@ -45,8 +46,7 @@ class GameType extends AbstractType
                     'type' => new FileType(),
                     'allow_add' => true,
                     'allow_delete' => true,
-                    'by_reference' => false,
-                    'prototype' => true
+                    'by_reference' => false
                 ));
     }
 

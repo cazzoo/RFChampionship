@@ -59,10 +59,8 @@ class StringToFileTransformer implements DataTransformerInterface
      */
     public function reverseTransform($file)
     {
-        return $file;
         $value = '';
         if ($file instanceof UploadedFile) {
-            return $file;
             $filename = uniqid() . '.' . $file->guessExtension();
             $file->move($this->webDir . '/' .  $this->uploadDir, $filename);
             $value = $this->uploadDir . '/' . $filename;

@@ -57,8 +57,6 @@ class File extends Descriptor
      */
     private $size;
 
-    private $file;
-
 
     /**
      * Get id
