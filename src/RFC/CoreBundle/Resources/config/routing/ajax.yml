@@ -53,3 +53,17 @@ ajax_core_reportIssue:
     requirements: { _method: post }
     options:
         expose: true
+
+ajax_file_add:
+    pattern: /gallery/{galleryId}/addFile
+    defaults: { _controller: "RFCCoreBundle:Gallery:addFile" }
+    requirements: { _method: get|post }
+    options:
+        expose: true
+
+ajax_file_remove:
+    pattern: /gallery/{galleryId}/remove/{fileId}
+    defaults: { _controller: "RFCCoreBundle:Gallery:removeFile" }
+    requirements: { _method: get|post }
+    options:
+        expose: true

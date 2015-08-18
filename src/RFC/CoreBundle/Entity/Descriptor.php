@@ -30,7 +30,7 @@ use JMS\Serializer\Annotation\Groups;
  */
 abstract class Descriptor
 {
-    
+
     /**
      * Hook timestampable behavior
      * updates createdAt, updatedAt fields
@@ -54,14 +54,9 @@ abstract class Descriptor
     protected $commentsActive;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\File", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Gallery", inversedBy="listImages", cascade={"persist"})
      */
-    protected $listImages;
-
-    public function __construct()
-    {
-        $this->listImages = new ArrayCollection();
-    }
+    protected $gallery;
 
     public function __toString()
     {
@@ -132,45 +127,20 @@ abstract class Descriptor
     }
 
     /**
-     * @return array the list of images
+     * @return mixed
      */
-    public function getListImages()
+    public function getGallery()
     {
-        return $this->listImages;
+        return $this->gallery;
     }
 
     /**
-     * Sets a collection of images
-     * @param type $listImages
-     * @return array the list of images
-     */
-    public function setListImages($listImages)
-    {
-        $this->listImages = $listImages;
-        return $this;
-    }
-
-    /**
-     * Add image
-     *
-     * @param Image $image
+     * @param mixed $gallery
      * @return Descriptor
      */
-    public function addImage(Image $image)
+    public function setGallery($gallery)
     {
-        $this->listImages[] = $image;
-
+        $this->gallery = $gallery;
         return $this;
     }
-
-    /**
-     * Remove image
-     *
-     * @param Image $image
-     */
-    public function removeImage(Image $image)
-    {
-        $this->listImages->removeElement ( $image );
-    }
-
 }

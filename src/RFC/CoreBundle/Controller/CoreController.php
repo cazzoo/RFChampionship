@@ -21,6 +21,7 @@
 
 namespace RFC\CoreBundle\Controller;
 
+use RFC\CoreBundle\Entity\Gallery;
 use Symfony\Component\HttpFoundation\Request;
 use RFC\FrameworkBundle\Controller\RFCController;
 use GitHubClient;
@@ -36,7 +37,7 @@ class CoreController extends RFCController
         $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
 
         if (count($games) == 1) {
-            return $this->redirect($games [0]->getId());
+            return $this->redirect($games[0]->getId());
         }
 
         return $this->render('RFCCoreBundle:Core:index.html.twig',

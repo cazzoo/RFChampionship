@@ -20,7 +20,23 @@
 
 {% block rfccore_body %}
 
-    <h2>{% trans %}core.game.welcome{% endtrans %} {{ game.name }}</h2>
+    {% set canEdit = is_granted('ROLE_ADMIN') %}
+
+    <h2>
+        {% trans %}core.game.welcome{% endtrans %} {{ game.name }}
+        {% if canEdit %}
+            <a class="ui small labeled icon red button"
+               href="{{ path('rfcCore_gameParameters', {'gameId': game.id}) }}">
+                <i class="wrench icon"></i>
+                {% trans %}core.menu.parameters{% endtrans %}
+            </a>
+            <a class="ui small labeled icon teal button"
+               href="{{ path('rfcCore_manageGallery', { 'entityType': 'Game', 'entityId': game.id }) }}">
+                <i class="file image outline icon"></i>
+                {% trans %}core.action.manageGallery{% endtrans %}
+            </a>
+        {% endif %}
+    </h2>
     <p>
         {{ game.description }}
     </p>
@@ -28,6 +44,7 @@
     <div class="ui two column stackable grid">
         <div class="column">
             <h3 class="ui top attached header">{% trans %}core.game.currentSessions{% endtrans %}</h3>
+
             <div class="ui attached segment">
                 {% if game.getCurrentSessions|length > 0 %}
                     {% for session in game.getCurrentSessions %}
@@ -38,6 +55,7 @@
                 {% endif %}
             </div>
             <h3 class="ui top attached header">{% trans %}core.game.incomingSessions{% endtrans %}</h3>
+
             <div class="ui attached segment">
                 {% if game.getNextSessions|length > 0 %}
                     {% for session in game.getNextSessions %}
@@ -52,10 +70,12 @@
         <div class="column">
             <div class="ui segment">
                 <h3>{% trans %}core.game.flashNews{% endtrans %}</h3>
-                <p>{{game.getFlashNews.value}}</p>
+
+                <p>{{ game.getFlashNews.value }}</p>
             </div>
             <div class="ui segment">
                 <h3>{% trans %}core.game.bestDriver{% endtrans %}</h3>
+
                 <p>
                     {% for user in users %}
                         {% if user.id == game.getWeeklyDriver.value %}
@@ -67,6 +87,6 @@
         </div>
     </div>
 
-    {% include 'RFCCoreBundle:Structure:gallery.html.twig' with {'listImages': game.listImages} %}
+    {% include 'RFCCoreBundle:Structure:gallery.html.twig' with {'listImages': game.gallery.listImages} %}
 
 {% endblock %}

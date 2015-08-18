@@ -79,7 +79,6 @@ class Team extends Descriptor
      */
     public function __construct()
     {
-        parent::__construct();
         $this->listMainDrivers = new ArrayCollection();
         $this->listSecondaryDrivers = new ArrayCollection();
     }

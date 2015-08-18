@@ -105,11 +105,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
                             <td>{{ typeSession.description }}</td>
                             <td>{{ typeSession.usedForResults }}</td>
                             <td>
-                                {% if typeSession.listImages|length > 0 %}
-                                    <a class="ui button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'typeSession', 'elementId' : typeSession.id}) }}">{% trans %}core.action.show{% endtrans %} ({{ typeSession.listImages|length }})</a>
-                                {% else %}
-                                    -
-                                {% endif %}
+                                <a class="ui small labeled icon teal button" href="{{ path('rfcCore_manageGallery', { 'entityType': 'TypeSession', 'entityId': typeSession.id }) }}">
+                                    <i class="file image outline icon"></i>{% trans %}core.action.manageGallery{% endtrans %}
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -178,11 +176,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
                             </td>
                             <td>{{ vehicle.description }}</td>
                             <td>
-                                {% if vehicle.listImages|length > 0 %}
-                                    <a class="ym-button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'vehicle', 'elementId' : vehicle.id}) }}">{% trans %}core.action.show{% endtrans %} ({{ vehicle.listImages|length }})</a>
-                                {% else %}
-                                    -
-                                {% endif %}
+                                <a class="ui small labeled icon teal button" href="{{ path('rfcCore_manageGallery', { 'entityType': 'Vehicle', 'entityId': vehicle.id }) }}">
+                                    <i class="file image outline icon"></i>{% trans %}core.action.manageGallery{% endtrans %}
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -211,11 +207,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
                             </td>
                             <td>{{ category.description }}</td>
                             <td>
-                                {% if category.listImages|length > 0 %}
-                                    <a class="ui button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'category', 'elementId' : category.id}) }}">{% trans %}core.action.show{% endtrans %} ({{ category.listImages|length }})</a>
-                                {% else %}
-                                    -
-                                {% endif %}
+                                <a class="ui small labeled icon teal button" href="{{ path('rfcCore_manageGallery', { 'entityType': 'Category', 'entityId': category.id }) }}">
+                                    <i class="file image outline icon"></i>{% trans %}core.action.manageGallery{% endtrans %}
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -244,11 +238,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
                             </td>
                             <td>{{ track.description }}</td>
                             <td>
-                                {% if track.listImages|length > 0 %}
-                                    <a class="ym-button gallery fancybox.ajax" href="{{ path('rfcCore_showGallery', {'elementType': 'track', 'elementId' : track.id}) }}">{% trans %}core.action.show{% endtrans %} ({{ track.listImages|length }})</a>
-                                {% else %}
-                                    -
-                                {% endif %}
+                                <a class="ui small labeled icon teal button" href="{{ path('rfcCore_manageGallery', { 'entityType': 'Track', 'entityId': track.id }) }}">
+                                    <i class="file image outline icon"></i>{% trans %}core.action.manageGallery{% endtrans %}
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}

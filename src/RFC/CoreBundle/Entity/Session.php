@@ -66,7 +66,6 @@ class Session extends Descriptor
 
     public function __construct()
     {
-        parent::__construct();
         $this->listResults = new ArrayCollection();
     }
 

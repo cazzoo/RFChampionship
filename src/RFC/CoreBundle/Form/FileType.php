@@ -36,9 +36,6 @@ class FileType extends AbstractType
                 'data_class' => null,
                 'required' => false
             ))
-            /*->add('path', 'file', array(
-                'required' => false
-            ))*/
             ->add('commentsActive', 'checkbox', array('required' => false));
     }
 

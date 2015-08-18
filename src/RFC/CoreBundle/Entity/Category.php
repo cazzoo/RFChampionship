@@ -52,7 +52,6 @@ class Category extends KnowledgeData
      */
     public function __construct()
     {
-        parent::__construct();
         $this->listVehicles = new ArrayCollection();
         $this->listImages   = new ArrayCollection();
     }

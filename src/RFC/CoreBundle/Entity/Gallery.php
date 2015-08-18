@@ -17,16 +17,15 @@
 
 namespace RFC\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use RFC\CoreBundle\Entity\KnowledgeData;
+use RFC\CoreBundle\Entity\File;
 
 /**
- * Vehicle
- *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="RFC\CoreBundle\Entity\VehicleRepository")
+ * @ORM\Entity
  */
-class Vehicle extends KnowledgeData
+class Gallery
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -36,22 +35,63 @@ class Vehicle extends KnowledgeData
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Game", inversedBy="listVehicles")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\File", mappedBy="gallery", cascade={"persist"})
      */
-    protected $game;
+    protected $listImages;
 
-    public function __construct()
-    {
+    public function __construct() {
+        $this->listImages = new ArrayCollection();
     }
+
 
     /**
      * Get id
-     *
      * @return integer
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return array the list of images
+     */
+    public function getListImages()
+    {
+        return $this->listImages;
+    }
+
+    /**
+     * Sets a collection of images
+     * @param type $listImages
+     * @return array the list of images
+     */
+    public function setListImages($listImages)
+    {
+        $this->listImages = $listImages;
+        return $this;
+    }
+
+    /**
+     * Add image
+     *
+     * @param File $image
+     * @return Descriptor
+     */
+    public function addImage(File $image)
+    {
+        $this->listImages[] = $image;
+
+        return $this;
+    }
+
+    /**
+     * Remove image
+     *
+     * @param File $image
+     */
+    public function removeImage(File $image)
+    {
+        $this->listImages->removeElement($image);
     }
 }

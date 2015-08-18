@@ -29,17 +29,6 @@
     {{ form_row(form.description) }}
     {{ form_row(form.commentsActive) }}
 
-    <h3>Images</h3>
-    <ul class="images" data-prototype="{{ form_widget(form.listImages.vars.prototype)|e }}">
-        {% for image in form.listImages %}
-            <li>
-                {{ form_row(image.name) }}
-                {{ form_row(image.description) }}
-                {{ form_row(image.path) }}
-            </li>
-        {% endfor %}
-    </ul>
-
     <input type="submit"/>
 
     {{ form_rest(form) }}

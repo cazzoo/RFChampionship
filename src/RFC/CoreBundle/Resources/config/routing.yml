@@ -18,9 +18,13 @@ rfcCore_gameSelection:
     options:
         expose: true
     
+rfcCore_manageGallery:
+    path:   /gallery/{entityType}_{entityId}
+    defaults: { _controller: "RFCCoreBundle:Gallery:access" }
+
 rfcCore_showGallery:
-    path:   /showGallery/{elementType}_{elementId}
-    defaults: { _controller: "RFCCoreBundle:Core:showGallery" }
+    path:   /gallery/{galleryId}
+    defaults: { _controller: "RFCCoreBundle:Gallery:index" }
 
 rfcCore_calendar:
     path:   /{gameId}/Calendar

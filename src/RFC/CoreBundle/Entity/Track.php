@@ -43,7 +43,6 @@ class Track extends KnowledgeData
 
     public function __construct()
     {
-        parent::__construct();
     }
 
     /**

@@ -19,12 +19,16 @@
 
 {% block rfccore_body %}
 
+    <a class="red ui labeled icon button" href="{{ path('rfcCore_manageGallery', { 'entityType': 'Setup', 'entityId': setup.id }) }}">
+        <i class="wrench icon"></i>{% trans %}core.action.manageGallery{% endtrans %}
+    </a>
+
     {% if setup %}
         <div class="ui items">
             <div class="item">
                 <div class="image">
                     {% if setup.listImages is not empty %}
-                        <img alt="{{ setup.listImages[0].name }}" src="{{ setup.listImages[0].url }}" class="img-rounded" width="200px" />
+                        <img alt="{{ setup.gallery.listImages[0].name }}" src="{{ setup.gallery.listImages[0].url }}" class="img-rounded" width="200px" />
                         <br />
                     {% endif %}
                     <img src="/images/wireframe/image.png">

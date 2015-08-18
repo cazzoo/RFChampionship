@@ -41,12 +41,6 @@ class GameType extends AbstractType
             ))->add('commentsActive', 'checkbox',
                 array(
                     'required' => false
-                ))->add('listImages', 'collection',
-                array(
-                    'type' => new FileType(),
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'by_reference' => false
                 ));
     }
 

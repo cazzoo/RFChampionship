@@ -162,6 +162,8 @@ core:
     accept: 'Accepter'
     decline: 'Refuser'
     showTeams: 'Afficher les équipes'
+    manageGallery: 'Editer les images'
+    delete: 'Supprimer'
   table:
     id: 'Identifiant'
     name: 'Nom'

@@ -42,7 +42,21 @@
             <div class="ui items">
                 <div class="item">
                     <div class="image">
-                        <img src="/images/wireframe/image.png">
+                        {% if session.gallery is not null %}
+                            {% for image in session.gallery.listImages %}
+                                <img src="/{{ image.path }}">
+                            {% endfor %}
+                        {% endif %}
+                        {% if canEdit %}
+                            <a class="ui blue right corner label"
+                               href="{{ path('admin_session_edit', { 'sessionId': session.id, 'gameId': championship.game.id, 'championshipId': championship.id, 'eventId' : session.event.id}) }}">
+                                <i class="setting icon"></i>
+                            </a>
+                            <a class="ui red left corner label"
+                               href="{{ path('rfcCore_manageGallery', { 'entityType': 'Session', 'entityId': session.id }) }}">
+                                <i class="file image outline icon"></i>
+                            </a>
+                        {% endif %}
                     </div>
                     <div class="content">
                         <div class="header">{{ session.name }}</div>

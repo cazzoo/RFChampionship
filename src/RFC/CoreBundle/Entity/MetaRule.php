@@ -55,7 +55,6 @@ class MetaRule extends KnowledgeData
 
     public function __construct()
     {
-        parent::__construct();
         $this->listRules = new ArrayCollection();
     }
 

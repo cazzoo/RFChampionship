@@ -1,0 +1,74 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# src/RFC/CoreBundle/Resources/views/Core/index.html.twig #}
+
+{% extends "RFCCoreBundle::layoutNoGame.html.twig" %}
+
+{% block title %}
+    Gallery - {{ parent() }}
+{% endblock %}
+{% block rfccore_body %}
+
+    {% set canEdit = is_granted('ROLE_MANAGER') or is_granted('ROLE_CERTIFIED_MANAGER') %}
+
+    {% if canEdit %}
+        <a class="ui icon teal labeled button" href="{{ path('ajax_file_add', {'galleryId': gallery.id}) }}">
+            <i class="add icon"></i>{% trans %}core.action.add{% endtrans %}
+        </a>
+    {% endif %}
+
+    {% if gallery.listImages %}
+
+        <div class="ui five doubling cards">
+
+            {% for image in gallery.listImages %}
+
+                <div class="ui card">
+                    <div class="image">
+                        <img src="/{{ image.path }}">
+                    </div>
+                    <div class="content">
+                        <a class="header">{{ image.name }}</a>
+
+                        <div class="meta">
+                            <span class="date">{{ image.createdAt|date("Y/m/d H:i") }}</span>
+                        </div>
+                        <div class="description">
+                            {{ image.description }}
+                        </div>
+                    </div>
+                    <div class="extra content">
+                        <span class="right floated">
+                            <i class="heart outline like icon"></i>
+                            X likes
+                        </span>
+                        {% if canEdit %}
+                            <a class="ui mini icon labeled red button"
+                               href="{{ path('ajax_file_remove', {'galleryId': gallery.id, 'fileId': image.id}) }}">
+                                <i class="delete icon"></i> {% trans %}core.action.delete{% endtrans %}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+{% endblock %}

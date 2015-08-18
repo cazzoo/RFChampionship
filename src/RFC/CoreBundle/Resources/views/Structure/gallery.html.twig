@@ -25,14 +25,12 @@
         <div class="owl-carousel">
 
             {% for image in listImages %}
-                <div>
+                <div style="width: 30%; float: left; margin: 1%">
                     {{ image.name }}
                     <img class="ui image" src="/{{ image.path }}">
 
                     {% if image.description %}
-                        <div class="ui bottom attached label">
-                            {{ image.description }}
-                        </div>
+                        {{ image.description }}
                     {% endif %}
                 </div>
             {% endfor %}

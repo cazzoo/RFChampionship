@@ -16,86 +16,98 @@
 
 {# src/RFC/CoreBundle/Resources/views/Championship/championshipInfo.html.twig #}
 
-<div class="ui item">
-
-    <div class="image">
-        <img src="/images/wireframe/image.png">
-        {% if canEdit %}
-            <div class="ui corner blue icon label">
-                <a href="{{ path('admin_championship_edit', {'gameId': appSettings.getGame().id, 'championshipId': championship.id}) }}"><i class="setting icon"></i></a>
-            </div>
-        {% endif %}
-    </div>
-
-    <div class="content">
-
-        <div class="header"><a href="{{ path('rfcCore_championships_show', {'gameId': appSettings.getGame().id, 'championshipId': championship.id}) }}">{{ championship.name }}</a></div>
-
-        <div class="meta">
-
-            <div class="ui tiny black tag labels">
-                <div class="ui icon label">
-                    <i class="ticket icon"></i>
-                    {{ championship.championshipAgreed ? 'Agreed' : 'Non agreed' }}
-                </div>
-
-                <div class="ui icon label">
-                    <i class="cubes icon"></i>
-                    {% if championship.championshipAgreed %}
-                        <a id="viewRulesDetails" href="#">
-                            {{ championship.metaRule.name }}
-                        </a>
-                        {% set rules = championship.metaRule.listRules %}
-                    {% else %}
-                        {% transchoice championship.listRules|length %}core.dictionnary.rule{% endtranschoice %}
-                        {% set rules = championship.listRules %}
-                    {% endif %}
-                </div>
+<div class="ui items">
+    <div class="item">
+        <div class="image">
+            {% if championship.gallery is not null %}
+                {% for image in championship.gallery.listImages %}
+                    <img src="/{{ image.path }}">
+                {% endfor %}
+            {% endif %}
+            {% if canEdit %}
+                <a class="ui blue right corner label"
+                   href="{{ path('admin_championship_edit', {'gameId': appSettings.getGame().id, 'championshipId': championship.id}) }}">
+                    <i class="setting icon"></i>
+                </a>
+                <a class="ui red left corner label"
+                   href="{{ path('rfcCore_manageGallery', { 'entityType': 'Championship', 'entityId': championship.id }) }}">
+                    <i class="file image outline icon"></i>
+                </a>
+            {% endif %}
+        </div>
+        <div class="content">
+            <div class="header">
+                <a href="{{ path('rfcCore_championships_show', {'gameId': appSettings.getGame().id, 'championshipId': championship.id}) }}">
+                    {{ championship.name }}
+                </a>
             </div>
 
-            <div class="ui standard rulesDetails modal transition">
-                <i class="close icon"></i>
-                <div class="header">
-                    {% if championship.metaRule %}
-                        {{ championship.metaRule.name }} 
-                        {% if canEdit %}
-                            <a class="ui primary labeled icon button" href="{{ path('admin_metaRule_edit', {'gameId' : appSettings.getGame().id, 'metaRuleId' : championship.metaRule.id }) }}">
-                                <i class="edit icon"></i> {% trans %}core.action.edit{% endtrans %}
+            <div class="meta">
+                <div class="ui tiny black tag labels">
+                    <div class="ui icon label">
+                        <i class="ticket icon"></i>
+                        {{ championship.championshipAgreed ? 'Agreed' : 'Non agreed' }}
+                    </div>
+
+                    <div class="ui icon label">
+                        <i class="cubes icon"></i>
+                        {% if championship.championshipAgreed %}
+                            <a id="viewRulesDetails" href="#">
+                                {{ championship.metaRule.name }}
                             </a>
+                            {% set rules = championship.metaRule.listRules %}
+                        {% else %}
+                            {% transchoice championship.listRules|length %}core.dictionnary.rule{% endtranschoice %}
+                            {% set rules = championship.listRules %}
                         {% endif %}
-                    {% endif %}
-                </div>
-                <div class="content">
-                    <div class="description">
-                        {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules} %}
                     </div>
                 </div>
-            </div>
 
-        </div>
+                <div class="ui standard rulesDetails modal transition">
+                    <i class="close icon"></i>
 
-        <div class="description">
-            <div class="ui horizontal divider">{% trans %}core.championship.info.description{% endtrans %}</div>
-            {{ championship.description ? championship.description : "-" }}
-        </div>
-
-        <div class="extra">
-
-            <div class="ui horizontal list">
-                {% if championship.listManagers %}
-                    <div class="ui horizontal divider">{% transchoice championship.listManagers|length %}core.championship.info.manager{% endtranschoice %}</div>
-                    {% for manager in championship.listManagers %}
-                        {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : manager} %}
-                    {% endfor %}
-                {% else %}
-                    <div class="item">
-                        <div class="content">
-                            <div class="header">{% transchoice 0 %}core.championship.info.manager{% endtranschoice %}</div>
+                    <div class="header">
+                        {% if championship.metaRule %}
+                            {{ championship.metaRule.name }}
+                            {% if canEdit %}
+                                <a class="ui primary labeled icon button"
+                                   href="{{ path('admin_metaRule_edit', {'gameId' : appSettings.getGame().id, 'metaRuleId' : championship.metaRule.id }) }}">
+                                    <i class="edit icon"></i> {% trans %}core.action.edit{% endtrans %}
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="content">
+                        <div class="description">
+                            {% include 'RFCAdminBundle:Rule:list.html.twig' with {'rules' : rules} %}
                         </div>
                     </div>
-                {% endif %}
+                </div>
             </div>
 
+            <div class="description">
+                <div class="ui horizontal divider">{% trans %}core.championship.info.description{% endtrans %}</div>
+                {{ championship.description ? championship.description : "-" }}
+            </div>
+
+            <div class="extra">
+                <div class="ui horizontal list">
+                    {% if championship.listManagers %}
+                        <div class="ui horizontal divider">{% transchoice championship.listManagers|length %}
+                            core.championship.info.manager{% endtranschoice %}</div>
+                        {% for manager in championship.listManagers %}
+                            {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : manager} %}
+                        {% endfor %}
+                    {% else %}
+                        <div class="item">
+                            <div class="content">
+                                <div class="header">{% transchoice 0 %}
+                                    core.championship.info.manager{% endtranschoice %}</div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 </div>

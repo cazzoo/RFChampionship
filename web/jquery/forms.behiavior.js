@@ -1100,24 +1100,6 @@ $('.uiTabs .menu .item').tab({
     historyType: 'hash'
 });
 
-$(".owl-carousel").owlCarousel({
-    loop: true,
-    center:true,
-    autoWidth:true,
-    margin: 10,
-    responsiveClass: true,
-    responsive: {
-        0: {
-            items: 1,
-            nav: true
-        },
-        600: {
-            items: 3,
-            nav: false
-        }
-    }
-});
-
 //------------------- Championship creation 
 $("#rfc_corebundle_championship_teamChampionship").change(function () {
     if ($(this).is(':checked')) {

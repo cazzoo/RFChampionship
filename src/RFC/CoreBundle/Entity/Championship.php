@@ -114,7 +114,6 @@ class Championship extends KnowledgeData
      */
     public function __construct()
     {
-        parent::__construct();
         $this->listEvents = new ArrayCollection();
         $this->listManagers = new ArrayCollection();
         $this->listRules = new ArrayCollection();
