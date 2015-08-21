@@ -71,6 +71,7 @@ class Property extends Descriptor
      */
     public function __construct()
     {
+        parent::__construct();
     }
 
     /**

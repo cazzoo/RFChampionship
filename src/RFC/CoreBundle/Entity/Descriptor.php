@@ -54,9 +54,13 @@ abstract class Descriptor
     protected $commentsActive;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Gallery", inversedBy="listImages", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\File", cascade={"persist"})
      */
-    protected $gallery;
+    protected $listImages;
+
+    public function __construct() {
+        $this->listImages = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -127,20 +131,44 @@ abstract class Descriptor
     }
 
     /**
-     * @return mixed
+     * @return array the list of images
      */
-    public function getGallery()
+    public function getListImages()
     {
-        return $this->gallery;
+        return $this->listImages;
     }
 
     /**
-     * @param mixed $gallery
+     * Sets a collection of images
+     * @param type $listImages
+     * @return array the list of images
+     */
+    public function setListImages($listImages)
+    {
+        $this->listImages = $listImages;
+        return $this;
+    }
+
+    /**
+     * Add image
+     *
+     * @param File $image
      * @return Descriptor
      */
-    public function setGallery($gallery)
+    public function addImage(File $image)
     {
-        $this->gallery = $gallery;
+        $this->listImages[] = $image;
+
         return $this;
+    }
+
+    /**
+     * Remove image
+     *
+     * @param File $image
+     */
+    public function removeImage(File $image)
+    {
+        $this->listImages->removeElement($image);
     }
 }

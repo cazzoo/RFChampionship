@@ -20,11 +20,7 @@ rfcCore_gameSelection:
     
 rfcCore_manageGallery:
     path:   /gallery/{entityType}_{entityId}
-    defaults: { _controller: "RFCCoreBundle:Gallery:access" }
-
-rfcCore_showGallery:
-    path:   /gallery/{galleryId}
-    defaults: { _controller: "RFCCoreBundle:Gallery:index" }
+    defaults: { _controller: "RFCCoreBundle:Gallery:manage" }
 
 rfcCore_calendar:
     path:   /{gameId}/Calendar

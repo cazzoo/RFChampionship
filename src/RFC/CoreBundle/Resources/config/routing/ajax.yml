@@ -55,14 +55,14 @@ ajax_core_reportIssue:
         expose: true
 
 ajax_file_add:
-    pattern: /gallery/{galleryId}/addFile
+    pattern: /gallery/{entityType}_{entityId}/addFile
     defaults: { _controller: "RFCCoreBundle:Gallery:addFile" }
     requirements: { _method: get|post }
     options:
         expose: true
 
 ajax_file_remove:
-    pattern: /gallery/{galleryId}/remove/{fileId}
+    pattern: /gallery/{entityType}_{entityId}/remove/{fileId}
     defaults: { _controller: "RFCCoreBundle:Gallery:removeFile" }
     requirements: { _method: get|post }
     options:

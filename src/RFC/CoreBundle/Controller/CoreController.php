@@ -21,7 +21,6 @@
 
 namespace RFC\CoreBundle\Controller;
 
-use RFC\CoreBundle\Entity\Gallery;
 use Symfony\Component\HttpFoundation\Request;
 use RFC\FrameworkBundle\Controller\RFCController;
 use GitHubClient;
@@ -108,35 +107,6 @@ class CoreController extends RFCController
                 array(
                 'games' => $games,
                 'properties' => $properties
-        ));
-    }
-
-    public function showGalleryAction($elementId, $elementType)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entity        = null;
-
-        switch ($elementType) {
-            case 'game' :
-                $entity = $entityManager->getRepository('RFCCoreBundle:Game')->find($elementId);
-                break;
-            case 'vehicle' :
-                $entity = $entityManager->getRepository('RFCCoreBundle:Vehicle')->find($elementId);
-                break;
-            case 'track' :
-                $entity = $entityManager->getRepository('RFCCoreBundle:Track')->find($elementId);
-                break;
-            case 'typeSession' :
-                $entity = $entityManager->getRepository('RFCCoreBundle:TypeSession')->find($elementId);
-                break;
-            case 'category' :
-                $entity = $entityManager->getRepository('RFCCoreBundle:Category')->find($elementId);
-                break;
-        }
-
-        return $this->render('RFCCoreBundle:Structure:gallery.html.twig',
-                array(
-                'listImages' => $entity->getListImages()
         ));
     }
 

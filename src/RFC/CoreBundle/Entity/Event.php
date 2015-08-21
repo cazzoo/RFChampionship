@@ -87,6 +87,7 @@ class Event extends Descriptor
      */
     public function __construct()
     {
+        parent::__construct();
         $this->listSessions = new ArrayCollection();
         $this->listCategories = new ArrayCollection();
         $this->listVehicles = new ArrayCollection();

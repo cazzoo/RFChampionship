@@ -42,8 +42,8 @@
             <div class="ui items">
                 <div class="item">
                     <div class="image">
-                        {% if session.gallery is not null %}
-                            {% for image in session.gallery.listImages %}
+                        {% if session.listImages is not null %}
+                            {% for image in session.listImages %}
                                 <img src="/{{ image.path }}">
                             {% endfor %}
                         {% endif %}

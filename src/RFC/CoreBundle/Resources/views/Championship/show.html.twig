@@ -233,8 +233,8 @@
                                         {% endif %}
 
                                         <div class="image">
-                                            {% if event.gallery is not null %}
-                                                {% for image in event.gallery.listImages %}
+                                            {% if event.listImages is not empty %}
+                                                {% for image in event.listImages %}
                                                     <img src="/{{ image.path }}">
                                                 {% endfor %}
                                             {% endif %}

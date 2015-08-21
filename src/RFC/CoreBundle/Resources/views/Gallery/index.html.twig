@@ -19,55 +19,66 @@
 {% extends "RFCCoreBundle::layoutNoGame.html.twig" %}
 
 {% block title %}
-    Gallery - {{ parent() }}
+    Gallery {{ entity.name }} - {{ parent() }}
 {% endblock %}
 {% block rfccore_body %}
 
-    {% set canEdit = is_granted('ROLE_MANAGER') or is_granted('ROLE_CERTIFIED_MANAGER') %}
+    {% if entity is not null %}
 
-    {% if canEdit %}
-        <a class="ui icon teal labeled button" href="{{ path('ajax_file_add', {'galleryId': gallery.id}) }}">
-            <i class="add icon"></i>{% trans %}core.action.add{% endtrans %}
-        </a>
-    {% endif %}
+        <h1>Gallery for {{ entityType }} : {{ entity.name }}</h1>
 
-    {% if gallery.listImages %}
+        {% set canEdit = is_granted('ROLE_MANAGER') or is_granted('ROLE_CERTIFIED_MANAGER') %}
 
-        <div class="ui five doubling cards">
+        {% if canEdit %}
+            <a class="ui icon teal labeled button"
+               href="{{ path('ajax_file_add', {'entityType': entityType, 'entityId': entity.id}) }}">
+                <i class="add icon"></i>{% trans %}core.action.add{% endtrans %}
+            </a>
+        {% endif %}
 
-            {% for image in gallery.listImages %}
+        {% if entity.listImages %}
 
-                <div class="ui card">
-                    <div class="image">
-                        <img src="/{{ image.path }}">
-                    </div>
-                    <div class="content">
-                        <a class="header">{{ image.name }}</a>
+            <div class="ui five doubling cards">
 
-                        <div class="meta">
-                            <span class="date">{{ image.createdAt|date("Y/m/d H:i") }}</span>
+                {% for image in entity.listImages %}
+
+                    <div class="ui card">
+                        <div class="image">
+                            <img src="/{{ image.path }}">
                         </div>
-                        <div class="description">
-                            {{ image.description }}
+                        <div class="content">
+                            <a class="header">{{ image.name }}</a>
+
+                            <div class="meta">
+                                <span class="date">{{ image.createdAt|date("Y/m/d H:i") }}</span>
+                            </div>
+                            <div class="description">
+                                {{ image.description }}
+                            </div>
                         </div>
-                    </div>
-                    <div class="extra content">
+                        <div class="extra content">
                         <span class="right floated">
                             <i class="heart outline like icon"></i>
                             X likes
                         </span>
-                        {% if canEdit %}
-                            <a class="ui mini icon labeled red button"
-                               href="{{ path('ajax_file_remove', {'galleryId': gallery.id, 'fileId': image.id}) }}">
-                                <i class="delete icon"></i> {% trans %}core.action.delete{% endtrans %}
-                            </a>
-                        {% endif %}
+                            {% if canEdit %}
+                                <a class="ui mini icon labeled red button"
+                                   href="{{ path('ajax_file_remove', {'entityType': entityType, 'entityId': entity.id, 'fileId': image.id}) }}">
+                                    <i class="delete icon"></i> {% trans %}core.action.delete{% endtrans %}
+                                </a>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
 
-            {% endfor %}
+                {% endfor %}
 
-        </div>
+            </div>
+
+        {% endif %}
+
+    {% else %}
+
+        Sorry, No gallery found
 
     {% endif %}
 

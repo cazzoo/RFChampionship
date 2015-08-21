@@ -21,91 +21,82 @@ use RFC\CoreBundle\Entity\File;
 use RFC\CoreBundle\Form\FileType;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\HttpFoundation\Request;
-use RFC\CoreBundle\Entity\Gallery;
 
 /**
  * Track controller.
  */
 class GalleryController extends RFCController
 {
-    public function accessAction($entityType, $entityId)
+    public function manageAction($entityType, $entityId)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
         $entity = $entityManager->getRepository('RFCCoreBundle:' . $entityType . '')->find($entityId);
 
-        if ($entity->getGallery() === null) {
-            $entity->setGallery(new Gallery());
-            $entityManager->flush();
-        }
-
-        return $this->redirect($this->generateUrl('rfcCore_showGallery', array(
-            'galleryId' => $entity->getGallery()->getId()
-        )));
-    }
-
-    public function indexAction($galleryId)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $entity = $entityManager->getRepository('RFCCoreBundle:Gallery')->find($galleryId);
-
         return $this->render('RFCCoreBundle:Gallery:index.html.twig', array(
-            'gallery' => $entity
+            'entity' => $entity,
+            'entityType' => $entityType
         ));
     }
 
     /**
      * Add a file to a gallery
      * @param Request $request
-     * @param $galleryId
+     * @param $entityType
+     * @param $entityId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function addFileAction(Request $request, $galleryId)
+    public function addFileAction(Request $request, $entityType, $entityId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $gallery = $entityManager->getRepository('RFCCoreBundle:Gallery')->find($galleryId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:' . $entityType . '')->find($entityId);
         $file = new File;
-        $file->setGallery($gallery);
         $form = $this->createForm(new FileType, $file);
 
         if ($form->handleRequest($request)->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($file);
+            $entity->addImage($file);
 
             $this->get('stof_doctrine_extensions.uploadable.manager')
                 ->markEntityToUpload($file, $file->getPath());
 
-            $em->flush();
+            $entityManager->flush();
 
-            return $this->redirect($this->generateUrl('rfcCore_showGallery', array(
-                'galleryId' => $gallery->getId()
+            return $this->redirect($this->generateUrl('rfcCore_manageGallery', array(
+                'entityType' => $entityType,
+                'entityId' => $entityId
             )));
         }
 
         return $this->render('RFCCoreBundle:Gallery:newFile.html.twig', array(
             'form' => $form->createView(),
-            'gallery' => $gallery
+            'entityId' => $entityId,
+            'entityType' => $entityType
         ));
     }
 
     /**
      * Deletes a File entity.
+     * @param $fileId
+     * @param $entityType
+     * @param $entityId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function removeFileAction($fileId, $galleryId)
+    public function removeFileAction($fileId, $entityType, $entityId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $file        = $entityManager->getRepository('RFCCoreBundle:File')->find($fileId);
+        $entity = $entityManager->getRepository('RFCCoreBundle:' . $entityType . '')->find($entityId);
+        $file = $entityManager->getRepository('RFCCoreBundle:File')->find($fileId);
 
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
         }
 
-        $entityManager->remove($file);
+        $entity->removeImage($file);
         $entityManager->flush();
 
-        return $this->redirect($this->generateUrl('rfcCore_showGallery', array(
-                'galleryId' => $galleryId,
-            )));
+        return $this->redirect($this->generateUrl('rfcCore_manageGallery', array(
+            'entity' => $entity,
+            'entityId' => $entityId
+        )));
     }
 }

@@ -33,6 +33,6 @@
 
     {{ form_end(form) }}
 
-    <a class="ui button" href="{{ path('rfcCore_showGallery', {'galleryId': gallery.id}) }}"> Back to the gallery </a>
+    <a class="ui button" href="{{ path('rfcCore_manageGallery', {'entityType': entityType, 'entityId': entityId}) }}"> Back to the {{ entityType }} gallery </a>
 
 {% endblock %}

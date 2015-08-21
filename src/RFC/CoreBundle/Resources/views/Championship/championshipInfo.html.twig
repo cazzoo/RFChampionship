@@ -19,8 +19,8 @@
 <div class="ui items">
     <div class="item">
         <div class="image">
-            {% if championship.gallery is not null %}
-                {% for image in championship.gallery.listImages %}
+            {% if championship.listImages is not empty %}
+                {% for image in championship.listImages %}
                     <img src="/{{ image.path }}">
                 {% endfor %}
             {% endif %}

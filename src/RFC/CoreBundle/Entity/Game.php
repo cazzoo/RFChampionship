@@ -90,6 +90,7 @@ class Game extends Descriptor
      */
     public function __construct()
     {
+        parent::__construct();
         $this->listChampionships = new ArrayCollection ();
         $this->listMetaRules     = new ArrayCollection ();
         $this->listRules         = new ArrayCollection ();
