@@ -15,37 +15,40 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
 {% extends "RFCCoreBundle::layout.html.twig" %} {% block title %} Admin
-- {{ parent() }} {% endblock %} {% block rfccore_body %}
+    - {{ parent() }} {% endblock %} {% block rfccore_body %}
 
-<div class="panel panel-default">
-    <div class="panel-heading">Informations</div>
-    <div class="panel-body">
-        <dl class="dl-horizontal">
-          <dt>Number games</dt>
-          <dd>{{ games|length }}</dd>
-        </dl>
-    </div>
-</div>
-
-Games &nbsp;
-<a class="ym-button ym-add" href="{{ path('admin_game_new') }}">Add</a>
-
-<ul class="list-inline">
-	{% for game in games %}
-	<li class="float-left">
-        <div class="center">
-            <a href="{{ path('admin_game_manage', {'gameId': game.id}) }}">
-				{% if game.listImages is not empty %}
-				<img alt="{{ game.shortName }}" src="{{ game.listImages[0].url }}" class="img-rounded" width="200px" />
-                <br />
-                {% endif %}
-                <span class="label label-default">{{ game.name }}</span>
-            </a>
+    <div class="panel panel-default">
+        <div class="panel-heading">Informations</div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
+                <dt>Number games</dt>
+                <dd>{{ games|length }}</dd>
+            </dl>
         </div>
-    </li>
-    {% else %}
-	   <li>Pas (encore !) de jeux</li> 
-    {% endfor %}
-</ul>
+    </div>
+
+    Games &nbsp;
+    <a class="ym-button ym-add" href="{{ path('admin_game_new') }}">Add</a>
+
+    <ul class="list-inline">
+        {% for game in games %}
+            <li class="float-left">
+                <div class="center">
+                    <a href="{{ path('admin_game_manage', {'gameId': game.id}) }}">
+                        <div class="slickSlideshow">
+                            {% if game.listImages is not empty %}
+                                {% for image in game.listImages %}
+                                    <img src="/{{ image.path }}">
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <span class="label label-default">{{ game.name }}</span>
+                    </a>
+                </div>
+            </li>
+        {% else %}
+            <li>Pas (encore !) de jeux</li>
+        {% endfor %}
+    </ul>
 
 {% endblock %}

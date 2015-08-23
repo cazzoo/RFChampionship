@@ -78,11 +78,6 @@ class Setup extends KnowledgeData
         $this->listSetupSteps = new ArrayCollection ();
     }
 
-    public function __toString()
-    {
-        return $this->name;
-    }
-
     /**
      * Get id
      *

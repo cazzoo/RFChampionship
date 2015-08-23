@@ -67,11 +67,6 @@ class Rule extends KnowledgeData
         $this->listMetaRules = new ArrayCollection();
     }
 
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
     /**
      * Get id
      *

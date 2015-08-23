@@ -1,4 +1,4 @@
-Twig.setFilter("trans", function(id, params, domain, locale) {
+Twig.setFilter("trans", function (id, params, domain, locale) {
 
     params = params || {};
 
@@ -7,7 +7,7 @@ Twig.setFilter("trans", function(id, params, domain, locale) {
         if (params.hasOwnProperty(key) &&
             key[0] == Translator.placeHolderPrefix &&
             key[key.length - 1] == Translator.placeHolderSuffix) {
-            params[key.substr(1,key.length-2)] = params[key];
+            params[key.substr(1, key.length - 2)] = params[key];
             delete params[key];
         }
     }
@@ -280,6 +280,10 @@ function loadSessionData(data) {
         addNotification('Session loaded', 'success');
         $('.ui.standard.session.modal.transition >.content >.description').html(data);
         //$('#session').html(data);
+        $('.slickSlideshow').slick({
+            autoplay: true,
+            arrows: false
+        });
         $('form#setResults').bind('submit', function () {
             handleSessionResults($(this));
             $('.ui.standard.session.modal').modal('hide');
@@ -722,371 +726,364 @@ function handleTeamRegistration(response) {
 
 $(function () {
 
-        // Screen Admin : System
-        // --------------------------------------------
-        // ----------------- Properties editing
-        // --------------------------------------------
+    // Screen Admin : System
+    // --------------------------------------------
+    // ----------------- Properties editing
+    // --------------------------------------------
 
-        $('.datetimepicker').datetimepicker({
-            format: 'Y/m/d H:i',
-            formatDate: 'Y/m/d H:i',
-            mask: true,
-            dayOfWeekStart: 1,
-            validateOnBlur: false
-        });
-        $('.datepicker').datetimepicker({
-            timepicker: false,
-            format: 'Y/m/d',
-            formatDate: 'Y/m/d',
-            mask: true,
-            dayOfWeekStart: 1,
-            validateOnBlur: false
-        });
+    $('.datetimepicker').datetimepicker({
+        format: 'Y/m/d H:i',
+        formatDate: 'Y/m/d H:i',
+        mask: true,
+        dayOfWeekStart: 1,
+        validateOnBlur: false
+    });
+    $('.datepicker').datetimepicker({
+        timepicker: false,
+        format: 'Y/m/d',
+        formatDate: 'Y/m/d',
+        mask: true,
+        dayOfWeekStart: 1,
+        validateOnBlur: false
+    });
 
-        $('form.system-properties').submit(function (e) {
-            var data = $(this).serializeArray();
-            $(this).find('button').addClass('disabled');
-            $(this).find('button').prop('disabled', true);
-            updateProperties(data);
-            return false;
-        });
+    $('form.system-properties').submit(function (e) {
+        var data = $(this).serializeArray();
+        $(this).find('button').addClass('disabled');
+        $(this).find('button').prop('disabled', true);
+        updateProperties(data);
+        return false;
+    });
 
-        $('form.system-properties').find('#reset-btn').click(function () {
-            $(this).parent().get(0).reset();
-            return false;
-        });
+    $('form.system-properties').find('#reset-btn').click(function () {
+        $(this).parent().get(0).reset();
+        return false;
+    });
 
-        // Screen Core : Crew
-        // --------------------------------------------
-        // ----------------- Crew application
-        // --------------------------------------------
-        $('form#sendCrewRequest').submit(function (e) {
-            var data = {
-                requesterId: $(this).find('#requesterId').val(),
-                managerId: $(this).find('#managerId').val(),
-                gameId: $(this).find('#gameId').val()
-            };
-            $('form#sendCrewRequest button').addClass('disabled');
-            $('form#sendCrewRequest button').prop('disabled', true);
-            crewApplyRequest(data);
-            return false;
-        });
+    // Screen Core : Crew
+    // --------------------------------------------
+    // ----------------- Crew application
+    // --------------------------------------------
+    $('form#sendCrewRequest').submit(function (e) {
+        var data = {
+            requesterId: $(this).find('#requesterId').val(),
+            managerId: $(this).find('#managerId').val(),
+            gameId: $(this).find('#gameId').val()
+        };
+        $('form#sendCrewRequest button').addClass('disabled');
+        $('form#sendCrewRequest button').prop('disabled', true);
+        crewApplyRequest(data);
+        return false;
+    });
 
-        $('form#cancelCrewRequest').submit(function () {
-            var data = {
-                crewRequestId: $(this).find('#crewRequestId').val()
-            };
-            $('form#cancelCrewRequest button').addClass('ym-disabled');
-            $('form#cancelCrewRequest button').prop('disabled', true);
-            crewDeclineRequest(data);
-            return false;
-        });
+    $('form#cancelCrewRequest').submit(function () {
+        var data = {
+            crewRequestId: $(this).find('#crewRequestId').val()
+        };
+        $('form#cancelCrewRequest button').addClass('ym-disabled');
+        $('form#cancelCrewRequest button').prop('disabled', true);
+        crewDeclineRequest(data);
+        return false;
+    });
 
-        // Screen Core : User
-        // --------------------------------------------
-        // ----------------- Crew validation
-        // --------------------------------------------
-        $('form#acceptCrewApplication').submit(function (e) {
-            var data = {
-                crewRequestId: $(this).find('#crewRequestId').val()
-            };
-            $('form#acceptCrewApplication button').addClass('ym-disabled');
-            $('form#acceptCrewApplication button').prop('disabled', true);
-            $('form#declineCrewApplication button').addClass('ym-disabled');
-            $('form#declineCrewApplication button').prop('disabled', true);
-            crewAcceptRequest(data);
-            return false;
-        });
+    // Screen Core : User
+    // --------------------------------------------
+    // ----------------- Crew validation
+    // --------------------------------------------
+    $('form#acceptCrewApplication').submit(function (e) {
+        var data = {
+            crewRequestId: $(this).find('#crewRequestId').val()
+        };
+        $('form#acceptCrewApplication button').addClass('ym-disabled');
+        $('form#acceptCrewApplication button').prop('disabled', true);
+        $('form#declineCrewApplication button').addClass('ym-disabled');
+        $('form#declineCrewApplication button').prop('disabled', true);
+        crewAcceptRequest(data);
+        return false;
+    });
 
-        $('form#declineCrewApplication').submit(function (e) {
-            var data = {
-                crewRequestId: $(this).find('#crewRequestId').val()
-            };
-            $('form#acceptCrewApplication button').addClass('ym-disabled');
-            $('form#acceptCrewApplication button').prop('disabled', true);
-            $('form#declineCrewApplication button').addClass('ym-disabled');
-            $('form#declineCrewApplication button').prop('disabled', true);
-            crewDeclineRequest(data);
-            return false;
-        });
+    $('form#declineCrewApplication').submit(function (e) {
+        var data = {
+            crewRequestId: $(this).find('#crewRequestId').val()
+        };
+        $('form#acceptCrewApplication button').addClass('ym-disabled');
+        $('form#acceptCrewApplication button').prop('disabled', true);
+        $('form#declineCrewApplication button').addClass('ym-disabled');
+        $('form#declineCrewApplication button').prop('disabled', true);
+        crewDeclineRequest(data);
+        return false;
+    });
 
-        // Screen Championship
-        // --------------------------------------------
-        // ----------------- Show events
-        // --------------------------------------------
+    // Screen Championship
+    // --------------------------------------------
+    // ----------------- Show events
+    // --------------------------------------------
 
-        $('.nextEvent').click(function () {
-            var nextEventItem = $('.eventItem[data-eventkey=' + selectedEventKey + ']').next();
-            if (nextEventItem.data('eventkey') !== undefined) {
-                showEvent(nextEventItem.data('eventkey'));
-                location.hash = "eventId=" + nextEventItem.data('eventid');
-            }
-        });
-
-        $('.previousEvent').click(function () {
-            var prevEventItem = $('.eventItem[data-eventkey=' + selectedEventKey + ']').prev();
-            if (prevEventItem.data('eventkey') !== undefined) {
-                showEvent(prevEventItem.data('eventkey'));
-                location.hash = "eventId=" + prevEventItem.data('eventid');
-            }
-        });
-
-        $('.eventQuickLinks').click(function () {
-            var event = $('.eventItem[data-eventid=' + $(this).attr('href').substring(9) + ']');
-            showEvent(event.data('eventkey'));
-        });
-
-        // --------------------------------------------
-        // ----------------- Register/unregister
-        // --------------------------------------------
-        $("#registrationStatus").on('click', '.actionRegisterUnregister',
-            registerChampionshipBehiavior);
-
-        // Screen MetaRule
-        // --------------------------------------------
-        // ----------------- Show rules / metaRules
-        // --------------------------------------------
-
-        function updateListsHeight() {
-            $('.sortable').css('height', 'auto');
-            var highestListHeight = $('#list1').height() > $('#list2').height() ? $('#list1').height() : $('#list2').height();
-            $('.sortable').css('height', highestListHeight);
+    $('.nextEvent').click(function () {
+        var nextEventItem = $('.eventItem[data-eventkey=' + selectedEventKey + ']').next();
+        if (nextEventItem.data('eventkey') !== undefined) {
+            showEvent(nextEventItem.data('eventkey'));
+            location.hash = "eventId=" + nextEventItem.data('eventid');
         }
+    });
 
-        function handleRuleDragNDrop() {
-            $('.sortable').sortable({
-                connectWith: ".ui .list",
-                placeholder: "ui-state-highlight",
-                opacity: 0.8,
-                containment: '.sortableArea',
-                receive: function (event, ui) {
-                    updateListsHeight();
-                }
-            });
-
-            updateListsHeight();
-
-            $('#saveRules').click(function () {
-                elements = $('#list2 .item .header');
-                var arr;
-                arr = [];
-                arr = $.map(elements, function (a) {
-                    return a.innerHTML;
-                });
-                alert(arr.length === 0 ? null : arr.join(','));
-            });
+    $('.previousEvent').click(function () {
+        var prevEventItem = $('.eventItem[data-eventkey=' + selectedEventKey + ']').prev();
+        if (prevEventItem.data('eventkey') !== undefined) {
+            showEvent(prevEventItem.data('eventkey'));
+            location.hash = "eventId=" + prevEventItem.data('eventid');
         }
+    });
 
-        $("div.metaRuleItem").click(function () {
-            $('.metaRuleItem').removeClass('active');
-            $(this).addClass("active");
-            var entityData = $(this).attr('id').split(';');
-            var data = {
-                metaRuleId: entityData[0].substr(9),
-                gameId: entityData[1].substr(5)
-            };
-            var jsonFormatted = JSON.stringify(data);
-            $.ajax({
-                type: "POST",
-                url: Routing.generate('admin_rule_search'),
-                data: jsonFormatted,
-                cache: false,
-                beforeSend: function () {
-                    $('#listRules').html("Chargement des règles...");
-                }
-            }).done(function (data) {
-                $('#listRules').html(data);
-                handleRuleDragNDrop();
-            }).fail(function () {
-                $('#listRules').html("Impossible de récupérer un résultat");
+    $('.eventQuickLinks').click(function () {
+        var event = $('.eventItem[data-eventid=' + $(this).attr('href').substring(9) + ']');
+        showEvent(event.data('eventkey'));
+    });
+
+    // --------------------------------------------
+    // ----------------- Register/unregister
+    // --------------------------------------------
+    $("#registrationStatus").on('click', '.actionRegisterUnregister',
+        registerChampionshipBehiavior);
+
+    // Screen MetaRule
+    // --------------------------------------------
+    // ----------------- Show rules / metaRules
+    // --------------------------------------------
+
+    function updateListsHeight() {
+        $('.sortable').css('height', 'auto');
+        var highestListHeight = $('#list1').height() > $('#list2').height() ? $('#list1').height() : $('#list2').height();
+        $('.sortable').css('height', highestListHeight);
+    }
+
+    function handleRuleDragNDrop() {
+        $('.sortable').sortable({
+            connectWith: ".ui .list",
+            placeholder: "ui-state-highlight",
+            opacity: 0.8,
+            containment: '.sortableArea',
+            receive: function (event, ui) {
+                updateListsHeight();
+            }
+        });
+
+        updateListsHeight();
+
+        $('#saveRules').click(function () {
+            elements = $('#list2 .item .header');
+            var arr;
+            arr = [];
+            arr = $.map(elements, function (a) {
+                return a.innerHTML;
             });
-            return false;
+            alert(arr.length === 0 ? null : arr.join(','));
         });
+    }
 
-        // --------------------------------------------
-        // ----------------- Image collection behiavior
-        // --------------------------------------------
-
-        // ajoute un lien de suppression à tous les éléments li
-        // de
-        // formulaires de tag existants
-        collectionHolder.find('li').each(function () {
-            addImageFormDeleteLink($(this));
-        });
-
-        // ajoute l'ancre « ajouter un tag » et li à la balise
-        // ul
-        collectionHolder.append($newLinkLi);
-
-        $addImageLink.on('click', function (e) {
-            // empêche le lien de créer un « # » dans l'URL
-            e.preventDefault();
-
-            // ajoute un nouveau formulaire tag (voir le
-            // prochain bloc de code)
-            addImageForm(collectionHolder, $newLinkLi);
-        });
-
-        // --------------------------------------------
-        // ----------------- Notification center
-        // --------------------------------------------
-        $("#notificationCenter").find("#messages").parent().hide();
-        $("#notificationCenter").find(".bubble").click(function () {
-            if (notifications.length > 0) {
-                $("#notificationCenter").find("#messages").parent().slideToggle();
+    $("div.metaRuleItem").click(function () {
+        $('.metaRuleItem').removeClass('active');
+        $(this).addClass("active");
+        var entityData = $(this).attr('id').split(';');
+        var data = {
+            metaRuleId: entityData[0].substr(9),
+            gameId: entityData[1].substr(5)
+        };
+        var jsonFormatted = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: Routing.generate('admin_rule_search'),
+            data: jsonFormatted,
+            cache: false,
+            beforeSend: function () {
+                $('#listRules').html("Chargement des règles...");
             }
-            return false;
+        }).done(function (data) {
+            $('#listRules').html(data);
+            handleRuleDragNDrop();
+        }).fail(function () {
+            $('#listRules').html("Impossible de récupérer un résultat");
         });
-        drawNotifications();
+        return false;
+    });
 
-        // --------------------------------------------
-        // ----------------- SetupStep
-        // --------------------------------------------
-        // Hide steps
-        $('.setupStepContainer .setupStepContent').hide();
+    // --------------------------------------------
+    // ----------------- Image collection behiavior
+    // --------------------------------------------
 
-        $('.setupStepSelector .step').on('click', function () {
-            showStep($(this).parents('.setupStepSelector').data('stepnumber'));
-        });
+    // ajoute un lien de suppression à tous les éléments li de formulaires de tag existants
+    collectionHolder.find('li').each(function () {
+        addImageFormDeleteLink($(this));
+    });
 
-        // Loading the page. Get if we have a step specified or default
-        if (url[url.length - 3] === 'Setup' && url[url.length - 1].match(/^show/)) {
-            var stepAction = GetURLHash();
-            if (stepAction === undefined) {
-                showStep(1);
-            } else {
-                showStep(stepAction);
-            }
+    // ajoute l'ancre « ajouter un tag » et li à la balise ul
+    collectionHolder.append($newLinkLi);
+
+    $addImageLink.on('click', function (e) {
+        // empêche le lien de créer un « # » dans l'URL
+        e.preventDefault();
+
+        // ajoute un nouveau formulaire tag (voir le prochain bloc de code)
+        addImageForm(collectionHolder, $newLinkLi);
+    });
+
+    // --------------------------------------------
+    // ----------------- Notification center
+    // --------------------------------------------
+    $("#notificationCenter").find("#messages").parent().hide();
+    $("#notificationCenter").find(".bubble").click(function () {
+        if (notifications.length > 0) {
+            $("#notificationCenter").find("#messages").parent().slideToggle();
         }
+        return false;
+    });
+    drawNotifications();
 
-        // --------------------------------------------
-        // ----------------- WYSIWYG editor
-        // --------------------------------------------
-        //$("textarea").wysibb();
+    // --------------------------------------------
+    // ----------------- SetupStep
+    // --------------------------------------------
+    // Hide steps
+    $('.setupStepContainer .setupStepContent').hide();
 
-        // --------------------------------------------
-        // Screen Championship creation
-        // --------------------------------------------
-        // Toggleing rules list
-        toggleRules(0);
-        $('#rfc_corebundle_championship_isAgreed').change(function () {
-            toggleRules(200);
-        });
+    $('.setupStepSelector .step').on('click', function () {
+        showStep($(this).parents('.setupStepSelector').data('stepnumber'));
+    });
 
-        // --------------------------------------------
-        // ----------------- Set tabs element as tabs
-        // --------------------------------------------
-        //$(".jquery_tabs").accessibleTabs();
-
-        // --------------------------------------------
-        // Screen Championship show
-        // --------------------------------------------
-        // Get championship results on load
-        getCurrentChampionshipResults();
-        // Selecting event
-
-        if (!url[url.length - 1].match(/#eventId\=\d/)) {
-            selectedEventKey = 1;
+    // Loading the page. Get if we have a step specified or default
+    if (url[url.length - 3] === 'Setup' && url[url.length - 1].match(/^show/)) {
+        var stepAction = GetURLHash();
+        if (stepAction === undefined) {
+            showStep(1);
         } else {
-            var eventItem = $('.eventItem[data-eventid=' + parseInt(GetURLHash()) + ']').data('eventkey');
-            selectedEventKey = eventItem ? eventItem : 1;
+            showStep(stepAction);
         }
+    }
 
-        if (isCurrentPage('Championship')) {
-            showEvent(selectedEventKey);
+    // --------------------------------------------
+    // ----------------- WYSIWYG editor
+    // --------------------------------------------
+    //$("textarea").wysibb();
+
+    // --------------------------------------------
+    // Screen Championship creation
+    // --------------------------------------------
+    // Toggleing rules list
+    toggleRules(0);
+    $('#rfc_corebundle_championship_isAgreed').change(function () {
+        toggleRules(200);
+    });
+
+    // --------------------------------------------
+    // ----------------- Set tabs element as tabs
+    // --------------------------------------------
+    //$(".jquery_tabs").accessibleTabs();
+
+    // --------------------------------------------
+    // Screen Championship show
+    // --------------------------------------------
+    // Get championship results on load
+    getCurrentChampionshipResults();
+    // Selecting event
+
+    if (!url[url.length - 1].match(/#eventId\=\d/)) {
+        selectedEventKey = 1;
+    } else {
+        var eventItem = $('.eventItem[data-eventid=' + parseInt(GetURLHash()) + ']').data('eventkey');
+        selectedEventKey = eventItem ? eventItem : 1;
+    }
+
+    if (isCurrentPage('Championship')) {
+        showEvent(selectedEventKey);
+    }
+
+    $('#viewFullDriverList').click(function () {
+        showModalAndActivatePopups($('.standard.driverList.modal'));
+    });
+
+    $('.showEventResults').click(function () {
+        var eventClicked = $(this).parent().data('eventid');
+        var modalPopup = $('.standard.eventResults.modal[data-eventid="' + eventClicked + '"]');
+        showModalAndActivatePopups(modalPopup);
+    });
+
+    $('#viewRulesDetails').click(function () {
+        showModalAndActivatePopups($('.standard.rulesDetails.modal'));
+    });
+
+    $('#showTeamList').click(function () {
+        showModalAndActivatePopups($('.standard.teamList.modal'));
+    });
+
+    $('.grid.teams .card .image').dimmer({
+        on: 'hover'
+    });
+
+    $('.ui.button.teamRegistration').api({
+        method: 'POST',
+        beforeSend: function (settings) {
+            $('.content>.center a.ui.button.teamRegistration').not($(this)).addClass('disabled');
+            return settings;
+        },
+        onSuccess: function (response) {
+            handleTeamRegistration(response);
         }
-
-        $('#viewFullDriverList').click(function () {
-            showModalAndActivatePopups($('.standard.driverList.modal'));
-        });
-
-        $('.showEventResults').click(function () {
-            var eventClicked = $(this).parent().data('eventid');
-            var modalPopup = $('.standard.eventResults.modal[data-eventid="' + eventClicked + '"]');
-            showModalAndActivatePopups(modalPopup);
-        });
-
-        $('#viewRulesDetails').click(function () {
-            showModalAndActivatePopups($('.standard.rulesDetails.modal'));
-        });
-
-        $('#showTeamList').click(function () {
-            showModalAndActivatePopups($('.standard.teamList.modal'));
-        });
-
-        $('.grid.teams .card .image').dimmer({
-            on: 'hover'
-        });
-
-        $('.ui.button.teamRegistration').api({
-            method: 'POST',
-            beforeSend: function (settings) {
-                $('.content>.center a.ui.button.teamRegistration').not($(this)).addClass('disabled');
-                return settings;
-            },
-            onSuccess: function (response) {
-                handleTeamRegistration(response);
-            }
-        });
+    });
 
 // --------------------------------------------
 // Screen MetaRule show
 // --------------------------------------------
 // Selecting metaRule
-        $(".metaRuleItem:first").trigger("click");
+    $(".metaRuleItem:first").trigger("click");
 
 // --------------------------------------------
 // ----------------- popupMenu : edit element
 // --------------------------------------------
 
-        $('#showSidebar').click(function () {
-            $('.sidebar.footer').sidebar('toggle');
-        });
+    $('#showSidebar').click(function () {
+        $('.sidebar.footer').sidebar('toggle');
+    });
 
-        $('#showComments.ui.button').click(function () {
-            $('.sidebar.comments').sidebar('toggle');
-        });
+    $('#showComments.ui.button').click(function () {
+        $('.sidebar.comments').sidebar('toggle');
+    });
 
 // --------------------------------------------
 // ----------------- Clickable table row
 // --------------------------------------------
-        /*
-         * $('tr').has('td').has('a').hover(function() { $(this).css('cursor',
-         * 'pointer'); }); $('tr').has('td').has('a').click(function() { var href =
-         * $(this).find('a').attr('href'); if (href) { window.location = href; } });
-         */
+    /*
+     * $('tr').has('td').has('a').hover(function() { $(this).css('cursor',
+     * 'pointer'); }); $('tr').has('td').has('a').click(function() { var href =
+     * $(this).find('a').attr('href'); if (href) { window.location = href; } });
+     */
 
-        $('#userMenu').dropdown({
-            on: 'hover',
-            duration: 75,
-            transition: 'fade down'
-        });
+    $('#userMenu').dropdown({
+        on: 'hover',
+        duration: 75,
+        transition: 'fade down'
+    });
 
-        $('#loginButton').click(function () {
-            $('#loginForm').submit();
-        });
+    $('#loginButton').click(function () {
+        $('#loginForm').submit();
+    });
 
-        $('.ui.card.gameCard').click(function () {
-            window.location = Routing.generate('rfcCore_gameSelection', {'gameId': $(this).data('gameid')});
-        });
+    $('.ui.card.gameCard').click(function () {
+        window.location = Routing.generate('rfcCore_gameSelection', {'gameId': $(this).data('gameid')});
+    });
 
-        $('.ui.card.gameCard .extra.content a, .ui.card.gameCard .extra.content div').click(function (e) {
-            e.stopPropagation();
-        });
+    $('.ui.card.gameCard .extra.content a, .ui.card.gameCard .extra.content div').click(function (e) {
+        e.stopPropagation();
+    });
 
-        $('#reportIssue').click(function () {
-            showModalAndActivatePopups($('#reportIssuePopup.modal'));
-        });
+    $('#reportIssue').click(function () {
+        showModalAndActivatePopups($('#reportIssuePopup.modal'));
+    });
 
-        $('form#sendIssue').submit(function (event) {
-            var serializedForm = $(this).serializeArray();
-            reportIssueToGitHub(serializedForm);
-            event.preventDefault();
-        });
-
-    }
-)
-;
+    $('form#sendIssue').submit(function (event) {
+        var serializedForm = $(this).serializeArray();
+        reportIssueToGitHub(serializedForm);
+        event.preventDefault();
+    });
+});
 
 //$('.ui.checkbox').checkbox();
 
@@ -1105,6 +1102,18 @@ $('.uiTabs .menu .item').tab({
     alwaysRefresh: true,
     history: true,
     historyType: 'hash'
+});
+
+$('.slick3Slideshow').slick({
+    autoplay: true,
+    slidesToShow: 3,
+    arrows: false,
+    centerMode: true
+});
+
+$('.slickSlideshow').slick({
+    autoplay: true,
+    arrows: false
 });
 
 //------------------- Championship creation 

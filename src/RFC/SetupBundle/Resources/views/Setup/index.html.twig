@@ -31,15 +31,11 @@
             </a>
         {% endif %}
 
-
         {% if app.user %}
-
             <a class="ui icon teal labeled button" href="{{ path('setup_new', {'gameId': gameId}) }}">
                 <i class="add icon"></i>{% trans %}setup.actions.create{% endtrans %}
             </a>
-
         {% endif %}
-
     </h2>
 
     {% if app.user %}

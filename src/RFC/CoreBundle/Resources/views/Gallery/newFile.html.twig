@@ -14,23 +14,25 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% extends "RFCCoreBundle::layout.html.twig" %}
+{# src/RFC/CoreBundle/Resources/views/Core/index.html.twig #}
+
+{% extends "RFCCoreBundle::layoutNoGame.html.twig" %}
 {% block title %} Admin - {{ parent() }} {% endblock %}
 {% block rfccore_body %}
+    <h1>Add file</h1>
 
-    <h1>Track edit</h1>
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
 
-    {{ form_start(edit_form) }}
-    {{ form_errors(edit_form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.path) }}
+    {{ form_row(form.commentsActive) }}
 
-    {{ form_row(edit_form.name) }}
-    {{ form_row(edit_form.description) }}
-    {{ form_row(edit_form.commentsActive) }}
+    <input type="submit"/>
 
-    {{ form_end(edit_form) }}
+    {{ form_end(form) }}
 
-    <a href="{{ path('rfcCore_gameParameters', {'gameId' : gameId}) }}#/tracks"> Back to the list </a>
-
-    {{ form(delete_form) }}
+    <a class="ui button" href="{{ path('rfcCore_manageGallery', {'entityType': entityType, 'entityId': entityId}) }}"> Back to the {{ entityType }} gallery </a>
 
 {% endblock %}

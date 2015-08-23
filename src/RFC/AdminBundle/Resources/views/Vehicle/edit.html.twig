@@ -27,17 +27,6 @@
     {{ form_row(edit_form.description) }}
     {{ form_row(edit_form.commentsActive) }}
 
-    <h3>Images</h3>
-    <ul class="images" data-prototype="{{ form_widget(edit_form.listImages.vars.prototype)|e }}">
-        {# itère sur chaque image existantz et affiche ses champs #}
-        {% for image in edit_form.listImages %}
-            <li>{{ form_row(image.name) }}
-                {{ form_row(image.description) }}
-                {{ form_row(image.url) }}
-                {{ form_row(image.alt) }}</li>
-        {% endfor %}
-    </ul>
-
     {{ form_end(edit_form) }}
 
     <a href="{{ path('rfcCore_gameParameters', {'gameId' : gameId}) }}#/vehicles"> Back to the list </a>

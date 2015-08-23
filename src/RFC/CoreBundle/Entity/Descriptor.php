@@ -17,7 +17,6 @@
 
 namespace RFC\CoreBundle\Entity;
 
-use \RFC\CoreBundle\Entity\Image;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
@@ -31,7 +30,7 @@ use JMS\Serializer\Annotation\Groups;
  */
 abstract class Descriptor
 {
-    
+
     /**
      * Hook timestampable behavior
      * updates createdAt, updatedAt fields
@@ -55,13 +54,17 @@ abstract class Descriptor
     protected $commentsActive;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Image", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\File", cascade={"persist"})
      */
     protected $listImages;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->listImages = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     /**
@@ -149,10 +152,10 @@ abstract class Descriptor
     /**
      * Add image
      *
-     * @param Image $image
+     * @param File $image
      * @return Descriptor
      */
-    public function addImage(Image $image)
+    public function addImage(File $image)
     {
         $this->listImages[] = $image;
 
@@ -162,11 +165,10 @@ abstract class Descriptor
     /**
      * Remove image
      *
-     * @param Image $image
+     * @param File $image
      */
-    public function removeImage(Image $image)
+    public function removeImage(File $image)
     {
-        $this->listImages->removeElement ( $image );
+        $this->listImages->removeElement($image);
     }
-
 }

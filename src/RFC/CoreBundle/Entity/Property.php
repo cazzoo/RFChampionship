@@ -87,11 +87,6 @@ class Property extends Descriptor
         return $instance;
     }
 
-    public function __toString()
-    {
-        return $this->name;
-    }
-
     /**
      * Get id
      *

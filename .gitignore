@@ -20,3 +20,4 @@ composer.phar
 /web/js/*
 web/css/48ed673*.css
 *.iml
+/web/uploads/*

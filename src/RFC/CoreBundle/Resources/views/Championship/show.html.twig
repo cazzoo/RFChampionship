@@ -215,23 +215,31 @@
                                          data-eventkey="{{ loop.index }}" data-gameid="{{ appSettings.getGame().id }}"
                                          data-championshipid="{{ championship.id }}">
 
-                                        {% if canEdit %}
-                                            <div class="ui corner red label">
-                                                <a href="{{ path('admin_event_edit', { 'eventId': event.id, 'gameId': appSettings.getGame().id, 'championshipId': championship.id}) }}">
-                                                    <i class="edit icon"></i>
-                                                </a>
-                                            </div>
-                                        {% endif %}
-
-                                        <div class="ui small progress"
+                                        <div class="ui top attached small progress"
                                              data-begindate="{{ event.beginDate|date("Y/m/d H:i:s") }}"
                                              data-enddate="{{ event.endDate|date("Y/m/d H:i:s") }}">
-                                            <div class="bar">
-                                                <div class="progress"></div>
-                                            </div>
+                                            <div class="bar"></div>
                                         </div>
+
+                                        {% if canEdit %}
+                                            <a class="ui blue right corner label"
+                                               href="{{ path('admin_event_edit', { 'eventId': event.id, 'gameId': appSettings.getGame().id, 'championshipId': championship.id}) }}">
+                                                <i class="edit icon"></i>
+                                            </a>
+                                            <a class="ui red left corner label"
+                                               href="{{ path('rfcCore_manageGallery', { 'entityType': 'Event', 'entityId': event.id }) }}">
+                                                <i class="file image outline icon"></i>
+                                            </a>
+                                        {% endif %}
+
                                         <div class="image">
-                                            <img src="/images/wireframe/image.png">
+                                            {% if event.listImages is not empty %}
+                                                <div class="slickSlideshow">
+                                                    {% for image in event.listImages %}
+                                                        <img src="/{{ image.path }}">
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
                                         </div>
                                         <div class="content">
                                             <div class="header">
@@ -340,6 +348,7 @@
     {# Session info modal window #}
     <div class="ui standard session modal transition">
         <i class="close icon"></i>
+
         <div class="header">
             {% trans %}core.championship.result.popupSessionInfo{% endtrans %}
         </div>

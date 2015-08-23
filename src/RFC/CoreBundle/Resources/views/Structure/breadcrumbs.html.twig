@@ -15,9 +15,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
 {% if app.session.get('game') %}
+    <a class="ui labelled icon" href="{{ path('rfcCore_gameSelection', {'gameId' : appSettings.getGame().id}) }}">
+        <i class="angle left icon"></i>
+    </a>
+{% else %}
     <a class="ui labelled icon" href="{{ path('rfcCore_accueil') }}">
         <i class="angle left icon"></i>
     </a>
+    {{ 'core.structure.menu.system'|trans }}
 {% endif %}
 
 {% if app.session.get('game') %}
@@ -55,7 +60,8 @@
             </a>
 
             {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('rfcCore_gameParameters', {'gameId': appSettings.getGame().id}) }}" class="red item icon">
+                <a href="{{ path('rfcCore_gameParameters', {'gameId': appSettings.getGame().id}) }}"
+                   class="red item icon">
                     <i class="game icon"></i>
                     {% trans %}core.menu.parameters{% endtrans %}
                 </a>
