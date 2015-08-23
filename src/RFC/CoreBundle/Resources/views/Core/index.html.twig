@@ -34,11 +34,13 @@
         <div class="ui five doubling cards">
             {% for game in games %}
                 <div class="ui link card gameCard" data-gameid="{{ game.id }}">
-                    <div class="image slickSlideshow">
+                    <div class="image">
                         {% if game.listImages is not empty %}
-                            {% for image in game.listImages %}
-                                <img src="/{{ image.path }}">
-                            {% endfor %}
+                            <div class="slickSlideshow">
+                                {% for image in game.listImages %}
+                                    <img src="/{{ image.path }}">
+                                {% endfor %}
+                            </div>
                         {% endif %}
                     </div>
                     <div class="content">

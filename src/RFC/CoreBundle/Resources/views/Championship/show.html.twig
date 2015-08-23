@@ -232,11 +232,13 @@
                                             </a>
                                         {% endif %}
 
-                                        <div class="image slickSlideshow">
+                                        <div class="image">
                                             {% if event.listImages is not empty %}
-                                                {% for image in event.listImages %}
-                                                    <img src="/{{ image.path }}">
-                                                {% endfor %}
+                                                <div class="slickSlideshow">
+                                                    {% for image in event.listImages %}
+                                                        <img src="/{{ image.path }}">
+                                                    {% endfor %}
+                                                </div>
                                             {% endif %}
                                         </div>
                                         <div class="content">
