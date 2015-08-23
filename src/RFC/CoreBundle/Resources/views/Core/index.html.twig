@@ -25,7 +25,8 @@
 
     <h2>{% trans %}core.index.gamelist{% endtrans %}</h2>
     {% if canEdit %}
-        <a class="ui icon primary button" href="{{ path('admin_game_new') }}"><i class="icon add"></i>{% trans %}core.action.add{% endtrans %}</a>
+        <a class="ui icon primary button" href="{{ path('admin_game_new') }}"><i class="icon add"></i>{% trans %}
+            core.action.add{% endtrans %}</a>
     {% endif %}
 
     {% if games %}
@@ -33,9 +34,11 @@
         <div class="ui five doubling cards">
             {% for game in games %}
                 <div class="ui link card gameCard" data-gameid="{{ game.id }}">
-                    <div class="image">
+                    <div class="image slickSlideshow">
                         {% if game.listImages is not empty %}
-                            <img alt="{{ game.shortName }}" src="{{ game.listImages[0].path }}" class="img-rounded" width="200px" />
+                            {% for image in game.listImages %}
+                                <img src="/{{ image.path }}">
+                            {% endfor %}
                         {% endif %}
                     </div>
                     <div class="content">
@@ -109,17 +112,20 @@
                         </div>
                         <div class="description">
                             {{ game.description }}
-                            <div class="ui horizontal divider">{% trans %}core.index.soon{% endtrans %} {{ game.name }}</div>
+                            <div class="ui horizontal divider">{% trans %}
+                                core.index.soon{% endtrans %} {{ game.name }}</div>
                             <p>{% trans %}core.index.commingSoon{% endtrans %}</p>
                         </div>
                     </div>
                     {% if canEdit %}
                         <div class="extra content">
                             <div class="ui right floated mini primary buttons">
-                                <a class="ui left attached icon button" href="{{ path('admin_game_edit', { 'gameId': game.id }) }}">
+                                <a class="ui left attached icon button"
+                                   href="{{ path('admin_game_edit', { 'gameId': game.id }) }}">
                                     <i class="wrench icon"></i>{% trans %}core.action.edit{% endtrans %}
                                 </a>
-                                <a class="ui right attached     icon button" href="{{ path('rfcCore_gameParameters', {'gameId': game.id}) }}">
+                                <a class="ui right attached     icon button"
+                                   href="{{ path('rfcCore_gameParameters', {'gameId': game.id}) }}">
                                     <i class="game icon"></i>{% trans %}core.index.gameData{% endtrans %}
                                 </a>
                             </div>

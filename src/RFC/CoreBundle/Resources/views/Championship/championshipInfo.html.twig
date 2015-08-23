@@ -19,11 +19,13 @@
 <div class="ui items">
     <div class="item">
         <div class="image">
-            {% if championship.listImages is not empty %}
-                {% for image in championship.listImages %}
-                    <img src="/{{ image.path }}">
-                {% endfor %}
-            {% endif %}
+            <div class="slickSlideshow">
+                {% if championship.listImages is not empty %}
+                    {% for image in championship.listImages %}
+                        <img src="/{{ image.path }}">
+                    {% endfor %}
+                {% endif %}
+            </div>
             {% if canEdit %}
                 <a class="ui blue right corner label"
                    href="{{ path('admin_championship_edit', {'gameId': appSettings.getGame().id, 'championshipId': championship.id}) }}">

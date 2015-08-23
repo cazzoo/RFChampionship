@@ -22,16 +22,25 @@
 
         <div class="ui header">{% trans %}Gallery{% endtrans %}</div>
 
-        <div class="owl-carousel">
+        <div class="slick3Slideshow">
 
             {% for image in listImages %}
-                <div style="width: 30%; float: left; margin: 1%">
-                    {{ image.name }}
-                    <img class="ui image" src="/{{ image.path }}">
-
-                    {% if image.description %}
-                        {{ image.description }}
-                    {% endif %}
+                <div class="ui items">
+                    <div class="item">
+                        <div class="content">
+                            <div class="header">
+                                {{ image.name }}
+                            </div>
+                            <div class="description">
+                                <img class="ui image" src="/{{ image.path }}">
+                            </div>
+                            <div class="extra">
+                                {% if image.description %}
+                                    {{ image.description }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             {% endfor %}
 

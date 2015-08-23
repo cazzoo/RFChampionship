@@ -280,6 +280,10 @@ function loadSessionData(data) {
         addNotification('Session loaded', 'success');
         $('.ui.standard.session.modal.transition >.content >.description').html(data);
         //$('#session').html(data);
+        $('.slickSlideshow').slick({
+            autoplay: true,
+            arrows: false
+        });
         $('form#setResults').bind('submit', function () {
             handleSessionResults($(this));
             $('.ui.standard.session.modal').modal('hide');
@@ -1098,6 +1102,18 @@ $('.uiTabs .menu .item').tab({
     alwaysRefresh: true,
     history: true,
     historyType: 'hash'
+});
+
+$('.slick3Slideshow').slick({
+    autoplay: true,
+    slidesToShow: 3,
+    arrows: false,
+    centerMode: true
+});
+
+$('.slickSlideshow').slick({
+    autoplay: true,
+    arrows: false
 });
 
 //------------------- Championship creation 

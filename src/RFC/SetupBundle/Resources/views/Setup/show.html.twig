@@ -19,19 +19,20 @@
 
 {% block rfccore_body %}
 
-    <a class="red ui labeled icon button" href="{{ path('rfcCore_manageGallery', { 'entityType': 'Setup', 'entityId': setup.id }) }}">
+    <a class="red ui labeled icon button"
+       href="{{ path('rfcCore_manageGallery', { 'entityType': 'Setup', 'entityId': setup.id }) }}">
         <i class="wrench icon"></i>{% trans %}core.action.manageGallery{% endtrans %}
     </a>
 
     {% if setup %}
         <div class="ui items">
             <div class="item">
-                <div class="image">
+                <div class="image slickSlideshow">
                     {% if setup.listImages is not empty %}
-                        <img alt="{{ setup.listImages[0].name }}" src="{{ setup.listImages[0].url }}" class="img-rounded" width="200px" />
-                        <br />
+                        {% for image in setup.listImages %}
+                            <img src="/{{ image.path }}">
+                        {% endfor %}
                     {% endif %}
-                    <img src="/images/wireframe/image.png">
                 </div>
                 <div class="content">
                     <div class="header">{{ setup.name }}</div>
@@ -39,8 +40,9 @@
                         {{ setup.description }}
                     </div>
                     <div class="description">
-                        {% trans with {'%vehicle%' : setup.vehicle.name } %}setup.view.vehicle{% endtrans %}<br />
-                        {% trans with {'%track%' : setup.track ? setup.track.name : '-' } %}setup.view.track{% endtrans %}<br />
+                        {% trans with {'%vehicle%' : setup.vehicle.name } %}setup.view.vehicle{% endtrans %}<br/>
+                        {% trans with {'%track%' : setup.track ? setup.track.name : '-' } %}
+                        setup.view.track{% endtrans %}<br/>
                     </div>
                     <div class="extra">
                         {% if setup.getOrderedSteps|length < stepCount %}
@@ -55,7 +57,7 @@
         {% include 'RFCSetupBundle:SetupStep:index.html.twig' with arraySetupStep %}
 
     {% else %}
-        {% trans with { '%setupid%': app.request.get('setupId') }%}setup.view.noSetup{% endtrans %}
+        {% trans with { '%setupid%': app.request.get('setupId') } %}setup.view.noSetup{% endtrans %}
     {% endif %}
 
     <a class="ui icon labeled primary button" href="{{ path('rfcSetup_index', {'gameId': gameId}) }}">
