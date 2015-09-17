@@ -70,6 +70,7 @@ core:
       points: 'Points'
       showLeaderboard: 'Voir classement complet'
       popupGobalResults: 'Résultat global'
+      popupSessionInfo: 'Information de session'
       driversResults: 'Résultats par pilote'
       teamsResults: 'Résultats par équipe'
       popupEventResults: 'Résultat de l''événement :'

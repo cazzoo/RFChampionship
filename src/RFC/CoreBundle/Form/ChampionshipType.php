@@ -129,12 +129,6 @@ class ChampionshipType extends AbstractType
         ))->add('game', 'entity',
             array(
             'class' => 'RFC\CoreBundle\Entity\Game'
-        ))->add('listImages', 'collection',
-            array(
-            'type' => new ImageType(),
-            'allow_add' => true,
-            'allow_delete' => true,
-            'by_reference' => false
         ));
     }
 

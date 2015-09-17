@@ -70,6 +70,7 @@ core:
         points: 'Points'
         showLeaderboard: 'View full leaderboard'
         popupGobalResults: 'Gobal results'
+        popupSessionInfo: 'Session info'
         driversResults: 'Drivers results'
         teamsResults: 'Teams results'
         popupEventResults: 'Results for event:'
