@@ -35,21 +35,18 @@ class TypeSessionType extends AbstractType
     {
 
         $builder->add('name')->add('description', 'textarea',
-                array(
+            array(
                 'required' => false
             ))->add('usedForResults', 'checkbox',
-                array(
+            array(
                 'required' => false
             ))->add('commentsActive', 'checkbox',
-                array(
+            array(
                 'required' => false
-            ))
-            /* ->add($builder->create('game', 'hidden')
-              ->addModelTransformer($gameTransformer)) */
-            ->add('game', 'entity',
+            ))->add('game', 'entity',
                 array(
-                'class' => 'RFC\CoreBundle\Entity\Game'
-            ));
+                    'class' => 'RFC\CoreBundle\Entity\Game'
+                ));
     }
 
     /**

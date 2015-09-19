@@ -50,14 +50,18 @@ class GalleryController extends RFCController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entity = $entityManager->getRepository('RFCCoreBundle:' . $entityType . '')->find($entityId);
-        $file = new File;
-        $form = $this->createForm(new FileType, $file);
+
+        $uploaded_file = new File();
+        $form = $this->createForm(new FileType(), $uploaded_file);
 
         if ($form->handleRequest($request)->isValid()) {
-            $entity->addImage($file);
+            $entity->addImage($uploaded_file);
+
+            var_dump($uploaded_file);
+            var_dump($uploaded_file->getFile());
 
             $this->get('stof_doctrine_extensions.uploadable.manager')
-                ->markEntityToUpload($file, $file->getPath());
+                ->markEntityToUpload($uploaded_file, $uploaded_file->getFile());
 
             $entityManager->flush();
 
@@ -95,6 +99,7 @@ class GalleryController extends RFCController
         $entityManager->flush();
 
         return $this->redirect($this->generateUrl('rfcCore_manageGallery', array(
+            'entityType' => $entityType,
             'entity' => $entity,
             'entityId' => $entityId
         )));

@@ -57,6 +57,8 @@ class File extends Descriptor
      */
     private $size;
 
+    private $file;
+
     /**
      * Get id
      *
@@ -156,5 +158,23 @@ class File extends Descriptor
     public function getSize()
     {
         return $this->size;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param mixed $file
+     * @return File
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+        return $this;
     }
 }
