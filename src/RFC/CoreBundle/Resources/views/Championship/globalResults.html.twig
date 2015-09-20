@@ -16,6 +16,7 @@
 
 {# src/RFC/CoreBundle/Resources/views/Championship/globalResults.html.twig #}
 
+{# team results only #}
 {% if teamResults|length > 0 %}
     <div class="ui uiTabs secondary menu">
         <a class="item active" data-tab="teams">{% trans %}core.championship.result.teamsResults{% endtrans %}</a>
@@ -73,8 +74,9 @@
     </div>
 {% endif %}
 
+{# user results only #}
 <div class="ui {{ teamResults|length > 0 ? 'tab ' }}basic segment"{{ teamResults|length > 0 ? ' data-tab="users"' }}>
-    {% if userResults|length > 3 %}
+    {% if userResults|length > 2 %}
 
         <div class="ui center aligned three column grid">
             <div class="row">

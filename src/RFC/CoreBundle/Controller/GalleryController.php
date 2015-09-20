@@ -57,9 +57,6 @@ class GalleryController extends RFCController
         if ($form->handleRequest($request)->isValid()) {
             $entity->addImage($uploaded_file);
 
-            var_dump($uploaded_file);
-            var_dump($uploaded_file->getFile());
-
             $this->get('stof_doctrine_extensions.uploadable.manager')
                 ->markEntityToUpload($uploaded_file, $uploaded_file->getFile());
 

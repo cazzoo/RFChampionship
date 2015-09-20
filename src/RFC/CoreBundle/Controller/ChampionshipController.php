@@ -126,6 +126,16 @@ class ChampionshipController extends RFCController
         }
     }
 
+    private function cmp($a, $b)
+    {
+        $val_a = floatval($a['sum']);
+        $val_b = floatval($b['sum']);
+        if ($val_a == $val_b) {
+            return 0;
+        }
+        return $val_a < $val_b ? 1 : -1;
+    }
+
     public function getResultsAction(Request $request)
     {
         if ($request->isMethod('POST')) {
@@ -151,15 +161,9 @@ class ChampionshipController extends RFCController
                 }
             }
 
-            usort($userResults,
-                function ($a, $b) {
-                    return $b['sum'] - $a['sum'];
-                });
+            usort($userResults, "self::cmp");
 
-            usort($teamResults,
-                function ($a, $b) {
-                    return $b['sum'] - $a['sum'];
-                });
+            usort($teamResults, "self::cmp");
 
             return $this->render('RFCCoreBundle:Championship:globalResults.html.twig',
                 array(
@@ -192,15 +196,10 @@ class ChampionshipController extends RFCController
                 }
             }
 
-            usort($userResults,
-                function ($a, $b) {
-                    return $b['sum'] - $a['sum'];
-                });
 
-            usort($teamResults,
-                function ($a, $b) {
-                    return $b['sum'] - $a['sum'];
-                });
+            usort($userResults, "self::cmp");
+
+            usort($teamResults, "self::cmp");
 
             return $this->render('RFCCoreBundle:Championship:resultsTable.html.twig',
                 array(
