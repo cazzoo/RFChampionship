@@ -611,7 +611,7 @@ function showEvent(id) {
     updateProgressBar(eventElement.find('.ui.progress'));
     updateProgressBar($('#championshipProgessbar'));
     loadEventSessions(eventElement.data('eventid'));
-    activateSlickSlideshow(eventElement);
+	updateSlickSlideshow(eventElement.find('.slickSlideshow'));
 }
 
 function loadEventSessions(id) {
@@ -725,13 +725,13 @@ function handleTeamRegistration(response) {
     });
 }
 
-function activateSlickSlideshow(element) {
-    element.find('.slickSlideshow').slick({
+function updateSlickSlideshow(element) {
+    element.parent().find('.slick-initialized').slick('unslick');
+    element.slick({
         autoplay: true,
         arrows: false
     });
 }
-
 
 $(function () {
 
@@ -1113,7 +1113,7 @@ $('.uiTabs .menu .item').tab({
     historyType: 'hash'
 });
 
-$('.slick3Slideshow').filter(':visible').slick({
+$('.slick3Slideshow').slick({
     autoplay: true,
     slidesToShow: 3,
     arrows: false,
@@ -1121,7 +1121,7 @@ $('.slick3Slideshow').filter(':visible').slick({
 });
 
 $('.slickSlideshow').each(function () {
-    activateSlickSlideshow($(this));
+    updateSlickSlideshow($(this));
 });
 
 //------------------- Championship creation 
