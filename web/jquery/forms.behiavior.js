@@ -280,7 +280,7 @@ function loadSessionData(data) {
         addNotification('Session loaded', 'success');
         $('.ui.standard.session.modal.transition >.content >.description').html(data);
         //$('#session').html(data);
-        $('.slickSlideshow').slick({
+        $('.ui.standard.session.modal.transition >.content >.description .slickSlideshow').slick({
             autoplay: true,
             arrows: false
         });
@@ -386,6 +386,8 @@ function setSessionResults(data) {
         url: Routing.generate('ajax_session_results_set'),
         data: jsonFormatted,
         cache: false,
+        contentType: 'json',
+        dataType: 'json',
         beforeSend: function () {
             $('#formContainer').append("Enregistrement des résultats...");
         }
@@ -611,7 +613,7 @@ function showEvent(id) {
     updateProgressBar(eventElement.find('.ui.progress'));
     updateProgressBar($('#championshipProgessbar'));
     loadEventSessions(eventElement.data('eventid'));
-	updateSlickSlideshow(eventElement.find('.slickSlideshow'));
+    updateSlickSlideshow(eventElement.find('.slickSlideshow'));
 }
 
 function loadEventSessions(id) {
