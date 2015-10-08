@@ -63,6 +63,13 @@ class Team extends Descriptor
     private $listSecondaryDrivers;
 
     /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Registration", mappedBy="team")
+     * @ORM\JoinColumn(nullable=true)
+     * @Groups({"list","api"})
+     */
+    private $listRegistration;
+
+    /**
      * @ORM\Column(type="integer")
      * @Groups({"list","api"})
      */
@@ -208,6 +215,22 @@ class Team extends Descriptor
             return false;
         }
         return $this->listSecondaryDrivers->removeElement($user) ? $this : false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getListRegistration()
+    {
+        return $this->listRegistration;
+    }
+
+    /**
+     * @param mixed $listRegistration
+     */
+    public function setListRegistration($listRegistration)
+    {
+        $this->listRegistration = $listRegistration;
     }
 
     public function getMaxMainDrivers()

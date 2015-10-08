@@ -98,6 +98,13 @@ class Championship extends KnowledgeData
     private $listTeams;
 
     /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Registration", mappedBy="championship")
+     * @ORM\JoinColumn(nullable=true)
+     * @Groups({"list","api"})
+     */
+    private $listRegistration;
+
+    /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Category")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -416,6 +423,22 @@ class Championship extends KnowledgeData
     public function unregisterUser(User $user)
     {
         $this->listUsers->removeElement($user);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getListRegistration()
+    {
+        return $this->listRegistration;
+    }
+
+    /**
+     * @param mixed $listRegistration
+     */
+    public function setListRegistration($listRegistration)
+    {
+        $this->listRegistration = $listRegistration;
     }
 
     /**
