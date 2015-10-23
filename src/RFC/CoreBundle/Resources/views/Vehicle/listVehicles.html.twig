@@ -1,0 +1,39 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{% if team is defined %}
+    {% if team.category is defined %}
+        {% set allowedVehicles = team.category.listVehicles %}
+    {% else %}
+        {% set allowedVehicles = team.vehicle %}
+    {% endif %}
+    {% else %}
+    {% set allowedVehicles = championship.getAllowedVehicles %}
+{% endif %}
+
+{% if user is defined %}
+    {% set currentUser = user %}
+{% else %}
+    {% set currentUser = app.user %}
+{% endif %}
+
+{% set userRegistration = getUserRegistration(currentUser.name) %}
+
+<div class="ui items">
+    {% for vehicle in allowedVehicles %}
+        {% include 'RFCCoreBundle:Team:itemVehicle.html.twig' with {'vehicle' : vehicle, 'userRegistration' : userRegistration} %}
+    {% endfor %}
+</div>

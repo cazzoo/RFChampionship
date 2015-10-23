@@ -49,6 +49,20 @@ class Team extends Descriptor
     protected $championship;
 
     /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Vehicle")
+     * @ORM\JoinColumn(nullable=true)
+     * @Groups({"api"})
+     */
+    private $vehicle;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Category")
+     * @ORM\JoinColumn(nullable=true)
+     * @Groups({"api"})
+     */
+    private $category;
+
+    /**
      * @ORM\ManyToMany(targetEntity="RFC\UserBundle\Entity\User")
      * @JoinTable(name="team_mainDrivers")
      * @Groups({"list","api"})
@@ -101,6 +115,9 @@ class Team extends Descriptor
         return $this->id;
     }
 
+    /**
+     * @return Championship
+     */
     public function getChampionship()
     {
         return $this->championship;
@@ -109,9 +126,41 @@ class Team extends Descriptor
     /**
      * @param Championship $championship
      */
-    public function setChampionship($championship)
+    public function setChampionship(Championship $championship)
     {
         $this->championship = $championship;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVehicle()
+    {
+        return $this->vehicle;
+    }
+
+    /**
+     * @param mixed $vehicle
+     */
+    public function setVehicle($vehicle)
+    {
+        $this->vehicle = $vehicle;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
     }
 
     /**
@@ -253,5 +302,31 @@ class Team extends Descriptor
     {
         $this->maxSecondaryDrivers = $maxSecondaryDrivers;
         return $this;
+    }
+
+    public function getUserRegistration(User $userName) {
+        return $this->getChampionship()->getUserRegistration($userName);
+    }
+
+    /**
+     * This method return whether a team can accept new registration or not.
+     * @return bool|string 'main' if a main slot is available, 'secondary' is no main is available and a secondary available, false if none is available.
+     */
+    public function getRegistrationAvailable() {
+        if($this->maxMainDrivers === -1) {
+            return 'main';
+        }elseif($this->maxSecondaryDrivers === -1) {
+            return 'secondary';
+        } else {
+            $teamMainDriversRegistration = array_filter($this->listRegistration, function($registration) { return $registration->type === Registration::DRIVER_TYPE_MAIN;});
+            $teamSecondaryDriversRegistration = array_filter($this->listRegistration, function($registration) { return $registration->type === Registration::DRIVER_TYPE_SECONDARY;});
+            if(count($teamMainDriversRegistration) < $this->maxMainDrivers) {
+                return 'main';
+            }elseif(count($teamSecondaryDriversRegistration) < $this->maxSecondaryDrivers) {
+                return 'secondary';
+            } else {
+                return false;
+            }
+        }
     }
 }

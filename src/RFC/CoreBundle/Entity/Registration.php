@@ -19,8 +19,20 @@
 
 namespace RFC\CoreBundle\Entity;
 
+use RFC\UserBundle\Entity\User;
+
+/**
+ * Registration
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="RegistrationRepository")
+ */
 class Registration
 {
+
+    const DRIVER_TYPE_MAIN = 1;
+    const DRIVER_TYPE_SECONDARY = 2;
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -31,23 +43,145 @@ class Registration
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship", inversedBy="listRegistration")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"api"})
+     */
+    private $championship;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RFC\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"api"})
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Vehicle")
      * @ORM\JoinColumn(nullable=true)
      * @Groups({"api"})
      */
-    protected $championship;
+    private $vehicle;
 
     /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Team", inversedBy="listRegistration")
      * @ORM\JoinColumn(nullable=true)
      * @Groups({"api"})
      */
-    protected $team;
+    private $team;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Vehicle")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(name="type", type="smallint")
      * @Groups({"api"})
      */
-    protected $vehicle;
+    private $type;
+
+    /**
+     * Class constructor
+     */
+    public function __construct(Championship $championship, User $user, $type = self::DRIVER_TYPE_MAIN, Team $team = NULL)
+    {
+        $this->championship = $championship;
+        $this->user = $user;
+        $this->type = $type;
+        $this->team = $team;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return Championship
+     */
+    public function getChampionship()
+    {
+        return $this->championship;
+    }
+
+    /**
+     * @param Championship $championship
+     * @return Registration
+     */
+    public function setChampionship(Championship $championship)
+    {
+        $this->championship = $championship;
+        return $this;
+    }
+
+    /**
+     * @return Team
+     */
+    public function getTeam()
+    {
+        return $this->team;
+    }
+
+    /**
+     * @param Team $team
+     * @return Registration
+     */
+    public function setTeam(Team $team)
+    {
+        $this->team = $team;
+        return $this;
+    }
+
+    /**
+     * @return Vehicle
+     */
+    public function getVehicle()
+    {
+        return $this->vehicle;
+    }
+
+    /**
+     * @param Vehicle $vehicle
+     * @return Registration
+     */
+    public function setVehicle(Vehicle $vehicle)
+    {
+        $this->vehicle = $vehicle;
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     * @return Registration
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param integer $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
 
 }

@@ -102,7 +102,7 @@ class Championship extends KnowledgeData
      * @ORM\JoinColumn(nullable=true)
      * @Groups({"list","api"})
      */
-    private $listRegistration;
+    private $listRegistrations;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Category")
@@ -129,6 +129,7 @@ class Championship extends KnowledgeData
         $this->listTeams = new ArrayCollection();
         $this->listCategories = new ArrayCollection();
         $this->listVehicles = new ArrayCollection();
+        $this->listRegistrations = new ArrayCollection();
     }
 
     /**
@@ -408,7 +409,7 @@ class Championship extends KnowledgeData
      * @param User $user
      * @return Championship
      */
-    public function registerUser(User $user)
+    public function registerUser(User $user, $type, Team $team)
     {
         $this->listUsers[] = $user;
 
@@ -428,17 +429,76 @@ class Championship extends KnowledgeData
     /**
      * @return mixed
      */
-    public function getListRegistration()
+    public function getListRegistrations()
     {
-        return $this->listRegistration;
+        return $this->listRegistrations;
     }
 
     /**
-     * @param mixed $listRegistration
+     * @param mixed $listRegistrations
      */
-    public function setListRegistration($listRegistration)
+    public function setListRegistrations($listRegistrations)
     {
-        $this->listRegistration = $listRegistration;
+        $this->listRegistrations = $listRegistrations;
+    }
+
+    /**
+     * Add registration
+     *
+     * @param Registration $registration
+     * @return Championship
+     */
+    public function addRegistration(Registration $registration)
+    {
+        $this->listRegistrations[] = $registration;
+
+        return $this;
+    }
+
+    /**
+     * Remove registration
+     *
+     * @param Registration $registration
+     */
+    public function removeRegistration(Registration $registration)
+    {
+        $this->listRegistrations->removeElement($registration);
+    }
+
+    /**
+     * This method returns a registration based on user name, null if not found.
+     * @param $userName
+     * @return mixed|null
+     */
+    public function getUserRegistration($userName)
+    {
+        foreach($this->listRegistrations as $registration)
+        {
+            if($registration->getUser()->getUsername() === $userName){
+                return $registration;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * This method returns all the registration for a given team id
+     * @param $teamId
+     * @return array
+     */
+    public function getRegistrationByTeam($teamId, $type = null) {
+        $teamRegistration = array();
+        foreach($this->listRegistrations as $registration)
+        {
+            if($registration->getTeam()->getId() === $teamId){
+                if($type && $registration->getType() === $type) {
+                    $teamRegistration[] = $registration;
+                } else {
+                    $teamRegistration[] = $registration;
+                }
+            }
+        }
+        return $teamRegistration;
     }
 
     /**
@@ -544,6 +604,20 @@ class Championship extends KnowledgeData
         return $this;
     }
 
+    public function getAllowedVehicles()
+    {
+        $allowedVehicles = array();
+        if(count($this->listCategories) === 0 ) {
+            $allowedVehicles = $this->listVehicles;
+        } else {
+            foreach($this->listCategories as $category) {
+                array_merge($allowedVehicles, $category->getListVehicles());
+            }
+        }
+
+        return $allowedVehicles;
+    }
+
     /**
      *
      * @return ArrayCollection
@@ -571,16 +645,22 @@ class Championship extends KnowledgeData
     public function generateTeams(Array $baseData)
     {
         foreach ($baseData[0] as $data) {
-            if (get_class($data) == 'RFC\CoreBundle\Entity\Vehicle' || get_class($data)
-                == 'RFC\CoreBundle\Entity\Category'
-            ) {
-                $t = new Team();
+            $t = new Team();
+            $isVehicle = get_class($data) == 'RFC\CoreBundle\Entity\Vehicle';
+            $isCategory = get_class($data) == 'RFC\CoreBundle\Entity\Category';
+            if ($isVehicle || $isCategory) {
                 // We generate the team name using the Data name
                 $t->setName($data->getName());
                 $t->setMaxMainDrivers($baseData[1]);
                 $t->setMaxSecondaryDrivers($baseData[2]);
                 $t->setCommentsActive(false);
                 $t->setChampionship($this);
+                if($isVehicle) {
+                    $t->setVehicle($data);
+                }
+                if($isCategory) {
+                    $t->setCategory($data);
+                }
                 $this->addTeam($t);
             } else {
                 // We wait here an array with only one integer that represents the number of teams we want

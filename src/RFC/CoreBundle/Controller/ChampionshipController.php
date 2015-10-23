@@ -19,6 +19,7 @@
 
 namespace RFC\CoreBundle\Controller;
 
+use RFC\CoreBundle\Entity\Registration;
 use RFC\FrameworkBundle\Controller\RFCController;
 use RFC\CoreBundle\Entity\Team;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -103,10 +104,13 @@ class ChampionshipController extends RFCController
 
             switch ($action) {
                 case 'register' :
+                    $championship->addRegistration(new Registration($championship, $user));
                     $championship->registerUser($user);
                     $entityManager->flush();
                     break;
                 case 'unregister' :
+                    $userRegistration = $championship->getUserRegistration($user->getUsername());
+                    $championship->removeRegistration($userRegistration);
                     $championship->unregisterUser($user);
                     $entityManager->flush();
                     break;
@@ -124,16 +128,6 @@ class ChampionshipController extends RFCController
                     'status' => ''
                 ));
         }
-    }
-
-    private function cmp($a, $b)
-    {
-        $val_a = floatval($a['sum']);
-        $val_b = floatval($b['sum']);
-        if ($val_a == $val_b) {
-            return 0;
-        }
-        return $val_a < $val_b ? 1 : -1;
     }
 
     public function getResultsAction(Request $request)
@@ -166,42 +160,6 @@ class ChampionshipController extends RFCController
             usort($teamResults, "self::cmp");
 
             return $this->render('RFCCoreBundle:Championship:globalResults.html.twig',
-                array(
-                    'userResults' => $userResults,
-                    'teamResults' => $teamResults
-                ));
-        }
-    }
-
-    public function getEventResultsAction(Request $request)
-    {
-        if ($request->isMethod('POST')) {
-            $params = \json_decode($request->getContent(), true);
-
-            $userResults = array();
-            $teamResults = array();
-
-            $event = $this->getDoctrine()->getManager()
-                ->getRepository('RFCCoreBundle:Event')
-                ->findOneBy(array('id' => $params ['eventId']));
-
-            foreach ($event->getListSessions() as $session) {
-                if ($session->getTypeSession()->isUsedForResults()) {
-                    foreach ($session->getListResults() as $result) {
-                        if ($result->getUser() !== null) {
-                            $this->addPointsToUser($userResults, $result);
-                            $this->addPointsToTeam($teamResults, $result);
-                        }
-                    }
-                }
-            }
-
-
-            usort($userResults, "self::cmp");
-
-            usort($teamResults, "self::cmp");
-
-            return $this->render('RFCCoreBundle:Championship:resultsTable.html.twig',
                 array(
                     'userResults' => $userResults,
                     'teamResults' => $teamResults
@@ -261,6 +219,42 @@ class ChampionshipController extends RFCController
                     'sum' => $value
                 ];
             }
+        }
+    }
+
+    public function getEventResultsAction(Request $request)
+    {
+        if ($request->isMethod('POST')) {
+            $params = \json_decode($request->getContent(), true);
+
+            $userResults = array();
+            $teamResults = array();
+
+            $event = $this->getDoctrine()->getManager()
+                ->getRepository('RFCCoreBundle:Event')
+                ->findOneBy(array('id' => $params ['eventId']));
+
+            foreach ($event->getListSessions() as $session) {
+                if ($session->getTypeSession()->isUsedForResults()) {
+                    foreach ($session->getListResults() as $result) {
+                        if ($result->getUser() !== null) {
+                            $this->addPointsToUser($userResults, $result);
+                            $this->addPointsToTeam($teamResults, $result);
+                        }
+                    }
+                }
+            }
+
+
+            usort($userResults, "self::cmp");
+
+            usort($teamResults, "self::cmp");
+
+            return $this->render('RFCCoreBundle:Championship:resultsTable.html.twig',
+                array(
+                    'userResults' => $userResults,
+                    'teamResults' => $teamResults
+                ));
         }
     }
 
@@ -328,12 +322,7 @@ class ChampionshipController extends RFCController
      * @param type $driverid The driver we want to add
      * @return JsonResponse 200 if success (with team object), 400 if issue when flusing
      */
-    public
-    function userUnregisterTeamAction(
-        $teamid,
-        $drivertype,
-        $driverid
-    ) {
+    public function userUnregisterTeamAction( $teamid, $drivertype, $driverid) {
         $entityManager = $this->getDoctrine()->getManager();
 
         $team = $entityManager->getRepository('RFCCoreBundle:Team')->findOneBy([
@@ -381,5 +370,107 @@ class ChampionshipController extends RFCController
         ];
 
         return new JsonResponse($data, 200);
+    }
+
+    /** This method register or un-register a user to a championship (or team).
+     * @param $registrationaction
+     * @param $championshipid
+     * @param $driverid
+     * @param int $drivertype
+     * @param null $teamid
+     * @return JsonResponse
+     */
+    public function registrationAction($registrationaction, $championshipid, $driverid, $drivertype = Registration::DRIVER_TYPE_MAIN, $teamid = NULL)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $championship = $entityManager->getRepository('RFCCoreBundle:Championship')->findOneBy([
+            'id' => $championshipid
+        ]);
+        $team = $teamid !== NULL ? $championship->getTeam($teamid) : NULL;
+        $user = $entityManager->getRepository('RFCUserBundle:User')->findOneBy([
+            'id' => $driverid
+        ]);
+
+        if($registrationaction === 'register')
+        {
+            $championship->addRegistration(new Registration($championship, $user, $drivertype, $team));
+            $teamMessage = $team !== null ? ' on ' . $team->getName() . ' as ' . ($drivertype === Registration::DRIVER_TYPE_MAIN ? 'main' : 'secondary') . ' driver.' : '';
+            $message = 'Successfully registered to championship ' . $championship->getName() . $teamMessage;
+        } else {
+            $championship->removeRegistration($championship->getUserRegistration($user->getUsername()));
+            $teamMessage = $team !== null ? '. Was previously on team ' . $team->getName() . ' as ' . ($drivertype === Registration::DRIVER_TYPE_MAIN ? 'main' : 'secondary') . ' driver.' : '';
+            $message = 'Successfully un-registered from championship ' . $championship->getName() . $teamMessage;
+        }
+        $entityManager->flush();
+
+        $success = true;
+        $serializer = $this->get('jms_serializer');
+        $context = SerializationContext::create();
+        $context->setGroups(['api']);
+        $data = ['championship' => $team->getChampionship(), 'user' => $user];
+        $jsonData = $serializer->serialize($data, 'json', $context);
+
+        $data = [
+            'success' => $success,
+            'action' => 'updated registration fo user ' . $user->getUsername(),
+            'message' => $message,
+            'data' => $jsonData
+        ];
+
+        return new JsonResponse($data, 200);
+    }
+
+    /** This method selects or un-selects a vehicle for a given registered user (represented by registration object)
+     * @param $registrationaction
+     * @param $registrationid
+     * @param $vehicleid
+     * @return JsonResponse
+     */
+    public function vehicleSelectionAction($registrationaction, $registrationid, $vehicleid) {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $registration = $entityManager->getRepository('RFCCoreBundle:Registration')->findOneBy([
+            'id' => $registrationid
+        ]);
+        $vehicle = $entityManager->getRepository('RFCCoreBundle:Vehicle')->findOneBy([
+            'id' => $vehicleid
+        ]);
+
+        if($registrationaction === 'register')
+        {
+            $registration->setVehicle($vehicle);
+            $message = 'Successfully selected vehicle ' . $vehicle->getName() . ' for registered user ' . $registration->getUser()->getUsername();
+        } else {
+            $registration->setVehicle(null);
+            $message = 'Successfully un-selected vehicle ' . $vehicle->getName() . ' for registered user ' . $registration->getUser()->getUsername();
+        }
+        $entityManager->flush();
+
+        $success = true;
+        $serializer = $this->get('jms_serializer');
+        $context = SerializationContext::create();
+        $context->setGroups(['api']);
+        $data = ['championship' => $registration->getChampionship(), 'user' => $registration->getUser()];
+        $jsonData = $serializer->serialize($data, 'json', $context);
+
+        $data = [
+            'success' => $success,
+            'action' => 'updated vehicle ' . $vehicle->getName() . ' for ' . $registration->getUser()->getUsername(),
+            'message' => $message,
+            'data' => $jsonData
+        ];
+
+        return new JsonResponse($data, 200);
+    }
+
+    private function cmp($a, $b)
+    {
+        $val_a = (float) $a['sum'];
+        $val_b = (float) $b['sum'];
+        if ($val_a == $val_b) {
+            return 0;
+        }
+        return $val_a < $val_b ? 1 : -1;
     }
 }
