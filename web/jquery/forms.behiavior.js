@@ -689,7 +689,7 @@ function handleTeamRegistration(response) {
     $.each(championship.listTeams, function (keyTeam, team) {
         var teamCard = $('.ui.fluid.card[data-teamid=' + team.id + ']');
         team.championship = _championship;
-        var renderedTeamRegistration = Twig.render(teamRegistration, {
+        var renderedTeamRegistration = Twig.render('teamRegistration', {
             'app': app,
             'registeredAsMainDriver': registeredAsMainDriver,
             'registeredAsSecondaryDriver': registeredAsSecondaryDriver,
@@ -697,14 +697,14 @@ function handleTeamRegistration(response) {
         });
         var renderedTeamMainDrivers = '';
         $.each(team.listMainDrivers, function (keyMainDriver, mainDriver) {
-            renderedTeamMainDrivers += Twig.render(userLink, {
+            renderedTeamMainDrivers += Twig.render('userLink', {
                 'user': mainDriver,
                 'game': _championship.game
             });
         });
         var renderedTeamSecondaryDrivers = '';
         $.each(team.listSecondaryDrivers, function (keySecondaryDriver, secondaryDriver) {
-            renderedTeamSecondaryDrivers += Twig.render(userLink, {
+            renderedTeamSecondaryDrivers += Twig.render('userLink', {
                 'user': secondaryDriver,
                 'game': _championship.game
             });
@@ -724,6 +724,46 @@ function handleTeamRegistration(response) {
                 handleTeamRegistration(response);
             }
         });
+    });
+}
+
+function updateUserRegistration(response) {
+    var championship = $.parseJSON(response.data).championship;
+    var user = $.parseJSON(response.data).user;
+    var userRegistrationForm = Twig.render('userRegistration', {
+        'championship': championship,
+        'user': user});
+    $('#userRegistrationForm').html(userRegistrationForm);
+    handleVehicleSelection(championship, user, null);
+    showModalAndActivatePopups($('.standard.vehicleSelection.modal'));
+    $('.ui.button.userRegistration').api({
+        method: 'POST',
+        onSuccess: function (response) {
+            updateUserRegistration(response);
+        }
+    });
+}
+
+/**
+ * This method renders the vehicle selection screen depending the given parameters. If team is not null, assumes that we allow only team available vehicles and not championship available vehicles.
+ * @param championship
+ * @param user
+ * @param team
+ */
+function handleVehicleSelection(championship, user, team) {
+    var selectionScreen = Twig.render('vehicleSelection', {
+        'championship': championship,
+        'user': user,
+        'team': team});
+    $('.standard.vehicleSelection.modal > .content > .description').html(selectionScreen);
+    $('.standard.vehicleSelection.modal > .content > .description .ui.button.vehcileSelection').api({
+        method: 'POST',
+        onSuccess: function (response) {
+            var championship = $.parseJSON(response.data).championship;
+            var user = $.parseJSON(response.data).user;
+            var team = $.parseJSON(response.data).team;
+            handleVehicleSelection(championship, user, team);
+        }
     });
 }
 
@@ -1025,6 +1065,14 @@ $(function () {
         showModalAndActivatePopups($('.standard.teamList.modal'));
     });
 
+    $('#viewTeamRegistrationScreen').click(function() {
+        showModalAndActivatePopups($('.standard.teamRegistration.modal'));
+    })
+
+    $('#showVehicleSelection').click(function() {
+        showModalAndActivatePopups($('.standard.vehicleSelection.modal'));
+    });
+
     $('.grid.teams .card .image').dimmer({
         on: 'hover'
     });
@@ -1032,11 +1080,18 @@ $(function () {
     $('.ui.button.teamRegistration').api({
         method: 'POST',
         beforeSend: function (settings) {
-            $('.content>.center a.ui.button.teamRegistration').not($(this)).addClass('disabled');
+            $('.ui.button.userRegistration').addClass('disabled');
             return settings;
         },
         onSuccess: function (response) {
             handleTeamRegistration(response);
+        }
+    });
+
+    $('.ui.button.userRegistration').api({
+        method: 'POST',
+        onSuccess: function (response) {
+            updateUserRegistration(response);
         }
     });
 

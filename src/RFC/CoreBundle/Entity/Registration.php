@@ -34,6 +34,12 @@ class Registration
     const DRIVER_TYPE_SECONDARY = 2;
 
     /**
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
+
+    /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")

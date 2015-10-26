@@ -124,33 +124,27 @@
                         </div>
                         <div class="content">
                             <div class="description">
-                                {% include 'RFCCoreBundle:Team:listItemTeam.html.twig'} %}
+                                {% include 'RFCCoreBundle:Team:listItemTeam.html.twig' with {'championship' : championship} %}
                             </div>
                         </div>
                     </div>
                 {% else %}
-                    <div class="ui basic center aligned segment">
-                        {% if championship.getUserRegistration(app.user.username) is null %}
-                            <div class="ui right floated primary button"
-                                 data-action="user championship registration"
-                                 data-championshipid="{{ championship.id }}"
-                                 data-driverid="{{ app.user.id }}"
-                                 data-registeraction="register"
-                                 data-drivertype="1">
-                                REGISTER AND SHOW VEHICLE SELECTION SCREEN
-                            </div>
-                        {% else %}
-                            <div class="ui right floated primary button"
-                                 data-action="user championship registration"
-                                 data-championshipid="{{ championship.id }}"
-                                 data-driverid="{{ app.user.id }}"
-                                 data-registeraction="unregister"
-                                 data-drivertype="1">
-                                UNREGISTER FROM CHAMPIONSHIP
-                            </div>
-                        {% endif %}
+                    <div id="userRegistrationForm" class="ui basic center aligned segment">
+                        {% include 'RFCCoreBundle:Championship:userRegistration.html.twig' with {'championship' : championship} %}
                     </div>
                 {% endif %}
+
+                <div class="ui standard vehicleSelection modal transition">
+                    <i class="close icon"></i>
+
+                    <div class="header">
+                        VEHICLE SELECTION SCREEN
+                    </div>
+                    <div class="content">
+                        <div class="description">
+                        </div>
+                    </div>
+                </div>
 
             </div>
             <div class="column">

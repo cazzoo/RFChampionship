@@ -25,7 +25,7 @@
         {% endif %}
         {% if canEdit %}
             <a class="ui blue right corner label"
-               href="{{ path('admin_vehicle_edit', {'gameId': appSettings.getGame().id, 'vehicleId': vehicle.id}) }}">
+               href="{{ path('admin_vehicle_edit', {'gameId': vehicle.game.id, 'vehicleId': vehicle.id}) }}">
                 <i class="setting icon"></i>
             </a>
             <a class="ui red left corner label"
@@ -43,7 +43,7 @@
     <div class="extra">
         <i class="car primary icon"></i>
         {% if userRegistration is null %}
-        <div class="ui right floated primary button"
+        <div class="ui right floated primary button vehicleSelection"
              data-action="user vehicle selection"
              data-championshipid="{{ team.championship.id }}"
              data-driverid="{{ user.id }}"

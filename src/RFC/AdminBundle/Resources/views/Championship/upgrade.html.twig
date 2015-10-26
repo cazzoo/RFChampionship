@@ -16,12 +16,12 @@
 
 <h1>The action is now complete</h1>
 
-{% if updatedEvents %}
-    The following events were updated : 
+{% if updated %}
+    The following championships were updated :
 
-    {% for event in updatedEvents %}
-        <li>{{ event.championship.name }} - event : {{ event.name}}</li>
+    {% for championship in updated %}
+        <li>{{ championship.name }}</li>
         {% endfor %}
     {% else %}
-        No events updated
+        No championships updated
     {% endif %}

@@ -20,7 +20,7 @@
     {% set currentUser = app.user %}
 {% endif %}
 
-{% set userRegistration = getUserRegistration(currentUser.name) %}
+{% set userRegistration = championship.getUserRegistration(currentUser.name) %}
 
 <div class="ui items">
     {% for team in teams %}

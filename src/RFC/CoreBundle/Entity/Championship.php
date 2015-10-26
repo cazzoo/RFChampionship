@@ -992,17 +992,4 @@ class Championship extends KnowledgeData
     {
         return count($this->listTeams) > 0 ? true : false;
     }
-
-    public function getOutdated()
-    {
-        foreach ($this->getListEvents() as $event) {
-            if (($event->getVehicle() !== null && count($event->getListVehicle()
-                        === 0)) || ($event->getCategory() !== null && count($event->getListCategories()
-                        === 0))
-            ) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

@@ -1,0 +1,52 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{# src/RFC/CoreBundle/Resources/views/User/index.html.twig #}
+
+{% twig_js name="userRegistration" %}
+
+{% if user is defined %}
+    {% set currentUser = user %}
+{% else %}
+    {% set currentUser = app.user %}
+{% endif %}
+
+{% set userRegistration = championship.getUserRegistration(currentUser.name) %}
+
+{% if userRegistration is null %}
+    <div class="ui right floated primary button userRegistration"
+         data-action="user championship registration"
+         data-championshipid="{{ championship.id }}"
+         data-driverid="{{ currentUser.id }}"
+         data-registeraction="register"
+         data-drivertype="1">
+        REGISTER AND SHOW VEHICLE SELECTION SCREEN
+    </div>
+{% else %}
+    <div class="ui right floated secondary button userRegistration"
+         data-action="user championship registration"
+         data-championshipid="{{ userRegistration.championship.id }}"
+         data-driverid="{{ currentUser.id }}"
+         data-registeraction="unregister"
+         data-drivertype="1">
+        UNREGISTER FROM CHAMPIONSHIP
+    </div>
+    {% if userRegistration.vehicle is null or userRegistration.vehicle is undefined %}
+        <div id="showVehicleSelection" class="ui right floated primary button">
+            SELECT A VEHICLE
+        </div>
+    {% endif %}
+{% endif %}
