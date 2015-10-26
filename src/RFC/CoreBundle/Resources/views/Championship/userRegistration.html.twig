@@ -24,7 +24,7 @@
     {% set currentUser = app.user %}
 {% endif %}
 
-{% set userRegistration = championship.getUserRegistration(currentUser.name) %}
+{% set userRegistration = championship.getUserRegistration(currentUser.username) %}
 
 {% if userRegistration is null %}
     <div class="ui right floated primary button userRegistration"
@@ -44,7 +44,7 @@
          data-drivertype="1">
         UNREGISTER FROM CHAMPIONSHIP
     </div>
-    {% if userRegistration.vehicle is null or userRegistration.vehicle is undefined %}
+    {% if userRegistration.vehicle is null or userRegistration.vehicle is not defined %}
         <div id="showVehicleSelection" class="ui right floated primary button">
             SELECT A VEHICLE
         </div>

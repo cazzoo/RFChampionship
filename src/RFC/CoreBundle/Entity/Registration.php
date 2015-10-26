@@ -19,6 +19,10 @@
 
 namespace RFC\CoreBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use JMS\Serializer\Annotation\Groups;
 use RFC\UserBundle\Entity\User;
 
 /**
@@ -48,7 +52,7 @@ class Registration
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship", inversedBy="listRegistration")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship", inversedBy="listRegistration" ,cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"api"})
      */
@@ -90,6 +94,11 @@ class Registration
         $this->user = $user;
         $this->type = $type;
         $this->team = $team;
+    }
+
+    public function __toString()
+    {
+        return $this->championship->getName();
     }
 
     /**

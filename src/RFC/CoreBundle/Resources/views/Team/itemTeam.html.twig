@@ -49,7 +49,7 @@
                 <div>
                     Main slot : <span class="countRegisteredMainDrivers">{{ team.listMainDrivers|length }}</span> / {{ team.maxMainDrivers == -1 ?  'unlimited' : team.maxMainDrivers }}
                 </div>
-                {% if team.getRegistrationAvailable === 'main' %}
+                {% if team.getRegistrationAvailable == 'main' %}
                     {% if userRegistration is null %}
                         <div class="ui right floated primary button"
                              data-action="user championship registration"
@@ -61,8 +61,8 @@
                             Register as main driver
                         </div>
                     {% else %}
-                        {% if registration.type === 1 and registration.team.id == team.id %}
-                            <div class="ui right floated primary button"
+                        {% if registration.type == 1 and registration.team.id == team.id %}
+                            <div class="ui right floated secondary button"
                                  data-action="user championship registration"
                                  data-championshipid="{{ team.championship.id }}"
                                  data-driverid="{{ user.id }}"
@@ -80,7 +80,7 @@
                 <div>
                     Secondary slot : <span class="countRegisteredSecondaryDrivers">{{ team.listSecondaryDrivers|length }}</span> / {{ team.maxSecondaryDrivers == -1 ?  'unlimited' : team.maxSecondaryDrivers }}
                 </div>
-                {% if team.getRegistrationAvailable === 'secondary' %}
+                {% if team.getRegistrationAvailable == 'secondary' %}
                     {% if userRegistration is null %}
                         <div class="ui right floated secondary button"
                              data-action="user championship registration"
@@ -92,8 +92,8 @@
                             Register as secondary driver
                         </div>
                     {% else %}
-                        {% if registration.type === 2 and registration.team.id == team.id %}
-                            <div class="ui right floated primary button"
+                        {% if registration.type == 2 and registration.team.id == team.id %}
+                            <div class="ui right floated secondary button"
                                  data-action="user championship registration"
                                  data-championshipid="{{ team.championship.id }}"
                                  data-driverid="{{ user.id }}"

@@ -98,7 +98,7 @@ class Championship extends KnowledgeData
     private $listTeams;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Registration", mappedBy="championship")
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Registration", mappedBy="championship" ,cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Groups({"list","api"})
      */
@@ -611,7 +611,7 @@ class Championship extends KnowledgeData
             $allowedVehicles = $this->listVehicles;
         } else {
             foreach($this->listCategories as $category) {
-                array_merge($allowedVehicles, $category->getListVehicles());
+                array_merge($allowedVehicles, $category->getListVehicles()->toArray());
             }
         }
 

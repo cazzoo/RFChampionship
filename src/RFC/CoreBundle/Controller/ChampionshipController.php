@@ -380,7 +380,7 @@ class ChampionshipController extends RFCController
      * @param null $teamid
      * @return JsonResponse
      */
-    public function registrationAction($registrationaction, $championshipid, $driverid, $drivertype = Registration::DRIVER_TYPE_MAIN, $teamid = NULL)
+    public function registrationAction($registeraction, $championshipid, $driverid, $drivertype = Registration::DRIVER_TYPE_MAIN, $teamid = NULL)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -392,7 +392,7 @@ class ChampionshipController extends RFCController
             'id' => $driverid
         ]);
 
-        if($registrationaction === 'register')
+        if($registeraction === 'register')
         {
             $championship->addRegistration(new Registration($championship, $user, $drivertype, $team));
             $teamMessage = $team !== null ? ' on ' . $team->getName() . ' as ' . ($drivertype === Registration::DRIVER_TYPE_MAIN ? 'main' : 'secondary') . ' driver.' : '';

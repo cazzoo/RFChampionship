@@ -109,42 +109,45 @@
 
                 {% endif %}
 
-                {% if teamChampionship %}
-                    <div class="ui basic center aligned segment">
-                        <a id="viewTeamRegistrationScreen" href="#" class="ui button">
-                            SHOW TEAM REGISTRATION SCREEN
-                        </a>
-                    </div>
+                {% if app.user %}
+                    {% if teamChampionship %}
+                        <div class="ui basic center aligned segment">
+                            <a id="viewTeamRegistrationScreen" href="#" class="ui button">
+                                SHOW TEAM REGISTRATION SCREEN
+                            </a>
+                        </div>
 
-                    <div class="ui standard teamRegistration modal transition">
+                        <div class="ui standard teamRegistration modal transition">
+                            <i class="close icon"></i>
+
+                            <div class="header">
+                                TEAM REGISTRATION SCREEN
+                            </div>
+                            <div class="content">
+                                <div class="description">
+                                    {% include 'RFCCoreBundle:Team:listItemTeam.html.twig' with {'championship' : championship} %}
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div id="userRegistrationForm" class="ui basic center aligned segment">
+                            {% include 'RFCCoreBundle:Championship:userRegistration.html.twig' with {'championship' : championship} %}
+                        </div>
+                    {% endif %}
+
+                    <div class="ui standard vehicleSelection modal transition">
                         <i class="close icon"></i>
 
                         <div class="header">
-                            TEAM REGISTRATION SCREEN
+                            VEHICLE SELECTION SCREEN
                         </div>
                         <div class="content">
                             <div class="description">
-                                {% include 'RFCCoreBundle:Team:listItemTeam.html.twig' with {'championship' : championship} %}
+                                {% include 'RFCCoreBundle:Vehicle:listVehicles.html.twig' with {'championship' : championship} %}
                             </div>
                         </div>
                     </div>
-                {% else %}
-                    <div id="userRegistrationForm" class="ui basic center aligned segment">
-                        {% include 'RFCCoreBundle:Championship:userRegistration.html.twig' with {'championship' : championship} %}
-                    </div>
                 {% endif %}
-
-                <div class="ui standard vehicleSelection modal transition">
-                    <i class="close icon"></i>
-
-                    <div class="header">
-                        VEHICLE SELECTION SCREEN
-                    </div>
-                    <div class="content">
-                        <div class="description">
-                        </div>
-                    </div>
-                </div>
 
             </div>
             <div class="column">
