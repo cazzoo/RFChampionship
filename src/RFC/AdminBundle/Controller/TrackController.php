@@ -19,7 +19,7 @@ namespace RFC\AdminBundle\Controller;
 
 use Knp\Menu\Util\MenuManipulator;
 use RFC\CoreBundle\Entity\Track;
-use RFC\CoreBundle\Form\TrackType;
+use RFC\CoreBundle\Form\Type\TrackType;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;

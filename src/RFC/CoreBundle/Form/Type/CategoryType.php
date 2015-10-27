@@ -17,38 +17,48 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace RFC\SetupBundle\Form;
+namespace RFC\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use RFC\SetupBundle\Entity\SubStepRepository;
+use RFC\CoreBundle\Entity\VehicleRepository;
 
-class SetupStepType extends AbstractType
+class CategoryType extends AbstractType
 {
-    private $stepId;
+    private $id;
 
-    public function __construct($stepId)
+    public function __construct($id)
     {
-        $this->stepId = $stepId;
+        $this->id = $id;
     }
 
     /**
      *
-     * @param FormBuilderInterface $builder        	
-     * @param array $options        	
+     * @param FormBuilderInterface $builder
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $stepId = $this->stepId;
-        $builder->add('value')->add('subStep', 'entity',
+        $id = $this->id;
+
+        $builder->add('name')->add('description', 'textarea',
             array(
-            'required' => true,
-            'class' => 'RFCSetupBundle:SubStep',
-            'query_builder' => function (SubStepRepository $sr) use($stepId) {
-                return $sr->createQueryBuilder('s')->where('s.step = :stepId')->setParameter('stepId',
-                        $stepId);
+            'required' => false
+        ))->add('listVehicles', null,
+            array(
+            'required' => false,
+            'class' => 'RFCCoreBundle:Vehicle',
+            'query_builder' => function (VehicleRepository $ve) use($id) {
+                return $ve->createQueryBuilder('v')->where('v.game = :id')->setParameter('id',
+                        $id);
             }
+        ))->add('commentsActive', 'checkbox',
+            array(
+            'required' => false
+        ))->add('game', 'entity',
+            array(
+            'class' => 'RFC\CoreBundle\Entity\Game'
         ));
     }
 
@@ -59,7 +69,7 @@ class SetupStepType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'RFC\SetupBundle\Entity\SetupStep'
+            'data_class' => 'RFC\CoreBundle\Entity\Category'
         ));
 
         $resolver->setRequired(array(
@@ -77,6 +87,6 @@ class SetupStepType extends AbstractType
      */
     public function getName()
     {
-        return 'rfc_setupbundle_setupStep';
+        return 'rfc_corebundle_category';
     }
 }

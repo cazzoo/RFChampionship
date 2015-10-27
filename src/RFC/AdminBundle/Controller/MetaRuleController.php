@@ -19,7 +19,7 @@ namespace RFC\AdminBundle\Controller;
 
 use Knp\Menu\Util\MenuManipulator;
 use RFC\CoreBundle\Entity\MetaRule;
-use RFC\CoreBundle\Form\MetaRuleType;
+use RFC\CoreBundle\Form\Type\MetaRuleType;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;

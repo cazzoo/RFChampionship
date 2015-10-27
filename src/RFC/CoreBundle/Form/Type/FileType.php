@@ -15,52 +15,32 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-namespace RFC\CoreBundle\Form;
+namespace RFC\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use RFC\CoreBundle\Form\FileType;
-use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GameType extends AbstractType
+class FileType extends AbstractType
 {
 
-    /**
-     *
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder->add('name')
-            ->add('shortName')
-            ->add('description', 'textarea', array(
-                'required' => false
-            ))->add('commentsActive', 'checkbox',
-                array(
-                    'required' => false
-                ));
+            ->add('description', 'textarea', array('required' => false))
+            ->add('file', 'file')
+            ->add('commentsActive', 'checkbox', array('required' => false));
     }
 
-    /**
-     *
-     * @param OptionsResolverInterface $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'RFC\CoreBundle\Entity\Game'
+            'data_class' => 'RFC\CoreBundle\Entity\File',
         ));
     }
 
-    /**
-     *
-     * @return string
-     */
     public function getName()
     {
-        return 'rfc_corebundle_game';
+        return 'rfc_corebundle_file';
     }
 }

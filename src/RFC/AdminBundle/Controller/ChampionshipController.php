@@ -22,7 +22,7 @@ namespace RFC\AdminBundle\Controller;
 use Knp\Menu\Util\MenuManipulator;
 use RFC\CoreBundle\Entity\Championship;
 use RFC\CoreBundle\Entity\Registration;
-use RFC\CoreBundle\Form\ChampionshipType;
+use RFC\CoreBundle\Form\Type\ChampionshipType;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;

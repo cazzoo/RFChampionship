@@ -15,40 +15,50 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-namespace RFC\UserBundle\Form;
+namespace RFC\CoreBundle\Form\Type;
 
-use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use RFC\UserBundle\Entity\RoleEnum;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UserFormType extends BaseType
+class GameType extends AbstractType
 {
 
+    /**
+     *
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
 
-        $builder->add('roles', 'choice',
-                array(
-                'choices' => RoleEnum::getEnum(),
-                'multiple' => true,
-                'required' => true,
-            ))
-            ->add('firstName')
-            ->add('lastName')
-            ->add('age')
-            ->add('avatarUrl', 'text',
-                array(
+        $builder->add('name')
+            ->add('shortName')
+            ->add('description', 'textarea', array(
                 'required' => false
-            ))
-            ->add('steamId', 'text',
+            ))->add('commentsActive', 'checkbox',
                 array(
-                'required' => false
-            ))
-            ->add('enabled', 'checkbox', array(
-                'required' => false))->add('favoriteNumber')
-            ->add('locale', 'choice',
-                array('choices' => array('en_UK' => 'English', 'fr_FR' => 'French'),
-                'required' => true));
+                    'required' => false
+                ));
+    }
+
+    /**
+     *
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'RFC\CoreBundle\Entity\Game'
+        ));
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'rfc_corebundle_game';
     }
 }

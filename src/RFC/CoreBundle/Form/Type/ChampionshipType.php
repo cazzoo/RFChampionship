@@ -17,7 +17,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace RFC\CoreBundle\Form;
+namespace RFC\CoreBundle\Form\Type;
 
 use RFC\CoreBundle\Entity\CategoryRepository;
 use RFC\CoreBundle\Entity\MetaRuleRepository;

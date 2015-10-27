@@ -23,7 +23,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use RFC\UserBundle\Entity\User;
-use RFC\UserBundle\Form\UserFormType;
+use RFC\UserBundle\Form\Type\UserFormType;
 
 /**
  * User controller.

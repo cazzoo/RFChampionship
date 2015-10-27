@@ -24,7 +24,7 @@ namespace RFC\SetupBundle\Controller;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\HttpFoundation\Request;
 use RFC\SetupBundle\Entity\SubStep;
-use RFC\SetupBundle\Form\SubStepType;
+use RFC\SetupBundle\Form\Type\SubStepType;
 
 class SubStepController extends RFCController
 {

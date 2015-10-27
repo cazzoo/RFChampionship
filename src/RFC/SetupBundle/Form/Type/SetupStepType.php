@@ -17,51 +17,38 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace RFC\CoreBundle\Form;
+namespace RFC\SetupBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use RFC\CoreBundle\Entity\TypeSessionRepository;
+use RFC\SetupBundle\Entity\SubStepRepository;
 
-class RuleType extends AbstractType
+class SetupStepType extends AbstractType
 {
-    private $id;
+    private $stepId;
 
-    public function __construct($id)
+    public function __construct($stepId)
     {
-        $this->id = $id;
+        $this->stepId = $stepId;
     }
 
     /**
      *
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param FormBuilderInterface $builder        	
+     * @param array $options        	
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $id = $this->id;
-
-        $builder->add('name')->add('description', 'textarea',
-            array(
-            'required' => false
-        ))->add('value', 'text',
-            array(
-            'required' => false
-        ))->add('typeSession', null,
+        $stepId = $this->stepId;
+        $builder->add('value')->add('subStep', 'entity',
             array(
             'required' => true,
-            'class' => 'RFCCoreBundle:TypeSession',
-            'query_builder' => function (TypeSessionRepository $er) use($id) {
-                return $er->createQueryBuilder('t')->where('t.game = :id')->setParameter('id',
-                        $id);
+            'class' => 'RFCSetupBundle:SubStep',
+            'query_builder' => function (SubStepRepository $sr) use($stepId) {
+                return $sr->createQueryBuilder('s')->where('s.step = :stepId')->setParameter('stepId',
+                        $stepId);
             }
-        ))->add('commentsActive', 'checkbox',
-            array(
-            'required' => false
-        ))->add('game', 'entity',
-            array(
-            'class' => 'RFC\CoreBundle\Entity\Game'
         ));
     }
 
@@ -72,7 +59,7 @@ class RuleType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'RFC\CoreBundle\Entity\Rule'
+            'data_class' => 'RFC\SetupBundle\Entity\SetupStep'
         ));
 
         $resolver->setRequired(array(
@@ -90,6 +77,6 @@ class RuleType extends AbstractType
      */
     public function getName()
     {
-        return 'rfc_corebundle_rule';
+        return 'rfc_setupbundle_setupStep';
     }
 }

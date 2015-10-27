@@ -24,7 +24,7 @@ namespace RFC\SetupBundle\Controller;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\HttpFoundation\Request;
 use RFC\SetupBundle\Entity\Step;
-use RFC\SetupBundle\Form\StepType;
+use RFC\SetupBundle\Form\Type\StepType;
 
 class StepController extends RFCController
 {

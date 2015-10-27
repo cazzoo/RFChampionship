@@ -630,7 +630,6 @@ class Championship extends KnowledgeData
     {
         $allowedVehicles = array();
         if(count($this->listCategories) === 0 ) {
-            var_dump($this->listVehicles);
             $allowedVehicles = $this->listVehicles;
         } else {
             foreach($this->listCategories as $category) {
@@ -1000,8 +999,7 @@ class Championship extends KnowledgeData
      */
     public function getIsDraft()
     {
-        return ($this->getBeginDate() != null || $this->getEndDate() != null) ? false
-            : true;
+        return ($this->getBeginDate() !== null || $this->getEndDate() !== null) ? false : true;
     }
 
     /**

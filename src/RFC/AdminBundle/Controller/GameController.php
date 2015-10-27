@@ -22,7 +22,7 @@ namespace RFC\AdminBundle\Controller;
 use Knp\Menu\Util\MenuManipulator;
 use RFC\CoreBundle\Entity\Game;
 use RFC\CoreBundle\Entity\Property;
-use RFC\CoreBundle\Form\GameType;
+use RFC\CoreBundle\Form\Type\GameType;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;

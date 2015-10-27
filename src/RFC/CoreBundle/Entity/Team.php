@@ -318,8 +318,8 @@ class Team extends Descriptor
         }elseif($this->maxSecondaryDrivers === -1) {
             return 'secondary';
         } else {
-            $teamMainDriversRegistration = array_filter($this->listRegistration, function($registration) { return $registration->type === Registration::DRIVER_TYPE_MAIN;});
-            $teamSecondaryDriversRegistration = array_filter($this->listRegistration, function($registration) { return $registration->type === Registration::DRIVER_TYPE_SECONDARY;});
+            $teamMainDriversRegistration = array_filter($this->listRegistration, function(Registration $registration) { return $registration->getType() === Registration::DRIVER_TYPE_MAIN;});
+            $teamSecondaryDriversRegistration = array_filter($this->listRegistration, function(Registration $registration) { return $registration->getType() === Registration::DRIVER_TYPE_SECONDARY;});
             if(count($teamMainDriversRegistration) < $this->maxMainDrivers) {
                 return 'main';
             }elseif(count($teamSecondaryDriversRegistration) < $this->maxSecondaryDrivers) {
