@@ -42,17 +42,14 @@
     </div>
     <div class="extra">
         <i class="car primary icon"></i>
-        {% if userRegistration is null %}
-        <div class="ui right floated primary button vehicleSelection"
-             data-action="user vehicle selection"
-             data-championshipid="{{ team.championship.id }}"
-             data-driverid="{{ user.id }}"
-             data-registeraction="register"
-             data-drivertype="1"
-             data-teamid="{{ team.id }}">>
-            Select this vehicle
-        </div>
+        {% if userRegistration is not null and userRegistration.vehicle is null %}
+            <div class="ui right floated primary button vehicleSelection"
+                 data-action="user vehicle selection"
+                 data-registrationid="{{ userRegistration.id }}"
+                 data-vehicleid="{{ vehicle.id }}"
+                 data-registeraction="register">
+                Select this vehicle
+            </div>
         {% endif %}
     </div>
-</div>
 </div>

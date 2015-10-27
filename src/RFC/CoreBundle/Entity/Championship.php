@@ -98,7 +98,7 @@ class Championship extends KnowledgeData
     private $listTeams;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Registration", mappedBy="championship" ,cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Registration", mappedBy="championship", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      * @Groups({"list","api"})
      */
@@ -465,6 +465,21 @@ class Championship extends KnowledgeData
         $this->listRegistrations->removeElement($registration);
     }
 
+    /** This method removes a registration for a giver username
+     *
+     * @param $username the username we want to remove
+     * @return bool true if success, false otherwise
+     */
+    public function removeUserRegistration($username)
+    {
+        $userRegistration = $this->getUserRegistration($username);
+        if($userRegistration !== null) {
+            return $this->removeRegistration($userRegistration);
+        } else {
+            return false;
+        }
+    }
+
     /**
      * This method returns a registration based on user name, null if not found.
      * @param $userName
@@ -604,14 +619,22 @@ class Championship extends KnowledgeData
         return $this;
     }
 
+    /**
+     * This method returns all the allowed vehicles for the current championship.
+     * All the allowed vehicles are :
+     *  - Every vehicles if championship has vehicle list
+     *  - Every vehicles of every categories if championship has category list
+     * @return array|ArrayCollection
+     */
     public function getAllowedVehicles()
     {
         $allowedVehicles = array();
         if(count($this->listCategories) === 0 ) {
+            var_dump($this->listVehicles);
             $allowedVehicles = $this->listVehicles;
         } else {
             foreach($this->listCategories as $category) {
-                array_merge($allowedVehicles, $category->getListVehicles()->toArray());
+                $allowedVehicles += $category->getListVehicles()->toArray();
             }
         }
 

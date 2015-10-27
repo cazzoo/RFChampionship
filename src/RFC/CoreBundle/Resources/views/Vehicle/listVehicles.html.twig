@@ -36,6 +36,6 @@
 
 <div class="ui items">
     {% for vehicle in allowedVehicles %}
-        {% include 'RFCCoreBundle:Team:itemVehicle.html.twig' with {'vehicle' : vehicle, 'userRegistration' : userRegistration} %}
+        {% include 'RFCCoreBundle:Vehicle:itemVehicle.html.twig' with {'vehicle' : vehicle, 'userRegistration' : userRegistration} %}
     {% endfor %}
 </div>

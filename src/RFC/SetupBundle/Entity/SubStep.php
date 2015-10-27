@@ -71,11 +71,6 @@ class SubStep extends Descriptor
         parent::__construct();
     }
 
-    public function __toString()
-    {
-        return $this->name;
-    }
-
     /**
      * Get id
      *

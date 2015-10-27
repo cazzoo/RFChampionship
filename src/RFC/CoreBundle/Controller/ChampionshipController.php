@@ -104,13 +104,10 @@ class ChampionshipController extends RFCController
 
             switch ($action) {
                 case 'register' :
-                    $championship->addRegistration(new Registration($championship, $user));
                     $championship->registerUser($user);
                     $entityManager->flush();
                     break;
                 case 'unregister' :
-                    $userRegistration = $championship->getUserRegistration($user->getUsername());
-                    $championship->removeRegistration($userRegistration);
                     $championship->unregisterUser($user);
                     $entityManager->flush();
                     break;
@@ -398,7 +395,7 @@ class ChampionshipController extends RFCController
             $teamMessage = $team !== null ? ' on ' . $team->getName() . ' as ' . ($drivertype === Registration::DRIVER_TYPE_MAIN ? 'main' : 'secondary') . ' driver.' : '';
             $message = 'Successfully registered to championship ' . $championship->getName() . $teamMessage;
         } else {
-            $championship->removeRegistration($championship->getUserRegistration($user->getUsername()));
+            $championship->removeUserRegistration($user->getUsername());
             $teamMessage = $team !== null ? '. Was previously on team ' . $team->getName() . ' as ' . ($drivertype === Registration::DRIVER_TYPE_MAIN ? 'main' : 'secondary') . ' driver.' : '';
             $message = 'Successfully un-registered from championship ' . $championship->getName() . $teamMessage;
         }
@@ -408,12 +405,12 @@ class ChampionshipController extends RFCController
         $serializer = $this->get('jms_serializer');
         $context = SerializationContext::create();
         $context->setGroups(['api']);
-        $data = ['championship' => $championship, 'user' => $user];
+        $data = ['championship' => $championship, 'user' => $user, 'registeraction' => $registeraction];
         $jsonData = $serializer->serialize($data, 'json', $context);
 
         $data = [
             'success' => $success,
-            'action' => 'updated registration fo user ' . $user->getUsername(),
+            'action' => 'updated registration for user ' . $user->getUsername(),
             'message' => $message,
             'data' => $jsonData
         ];
@@ -427,7 +424,7 @@ class ChampionshipController extends RFCController
      * @param $vehicleid
      * @return JsonResponse
      */
-    public function vehicleSelectionAction($registrationaction, $registrationid, $vehicleid) {
+    public function vehicleSelectionAction($registeraction, $registrationid, $vehicleid) {
         $entityManager = $this->getDoctrine()->getManager();
 
         $registration = $entityManager->getRepository('RFCCoreBundle:Registration')->findOneBy([
@@ -437,7 +434,7 @@ class ChampionshipController extends RFCController
             'id' => $vehicleid
         ]);
 
-        if($registrationaction === 'register')
+        if($registeraction === 'register')
         {
             $registration->setVehicle($vehicle);
             $message = 'Successfully selected vehicle ' . $vehicle->getName() . ' for registered user ' . $registration->getUser()->getUsername();
