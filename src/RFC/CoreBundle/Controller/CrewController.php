@@ -56,7 +56,7 @@ class CrewController extends RFCController
         }
 
         // Ajout du jeu sélectionné
-        if (null != $game) {
+        if (null !== $game) {
             $menu        = $this->get('rfc_core.menu.breadcrumb');
             $menu->addChild($game->getName())->setUri($this->get("router")->generate('rfcCore_gameSelection',
                     array(

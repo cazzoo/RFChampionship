@@ -19,9 +19,9 @@ namespace RFC\AdminBundle\Controller;
 
 use Knp\Menu\Util\MenuManipulator;
 use RFC\CoreBundle\Entity\Vehicle;
-use RFC\CoreBundle\Form\VehicleType;
+use RFC\CoreBundle\Form\Type\VehicleType;
 use RFC\FrameworkBundle\Controller\RFCController;
-use Symfony\Component\Form\Type\Form;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
