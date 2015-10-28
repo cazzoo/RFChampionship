@@ -370,11 +370,11 @@ class ChampionshipController extends RFCController
     }
 
     /** This method register or un-register a user to a championship (or team).
-     * @param $registrationaction
+     * @param $registeraction
      * @param $championshipid
      * @param $driverid
      * @param int $drivertype
-     * @param null $teamid
+     * @param int|null $teamid
      * @return JsonResponse
      */
     public function registrationAction($registeraction, $championshipid, $driverid, $drivertype = Registration::DRIVER_TYPE_MAIN, $teamid = NULL)
@@ -391,7 +391,7 @@ class ChampionshipController extends RFCController
 
         if($registeraction === 'register')
         {
-            $championship->addRegistration(new Registration($championship, $user, $drivertype, $team));
+            $championship->addUserRegistration($user, $drivertype, $team);
             $teamMessage = $team !== null ? ' on ' . $team->getName() . ' as ' . ($drivertype === Registration::DRIVER_TYPE_MAIN ? 'main' : 'secondary') . ' driver.' : '';
             $message = 'Successfully registered to championship ' . $championship->getName() . $teamMessage;
         } else {
@@ -399,6 +399,7 @@ class ChampionshipController extends RFCController
             $teamMessage = $team !== null ? '. Was previously on team ' . $team->getName() . ' as ' . ($drivertype === Registration::DRIVER_TYPE_MAIN ? 'main' : 'secondary') . ' driver.' : '';
             $message = 'Successfully un-registered from championship ' . $championship->getName() . $teamMessage;
         }
+
         $entityManager->flush();
 
         $success = true;
@@ -412,14 +413,14 @@ class ChampionshipController extends RFCController
             'success' => $success,
             'action' => 'updated registration for user ' . $user->getUsername(),
             'message' => $message,
-            'data' => $jsonData
+            'data' => $jsonData,
         ];
 
         return new JsonResponse($data, 200);
     }
 
     /** This method selects or un-selects a vehicle for a given registered user (represented by registration object)
-     * @param $registrationaction
+     * @param $registeraction
      * @param $registrationid
      * @param $vehicleid
      * @return JsonResponse

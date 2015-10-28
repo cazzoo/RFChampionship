@@ -52,8 +52,8 @@ class Registration
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship", inversedBy="listRegistration")
-     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship", inversedBy="listRegistrations")
+     * @ORM\JoinColumn(onDelete="cascade")
      * @Groups({"api"})
      */
     private $championship;

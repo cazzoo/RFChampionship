@@ -79,14 +79,13 @@ class Result
     /**
      * Set user
      *
-     * @param User $user        
-     * @return $user
+     * @param User $user
+     * @return User the added user
      */
     public function setUser(User $user)
     {
         $this->user = $user;
-        
-        return $this;
+        return $user;
     }
 
     /**
@@ -102,13 +101,12 @@ class Result
     /**
      * Set rule
      *
-     * @param Rule $rule            
+     * @param Rule $rule
      * @return Result
      */
     public function setRule(Rule $rule)
     {
         $this->rule = $rule;
-        
         return $this;
     }
 
@@ -131,7 +129,6 @@ class Result
     public function setComments($comments)
     {
         $this->comments = $comments;
-
         return $this;
     }
 
@@ -148,13 +145,12 @@ class Result
     /**
      * Set session
      *
-     * @param Session $session            
+     * @param Session $session
      * @return Result
      */
     public function setSession(Session $session)
     {
         $this->session = $session;
-        
         return $this;
     }
 

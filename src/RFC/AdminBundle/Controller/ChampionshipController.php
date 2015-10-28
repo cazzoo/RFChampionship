@@ -344,8 +344,8 @@ class ChampionshipController extends RFCController
         $updated = array();
 
         foreach ($championships as $championship) {
-            if (count($championships->getListRegistrations() === 0 && count($championships->getListUsers()) > 0)) {
-                array_push($updated, $championship);
+            if (count($championship->getListRegistrations() === 0 && count($championship->getListUsers()) > 0)) {
+                $updated[] = $championship;
                 foreach($championship->getListUsers() as $user) {
                     $championship->addRegistration(new Registration($championship, $user));
                 }

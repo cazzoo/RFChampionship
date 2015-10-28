@@ -151,7 +151,6 @@ class Championship extends KnowledgeData
     public function setChampionshipAgreed($agreed)
     {
         $this->championshipAgreed = $agreed;
-
         return $this;
     }
 
@@ -174,7 +173,6 @@ class Championship extends KnowledgeData
     public function setRegistrationInProgress($registrationInProgress)
     {
         $this->registrationInProgress = $registrationInProgress;
-
         return $this;
     }
 
@@ -197,7 +195,6 @@ class Championship extends KnowledgeData
     public function setListEvents(ArrayCollection $listEvents)
     {
         $this->listEvents = $listEvents;
-
         return $this;
     }
 
@@ -220,7 +217,6 @@ class Championship extends KnowledgeData
     public function setManagers(ArrayCollection $managers)
     {
         $this->listManagers = $managers;
-
         return $this;
     }
 
@@ -243,7 +239,6 @@ class Championship extends KnowledgeData
     public function setMetaRule(MetaRule $metaRule)
     {
         $this->metaRule = $metaRule;
-
         return $this;
     }
 
@@ -266,7 +261,6 @@ class Championship extends KnowledgeData
     public function setListRules(ArrayCollection $listRules)
     {
         $this->listRules = $listRules;
-
         return $this;
     }
 
@@ -289,7 +283,6 @@ class Championship extends KnowledgeData
     public function addRule(Rule $rule)
     {
         $this->listRules[] = $rule;
-
         return $this;
     }
 
@@ -312,7 +305,6 @@ class Championship extends KnowledgeData
     public function addEvent(Event $event)
     {
         $this->listEvents[] = $event;
-
         return $this;
     }
 
@@ -335,7 +327,6 @@ class Championship extends KnowledgeData
     public function addManager(User $manager)
     {
         $this->listManagers[] = $manager;
-
         return $this;
     }
 
@@ -409,10 +400,9 @@ class Championship extends KnowledgeData
      * @param User $user
      * @return Championship
      */
-    public function registerUser(User $user, $type, Team $team)
+    public function registerUser(User $user)
     {
         $this->listUsers[] = $user;
-
         return $this;
     }
 
@@ -420,14 +410,16 @@ class Championship extends KnowledgeData
      * Remove User from list of participants
      *
      * @param User $user
+     * @return Championship
      */
     public function unregisterUser(User $user)
     {
         $this->listUsers->removeElement($user);
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getListRegistrations()
     {
@@ -435,11 +427,13 @@ class Championship extends KnowledgeData
     }
 
     /**
-     * @param mixed $listRegistrations
+     * @param ArrayCollection $listRegistrations
+     * @return Championship
      */
-    public function setListRegistrations($listRegistrations)
+    public function setListRegistrations(ArrayCollection $listRegistrations)
     {
         $this->listRegistrations = $listRegistrations;
+        return $this;
     }
 
     /**
@@ -451,24 +445,43 @@ class Championship extends KnowledgeData
     public function addRegistration(Registration $registration)
     {
         $this->listRegistrations[] = $registration;
-
         return $this;
+    }
+
+    /**
+     * This method create a regsitration for a given user
+     * @param User $user
+     * @param int T$drivertype
+     * @param Team $team
+     * @return Registration user registration
+     */
+    public function addUserRegistration(User $user, $drivertype, $team = NULL)
+    {
+        $userRegistration = $this->getUserRegistration($user->getUserName());
+        if($userRegistration !== null) {
+            return $userRegistration;
+        } else {
+            return $this->addRegistration(new Registration($this, $user, $drivertype, $team));
+        }
+
     }
 
     /**
      * Remove registration
      *
      * @param Registration $registration
+     * @return Championship
      */
     public function removeRegistration(Registration $registration)
     {
         $this->listRegistrations->removeElement($registration);
+        return $this;
     }
 
     /** This method removes a registration for a giver username
      *
-     * @param $username the username we want to remove
-     * @return bool true if success, false otherwise
+     * @param string $username the username we want to remove
+     * @return Championship|false true if success, false otherwise
      */
     public function removeUserRegistration($username)
     {
@@ -483,7 +496,7 @@ class Championship extends KnowledgeData
     /**
      * This method returns a registration based on user name, null if not found.
      * @param $userName
-     * @return mixed|null
+     * @return Registration|null
      */
     public function getUserRegistration($userName)
     {
@@ -545,7 +558,6 @@ class Championship extends KnowledgeData
     public function addTeam(Team $team)
     {
         $this->listTeams[] = $team;
-
         return $this;
     }
 
@@ -553,10 +565,12 @@ class Championship extends KnowledgeData
      * Remove team
      *
      * @param Team $team
+     * @return Championship
      */
     public function removeTeam(Team $team)
     {
         $this->listTeams->removeElement($team);
+        return $this;
     }
 
     /**

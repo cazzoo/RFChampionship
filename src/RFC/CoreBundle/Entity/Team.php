@@ -140,9 +140,9 @@ class Team extends Descriptor
     }
 
     /**
-     * @param mixed $vehicle
+     * @param Vehicle $vehicle
      */
-    public function setVehicle($vehicle)
+    public function setVehicle(Vehicle $vehicle)
     {
         $this->vehicle = $vehicle;
     }
@@ -156,7 +156,7 @@ class Team extends Descriptor
     }
 
     /**
-     * @param mixed $category
+     * @param Category $category
      */
     public function setCategory($category)
     {
@@ -310,7 +310,7 @@ class Team extends Descriptor
 
     /**
      * This method return whether a team can accept new registration or not.
-     * @return bool|string 'main' if a main slot is available, 'secondary' is no main is available and a secondary available, false if none is available.
+     * @return string|false 'main' if a main slot is available, 'secondary' is no main is available and a secondary available, false if none is available.
      */
     public function getRegistrationAvailable() {
         if($this->maxMainDrivers === -1) {
