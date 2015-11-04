@@ -16,7 +16,7 @@ ajax_registration:
     pattern: /championship/{championshipid}/{driverid}/{registeraction}/{drivertype}/{teamid}
     defaults: { _controller: "RFCCoreBundle:Championship:registration", drivertype: 1, teamid: null }
     requirements:
-        _method: post
+        _method: post|get
         championshipid: \d+
         driverid: \d+
         registeraction: register|unregister
@@ -29,7 +29,7 @@ ajax_vehicle_selection:
     pattern: /registration/{registrationid}/{vehicleid}/{registeraction}
     defaults: { _controller: "RFCCoreBundle:Championship:vehicleSelection" }
     requirements:
-        _method: post
+        _method: post|get
         registrationid: \d+
         vehicleid: \d+
         registeraction: register|unregister

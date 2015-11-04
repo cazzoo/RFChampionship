@@ -413,7 +413,7 @@ class ChampionshipController extends RFCController
             'success' => $success,
             'action' => 'updated registration for user ' . $user->getUsername(),
             'message' => $message,
-            'data' => $jsonData,
+            'data' => $jsonData
         ];
 
         return new JsonResponse($data, 200);
@@ -466,7 +466,7 @@ class ChampionshipController extends RFCController
     {
         $val_a = (float) $a['sum'];
         $val_b = (float) $b['sum'];
-        if ($val_a == $val_b) {
+        if ($val_a === $val_b) {
             return 0;
         }
         return $val_a < $val_b ? 1 : -1;

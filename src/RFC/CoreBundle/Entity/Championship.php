@@ -99,20 +99,17 @@ class Championship extends KnowledgeData
 
     /**
      * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Registration", mappedBy="championship", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
      * @Groups({"list","api"})
      */
     private $listRegistrations;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Category")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $listCategories;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Vehicle")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $listVehicles;
 
@@ -444,7 +441,7 @@ class Championship extends KnowledgeData
      */
     public function addRegistration(Registration $registration)
     {
-        $this->listRegistrations[] = $registration;
+        $this->listRegistrations->add($registration);
         return $this;
     }
 
@@ -457,7 +454,7 @@ class Championship extends KnowledgeData
      */
     public function addUserRegistration(User $user, $drivertype, $team = NULL)
     {
-        $userRegistration = $this->getUserRegistration($user->getUserName());
+        $userRegistration = $this->getUserRegistration($user->getUsername());
         if($userRegistration !== null) {
             return $userRegistration;
         } else {
