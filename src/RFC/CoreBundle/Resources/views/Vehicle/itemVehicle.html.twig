@@ -42,7 +42,7 @@
     </div>
     <div class="extra">
         <i class="car primary icon"></i>
-        {% if userRegistration is not null and userRegistration.vehicle is null %}
+        {% if userRegistration is not null and userRegistration.vehicle is null and userRegistration.championship.getRegistrationAllowed %}
             <div class="ui right floated primary button vehicleSelection"
                  data-action="user vehicle selection"
                  data-registrationid="{{ userRegistration.id }}"

@@ -32,7 +32,9 @@
     {% set currentUser = app.user %}
 {% endif %}
 
-{% set userRegistration = championship.getUserRegistration(currentUser.username) %}
+{% if userRegistration is not defined %}
+    {% set userRegistration = championship.getUserRegistration(currentUser.username) %}
+{% endif %}
 
 <div class="ui items">
     {% for vehicle in allowedVehicles %}

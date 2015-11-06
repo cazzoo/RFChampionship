@@ -59,7 +59,7 @@ class Registration
     private $championship;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="RFC\UserBundle\Entity\User", inversedBy="listRegistrations")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"api"})
      */
@@ -73,7 +73,7 @@ class Registration
     private $vehicle;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Team", inversedBy="listRegistration")
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Team", inversedBy="listRegistrations")
      * @ORM\JoinColumn(nullable=true)
      * @Groups({"api"})
      */

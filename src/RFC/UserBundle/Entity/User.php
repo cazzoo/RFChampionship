@@ -114,6 +114,13 @@ class User extends BaseUser
     protected $listChampionships;
 
     /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Registration", mappedBy="user")
+     * @ORM\JoinColumn(nullable=true)
+     * @Groups({"list","api"})
+     */
+    protected $listRegistrations;
+
+    /**
      * @ORM\Column(name="locale", type="string", length=5)
      * @Groups({"details"})
      */
@@ -125,6 +132,7 @@ class User extends BaseUser
         $this->listChampionships = new ArrayCollection();
         $this->listCrewRequests = new ArrayCollection();
         $this->listPreferences = new ArrayCollection();
+        $this->listRegistrations = new ArrayCollection();
     }
 
     public function eraseCredentials()
@@ -352,6 +360,24 @@ class User extends BaseUser
     public function setListChampionships(ArrayCollection $listChampionships)
     {
         $this->listChampionships = $listChampionships;
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getListRegistrations()
+    {
+        return $this->listRegistrations;
+    }
+
+    /**
+     * @param ArrayCollection $listRegistrations
+     * @return User
+     */
+    public function setListRegistrations(ArrayCollection $listRegistrations)
+    {
+        $this->listRegistrations = $listRegistrations;
         return $this;
     }
 

@@ -731,13 +731,15 @@ function updateUserRegistration(response) {
     var championship = $.parseJSON(response.data).championship;
     var user = $.parseJSON(response.data).user;
     var registeraction = $.parseJSON(response.data).registeraction;
+    var registration = $.parseJSON(response.data).userRegistration;
     var userRegistrationForm = Twig.render(userRegistration, {
         'championship': championship,
-        'user': user
+        'user': user,
+        'userRegistration' : registration
     });
     $('#userRegistrationForm').html(userRegistrationForm);
     if (registeraction === 'register') {
-        handleVehicleSelection(championship, user, null);
+        handleVehicleSelection(championship, user, null, registration);
         showModalAndActivatePopups($('.standard.vehicleSelection.modal'));
     }
     $('.ui.button.userRegistration').api({
@@ -755,11 +757,12 @@ function updateUserRegistration(response) {
  * @param user
  * @param team
  */
-function handleVehicleSelection(championship, user, team) {
+function handleVehicleSelection(championship, user, team, registration) {
     var selectionScreen = Twig.render(vehicleSelection, {
         'championship': championship,
         'user': user,
-        'team': team});
+        'team': team,
+        'userRegistration' : registration});
     $('.standard.vehicleSelection.modal > .content > .description').html(selectionScreen);
     registerVehicleSelectionApi();
 }

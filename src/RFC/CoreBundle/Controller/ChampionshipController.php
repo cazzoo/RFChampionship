@@ -407,6 +407,9 @@ class ChampionshipController extends RFCController
         $context = SerializationContext::create();
         $context->setGroups(['api']);
         $data = ['championship' => $championship, 'user' => $user, 'registeraction' => $registeraction];
+        if($registeraction === 'register') {
+            $data['userRegistration'] = $championship->getUserRegistration($user->getUsername());
+        }
         $jsonData = $serializer->serialize($data, 'json', $context);
 
         $data = [

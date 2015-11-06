@@ -81,7 +81,7 @@ class Team extends Descriptor
      * @ORM\JoinColumn(nullable=true)
      * @Groups({"list","api"})
      */
-    private $listRegistration;
+    private $listRegistrations;
 
     /**
      * @ORM\Column(type="integer")
@@ -103,6 +103,7 @@ class Team extends Descriptor
         parent::__construct();
         $this->listMainDrivers = new ArrayCollection();
         $this->listSecondaryDrivers = new ArrayCollection();
+        $this->listRegistrations = new ArrayCollection();
     }
 
     /**
@@ -206,9 +207,7 @@ class Team extends Descriptor
      * @param User $user
      * @return removeSuccess $this or false
      */
-    public function removeMainDriver(
-        User $user
-    ) {
+    public function removeMainDriver(User $user) {
         if (!$this->listMainDrivers->contains($user)) {
             return false;
         }
@@ -242,9 +241,7 @@ class Team extends Descriptor
      * @param User $user
      * @return addSuccess $this or false
      */
-    public function addSecondaryDriver(
-        User $user
-    ) {
+    public function addSecondaryDriver(User $user) {
         if ($this->listSecondaryDrivers->contains($user)) {
             return false;
         }
@@ -257,9 +254,7 @@ class Team extends Descriptor
      * @param User $user
      * @return removeSuccess $this or false
      */
-    public function removeSecondaryDriver(
-        User $user
-    ) {
+    public function removeSecondaryDriver(User $user) {
         if (!$this->listSecondaryDrivers->contains($user)) {
             return false;
         }
@@ -267,19 +262,21 @@ class Team extends Descriptor
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
-    public function getListRegistration()
+    public function getListRegistrations()
     {
-        return $this->listRegistration;
+        return $this->listRegistrations;
     }
 
     /**
-     * @param mixed $listRegistration
+     * @param ArrayCollection $listRegistrations
+     * @return Team
      */
-    public function setListRegistration($listRegistration)
+    public function setListRegistration(ArrayCollection $listRegistrations)
     {
-        $this->listRegistration = $listRegistration;
+        $this->listRegistrations = $listRegistrations;
+        return $this;
     }
 
     public function getMaxMainDrivers()

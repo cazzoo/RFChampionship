@@ -98,7 +98,7 @@ class Championship extends KnowledgeData
     private $listTeams;
 
     /**
-     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Registration", mappedBy="championship", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Registration", mappedBy="championship", cascade={"persist"}, orphanRemoval=true)
      * @Groups({"list","api"})
      */
     private $listRegistrations;
@@ -1023,5 +1023,19 @@ class Championship extends KnowledgeData
     public function getTeamChampionship()
     {
         return count($this->listTeams) > 0 ? true : false;
+    }
+
+    /** This method returns whether the championship allows new registration or not.
+     * @return bool
+     */
+    public function getRegistrationAllowed() {
+        $registrationAllowed = true;
+        if($this->getIsDraft()) {
+            $registrationAllowed = false;
+        }
+        if(!$this->getRegistrationInProgress() && $this->getIsAfterBeginDate()) {
+            $registrationAllowed = false;
+        }
+        return $registrationAllowed;
     }
 }
