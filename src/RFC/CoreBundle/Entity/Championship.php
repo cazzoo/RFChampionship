@@ -448,7 +448,7 @@ class Championship extends KnowledgeData
     /**
      * This method create a regsitration for a given user
      * @param User $user
-     * @param int T$drivertype
+     * @param int $drivertype
      * @param Team $team
      * @return Registration user registration
      */
@@ -458,7 +458,9 @@ class Championship extends KnowledgeData
         if($userRegistration !== null) {
             return $userRegistration;
         } else {
-            return $this->addRegistration(new Registration($this, $user, $drivertype, $team));
+            $registration = new Registration($this, $user, $drivertype, $team);
+            $this->addRegistration($registration);
+            return $registration;
         }
 
     }

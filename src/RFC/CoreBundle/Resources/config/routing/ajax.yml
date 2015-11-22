@@ -67,3 +67,23 @@ ajax_file_remove:
     requirements: { _method: get|post }
     options:
         expose: true
+
+ajax_vehicle_selection_render:
+    pattern: /render/vehicle_selection/{championshipId}/{registrationId}
+    defaults: { _controller: "RFCCoreBundle:Championship:vehicleSelectionRender", registrationId: null }
+    requirements:
+        _method: get|post
+        championshipId: \d+
+        registrationId: -?\d+
+    options:
+        expose: true
+
+ajax_user_registration_render:
+    pattern: /render/user_registration/{championshipId}/{userId}
+    defaults: { _controller: "RFCCoreBundle:Championship:userRegistrationRender" }
+    requirements:
+        _method: get|post
+        championshipId: \d+
+        userId: \d+
+    options:
+        expose: true

@@ -14,8 +14,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% twig_js name="vehicleSelection" %}
-
 {% if team is defined and team is not null %}
     {% if team.category is defined %}
         {% set allowedVehicles = team.category.listVehicles %}
@@ -23,7 +21,7 @@
         {% set allowedVehicles = team.vehicle %}
     {% endif %}
 {% else %}
-    {% set allowedVehicles = championship.getAllowedVehicles %}
+    {% set allowedVehicles = championship.allowedVehicles %}
 {% endif %}
 
 {% if user is defined %}
@@ -37,7 +35,7 @@
 {% endif %}
 
 <div class="ui items">
-    {% for vehicle in allowedVehicles %}
+    {% for vehicle in championship.getAllowedVehicles %}
         {% include 'RFCCoreBundle:Vehicle:itemVehicle.html.twig' with {'vehicle' : vehicle, 'userRegistration' : userRegistration} %}
     {% endfor %}
 </div>

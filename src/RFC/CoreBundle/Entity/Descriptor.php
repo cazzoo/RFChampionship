@@ -55,6 +55,7 @@ abstract class Descriptor
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\File", cascade={"persist"})
+     * @Groups({"api"})
      */
     protected $listImages;
 
