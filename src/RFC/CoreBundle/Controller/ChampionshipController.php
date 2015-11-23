@@ -431,7 +431,7 @@ class ChampionshipController extends RFCController
         );
 
         if ($registeraction === 'register') {
-            $championship->addUserRegistration($user, $drivertype, $team);
+            $registration = $championship->addUserRegistration($user, $drivertype, $team);
             $teamMessage = $team !== null ? ' on '.$team->getName(
                 ).' as '.($drivertype === Registration::DRIVER_TYPE_MAIN ? 'main' : 'secondary').' driver.' : '';
             $message = 'Successfully registered to championship '.$championship->getName().$teamMessage;
@@ -453,8 +453,8 @@ class ChampionshipController extends RFCController
         $data = [
             'championship' => $championship,
             'user' => $user,
+            'registration' => $userRegistration,
             'registeraction' => $registeraction,
-            'userRegistration' => $userRegistration,
         ];
 
         $jsonData = $serializer->serialize($data, 'json', $context);
@@ -495,7 +495,7 @@ class ChampionshipController extends RFCController
             $message = 'Successfully selected vehicle '.$vehicle->getName(
                 ).' for registered user '.$registration->getUser()->getUsername();
         } else {
-            $registration->setVehicle(null);
+            $registration->unsetVehicle();
             $message = 'Successfully un-selected vehicle '.$vehicle->getName(
                 ).' for registered user '.$registration->getUser()->getUsername();
         }
@@ -507,8 +507,7 @@ class ChampionshipController extends RFCController
         $context->setGroups(['api']);
         $data = [
             'championship' => $registration->getChampionship(),
-            'user' => $registration->getUser(),
-            'team' => $registration->getTeam(),
+            'registration' => $registration,
         ];
         $jsonData = $serializer->serialize($data, 'json', $context);
 

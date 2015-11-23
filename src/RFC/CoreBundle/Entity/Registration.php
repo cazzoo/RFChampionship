@@ -88,8 +88,12 @@ class Registration
     /**
      * Class constructor
      */
-    public function __construct(Championship $championship, User $user, $type = self::DRIVER_TYPE_MAIN, Team $team = NULL)
-    {
+    public function __construct(
+        Championship $championship,
+        User $user,
+        $type = self::DRIVER_TYPE_MAIN,
+        Team $team = null
+    ) {
         $this->championship = $championship;
         $this->user = $user;
         $this->type = $type;
@@ -159,9 +163,18 @@ class Registration
      * @param Vehicle $vehicle
      * @return Registration
      */
-    public function setVehicle(Vehicle $vehicle)
+    public function setVehicle($vehicle)
     {
         $this->vehicle = $vehicle;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function unsetVehicle()
+    {
+        $this->vehicle = null;
         return $this;
     }
 

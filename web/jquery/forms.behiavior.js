@@ -727,29 +727,6 @@ function handleTeamRegistration(response) {
     });
 }
 
-function updateUserRegistration(response) {
-    var registration = $.parseJSON(response.data).userRegistration !== undefined ? $.parseJSON(response.data).userRegistration : null;
-    var championship = $.parseJSON(response.data).championship;
-    var user = $.parseJSON(response.data).user;
-    var registeraction = $.parseJSON(response.data).registeraction;
-    var userRegistrationForm = Twig.render(userRegistrationTemplate, {
-        'championship': championship,
-        'user': user,
-        'userRegistration' : registration
-    });
-    $('#userRegistrationForm').html(userRegistrationForm);
-    if (registeraction === 'register') {
-        registerVehicleSelectionRender(championship.id, registration.id);
-        showModalAndActivatePopups($('.standard.vehicleSelection.modal'));
-    }
-    $('.ui.button.userRegistration').api({
-        method: 'POST',
-        onSuccess: function (response) {
-            updateUserRegistration(response);
-        }
-    });
-}
-
 function userRegistrationApi() {
     $('.ui.button.userRegistration').api({
         method: 'POST',
@@ -759,6 +736,8 @@ function userRegistrationApi() {
             var registerAction = $.parseJSON(response.data).registeraction;
             userRegistrationRender(championship.id, user.id);
             if(registerAction === 'register') {
+                var registration = $.parseJSON(response.data).registration;
+                vehicleSelectionRender(championship.id, registration.id)
                 showModalAndActivatePopups($('.standard.vehicleSelection.modal'));
             }
         }
@@ -782,12 +761,14 @@ function userRegistrationRender(championshipId, userId) {
 /**
  * This method registers the api on the vehicle selection button
  */
-function registerVehicleSelectionApi() {
+function vehicleSelectionApi() {
     $('.standard.vehicleSelection.modal > .content > .description .ui.button.vehicleSelection').api({
         method: 'POST',
         onSuccess: function (response) {
             var championship = $.parseJSON(response.data).championship;
-            registerVehicleSelectionRender(championship.id);
+            var registration = $.parseJSON(response.data).registration;
+            vehicleSelectionRender(championship.id, registration.id);
+            userRegistrationRender(championship.id, registration.user.id);
         }
     });
 }
@@ -799,14 +780,14 @@ function registerVehicleSelectionApi() {
  * @param user
  * @param team
  */
-function registerVehicleSelectionRender(championshipId, registrationId) {
+function vehicleSelectionRender(championshipId, registrationId) {
     $.ajax({
         type: "POST",
         url: Routing.generate('ajax_vehicle_selection_render', { championshipId : championshipId, registrationId : registrationId}),
         cache: false,
     }).done(function (data) {
         $('.standard.vehicleSelection.modal > .content > .description').html(data);
-        registerVehicleSelectionApi();
+        vehicleSelectionApi();
     });
 }
 
@@ -1128,7 +1109,7 @@ $(function () {
     });
 
     userRegistrationApi();
-    registerVehicleSelectionApi();
+    vehicleSelectionApi();
 
 // --------------------------------------------
 // Screen MetaRule show

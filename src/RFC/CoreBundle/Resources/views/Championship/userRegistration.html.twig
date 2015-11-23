@@ -45,11 +45,9 @@
              data-drivertype="1">
             UNREGISTER FROM CHAMPIONSHIP
         </div>
-        {% if userRegistration.vehicle is null or userRegistration.vehicle is not defined %}
-            <div id="showVehicleSelection" class="ui right floated primary button">
-                SELECT A VEHICLE
-            </div>
-        {% endif %}
+        <div id="showVehicleSelection" class="ui right floated primary button">
+            SELECT A VEHICLE
+        </div>
     {% endif %}
 {% else %}
     You are not able to {{ userRegistration is null ? 'register' : 'unregister' }} anymore.
