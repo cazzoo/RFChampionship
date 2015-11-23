@@ -574,7 +574,7 @@ class Championship extends KnowledgeData
 
     /**
      * Returns the team associated to id
-     * @param type $teamId
+     * @param int $teamId
      * @return Team the team
      */
     public function getTeam($teamId)
@@ -599,25 +599,22 @@ class Championship extends KnowledgeData
     public function getListUsersTeams($type = 'main')
     {
         $users = array();
-        foreach ($this->listTeams as $team) {
+        foreach ($this->listRegistrations as $registration) {
             switch ($type) {
                 case 'main':
-                    if (!$team->getListMainDrivers()->isEmpty()) {
-                        foreach($team->getListMainDrivers() as $mainDriver) {
-                            $users[] = $mainDriver;
-                        }
+                    if ($registration->getType() === Registration::DRIVER_TYPE_MAIN) {
+                        $users[] = $registration->getUser();
                     }
                     break;
                 case 'secondary':
-                    if (!$team->getListSecondaryDrivers()->isEmpty()) {
-                        foreach($team->getListSecondaryDrivers() as $secondaryDriver) {
-                            $users[] = $secondaryDriver;
-                        }
+                    if ($registration->getType() === Registration::DRIVER_TYPE_SECONDARY) {
+                        $users[] = $registration->getUser();
                     }
                     break;
             }
 
         }
+
         return $users;
     }
 

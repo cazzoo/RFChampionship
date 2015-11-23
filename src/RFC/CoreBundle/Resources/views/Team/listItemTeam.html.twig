@@ -20,10 +20,12 @@
     {% set currentUser = app.user %}
 {% endif %}
 
-{% set userRegistration = championship.getUserRegistration(currentUser.name) %}
+{% if userRegistration is not defined %}
+    {% set userRegistration = championship.getUserRegistration(currentUser.username) %}
+{% endif %}
 
 <div class="ui items">
-    {% for team in teams %}
+    {% for team in championship.listTeams %}
         {% include 'RFCCoreBundle:Team:itemTeam.html.twig' with {'team' : team, 'user' : currentUser, 'userRegistration' : userRegistration} %}
     {% endfor %}
 </div>

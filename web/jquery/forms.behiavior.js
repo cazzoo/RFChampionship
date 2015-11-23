@@ -59,29 +59,6 @@ function toggleRules(p_time) {
     }
 }
 
-function registerChampionshipBehiavior() {
-    var entityData = $(this).attr('id').split(';');
-    var data = {
-        action: entityData[0].substr(7),
-        gameId: entityData[1].substr(5),
-        championshipId: entityData[2].substr(13),
-        userId: entityData[3].substr(5)
-    };
-    var jsonFormatted = JSON.stringify(data);
-    $.ajax({
-        type: "POST",
-        url: Routing.generate('ajax_user_register_championship'),
-        data: jsonFormatted,
-        cache: false
-    }).done(function (data) {
-        addNotification('Championship application completed', 'success');
-        $('#registrationStatus').html(data);
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        addNotification('Error while registering to championship', 'error');
-    });
-    return false;
-}
-
 function getChampionshipResults(championshipId) {
     var data = {
         'championshipId': championshipId
@@ -106,9 +83,6 @@ function getChampionshipResults(championshipId) {
                 'error');
         });
 
-    $('.eventItem').each(function () {
-        getEventResult($(this).data('eventid'));
-    });
     return false;
 }
 
@@ -614,6 +588,7 @@ function showEvent(id) {
     updateProgressBar($('#championshipProgessbar'));
     loadEventSessions(eventElement.data('eventid'));
     updateSlickSlideshow(eventElement.find('.slickSlideshow'));
+    getEventResult(eventElement.data('eventid'));
 }
 
 function loadEventSessions(id) {
@@ -664,69 +639,6 @@ function loadEventSessions(id) {
     return false;
 }
 
-function handleTeamRegistration(response) {
-    var app = $.parseJSON(response.data).app;
-    var championship = $.parseJSON(response.data).championship;
-    var registeredAsMainDriver = null;
-    var registeredAsSecondaryDriver = null;
-    // Loop on each teams to prepare some data
-    $.each(championship.listTeams, function (keyTeam, team) {
-        $.each(team.listMainDrivers, function (keyMainDriver, mainDriver) {
-            if (app.user.id == mainDriver.id) {
-                registeredAsMainDriver = team;
-                return true;
-            }
-        });
-        $.each(team.listSecondaryDrivers, function (keySecondaryDriver, secondaryDriver) {
-            if (app.user.id == secondaryDriver.id) {
-                registeredAsSecondaryDriver = team;
-                return true;
-            }
-        });
-    });
-    // Loop on each teams to replace data regarding action
-    var _championship = championship;
-    $.each(championship.listTeams, function (keyTeam, team) {
-        var teamCard = $('.ui.fluid.card[data-teamid=' + team.id + ']');
-        team.championship = _championship;
-        var renderedTeamRegistration = Twig.render(teamRegistration, {
-            'app': app,
-            'registeredAsMainDriver': registeredAsMainDriver,
-            'registeredAsSecondaryDriver': registeredAsSecondaryDriver,
-            'team': team
-        });
-        var renderedTeamMainDrivers = '';
-        $.each(team.listMainDrivers, function (keyMainDriver, mainDriver) {
-            renderedTeamMainDrivers += Twig.render(userLink, {
-                'user': mainDriver,
-                'game': _championship.game
-            });
-        });
-        var renderedTeamSecondaryDrivers = '';
-        $.each(team.listSecondaryDrivers, function (keySecondaryDriver, secondaryDriver) {
-            renderedTeamSecondaryDrivers += Twig.render(userLink, {
-                'user': secondaryDriver,
-                'game': _championship.game
-            });
-        });
-        teamCard.find('.content>.center').html(renderedTeamRegistration);
-        teamCard.find('.description .column .mainDrivers').html(renderedTeamMainDrivers);
-        teamCard.find('.description .column .secondaryDrivers').html(renderedTeamSecondaryDrivers);
-        teamCard.find('.countRegisteredMainDrivers').html(team.listMainDrivers.length);
-        teamCard.find('.countRegisteredSecondaryDrivers').html(team.listSecondaryDrivers.length);
-        teamCard.find('.content>.center .ui.button.teamRegistration').api({
-            method: 'POST',
-            beforeSend: function (settings) {
-                $('.content>.center a.ui.button.teamRegistration').not($(this)).addClass('disabled');
-                return settings;
-            },
-            onSuccess: function (response) {
-                handleTeamRegistration(response);
-            }
-        });
-    });
-}
-
 function userRegistrationApi() {
     $('.ui.button.userRegistration').api({
         method: 'POST',
@@ -734,16 +646,46 @@ function userRegistrationApi() {
             var championship = $.parseJSON(response.data).championship;
             var user = $.parseJSON(response.data).user;
             var registerAction = $.parseJSON(response.data).registeraction;
+            var registration = $.parseJSON(response.data).registration;
             userRegistrationRender(championship.id, user.id);
-            if(registerAction === 'register') {
-                var registration = $.parseJSON(response.data).registration;
-                vehicleSelectionRender(championship.id, registration.id)
-                showModalAndActivatePopups($('.standard.vehicleSelection.modal'));
+            if(!championship.teamChampionship) {
+                if (registerAction === 'register') {
+                    vehicleSelectionRender(championship.id, registration.id)
+                    showModalAndActivatePopups($('.standard.vehicleSelection.modal'));
+                }
+            } else {
+                teamRegistrationRender(championship.id, user.id)
+                if (registerAction === 'register') {
+                    vehicleSelectionRender(championship.id, registration.id)
+                    showModalAndActivatePopups($('.standard.vehicleSelection.modal'));
+                }
             }
         }
     });
-    $('#showVehicleSelection').click(function() {
+    $('#vehicleSelectionForm').click(function() {
         showModalAndActivatePopups($('.standard.vehicleSelection.modal'));
+    });
+    $('#teamRegistrationForm').click(function() {
+        showModalAndActivatePopups($('.standard.teamRegistration.modal'));
+    });
+}
+
+/**
+ * This method registers the api on the vehicle selection button
+ */
+function vehicleSelectionApi() {
+    $('.standard.vehicleSelection.modal > .content > .segment > .description .ui.button.vehicleSelection').api({
+        method: 'POST',
+        onSuccess: function (response) {
+            var championship = $.parseJSON(response.data).championship;
+            var registration = $.parseJSON(response.data).registration;
+            vehicleSelectionRender(championship.id, registration.id);
+            if(!championship.teamChampionship) {
+                userRegistrationRender(championship.id, registration.user.id);
+            } else {
+                teamRegistrationRender(championship.id, registration.user.id)
+            }
+        }
     });
 }
 
@@ -755,21 +697,22 @@ function userRegistrationRender(championshipId, userId) {
     }).done(function (data) {
         $('#userRegistrationForm').html(data);
         userRegistrationApi();
+        championshipParticipantRender(championshipId);
     });
 }
 
-/**
- * This method registers the api on the vehicle selection button
- */
-function vehicleSelectionApi() {
-    $('.standard.vehicleSelection.modal > .content > .description .ui.button.vehicleSelection').api({
-        method: 'POST',
-        onSuccess: function (response) {
-            var championship = $.parseJSON(response.data).championship;
-            var registration = $.parseJSON(response.data).registration;
-            vehicleSelectionRender(championship.id, registration.id);
-            userRegistrationRender(championship.id, registration.user.id);
-        }
+function teamRegistrationRender(championshipId, userId) {
+    var contentReplaced = $('.standard.teamRegistration.modal > .content > .segment > .description');
+    $.ajax({
+        type: "POST",
+        url: Routing.generate('ajax_team_registration_render', { championshipId : championshipId, userId : userId}),
+        cache: false,
+        beforeSend: toggleLoading(contentReplaced, true),
+    }).done(function (data) {
+        contentReplaced.html(data);
+        toggleLoading(contentReplaced, false)
+        userRegistrationApi();
+        championshipParticipantRender(championshipId);
     });
 }
 
@@ -781,14 +724,39 @@ function vehicleSelectionApi() {
  * @param team
  */
 function vehicleSelectionRender(championshipId, registrationId) {
+    var contentReplaced = $('.standard.vehicleSelection.modal > .content > .segment > .description');
     $.ajax({
         type: "POST",
         url: Routing.generate('ajax_vehicle_selection_render', { championshipId : championshipId, registrationId : registrationId}),
         cache: false,
+        beforeSend: toggleLoading(contentReplaced, true),
     }).done(function (data) {
-        $('.standard.vehicleSelection.modal > .content > .description').html(data);
+        contentReplaced.html(data);
+        toggleLoading(contentReplaced, false)
         vehicleSelectionApi();
+        championshipParticipantRender(championshipId);
     });
+}
+
+function championshipParticipantRender(championshipId) {
+    var contentReplaced = $('#championship_participants');
+    $.ajax({
+        type: "POST",
+        url: Routing.generate('ajax_championship_participants_render', { championshipId : championshipId}),
+        cache: false,
+    }).done(function (data) {
+        contentReplaced.html(data);
+    });
+}
+
+function toggleLoading(element, active) {
+    var dimmer = element.parent().find('.ui.dimmer');
+    if(active) {
+        dimmer.addClass('active');
+    } else {
+        dimmer.removeClass('active');
+    }
+
 }
 
 function updateSlickSlideshow(element) {
@@ -914,12 +882,6 @@ $(function () {
         var event = $('.eventItem[data-eventid=' + $(this).attr('href').substring(9) + ']');
         showEvent(event.data('eventkey'));
     });
-
-    // --------------------------------------------
-    // ----------------- Register/unregister
-    // --------------------------------------------
-    $("#registrationStatus").on('click', '.actionRegisterUnregister',
-        registerChampionshipBehiavior);
 
     // Screen MetaRule
     // --------------------------------------------
@@ -1089,23 +1051,8 @@ $(function () {
         showModalAndActivatePopups($('.standard.teamList.modal'));
     });
 
-    $('#viewTeamRegistrationScreen').click(function() {
-        showModalAndActivatePopups($('.standard.teamRegistration.modal'));
-    });
-
     $('.grid.teams .card .image').dimmer({
         on: 'hover'
-    });
-
-    $('.ui.button.teamRegistration').api({
-        method: 'POST',
-        beforeSend: function (settings) {
-            $('.ui.button.userRegistration').addClass('disabled');
-            return settings;
-        },
-        onSuccess: function (response) {
-            handleTeamRegistration(response);
-        }
     });
 
     userRegistrationApi();

@@ -423,7 +423,7 @@ class ChampionshipController extends RFCController
                 'id' => $championshipid,
             ]
         );
-        $team = $teamid !== null ? $championship->getTeam($teamid) : null;
+        $team = $teamid !== null ? $championship->getTeam(intval($teamid)) : null;
         $user = $entityManager->getRepository('RFCUserBundle:User')->findOneBy(
             [
                 'id' => $driverid,
@@ -568,6 +568,49 @@ class ChampionshipController extends RFCController
                 'championship' => $championship,
                 'user' => $user,
                 'userRegistration' => $registration,
+            )
+        );
+    }
+
+    public function teamRegistrationRenderAction($championshipId, $userId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $championship = $em->getRepository('RFCCoreBundle:Championship')->findOneBy(
+            [
+                'id' => $championshipId,
+            ]
+        );
+        $user = $em->getRepository('RFCUserBundle:User')->findOneBy(
+            [
+                'id' => $userId,
+            ]
+        );
+
+        $registration = $championship->getUserRegistration($user->getUsername());
+
+        return $this->render(
+            'RFCCoreBundle:Team:listItemTeam.html.twig',
+            array(
+                'championship' => $championship,
+                'user' => $user,
+                'userRegistration' => $registration,
+            )
+        );
+    }
+
+    public function championshipParticipantsRenderAction($championshipId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $championship = $em->getRepository('RFCCoreBundle:Championship')->findOneBy(
+            [
+                'id' => $championshipId,
+            ]
+        );
+
+        return $this->render(
+            'RFCCoreBundle:Championship:participants.html.twig',
+            array(
+                'championship' => $championship,
             )
         );
     }

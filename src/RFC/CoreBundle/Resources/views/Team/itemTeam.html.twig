@@ -21,7 +21,8 @@
     <div class="content">
         <div class="header">{{ team.name }}</div>
         <div class="meta">
-            This team has {{ team.listMainDrivers|length }} main drivers and {{ team.listSecondaryDrivers|length }} secondary drivers.
+            This team has {{ team.listMainDrivers|length }} main drivers and {{ team.listSecondaryDrivers|length }}
+            secondary drivers.
         </div>
         <div class="description">
             <div class="ui two column center aligned horizontally divided stackable grid">
@@ -29,7 +30,7 @@
                     Main drivers
                     <div class="mainDrivers">
                         {% for mainDriver in team.listMainDrivers %}
-                            {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : mainDriver} %}
+                            {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : mainDriver.user} %}
                         {% endfor %}
                     </div>
                 </div>
@@ -37,7 +38,7 @@
                     Secondary drivers
                     <div class="secondaryDrivers">
                         {% for secondaryDriver in team.listSecondaryDrivers %}
-                            {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : secondaryDriver} %}
+                            {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : secondaryDriver.user} %}
                         {% endfor %}
                     </div>
                 </div>
@@ -46,13 +47,15 @@
         <div class="extra">
             <div>
                 <i class="users primary icon"></i>
+
                 <div>
-                    Main slot : <span class="countRegisteredMainDrivers">{{ team.listMainDrivers|length }}</span> / {{ team.maxMainDrivers == -1 ?  'unlimited' : team.maxMainDrivers }}
+                    Main slot : <span class="countRegisteredMainDrivers">{{ team.listMainDrivers|length }}</span>
+                    / {{ team.maxMainDrivers == -1 ?  'unlimited' : team.maxMainDrivers }}
                 </div>
                 {% if team.championship.getRegistrationAllowed %}
                     {% if team.getRegistrationAvailable == 'main' %}
                         {% if userRegistration is null %}
-                            <div class="ui right floated primary button"
+                            <div class="ui right floated primary button userRegistration"
                                  data-action="user championship registration"
                                  data-championshipid="{{ team.championship.id }}"
                                  data-driverid="{{ user.id }}"
@@ -62,8 +65,8 @@
                                 Register as main driver
                             </div>
                         {% else %}
-                            {% if registration.type == 1 and registration.team.id == team.id %}
-                                <div class="ui right floated secondary button"
+                            {% if userRegistration.type == 1 and userRegistration.team.id == team.id %}
+                                <div class="ui right floated secondary button userRegistration"
                                      data-action="user championship registration"
                                      data-championshipid="{{ team.championship.id }}"
                                      data-driverid="{{ user.id }}"
@@ -72,6 +75,9 @@
                                      data-teamid="{{ team.id }}">
                                     Unregister as main driver
                                 </div>
+                                <div id="vehicleSelectionForm" class="ui right floated primary button">
+                                    SELECT A VEHICLE
+                                </div>
                             {% endif %}
                         {% endif %}
                     {% endif %}
@@ -79,13 +85,16 @@
             </div>
             <div>
                 <i class="users secondary icon"></i>
+
                 <div>
-                    Secondary slot : <span class="countRegisteredSecondaryDrivers">{{ team.listSecondaryDrivers|length }}</span> / {{ team.maxSecondaryDrivers == -1 ?  'unlimited' : team.maxSecondaryDrivers }}
+                    Secondary slot : <span
+                            class="countRegisteredSecondaryDrivers">{{ team.listSecondaryDrivers|length }}</span>
+                    / {{ team.maxSecondaryDrivers == -1 ?  'unlimited' : team.maxSecondaryDrivers }}
                 </div>
                 {% if team.championship.getRegistrationAllowed %}
                     {% if team.getRegistrationAvailable == 'secondary' %}
                         {% if userRegistration is null %}
-                            <div class="ui right floated secondary button"
+                            <div class="ui right floated secondary button userRegistration"
                                  data-action="user championship registration"
                                  data-championshipid="{{ team.championship.id }}"
                                  data-driverid="{{ user.id }}"
@@ -95,8 +104,8 @@
                                 Register as secondary driver
                             </div>
                         {% else %}
-                            {% if registration.type == 2 and registration.team.id == team.id %}
-                                <div class="ui right floated secondary button"
+                            {% if userRegistration.type == 2 and userRegistration.team.id == team.id %}
+                                <div class="ui right floated secondary button userRegistration"
                                      data-action="user championship registration"
                                      data-championshipid="{{ team.championship.id }}"
                                      data-driverid="{{ user.id }}"

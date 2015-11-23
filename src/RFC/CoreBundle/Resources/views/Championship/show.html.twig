@@ -32,88 +32,15 @@
             </div>
             <div class="column">
 
-                <div class="ui header">
-                    {% if not teamChampionship %}
-                        {% set participantCount = championship.listUsers %}
-                        {% trans with { '%participantCount%' : participantCount|length} %}core.championship.participants.title{% endtrans %}
-                    {% else %}
-                        {% set participantCountMain = championship.getListUsersTeams('main') %}
-                        {% set participantCountSecondary = championship.getListUsersTeams('secondary') %}
-                        {% trans with { '%participantCountMain%' : participantCountMain|length, '%participantCountSecondary%' : participantCountSecondary|length } %}core.championship.participants.titleTeam{% endtrans %}
-                    {% endif %}
+                <div id="championship_participants">
+                    {% include 'RFCCoreBundle:Championship:participants.html.twig' %}
                 </div>
-
-                {% if teamChampionship %}
-                    <div class="ui center aligned basic segment">
-                        <a id="showTeamList" class="ui button">{% trans %}core.action.showTeams {% endtrans %}</a>
-                    </div>
-                    <div class="ui standard teamList modal transition">
-                        <i class="close icon"></i>
-
-                        <div class="header">
-                            {% trans %}core.championship.participants.popupTeams{% endtrans %}
-                        </div>
-                        <div class="content">
-                            <div class="description">
-                                {% include 'RFCCoreBundle:Championship:listTeams.html.twig' with {'championship' : championship} %}
-                            </div>
-                        </div>
-                    </div>
-                {% else %}
-                    {% if championship.listUsers|length > 4 and championship.listUsers|length < 8 %}
-
-                        {% include 'RFCCoreBundle:Championship:driversTwoColumnsList.html.twig' with {'listDrivers' : championship.listUsers|slice(0,8)} %}
-
-                    {% elseif championship.listUsers|length <= 4 %}
-
-                        <div class="ui grid">
-                            <div class="column">
-                                <div class="ui mini list">
-
-                                    {% for participant in championship.listUsers %}
-
-                                        {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : participant} %}
-
-                                    {% endfor %}
-
-                                </div>
-                            </div>
-                        </div>
-
-                    {% else %}
-
-                        <div class="ui basic center aligned segment">
-                            <p>{% trans %}core.championship.participants.tooMuch{% endtrans %}</p>
-                            <a id="viewFullDriverList" href="#" class="ui button">{% trans %}
-                                core.championship.participants.showFullList{% endtrans %}</a>
-                        </div>
-
-                        <div class="ui standard driverList modal transition">
-                            <i class="close icon"></i>
-
-                            <div class="header">
-                                {% trans %}core.championship.participants.popupParticipant{% endtrans %}
-                            </div>
-                            <div class="content">
-                                <div class="description">
-                                    {% include 'RFCCoreBundle:Championship:driversTwoColumnsList.html.twig' with {'listDrivers' : championship.listUsers} %}
-                                </div>
-                            </div>
-                        </div>
-
-                    {% endif %}
-
-                    <div id="registrationStatus" class="ui basic segment">
-                        {% include 'RFCCoreBundle:Championship:registration.html.twig' with {'gameId' : appSettings.getGame().id, 'championship' : championship, 'status' : ''} %}
-                    </div>
-
-                {% endif %}
 
                 {% if app.user %}
                     {% if teamChampionship %}
                         <div class="ui basic center aligned segment">
-                            <a id="viewTeamRegistrationScreen" href="#" class="ui button">
-                                SHOW TEAMS SCREEN
+                            <a id="teamRegistrationForm" href="#" class="ui button">
+                                {% trans %}core.action.showTeams {% endtrans %}
                             </a>
                         </div>
 
@@ -121,11 +48,16 @@
                             <i class="close icon"></i>
 
                             <div class="header">
-                                TEAMS SCREEN
+                                {% trans %}core.championship.participants.popupTeams{% endtrans %}
                             </div>
                             <div class="content">
-                                <div class="description">
-                                    {% include 'RFCCoreBundle:Team:listItemTeam.html.twig' with {'championship' : championship} %}
+                                <div class='ui basic segment'>
+                                    <div class='ui inverted dimmer'>
+                                        <div class='ui text loader'>Loading</div>
+                                    </div>
+                                    <div class="description">
+                                        {% include 'RFCCoreBundle:Team:listItemTeam.html.twig' with {'championship' : championship} %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -142,8 +74,13 @@
                             VEHICLE SCREEN
                         </div>
                         <div class="content">
-                            <div class="description">
-                                {% include 'RFCCoreBundle:Vehicle:listVehicles.html.twig' with {'championship' : championship} %}
+                            <div class='ui basic segment'>
+                                <div class='ui inverted dimmer'>
+                                    <div class='ui text loader'>Loading</div>
+                                </div>
+                                <div class="description">
+                                    {% include 'RFCCoreBundle:Vehicle:listVehicles.html.twig' with {'championship' : championship} %}
+                                </div>
                             </div>
                         </div>
                     </div>

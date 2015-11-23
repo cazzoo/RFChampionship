@@ -1,10 +1,10 @@
-{% if listDrivers|length % 2 == 0 %}
+{% if listRegistrations|length % 2 == 0 %}
 
-    {% set listHalf =  listDrivers|length / 2 %}
+    {% set listHalf =  listRegistrations|length / 2 %}
 
 {% else %}
 
-    {% set listHalf =  listDrivers|length / 2 + listDrivers|length % 2 %}
+    {% set listHalf =  listRegistrations|length / 2 + listRegistrations|length % 2 %}
 
 {% endif %}
 
@@ -12,9 +12,9 @@
     <div class="column">
         <div class="ui mini list">
 
-            {% for driver in listDrivers|slice(0, listHalf) %}
+            {% for registration in listRegistrations|slice(0, listHalf) %}
 
-                {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : driver} %}
+                {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : registration.user} %}
 
             {% endfor %}
 
@@ -23,9 +23,9 @@
     <div class="column">
         <div class="ui mini list">
 
-            {% for driver in listDrivers|slice(listHalf, listDrivers|length) %}
+            {% for registration in listRegistrations|slice(listHalf, listRegistrations|length) %}
 
-                {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : driver} %}
+                {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : registration.user} %}
 
             {% endfor %}
 

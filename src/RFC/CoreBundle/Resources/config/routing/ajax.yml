@@ -87,3 +87,22 @@ ajax_user_registration_render:
         userId: \d+
     options:
         expose: true
+
+ajax_team_registration_render:
+    pattern: /render/team_registration/{championshipId}/{userId}
+    defaults: { _controller: "RFCCoreBundle:Championship:teamRegistrationRender" }
+    requirements:
+        _method: get|post
+        championshipId: \d+
+        userId: \d+
+    options:
+        expose: true
+
+ajax_championship_participants_render:
+    pattern: /render/championship_participants/{championshipId}/
+    defaults: { _controller: "RFCCoreBundle:Championship:championshipParticipantsRender" }
+    requirements:
+        _method: get|post
+        championshipId: \d+
+    options:
+        expose: true
