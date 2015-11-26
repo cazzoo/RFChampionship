@@ -677,8 +677,8 @@ function vehicleSelectionApi() {
     $('.standard.vehicleSelection.modal > .content > .segment > .description .ui.button.vehicleSelection').api({
         method: 'POST',
         onSuccess: function (response) {
-            var championship = $.parseJSON(response.data).championship;
             var registration = $.parseJSON(response.data).registration;
+            var championship = registration.championship;
             vehicleSelectionRender(championship.id, registration.id);
             if(!championship.teamChampionship) {
                 userRegistrationRender(championship.id, registration.user.id);

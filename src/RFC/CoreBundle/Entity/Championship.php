@@ -25,6 +25,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\MaxDepth;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\Common\Collections\ArrayCollection;
 use RFC\CoreBundle\Entity\KnowledgeData;
@@ -100,6 +101,7 @@ class Championship extends KnowledgeData
     /**
      * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Registration", mappedBy="championship", cascade={"persist"}, orphanRemoval=true)
      * @Groups({"list","api"})
+     * @MaxDepth(2)
      */
     private $listRegistrations;
 

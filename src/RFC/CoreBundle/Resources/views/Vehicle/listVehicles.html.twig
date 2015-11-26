@@ -15,10 +15,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
 {% if team is defined and team is not null %}
-    {% if team.category is defined %}
+    {% if team.category is not null %}
         {% set allowedVehicles = team.category.listVehicles %}
     {% else %}
-        {% set allowedVehicles = team.vehicle %}
+        {% set allowedVehicles = [team.vehicle] %}
     {% endif %}
 {% else %}
     {% set allowedVehicles = championship.allowedVehicles %}
@@ -35,7 +35,7 @@
 {% endif %}
 
 <div class="ui items">
-    {% for vehicle in championship.getAllowedVehicles %}
+    {% for vehicle in allowedVehicles %}
         {% include 'RFCCoreBundle:Vehicle:itemVehicle.html.twig' with {'vehicle' : vehicle, 'userRegistration' : userRegistration} %}
     {% endfor %}
 </div>

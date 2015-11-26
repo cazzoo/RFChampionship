@@ -448,7 +448,7 @@ class ChampionshipController extends RFCController
 
         $success = true;
         $serializer = $this->get('jms_serializer');
-        $context = SerializationContext::create();
+        $context = SerializationContext::create()->enableMaxDepthChecks();
         $context->setGroups(['api']);
         $data = [
             'championship' => $championship,
@@ -503,10 +503,9 @@ class ChampionshipController extends RFCController
 
         $success = true;
         $serializer = $this->get('jms_serializer');
-        $context = SerializationContext::create();
+        $context = SerializationContext::create()->enableMaxDepthChecks();
         $context->setGroups(['api']);
         $data = [
-            'championship' => $registration->getChampionship(),
             'registration' => $registration,
         ];
         $jsonData = $serializer->serialize($data, 'json', $context);

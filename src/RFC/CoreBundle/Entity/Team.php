@@ -169,7 +169,12 @@ class Team extends Descriptor
      */
     public function getListMainDrivers()
     {
-        return array_filter($this->listRegistrations->toArray(), function($item) { return $item->getType() === Registration::DRIVER_TYPE_MAIN; });
+        return array_filter(
+            $this->listRegistrations->toArray(),
+            function ($item) {
+                return $item->getType() === Registration::DRIVER_TYPE_MAIN;
+            }
+        );
     }
 
     /**
@@ -222,7 +227,12 @@ class Team extends Descriptor
      */
     public function getListSecondaryDrivers()
     {
-        return array_filter($this->listRegistrations->toArray(), function($item) { return $item->getType() === Registration::DRIVER_TYPE_SECONDARY; });
+        return array_filter(
+            $this->listRegistrations->toArray(),
+            function ($item) {
+                return $item->getType() === Registration::DRIVER_TYPE_SECONDARY;
+            }
+        );
     }
 
     /**
@@ -309,7 +319,12 @@ class Team extends Descriptor
         return $this;
     }
 
-    public function getUserRegistration(User $userName)
+    public function getRegistered($userName)
+    {
+        return $this->getUserRegistration($userName) !== null ? $this->getUserRegistration($userName)->getTeam()->getId() === $this->getId() : false;
+    }
+
+    public function getUserRegistration($userName)
     {
         return $this->getChampionship()->getUserRegistration($userName);
     }

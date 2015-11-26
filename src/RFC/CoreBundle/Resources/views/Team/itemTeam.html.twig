@@ -14,9 +14,27 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
+{% set canEditTeam = team.getRegistered(app.user.username) %}
+
 <div class="item">
     <div class="image">
-        <img src="/images/wireframe/image.png">
+        {% if team.listImages is not empty %}
+            <div class="slickSlideshow">
+                {% for image in team.listImages %}
+                    <img src="/{{ image.path }}">
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if canEditTeam %}
+            <a class="ui blue right corner label"
+               href="#">
+                <i class="setting icon"></i>
+            </a>
+            <a class="ui red left corner label"
+               href="{{ path('rfcCore_manageGallery', { 'entityType': 'Team', 'entityId': team.id }) }}">
+                <i class="file image outline icon"></i>
+            </a>
+        {% endif %}
     </div>
     <div class="content">
         <div class="header">{{ team.name }}</div>
@@ -29,16 +47,18 @@
                 <div class="column">
                     Main drivers
                     <div class="mainDrivers">
-                        {% for mainDriver in team.listMainDrivers %}
-                            {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : mainDriver.user} %}
-                        {% endfor %}
+                        <div class="ui mini list">
+                            {% for mainDriver in team.listMainDrivers %}
+                                {% include 'RFCCoreBundle:Championship:itemUserVehicleTeam.html.twig' with {'registration' : mainDriver} %}
+                            {% endfor %}
+                        </div>
+                        </div>
                     </div>
-                </div>
                 <div class="column">
                     Secondary drivers
                     <div class="secondaryDrivers">
                         {% for secondaryDriver in team.listSecondaryDrivers %}
-                            {% include 'RFCCoreBundle:User:userLink.html.twig' with {'user' : secondaryDriver.user} %}
+                            {% include 'RFCCoreBundle:Championship:itemUserVehicleTeam.html.twig' with {'registration' : secondaryDriver} %}
                         {% endfor %}
                     </div>
                 </div>
