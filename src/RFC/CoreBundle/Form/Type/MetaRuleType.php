@@ -17,59 +17,54 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace RFC\CoreBundle\Form;
+namespace RFC\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use RFC\CoreBundle\Entity\TypeSessionRepository;
+use RFC\CoreBundle\Entity\RuleRepository;
 
-class SessionType extends AbstractType
+class MetaRuleType extends AbstractType
 {
-    private $gameId;
+    private $id;
 
-    public function __construct($gameId)
+    public function __construct($id)
     {
-        $this->gameId = $gameId;
+        $this->id = $id;
     }
 
     /**
      *
-     * @param FormBuilderInterface $builder        	
-     * @param array $options        	
+     * @param FormBuilderInterface $builder
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $gameId = $this->gameId;
+        $id = $this->id;
+
         $builder->add('name')->add('description', 'textarea',
-            array(
-            'required' => false
-        ))->add('beginDate', 'datetime',
-            array(
-            'widget' => 'single_text',
-            'format' => 'yyyy/MM/dd HH:mm',
-            'attr' => array(
-                'class' => 'datetimepicker'
-            )
-        ))->add('endDate', 'datetime',
-            array(
-            'widget' => 'single_text',
-            'format' => 'yyyy/MM/dd HH:mm',
-            'attr' => array(
-                'class' => 'datetimepicker'
-            )
-        ))->add('typeSession', 'entity',
-            array(
-            'required' => true,
-            'class' => 'RFCCoreBundle:TypeSession',
-            'query_builder' => function (TypeSessionRepository $ts) use($gameId) {
-                return $ts->createQueryBuilder('t')->where('t.game = :gameId')->setParameter('gameId',
-                        $gameId);
-            }
-        ))->add('commentsActive', 'checkbox',
-            array(
-            'required' => false
-        ))->add('event');
+                array(
+                'required' => false
+            ))->add('metaRuleAgreed', 'checkbox',
+                array(
+                'required' => false
+            ))->add('listRules', 'entity',
+                array(
+                'multiple' => true,
+                'required' => false,
+                'class' => 'RFCCoreBundle:Rule',
+                'query_builder' => function (RuleRepository $er) use($id) {
+                    return $er->createQueryBuilder('r')->where('r.game = :id')->setParameter('id',
+                            $id);
+                }
+            ))->add('commentsActive', 'checkbox',
+                array(
+                'required' => false
+            ))
+            ->add('game', 'entity',
+                array(
+                'class' => 'RFC\CoreBundle\Entity\Game'
+        ));
     }
 
     /**
@@ -79,7 +74,7 @@ class SessionType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'RFC\CoreBundle\Entity\Session'
+            'data_class' => 'RFC\CoreBundle\Entity\MetaRule'
         ));
 
         $resolver->setRequired(array(
@@ -97,6 +92,6 @@ class SessionType extends AbstractType
      */
     public function getName()
     {
-        return 'rfc_corebundle_session';
+        return 'rfc_corebundle_metarule';
     }
 }

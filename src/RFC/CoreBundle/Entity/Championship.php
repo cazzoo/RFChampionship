@@ -25,6 +25,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\MaxDepth;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\Common\Collections\ArrayCollection;
 use RFC\CoreBundle\Entity\KnowledgeData;
@@ -98,14 +99,19 @@ class Championship extends KnowledgeData
     private $listTeams;
 
     /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Registration", mappedBy="championship", cascade={"persist"}, orphanRemoval=true)
+     * @Groups({"list","api"})
+     * @MaxDepth(2)
+     */
+    private $listRegistrations;
+
+    /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Category")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $listCategories;
 
     /**
      * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Vehicle")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $listVehicles;
 
@@ -122,6 +128,7 @@ class Championship extends KnowledgeData
         $this->listTeams = new ArrayCollection();
         $this->listCategories = new ArrayCollection();
         $this->listVehicles = new ArrayCollection();
+        $this->listRegistrations = new ArrayCollection();
     }
 
     /**
@@ -143,7 +150,6 @@ class Championship extends KnowledgeData
     public function setChampionshipAgreed($agreed)
     {
         $this->championshipAgreed = $agreed;
-
         return $this;
     }
 
@@ -166,7 +172,6 @@ class Championship extends KnowledgeData
     public function setRegistrationInProgress($registrationInProgress)
     {
         $this->registrationInProgress = $registrationInProgress;
-
         return $this;
     }
 
@@ -189,7 +194,6 @@ class Championship extends KnowledgeData
     public function setListEvents(ArrayCollection $listEvents)
     {
         $this->listEvents = $listEvents;
-
         return $this;
     }
 
@@ -212,7 +216,6 @@ class Championship extends KnowledgeData
     public function setManagers(ArrayCollection $managers)
     {
         $this->listManagers = $managers;
-
         return $this;
     }
 
@@ -235,7 +238,6 @@ class Championship extends KnowledgeData
     public function setMetaRule(MetaRule $metaRule)
     {
         $this->metaRule = $metaRule;
-
         return $this;
     }
 
@@ -258,7 +260,6 @@ class Championship extends KnowledgeData
     public function setListRules(ArrayCollection $listRules)
     {
         $this->listRules = $listRules;
-
         return $this;
     }
 
@@ -281,7 +282,6 @@ class Championship extends KnowledgeData
     public function addRule(Rule $rule)
     {
         $this->listRules[] = $rule;
-
         return $this;
     }
 
@@ -304,7 +304,6 @@ class Championship extends KnowledgeData
     public function addEvent(Event $event)
     {
         $this->listEvents[] = $event;
-
         return $this;
     }
 
@@ -327,7 +326,6 @@ class Championship extends KnowledgeData
     public function addManager(User $manager)
     {
         $this->listManagers[] = $manager;
-
         return $this;
     }
 
@@ -404,7 +402,6 @@ class Championship extends KnowledgeData
     public function registerUser(User $user)
     {
         $this->listUsers[] = $user;
-
         return $this;
     }
 
@@ -412,10 +409,125 @@ class Championship extends KnowledgeData
      * Remove User from list of participants
      *
      * @param User $user
+     * @return Championship
      */
     public function unregisterUser(User $user)
     {
         $this->listUsers->removeElement($user);
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getListRegistrations()
+    {
+        return $this->listRegistrations;
+    }
+
+    /**
+     * @param ArrayCollection $listRegistrations
+     * @return Championship
+     */
+    public function setListRegistrations(ArrayCollection $listRegistrations)
+    {
+        $this->listRegistrations = $listRegistrations;
+        return $this;
+    }
+
+    /**
+     * Add registration
+     *
+     * @param Registration $registration
+     * @return Championship
+     */
+    public function addRegistration(Registration $registration)
+    {
+        $this->listRegistrations->add($registration);
+        return $this;
+    }
+
+    /**
+     * This method create a regsitration for a given user
+     * @param User $user
+     * @param int $drivertype
+     * @param Team $team
+     * @return Registration user registration
+     */
+    public function addUserRegistration(User $user, $drivertype, $team = NULL)
+    {
+        $userRegistration = $this->getUserRegistration($user->getUsername());
+        if($userRegistration !== null) {
+            return $userRegistration;
+        } else {
+            $registration = new Registration($this, $user, $drivertype, $team);
+            $this->addRegistration($registration);
+            return $registration;
+        }
+
+    }
+
+    /**
+     * Remove registration
+     *
+     * @param Registration $registration
+     * @return Championship
+     */
+    public function removeRegistration(Registration $registration)
+    {
+        $this->listRegistrations->removeElement($registration);
+        return $this;
+    }
+
+    /** This method removes a registration for a giver username
+     *
+     * @param string $username the username we want to remove
+     * @return Championship|false true if success, false otherwise
+     */
+    public function removeUserRegistration($username)
+    {
+        $userRegistration = $this->getUserRegistration($username);
+        if($userRegistration !== null) {
+            return $this->removeRegistration($userRegistration);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * This method returns a registration based on user name, null if not found.
+     * @param $userName
+     * @return Registration|null
+     */
+    public function getUserRegistration($userName)
+    {
+        foreach($this->listRegistrations as $registration)
+        {
+            if($registration->getUser()->getUsername() === $userName){
+                return $registration;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * This method returns all the registration for a given team id
+     * @param $teamId
+     * @return array
+     */
+    public function getRegistrationByTeam($teamId, $type = null) {
+        $teamRegistration = array();
+        foreach($this->listRegistrations as $registration)
+        {
+            if($registration->getTeam()->getId() === $teamId){
+                if($type && $registration->getType() === $type) {
+                    $teamRegistration[] = $registration;
+                } else {
+                    $teamRegistration[] = $registration;
+                }
+            }
+        }
+        return $teamRegistration;
     }
 
     /**
@@ -447,7 +559,6 @@ class Championship extends KnowledgeData
     public function addTeam(Team $team)
     {
         $this->listTeams[] = $team;
-
         return $this;
     }
 
@@ -455,15 +566,17 @@ class Championship extends KnowledgeData
      * Remove team
      *
      * @param Team $team
+     * @return Championship
      */
     public function removeTeam(Team $team)
     {
         $this->listTeams->removeElement($team);
+        return $this;
     }
 
     /**
      * Returns the team associated to id
-     * @param type $teamId
+     * @param int $teamId
      * @return Team the team
      */
     public function getTeam($teamId)
@@ -488,25 +601,22 @@ class Championship extends KnowledgeData
     public function getListUsersTeams($type = 'main')
     {
         $users = array();
-        foreach ($this->listTeams as $team) {
+        foreach ($this->listRegistrations as $registration) {
             switch ($type) {
                 case 'main':
-                    if (!$team->getListMainDrivers()->isEmpty()) {
-                        foreach($team->getListMainDrivers() as $mainDriver) {
-                            $users[] = $mainDriver;
-                        }
+                    if ($registration->getType() === Registration::DRIVER_TYPE_MAIN) {
+                        $users[] = $registration->getUser();
                     }
                     break;
                 case 'secondary':
-                    if (!$team->getListSecondaryDrivers()->isEmpty()) {
-                        foreach($team->getListSecondaryDrivers() as $secondaryDriver) {
-                            $users[] = $secondaryDriver;
-                        }
+                    if ($registration->getType() === Registration::DRIVER_TYPE_SECONDARY) {
+                        $users[] = $registration->getUser();
                     }
                     break;
             }
 
         }
+
         return $users;
     }
 
@@ -519,6 +629,27 @@ class Championship extends KnowledgeData
     {
         $this->listCategories = $listCategories;
         return $this;
+    }
+
+    /**
+     * This method returns all the allowed vehicles for the current championship.
+     * All the allowed vehicles are :
+     *  - Every vehicles if championship has vehicle list
+     *  - Every vehicles of every categories if championship has category list
+     * @return array|ArrayCollection
+     */
+    public function getAllowedVehicles()
+    {
+        $allowedVehicles = array();
+        if(count($this->listCategories) === 0 ) {
+            $allowedVehicles = $this->listVehicles;
+        } else {
+            foreach($this->listCategories as $category) {
+                $allowedVehicles += $category->getListVehicles()->toArray();
+            }
+        }
+
+        return $allowedVehicles;
     }
 
     /**
@@ -548,16 +679,22 @@ class Championship extends KnowledgeData
     public function generateTeams(Array $baseData)
     {
         foreach ($baseData[0] as $data) {
-            if (get_class($data) == 'RFC\CoreBundle\Entity\Vehicle' || get_class($data)
-                == 'RFC\CoreBundle\Entity\Category'
-            ) {
-                $t = new Team();
+            $t = new Team();
+            $isVehicle = get_class($data) == 'RFC\CoreBundle\Entity\Vehicle';
+            $isCategory = get_class($data) == 'RFC\CoreBundle\Entity\Category';
+            if ($isVehicle || $isCategory) {
                 // We generate the team name using the Data name
                 $t->setName($data->getName());
                 $t->setMaxMainDrivers($baseData[1]);
                 $t->setMaxSecondaryDrivers($baseData[2]);
                 $t->setCommentsActive(false);
                 $t->setChampionship($this);
+                if($isVehicle) {
+                    $t->setVehicle($data);
+                }
+                if($isCategory) {
+                    $t->setCategory($data);
+                }
                 $this->addTeam($t);
             } else {
                 // We wait here an array with only one integer that represents the number of teams we want
@@ -874,8 +1011,7 @@ class Championship extends KnowledgeData
      */
     public function getIsDraft()
     {
-        return ($this->getBeginDate() != null || $this->getEndDate() != null) ? false
-            : true;
+        return ($this->getBeginDate() !== null || $this->getEndDate() !== null) ? false : true;
     }
 
     /**
@@ -890,16 +1026,17 @@ class Championship extends KnowledgeData
         return count($this->listTeams) > 0 ? true : false;
     }
 
-    public function getOutdated()
-    {
-        foreach ($this->getListEvents() as $event) {
-            if (($event->getVehicle() !== null && count($event->getListVehicle()
-                        === 0)) || ($event->getCategory() !== null && count($event->getListCategories()
-                        === 0))
-            ) {
-                return true;
-            }
+    /** This method returns whether the championship allows new registration or not.
+     * @return bool
+     */
+    public function getRegistrationAllowed() {
+        $registrationAllowed = true;
+        if($this->getIsDraft()) {
+            $registrationAllowed = false;
         }
-        return false;
+        if(!$this->getRegistrationInProgress() && $this->getIsAfterBeginDate()) {
+            $registrationAllowed = false;
+        }
+        return $registrationAllowed;
     }
 }

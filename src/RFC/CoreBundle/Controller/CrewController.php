@@ -56,7 +56,7 @@ class CrewController extends RFCController
         }
 
         // Ajout du jeu sélectionné
-        if (null != $game) {
+        if (null !== $game) {
             $menu        = $this->get('rfc_core.menu.breadcrumb');
             $menu->addChild($game->getName())->setUri($this->get("router")->generate('rfcCore_gameSelection',
                     array(
@@ -138,7 +138,7 @@ class CrewController extends RFCController
 
         try {
             $entityManager->flush();
-            $this->get('fos_user.user_manager')->refreshUser($crewRequest->requester);
+            $this->get('fos_user.user_manager')->refreshUser($crewRequest->getRequester());
             $jsonResponse = new JsonResponse($crewRequest, 200);
         } catch (Exception $e) {
             $jsonResponse = new JsonResponse($crewRequest, 400);
@@ -164,7 +164,7 @@ class CrewController extends RFCController
 
         try {
             $entityManager->flush();
-            $this->get('fos_user.user_manager')->refreshUser($crewRequest->requester);
+            $this->get('fos_user.user_manager')->refreshUser($crewRequest->getRequester());
             $jsonResponse = new JsonResponse($crewRequest, 200);
         } catch (Exception $e) {
             $jsonResponse = new JsonResponse($crewRequest, 400);

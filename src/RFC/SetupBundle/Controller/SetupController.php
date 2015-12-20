@@ -23,8 +23,8 @@ namespace RFC\SetupBundle\Controller;
 
 use RFC\SetupBundle\Entity\Setup;
 use RFC\SetupBundle\Entity\SetupStep;
-use RFC\SetupBundle\Form\SetupStepType;
-use RFC\SetupBundle\Form\SetupType;
+use RFC\SetupBundle\Form\Type\SetupStepType;
+use RFC\SetupBundle\Form\Type\SetupType;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -38,7 +38,7 @@ class SetupController extends RFCController
         $setups  = null;
         $steps   = null;
 
-        if (null != $gameId) {
+        if (null !== $gameId) {
             $setups = $entityManager->getRepository('RFCSetupBundle:Setup')->findBy(array(
                 'game' => $gameId,
                 'user' => $this->getUser()));
@@ -46,18 +46,18 @@ class SetupController extends RFCController
         }
 
         return $this->render('RFCSetupBundle:Setup:index.html.twig',
-                array(
+            array(
                 'gameId' => $gameId,
                 'setups' => $setups,
                 'steps' => $steps
-        ));
+            ));
     }
 
     /**
      * Show a setup with all its setupSteps.
      *
-     * @param type $setupId        	
-     * @param type $gameId        	
+     * @param type $setupId
+     * @param type $gameId
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction($setupId, $gameId)
@@ -71,11 +71,11 @@ class SetupController extends RFCController
         ));
 
         return $this->render('RFCSetupBundle:Setup:show.html.twig',
-                array(
+            array(
                 'gameId' => $gameId,
                 'setup' => $setup,
                 'stepCount' => count($stepCount)
-        ));
+            ));
     }
 
     /**
@@ -105,16 +105,16 @@ class SetupController extends RFCController
             $entityManager->flush();
 
             return $this->redirect($this->generateUrl('rfcSetup_index',
-                        array(
-                        'gameId' => $gameId
-            )));
+                array(
+                    'gameId' => $gameId
+                )));
         }
 
         return $this->render('RFCSetupBundle:Setup:new.html.twig',
-                array(
+            array(
                 'entity' => $entity,
                 'form' => $form->createView()
-        ));
+            ));
     }
 
     /**
@@ -134,11 +134,11 @@ class SetupController extends RFCController
         $form   = $this->createCreateForm($entity, $gameId);
 
         return $this->render('RFCSetupBundle:Setup:new.html.twig',
-                array(
+            array(
                 'entity' => $entity,
                 'form' => $form->createView(),
                 'gameId' => $gameId
-        ));
+            ));
     }
 
     /**
@@ -157,11 +157,11 @@ class SetupController extends RFCController
         $editForm = $this->createEditForm($entity, $gameId);
 
         return $this->render('RFCSetupBundle:Setup:edit.html.twig',
-                array(
+            array(
                 'entity' => $entity,
                 'gameId' => $gameId,
                 'edit_form' => $editForm->createView()
-        ));
+            ));
     }
 
     /**
@@ -184,17 +184,17 @@ class SetupController extends RFCController
             $entityManager->flush();
 
             return $this->redirect($this->generateUrl('rfcSetup_index',
-                        array(
-                        'gameId' => $gameId
-            )));
+                array(
+                    'gameId' => $gameId
+                )));
         }
 
         return $this->render('RFCSetupBundle:Setup:edit.html.twig',
-                array(
+            array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
                 'gameId' => $gameId
-        ));
+            ));
     }
 
     public function upgradeAction($setupId, $gameId)
@@ -227,9 +227,9 @@ class SetupController extends RFCController
         $entityManager->flush();
 
         return $this->redirect($this->generateUrl('rfcSetup_index',
-                    array(
-                    'gameId' => $gameId
-        )));
+            array(
+                'gameId' => $gameId
+            )));
     }
 
     /**
@@ -248,9 +248,9 @@ class SetupController extends RFCController
         $entityManager->flush();
 
         return $this->redirect($this->generateUrl('rfcSetup_index',
-                    array(
-                    'gameId' => $gameId
-        )));
+            array(
+                'gameId' => $gameId
+            )));
     }
 
     /**
@@ -265,17 +265,17 @@ class SetupController extends RFCController
     {
         $form = $this->createForm(new SetupType($gameId), $entity,
             array(
-            'action' => $this->generateUrl('setup_create',
-                array(
-                'gameId' => $gameId
-            )),
-            'method' => 'POST'
-        ));
+                'action' => $this->generateUrl('setup_create',
+                    array(
+                        'gameId' => $gameId
+                    )),
+                'method' => 'POST'
+            ));
 
         $form->add('submit', 'submit',
             array(
-            'label' => 'Create'
-        ));
+                'label' => 'Create'
+            ));
 
         return $form;
     }
@@ -292,19 +292,19 @@ class SetupController extends RFCController
     {
         $form = $this->createForm(new SetupType($gameId), $entity,
             array(
-            'em' => $this->getDoctrine()->getManager(),
-            'action' => $this->generateUrl('setup_update',
-                array(
-                'setupId' => $entity->getId(),
-                'gameId' => $gameId
-            )),
-            'method' => 'PUT'
-        ));
+                'em' => $this->getDoctrine()->getManager(),
+                'action' => $this->generateUrl('setup_update',
+                    array(
+                        'setupId' => $entity->getId(),
+                        'gameId' => $gameId
+                    )),
+                'method' => 'PUT'
+            ));
 
         $form->add('submit', 'submit',
             array(
-            'label' => 'Update'
-        ));
+                'label' => 'Update'
+            ));
 
         return $form;
     }
@@ -317,11 +317,11 @@ class SetupController extends RFCController
             'id' => $setupStepId));
 
         return $this->render('RFCSetupBundle:SetupStep:show.html.twig',
-                array(
+            array(
                 'setupStep' => $setupStep,
                 'gameId' => $gameId,
                 'setupId' => $setupId
-        ));
+            ));
     }
 
     /**
@@ -347,21 +347,21 @@ class SetupController extends RFCController
         $editForm = $this->createEditSetupStepForm($entity, $setupId, $gameId);
 
         return $this->render('RFCSetupBundle:SetupStep:edit.html.twig',
-                array(
+            array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
                 'setupId' => $setupId,
                 'gameId' => $gameId,
                 'stepCount' => count($stepCount),
                 'subSteps' => $subSteps
-        ));
+            ));
     }
 
     /**
      * Edits an existing SetupStep entity.
      */
     public function updateSetupStepAction(Request $request, $setupStepId,
-                                          $setupId, $gameId)
+        $setupId, $gameId)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -371,8 +371,7 @@ class SetupController extends RFCController
             throw $this->createNotFoundException('Unable to find SetupStep entity.');
         }
 
-        if ($entity->getVersion() !== 0 || ($entity->getVersion() == 0 && $entity->getValue()
-            != null)) {
+        if ($entity->getVersion() !== 0 || ($entity->getVersion() === 0 && $entity->getValue() !== null)) {
             $copy   = clone $entity;
             $copy->setVersion($entity->getVersion() + 1);
             $entityManager->persist($copy);
@@ -384,9 +383,9 @@ class SetupController extends RFCController
 
         $url = $this->generateUrl('setup_show',
             array(
-            'setupId' => $setupId,
-            'gameId' => $gameId
-        ));
+                'setupId' => $setupId,
+                'gameId' => $gameId
+            ));
 
         if ($editForm->isValid()) {
             $entityManager->flush();
@@ -394,7 +393,7 @@ class SetupController extends RFCController
             $stepNumber = $entity->getStep()->getStepOrder();
             switch ($entity->getSubStep()->getAction()) {
                 case 'next' :
-                    $stepNumber += 1;
+                    $stepNumber ++;
                     break;
                 case 'stay' :
                     break;
@@ -404,7 +403,7 @@ class SetupController extends RFCController
         }
 
         return $this->redirect(sprintf('%s#stepNumber=%s', $url,
-                    $entity->getStep()->getStepOrder()));
+            $entity->getStep()->getStepOrder()));
     }
 
     /**
@@ -412,36 +411,36 @@ class SetupController extends RFCController
      *
      * @param SetupStep $entity
      *        	The entity
-     *        	
+     *
      * @return \Symfony\Component\Form\Form The form
      */
     private function createEditSetupStepForm(SetupStep $entity, $setupId,
-                                             $gameId)
+        $gameId)
     {
         $form = $this->createForm(new SetupStepType($entity->getStep()->getId()),
             $entity,
             array(
-            'em' => $this->getDoctrine()->getManager(),
-            'action' => $this->generateUrl('setupStep_update',
-                array(
-                'setupStepId' => $entity->getId(),
-                'setupId' => $setupId,
-                'gameId' => $gameId
-            )),
-            'method' => 'PUT'
-        ));
+                'em' => $this->getDoctrine()->getManager(),
+                'action' => $this->generateUrl('setupStep_update',
+                    array(
+                        'setupStepId' => $entity->getId(),
+                        'setupId' => $setupId,
+                        'gameId' => $gameId
+                    )),
+                'method' => 'PUT'
+            ));
 
         $form->add('reset', 'reset',
             array(
-            'label' => 'Reset',
-            'attr' => array('class' => 'ui button secondary')
-        ));
+                'label' => 'Reset',
+                'attr' => array('class' => 'ui button secondary')
+            ));
 
         $form->add('submit', 'submit',
             array(
-            'label' => 'Save',
-            'attr' => array('class' => 'ui button primary')
-        ));
+                'label' => 'Save',
+                'attr' => array('class' => 'ui button primary')
+            ));
 
         return $form;
     }

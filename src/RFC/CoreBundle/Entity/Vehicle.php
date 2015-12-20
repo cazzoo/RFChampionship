@@ -19,6 +19,7 @@ namespace RFC\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RFC\CoreBundle\Entity\KnowledgeData;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Vehicle
@@ -32,6 +33,7 @@ class Vehicle extends KnowledgeData
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"id", "api"})
      */
     private $id;
 

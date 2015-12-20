@@ -19,49 +19,28 @@
 
 // src/RFC/CoreBundle/Controller/MembersController.php
 namespace RFC\CoreBundle\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use RFC\FrameworkBundle\Controller\RFCController;
-
-class MembersController extends RFCController
+class MembersController extends Controller
 {
 
-    public function indexAction($gameId)
+    public function indexAction()
     {
-        $entityManager = $this->getDoctrine()->getManager();
         $userManager = $this->get('fos_user.user_manager');
-        
-        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' => $gameId));
-        $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
+
         $users = $userManager->findByAndOrderBy('roles', 'ASC');
         
-        // Ajout du jeu sélectionné
-        $menu = $this->get('rfc_core.menu.breadcrumb');
-        $menu->addChild($game->getName())
-            ->setUri($this->get("router")
-            ->generate('rfcCore_gameSelection', array(
-            'gameId' => $gameId
-        )));
-        $manipulator = new \Knp\Menu\Util\MenuManipulator();
-        $manipulator->moveToPosition($menu->getChild($game->getName()), 0);
-        
         return $this->render('RFCCoreBundle:Members:index.html.twig', array(
-            'game' => $game,
-            'games' => $games,
             'users' => $users
         ));
     }
 
-    public function showAction($gameId, $userId)
+    public function showAction($userId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        
-        $game = $entityManager->getRepository('RFCCoreBundle:Game')->findOneBy(array('id' =>$gameId));
-        $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
         $user = $entityManager->getRepository('RFCUserBundle:User')->findOneBy(array('id' =>$userId));
-        
+
         return $this->render('RFCCoreBundle:Members:show.html.twig', array(
-            'game' => $game,
-            'games' => $games,
             'user' => $user
         ));
     }

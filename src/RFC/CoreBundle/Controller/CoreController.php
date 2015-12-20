@@ -23,6 +23,7 @@ namespace RFC\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use RFC\FrameworkBundle\Controller\RFCController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use GitHubClient;
 
 class CoreController extends RFCController
@@ -35,7 +36,7 @@ class CoreController extends RFCController
 
         $games = $entityManager->getRepository('RFCCoreBundle:Game')->findAll();
 
-        if (count($games) == 1) {
+        if (count($games) === 1) {
             return $this->redirect($games[0]->getId());
         }
 
@@ -52,7 +53,7 @@ class CoreController extends RFCController
         $threadId      = null;
         $users         = $entityManager->getRepository('RFCUserBundle:User')->findAll();
 
-        if (null != $g) {
+        if (null !== $g) {
             $threadId = substr(strrchr(get_class($g), "\\"), 1).'_'.$g->getName();
         }
 
@@ -84,7 +85,7 @@ class CoreController extends RFCController
         return $this->render('RFCCoreBundle:Core:gameParameters.html.twig',
                 array(
                 'game' => $game,
-                'properties' => $properties != null ? $properties : null,
+                'properties' => $properties !== null ? $properties : null,
                 'users' => $users
         ));
     }

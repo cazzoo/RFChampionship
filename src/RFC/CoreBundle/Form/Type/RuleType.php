@@ -17,25 +17,45 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace RFC\CoreBundle\Form;
+namespace RFC\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use RFC\CoreBundle\Entity\TypeSessionRepository;
 
-class TrackType extends AbstractType
+class RuleType extends AbstractType
 {
+    private $id;
+
+    public function __construct($id)
+    {
+        $this->id = $id;
+    }
 
     /**
      *
-     * @param FormBuilderInterface $builder        	
-     * @param array $options        	
+     * @param FormBuilderInterface $builder
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $id = $this->id;
+
         $builder->add('name')->add('description', 'textarea',
             array(
             'required' => false
+        ))->add('value', 'text',
+            array(
+            'required' => false
+        ))->add('typeSession', null,
+            array(
+            'required' => true,
+            'class' => 'RFCCoreBundle:TypeSession',
+            'query_builder' => function (TypeSessionRepository $er) use($id) {
+                return $er->createQueryBuilder('t')->where('t.game = :id')->setParameter('id',
+                        $id);
+            }
         ))->add('commentsActive', 'checkbox',
             array(
             'required' => false
@@ -52,7 +72,7 @@ class TrackType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'RFC\CoreBundle\Entity\Track'
+            'data_class' => 'RFC\CoreBundle\Entity\Rule'
         ));
 
         $resolver->setRequired(array(
@@ -70,6 +90,6 @@ class TrackType extends AbstractType
      */
     public function getName()
     {
-        return 'rfc_corebundle_track';
+        return 'rfc_corebundle_rule';
     }
 }

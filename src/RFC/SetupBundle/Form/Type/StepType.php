@@ -17,46 +17,53 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace RFC\CoreBundle\Form;
+namespace RFC\SetupBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class TypeSessionType extends AbstractType
+class StepType extends AbstractType
 {
 
     /**
      *
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param FormBuilderInterface $builder        	
+     * @param array $options        	
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-        $builder->add('name')->add('description', 'textarea',
+        $builder->add('name')->add('indicatorType', 'choice',
             array(
-                'required' => false
-            ))->add('usedForResults', 'checkbox',
+            'choices' => array(
+                'telemetry' => 'Telemetry',
+                'visual' => 'Visual',
+                'behiavior' => 'Behiavior'
+            ),
+            'required' => true
+        ))->add('tip', 'textarea',
             array(
-                'required' => false
-            ))->add('commentsActive', 'checkbox',
+            'required' => false
+        ))->add('category', 'text')->add('complexity', 'integer')->add('description',
+            'textarea', array(
+            'required' => false
+        ))->add('stepOrder', 'text')->add('commentsActive', 'checkbox',
             array(
-                'required' => false
-            ))->add('game', 'entity',
-                array(
-                    'class' => 'RFC\CoreBundle\Entity\Game'
-                ));
+            'required' => false
+        ))->add('game', 'entity',
+            array(
+            'class' => 'RFC\CoreBundle\Entity\Game'
+        ));
     }
 
     /**
      *
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolverInterface $resolver        	
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'RFC\CoreBundle\Entity\TypeSession'
+            'data_class' => 'RFC\SetupBundle\Entity\Step'
         ));
 
         $resolver->setRequired(array(
@@ -74,6 +81,6 @@ class TypeSessionType extends AbstractType
      */
     public function getName()
     {
-        return 'rfc_corebundle_typesession';
+        return 'rfc_setupbundle_step';
     }
 }

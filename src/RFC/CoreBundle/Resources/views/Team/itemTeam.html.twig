@@ -1,0 +1,144 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{% set canEditTeam = team.getRegistered(app.user.username) %}
+
+<div class="item">
+    <div class="image">
+        {% if team.listImages is not empty %}
+            <div class="slickSlideshow">
+                {% for image in team.listImages %}
+                    <img src="/{{ image.path }}">
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if canEditTeam %}
+            <a class="ui blue right corner label"
+               href="#">
+                <i class="setting icon"></i>
+            </a>
+            <a class="ui red left corner label"
+               href="{{ path('rfcCore_manageGallery', { 'entityType': 'Team', 'entityId': team.id }) }}">
+                <i class="file image outline icon"></i>
+            </a>
+        {% endif %}
+    </div>
+    <div class="content">
+        <div class="header">{{ team.name }}</div>
+        <div class="meta">
+            This team has {{ team.listMainDrivers|length }} main drivers and {{ team.listSecondaryDrivers|length }}
+            secondary drivers.
+        </div>
+        <div class="description">
+            <div class="ui two column center aligned horizontally divided stackable grid">
+                <div class="column">
+                    Main drivers
+                    <div class="mainDrivers">
+                        <div class="ui mini list">
+                            {% for mainDriver in team.listMainDrivers %}
+                                {% include 'RFCCoreBundle:Championship:itemUserVehicleTeam.html.twig' with {'registration' : mainDriver} %}
+                            {% endfor %}
+                        </div>
+                        </div>
+                    </div>
+                <div class="column">
+                    Secondary drivers
+                    <div class="secondaryDrivers">
+                        {% for secondaryDriver in team.listSecondaryDrivers %}
+                            {% include 'RFCCoreBundle:Championship:itemUserVehicleTeam.html.twig' with {'registration' : secondaryDriver} %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="extra">
+            <div>
+                <i class="users primary icon"></i>
+
+                <div>
+                    Main slot : <span class="countRegisteredMainDrivers">{{ team.listMainDrivers|length }}</span>
+                    / {{ team.maxMainDrivers == -1 ?  'unlimited' : team.maxMainDrivers }}
+                </div>
+                {% if team.championship.getRegistrationAllowed %}
+                    {% if team.getRegistrationAvailable == 'main' %}
+                        {% if userRegistration is null %}
+                            <div class="ui right floated primary button userRegistration"
+                                 data-action="user championship registration"
+                                 data-championshipid="{{ team.championship.id }}"
+                                 data-driverid="{{ user.id }}"
+                                 data-registeraction="register"
+                                 data-drivertype="1"
+                                 data-teamid="{{ team.id }}">
+                                Register as main driver
+                            </div>
+                        {% else %}
+                            {% if userRegistration.type == 1 and userRegistration.team.id == team.id %}
+                                <div class="ui right floated secondary button userRegistration"
+                                     data-action="user championship registration"
+                                     data-championshipid="{{ team.championship.id }}"
+                                     data-driverid="{{ user.id }}"
+                                     data-registeraction="unregister"
+                                     data-drivertype="1"
+                                     data-teamid="{{ team.id }}">
+                                    Unregister as main driver
+                                </div>
+                                <div id="vehicleSelectionForm" class="ui right floated primary button">
+                                    SELECT A VEHICLE
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div>
+                <i class="users secondary icon"></i>
+
+                <div>
+                    Secondary slot : <span
+                            class="countRegisteredSecondaryDrivers">{{ team.listSecondaryDrivers|length }}</span>
+                    / {{ team.maxSecondaryDrivers == -1 ?  'unlimited' : team.maxSecondaryDrivers }}
+                </div>
+                {% if team.championship.getRegistrationAllowed %}
+                    {% if team.getRegistrationAvailable == 'secondary' %}
+                        {% if userRegistration is null %}
+                            <div class="ui right floated secondary button userRegistration"
+                                 data-action="user championship registration"
+                                 data-championshipid="{{ team.championship.id }}"
+                                 data-driverid="{{ user.id }}"
+                                 data-registeraction="register"
+                                 data-drivertype="2"
+                                 data-teamid="{{ team.id }}">
+                                Register as secondary driver
+                            </div>
+                        {% else %}
+                            {% if userRegistration.type == 2 and userRegistration.team.id == team.id %}
+                                <div class="ui right floated secondary button userRegistration"
+                                     data-action="user championship registration"
+                                     data-championshipid="{{ team.championship.id }}"
+                                     data-driverid="{{ user.id }}"
+                                     data-registeraction="unregister"
+                                     data-drivertype="2"
+                                     data-teamid="{{ team.id }}">
+                                    Unregister as secondary driver
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

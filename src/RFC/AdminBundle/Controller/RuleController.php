@@ -18,7 +18,7 @@
 namespace RFC\AdminBundle\Controller;
 
 use RFC\CoreBundle\Entity\Rule;
-use RFC\CoreBundle\Form\RuleType;
+use RFC\CoreBundle\Form\Type\RuleType;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;

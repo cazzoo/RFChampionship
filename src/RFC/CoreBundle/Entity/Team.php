@@ -49,6 +49,20 @@ class Team extends Descriptor
     protected $championship;
 
     /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Vehicle")
+     * @ORM\JoinColumn(nullable=true)
+     * @Groups({"api"})
+     */
+    private $vehicle;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Category")
+     * @ORM\JoinColumn(nullable=true)
+     * @Groups({"api"})
+     */
+    private $category;
+
+    /**
      * @ORM\ManyToMany(targetEntity="RFC\UserBundle\Entity\User")
      * @JoinTable(name="team_mainDrivers")
      * @Groups({"list","api"})
@@ -61,6 +75,13 @@ class Team extends Descriptor
      * @Groups({"list","api"})
      */
     private $listSecondaryDrivers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Registration", mappedBy="team")
+     * @ORM\JoinColumn(nullable=true)
+     * @Groups({"list","api"})
+     */
+    private $listRegistrations;
 
     /**
      * @ORM\Column(type="integer")
@@ -80,8 +101,7 @@ class Team extends Descriptor
     public function __construct()
     {
         parent::__construct();
-        $this->listMainDrivers = new ArrayCollection();
-        $this->listSecondaryDrivers = new ArrayCollection();
+        $this->listRegistrations = new ArrayCollection();
     }
 
     /**
@@ -94,6 +114,9 @@ class Team extends Descriptor
         return $this->id;
     }
 
+    /**
+     * @return Championship
+     */
     public function getChampionship()
     {
         return $this->championship;
@@ -102,9 +125,41 @@ class Team extends Descriptor
     /**
      * @param Championship $championship
      */
-    public function setChampionship($championship)
+    public function setChampionship(Championship $championship)
     {
         $this->championship = $championship;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVehicle()
+    {
+        return $this->vehicle;
+    }
+
+    /**
+     * @param Vehicle $vehicle
+     */
+    public function setVehicle(Vehicle $vehicle)
+    {
+        $this->vehicle = $vehicle;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
     }
 
     /**
@@ -114,7 +169,12 @@ class Team extends Descriptor
      */
     public function getListMainDrivers()
     {
-        return $this->listMainDrivers;
+        return array_filter(
+            $this->listRegistrations->toArray(),
+            function ($item) {
+                return $item->getType() === Registration::DRIVER_TYPE_MAIN;
+            }
+        );
     }
 
     /**
@@ -141,6 +201,7 @@ class Team extends Descriptor
         if ($this->listMainDrivers->contains($user)) {
             return false;
         }
+
         return $this->listMainDrivers->add($user) ? $this : false;
     }
 
@@ -150,12 +211,12 @@ class Team extends Descriptor
      * @param User $user
      * @return removeSuccess $this or false
      */
-    public function removeMainDriver(
-        User $user
-    ) {
+    public function removeMainDriver(User $user)
+    {
         if (!$this->listMainDrivers->contains($user)) {
             return false;
         }
+
         return $this->listMainDrivers->removeElement($user) ? $this : false;
     }
 
@@ -164,9 +225,14 @@ class Team extends Descriptor
      *
      * @return ArrayCollection
      */
-    function getListSecondaryDrivers()
+    public function getListSecondaryDrivers()
     {
-        return $this->listSecondaryDrivers;
+        return array_filter(
+            $this->listRegistrations->toArray(),
+            function ($item) {
+                return $item->getType() === Registration::DRIVER_TYPE_SECONDARY;
+            }
+        );
     }
 
     /**
@@ -175,7 +241,7 @@ class Team extends Descriptor
      * @param ArrayCollection $listSecondaryDrivers
      * @return Team
      */
-    function setListSecondaryDrivers($listSecondaryDrivers)
+    public function setListSecondaryDrivers($listSecondaryDrivers)
     {
         $this->listSecondaryDrivers = $listSecondaryDrivers;
     }
@@ -186,12 +252,12 @@ class Team extends Descriptor
      * @param User $user
      * @return addSuccess $this or false
      */
-    public function addSecondaryDriver(
-        User $user
-    ) {
+    public function addSecondaryDriver(User $user)
+    {
         if ($this->listSecondaryDrivers->contains($user)) {
             return false;
         }
+
         return $this->listSecondaryDrivers->add($user) ? $this : false;
     }
 
@@ -201,13 +267,32 @@ class Team extends Descriptor
      * @param User $user
      * @return removeSuccess $this or false
      */
-    public function removeSecondaryDriver(
-        User $user
-    ) {
+    public function removeSecondaryDriver(User $user)
+    {
         if (!$this->listSecondaryDrivers->contains($user)) {
             return false;
         }
+
         return $this->listSecondaryDrivers->removeElement($user) ? $this : false;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getListRegistrations()
+    {
+        return $this->listRegistrations;
+    }
+
+    /**
+     * @param ArrayCollection $listRegistrations
+     * @return Team
+     */
+    public function setListRegistration(ArrayCollection $listRegistrations)
+    {
+        $this->listRegistrations = $listRegistrations;
+
+        return $this;
     }
 
     public function getMaxMainDrivers()
@@ -218,6 +303,7 @@ class Team extends Descriptor
     public function setMaxMainDrivers($maxMainDrivers)
     {
         $this->maxMainDrivers = $maxMainDrivers;
+
         return $this;
     }
 
@@ -229,6 +315,53 @@ class Team extends Descriptor
     public function setMaxSecondaryDrivers($maxSecondaryDrivers)
     {
         $this->maxSecondaryDrivers = $maxSecondaryDrivers;
+
         return $this;
+    }
+
+    public function getRegistered($userName)
+    {
+        return $this->getUserRegistration($userName) !== null ? $this->getUserRegistration($userName)->getTeam()->getId() === $this->getId() : false;
+    }
+
+    public function getUserRegistration($userName)
+    {
+        return $this->getChampionship()->getUserRegistration($userName);
+    }
+
+    /**
+     * This method return whether a team can accept new registration or not.
+     * @return string|false 'main' if a main slot is available, 'secondary' is no main is available and a secondary available, false if none is available.
+     */
+    public function getRegistrationAvailable()
+    {
+        if ($this->maxMainDrivers === -1) {
+            return 'main';
+        } elseif ($this->maxSecondaryDrivers === -1) {
+            return 'secondary';
+        } else {
+            $teamMainDriversRegistration = array_filter(
+                $this->listRegistrations->toArray(),
+                function (Registration $registration) {
+                    return $registration->getType() === Registration::DRIVER_TYPE_MAIN;
+                }
+            );
+            $teamSecondaryDriversRegistration = array_filter(
+                $this->listRegistrations->toArray(),
+                function (Registration $registration) {
+                    return $registration->getType() === Registration::DRIVER_TYPE_SECONDARY;
+                }
+            );
+            if ($this->maxMainDrivers <= 0 || ($this->maxMainDrivers !== 0 && count(
+                        $teamMainDriversRegistration
+                    ) < $this->maxMainDrivers)
+            ) {
+                return 'main';
+            } elseif (count($teamSecondaryDriversRegistration) < $this->maxSecondaryDrivers) {
+                return 'secondary';
+            } else {
+                return false;
+            }
+        }
     }
 }

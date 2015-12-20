@@ -14,13 +14,21 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/CoreBundle/Resources/views/User/index.html.twig #}
 
-<div class="ui item">
-    <img class="ui avatar image" src="{#{ user.avatarUrl }#}">
-    <div class="content">
-        <a class="header" href="{{ game.id }}/Members/{{ user.id }}">
-            {{ user.username }}{{ user.favoriteNumber ? ' (' ~ user.favoriteNumber ~ ')' }}
-        </a>
+{% if data.listImages is not empty %}
+    <div class="slickSlideshow">
+        {% for image in data.listImages %}
+            <img src="/{{ image.path }}">
+        {% endfor %}
     </div>
-</div>
+{% endif %}
+{% if canEdit %}
+    <a class="ui blue right corner label"
+       href="{{ path('admin_'~dataType|lower~'_edit', {'gameId': data.game.id, 'entityId': data.id}) }}">
+        <i class="setting icon"></i>
+    </a>
+    <a class="ui red left corner label"
+       href="{{ path('rfcCore_manageGallery', { 'entityType': dataType|title, 'entityId': data.id }) }}">
+        <i class="file image outline icon"></i>
+    </a>
+{% endif %}

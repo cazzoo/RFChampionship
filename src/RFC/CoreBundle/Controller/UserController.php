@@ -23,7 +23,7 @@ namespace RFC\CoreBundle\Controller;
 
 use RFC\FrameworkBundle\Controller\RFCController;
 use RFC\UserBundle\Entity\User;
-use RFC\UserBundle\Form\UserFormType;
+use RFC\UserBundle\Form\Type\UserFormType;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends RFCController

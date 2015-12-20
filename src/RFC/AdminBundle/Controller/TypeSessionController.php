@@ -19,7 +19,7 @@ namespace RFC\AdminBundle\Controller;
 
 use Knp\Menu\Util\MenuManipulator;
 use RFC\CoreBundle\Entity\TypeSession;
-use RFC\CoreBundle\Form\TypeSessionType;
+use RFC\CoreBundle\Form\Type\TypeSessionType;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;

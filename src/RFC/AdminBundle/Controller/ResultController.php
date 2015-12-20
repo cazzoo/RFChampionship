@@ -21,7 +21,7 @@ namespace RFC\AdminBundle\Controller;
 
 use Exception;
 use RFC\CoreBundle\Entity\Result;
-use RFC\CoreBundle\Form\ResultType;
+use RFC\CoreBundle\Form\Type\ResultType;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;

@@ -19,7 +19,7 @@ namespace RFC\AdminBundle\Controller;
 
 use Knp\Menu\Util\MenuManipulator;
 use RFC\CoreBundle\Entity\Category;
-use RFC\CoreBundle\Form\CategoryType;
+use RFC\CoreBundle\Form\Type\CategoryType;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;

@@ -335,7 +335,7 @@ class Game extends Descriptor
     public function getPropertyByName($name)
     {
         foreach ($this->listProperties as $property) {
-            if ($property->getName() == $name) {
+            if ($property->getName() === $name) {
                 return $property;
             }
         }
@@ -361,8 +361,8 @@ class Game extends Descriptor
         $currentSessions = Array();
 
         foreach ($this->listChampionships as $championship) {
-            if (null != $championship->getCurrentSession()) {
-                array_push($currentSessions, $championship->getCurrentSession());
+            if (null !== $championship->getCurrentSession()) {
+                $currentSessions[] = $championship->getCurrentSession();
             }
         }
 
@@ -378,9 +378,9 @@ class Game extends Descriptor
         $nextSessions = Array();
 
         foreach ($this->listChampionships as $championship) {
-            if ((null != $championship->getCurrentEvent() && null != $championship->getCurrentEvent()->getNextSession())
-                || (null != $championship->getNextEvent() && null != $championship->getNextEvent()->getNextSession())) {
-                array_push($nextSessions, $championship->getNextSession());
+            if ((null !== $championship->getCurrentEvent() && null !== $championship->getCurrentEvent()->getNextSession())
+                || (null !== $championship->getNextEvent() && null !== $championship->getNextEvent()->getNextSession())) {
+                $nextSessions[] = $championship->getNextSession();
             }
         }
 

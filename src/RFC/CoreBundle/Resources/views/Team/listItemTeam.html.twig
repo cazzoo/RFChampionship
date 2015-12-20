@@ -14,13 +14,18 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/CoreBundle/Resources/views/User/index.html.twig #}
+{% if user is defined %}
+    {% set currentUser = user %}
+{% else %}
+    {% set currentUser = app.user %}
+{% endif %}
 
-<div class="ui item">
-    <img class="ui avatar image" src="{#{ user.avatarUrl }#}">
-    <div class="content">
-        <a class="header" href="{{ game.id }}/Members/{{ user.id }}">
-            {{ user.username }}{{ user.favoriteNumber ? ' (' ~ user.favoriteNumber ~ ')' }}
-        </a>
-    </div>
+{% if userRegistration is not defined %}
+    {% set userRegistration = championship.getUserRegistration(currentUser.username) %}
+{% endif %}
+
+<div class="ui items">
+    {% for team in championship.listTeams %}
+        {% include 'RFCCoreBundle:Team:itemTeam.html.twig' with {'team' : team, 'user' : currentUser, 'userRegistration' : userRegistration} %}
+    {% endfor %}
 </div>

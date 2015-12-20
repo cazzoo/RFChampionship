@@ -17,10 +17,14 @@
 {# src/RFC/CoreBundle/Resources/views/User/index.html.twig #}
 
 <div class="ui item">
-    <img class="ui avatar image" src="{#{ user.avatarUrl }#}">
+    {% if vehicle.listImages is not empty %}
+        <img class="ui avatar image" src="{{ vehicle.listImages[0].path }}">
+    {% else %}
+        <i class="ui avatar image car icon"></i>
+    {% endif %}
     <div class="content">
-        <a class="header" href="{{ game.id }}/Members/{{ user.id }}">
-            {{ user.username }}{{ user.favoriteNumber ? ' (' ~ user.favoriteNumber ~ ')' }}
+        <a class="header" href="#">
+            {{ vehicle.name }}
         </a>
     </div>
 </div>

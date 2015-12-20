@@ -306,7 +306,7 @@ class Event extends Descriptor
                 $beginDate = $session->getBeginDate();
             }
         }
-        if ($beginDate != $template) {
+        if ($beginDate !== $template) {
             return $beginDate;
         } else {
             return null;
@@ -332,7 +332,7 @@ class Event extends Descriptor
                 $endDate = $session->getEndDate();
             }
         }
-        if ($endDate != $template) {
+        if ($endDate !== $template) {
             return $endDate;
         } else {
             return null;
@@ -365,7 +365,7 @@ class Event extends Descriptor
     {
         $lastSession = null;
         foreach ($this->listSessions as $session) {
-            if (null == $lastSession) {
+            if (null === $lastSession) {
                 $lastSession = $session;
             } else if ($lastSession->getEndDate() < $session->getBeginDate()) {
                 $lastSession = $session;
@@ -383,7 +383,7 @@ class Event extends Descriptor
         $nextSession = null;
         $now         = new \DateTime();
         foreach ($this->listSessions as $session) {
-            if ($now < $session->getBeginDate() && (null == $nextSession || $nextSession->getBeginDate()
+            if ($now < $session->getBeginDate() && (null === $nextSession || $nextSession->getBeginDate()
                 > $session->getBeginDate())) {
                 $nextSession = $session;
             }
@@ -400,7 +400,7 @@ class Event extends Descriptor
         $previousSession = null;
         $now             = new \DateTime();
         foreach ($this->listSessions as $session) {
-            if ($now > $session->getEndDate() && (null == $previousSession || $previousSession->getEndDate()
+            if ($now > $session->getEndDate() && (null === $previousSession || $previousSession->getEndDate()
                 < $session->getEndDate())) {
                 $previousSession = $session;
             }

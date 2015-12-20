@@ -14,13 +14,28 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{# src/RFC/CoreBundle/Resources/views/User/index.html.twig #}
+{% if team is defined and team is not null %}
+    {% if team.category is not null %}
+        {% set allowedVehicles = team.category.listVehicles %}
+    {% else %}
+        {% set allowedVehicles = [team.vehicle] %}
+    {% endif %}
+{% else %}
+    {% set allowedVehicles = championship.allowedVehicles %}
+{% endif %}
 
-<div class="ui item">
-    <img class="ui avatar image" src="{#{ user.avatarUrl }#}">
-    <div class="content">
-        <a class="header" href="{{ game.id }}/Members/{{ user.id }}">
-            {{ user.username }}{{ user.favoriteNumber ? ' (' ~ user.favoriteNumber ~ ')' }}
-        </a>
-    </div>
+{% if user is defined %}
+    {% set currentUser = user %}
+{% else %}
+    {% set currentUser = app.user %}
+{% endif %}
+
+{% if userRegistration is not defined %}
+    {% set userRegistration = championship.getUserRegistration(currentUser.username) %}
+{% endif %}
+
+<div class="ui items">
+    {% for vehicle in allowedVehicles %}
+        {% include 'RFCCoreBundle:Vehicle:itemVehicle.html.twig' with {'vehicle' : vehicle, 'userRegistration' : userRegistration} %}
+    {% endfor %}
 </div>

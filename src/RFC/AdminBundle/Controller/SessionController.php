@@ -20,7 +20,7 @@
 namespace RFC\AdminBundle\Controller;
 
 use RFC\CoreBundle\Entity\Session;
-use RFC\CoreBundle\Form\SessionType;
+use RFC\CoreBundle\Form\Type\SessionType;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;

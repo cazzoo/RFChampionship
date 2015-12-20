@@ -17,21 +17,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace RFC\CoreBundle\Form;
+namespace RFC\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use RFC\CoreBundle\Entity\TypeSessionRepository;
 
-class RuleType extends AbstractType
+class TypeSessionType extends AbstractType
 {
-    private $id;
-
-    public function __construct($id)
-    {
-        $this->id = $id;
-    }
 
     /**
      *
@@ -40,29 +33,20 @@ class RuleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $id = $this->id;
 
         $builder->add('name')->add('description', 'textarea',
             array(
-            'required' => false
-        ))->add('value', 'text',
+                'required' => false
+            ))->add('usedForResults', 'checkbox',
             array(
-            'required' => false
-        ))->add('typeSession', null,
+                'required' => false
+            ))->add('commentsActive', 'checkbox',
             array(
-            'required' => true,
-            'class' => 'RFCCoreBundle:TypeSession',
-            'query_builder' => function (TypeSessionRepository $er) use($id) {
-                return $er->createQueryBuilder('t')->where('t.game = :id')->setParameter('id',
-                        $id);
-            }
-        ))->add('commentsActive', 'checkbox',
-            array(
-            'required' => false
-        ))->add('game', 'entity',
-            array(
-            'class' => 'RFC\CoreBundle\Entity\Game'
-        ));
+                'required' => false
+            ))->add('game', 'entity',
+                array(
+                    'class' => 'RFC\CoreBundle\Entity\Game'
+                ));
     }
 
     /**
@@ -72,7 +56,7 @@ class RuleType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'RFC\CoreBundle\Entity\Rule'
+            'data_class' => 'RFC\CoreBundle\Entity\TypeSession'
         ));
 
         $resolver->setRequired(array(
@@ -90,6 +74,6 @@ class RuleType extends AbstractType
      */
     public function getName()
     {
-        return 'rfc_corebundle_rule';
+        return 'rfc_corebundle_typesession';
     }
 }

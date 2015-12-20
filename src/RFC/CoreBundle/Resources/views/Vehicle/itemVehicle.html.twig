@@ -1,0 +1,67 @@
+{#  //RF//Championship is a multi-racing game team manager that allows members to organize and follow championships.
+    Copyright (C) 2014 - //Racing-France//
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
+
+{% set canEdit = (is_granted('ROLE_MANAGER') and championship.isManager(app.user.id)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
+
+<div class="item">
+    <div class="image">
+        {% if vehicle.listImages is not empty %}
+            <div class="slickSlideshow">
+                {% for image in vehicle.listImages %}
+                    <img src="/{{ image.path }}">
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if canEdit %}
+            <a class="ui blue right corner label"
+               href="{{ path('admin_vehicle_edit', {'gameId': vehicle.game.id, 'vehicleId': vehicle.id}) }}">
+                <i class="setting icon"></i>
+            </a>
+            <a class="ui red left corner label"
+               href="{{ path('rfcCore_manageGallery', { 'entityType': 'Vehicle', 'entityId': vehicle.id }) }}">
+                <i class="file image outline icon"></i>
+            </a>
+        {% endif %}
+    </div>
+    <div class="content">
+        <div class="header">{{ vehicle.name }}</div>
+        <div class="description">
+            {{ vehicle.description }}
+        </div>
+    </div>
+    <div class="extra">
+        <i class="car primary icon"></i>
+        {% if userRegistration is not null and championship.getRegistrationAllowed %}
+            {% if userRegistration.vehicle is null %}
+                <div class="ui right floated primary button vehicleSelection"
+                     data-action="user vehicle selection"
+                     data-registrationid="{{ userRegistration.id }}"
+                     data-vehicleid="{{ vehicle.id }}"
+                     data-registeraction="register">
+                    Select this vehicle
+                </div>
+            {% elseif userRegistration.vehicle is not null and userRegistration.vehicle.id == vehicle.id %}
+                <div class="ui right floated secondary button vehicleSelection"
+                     data-action="user vehicle selection"
+                     data-registrationid="{{ userRegistration.id }}"
+                     data-vehicleid="{{ vehicle.id }}"
+                     data-registeraction="unregister">
+                    Unselect vehicle
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>

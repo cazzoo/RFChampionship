@@ -19,6 +19,7 @@ namespace RFC\CoreBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity
@@ -42,6 +43,7 @@ class File extends Descriptor
     /**
      * @ORM\Column(name="path", type="string", nullable=true)
      * @Gedmo\UploadableFilePath
+     * @Groups({"api"})
      */
     private $path;
 

@@ -44,13 +44,13 @@ rfcCore_crew:
         gameId: \d*
 
 rfcCore_members:
-    path:   /{gameId}/Members
+    path:   /Members
     defaults: { _controller: "RFCCoreBundle:Members:index" }
     requirements:
         gameId: \d*
 
 rfcCore_members_show:
-    path:   /{gameId}/Members/{userId}
+    path:   /Members/{userId}
     defaults: { _controller: "RFCCoreBundle:Members:show" }
     requirements:
         gameId: \d*

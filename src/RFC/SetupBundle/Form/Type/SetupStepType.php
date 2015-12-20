@@ -17,21 +17,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace RFC\SetupBundle\Form;
+namespace RFC\SetupBundle\Form\Type;
 
-use RFC\CoreBundle\Entity\TrackRepository;
-use RFC\CoreBundle\Entity\VehicleRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use RFC\SetupBundle\Entity\SubStepRepository;
 
-class SetupType extends AbstractType
+class SetupStepType extends AbstractType
 {
-    private $gameId;
+    private $stepId;
 
-    public function __construct($gameId)
+    public function __construct($stepId)
     {
-        $this->gameId = $gameId;
+        $this->stepId = $stepId;
     }
 
     /**
@@ -41,36 +40,15 @@ class SetupType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $gameId = $this->gameId;
-
-        $builder->add('name')->add('description', 'textarea',
-            array(
-            'required' => false
-        ))->add('vehicle', 'entity',
+        $stepId = $this->stepId;
+        $builder->add('value')->add('subStep', 'entity',
             array(
             'required' => true,
-            'class' => 'RFCCoreBundle:Vehicle',
-            'query_builder' => function (VehicleRepository $er) use($gameId) {
-                return $er->createQueryBuilder('v')->where('v.game = :gameId')->setParameter('gameId',
-                        $gameId);
+            'class' => 'RFCSetupBundle:SubStep',
+            'query_builder' => function (SubStepRepository $sr) use($stepId) {
+                return $sr->createQueryBuilder('s')->where('s.step = :stepId')->setParameter('stepId',
+                        $stepId);
             }
-        ))->add('track', 'entity',
-            array(
-            'required' => false,
-            'class' => 'RFCCoreBundle:Track',
-            'query_builder' => function (TrackRepository $er) use($gameId) {
-                return $er->createQueryBuilder('t')->where('t.game = :gameId')->setParameter('gameId',
-                        $gameId);
-            }
-        ))->add('commentsActive', 'checkbox',
-            array(
-            'required' => false
-        ))->add('user', 'entity',
-            array(
-            'class' => 'RFC\UserBundle\Entity\User'
-        ))->add('game', 'entity',
-            array(
-            'class' => 'RFC\CoreBundle\Entity\Game'
         ));
     }
 
@@ -81,7 +59,15 @@ class SetupType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'RFC\SetupBundle\Entity\Setup'
+            'data_class' => 'RFC\SetupBundle\Entity\SetupStep'
+        ));
+
+        $resolver->setRequired(array(
+            'em'
+        ));
+
+        $resolver->setAllowedTypes(array(
+            'em' => 'Doctrine\Common\Persistence\ObjectManager'
         ));
     }
 
@@ -91,6 +77,6 @@ class SetupType extends AbstractType
      */
     public function getName()
     {
-        return 'rfc_setupbundle_setup';
+        return 'rfc_setupbundle_setupStep';
     }
 }

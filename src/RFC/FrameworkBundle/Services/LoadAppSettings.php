@@ -39,7 +39,7 @@ class LoadAppSettings
 
         $gameId = $request->get('gameId');
 
-        if (null == $gameId) {
+        if (null === $gameId) {
             if ($session->has('game')) {
                 $session->remove('game');
             }
@@ -48,7 +48,7 @@ class LoadAppSettings
             if (!$session->has('game')) {
                 $session->set('game', $game);
             } else {
-                if (null != $game) {
+                if (null !== $game) {
                     $session->set('game', $game);
                 } else {
                     $session->remove('game');

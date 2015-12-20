@@ -18,7 +18,7 @@
 namespace RFC\CoreBundle\Controller;
 
 use RFC\CoreBundle\Entity\File;
-use RFC\CoreBundle\Form\FileType;
+use RFC\CoreBundle\Form\Type\FileType;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\HttpFoundation\Request;
 

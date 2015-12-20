@@ -18,8 +18,8 @@
 namespace RFC\AdminBundle\Controller;
 
 use RFC\CoreBundle\Entity\Event;
-use RFC\CoreBundle\Form\EventType;
-use RFC\CoreBundle\Form\SimpleEventType;
+use RFC\CoreBundle\Form\Type\EventType;
+use RFC\CoreBundle\Form\Type\SimpleEventType;
 use RFC\FrameworkBundle\Controller\RFCController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;

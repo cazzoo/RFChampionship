@@ -17,14 +17,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace RFC\SetupBundle\Form;
+namespace RFC\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use RFC\CoreBundle\Entity\TypeSessionRepository;
 
-class SubStepType extends AbstractType
+class SessionType extends AbstractType
 {
+    private $gameId;
+
+    public function __construct($gameId)
+    {
+        $this->gameId = $gameId;
+    }
 
     /**
      *
@@ -33,32 +40,36 @@ class SubStepType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $gameId = $this->gameId;
         $builder->add('name')->add('description', 'textarea',
             array(
             'required' => false
-        ))->add('action', 'choice',
+        ))->add('beginDate', 'datetime',
             array(
-            'choices' => array(
-                'next' => 'Go to next step',
-                'stay' => 'Stay in step'
-            ),
-            'required' => true
-        ))->add('stepCondition', 'textarea',
+            'widget' => 'single_text',
+            'format' => 'yyyy/MM/dd HH:mm',
+            'attr' => array(
+                'class' => 'datetimepicker'
+            )
+        ))->add('endDate', 'datetime',
+            array(
+            'widget' => 'single_text',
+            'format' => 'yyyy/MM/dd HH:mm',
+            'attr' => array(
+                'class' => 'datetimepicker'
+            )
+        ))->add('typeSession', 'entity',
+            array(
+            'required' => true,
+            'class' => 'RFCCoreBundle:TypeSession',
+            'query_builder' => function (TypeSessionRepository $ts) use($gameId) {
+                return $ts->createQueryBuilder('t')->where('t.game = :gameId')->setParameter('gameId',
+                        $gameId);
+            }
+        ))->add('commentsActive', 'checkbox',
             array(
             'required' => false
-        ))->add('toDoText', 'textarea',
-            array(
-            'required' => false
-        ))->add('optimalAction', 'checkbox',
-            array(
-            'required' => false
-        ))->add('commentsActive', 'hidden',
-            array(
-            'data' => '0'
-        ))->add('step', 'entity',
-            array(
-            'class' => 'RFC\SetupBundle\Entity\Step'
-        ));
+        ))->add('event');
     }
 
     /**
@@ -68,7 +79,7 @@ class SubStepType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'RFC\SetupBundle\Entity\SubStep'
+            'data_class' => 'RFC\CoreBundle\Entity\Session'
         ));
 
         $resolver->setRequired(array(
@@ -86,6 +97,6 @@ class SubStepType extends AbstractType
      */
     public function getName()
     {
-        return 'rfc_setupbundle_subStep';
+        return 'rfc_corebundle_session';
     }
 }
