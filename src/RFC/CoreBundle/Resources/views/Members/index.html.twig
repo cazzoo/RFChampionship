@@ -40,7 +40,7 @@
                     </tr>
                 {% endif %}
                 <tr>
-                    <td><a href="{{ path('rfcCore_members_show', { 'userId': user.id, 'gameId': appSettings.getGame().id  }) }}">{{ user.username }}</a></td>
+                    <td><a href="{{ path('rfcCore_members_show', { 'userId': user.id }) }}">{{ user.username }}</a></td>
                     <td>{% if user.steamId %}{{ user.steamId }}{% else %} - {% endif %}</td>
                     <td>
                         {% for crew in user.getCrews %}
