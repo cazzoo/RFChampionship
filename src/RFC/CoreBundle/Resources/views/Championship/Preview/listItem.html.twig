@@ -14,16 +14,21 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-<div class="ui relaxed divided list">
-    {% for championship in championships %}
+<div class="item">
+    {% if championship.listImages is not empty %}
+        <div class="slickSlideshow ui mini circular images">
+            {% for image in championship.listImages %}
+                <img class="ui image" src="/{{ image.path }}">
+            {% endfor %}
+        </div>
+    {% endif %}
 
-        {% set canEdit = (is_granted('ROLE_MANAGER') and championship.isManager(app.user.id)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
+    <div class="content">
+        <a class="header"
+           href="{{ path('rfcCore_championships_show', {'gameId': appSettings.getGame().id, 'championshipId': championship.id}) }}">
+            {{ championship.name }}
+        </a>
 
-        {% if view == 'list' %}
-            {% include 'RFCCoreBundle:Championship/Preview:listItem.html.twig' with {'championship' : championship} %}
-        {% else %}
-            {% include 'RFCCoreBundle:Championship/Preview:championshipInfo.html.twig' with {'championship' : championship} %}
-        {% endif %}
-
-    {% endfor %}
+        <div class="description">{{ championship.description }}</div>
+    </div>
 </div>
