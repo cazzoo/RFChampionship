@@ -53,14 +53,12 @@ rfcCore_members_show:
     path:   /Members/{userId}
     defaults: { _controller: "RFCCoreBundle:Members:show" }
     requirements:
-        gameId: \d*
         userId: \d*
 
 rfcCore_members_edit:
-    path:   /{gameId}/Members/{userId}/edit
+    path:   /Members/{userId}/edit
     defaults: { _controller: "RFCCoreBundle:Members:edit" }
     requirements:
-        gameId: \d*
         userId: \d*
         
 rfcCore_championships:
