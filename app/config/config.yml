@@ -78,12 +78,15 @@ stof_doctrine_extensions:
             uploadable: true
             
 fos_user:
-    db_driver:     orm                        
+    db_driver:     orm
     firewall_name: main                       
     user_class:    RFC\UserBundle\Entity\User
+    from_email:
+        address:        noreply@racing-france.fr
+        sender_name:    Racing-France Championships
     registration:
         confirmation:
-            enabled:    false
+            enabled:    true
         form:
             type: rfc_user_registration
     service:

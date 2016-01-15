@@ -25,45 +25,51 @@
 
     <div class="ui tab basic segment active" data-tab="teams">
 
-        <div class="ui center aligned three column grid">
-            <div class="row">
-                <div class="column">
-                    {{ teamResults[1] ? teamResults[1].team.name }}
+        {% if teamResults|length < 3 %}
+            {% for key, result in teamResults %}
+                {{ teamResults[key] ? teamResults[key].team.name }} : {{ teamResults[key].sum }}<br />
+            {% endfor %}
+        {% else %}
+            <div class="ui center aligned three column grid">
+                <div class="row">
+                    <div class="column">
+                        {{ teamResults[1] ? teamResults[1].team.name }}
+                    </div>
+                    <div class="column">
+                        <b>{{ teamResults[0] ? teamResults[0].team.name }}</b>
+                    </div>
+                    <div class="column">
+                        {{ teamResults[2] ? teamResults[2].team.name }}
+                    </div>
                 </div>
-                <div class="column">
-                    <b>{{ teamResults[0] ? teamResults[0].team.name }}</b>
-                </div>
-                <div class="column">
-                    {{ teamResults[2] ? teamResults[2].team.name }}
+                <div class="bottom aligned row">
+                    <div class="column">
+                        <div class="ui orange segment">
+                            <br/>
+                            <br/>
+
+                            {{ teamResults[1].sum }}
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="ui red segment">
+                            <br/>
+                            <br/>
+                            <br/>
+
+                            {{ teamResults[0].sum }}
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="ui yellow segment">
+                            <br/>
+
+                            {{ teamResults[2].sum }}
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="bottom aligned row">
-                <div class="column">
-                    <div class="ui orange segment">
-                        <br/>
-                        <br/>
-
-                        {{ teamResults[1].sum }}
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="ui red segment">
-                        <br/>
-                        <br/>
-                        <br/>
-
-                        {{ teamResults[0].sum }}
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="ui yellow segment">
-                        <br/>
-
-                        {{ teamResults[2].sum }}
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% endif %}
 
     </div>
 {% endif %}

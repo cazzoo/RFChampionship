@@ -24,10 +24,10 @@
     {% set listUsers = {} %}
     {% if championship.getTeamChampionship() %}
         {% for team in championship.listTeams %}
-            {% for mainDriver in team.listMainDrivers %}
+            {% for mainDriver in team.getListMainDrivers() %}
                 {% set listUsers = listUsers|merge([mainDriver]) %}
             {% endfor %}
-            {% for secondaryDriver in team.listSecondaryDrivers %}
+            {% for secondaryDriver in team.getListSecondaryDrivers() %}
                 {% set listUsers = listUsers|merge([secondaryDriver]) %}
             {% endfor %}
         {% endfor %}
@@ -117,8 +117,8 @@
                                                                     <option value="{{ rule.id }},,">
                                                                         ---
                                                                     </option>
-                                                                    {% for user in listUsers %}
-                                                                        <option value="{{ rule.id }},{{ user.id }},">{{ user.userName }}</option>
+                                                                    {% for registration in listUsers %}
+                                                                        <option value="{{ rule.id }},{{ registration.user.id }},">{{ registration.user.userName }}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                             </td>
@@ -177,11 +177,11 @@
                                                             {% for championshipUser in listUsers %}
                                                                 {% set selected = false %}
                                                                 {% if result.user is not null %}
-                                                                    {% if result.user.id == championshipUser.id %}
+                                                                    {% if result.user.id == championshipUser.user.id %}
                                                                         {% set selected = true %}
                                                                     {% endif %}
                                                                 {% endif %}
-                                                                <option {{ selected == true ? 'selected="selected" ' : '' }}value="{{ result.rule.id }},{{ championshipUser.id }},{{ result.id }}">{{ championshipUser.userName }}</option>
+                                                                <option {{ selected == true ? 'selected="selected" ' : '' }}value="{{ result.rule.id }},{{ championshipUser.user.id }},{{ result.id }}">{{ championshipUser.user.userName }}</option>
                                                             {% endfor %}
                                                         </select>
                                                     {% else %}

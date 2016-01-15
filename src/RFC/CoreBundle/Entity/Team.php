@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\Groups;
 use RFC\UserBundle\Entity\User;
+use RFC\CoreBundle\Entity\Registration;
 
 /**
  * Team
