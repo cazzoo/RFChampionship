@@ -27,7 +27,7 @@
     <div class="ui three column stackable grid">
         <div class="four wide column">
             <h1>{% trans %}core.championship.past {% endtrans %}</h1>
-            {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with {'championships' : pastChampionships} %}
+            {% include 'RFCCoreBundle:Championship:listChampionships.html.twig' with {'championships' : pastChampionships, 'view' : 'list'} %}
         </div>
         <div class="twelve wide column">
             <h1>{% trans %}core.championship.future {% endtrans %}</h1>

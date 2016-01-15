@@ -14,10 +14,16 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. #}
 
-{% for championship in championships %}
+<div class="ui relaxed divided list">
+    {% for championship in championships %}
 
-    {% set canEdit = (is_granted('ROLE_MANAGER') and championship.isManager(app.user.id)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
+        {% set canEdit = (is_granted('ROLE_MANAGER') and championship.isManager(app.user.id)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
 
-    {% include 'RFCCoreBundle:Championship:championshipInfo.html.twig' with {'championship' : championship} %}
+        {% if view == 'list' %}
+            {% include 'RFCCoreBundle:Championship/Preview:listItem.html.twig' with {'championship' : championship} %}
+        {% else %}
+            {% include 'RFCCoreBundle:Championship/Preview:championshipInfo.html.twig' with {'championship' : championship} %}
+        {% endif %}
 
-{% endfor %}
+    {% endfor %}
+</div>
