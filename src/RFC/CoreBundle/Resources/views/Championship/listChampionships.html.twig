@@ -19,7 +19,7 @@
 
         {% set canEdit = (is_granted('ROLE_MANAGER') and championship.isManager(app.user.id)) or is_granted('ROLE_CERTIFIED_MANAGER') %}
 
-        {% if view == 'list' %}
+        {% if view is defined and view == 'list' %}
             {% include 'RFCCoreBundle:Championship/Preview:listItem.html.twig' with {'championship' : championship} %}
         {% else %}
             {% include 'RFCCoreBundle:Championship/Preview:championshipInfo.html.twig' with {'championship' : championship} %}

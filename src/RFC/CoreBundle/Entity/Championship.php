@@ -721,12 +721,12 @@ class Championship extends KnowledgeData
     {
         foreach ($this->listTeams as $team) {
             foreach ($team->getListMainDrivers() as $mainDriver) {
-                if ($mainDriver->getId() === $userId) {
+                if ($mainDriver->getUser()->getId() === $userId) {
                     return $team;
                 }
             }
             foreach ($team->getListSecondaryDrivers() as $secondaryDriver) {
-                if ($secondaryDriver->getId() === $userId) {
+                if ($secondaryDriver->getUser()->getId() === $userId) {
                     return $team;
                 }
             }
