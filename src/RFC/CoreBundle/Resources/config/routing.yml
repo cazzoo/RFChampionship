@@ -46,8 +46,6 @@ rfcCore_crew:
 rfcCore_members:
     path:   /Members
     defaults: { _controller: "RFCCoreBundle:Members:index" }
-    requirements:
-        gameId: \d*
 
 rfcCore_members_show:
     path:   /Members/{userId}

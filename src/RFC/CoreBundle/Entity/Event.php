@@ -48,34 +48,10 @@ class Event extends Descriptor
     private $track;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Vehicle")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $vehicle;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Category")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $category;
-
-    /**
      * @ORM\ManyToOne(targetEntity="RFC\CoreBundle\Entity\Championship", inversedBy="listEvents")
      * @ORM\JoinColumn(nullable=false)
      */
     private $championship;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Category")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $listCategories;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="RFC\CoreBundle\Entity\Vehicle")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $listVehicles;
 
     /**
      * @ORM\OneToMany(targetEntity="RFC\CoreBundle\Entity\Session", mappedBy="event", cascade={"persist", "remove"})
@@ -89,8 +65,6 @@ class Event extends Descriptor
     {
         parent::__construct();
         $this->listSessions = new ArrayCollection();
-        $this->listCategories = new ArrayCollection();
-        $this->listVehicles = new ArrayCollection();
     }
 
     /**
@@ -147,88 +121,6 @@ class Event extends Descriptor
     public function getTrack()
     {
         return $this->track;
-    }
-
-    /**
-     * Set vehicle
-     *
-     * @param Vehicle $vehicle
-     * @return Event
-     */
-    public function setVehicle($vehicle)
-    {
-        $this->vehicle = $vehicle;
-
-        return $this;
-    }
-
-    /**
-     * Get vehicle
-     *
-     * @return Vehicle
-     */
-    public function getVehicle()
-    {
-        return $this->vehicle;
-    }
-
-    /**
-     * Set category
-     *
-     * @param Category $category
-     * @return Event
-     */
-    public function setCategory($category)
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    /**
-     * Get category
-     *
-     * @return Category
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    /**
-     *
-     * @return ArrayCollection
-     */
-    public function getListCategories() {
-        return $this->listCategories;
-    }
-
-    /**
-     *
-     * @param ArrayCollection $listCategories
-     * @return Championship
-     */
-    public function setListCategories(ArrayCollection $listCategories) {
-        $this->listCategories = $listCategories;
-        return $this;
-    }
-
-    /**
-     *
-     * @return ArrayCollection
-     */
-    public function getListVehicles() {
-        return $this->listVehicles;
-    }
-
-    /**
-     *
-     * @param ArrayCollection $listVehicles
-     * @return Championship
-     */
-    public function setListVehicles(ArrayCollection $listVehicles) {
-        $this->listVehicles = $listVehicles;
-        return $this;
     }
 
     /**

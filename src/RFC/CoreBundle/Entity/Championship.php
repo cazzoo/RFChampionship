@@ -124,7 +124,6 @@ class Championship extends KnowledgeData
         $this->listEvents = new ArrayCollection();
         $this->listManagers = new ArrayCollection();
         $this->listRules = new ArrayCollection();
-        $this->listUsers = new ArrayCollection();
         $this->listTeams = new ArrayCollection();
         $this->listCategories = new ArrayCollection();
         $this->listVehicles = new ArrayCollection();
@@ -340,26 +339,6 @@ class Championship extends KnowledgeData
     }
 
     /**
-     *
-     * @return ArrayCollection
-     */
-    public function getListUsers()
-    {
-        return $this->listUsers;
-    }
-
-    /**
-     *
-     * @param ArrayCollection $listUsers
-     * @return Championship
-     */
-    public function setListUsers(ArrayCollection $listUsers)
-    {
-        $this->listUsers = $listUsers;
-        return $this;
-    }
-
-    /**
      * Add user to a specidied team
      * @param User $user
      * @param \RFC\CoreBundle\Entity\Team $team
@@ -390,30 +369,6 @@ class Championship extends KnowledgeData
         } else {
             $team->removeSecondaryDriver($user);
         }
-        return $this;
-    }
-
-    /**
-     * Add User to list of participants
-     *
-     * @param User $user
-     * @return Championship
-     */
-    public function registerUser(User $user)
-    {
-        $this->listUsers[] = $user;
-        return $this;
-    }
-
-    /**
-     * Remove User from list of participants
-     *
-     * @param User $user
-     * @return Championship
-     */
-    public function unregisterUser(User $user)
-    {
-        $this->listUsers->removeElement($user);
         return $this;
     }
 
@@ -1034,7 +989,7 @@ class Championship extends KnowledgeData
         if($this->getIsDraft()) {
             $registrationAllowed = false;
         }
-        if(!$this->getRegistrationInProgress() && $this->getIsAfterBeginDate()) {
+        if((!$this->getRegistrationInProgress() && $this->getIsAfterBeginDate()) || $this->getIsAfterEndDate()) {
             $registrationAllowed = false;
         }
         return $registrationAllowed;

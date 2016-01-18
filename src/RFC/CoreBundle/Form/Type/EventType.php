@@ -58,24 +58,6 @@ class EventType extends AbstractType
                 return $er->createQueryBuilder('t')->where('t.game = :gameId')->setParameter('gameId',
                         $gameId);
             }
-        ))->add('listCategories', 'entity',
-            array(
-            'required' => false,
-            'class' => 'RFCCoreBundle:Category',
-            'multiple' => true,
-            'query_builder' => function (CategoryRepository $cr) use($gameId) {
-                return $cr->createQueryBuilder('m')->where('m.game = :gameId')->setParameter('gameId',
-                        $gameId);
-            }
-        ))->add('listVehicles', 'entity',
-            array(
-            'required' => false,
-            'multiple' => true,
-            'class' => 'RFCCoreBundle:Vehicle',
-            'query_builder' => function (VehicleRepository $vr) use($gameId) {
-                return $vr->createQueryBuilder('m')->where('m.game = :gameId')->setParameter('gameId',
-                        $gameId);
-            }
         ))->add('commentsActive', 'checkbox',
             array(
             'required' => false
