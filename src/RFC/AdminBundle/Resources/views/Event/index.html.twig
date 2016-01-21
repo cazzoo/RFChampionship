@@ -26,8 +26,6 @@
 			<th>Enddate</th>
 			<th>Listbroadcast</th>
 			<th>Track</th>
-			<th>Vehicle</th>
-			<th>Category</th>
 			<th>Actions</th>
 		</tr>
 	</thead>
@@ -55,8 +53,6 @@
 			<td>{% for broadcast in entity.listBroadcast %}{{ broadcast }}{%
 				endfor %}</td>
 			<td>{{ entity.track }}</td>
-			<td>{{ entity.vehicle }}</td>
-			<td>{{ entity.category }}</td>
 			<td>
 				<ul>
 					<li><a

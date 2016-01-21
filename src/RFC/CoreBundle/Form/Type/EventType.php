@@ -23,8 +23,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use RFC\CoreBundle\Entity\TrackRepository;
-use RFC\CoreBundle\Entity\VehicleRepository;
-use RFC\CoreBundle\Entity\CategoryRepository;
 
 class EventType extends AbstractType
 {

@@ -132,12 +132,6 @@ class EventController extends RFCController
         $teamChampionship = false;
 
         if (count($entityChampionship->getListTeams()) > 0) {
-            foreach ($entityChampionship->getListCategories() as $category) {
-                $entity->getListCategories()->add($category);
-            }
-            foreach ($entityChampionship->getListVehicles() as $vehicle) {
-                $entity->getListVehicles()->add($vehicle);
-            }
             $teamChampionship = true;
         }
 

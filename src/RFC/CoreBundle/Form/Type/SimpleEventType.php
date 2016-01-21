@@ -27,11 +27,13 @@ use RFC\CoreBundle\Entity\TrackRepository;
 use RFC\CoreBundle\Entity\VehicleRepository;
 use RFC\CoreBundle\Entity\CategoryRepository;
 
-class SimpleEventType extends AbstractType {
+class SimpleEventType extends AbstractType
+{
 
     private $gameId;
 
-    public function __construct($gameId) {
+    public function __construct($gameId)
+    {
         $this->gameId = $gameId;
     }
 
@@ -40,52 +42,39 @@ class SimpleEventType extends AbstractType {
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         $gameId = $this->gameId;
 
         $builder
-                ->add('name')
-                ->add('description', 'textarea', ['required' => false
-                ])
-                ->add('listBroadcast', 'text', array(
-                    'required' => false
-                ))
-                ->add('track', 'entity', array(
-                    'class' => 'RFCCoreBundle:Track',
-                    'required' => true,
-                    'query_builder' => function (TrackRepository $er) use($gameId) {
-                        return $er->createQueryBuilder('t')->where('t.game = :gameId')->setParameter('gameId', $gameId);
-                    }))
-                ->add('listCategories', 'entity', array(
-                    'required' => false,
-                    'disabled' => true,
-                    'class' => 'RFCCoreBundle:Category',
-                    'multiple' => true,
-                    'query_builder' => function (CategoryRepository $cr) use($gameId) {
-                        return $cr->createQueryBuilder('m')->where('m.game = :gameId')->setParameter('gameId', $gameId);
-                    }
-                ))->add('listVehicles', 'entity', array(
-                    'required' => false,
-                    'disabled' => true,
-                    'multiple' => true,
-                    'class' => 'RFCCoreBundle:Vehicle',
-                    'query_builder' => function (VehicleRepository $vr) use($gameId) {
-                        return $vr->createQueryBuilder('m')->where('m.game = :gameId')->setParameter('gameId', $gameId);
-                    }
-                ))
-                ->add('commentsActive', 'checkbox', array(
-                    'required' => false
-                ))
-                ->add('championship', 'entity', array(
-                    'class' => 'RFC\CoreBundle\Entity\Championship'
-        ));
+            ->add('name')
+            ->add('description', 'textarea', [
+                'required' => false
+            ])
+            ->add('listBroadcast', 'text', array(
+                'required' => false
+            ))
+            ->add('track', 'entity', array(
+                'class' => 'RFCCoreBundle:Track',
+                'required' => true,
+                'query_builder' => function (TrackRepository $er) use ($gameId) {
+                    return $er->createQueryBuilder('t')->where('t.game = :gameId')->setParameter('gameId', $gameId);
+                }
+            ))
+            ->add('commentsActive', 'checkbox', array(
+                'required' => false
+            ))
+            ->add('championship', 'entity', array(
+                'class' => 'RFC\CoreBundle\Entity\Championship'
+            ));
     }
 
     /**
      *
      * @param OptionsResolverInterface $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
         $resolver->setDefaults(array(
             'data_class' => 'RFC\CoreBundle\Entity\Event'
         ));
@@ -95,7 +84,8 @@ class SimpleEventType extends AbstractType {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return 'rfc_corebundle_event';
     }
 
