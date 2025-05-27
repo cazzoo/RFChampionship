@@ -1,23 +1,18 @@
-/app/cache/*
-/app/config/parameters.yml
-/app/logs/*
-!app/cache/.gitkeep
-!app/logs/.gitkeep
-/build/
-/bin/
-/vendor/
-/web/bundles/
-/app/bootstrap*
-/.idea/*
-## generic files to ignore
-*~
-*.lock
-*.DS_Store
-*.swp
-*.out
-composer.phar
-/update.sh
-/web/js/*
-web/css/48ed673*.css
-*.iml
-/web/uploads/*
+# Ignore node_modules folders
+**/node_modules
+
+# Ignore build outputs
+**/dist
+**/build
+
+# Ignore .env files
+.env
+*.env
+
+# Ignore IDE specific files
+.idea/
+.vscode/
+
+# Ignore OS specific files
+.DS_Store
+Thumbs.db

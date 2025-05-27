@@ -1,0 +1,1175 @@
+openapi: 3.0.0
+info:
+  title: GamePlatform API
+  version: v1.0.0
+  description: API for managing a gaming platform including championships, events, user registrations, results, and more.
+servers:
+  - url: /api # Assuming all backend routes are prefixed with /api
+
+components:
+  schemas:
+    # --- General Schemas ---
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A human-readable error message.
+        details:
+          type: string
+          description: Optional additional details about the error.
+        code:
+          type: string
+          description: Optional error code.
+    
+    PaginationLinks: # If you add HATEOAS or Link headers
+      type: object
+      properties:
+        first:
+          type: string
+          format: url
+        last:
+          type: string
+          format: url
+        prev:
+          type: string
+          format: url
+        next:
+          type: string
+          format: url
+
+    # --- User Schemas ---
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: User ID (from Supabase Auth).
+        username:
+          type: string
+          nullable: true
+        avatar_url:
+          type: string
+          format: url
+          nullable: true
+        website:
+          type: string
+          format: url
+          nullable: true
+        role:
+          type: string
+          enum: [user, admin, moderator] # Example roles
+          default: user
+        updated_at:
+          type: string
+          format: date-time
+    
+    UserUpdate:
+      type: object
+      properties:
+        username:
+          type: string
+        avatar_url:
+          type: string
+          format: url
+        website:
+          type: string
+          format: url
+          
+    UserRoleUpdate:
+      type: object
+      properties:
+        newRole:
+          type: string
+          enum: [user, admin, moderator] # Example roles
+          description: The new role to assign to the user.
+      required:
+        - newRole
+
+    # --- Championship Schemas ---
+    Championship:
+      type: object
+      properties:
+        id:
+          type: string # Changed to string to match backend which uses default UUID from Supabase
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        start_date:
+          type: string
+          format: date-time
+          nullable: true
+        end_date:
+          type: string
+          format: date-time
+          nullable: true
+        rules:
+          type: string
+          nullable: true
+        prize_pool:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [upcoming, ongoing, completed, cancelled]
+          default: upcoming
+        created_by:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        # game_id: # Assuming game_id is part of your model
+        #   type: integer 
+        #   nullable: true
+      required:
+        - name
+        
+    ChampionshipCreation:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        start_date:
+          type: string
+          format: date-time
+          nullable: true
+        end_date:
+          type: string
+          format: date-time
+          nullable: true
+        # game_id:
+        #   type: integer
+        #   nullable: true
+        rules:
+          type: string
+          nullable: true
+        prize_pool:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [upcoming, ongoing, completed, cancelled]
+          default: upcoming
+      required:
+        - name
+
+    # --- Event Schemas (Example - User can expand) ---
+    Event:
+      type: object
+      properties:
+        id:
+          type: string # Changed to string for UUID
+          format: uuid
+          readOnly: true
+        championship_id: # Assuming championship_id is int
+          type: integer 
+        name:
+          type: string
+        # ... other event properties (description, event_date, location, status, track_id)
+      required:
+        - championship_id
+        - name
+        - event_date
+        
+    EventCreation:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        event_date:
+          type: string
+          format: date-time
+        championship_id:
+          type: integer # Assuming foreign key is integer
+        location:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [upcoming, ongoing, completed, cancelled]
+          default: upcoming
+        # track_id:
+        #   type: integer
+        #   nullable: true
+      required:
+        - name
+        - event_date
+        - championship_id
+
+
+    # --- Registration Schemas ---
+    Registration:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: string
+          format: uuid
+        championship_id:
+          type: integer
+          nullable: true
+        event_id:
+          type: integer
+          nullable: true
+        team_id:
+          type: integer
+          nullable: true
+        vehicle_id:
+          type: integer
+          nullable: true
+        status:
+          type: string
+          enum: [pending, confirmed, cancelled, waitlisted]
+        registration_date:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        # Joined data (user, championship, event, team, vehicle) can be described here if always present
+        # Example for user:
+        # user: 
+        #   $ref: '#/components/schemas/UserProfileShort' # A shorter version of UserProfile for embedding
+      required:
+        - user_id
+        - status
+        
+    RegistrationCreation:
+      type: object
+      properties:
+        championship_id:
+          type: integer
+          nullable: true
+          description: Required if event_id is not provided.
+        event_id:
+          type: integer
+          nullable: true
+          description: Required if championship_id is not provided.
+        team_id:
+          type: integer
+          nullable: true
+        vehicle_id:
+          type: integer
+          nullable: true
+      # Logic: either championship_id or event_id must be provided (handled in description/backend)
+
+    RegistrationStatusUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [pending, confirmed, cancelled, waitlisted]
+      required:
+        - status
+
+    # --- File Schemas ---
+    FileMetadata:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        uploader_user_id:
+          type: string
+          format: uuid
+          readOnly: true
+        storage_bucket:
+          type: string
+        storage_path:
+          type: string
+        file_name:
+          type: string
+        mime_type:
+          type: string
+        size_bytes:
+          type: integer
+        title:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        upload_status:
+          type: string
+          enum: [pending, completed, failed]
+        entity_type:
+          type: string
+          nullable: true
+        entity_id_int:
+          type: integer
+          nullable: true
+        entity_id_uuid:
+          type: string
+          format: uuid
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        public_url: # Added by frontend/backend when listing
+          type: string
+          format: url
+          nullable: true
+          readOnly: true
+          
+    SignedUploadURLRequest:
+      type: object
+      properties:
+        fileName:
+          type: string
+        fileType:
+          type: string
+        fileSize:
+          type: integer
+        bucketName:
+          type: string
+          enum: [gallery, avatars, track_layouts, general_uploads] # Example buckets
+        title:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        entity_type:
+          type: string
+          nullable: true
+        entity_id_int:
+          type: integer
+          nullable: true
+        entity_id_uuid:
+          type: string
+          format: uuid
+          nullable: true
+      required:
+        - fileName
+        - fileType
+        - fileSize
+        - bucketName
+        
+    SignedUploadURLResponse:
+      type: object
+      properties:
+        signedUrl:
+          type: string
+          format: url
+        storagePath:
+          type: string
+        fileRecordId:
+          type: string
+          format: uuid
+          
+    UploadCompleteRequest:
+      type: object
+      properties:
+        fileRecordId:
+          type: string
+          format: uuid
+        success:
+          type: boolean
+        errorMessage:
+          type: string
+          nullable: true
+      required:
+        - fileRecordId
+        - success
+
+    # --- Comment Schemas (Example - User can expand) ---
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: string
+          format: uuid
+          readOnly: true # Set by backend based on auth
+        content:
+          type: string
+        entity_type:
+          type: string
+        entity_id_int:
+          type: integer
+          nullable: true
+        entity_id_uuid:
+          type: string
+          format: uuid
+          nullable: true
+        parent_id:
+          type: integer
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        user: # Embedded user info
+          $ref: '#/components/schemas/UserProfileShort' # Define UserProfileShort if needed
+        reply_count:
+            type: integer
+            readOnly: true
+      required:
+        - content
+        - entity_type
+        # entity_id_int or entity_id_uuid required based on entity_type
+
+    CommentCreation:
+      type: object
+      properties:
+        content:
+          type: string
+        entity_type:
+          type: string
+          description: e.g., 'championship', 'event', 'user_profile'
+        entity_id_int:
+          type: integer
+          nullable: true
+          description: Required if entity_type refers to an entity with an integer ID.
+        entity_id_uuid:
+          type: string
+          format: uuid
+          nullable: true
+          description: Required if entity_type refers to an entity with a UUID ID.
+        parent_id:
+          type: integer
+          nullable: true
+          description: ID of the parent comment if this is a reply.
+      required:
+        - content
+        - entity_type
+        # Plus one of entity_id_int or entity_id_uuid, enforced by backend logic
+
+    # Add schemas for Track, Vehicle, Rule, Result as needed, similar to Championship/Event
+    # Example for a short user profile for embedding in other responses
+    UserProfileShort:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+          nullable: true
+        avatar_url:
+          type: string
+          format: url
+          nullable: true
+
+  securitySchemes:
+    bearerAuth: # Can be named anything
+      type: http
+      scheme: bearer
+      bearerFormat: JWT # Supabase uses JWT
+
+security:
+  - bearerAuth: [] # Applies Bearer token auth globally to all operations by default. Override locally if needed.
+
+paths:
+  # --- User Profile Routes ---
+  /users/me:
+    get:
+      summary: Get current user's profile
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Current user's profile data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          description: Unauthorized (user not authenticated).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Profile not found for authenticated user.
+    put:
+      summary: Update current user's profile
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Profile updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '400':
+          description: Invalid input data.
+        '401':
+          description: Unauthorized.
+
+  /users: # Admin endpoint
+    get:
+      summary: Get all users (Admin only)
+      tags: [Users, Admin]
+      security:
+        - bearerAuth: [] # Requires admin role (checked by backend)
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: A list of users with profiles.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserProfile' # Or a more detailed AdminUserView
+                  total:
+                    type: integer
+                  page:
+                    type: integer
+                  limit:
+                    type: integer
+        '401':
+          description: Unauthorized.
+        '403':
+          description: Forbidden (user is not an admin).
+          
+  /users/{userId}/role: # Admin endpoint
+    put:
+      summary: Update user role (Admin only)
+      tags: [Users, Admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRoleUpdate'
+      responses:
+        '200':
+          description: User role updated successfully.
+          # Response might include the updated user object or just a success message
+        '400':
+          description: Invalid input (e.g., invalid role).
+        '401':
+          description: Unauthorized.
+        '403':
+          description: Forbidden (user is not an admin).
+        '404':
+          description: User not found.
+
+  # --- Championship Routes ---
+  /championships:
+    get:
+      summary: Get all championships
+      tags: [Championships]
+      # No security for public listing, or make it optional if some data is restricted
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: A list of championships.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  championships:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Championship'
+                  total:
+                    type: integer
+                  page:
+                    type: integer
+                  limit:
+                    type: integer
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Create a new championship (Admin only)
+      tags: [Championships, Admin]
+      security:
+        - bearerAuth: [] # Requires admin role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChampionshipCreation'
+      responses:
+        '201':
+          description: Championship created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Championship'
+        '400':
+          description: Invalid input data.
+        '401':
+          description: Unauthorized.
+        '403':
+          description: Forbidden (user is not an admin).
+
+  /championships/{id}:
+    get:
+      summary: Get a single championship by ID
+      tags: [Championships]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string # Changed to string for UUID
+            format: uuid
+      responses:
+        '200':
+          description: Details of the championship.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Championship'
+        '404':
+          description: Championship not found.
+    put:
+      summary: Update an existing championship (Admin only)
+      tags: [Championships, Admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string # Changed to string for UUID
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChampionshipCreation' # Can be same as creation or a specific Update schema
+      responses:
+        '200':
+          description: Championship updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Championship'
+        '400':
+          description: Invalid input.
+        '404':
+          description: Championship not found.
+    delete:
+      summary: Delete a championship (Admin only)
+      tags: [Championships, Admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string # Changed to string for UUID
+            format: uuid
+      responses:
+        '204':
+          description: Championship deleted successfully.
+        '404':
+          description: Championship not found.
+          
+  # --- Event Routes (Example - User can expand) ---
+  /events:
+    get:
+      summary: Get all events (can filter by championship_id)
+      tags: [Events]
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 10 }
+        - name: championship_id
+          in: query
+          required: false
+          schema: { type: integer }
+      responses:
+        '200':
+          description: A list of events.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event' # Full Event schema
+                  total: { type: integer }
+                  page: { type: integer }
+                  limit: { type: integer }
+    post:
+      summary: Create a new event (Admin only)
+      tags: [Events, Admin]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventCreation'
+      responses:
+        '201':
+          description: Event created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+  # ... other event routes (/events/{id} GET, PUT, DELETE)
+
+  # --- Registration Routes ---
+  /registrations:
+    post:
+      summary: Register for an event or championship
+      tags: [Registrations]
+      security:
+        - bearerAuth: [] # Requires authenticated user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationCreation'
+      responses:
+        '201':
+          description: Registration successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Registration'
+        '400':
+          description: Invalid input (e.g., missing IDs, both IDs provided).
+        '401':
+          description: Unauthorized.
+        '409':
+          description: Conflict (e.g., already registered).
+    get:
+      summary: Get registrations (Admin gets all with filters, User gets own)
+      tags: [Registrations]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 10 }
+        - name: user_id # Admin filter
+          in: query
+          required: false
+          schema: { type: string, format: uuid }
+        - name: event_id # Admin filter
+          in: query
+          required: false
+          schema: { type: integer }
+        - name: championship_id # Admin filter
+          in: query
+          required: false
+          schema: { type: integer }
+        - name: status # Admin filter
+          in: query
+          required: false
+          schema: { type: string, enum: [pending, confirmed, cancelled, waitlisted] }
+      responses:
+        '200':
+          description: A list of registrations.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  registrations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Registration'
+                  total: { type: integer }
+                  # ... pagination fields
+
+  /registrations/{id}:
+    get:
+      summary: Get a single registration by ID
+      tags: [Registrations]
+      security:
+        - bearerAuth: [] # Admin or owner
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Registration details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Registration'
+        '403':
+          description: Forbidden (not owner or admin).
+        '404':
+          description: Registration not found.
+          
+  /registrations/{id}/status:
+    put:
+      summary: Update registration status
+      tags: [Registrations]
+      security:
+        - bearerAuth: [] # Admin or owner (for cancellation)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationStatusUpdate'
+      responses:
+        '200':
+          description: Status updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Registration'
+        '400':
+          description: Invalid status or request.
+        '403':
+          description: Forbidden (user cannot perform this status update).
+        '404':
+          description: Registration not found.
+          
+  # --- File Routes ---
+  /files/signed-upload-url:
+    post:
+      summary: Get a signed URL for file upload
+      tags: [Files]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignedUploadURLRequest'
+      responses:
+        '200':
+          description: Signed URL and file record ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignedUploadURLResponse'
+        '400':
+          description: Invalid input (e.g., file size, type, bucket).
+        '401':
+          description: Unauthorized.
+
+  /files/upload-complete:
+    post:
+      summary: Notify backend of upload completion status
+      tags: [Files]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadCompleteRequest'
+      responses:
+        '200':
+          description: Upload status updated.
+        '400':
+          description: Invalid input.
+        '403':
+          description: Forbidden (not uploader or admin).
+        '404':
+          description: File record not found.
+
+  /files:
+    get:
+      summary: List files with filters
+      tags: [Files]
+      # Security can be optional if some files are public via RLS on buckets/tables
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 10 }
+        - name: entity_type
+          in: query
+          schema: { type: string }
+        - name: entity_id_int
+          in: query
+          schema: { type: integer }
+        # ... other filters like entity_id_uuid, uploader_user_id, bucketName
+      responses:
+        '200':
+          description: A list of file metadata with public URLs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FileMetadata'
+                  total: { type: integer }
+                  # ... pagination fields
+                  
+  /files/{fileId}:
+    delete:
+      summary: Delete a file and its metadata (Owner or Admin)
+      tags: [Files]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: fileId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: File deleted successfully.
+        '403':
+          description: Forbidden.
+        '404':
+          description: File record not found.
+          
+  /files/{fileId}/metadata:
+    put:
+      summary: Update file metadata (Owner or Admin)
+      tags: [Files]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: fileId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  nullable: true
+                description:
+                  type: string
+                  nullable: true
+      responses:
+        '200':
+          description: Metadata updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileMetadata'
+        '400':
+          description: Invalid input.
+        '403':
+          description: Forbidden.
+        '404':
+          description: File record not found.
+
+  # --- Comment Routes (Example - User can expand) ---
+  /comments:
+    post:
+      summary: Create a new comment
+      tags: [Comments]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentCreation'
+      responses:
+        '201':
+          description: Comment created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+    get:
+      summary: Get comments for an entity
+      tags: [Comments]
+      parameters:
+        - name: entity_type
+          in: query
+          required: true
+          schema: { type: string }
+        - name: entity_id_int
+          in: query
+          required: false # Required based on entity_type
+          schema: { type: integer }
+        - name: entity_id_uuid
+          in: query
+          required: false # Required based on entity_type
+          schema: { type: string, format: uuid }
+        - name: parent_id
+          in: query
+          required: false
+          schema: { type: integer, nullable: true }
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 10 }
+      responses:
+        '200':
+          description: A list of comments.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comment'
+                  total: { type: integer }
+                  # ... pagination fields
+  # ... other comment routes (/comments/{id} PUT, DELETE)
+
+  # TODO: Add paths for Tracks, Vehicles, Rules, Results similar to Championships/Events
+  # For example:
+  # /tracks: GET, POST (Admin)
+  # /tracks/{id}: GET, PUT (Admin), DELETE (Admin)
+  # /vehicles: GET, POST (Admin)
+  # /vehicles/{id}: GET, PUT (Admin), DELETE (Admin)
+  # /rules: GET, POST (Admin)
+  # /rules/{id}: GET, PUT (Admin), DELETE (Admin)
+  # /results: GET, POST (Admin)
+  # /results/{id}: GET, PUT (Admin), DELETE (Admin)
+  
+  # Example for a test protected route (if you keep it)
+  /protected-test:
+    get:
+      summary: Test endpoint for authenticated users
+      tags: [Testing]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Access successful, returns user info.
+        '401':
+          description: Unauthorized.
+
+# Add tags for grouping in Swagger UI
+tags:
+  - name: Users
+    description: User profile management and roles.
+  - name: Championships
+    description: Operations related to championships.
+  - name: Events
+    description: Operations related to events within championships.
+  - name: Registrations
+    description: Managing user registrations for events and championships.
+  - name: Files
+    description: File upload and metadata management.
+  - name: Comments
+    description: Commenting system for various entities.
+  - name: Tracks
+    description: Management of racing tracks.
+  - name: Vehicles
+    description: Management of vehicles.
+  - name: Rules
+    description: Management of rules (global or championship-specific).
+  - name: Results
+    description: Management of event results.
+  - name: Admin
+    description: Operations restricted to administrators.
+  - name: Testing
+    description: Test endpoints.
