@@ -1,0 +1,266 @@
+openapi: 3.0.0
+info:
+  title: Your Racing App API
+  version: '1.0.0'
+  description: API for managing racing championships, events, user registrations, and more.
+  contact:
+    email: support@example.com
+servers:
+  - url: http://localhost:3001/api # Replace with your actual API base URL
+    description: Local development server
+
+components:
+  securitySchemes:
+    bearerAuth: # Global security scheme for Bearer token authentication
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        statusCode:
+          type: integer
+          example: 400
+        error: # Optional, for more detailed error info
+          type: string
+          description: A more detailed error code or message.
+      required:
+        - message
+        - statusCode
+
+    # You might have other common schemas here, e.g., for File uploads, User profiles etc.
+    # For example, if fileRoutes.ts had OpenAPI docs, they'd be referenced here or defined inline.
+    # Example for a FileMetadata object (simplified)
+    File:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the file.
+        fileName:
+          type: string
+          description: Original name of the file.
+        mimeType:
+          type: string
+          description: MIME type of the file.
+        sizeBytes:
+          type: integer
+          description: Size of the file in bytes.
+        uploadDate:
+          type: string
+          format: date-time
+          description: Date and time when the file was uploaded.
+        url:
+          type: string
+          format: url
+          description: URL to access the file (could be a signed URL).
+
+    # Example for FileUploadURLResponse from fileRoutes (simplified)
+    FileUploadURLResponse:
+      type: object
+      properties:
+        url:
+          type: string
+          format: url
+          description: The presigned URL for uploading the file.
+        path:
+          type: string
+          description: The storage path where the file will be uploaded.
+        bucket:
+          type: string
+          description: The storage bucket.
+        # token: # If applicable
+        #   type: string
+
+    # Example for FileUploadCompleteRequest from fileRoutes (simplified)
+    FileUploadCompleteRequest:
+      type: object
+      properties:
+        storage_path:
+          type: string
+        storage_bucket:
+          type: string
+        original_file_name:
+          type: string
+        mime_type:
+          type: string
+        file_size_bytes:
+          type: integer
+        entity_type:
+          type: string
+        title:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+      required:
+        - storage_path
+        - storage_bucket
+        - original_file_name
+        - mime_type
+        - file_size_bytes
+        - entity_type
+
+
+security: # Global security definition, can be overridden at operation level
+  - bearerAuth: []
+
+paths:
+  # --- File Routes (Example stubs - these would be more detailed) ---
+  /files/upload-url:
+    post:
+      tags:
+        - Files
+      summary: Get a presigned URL for file upload
+      description: Requests a presigned URL from the server to allow direct file upload to cloud storage.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fileName:
+                  type: string
+                  example: "my-avatar.jpg"
+                fileType:
+                  type: string
+                  example: "image/jpeg"
+                entityType:
+                  type: string
+                  example: "user_avatar" # e.g., user_avatar, event_banner
+                # entityIdInt:
+                #   type: integer
+                #   nullable: true
+                # entityIdUuid:
+                #   type: string
+                #   format: uuid
+                #   nullable: true
+              required:
+                - fileName
+                - fileType
+                - entityType
+      responses:
+        '200':
+          description: Presigned URL created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileUploadURLResponse'
+        '400':
+          description: Bad request (e.g., missing parameters, invalid file type).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /files/upload-complete:
+    post:
+      tags:
+        - Files
+      summary: Notify server of completed file upload and create metadata record
+      description: Called after a file has been successfully uploaded to the presigned URL. Creates a metadata record for the file in the database.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileUploadCompleteRequest'
+      responses:
+        '201':
+          description: File metadata record created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File' # Assuming the created file metadata is returned
+        '400':
+          description: Bad request (e.g., missing parameters).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # --- Admin Routes ---
+  /admin/seed-data:
+    post:
+      tags:
+        - Admin
+      summary: Seeds the database with mock data.
+      description: |
+        Populates the database with a predefined set of mock data for various entities
+        (users, championships, events, etc.). This is useful for development and testing.
+        Admin access required. The `overwrite` query parameter determines if existing
+        data in relevant tables should be cleared before seeding.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: overwrite
+          in: query
+          description: If true, attempts to clear existing data in relevant tables before seeding.
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Mock data seeded successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Mock data seeded successfully."
+                  details: # Added details based on actual route response
+                    type: string
+                    example: "Seeding process completed. Overwrite was false."
+        '400':
+          description: Bad request (e.g., error during seeding process if not a 500).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized (User not authenticated).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse' # Standard error response
+        '403':
+          description: Forbidden (User is not an admin).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse' # Standard error response
+        '500':
+          description: Internal server error (e.g., unexpected error during seeding).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'

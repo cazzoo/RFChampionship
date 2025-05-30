@@ -1,70 +1,37 @@
-//RF//Championship
-========================
+# GamePlatform Monorepo
 
-Welcome to the //RF//Championship system - a functional web
-application that you can use to manage team and events.
+This repository contains the frontend and backend for the GamePlatform project.
 
-This document contains information on how to download, install, and start
-using //RF//Championship.
+## Structure
 
-1) Installing the Requirements
-----------------------------------
+-   `backend/`: Node.js (Express, TypeScript) API, including Supabase integration, authentication, and CRUD operations for various game platform entities. Also contains an OpenAPI specification.
+-   `frontend/`: React (Vite, TypeScript) application, featuring user authentication, admin dashboards for managing platform data, and user-facing views for championships, events, and registrations.
 
-When it comes to installing //RF//Championship, you have to use composer.
+## Development
 
-### Use Composer
+Refer to the README files within the `frontend/` and `backend/` directories for specific setup and development instructions.
 
-As //RF//Championship uses Symfony 2 and [Composer] to manage its dependencies, you have to use it.
+## Key Features
 
-If you don't have Composer yet, download it following the instructions on
-http://getcomposer.org/ or just run the following command in the root folder:
+-   **Backend:**
+    -   User authentication and role-based access control (RBAC).
+    -   CRUD APIs for: Users, Championships, Events, Tracks, Vehicles, Rules, Registrations, Results, Comments, and File Uploads.
+    -   Supabase integration for database and storage.
+    -   API testing suite scaffolded with Jest and Supertest.
+    -   OpenAPI specification for API documentation.
+-   **Frontend:**
+    -   User authentication flow (Login, Register, Profile).
+    -   Public pages for viewing Championships and Events.
+    -   User dashboard for managing registrations ("My Registrations") and profile (including avatar upload).
+    -   Admin dashboards for managing all platform entities (Users, Championships, Events, Tracks, Vehicles, Rules, Registrations, Results, Files, Comments).
+    -   Reusable components for comments and image galleries.
+    -   Tailwind CSS for styling, with conceptual use of Shadcn/UI components.
+    -   Data fetching through custom hooks interacting with the backend API.
 
-    curl -s http://getcomposer.org/installer | php
+## Cleanup Status
 
-Then, use the `create-project` command to generate a new Symfony application:
-
-    php composer.phar update
-
-Composer will install //RF//Championship and Symfony and all its dependencies under the
-`path/to/install` directory.
-
-2) Checking your System Configuration
--------------------------------------
-
-Before starting using it, you have to run the main database setup and you have to make sure 
-that your local system is properly configured for //RF//Championship.
-
-Execute the `check.php` script from the command line:
-
-    php app/check.php
-
-The script returns a status code of `0` if all mandatory requirements are met,
-`1` otherwise.
-
-Access the `config.php` script from a browser:
-
-    http://localhost/path/to/RFChampionship/app/web/config.php
-
-If you get any warnings or recommendations, fix them before moving on.
-
-3) Install the database
---------------------------------
-
-Execute the database create process from the command line:
-
-	php app/console doctrine:schema:create
-
-4) Browsing the Application
---------------------------------
-
-Congratulations! You're now ready to use //RF//Championship.
-
-From the `config.php` page, click the "Bypass configuration and go to the
-Welcome page" link to load up your first Symfony page.
-
-You can also use a web-based configurator by clicking on the "Configure your
-Symfony Application online" link of the `config.php` page.
-
-To see a real-live Symfony page in action, access the following page:
-
-    web/app_dev.php/
+This project has undergone a rewrite from an older Symfony-based application.
+-   **Successfully removed from root:** `.buildpath`, `.project`, `.travis.yml`, old `LICENSE`, old `README.md`, `_config.yml`, `composer.json`, `composer.lock`, `.gitattributes`, old `.gitignore`, `.settings/`, `nbproject/`. The `app/` directory also appears to have been removed.
+-   **Remaining old Symfony directories (due to tool limitations on deleting large numbers of files):** `src/` (PHP), `web/`. These should be manually removed from the repository if this project were being managed outside the current AI agent environment.
+-   **New root files:** This `README.md` and a new `.gitignore` suitable for the monorepo structure.
+-   **New primary directories:** `frontend/` and `backend/` contain the new applications.

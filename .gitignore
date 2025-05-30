@@ -1,23 +1,45 @@
-/app/cache/*
-/app/config/parameters.yml
-/app/logs/*
-!app/cache/.gitkeep
-!app/logs/.gitkeep
-/build/
-/bin/
-/vendor/
-/web/bundles/
-/app/bootstrap*
-/.idea/*
-## generic files to ignore
-*~
-*.lock
-*.DS_Store
-*.swp
+# Node modules
+**/node_modules
+
+# Build outputs
+**/dist
+**/build
 *.out
-composer.phar
-/update.sh
-/web/js/*
-web/css/48ed673*.css
-*.iml
-/web/uploads/*
+
+# Env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# IDE specific files
+.idea/
+.vscode/
+!/.vscode/settings.json
+!/.vscode/extensions.json
+!/.vscode/launch.json
+*.sublime-project
+*.sublime-workspace
+
+# OS specific files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Test outputs
+/coverage
+/reports
+.nyc_output
+
+# Optional: Supabase local dev files (if used)
+#.supabase/
