@@ -1,26 +1,25 @@
-import { supabase } from './supabaseClient'; // Your Supabase client from a previous step
+import { supabase } from './supabaseClient';
 
-interface RequestOptions extends RequestInit {
-  // You can define a more specific type for the body if needed
-  body?: any; 
+interface RequestOptions<T = unknown> extends Omit<RequestInit, 'body'> {
+  body?: T;
 }
 
 const apiClient = {
   async get<T>(url: string, options?: RequestOptions): Promise<T> {
     return request<T>('GET', url, undefined, options);
   },
-  async post<T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
-    return request<T>('POST', url, body, options);
+  async post<T, B = unknown>(url: string, body?: B, options?: RequestOptions<B>): Promise<T> {
+    return request<T, B>('POST', url, body, options);
   },
-  async put<T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
-    return request<T>('PUT', url, body, options);
+  async put<T, B = unknown>(url: string, body?: B, options?: RequestOptions<B>): Promise<T> {
+    return request<T, B>('PUT', url, body, options);
   },
   async delete<T>(url: string, options?: RequestOptions): Promise<T> {
     return request<T>('DELETE', url, undefined, options);
   },
 };
 
-async function request<T>(method: string, url: string, body?: any, options?: RequestOptions): Promise<T> {
+async function request<T, B = unknown>(method: string, url: string, body?: B, options?: RequestOptions<B>): Promise<T> {
   const { data: { session } } = await supabase.auth.getSession();
   const token = session?.access_token;
 
@@ -28,25 +27,20 @@ async function request<T>(method: string, url: string, body?: any, options?: Req
   if (token) {
     headers.append('Authorization', `Bearer ${token}`);
   }
-  if (method !== 'GET' && method !== 'HEAD') { // GET/HEAD requests cannot have a body
+  if (method !== 'GET' && method !== 'HEAD') {
     headers.append('Content-Type', 'application/json');
   }
 
   const config: RequestInit = {
     method,
     headers,
-    ...options, // Spread other options like mode, cache, etc.
+    ...options,
   };
-
   if (body) {
     config.body = JSON.stringify(body);
   }
-  
-  // Construct the full URL if your API is hosted separately
-  // For this project, assuming backend is on the same origin or proxied, so relative URLs work.
-  // const baseUrl = import.meta.env.VITE_API_BASE_URL || ''; // e.g., http://localhost:3001/api
-  // const fullUrl = `${baseUrl}${url}`;
-  const fullUrl = url; // Assuming /api/... routes are handled by the same server or a proxy
+
+  const fullUrl = url;
 
   try {
     const response = await fetch(fullUrl, config);
@@ -54,13 +48,13 @@ async function request<T>(method: string, url: string, body?: any, options?: Req
       const errorData = await response.json().catch(() => ({ message: response.statusText }));
       throw new Error(errorData.message || `API request failed with status ${response.status}`);
     }
-    if (response.status === 204) { // No Content
-        return null as T; // Or handle as appropriate for your use case
+    if (response.status === 204) {
+        return null as T;
     }
     return response.json() as Promise<T>;
   } catch (error) {
     console.error(`API Error (${method} ${url}):`, error);
-    throw error; // Re-throw to be caught by the calling hook/component
+    throw error;
   }
 }
 

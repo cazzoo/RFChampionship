@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const RegisterPage: React.FC = () => {
   const { register, loading: authLoading } = useAuth();
-  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setSuccessMessage(null);
@@ -19,9 +18,9 @@ const RegisterPage: React.FC = () => {
       await register(email, password, username);
       setSuccessMessage('Registration successful! Please check your email to confirm (if applicable). You can try logging in.');
       // Optionally redirect to login or dashboard after a delay
-      // setTimeout(() => navigate('/login'), 3000); 
-    } catch (err: any) {
-      setError(err.message || 'Failed to register. Please try again.');
+      // setTimeout(() => navigate('/login'), 3000);
+    } catch (err) {
+      setError((err as Error).message);
     }
   };
 

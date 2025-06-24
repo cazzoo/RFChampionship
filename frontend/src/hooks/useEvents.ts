@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import apiClient from '../lib/apiClient'; // Adjust path as necessary
-import { Event } from '../types/event'; // Create this type
+import type { Event } from '../types/event.ts'; // Create this type
 
 // Define the Event type - consider moving to a types directory
 // export interface Event {
@@ -41,8 +41,8 @@ export const useEvents = (championshipId?: string | null, page: number = 1, limi
       // Assuming your API returns an object like { events: [], total: X, page: Y, limit: Z }
       const response = await apiClient.get<{ events: Event[], total: number }>(url);
       setEvents(response.events || []); // Ensure it's an array
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err as Error);
       setEvents([]); // Clear data on error
     } finally {
       setLoading(false);
@@ -83,8 +83,8 @@ export const useEvent = (id: string | undefined): UseEventReturn => {
         try {
             const data = await apiClient.get<Event>(`/api/events/${id}`);
             setEvent(data);
-        } catch (err: any) {
-            setError(err);
+        } catch (err) {
+            setError(err as Error);
             setEvent(null);
         } finally {
             setLoading(false);

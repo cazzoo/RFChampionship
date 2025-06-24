@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../lib/apiClient';
-import { Registration, RegistrationStatus } from '../types/registration'; 
-import { Championship } from '../types/championship';
-import { Event } from '../types/event';
-import { Profile } from '../types/profile';
+import type { Registration, RegistrationStatus } from '../types/registration.ts';
+import type { Championship } from '../types/championship.ts';
+import type { Event } from '../types/event.ts';
+import type { Profile } from '../types/profile.ts';
 
 
 // Type for the paginated response from the backend
@@ -20,13 +20,13 @@ interface UseAdminRegistrationsReturn {
   loading: boolean;
   error: Error | null;
   fetchRegistrations: (
-    page?: number, 
-    limit?: number, 
-    filters?: { 
-      userId?: string; 
-      eventId?: string; 
-      championshipId?: string; 
-      status?: RegistrationStatus; 
+    page?: number,
+    limit?: number,
+    filters?: {
+      userId?: string;
+      eventId?: string;
+      championshipId?: string;
+      status?: RegistrationStatus;
     }
   ) => Promise<void>;
   updateRegistrationStatus: (registrationId: number, status: RegistrationStatus) => Promise<Registration | null>;
@@ -42,14 +42,14 @@ export const useAdminRegistrations = (initialPage: number = 1, initialLimit: num
   const [totalRegistrations, setTotalRegistrations] = useState(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
-  
+
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [currentLimit, setCurrentLimit] = useState(initialLimit);
   const [currentFilters, setCurrentFilters] = useState<{
-    userId?: string; 
-    eventId?: string; 
-    championshipId?: string; 
-    status?: RegistrationStatus; 
+    userId?: string;
+    eventId?: string;
+    championshipId?: string;
+    status?: RegistrationStatus;
   }>({});
 
   // Data for filter dropdowns
@@ -59,13 +59,13 @@ export const useAdminRegistrations = (initialPage: number = 1, initialLimit: num
 
 
   const fetchRegistrations = useCallback(async (
-    page: number = currentPage, 
-    limit: number = currentLimit, 
-    filters: { 
-      userId?: string; 
-      eventId?: string; 
-      championshipId?: string; 
-      status?: RegistrationStatus; 
+    page: number = currentPage,
+    limit: number = currentLimit,
+    filters: {
+      userId?: string;
+      eventId?: string;
+      championshipId?: string;
+      status?: RegistrationStatus;
     } = currentFilters
   ) => {
     setLoading(true);
@@ -79,13 +79,13 @@ export const useAdminRegistrations = (initialPage: number = 1, initialLimit: num
     if (filters.eventId) url += `&event_id=${filters.eventId}`;
     if (filters.championshipId) url += `&championship_id=${filters.championshipId}`;
     if (filters.status) url += `&status=${filters.status}`;
-    
+
     try {
       const data = await apiClient.get<PaginatedAdminRegistrations>(url);
       setRegistrations(data.registrations || []);
       setTotalRegistrations(data.total || 0);
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       setRegistrations([]);
       setTotalRegistrations(0);
     } finally {
@@ -100,19 +100,19 @@ export const useAdminRegistrations = (initialPage: number = 1, initialLimit: num
       const eventPromise = apiClient.get<{events: Event[]}>('/api/events?limit=1000');
       // Assuming /api/users returns a list of users (profiles) suitable for filtering.
       // This might need adjustment based on your actual /api/users structure for admins.
-      const userPromise = apiClient.get<{users: Profile[]}>('/api/users?limit=1000'); 
-      
+      const userPromise = apiClient.get<{users: Profile[]}>('/api/users?limit=1000');
+
       const [champResponse, eventResponse, userResponse] = await Promise.all([champPromise, eventPromise, userPromise]);
-      
+
       setAllChampionships(champResponse.championships || []);
       setAllEvents(eventResponse.events || []);
       setAllUsers(userResponse.users || []); // Ensure this matches the actual response structure
       setError(null);
-    } catch (err: any) {
-        console.error("Failed to fetch filter data for registrations:", err);
-        setError(err); // Or handle this error separately
+    } catch (err) {
+      console.error("Failed to fetch filter data for registrations:", err);
+      setError(err instanceof Error ? err : new Error('Unknown error'));
     } finally {
-        setLoading(false); // Or the separate loading state
+      setLoading(false); // Or the separate loading state
     }
   }, []);
 
@@ -128,26 +128,26 @@ export const useAdminRegistrations = (initialPage: number = 1, initialLimit: num
       const updatedRegistration = await apiClient.put<Registration>(`/api/registrations/${registrationId}/status`, { status });
       setError(null);
       // Update the registration in the local state or refetch
-      setRegistrations(prevRegs => 
+      setRegistrations(prevRegs =>
         prevRegs.map(reg => reg.id === registrationId ? { ...reg, status: updatedRegistration.status, updated_at: updatedRegistration.updated_at } : reg)
       );
       // await fetchRegistrations(); // Or refetch the current page
       setLoading(false);
       return updatedRegistration;
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       console.error(`Failed to update status for registration ${registrationId}:`, err);
       setLoading(false);
       return null;
     }
   };
 
-  return { 
-    registrations, 
-    totalRegistrations, 
-    loading, 
-    error, 
-    fetchRegistrations, 
+  return {
+    registrations,
+    totalRegistrations,
+    loading,
+    error,
+    fetchRegistrations,
     updateRegistrationStatus,
     allChampionships,
     allEvents,

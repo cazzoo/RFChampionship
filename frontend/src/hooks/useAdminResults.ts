@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../lib/apiClient';
-import { Result, ResultCreationData, ResultUpdateData } from '../types/result'; // Create this type
-import { Event } from '../types/event';
-import { Profile } from '../types/profile'; // Or a simpler User type
-import { Team } from '../types/team';
-import { Vehicle } from '../types/vehicle';
+import type { Result, ResultCreationData, ResultUpdateData } from '../types/result.ts'; // Create this type
+import type { Event } from '../types/event.ts';
+import type { Profile } from '../types/profile.ts'; // Or a simpler User type
+import type { Team } from '../types/team.ts';
+import type { Vehicle } from '../types/vehicle.ts';
 
 interface PaginatedResults {
   results: Result[];
@@ -35,7 +35,7 @@ export const useAdminResults = (initialPage: number = 1, initialLimit: number = 
   const [totalResults, setTotalResults] = useState(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
-  
+
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [currentLimit, setCurrentLimit] = useState(initialLimit);
   const [currentFilters, setCurrentFilters] = useState<{ eventId?: string; championshipId?: string; userId?: string; teamId?: string; }>({});
@@ -48,8 +48,8 @@ export const useAdminResults = (initialPage: number = 1, initialLimit: number = 
 
 
   const fetchResults = useCallback(async (
-    page: number = currentPage, 
-    limit: number = currentLimit, 
+    page: number = currentPage,
+    limit: number = currentLimit,
     filters: { eventId?: string; championshipId?: string; userId?: string; teamId?: string; } = currentFilters
   ) => {
     setLoading(true);
@@ -63,13 +63,17 @@ export const useAdminResults = (initialPage: number = 1, initialLimit: number = 
     if (filters.championshipId) url += `&championship_id=${filters.championshipId}`; // Backend needs to support this
     if (filters.userId) url += `&user_id=${filters.userId}`;
     if (filters.teamId) url += `&team_id=${filters.teamId}`;
-    
+
     try {
       const data = await apiClient.get<PaginatedResults>(url);
       setResults(data.results || []);
       setTotalResults(data.total || 0);
-    } catch (err: any) {
-      setError(err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error('Unknown error occurred while fetching results.'));
+      }
       setResults([]);
       setTotalResults(0);
     } finally {
@@ -81,22 +85,26 @@ export const useAdminResults = (initialPage: number = 1, initialLimit: number = 
     setLoading(true);
     try {
       const eventPromise = apiClient.get<{events: Event[]}>('/api/events?limit=1000');
-      const userPromise = apiClient.get<{users: Profile[]}>('/api/users?limit=1000'); // Admin endpoint to get all users
+      const userPromise = apiClient.get<{users: Profile[]}>('/api/users?limit=1000');
       const teamPromise = apiClient.get<{teams: Team[]}>('/api/teams?limit=1000');
       const vehiclePromise = apiClient.get<{vehicles: Vehicle[]}>('/api/vehicles?limit=1000');
-      
+
       const [eventRes, userRes, teamRes, vehicleRes] = await Promise.all([
         eventPromise, userPromise, teamPromise, vehiclePromise
       ]);
-      
+
       setAllEvents(eventRes.events || []);
-      setAllUsers(userRes.users || []); // Ensure your /api/users returns this structure for admins
+      setAllUsers(userRes.users || []);
       setAllTeams(teamRes.teams || []);
       setAllVehicles(vehicleRes.vehicles || []);
       setError(null);
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error("Failed to fetch related data for result form:", err);
-        setError(err);
+        if (err instanceof Error) {
+          setError(err);
+        } else {
+          setError(new Error('Unknown error occurred while fetching related data.'));
+        }
     } finally {
         setLoading(false);
     }
@@ -114,9 +122,14 @@ export const useAdminResults = (initialPage: number = 1, initialLimit: number = 
       setError(null);
       await fetchResults(); // Refetch
       return newResult;
-    } catch (err: any) {
-      setError(err);
-      console.error("Failed to add result:", err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+        console.error("Failed to add result:", err);
+      } else {
+        setError(new Error('Unknown error occurred while adding result.'));
+        console.error("Failed to add result: Unknown error");
+      }
       setLoading(false);
       return null;
     }
@@ -129,9 +142,14 @@ export const useAdminResults = (initialPage: number = 1, initialLimit: number = 
       setError(null);
       await fetchResults(); // Refetch
       return updatedResult;
-    } catch (err: any) {
-      setError(err);
-      console.error(`Failed to update result ${id}:`, err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+        console.error(`Failed to update result ${id}:`, err);
+      } else {
+        setError(new Error('Unknown error occurred while updating result.'));
+        console.error(`Failed to update result ${id}: Unknown error`);
+      }
       setLoading(false);
       return null;
     }
@@ -144,22 +162,27 @@ export const useAdminResults = (initialPage: number = 1, initialLimit: number = 
       setError(null);
       await fetchResults(); // Refetch
       return true;
-    } catch (err: any) {
-      setError(err);
-      console.error(`Failed to delete result ${id}:`, err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+        console.error(`Failed to delete result ${id}:`, err);
+      } else {
+        setError(new Error('Unknown error occurred while deleting result.'));
+        console.error(`Failed to delete result ${id}: Unknown error`);
+      }
       setLoading(false);
       return false;
     }
   };
 
-  return { 
-    results, 
-    totalResults, 
-    loading, 
-    error, 
-    fetchResults, 
-    addResult, 
-    updateResult, 
+  return {
+    results,
+    totalResults,
+    loading,
+    error,
+    fetchResults,
+    addResult,
+    updateResult,
     deleteResult,
     allEvents,
     allUsers,

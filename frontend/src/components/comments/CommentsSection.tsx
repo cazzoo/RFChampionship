@@ -1,15 +1,11 @@
 import React, { useEffect } from 'react';
-import { useComments } from '../../hooks/useComments'; // Adjust path as necessary
-import { Comment, CommentCreationData } from '../../types/comment'; // Adjust path as necessary
-import CommentItem from './CommentItem'; // Adjust path as necessary
-import CommentForm from './CommentForm'; // Adjust path as necessary
-import { useAuth } from '../../contexts/AuthContext'; // Adjust path as necessary
-// import { Button } from './ui/button'; // Shadcn UI
-// import { toast } from 'sonner'; // Shadcn UI
+import { useComments } from '../../hooks/useComments';
+import type { Comment, CommentCreationData } from '../../types/comment.ts';
+import CommentItem from './CommentItem';
+import CommentForm from './CommentForm';
+import { useAuth } from '../../contexts/AuthContext';
+import { Button } from '../ui/button';
 
-// Fallback components for conceptual UI
-const FallbackButton: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const ActualButton = Button || FallbackButton;
 const toast = { success: (msg: string) => alert(msg), error: (msg: string) => alert(msg) };
 
 
@@ -20,19 +16,18 @@ interface CommentsSectionProps {
 
 const CommentsSection: React.FC<CommentsSectionProps> = ({ entityType, entityId }) => {
   const { user, isAdmin } = useAuth();
-  const { 
-    comments, 
-    totalComments, 
-    loading, 
-    error, 
-    fetchComments, 
-    postComment, 
-    deleteComment 
+  const {
+    comments,
+    totalComments,
+    loading,
+    error,
+    fetchComments,
+    postComment,
+    deleteComment
   } = useComments(entityType, entityId);
 
   // Initial fetch for top-level comments
   useEffect(() => {
-    // fetchComments(1, 10, null); // Fetch top-level comments (page 1, limit 10)
     // The hook itself now handles initial fetch on entityType/entityId change
   }, [entityType, entityId]); // Removed fetchComments from here
 
@@ -41,10 +36,10 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ entityType, entityId 
       toast.error("You must be logged in to comment.");
       return false;
     }
-    
+
     const commentData: CommentCreationData = {
       content,
-      entity_type: entityType, 
+      entity_type: entityType,
       // entityId is implicitly handled by the hook's scope for the main post
       // but needs to be explicit if hook was structured differently
       parent_id: parentId || null,
@@ -74,7 +69,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ entityType, entityId 
         fetchComments(nextPage, 10, null); // Fetch next page of top-level
     }
   };
-  
+
   // For replies, this simplified example will use the main postComment function from the hook.
   // A more advanced implementation might fetch replies specifically for a parent comment.
   const handlePostReply = async (parentId: number, content: string): Promise<boolean> => {
@@ -92,7 +87,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ entityType, entityId 
     } else {
         replyData.entity_id_uuid = entityId;
     }
-    
+
     const newReply = await postComment(replyData);
     return !!newReply;
   };
@@ -104,7 +99,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ entityType, entityId 
   return (
     <div className="mt-8 pt-6 border-t border-gray-200">
       <h3 className="text-xl font-semibold text-gray-800 mb-4">Comments ({totalComments})</h3>
-      
+
       {user && (
         <div className="mb-6 p-4 bg-white rounded-lg shadow">
             <h4 className="text-md font-semibold text-gray-700 mb-2">Leave a Comment</h4>
@@ -119,12 +114,9 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ entityType, entityId 
 
       <div className="space-y-4">
         {comments.map((comment: Comment) => (
-          // Assuming CommentItem handles display of its own replies if data structure is nested,
-          // or this CommentsSection would need to fetch and pass replies to CommentItem.
-          // For this version, we assume a flat list of top-level comments, and replies are handled by CommentItem's form.
-          <CommentItem 
-            key={comment.id} 
-            comment={comment} 
+          <CommentItem
+            key={comment.id}
+            comment={comment}
             onReply={handlePostReply} // Replies are also new comments with parent_id
             onDelete={handleDeleteComment}
             currentUserId={user?.id}
@@ -135,9 +127,9 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ entityType, entityId 
 
       {comments.length < totalComments && !loading && (
         <div className="mt-6 text-center">
-          <ActualButton onClick={handleLoadMore} variant="outline" size="sm">
+          <Button onClick={handleLoadMore} className="text-xs border border-gray-300 px-3 py-1 rounded">
             Load More Comments
-          </ActualButton>
+          </Button>
         </div>
       )}
     </div>

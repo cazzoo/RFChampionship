@@ -1,62 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAdminRegistrations } from '../../../hooks/useAdminRegistrations';
-import { Registration, RegistrationStatus } from '../../../types/registration';
-import { Championship } from '../../../types/championship';
-import { Event } from '../../../types/event';
-import { Profile } from '../../../types/profile';
-
-// Conceptual Shadcn UI imports
+import type { Registration, RegistrationStatus } from '../../../types/registration';
 import { Button } from '../../../components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../../components/ui/table';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '../../../components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../components/ui/select';
-import { Label } from '../../../components/ui/label';
-// import { toast } from 'sonner';
-
-// Fallback components
-const FallbackButton: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const FallbackTable: React.FC<any> = ({ children, ...props }) => <table {...props}>{children}</table>;
-const FallbackTableBody: React.FC<any> = ({ children, ...props }) => <tbody {...props}>{children}</tbody>;
-const FallbackTableCell: React.FC<any> = ({ children, ...props }) => <td {...props}>{children}</td>;
-const FallbackTableHead: React.FC<any> = ({ children, ...props }) => <th {...props}>{children}</th>;
-const FallbackTableHeader: React.FC<any> = ({ children, ...props }) => <thead {...props}>{children}</thead>;
-const FallbackTableRow: React.FC<any> = ({ children, ...props }) => <tr {...props}>{children}</tr>;
-const FallbackDialog: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackDialogContent: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackDialogHeader: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackDialogTitle: React.FC<any> = ({ children, ...props }) => <h2 {...props}>{children}</h2>;
-// const FallbackDialogTrigger: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const FallbackDialogFooter: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackDialogClose: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const FallbackSelect: React.FC<any> = ({ children, ...props }) => <select {...props}>{children}</select>;
-const FallbackSelectContent: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackSelectItem: React.FC<any> = ({ children, ...props }) => <option {...props}>{children}</option>;
-const FallbackSelectTrigger: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const FallbackSelectValue: React.FC<any> = (props) => <span {...props} />;
-const FallbackLabel: React.FC<any> = ({ children, ...props }) => <label {...props}>{children}</label>;
-
-const ActualButton = Button || FallbackButton;
-const ActualTable = Table || FallbackTable;
-const ActualTableBody = TableBody || FallbackTableBody;
-const ActualTableCell = TableCell || FallbackTableCell;
-const ActualTableHead = TableHead || FallbackTableHead;
-const ActualTableHeader = TableHeader || FallbackTableHeader;
-const ActualTableRow = TableRow || FallbackTableRow;
-const ActualDialog = Dialog || FallbackDialog;
-const ActualDialogContent = DialogContent || FallbackDialogContent;
-const ActualDialogHeader = DialogHeader || FallbackDialogHeader;
-const ActualDialogTitle = DialogTitle || FallbackDialogTitle;
-// const ActualDialogTrigger = DialogTrigger || FallbackDialogTrigger;
-const ActualDialogFooter = DialogFooter || FallbackDialogFooter;
-const ActualDialogClose = DialogClose || FallbackDialogClose;
-const ActualSelect = Select || FallbackSelect;
-const ActualSelectContent = SelectContent || FallbackSelectContent;
-const ActualSelectItem = SelectItem || FallbackSelectItem;
-const ActualSelectTrigger = SelectTrigger || FallbackSelectTrigger;
-const ActualSelectValue = SelectValue || FallbackSelectValue;
-const ActualLabel = Label || FallbackLabel;
-
-const toast = { success: (msg: string) => alert(msg), error: (msg: string) => alert(msg) };
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../../components/ui/dialog';
 
 const REGISTRATION_STATUSES: RegistrationStatus[] = ['pending', 'confirmed', 'cancelled', 'waitlisted'];
 
@@ -70,7 +17,7 @@ const RegistrationStatusForm: React.FC<RegistrationStatusFormProps> = ({ registr
   const [status, setStatus] = useState<RegistrationStatus>(registration.status);
   const [formError, setFormError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormError(null);
     if (!status) {
@@ -85,45 +32,37 @@ const RegistrationStatusForm: React.FC<RegistrationStatusFormProps> = ({ registr
       {formError && <p className="text-red-500 text-sm">{formError}</p>}
       <div>
         <p className="text-sm">Updating status for registration ID: {registration.id}</p>
-        <p className="text-sm">User: {registration.user?.username || registration.user?.email || 'N/A'}</p>
+        <p className="text-sm">User: {registration.user?.username || (registration.user && typeof registration.user === 'object' && 'email' in registration.user ? (registration.user as { email?: string }).email : 'N/A')}</p>
         <p className="text-sm">
           Registered for: {registration.event?.name || registration.championship?.name || 'N/A'}
         </p>
       </div>
       <div>
-        <ActualLabel htmlFor="reg-status">New Status</ActualLabel>
-        <ActualSelect value={status} onValueChange={(value) => setStatus(value as RegistrationStatus)}>
-            <ActualSelectTrigger id="reg-status" className="w-full mt-1">
-                <ActualSelectValue placeholder="Select status" />
-            </ActualSelectTrigger>
-            <ActualSelectContent>
-                {REGISTRATION_STATUSES.map(s => (
-                    <ActualSelectItem key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</ActualSelectItem>
-                ))}
-            </ActualSelectContent>
-        </ActualSelect>
+        <label htmlFor="reg-status">New Status</label>
+        <select id="reg-status" value={status} onChange={e => setStatus(e.target.value as RegistrationStatus)}>
+          {REGISTRATION_STATUSES.map(s => (
+            <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>
+          ))}
+        </select>
       </div>
-      <ActualDialogFooter>
-        <ActualDialogClose asChild><ActualButton type="button" variant="outline" onClick={onClose}>Cancel</ActualButton></ActualDialogClose>
-        <ActualButton type="submit">Update Status</ActualButton>
-      </ActualDialogFooter>
+      <div>
+        <button type="button" onClick={onClose}>Cancel</button>
+        <Button type="submit">Update Status</Button>
+      </div>
     </form>
   );
 };
 
-const AdminRegistrationsListPage: React.FC = () => {
-  const { 
-    registrations, totalRegistrations, loading, error, 
+export default function AdminRegistrationsListPage() {
+  const {
+    registrations, totalRegistrations, loading, error,
     fetchRegistrations, updateRegistrationStatus,
-    allChampionships, allEvents, allUsers // For filters
+    allChampionships, allEvents, allUsers
   } = useAdminRegistrations();
-  
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingRegistration, setEditingRegistration] = useState<Registration | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
-  // Filter states
   const [filterUserId, setFilterUserId] = useState('');
   const [filterEventId, setFilterEventId] = useState('');
   const [filterChampionshipId, setFilterChampionshipId] = useState('');
@@ -131,13 +70,12 @@ const AdminRegistrationsListPage: React.FC = () => {
 
   useEffect(() => {
     fetchRegistrations(currentPage, itemsPerPage, {
-        userId: filterUserId || undefined,
-        eventId: filterEventId || undefined,
-        championshipId: filterChampionshipId || undefined,
-        status: filterStatus || undefined,
+      userId: filterUserId || undefined,
+      eventId: filterEventId || undefined,
+      championshipId: filterChampionshipId || undefined,
+      status: filterStatus || undefined,
     });
   }, [currentPage, filterUserId, filterEventId, filterChampionshipId, filterStatus, fetchRegistrations]);
-
 
   const handleEditStatus = (registration: Registration) => {
     setEditingRegistration(registration);
@@ -145,124 +83,101 @@ const AdminRegistrationsListPage: React.FC = () => {
   };
 
   const handleSaveStatus = async (registrationId: number, newStatus: RegistrationStatus) => {
-    const result = await updateRegistrationStatus(registrationId, newStatus);
-    if (result) {
-      toast.success('Registration status updated!');
-      setIsFormOpen(false);
-      setEditingRegistration(null);
-    } else {
-      toast.error('Failed to update status.');
-    }
+    await updateRegistrationStatus(registrationId, newStatus);
+    setIsFormOpen(false);
+    setEditingRegistration(null);
   };
-  
+
   const totalPages = Math.ceil(totalRegistrations / itemsPerPage);
 
   return (
     <div className="container mx-auto py-4">
       <h1 className="text-2xl font-semibold mb-6">Manage Registrations</h1>
-
-      {/* Filter Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 p-4 bg-gray-50 rounded-lg shadow">
         <div>
-            <ActualLabel htmlFor="filter-user">User</ActualLabel>
-            <ActualSelect value={filterUserId} onValueChange={setFilterUserId}>
-                <ActualSelectTrigger id="filter-user" className="w-full mt-1"><ActualSelectValue placeholder="All Users" /></ActualSelectTrigger>
-                <ActualSelectContent>
-                    <ActualSelectItem value="">All Users</ActualSelectItem>
-                    {allUsers.map(user => <ActualSelectItem key={user.id} value={user.id}>{user.username || user.email}</ActualSelectItem>)}
-                </ActualSelectContent>
-            </ActualSelect>
-        </div>
-         <div>
-            <ActualLabel htmlFor="filter-championship">Championship</ActualLabel>
-            <ActualSelect value={filterChampionshipId} onValueChange={setFilterChampionshipId}>
-                <ActualSelectTrigger id="filter-championship" className="w-full mt-1"><ActualSelectValue placeholder="All Championships" /></ActualSelectTrigger>
-                <ActualSelectContent>
-                    <ActualSelectItem value="">All Championships</ActualSelectItem>
-                    {allChampionships.map(champ => <ActualSelectItem key={champ.id} value={champ.id.toString()}>{champ.name}</ActualSelectItem>)}
-                </ActualSelectContent>
-            </ActualSelect>
+          <label htmlFor="filter-user">User</label>
+          <select id="filter-user" value={filterUserId} onChange={e => setFilterUserId(e.target.value)}>
+            <option value="">All Users</option>
+            {allUsers.map(user => <option key={user.id} value={user.id}>{user.username || (typeof user === 'object' && 'email' in user ? (user as { email?: string }).email : '')}</option>)}
+          </select>
         </div>
         <div>
-            <ActualLabel htmlFor="filter-event">Event</ActualLabel>
-            <ActualSelect value={filterEventId} onValueChange={setFilterEventId}>
-                <ActualSelectTrigger id="filter-event" className="w-full mt-1"><ActualSelectValue placeholder="All Events" /></ActualSelectTrigger>
-                <ActualSelectContent>
-                    <ActualSelectItem value="">All Events</ActualSelectItem>
-                    {allEvents.map(evt => <ActualSelectItem key={evt.id} value={evt.id.toString()}>{evt.name}</ActualSelectItem>)}
-                </ActualSelectContent>
-            </ActualSelect>
+          <label htmlFor="filter-championship">Championship</label>
+          <select id="filter-championship" value={filterChampionshipId} onChange={e => setFilterChampionshipId(e.target.value)}>
+            <option value="">All Championships</option>
+            {allChampionships.map(champ => <option key={champ.id} value={champ.id.toString()}>{champ.name}</option>)}
+          </select>
         </div>
         <div>
-            <ActualLabel htmlFor="filter-status">Status</ActualLabel>
-            <ActualSelect value={filterStatus} onValueChange={(value) => setFilterStatus(value as RegistrationStatus | '')}>
-                <ActualSelectTrigger id="filter-status" className="w-full mt-1"><ActualSelectValue placeholder="All Statuses" /></ActualSelectTrigger>
-                <ActualSelectContent>
-                    <ActualSelectItem value="">All Statuses</ActualSelectItem>
-                    {REGISTRATION_STATUSES.map(s => <ActualSelectItem key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</ActualSelectItem>)}
-                </ActualSelectContent>
-            </ActualSelect>
+          <label htmlFor="filter-event">Event</label>
+          <select id="filter-event" value={filterEventId} onChange={e => setFilterEventId(e.target.value)}>
+            <option value="">All Events</option>
+            {allEvents.map(evt => <option key={evt.id} value={evt.id.toString()}>{evt.name}</option>)}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="filter-status">Status</label>
+          <select id="filter-status" value={filterStatus} onChange={e => setFilterStatus(e.target.value as RegistrationStatus | '')}>
+            <option value="">All Statuses</option>
+            {REGISTRATION_STATUSES.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
+          </select>
         </div>
       </div>
-
-
-      {editingRegistration && (
-        <ActualDialog open={isFormOpen} onOpenChange={(open) => { if(!open) setEditingRegistration(null); setIsFormOpen(open);}}>
-            <ActualDialogContent className="sm:max-w-md bg-white p-6 rounded-lg shadow-xl">
-                <ActualDialogHeader>
-                    <ActualDialogTitle>Edit Registration Status</ActualDialogTitle>
-                </ActualDialogHeader>
-                <RegistrationStatusForm 
-                    registration={editingRegistration} 
-                    onSave={handleSaveStatus} 
-                    onClose={() => { setIsFormOpen(false); setEditingRegistration(null); }}
-                />
-            </ActualDialogContent>
-        </ActualDialog>
+      {editingRegistration && isFormOpen && (
+        <div>
+          <Dialog>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Edit Registration Status</DialogTitle>
+              </DialogHeader>
+              <RegistrationStatusForm
+                registration={editingRegistration}
+                onSave={handleSaveStatus}
+                onClose={() => { setIsFormOpen(false); setEditingRegistration(null); }}
+              />
+            </DialogContent>
+          </Dialog>
+        </div>
       )}
-
       {loading && <p>Loading registrations...</p>}
       {error && <p className="text-red-500">Error: {error.message}</p>}
-      
       {!loading && !error && (
         <>
-          <ActualTable className="bg-white shadow rounded-lg">
-            <ActualTableHeader>
-              <ActualTableRow>
-                <ActualTableHead>User</ActualTableHead>
-                <ActualTableHead>Registered For</ActualTableHead>
-                <ActualTableHead>Team</ActualTableHead>
-                <ActualTableHead>Vehicle</ActualTableHead>
-                <ActualTableHead>Date</ActualTableHead>
-                <ActualTableHead>Status</ActualTableHead>
-                <ActualTableHead>Actions</ActualTableHead>
-              </ActualTableRow>
-            </ActualTableHeader>
-            <ActualTableBody>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>User</TableHead>
+                <TableHead>Registered For</TableHead>
+                <TableHead>Team</TableHead>
+                <TableHead>Vehicle</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {registrations.map((reg) => (
-                <ActualTableRow key={reg.id}>
-                  <ActualTableCell className="font-medium">{reg.user?.username || reg.user?.email || 'N/A'}</ActualTableCell>
-                  <ActualTableCell>{reg.event?.name || reg.championship?.name || 'N/A'}</ActualTableCell>
-                  <ActualTableCell>{reg.team?.name || 'N/A'}</ActualTableCell>
-                  <ActualTableCell>{reg.vehicle?.name || 'N/A'}</ActualTableCell>
-                  <ActualTableCell>{new Date(reg.registration_date).toLocaleDateString()}</ActualTableCell>
-                  <ActualTableCell className="capitalize">{reg.status}</ActualTableCell>
-                  <ActualTableCell>
-                     <ActualButton variant="outline" size="sm" onClick={() => handleEditStatus(reg)}>Edit Status</ActualButton>
-                  </ActualTableCell>
-                </ActualTableRow>
+                <TableRow key={reg.id}>
+                  <TableCell>{reg.user?.username || (reg.user && typeof reg.user === 'object' && 'email' in reg.user ? (reg.user as { email?: string }).email : 'N/A')}</TableCell>
+                  <TableCell>{reg.event?.name || reg.championship?.name || 'N/A'}</TableCell>
+                  <TableCell>{reg.team?.name || 'N/A'}</TableCell>
+                  <TableCell>{reg.vehicle?.name || 'N/A'}</TableCell>
+                  <TableCell>{new Date(reg.registration_date).toLocaleDateString()}</TableCell>
+                  <TableCell>{reg.status}</TableCell>
+                  <TableCell>
+                    <Button onClick={() => handleEditStatus(reg)}>Edit Status</Button>
+                  </TableCell>
+                </TableRow>
               ))}
-            </ActualTableBody>
-          </ActualTable>
+            </TableBody>
+          </Table>
           <div className="flex items-center justify-end space-x-2 py-4">
-            <ActualButton variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))} disabled={currentPage === 1}>Previous</ActualButton>
+            <Button onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))} disabled={currentPage === 1}>Previous</Button>
             <span className="text-sm">Page {currentPage} of {totalPages}</span>
-            <ActualButton variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))} disabled={currentPage === totalPages || totalRegistrations === 0}>Next</ActualButton>
+            <Button onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))} disabled={currentPage === totalPages || totalRegistrations === 0}>Next</Button>
           </div>
         </>
       )}
     </div>
   );
-};
-
-export default AdminRegistrationsListPage;
+}

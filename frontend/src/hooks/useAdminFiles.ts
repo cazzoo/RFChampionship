@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../lib/apiClient';
-import { FileMetadata } from '../types/file'; // Ensure this type is defined
+import type { FileMetadata } from '../types/file'; // Ensure this type is defined
 
 interface PaginatedAdminFiles {
   files: FileMetadata[];
@@ -14,10 +14,10 @@ interface UseAdminFilesReturn {
   totalFiles: number;
   loading: boolean;
   error: Error | null;
-  fetchFiles: (page?: number, limit?: number, filters?: { 
-    uploaderUserId?: string; 
-    bucketName?: string; 
-    entityType?: string; 
+  fetchFiles: (page?: number, limit?: number, filters?: {
+    uploaderUserId?: string;
+    bucketName?: string;
+    entityType?: string;
     uploadStatus?: string;
   }) => Promise<void>;
   deleteFile: (fileId: string) => Promise<boolean>;
@@ -29,23 +29,23 @@ export const useAdminFiles = (initialPage: number = 1, initialLimit: number = 10
   const [totalFiles, setTotalFiles] = useState(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
-  
+
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [currentLimit, setCurrentLimit] = useState(initialLimit);
-  const [currentFilters, setCurrentFilters] = useState<{ 
-    uploaderUserId?: string; 
-    bucketName?: string; 
-    entityType?: string; 
+  const [currentFilters, setCurrentFilters] = useState<{
+    uploaderUserId?: string;
+    bucketName?: string;
+    entityType?: string;
     uploadStatus?: string;
   }>({});
 
   const fetchFiles = useCallback(async (
-    page: number = currentPage, 
-    limit: number = currentLimit, 
-    filters: { 
-        uploaderUserId?: string; 
-        bucketName?: string; 
-        entityType?: string; 
+    page: number = currentPage,
+    limit: number = currentLimit,
+    filters: {
+        uploaderUserId?: string;
+        bucketName?: string;
+        entityType?: string;
         uploadStatus?: string;
     } = currentFilters
   ) => {
@@ -60,13 +60,13 @@ export const useAdminFiles = (initialPage: number = 1, initialLimit: number = 10
     if (filters.bucketName) url += `&bucketName=${filters.bucketName}`;
     if (filters.entityType) url += `&entity_type=${filters.entityType}`;
     if (filters.uploadStatus) url += `&upload_status=${filters.uploadStatus}`; // Backend needs to support this filter
-    
+
     try {
       const data = await apiClient.get<PaginatedAdminFiles>(url);
       setFiles(data.files || []);
       setTotalFiles(data.total || 0);
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       setFiles([]);
       setTotalFiles(0);
     } finally {
@@ -89,8 +89,8 @@ export const useAdminFiles = (initialPage: number = 1, initialLimit: number = 10
       // await fetchFiles(currentPage, currentLimit, currentFilters); // Could refetch too
       setLoading(false);
       return true;
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       console.error(`Failed to delete file ${fileId}:`, err);
       setLoading(false);
       return false;
@@ -105,20 +105,20 @@ export const useAdminFiles = (initialPage: number = 1, initialLimit: number = 10
         setFiles(prevFiles => prevFiles.map(f => f.id === fileId ? { ...f, ...updatedFile } : f));
         setLoading(false);
         return updatedFile;
-    } catch (err: any) {
-        setError(err);
+    } catch (err) {
+        setError(err instanceof Error ? err : new Error('Unknown error'));
         console.error(`Failed to update metadata for file ${fileId}:`, err);
         setLoading(false);
         return null;
     }
   };
 
-  return { 
-    files, 
-    totalFiles, 
-    loading, 
-    error, 
-    fetchFiles, 
+  return {
+    files,
+    totalFiles,
+    loading,
+    error,
+    fetchFiles,
     deleteFile,
     updateFileMetadata
   };

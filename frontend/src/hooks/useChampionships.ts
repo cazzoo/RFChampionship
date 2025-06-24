@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import apiClient from '../lib/apiClient'; // Adjust path as necessary
-import { Championship } from '../types/championship'; // Create this type
+import type { Championship } from '../types/championship.ts'; // Use .ts extension and type-only import
 
 // Define the Championship type - consider moving to a types directory
 // For now, defining it here if not already present.
@@ -39,8 +39,12 @@ export const useChampionships = (page: number = 1, limit: number = 10): UseChamp
       // Assuming your API returns an object like { championships: [], total: X, page: Y, limit: Z }
       const response = await apiClient.get<{ championships: Championship[], total: number }>(`/api/championships?page=${page}&limit=${limit}`);
       setChampionships(response.championships || []); // Ensure it's an array
-    } catch (err: any) {
-      setError(err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error('Unknown error occurred while fetching championships.'));
+      }
       setChampionships([]); // Clear data on error
     } finally {
       setLoading(false);
@@ -78,14 +82,18 @@ export const useChampionship = (id: string | undefined): UseChampionshipReturn =
         try {
             const data = await apiClient.get<Championship>(`/api/championships/${id}`);
             setChampionship(data);
-        } catch (err: any) {
-            setError(err);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err);
+            } else {
+                setError(new Error('Unknown error occurred while fetching championship.'));
+            }
             setChampionship(null);
         } finally {
             setLoading(false);
         }
     };
-    
+
     useEffect(() => {
         fetchChampionship();
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -3,66 +3,15 @@ import { useParams, Link } from 'react-router-dom';
 import { useEvent } from '../hooks/useEvents';
 import { useAuth } from '../contexts/AuthContext';
 import { useUserRegistrations } from '../hooks/useUserRegistrations';
-import { RegistrationCreationData } from '../types/registration';
-import { Team } from '../types/team';
-import { Vehicle } from '../types/vehicle';
-import { useResults } from '../hooks/useResults'; // Import useResults hook
-import { Result } from '../types/result'; // Import Result type
-import CommentsSection from '../components/comments/CommentsSection'; // Import CommentsSection
-
-// Conceptual Shadcn UI imports
+import type { RegistrationCreationData } from '../types/registration.ts';
+import type { Team } from '../types/team.ts';
+import type { Vehicle } from '../types/vehicle.ts';
+import { useResults } from '../hooks/useResults';
+import CommentsSection from '../components/comments/CommentsSection';
 import { Button } from '../components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter, DialogClose } from '../components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { Label } from '../components/ui/label';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table'; // For results
-// import { toast } from 'sonner';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table';
 
-// Fallbacks for conceptual UI
-const FallbackButton: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const FallbackDialog: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackDialogContent: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackDialogHeader: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackDialogTitle: React.FC<any> = ({ children, ...props }) => <h2 {...props}>{children}</h2>;
-const FallbackDialogDescription: React.FC<any> = ({ children, ...props }) => <p {...props}>{children}</p>;
-const FallbackDialogTrigger: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const FallbackDialogFooter: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackDialogClose: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const FallbackSelect: React.FC<any> = ({ children, ...props }) => <select {...props}>{children}</select>;
-const FallbackSelectContent: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackSelectItem: React.FC<any> = ({ children, ...props }) => <option {...props}>{children}</option>;
-const FallbackSelectTrigger: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const FallbackSelectValue: React.FC<any> = (props) => <span {...props} />;
-const FallbackLabel: React.FC<any> = ({ children, ...props }) => <label {...props}>{children}</label>;
-const FallbackTable: React.FC<any> = ({ children, ...props }) => <table {...props}>{children}</table>;
-const FallbackTableBody: React.FC<any> = ({ children, ...props }) => <tbody {...props}>{children}</tbody>;
-const FallbackTableCell: React.FC<any> = ({ children, ...props }) => <td {...props}>{children}</td>;
-const FallbackTableHead: React.FC<any> = ({ children, ...props }) => <th {...props}>{children}</th>;
-const FallbackTableHeader: React.FC<any> = ({ children, ...props }) => <thead {...props}>{children}</thead>;
-const FallbackTableRow: React.FC<any> = ({ children, ...props }) => <tr {...props}>{children}</tr>;
-
-
-const ActualButton = Button || FallbackButton;
-const ActualDialog = Dialog || FallbackDialog;
-const ActualDialogContent = DialogContent || FallbackDialogContent;
-const ActualDialogHeader = DialogHeader || FallbackDialogHeader;
-const ActualDialogTitle = DialogTitle || FallbackDialogTitle;
-const ActualDialogDescription = DialogDescription || FallbackDialogDescription;
-const ActualDialogTrigger = DialogTrigger || FallbackDialogTrigger;
-const ActualDialogFooter = DialogFooter || FallbackDialogFooter;
-const ActualDialogClose = DialogClose || FallbackDialogClose;
-const ActualSelect = Select || FallbackSelect;
-const ActualSelectContent = SelectContent || FallbackSelectContent;
-const ActualSelectItem = SelectItem || FallbackSelectItem;
-const ActualSelectTrigger = SelectTrigger || FallbackSelectTrigger;
-const ActualSelectValue = SelectValue || FallbackSelectValue;
-const ActualLabel = Label || FallbackLabel;
-const ActualTable = Table || FallbackTable;
-const ActualTableBody = TableBody || FallbackTableBody;
-const ActualTableCell = TableCell || FallbackTableCell;
-const ActualTableHead = TableHead || FallbackTableHead;
-const ActualTableHeader = TableHeader || FallbackTableHeader;
-const ActualTableRow = TableRow || FallbackTableRow;
 const toast = { success: (msg: string) => alert(msg), error: (msg: string) => alert(msg) };
 
 
@@ -88,33 +37,27 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ entityType, entityI
     };
     await onRegister(registrationData);
   };
-  
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <ActualLabel htmlFor="reg-team">Team (Optional)</ActualLabel>
-        <ActualSelect value={selectedTeamId} onValueChange={setSelectedTeamId}>
-            <ActualSelectTrigger id="reg-team" className="w-full mt-1"><ActualSelectValue placeholder="Select a team" /></ActualSelectTrigger>
-            <ActualSelectContent>
-                <ActualSelectItem value="">No Team</ActualSelectItem>
-                {userTeams.map(team => <ActualSelectItem key={team.id} value={team.id.toString()}>{team.name}</ActualSelectItem>)}
-            </ActualSelectContent>
-        </ActualSelect>
+        <label>Team (Optional)</label>
+        <select value={selectedTeamId} onChange={e => setSelectedTeamId(e.target.value)}>
+          <option value="">No Team</option>
+          {userTeams.map(team => <option key={team.id} value={team.id.toString()}>{team.name}</option>)}
+        </select>
       </div>
       <div>
-        <ActualLabel htmlFor="reg-vehicle">Vehicle (Optional)</ActualLabel>
-        <ActualSelect value={selectedVehicleId} onValueChange={setSelectedVehicleId}>
-            <ActualSelectTrigger id="reg-vehicle" className="w-full mt-1"><ActualSelectValue placeholder="Select a vehicle" /></ActualSelectTrigger>
-            <ActualSelectContent>
-                <ActualSelectItem value="">No Specific Vehicle</ActualSelectItem>
-                {availableVehicles.map(vehicle => <ActualSelectItem key={vehicle.id} value={vehicle.id.toString()}>{vehicle.name} ({vehicle.manufacturer})</ActualSelectItem>)}
-            </ActualSelectContent>
-        </ActualSelect>
+        <label>Vehicle (Optional)</label>
+        <select value={selectedVehicleId} onChange={e => setSelectedVehicleId(e.target.value)}>
+          <option value="">No Specific Vehicle</option>
+          {availableVehicles.map(vehicle => <option key={vehicle.id} value={vehicle.id.toString()}>{vehicle.name} ({vehicle.manufacturer})</option>)}
+        </select>
       </div>
-      <ActualDialogFooter>
-        <ActualDialogClose asChild><ActualButton type="button" variant="outline" onClick={onClose}>Cancel</ActualButton></ActualDialogClose>
-        <ActualButton type="submit">Confirm Registration</ActualButton>
-      </ActualDialogFooter>
+      <DialogFooter>
+        <DialogClose><Button type="button" onClick={onClose}>Cancel</Button></DialogClose>
+        <Button type="submit">Confirm Registration</Button>
+      </DialogFooter>
     </form>
   );
 };
@@ -125,14 +68,14 @@ const EventDetailPage: React.FC = () => {
   const eventIdNum = parseInt(id || '0');
   const { event, loading: eventLoading, error: eventError } = useEvent(id);
   const { user } = useAuth();
-  const { 
-    registrations: userRegistrations, 
-    createRegistration, 
+  const {
+    registrations: userRegistrations,
+    createRegistration,
     cancelRegistration,
     userTeams,
     availableVehicles,
     fetchUserRelatedDataForRegistration,
-    loading: regLoading 
+    loading: regLoading
   } = useUserRegistrations();
 
   const { results, loading: resultsLoading, error: resultsError, fetchResults: fetchEventResults } = useResults(1, 50, { eventId: id }); // Fetch up to 50 results for this event
@@ -147,7 +90,7 @@ const EventDetailPage: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-        fetchEventResults(1, 50, { eventId: id });
+        fetchEventResults(1, 50);
     }
   }, [id, fetchEventResults]);
 
@@ -163,7 +106,7 @@ const EventDetailPage: React.FC = () => {
       toast.error('Failed to register. You might already be registered or an error occurred.');
     }
   };
-  
+
   const handleCancelRegistration = async (registrationId: number) => {
      if(window.confirm("Are you sure you want to cancel your registration?")) {
         const success = await cancelRegistration(registrationId);
@@ -193,11 +136,6 @@ const EventDetailPage: React.FC = () => {
                     Location: <span className="font-medium text-gray-800">{event.location}</span>
                 </p>
                 )}
-                 {event.track && (
-                 <p className="text-gray-600 text-lg mb-2">
-                    Track: <span className="font-medium text-gray-800">{event.track.name}</span>
-                </p>
-                )}
                 <p className="text-gray-600 text-lg mb-4">
                 Status: <span className="font-medium capitalize text-gray-800">{event.status || 'Unknown'}</span>
                 </p>
@@ -208,26 +146,26 @@ const EventDetailPage: React.FC = () => {
                     <div className="text-right">
                         <p className="text-green-600 font-semibold">You are registered ({existingRegistration.status})</p>
                         {(existingRegistration.status === 'pending' || existingRegistration.status === 'confirmed') && (
-                            <ActualButton onClick={() => handleCancelRegistration(existingRegistration.id)} variant="destructive" size="sm" className="mt-1" disabled={regLoading}>
+                            <Button onClick={() => handleCancelRegistration(existingRegistration.id)} disabled={regLoading}>
                                 {regLoading ? 'Cancelling...' : 'Cancel Registration'}
-                            </ActualButton>
+                            </Button>
                         )}
                     </div>
                 ) : (
-                    <ActualDialog open={isRegisterDialogOpen} onOpenChange={setIsRegisterDialogOpen}>
-                        <ActualDialogTrigger asChild>
-                            <ActualButton variant="default" size="lg" disabled={regLoading}>
+                    <Dialog>
+                        <DialogTrigger>
+                            <Button disabled={regLoading}>
                                 {regLoading ? 'Processing...' : 'Register for Event'}
-                            </ActualButton>
-                        </ActualDialogTrigger>
-                        <ActualDialogContent className="sm:max-w-md bg-white p-6 rounded-lg shadow-xl">
-                            <ActualDialogHeader>
-                                <ActualDialogTitle>Register for {event.name}</ActualDialogTitle>
-                                <ActualDialogDescription>Select your team and vehicle if applicable.</ActualDialogDescription>
-                            </ActualDialogHeader>
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Register for {event.name}</DialogTitle>
+                                <DialogDescription>Select your team and vehicle if applicable.</DialogDescription>
+                            </DialogHeader>
                              {regLoading && <p>Loading form data...</p>}
                             {!regLoading && (
-                                <RegistrationForm 
+                                <RegistrationForm
                                         entityType="event"
                                         entityId={eventIdNum}
                                         userTeams={userTeams}
@@ -236,13 +174,13 @@ const EventDetailPage: React.FC = () => {
                                         onClose={() => setIsRegisterDialogOpen(false)}
                                     />
                             )}
-                        </ActualDialogContent>
-                    </ActualDialog>
+                        </DialogContent>
+                    </Dialog>
                 )}
                 </div>
             )}
         </div>
-        
+
         {event.description && (
           <div className="mt-6 prose max-w-none">
             <h3 className="text-xl font-semibold text-gray-700 mb-2">Event Description</h3>
@@ -251,8 +189,8 @@ const EventDetailPage: React.FC = () => {
         )}
 
         <div className="mt-8">
-          <Link 
-            to={`/championships/${event.championship_id}`} 
+          <Link
+            to={`/championships/${event.championship_id}`}
             className="text-indigo-600 hover:text-indigo-800 hover:underline transition-colors"
           >
             &larr; Back to Championship
@@ -266,35 +204,35 @@ const EventDetailPage: React.FC = () => {
         {resultsLoading && <p>Loading results...</p>}
         {resultsError && <p className="text-red-500">Error loading results: {resultsError.message}</p>}
         {!resultsLoading && !resultsError && results && results.length > 0 ? (
-            <ActualTable>
-                <ActualTableHeader>
-                    <ActualTableRow>
-                        <ActualTableHead>Pos</ActualTableHead>
-                        <ActualTableHead>User</ActualTableHead>
-                        <ActualTableHead>Team</ActualTableHead>
-                        <ActualTableHead>Vehicle</ActualTableHead>
-                        <ActualTableHead>Points</ActualTableHead>
-                        <ActualTableHead>Lap Time</ActualTableHead>
-                    </ActualTableRow>
-                </ActualTableHeader>
-                <ActualTableBody>
-                    {results.sort((a,b) => a.position - b.position).map((result: Result) => (
-                        <ActualTableRow key={result.id}>
-                            <ActualTableCell className="font-bold">{result.position}</ActualTableCell>
-                            <ActualTableCell>{result.user?.username || result.user?.email || 'N/A'}</ActualTableCell>
-                            <ActualTableCell>{result.team?.name || 'N/A'}</ActualTableCell>
-                            <ActualTableCell>{result.vehicle?.name || 'N/A'}</ActualTableCell>
-                            <ActualTableCell>{result.points ?? 'N/A'}</ActualTableCell>
-                            <ActualTableCell>{result.lap_time_ms ? `${(result.lap_time_ms / 1000).toFixed(3)}s` : 'N/A'}</ActualTableCell>
-                        </ActualTableRow>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Pos</TableHead>
+                        <TableHead>User</TableHead>
+                        <TableHead>Team</TableHead>
+                        <TableHead>Vehicle</TableHead>
+                        <TableHead>Points</TableHead>
+                        <TableHead>Lap Time</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {results.sort((a, b) => a.position - b.position).map((result) => (
+                        <TableRow key={result.id}>
+                            <TableCell>{result.position}</TableCell>
+                            <TableCell>{result.user?.username || 'N/A'}</TableCell>
+                            <TableCell>{result.team?.name || 'N/A'}</TableCell>
+                            <TableCell>{result.vehicle?.name || 'N/A'}</TableCell>
+                            <TableCell>{result.points ?? 'N/A'}</TableCell>
+                            <TableCell>{result.lap_time_ms ? `${(result.lap_time_ms / 1000).toFixed(3)}s` : 'N/A'}</TableCell>
+                        </TableRow>
                     ))}
-                </ActualTableBody>
-            </ActualTable>
+                </TableBody>
+            </Table>
         ) : (
             !resultsLoading && <p className="text-gray-600">No results posted for this event yet.</p>
         )}
       </div>
-      
+
       {/* Comments Section */}
       {id && <CommentsSection entityType="event" entityId={parseInt(id)} />}
     </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../lib/apiClient';
-import { Comment, CommentCreationData } from '../types/comment'; // Create this type
+import type { Comment, CommentCreationData } from '../types/comment.ts'; // Create this type
 import { useAuth } from '../contexts/AuthContext'; // To get current user for posting/deleting
 
 interface PaginatedComments {
@@ -22,14 +22,14 @@ interface UseCommentsReturn {
 
 // entityType and entityId are passed when the hook is used, not during initialization.
 export const useComments = (
-    entityType: string, 
+    entityType: string,
     entityId: number | string // number for int IDs, string for UUIDs
 ): UseCommentsReturn => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [totalComments, setTotalComments] = useState(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const [currentLimit, setCurrentLimit] = useState(10); // Default limit
   const [currentParentId, setCurrentParentId] = useState<number | null | undefined>(null); // null for top-level, undefined to not filter by parent
@@ -58,15 +58,19 @@ export const useComments = (
             url += `&parent_id=${parentId}`; // Fetch replies to a specific comment
         }
     }
-    
+
     try {
       const data = await apiClient.get<PaginatedComments>(url);
       // If fetching replies, append them. If fetching top-level, replace.
       // This simplified hook currently replaces. For threaded views, you might need more complex state management.
       setComments(data.comments || []);
       setTotalComments(data.total || 0);
-    } catch (err: any) {
-      setError(err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error('Unknown error occurred while fetching comments.'));
+      }
       setComments([]);
       setTotalComments(0);
     } finally {
@@ -77,7 +81,7 @@ export const useComments = (
   useEffect(() => {
     if (entityType && entityId) {
         // Initial fetch for top-level comments when entityType/Id changes
-        fetchComments(1, currentLimit, null); 
+        fetchComments(1, currentLimit, null);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityType, entityId]); // Removed fetchComments from here to avoid loop, it's called inside.
@@ -86,8 +90,8 @@ export const useComments = (
     setLoading(true); // Or a specific posting state
     try {
       // Ensure entityType and entityId are correctly included from the hook's scope
-      const dataToPost = { 
-        ...commentData, 
+      const dataToPost = {
+        ...commentData,
         entity_type: entityType,
         ...(typeof entityId === 'number' ? { entity_id_int: entityId } : { entity_id_uuid: entityId })
       };
@@ -95,12 +99,17 @@ export const useComments = (
       const newComment = await apiClient.post<Comment>('/api/comments', dataToPost);
       setError(null);
       // Refetch comments for the current view (e.g., top-level or specific parent)
-      await fetchComments(currentPage, currentLimit, currentParentId); 
+      await fetchComments(currentPage, currentLimit, currentParentId);
       setLoading(false);
       return newComment;
-    } catch (err: any) {
-      setError(err);
-      console.error("Failed to post comment:", err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+        console.error("Failed to post comment:", err);
+      } else {
+        setError(new Error('Unknown error occurred while posting comment.'));
+        console.error("Failed to post comment: Unknown error");
+      }
       setLoading(false);
       return null;
     }
@@ -123,21 +132,26 @@ export const useComments = (
       await fetchComments(currentPage, currentLimit, currentParentId);
       setLoading(false);
       return true;
-    } catch (err: any) {
-      setError(err);
-      console.error(`Failed to delete comment ${commentId}:`, err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+        console.error(`Failed to delete comment ${commentId}:`, err);
+      } else {
+        setError(new Error('Unknown error occurred while deleting comment.'));
+        console.error(`Failed to delete comment ${commentId}: Unknown error`);
+      }
       setLoading(false);
       return false;
     }
   };
 
-  return { 
-    comments, 
-    totalComments, 
-    loading, 
-    error, 
-    fetchComments, 
-    postComment, 
-    deleteComment 
+  return {
+    comments,
+    totalComments,
+    loading,
+    error,
+    fetchComments,
+    postComment,
+    deleteComment
   };
 };

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../lib/apiClient';
-import { Vehicle, VehicleCreationData, VehicleUpdateData } from '../types/vehicle';
+import type { Vehicle, VehicleCreationData, VehicleUpdateData } from '../types/vehicle.ts';
 
 interface PaginatedVehicles {
   vehicles: Vehicle[];
@@ -37,8 +37,8 @@ export const useAdminVehicles = (initialPage: number = 1, initialLimit: number =
       const data = await apiClient.get<PaginatedVehicles>(`/api/vehicles?page=${page}&limit=${limit}`);
       setVehicles(data.vehicles || []);
       setTotalVehicles(data.total || 0);
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       setVehicles([]);
       setTotalVehicles(0);
     } finally {
@@ -57,8 +57,8 @@ export const useAdminVehicles = (initialPage: number = 1, initialLimit: number =
       setError(null);
       await fetchVehicles(); // Refetch
       return newVehicle;
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       console.error("Failed to add vehicle:", err);
       setLoading(false);
       return null;
@@ -72,8 +72,8 @@ export const useAdminVehicles = (initialPage: number = 1, initialLimit: number =
       setError(null);
       await fetchVehicles(); // Refetch
       return updatedVehicle;
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       console.error(`Failed to update vehicle ${id}:`, err);
       setLoading(false);
       return null;
@@ -87,8 +87,8 @@ export const useAdminVehicles = (initialPage: number = 1, initialLimit: number =
       setError(null);
       await fetchVehicles(); // Refetch
       return true;
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       console.error(`Failed to delete vehicle ${id}:`, err);
       setLoading(false);
       return false;

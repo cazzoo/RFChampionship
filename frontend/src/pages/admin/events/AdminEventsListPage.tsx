@@ -1,71 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useAdminEvents } from '../../../hooks/useAdminEvents';
-import { Event, EventCreationData, EventUpdateData } from '../../../types/event';
-import { Championship } from '../../../types/championship';
-import { Track } from '../../../types/track';
-
-// Conceptual Shadcn UI imports
+import type { Event, EventCreationData, EventUpdateData } from '../../../types/event';
+import type { Championship } from '../../../types/championship';
+import type { Track } from '../../../types/track';
 import { Button } from '../../../components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../../components/ui/table';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter, DialogClose } from '../../../components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../../components/ui/dialog';
 import { Input } from '../../../components/ui/input';
-import { Textarea } from '../../../components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../components/ui/select';
-import { Label } from '../../../components/ui/label';
-// import { toast } from 'sonner';
-
-// Fallback components for conceptual UI
-const FallbackButton: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const FallbackTable: React.FC<any> = ({ children, ...props }) => <table {...props}>{children}</table>;
-const FallbackTableBody: React.FC<any> = ({ children, ...props }) => <tbody {...props}>{children}</tbody>;
-const FallbackTableCell: React.FC<any> = ({ children, ...props }) => <td {...props}>{children}</td>;
-const FallbackTableHead: React.FC<any> = ({ children, ...props }) => <th {...props}>{children}</th>;
-const FallbackTableHeader: React.FC<any> = ({ children, ...props }) => <thead {...props}>{children}</thead>;
-const FallbackTableRow: React.FC<any> = ({ children, ...props }) => <tr {...props}>{children}</tr>;
-const FallbackDialog: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackDialogContent: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackDialogHeader: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackDialogTitle: React.FC<any> = ({ children, ...props }) => <h2 {...props}>{children}</h2>;
-const FallbackDialogDescription: React.FC<any> = ({ children, ...props }) => <p {...props}>{children}</p>;
-const FallbackDialogTrigger: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const FallbackDialogFooter: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackDialogClose: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const FallbackInput: React.FC<any> = (props) => <input {...props} />;
-const FallbackTextarea: React.FC<any> = (props) => <textarea {...props} />;
-const FallbackLabel: React.FC<any> = ({ children, ...props }) => <label {...props}>{children}</label>;
-const FallbackSelect: React.FC<any> = ({ children, ...props }) => <select {...props}>{children}</select>;
-const FallbackSelectContent: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackSelectItem: React.FC<any> = ({ children, ...props }) => <option {...props}>{children}</option>;
-const FallbackSelectTrigger: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const FallbackSelectValue: React.FC<any> = (props) => <span {...props} />;
-
-
-const ActualButton = Button || FallbackButton;
-const ActualTable = Table || FallbackTable;
-const ActualTableBody = TableBody || FallbackTableBody;
-const ActualTableCell = TableCell || FallbackTableCell;
-const ActualTableHead = TableHead || FallbackTableHead;
-const ActualTableHeader = TableHeader || FallbackTableHeader;
-const ActualTableRow = TableRow || FallbackTableRow;
-const ActualDialog = Dialog || FallbackDialog;
-const ActualDialogContent = DialogContent || FallbackDialogContent;
-const ActualDialogHeader = DialogHeader || FallbackDialogHeader;
-const ActualDialogTitle = DialogTitle || FallbackDialogTitle;
-const ActualDialogDescription = DialogDescription || FallbackDialogDescription;
-const ActualDialogTrigger = DialogTrigger || FallbackDialogTrigger;
-const ActualDialogFooter = DialogFooter || FallbackDialogFooter;
-const ActualDialogClose = DialogClose || FallbackDialogClose;
-const ActualInput = Input || FallbackInput;
-const ActualTextarea = Textarea || FallbackTextarea;
-const ActualLabel = Label || FallbackLabel;
-const ActualSelect = Select || FallbackSelect;
-const ActualSelectContent = SelectContent || FallbackSelectContent;
-const ActualSelectItem = SelectItem || FallbackSelectItem;
-const ActualSelectTrigger = SelectTrigger || FallbackSelectTrigger;
-const ActualSelectValue = SelectValue || FallbackSelectValue;
-
-const toast = { success: (msg: string) => alert(msg), error: (msg: string) => alert(msg) };
-
 
 interface EventFormProps {
   event?: Event | null;
@@ -78,28 +19,27 @@ interface EventFormProps {
 const EventForm: React.FC<EventFormProps> = ({ event, championships, tracks, onSave, onClose }) => {
   const [name, setName] = useState(event?.name || '');
   const [description, setDescription] = useState(event?.description || '');
-  const [eventDate, setEventDate] = useState(event?.event_date ? new Date(event.event_date).toISOString().substring(0, 16) : ''); // For datetime-local
+  const [eventDate, setEventDate] = useState(event?.event_date ? new Date(event.event_date).toISOString().substring(0, 16) : '');
   const [championshipId, setChampionshipId] = useState(event?.championship_id?.toString() || '');
-  const [trackId, setTrackId] = useState(event?.track_id?.toString() || ''); // Assuming track_id is part of Event type
-  const [location, setLocation] = useState(event?.location || ''); // If not using track_id or for custom locations
+  const [trackId, setTrackId] = useState(event?.track_id?.toString() || '');
+  const [location, setLocation] = useState(event?.location || '');
   const [status, setStatus] = useState(event?.status || 'upcoming');
   const [formError, setFormError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormError(null);
     if (!name.trim() || !championshipId || !eventDate) {
       setFormError("Event name, championship, and event date are required.");
       return;
     }
-
     const data: EventCreationData | EventUpdateData = {
       name: name.trim(),
       description: description?.trim() || null,
       event_date: new Date(eventDate).toISOString(),
       championship_id: parseInt(championshipId),
       track_id: trackId ? parseInt(trackId) : null,
-      location: trackId ? null : location?.trim() || null, // Location only if no track
+      location: trackId ? null : location?.trim() || null,
       status: status as Event['status'],
     };
     await onSave(data);
@@ -109,64 +49,55 @@ const EventForm: React.FC<EventFormProps> = ({ event, championships, tracks, onS
     <form onSubmit={handleSubmit} className="space-y-4">
       {formError && <p className="text-red-500 text-sm">{formError}</p>}
       <div>
-        <ActualLabel htmlFor="event-name">Event Name</ActualLabel>
-        <ActualInput id="event-name" value={name} onChange={(e) => setName(e.target.value)} required className="mt-1" />
+        <label htmlFor="event-name">Event Name</label>
+        <Input id="event-name" value={name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} required />
       </div>
       <div>
-        <ActualLabel htmlFor="event-desc">Description</ActualLabel>
-        <ActualTextarea id="event-desc" value={description || ''} onChange={(e) => setDescription(e.target.value)} rows={3} className="mt-1" />
+        <label htmlFor="event-desc">Description</label>
+        <textarea id="event-desc" value={description || ''} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)} rows={3} />
       </div>
       <div>
-        <ActualLabel htmlFor="event-date">Event Date & Time</ActualLabel>
-        <ActualInput id="event-date" type="datetime-local" value={eventDate} onChange={(e) => setEventDate(e.target.value)} required className="mt-1" />
+        <label htmlFor="event-date">Event Date & Time</label>
+        <Input id="event-date" type="datetime-local" value={eventDate} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEventDate(e.target.value)} required />
       </div>
       <div>
-        <ActualLabel htmlFor="event-championship">Championship</ActualLabel>
-        <ActualSelect value={championshipId} onValueChange={setChampionshipId} required>
-            <ActualSelectTrigger id="event-championship" className="w-full mt-1"><ActualSelectValue placeholder="Select Championship" /></ActualSelectTrigger>
-            <ActualSelectContent>
-                {championships.map(champ => <ActualSelectItem key={champ.id} value={champ.id.toString()}>{champ.name}</ActualSelectItem>)}
-            </ActualSelectContent>
-        </ActualSelect>
+        <label htmlFor="event-championship">Championship</label>
+        <select id="event-championship" value={championshipId} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setChampionshipId(e.target.value)} required>
+          <option value="">Select Championship</option>
+          {championships.map(champ => <option key={champ.id} value={champ.id.toString()}>{champ.name}</option>)}
+        </select>
       </div>
-       <div>
-        <ActualLabel htmlFor="event-track">Track (Optional)</ActualLabel>
-        <ActualSelect value={trackId} onValueChange={setTrackId}>
-            <ActualSelectTrigger id="event-track" className="w-full mt-1"><ActualSelectValue placeholder="Select Track (if applicable)" /></ActualSelectTrigger>
-            <ActualSelectContent>
-                <ActualSelectItem value="">No Specific Track (Use Location)</ActualSelectItem>
-                {tracks.map(track => <ActualSelectItem key={track.id} value={track.id.toString()}>{track.name}</ActualSelectItem>)}
-            </ActualSelectContent>
-        </ActualSelect>
+      <div>
+        <label htmlFor="event-track">Track (Optional)</label>
+        <select id="event-track" value={trackId} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setTrackId(e.target.value)}>
+          <option value="">No Specific Track (Use Location)</option>
+          {tracks.map(track => <option key={track.id} value={track.id.toString()}>{track.name}</option>)}
+        </select>
       </div>
-       {!trackId && ( // Only show custom location if no track is selected
+      {!trackId && (
         <div>
-            <ActualLabel htmlFor="event-location">Custom Location (if no track selected)</ActualLabel>
-            <ActualInput id="event-location" value={location || ''} onChange={(e) => setLocation(e.target.value)} className="mt-1" />
+          <label htmlFor="event-location">Custom Location (if no track selected)</label>
+          <Input id="event-location" value={location || ''} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLocation(e.target.value)} />
         </div>
-       )}
+      )}
       <div>
-        <ActualLabel htmlFor="event-status">Status</ActualLabel>
-        <ActualSelect value={status} onValueChange={setStatus}>
-            <ActualSelectTrigger id="event-status" className="w-full mt-1"><ActualSelectValue placeholder="Select Status" /></ActualSelectTrigger>
-            <ActualSelectContent>
-                <ActualSelectItem value="upcoming">Upcoming</ActualSelectItem>
-                <ActualSelectItem value="ongoing">Ongoing</ActualSelectItem>
-                <ActualSelectItem value="completed">Completed</ActualSelectItem>
-                <ActualSelectItem value="cancelled">Cancelled</ActualSelectItem>
-            </ActualSelectContent>
-        </ActualSelect>
+        <label htmlFor="event-status">Status</label>
+        <select id="event-status" value={status} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setStatus(e.target.value)}>
+          <option value="upcoming">Upcoming</option>
+          <option value="ongoing">Ongoing</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
       </div>
-      <ActualDialogFooter>
-         <ActualDialogClose asChild><ActualButton type="button" variant="outline" onClick={onClose}>Cancel</ActualButton></ActualDialogClose>
-        <ActualButton type="submit">Save Event</ActualButton>
-      </ActualDialogFooter>
+      <div>
+        <button type="button" onClick={onClose}>Cancel</button>
+        <Button type="submit">Save Event</Button>
+      </div>
     </form>
   );
 };
 
-
-const AdminEventsListPage: React.FC = () => {
+export default function AdminEventsListPage() {
   const { events, totalEvents, championships, tracks, loading, error, fetchEvents, addEvent, updateEvent, deleteEvent, fetchRelatedDataForForm } = useAdminEvents();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
@@ -174,14 +105,13 @@ const AdminEventsListPage: React.FC = () => {
   const itemsPerPage = 10;
   const [filterChampionshipId, setFilterChampionshipId] = useState<string>('');
 
-
   useEffect(() => {
     fetchEvents(currentPage, itemsPerPage, filterChampionshipId || null);
   }, [currentPage, filterChampionshipId, fetchEvents]);
 
   useEffect(() => {
-    if(isFormOpen) { // Fetch related data only when form is about to open
-        fetchRelatedDataForForm();
+    if (isFormOpen) {
+      fetchRelatedDataForForm();
     }
   }, [isFormOpen, fetchRelatedDataForForm]);
 
@@ -197,106 +127,91 @@ const AdminEventsListPage: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this event?')) {
-      const success = await deleteEvent(id);
-      toast[success ? 'success' : 'error'](success ? 'Event deleted!' : 'Failed to delete event.');
+      await deleteEvent(id);
     }
   };
 
   const handleSave = async (data: EventCreationData | EventUpdateData) => {
-    const result = editingEvent
-      ? await updateEvent(editingEvent.id, data as EventUpdateData)
-      : await addEvent(data as EventCreationData);
-    
-    if (result) {
-      toast.success(`Event ${editingEvent ? 'updated' : 'added'}!`);
-      setIsFormOpen(false);
-      setEditingEvent(null);
+    if (editingEvent) {
+      await updateEvent(editingEvent.id, data as EventUpdateData);
     } else {
-      toast.error(`Failed to ${editingEvent ? 'update' : 'add'} event.`);
+      await addEvent(data as EventCreationData);
     }
+    setIsFormOpen(false);
+    setEditingEvent(null);
   };
-  
+
   const totalPages = Math.ceil(totalEvents / itemsPerPage);
 
   return (
     <div className="container mx-auto py-4">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">Manage Events</h1>
-        <ActualDialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-            <ActualDialogTrigger asChild><ActualButton onClick={handleAdd}>Add Event</ActualButton></ActualDialogTrigger>
-            <ActualDialogContent className="sm:max-w-lg bg-white p-6 rounded-lg shadow-xl">
-                <ActualDialogHeader>
-                    <ActualDialogTitle>{editingEvent ? 'Edit Event' : 'Add New Event'}</ActualDialogTitle>
-                </ActualDialogHeader>
-                <EventForm 
-                    event={editingEvent} 
-                    championships={championships}
-                    tracks={tracks}
-                    onSave={handleSave} 
-                    onClose={() => { setIsFormOpen(false); setEditingEvent(null); }}
-                />
-            </ActualDialogContent>
-        </ActualDialog>
+        <button onClick={handleAdd}>Add Event</button>
+        {isFormOpen && (
+          <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{editingEvent ? 'Edit Event' : 'Add New Event'}</DialogTitle>
+              </DialogHeader>
+              <EventForm
+                event={editingEvent}
+                championships={championships}
+                tracks={tracks}
+                onSave={handleSave}
+                onClose={() => { setIsFormOpen(false); setEditingEvent(null); }}
+              />
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
-
       <div className="mb-4">
-        <ActualLabel htmlFor="filter-event-championship">Filter by Championship:</ActualLabel>
-        <ActualSelect value={filterChampionshipId} onValueChange={setFilterChampionshipId}>
-            <ActualSelectTrigger className="w-full md:w-1/3 mt-1">
-                <ActualSelectValue placeholder="All Championships" />
-            </ActualSelectTrigger>
-            <ActualSelectContent>
-                <ActualSelectItem value="">All Championships</ActualSelectItem>
-                {championships.map(champ => ( // Assuming championships for filter are also loaded via fetchRelatedDataForForm or separate fetch
-                    <ActualSelectItem key={champ.id} value={champ.id.toString()}>
-                        {champ.name}
-                    </ActualSelectItem>
-                ))}
-            </ActualSelectContent>
-        </ActualSelect>
+        <label htmlFor="filter-event-championship">Filter by Championship:</label>
+        <select id="filter-event-championship" value={filterChampionshipId} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFilterChampionshipId(e.target.value)}>
+          <option value="">All Championships</option>
+          {championships.map(champ => (
+            <option key={champ.id} value={champ.id.toString()}>{champ.name}</option>
+          ))}
+        </select>
       </div>
-
       {loading && <p>Loading events...</p>}
       {error && <p className="text-red-500">Error: {error.message}</p>}
-      
       {!loading && !error && (
         <>
-          <ActualTable className="bg-white shadow rounded-lg">
-            <ActualTableHeader>
-              <ActualTableRow>
-                <ActualTableHead>Name</ActualTableHead>
-                <ActualTableHead>Championship</ActualTableHead>
-                <ActualTableHead>Track/Location</ActualTableHead>
-                <ActualTableHead>Date</ActualTableHead>
-                <ActualTableHead>Status</ActualTableHead>
-                <ActualTableHead>Actions</ActualTableHead>
-              </ActualTableRow>
-            </ActualTableHeader>
-            <ActualTableBody>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Championship</TableHead>
+                <TableHead>Track/Location</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {events.map((evt) => (
-                <ActualTableRow key={evt.id}>
-                  <ActualTableCell className="font-medium">{evt.name}</ActualTableCell>
-                  <ActualTableCell>{evt.championship?.name || 'N/A'}</ActualTableCell> {/* Assumes championship is populated */}
-                  <ActualTableCell>{evt.track?.name || evt.location || 'N/A'}</ActualTableCell> {/* Assumes track is populated */}
-                  <ActualTableCell>{new Date(evt.event_date).toLocaleString()}</ActualTableCell>
-                  <ActualTableCell className="capitalize">{evt.status || 'N/A'}</ActualTableCell>
-                  <ActualTableCell>
-                     <ActualButton variant="outline" size="sm" onClick={() => handleEdit(evt)} className="mr-2">Edit</ActualButton>
-                     <ActualButton variant="destructive" size="sm" onClick={() => handleDelete(evt.id)}>Delete</ActualButton>
-                  </ActualTableCell>
-                </ActualTableRow>
+                <TableRow key={evt.id}>
+                  <TableCell>{evt.name}</TableCell>
+                  <TableCell>{evt.championship_id}</TableCell>
+                  <TableCell>{evt.location || 'N/A'}</TableCell>
+                  <TableCell>{new Date(evt.event_date).toLocaleString()}</TableCell>
+                  <TableCell>{evt.status || 'N/A'}</TableCell>
+                  <TableCell>
+                    <Button onClick={() => handleEdit(evt)}>Edit</Button>
+                    <Button onClick={() => handleDelete(evt.id)}>Delete</Button>
+                  </TableCell>
+                </TableRow>
               ))}
-            </ActualTableBody>
-          </ActualTable>
+            </TableBody>
+          </Table>
           <div className="flex items-center justify-end space-x-2 py-4">
-            <ActualButton variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))} disabled={currentPage === 1}>Previous</ActualButton>
+            <Button onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))} disabled={currentPage === 1}>Previous</Button>
             <span className="text-sm">Page {currentPage} of {totalPages}</span>
-            <ActualButton variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))} disabled={currentPage === totalPages || totalEvents === 0}>Next</ActualButton>
+            <Button onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))} disabled={currentPage === totalPages || totalEvents === 0}>Next</Button>
           </div>
         </>
       )}
     </div>
   );
-};
-
-export default AdminEventsListPage;
+}

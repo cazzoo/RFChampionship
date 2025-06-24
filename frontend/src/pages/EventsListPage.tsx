@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useEvents } from '../hooks/useEvents'; // Adjust path as necessary
-import { Event } from '../types/event'; // Adjust path as necessary
+import type { Event } from '../types/event.ts'; // Adjust path as necessary
 
 const EventsListPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -20,7 +20,7 @@ const EventsListPage: React.FC = () => {
   if (!events || events.length === 0) {
     return (
       <div className="text-center py-10">
-        No events found. 
+        No events found.
         {championshipId && " for this championship."}
       </div>
     );
@@ -46,8 +46,8 @@ const EventsListPage: React.FC = () => {
                 Status: <span className="font-medium capitalize">{event.status || 'Unknown'}</span>
               </p>
               <p className="text-gray-700 text-sm mb-4 line-clamp-3">{event.description || 'No description available.'}</p>
-              <Link 
-                to={`/events/${event.id}`} 
+              <Link
+                to={`/events/${event.id}`}
                 className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md text-sm font-medium transition-colors"
               >
                 View Details

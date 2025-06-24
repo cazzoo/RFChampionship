@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useUserRegistrations } from '../hooks/useUserRegistrations';
-import { Registration } from '../types/registration';
+import type { Registration } from '../types/registration.ts';
 import { Link } from 'react-router-dom';
 
 // Conceptual Shadcn UI imports
@@ -9,12 +9,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../co
 // import { toast } from 'sonner';
 
 // Fallbacks for conceptual UI
-const FallbackButton: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const FallbackCard: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackCardContent: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackCardHeader: React.FC<any> = ({ children, ...props }) => <div {...props}>{children}</div>;
-const FallbackCardTitle: React.FC<any> = ({ children, ...props }) => <h3 {...props}>{children}</h3>;
-const FallbackCardDescription: React.FC<any> = ({ children, ...props }) => <p {...props}>{children}</p>;
+const FallbackButton: React.FC<React.PropsWithChildren<Record<string, unknown>>> = ({ children, ...props }) => <button {...props}>{children}</button>;
+const FallbackCard: React.FC<React.PropsWithChildren<Record<string, unknown>>> = ({ children, ...props }) => <div {...props}>{children}</div>;
+const FallbackCardContent: React.FC<React.PropsWithChildren<Record<string, unknown>>> = ({ children, ...props }) => <div {...props}>{children}</div>;
+const FallbackCardHeader: React.FC<React.PropsWithChildren<Record<string, unknown>>> = ({ children, ...props }) => <div {...props}>{children}</div>;
+const FallbackCardTitle: React.FC<React.PropsWithChildren<Record<string, unknown>>> = ({ children, ...props }) => <h3 {...props}>{children}</h3>;
+const FallbackCardDescription: React.FC<React.PropsWithChildren<Record<string, unknown>>> = ({ children, ...props }) => <p {...props}>{children}</p>;
 
 const ActualButton = Button || FallbackButton;
 const ActualCard = Card || FallbackCard;
@@ -26,13 +26,13 @@ const toast = { success: (msg: string) => alert(msg), error: (msg: string) => al
 
 
 const MyRegistrationsPage: React.FC = () => {
-  const { 
-    registrations, 
-    totalRegistrations, 
-    loading, 
-    error, 
-    fetchRegistrations, 
-    cancelRegistration 
+  const {
+    registrations,
+    totalRegistrations,
+    loading,
+    error,
+    fetchRegistrations,
+    cancelRegistration
   } = useUserRegistrations();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -53,7 +53,7 @@ const MyRegistrationsPage: React.FC = () => {
       }
     }
   };
-  
+
   const totalPages = Math.ceil(totalRegistrations / registrationsPerPage);
 
   if (loading && registrations.length === 0) { // Show loading only on initial fetch or if data is empty
@@ -103,12 +103,12 @@ const MyRegistrationsPage: React.FC = () => {
                 </p>
                 {reg.team && <p className="text-sm text-gray-600">Team: {reg.team.name}</p>}
                 {reg.vehicle && <p className="text-sm text-gray-600">Vehicle: {reg.vehicle.name}</p>}
-                
+
                 {(reg.status === 'pending' || reg.status === 'confirmed') && (
                   <div className="mt-4">
-                    <ActualButton 
-                      variant="destructive" 
-                      size="sm" 
+                    <ActualButton
+                      variant="destructive"
+                      size="sm"
                       onClick={() => handleCancel(reg.id)}
                       disabled={loading} // Disable button while any registration operation is loading
                     >
@@ -121,7 +121,7 @@ const MyRegistrationsPage: React.FC = () => {
           ))}
         </div>
       )}
-      
+
       {/* Pagination Controls */}
       {totalRegistrations > 0 && totalPages > 1 && (
           <div className="flex items-center justify-end space-x-2 py-4 mt-8">

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../lib/apiClient';
-import { Rule, RuleCreationData, RuleUpdateData } from '../types/rule';
-import { Championship } from '../types/championship'; // For fetching championships for the Select dropdown
+import type { Rule, RuleCreationData, RuleUpdateData } from '../types/rule.ts';
+import type { Championship } from '../types/championship.ts'; // For fetching championships for the Select dropdown
 
 interface PaginatedRules {
   rules: Rule[];
@@ -53,8 +53,8 @@ export const useAdminRules = (initialPage: number = 1, initialLimit: number = 10
       const data = await apiClient.get<PaginatedRules>(url);
       setRules(data.rules || []);
       setTotalRules(data.total || 0);
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       setRules([]);
       setTotalRules(0);
     } finally {
@@ -69,9 +69,8 @@ export const useAdminRules = (initialPage: number = 1, initialLimit: number = 10
     try {
       const data = await apiClient.get<{championships: Championship[]}>('/api/championships?limit=1000'); // Fetch many for select
       setChampionships(data.championships || []);
-    } catch (err: any) {
+    } catch (err) {
       console.error("Failed to fetch championships for select:", err);
-      // setError(err); // Or handle this error separately
       setChampionships([]);
     }
     // setLoading(false); // If using separate loading state
@@ -90,8 +89,8 @@ export const useAdminRules = (initialPage: number = 1, initialLimit: number = 10
       setError(null);
       await fetchRules(); // Refetch
       return newRule;
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       console.error("Failed to add rule:", err);
       setLoading(false);
       return null;
@@ -105,8 +104,8 @@ export const useAdminRules = (initialPage: number = 1, initialLimit: number = 10
       setError(null);
       await fetchRules(); // Refetch
       return updatedRule;
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       console.error(`Failed to update rule ${id}:`, err);
       setLoading(false);
       return null;
@@ -120,8 +119,8 @@ export const useAdminRules = (initialPage: number = 1, initialLimit: number = 10
       setError(null);
       await fetchRules(); // Refetch
       return true;
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       console.error(`Failed to delete rule ${id}:`, err);
       setLoading(false);
       return false;

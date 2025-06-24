@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../lib/apiClient';
-import { Event, EventCreationData, EventUpdateData } from '../types/event';
-import { Championship } from '../types/championship'; // For select dropdown in form
-import { Track } from '../types/track'; // For select dropdown in form
+import type { Event, EventCreationData, EventUpdateData } from '../types/event.ts';
+import type { Championship } from '../types/championship.ts'; // For select dropdown in form
+import type { Track } from '../types/track.ts'; // For select dropdown in form
 
 interface PaginatedEvents {
   events: Event[];
@@ -47,34 +47,42 @@ export const useAdminEvents = (initialPage: number = 1, initialLimit: number = 1
     if (championshipId) {
       url += `&championship_id=${championshipId}`;
     }
-    
+
     try {
       const data = await apiClient.get<PaginatedEvents>(url);
       setEvents(data.events || []);
       setTotalEvents(data.total || 0);
-    } catch (err: any) {
-      setError(err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error('Unknown error occurred while fetching events.'));
+      }
       setEvents([]);
       setTotalEvents(0);
     } finally {
       setLoading(false);
     }
   }, [currentPage, currentLimit, currentChampionshipFilter]);
-  
+
   const fetchRelatedDataForForm = useCallback(async () => {
     setLoading(true); // Or a separate loading state for this
     try {
-      const champPromise = apiClient.get<{championships: Championship[]}>('/api/championships?limit=1000'); // Fetch all for select
-      const trackPromise = apiClient.get<{tracks: Track[]}>('/api/tracks?limit=1000'); // Fetch all for select
-      
+      const champPromise = apiClient.get<{championships: Championship[]}>('/api/championships?limit=1000');
+      const trackPromise = apiClient.get<{tracks: Track[]}>('/api/tracks?limit=1000');
+
       const [champResponse, trackResponse] = await Promise.all([champPromise, trackPromise]);
-      
+
       setChampionships(champResponse.championships || []);
       setTracks(trackResponse.tracks || []);
       setError(null);
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error("Failed to fetch related data for event form:", err);
-        setError(err);
+        if (err instanceof Error) {
+          setError(err);
+        } else {
+          setError(new Error('Unknown error occurred while fetching related data.'));
+        }
         setChampionships([]);
         setTracks([]);
     } finally {
@@ -95,9 +103,14 @@ export const useAdminEvents = (initialPage: number = 1, initialLimit: number = 1
       setError(null);
       await fetchEvents(); // Refetch
       return newEvent;
-    } catch (err: any) {
-      setError(err);
-      console.error("Failed to add event:", err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+        console.error("Failed to add event:", err);
+      } else {
+        setError(new Error('Unknown error occurred while adding event.'));
+        console.error("Failed to add event: Unknown error");
+      }
       setLoading(false);
       return null;
     }
@@ -110,9 +123,14 @@ export const useAdminEvents = (initialPage: number = 1, initialLimit: number = 1
       setError(null);
       await fetchEvents(); // Refetch
       return updatedEvent;
-    } catch (err: any) {
-      setError(err);
-      console.error(`Failed to update event ${id}:`, err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+        console.error(`Failed to update event ${id}:`, err);
+      } else {
+        setError(new Error('Unknown error occurred while updating event.'));
+        console.error(`Failed to update event ${id}: Unknown error`);
+      }
       setLoading(false);
       return null;
     }
@@ -125,24 +143,29 @@ export const useAdminEvents = (initialPage: number = 1, initialLimit: number = 1
       setError(null);
       await fetchEvents(); // Refetch
       return true;
-    } catch (err: any) {
-      setError(err);
-      console.error(`Failed to delete event ${id}:`, err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+        console.error(`Failed to delete event ${id}:`, err);
+      } else {
+        setError(new Error('Unknown error occurred while deleting event.'));
+        console.error(`Failed to delete event ${id}: Unknown error`);
+      }
       setLoading(false);
       return false;
     }
   };
 
-  return { 
-    events, 
-    totalEvents, 
+  return {
+    events,
+    totalEvents,
     championships,
     tracks,
-    loading, 
-    error, 
-    fetchEvents, 
-    addEvent, 
-    updateEvent, 
+    loading,
+    error,
+    fetchEvents,
+    addEvent,
+    updateEvent,
     deleteEvent,
     fetchRelatedDataForForm
   };

@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../lib/apiClient';
-import { Registration, RegistrationCreationData } from '../types/registration';
-import { Team } from '../types/team'; // For fetching user's teams
-import { Vehicle } from '../types/vehicle'; // For fetching available vehicles
+import type { Registration, RegistrationCreationData } from '../types/registration.ts';
+import type { Team } from '../types/team.ts'; // For fetching user's teams
+import type { Vehicle } from '../types/vehicle.ts'; // For fetching available vehicles
 
 interface PaginatedRegistrations {
   registrations: Registration[];
@@ -44,15 +44,19 @@ export const useUserRegistrations = (initialPage: number = 1, initialLimit: numb
       const data = await apiClient.get<PaginatedRegistrations>(`/api/registrations?page=${page}&limit=${limit}`);
       setRegistrations(data.registrations || []);
       setTotalRegistrations(data.total || 0);
-    } catch (err: any) {
-      setError(err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error('Unknown error occurred while fetching registrations.'));
+      }
       setRegistrations([]);
       setTotalRegistrations(0);
     } finally {
       setLoading(false);
     }
   }, [currentPage, currentLimit]);
-  
+
   const fetchUserRelatedDataForRegistration = useCallback(async () => {
     setLoading(true); // Consider separate loading states if preferred
     try {
@@ -60,7 +64,7 @@ export const useUserRegistrations = (initialPage: number = 1, initialLimit: numb
         // For simplicity, let's assume /api/teams?member_id=me (backend would need to implement this based on auth user)
         // OR if user's profile from AuthContext contains team memberships.
         // This is a placeholder, as /api/users/me/teams is not yet defined.
-        // const teamsData = await apiClient.get<{ teams: Team[] }>('/api/users/me/teams'); 
+        // const teamsData = await apiClient.get<{ teams: Team[] }>('/api/users/me/teams');
         // setUserTeams(teamsData.teams || []);
         // For now, using a general teams list; user will have to know their team ID
         // Or, more realistically, a user's profile would contain their team affiliations.
@@ -73,9 +77,13 @@ export const useUserRegistrations = (initialPage: number = 1, initialLimit: numb
         const vehiclesData = await apiClient.get<{vehicles: Vehicle[]}>('/api/vehicles?limit=100'); // Get some vehicles
         setAvailableVehicles(vehiclesData.vehicles || []);
         setError(null);
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error("Failed to fetch related data for registration:", err);
-        setError(err); // Set main error state or a specific one
+        if (err instanceof Error) {
+          setError(err);
+        } else {
+          setError(new Error('Unknown error occurred while fetching related data.'));
+        }
         setUserTeams([]);
         setAvailableVehicles([]);
     } finally {
@@ -97,9 +105,14 @@ export const useUserRegistrations = (initialPage: number = 1, initialLimit: numb
       setError(null);
       await fetchRegistrations(); // Refresh the list of registrations
       return newRegistration;
-    } catch (err: any) {
-      setError(err);
-      console.error("Failed to create registration:", err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+        console.error("Failed to create registration:", err);
+      } else {
+        setError(new Error('Unknown error occurred while creating registration.'));
+        console.error("Failed to create registration: Unknown error");
+      }
       setLoading(false);
       return null;
     }
@@ -111,29 +124,34 @@ export const useUserRegistrations = (initialPage: number = 1, initialLimit: numb
       await apiClient.put<Registration>(`/api/registrations/${registrationId}/status`, { status: 'cancelled' });
       setError(null);
       // Update specific registration in list or refetch
-      setRegistrations(prevRegs => 
+      setRegistrations(prevRegs =>
         prevRegs.map(reg => reg.id === registrationId ? { ...reg, status: 'cancelled' } : reg)
       );
       // await fetchRegistrations(); // Or refetch the whole list
       setLoading(false);
       return true;
-    } catch (err: any) {
-      setError(err);
-      console.error(`Failed to cancel registration ${registrationId}:`, err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+        console.error(`Failed to cancel registration ${registrationId}:`, err);
+      } else {
+        setError(new Error('Unknown error occurred while cancelling registration.'));
+        console.error(`Failed to cancel registration ${registrationId}: Unknown error`);
+      }
       setLoading(false);
       return false;
     }
   };
 
-  return { 
-    registrations, 
-    totalRegistrations, 
-    loading, 
-    error, 
-    userTeams, 
+  return {
+    registrations,
+    totalRegistrations,
+    loading,
+    error,
+    userTeams,
     availableVehicles,
-    fetchRegistrations, 
-    createRegistration, 
+    fetchRegistrations,
+    createRegistration,
     cancelRegistration,
     fetchUserRelatedDataForRegistration
   };

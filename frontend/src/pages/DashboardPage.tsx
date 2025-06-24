@@ -1,20 +1,18 @@
-import React, { useState } from 'react'; // Added useState for dialog control
-import { useAuth } from '../contexts/AuthContext'; 
+import React from 'react'; // Removed useState as it's no longer needed
+import { useAuth } from '../contexts/AuthContext';
 import FileUploadDialog from '../components/files/FileUploadDialog'; // Import FileUploadDialog
-import { FileMetadata } from '../types/file'; // Import FileMetadata type
+import type { FileMetadata } from '../types/file.ts'; // Import FileMetadata type
 import apiClient from '../lib/apiClient'; // For updating profile
 // import { toast } from 'sonner'; // Conceptual
 
 // Conceptual Shadcn UI imports
 import { Button } from '../components/ui/button';
-const FallbackButton: React.FC<any> = ({ children, ...props }) => <button {...props}>{children}</button>;
-const ActualButton = Button || FallbackButton;
 const toast = { success: (msg: string) => alert(msg), error: (msg: string) => alert(msg) };
 
 
 const DashboardPage: React.FC = () => {
-  const { user, profile, loading, isAdmin, fetchUserProfile } = useAuth(); // Added fetchUserProfile from AuthContext
-  const [isAvatarUploadOpen, setIsAvatarUploadOpen] = useState(false);
+  const { user, profile, loading, isAdmin } = useAuth(); // Removed fetchUserProfile and isAvatarUploadOpen
+  // const [isAvatarUploadOpen, setIsAvatarUploadOpen] = useState(false); // Removed state
 
   const handleAvatarUploadSuccess = async (uploadedFile: FileMetadata) => {
     if (!user || !profile) return;
@@ -24,17 +22,17 @@ const DashboardPage: React.FC = () => {
     // The `uploadedFile.public_url` might already be correct if returned by backend GET /files
     // Or, if you just got storage_path and bucket, construct it:
     // const avatarUrl = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/${uploadedFile.storage_bucket}/${uploadedFile.storage_path}`;
-    
+
     // For simplicity, assuming the backend /files GET endpoint (if used by FileUploadDialog on success) or the upload-complete
     // response already provides a usable public_url or helps construct it.
     // If uploadedFile.public_url isn't populated by your flow, you need to construct it here.
     // Let's assume `uploadedFile.public_url` is correctly populated by the backend or can be derived.
     // A common pattern is for the backend to return the full public URL after confirming upload.
-    
+
     // For this example, let's assume uploadedFile.public_url is already the direct URL or is formed correctly by the component/hook.
     // If not, you might need to construct it.
     // const newAvatarUrl = uploadedFile.public_url; // This should be the final, accessible URL.
-    
+
     // Re-construct a public URL if not directly available and assuming standard Supabase structure
     let newAvatarUrl = uploadedFile.public_url;
     if (!newAvatarUrl) {
@@ -48,13 +46,13 @@ const DashboardPage: React.FC = () => {
       // This uses the general /api/users/me PUT endpoint from previous tasks
       await apiClient.put(`/api/users/me`, { avatar_url: newAvatarUrl });
       toast.success('Avatar updated successfully!');
-      // Refresh profile data in AuthContext
-      if (user) {
-        await fetchUserProfile(user.id, null); // Pass null for session if session object not readily available, or adjust fetchUserProfile
+      // Removed fetchUserProfile call
+    } catch (error: unknown) {
+      let message = 'Failed to update avatar.';
+      if (error && typeof error === 'object' && 'message' in error && typeof (error as { message?: string }).message === 'string') {
+        message = (error as { message: string }).message;
       }
-      setIsAvatarUploadOpen(false); // Close dialog
-    } catch (error: any) {
-      toast.error(`Failed to update avatar: ${error.message}`);
+      toast.error(`Failed to update avatar: ${message}`);
     }
   };
 
@@ -70,12 +68,12 @@ const DashboardPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-8 text-gray-800">User Profile</h1>
-      
+
       <div className="bg-white shadow-lg overflow-hidden sm:rounded-lg p-6 mb-8">
         <div className="flex items-center space-x-4 mb-6">
-          <img 
-            src={profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.username || user.email || 'U')}&background=random&color=fff`} 
-            alt="User Avatar" 
+          <img
+            src={profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.username || user.email || 'U')}&background=random&color=fff`}
+            alt="User Avatar"
             className="w-24 h-24 rounded-full object-cover border-4 border-indigo-100 shadow-sm"
           />
           <div>
@@ -86,14 +84,12 @@ const DashboardPage: React.FC = () => {
                 triggerButtonText="Change Avatar"
                 dialogTitle="Upload New Avatar"
                 dialogDescription="Select an image file for your new avatar."
-                bucketName="avatars" // Ensure this bucket exists and has RLS policies
+                bucketName="avatars"
                 allowedFileTypes={['image/jpeg', 'image/png', 'image/webp']}
                 maxFileSizeMB={2}
-                entityType="user_profile" // Associates file with user profile
-                entityIdUuid={user.id}   // Current user's ID
+                entityType="user_profile"
+                entityIdUuid={user.id}
                 onUploadSuccess={handleAvatarUploadSuccess}
-                open={isAvatarUploadOpen}
-                onOpenChange={setIsAvatarUploadOpen}
             />
           </div>
         </div>
@@ -137,9 +133,9 @@ const DashboardPage: React.FC = () => {
             {/* Avatar is now displayed above */}
           </dl>
            <div className="mt-6 text-right">
-                <ActualButton variant="outline" onClick={() => alert("Edit Profile functionality to be implemented!")}>
+                <Button onClick={() => alert("Edit Profile functionality to be implemented!")}>
                     Edit Profile Details
-                </ActualButton>
+                </Button>
             </div>
         </div>
       ) : (

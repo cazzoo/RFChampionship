@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../lib/apiClient';
-import { Championship, ChampionshipCreationData, ChampionshipUpdateData } from '../types/championship';
+import type { Championship, ChampionshipCreationData, ChampionshipUpdateData } from '../types/championship.ts';
 
 interface PaginatedChampionships {
   championships: Championship[];
@@ -37,8 +37,12 @@ export const useAdminChampionships = (initialPage: number = 1, initialLimit: num
       const data = await apiClient.get<PaginatedChampionships>(`/api/championships?page=${page}&limit=${limit}`);
       setChampionships(data.championships || []);
       setTotalChampionships(data.total || 0);
-    } catch (err: any) {
-      setError(err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error('Unknown error occurred while fetching championships.'));
+      }
       setChampionships([]);
       setTotalChampionships(0);
     } finally {
@@ -57,9 +61,14 @@ export const useAdminChampionships = (initialPage: number = 1, initialLimit: num
       setError(null);
       await fetchChampionships(); // Refetch
       return newChampionship;
-    } catch (err: any) {
-      setError(err);
-      console.error("Failed to add championship:", err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+        console.error("Failed to add championship:", err);
+      } else {
+        setError(new Error('Unknown error occurred while adding championship.'));
+        console.error("Failed to add championship: Unknown error");
+      }
       setLoading(false);
       return null;
     }
@@ -72,9 +81,14 @@ export const useAdminChampionships = (initialPage: number = 1, initialLimit: num
       setError(null);
       await fetchChampionships(); // Refetch
       return updatedChampionship;
-    } catch (err: any) {
-      setError(err);
-      console.error(`Failed to update championship ${id}:`, err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+        console.error(`Failed to update championship ${id}:`, err);
+      } else {
+        setError(new Error('Unknown error occurred while updating championship.'));
+        console.error(`Failed to update championship ${id}: Unknown error`);
+      }
       setLoading(false);
       return null;
     }
@@ -87,22 +101,27 @@ export const useAdminChampionships = (initialPage: number = 1, initialLimit: num
       setError(null);
       await fetchChampionships(); // Refetch
       return true;
-    } catch (err: any) {
-      setError(err);
-      console.error(`Failed to delete championship ${id}:`, err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+        console.error(`Failed to delete championship ${id}:`, err);
+      } else {
+        setError(new Error('Unknown error occurred while deleting championship.'));
+        console.error(`Failed to delete championship ${id}: Unknown error`);
+      }
       setLoading(false);
       return false;
     }
   };
 
-  return { 
-    championships, 
-    totalChampionships, 
-    loading, 
-    error, 
-    fetchChampionships, 
-    addChampionship, 
-    updateChampionship, 
-    deleteChampionship 
+  return {
+    championships,
+    totalChampionships,
+    loading,
+    error,
+    fetchChampionships,
+    addChampionship,
+    updateChampionship,
+    deleteChampionship
   };
 };

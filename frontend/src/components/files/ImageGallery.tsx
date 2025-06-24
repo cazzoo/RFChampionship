@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useFiles } from '../../hooks/useFiles'; // Adjust path as necessary
-import { FileMetadata } from '../../types/file'; // Adjust path as necessary
+import type { FileMetadata } from '../../types/file.ts'; // Adjust path as necessary
 // import { Lightbox } from "yet-another-react-lightbox"; // Conceptual, user would install
 // import "yet-another-react-lightbox/styles.css";
 
@@ -11,13 +11,13 @@ interface ImageGalleryProps {
   className?: string;
 }
 
-const ImageGallery: React.FC<ImageGalleryProps> = ({ 
-    entityType, 
-    entityId, 
-    bucketName, 
-    className = "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" 
+const ImageGallery: React.FC<ImageGalleryProps> = ({
+    entityType,
+    entityId,
+    bucketName,
+    className = "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
 }) => {
-  const { files, loading, error, fetchFiles } = useFiles(entityType, entityId, bucketName, undefined, 1, 20); // Fetch up to 20 images for a gallery view
+  const { files, loading, error } = useFiles(entityType, entityId, bucketName, undefined, 1, 20); // Remove fetchFiles
 
   // State for lightbox (conceptual)
   // const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -40,23 +40,23 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   //   setLightboxIndex(index);
   //   setLightboxOpen(true);
   // };
-  
+
   if (imageFiles.length === 0) return <p className="text-gray-500 text-sm">No images found for this entity.</p>;
 
 
   return (
     <div className="mt-4">
       <div className={className}>
-        {imageFiles.map((file: FileMetadata, index: number) => (
-          <div 
-            key={file.id} 
+        {imageFiles.map((file: FileMetadata) => (
+          <div
+            key={file.id}
             className="aspect-square bg-gray-100 rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow cursor-pointer"
             // onClick={() => openLightbox(index)} // Conceptual lightbox trigger
           >
-            <img 
-              src={file.public_url || `https://via.placeholder.com/300?text=${encodeURIComponent(file.file_name)}`} 
-              alt={file.title || file.file_name} 
-              className="w-full h-full object-cover" 
+            <img
+              src={file.public_url || `https://via.placeholder.com/300?text=${encodeURIComponent(file.file_name)}`}
+              alt={file.title || file.file_name}
+              className="w-full h-full object-cover"
             />
             {file.title && <p className="text-xs text-center p-1 bg-black bg-opacity-50 text-white truncate">{file.title}</p>}
           </div>

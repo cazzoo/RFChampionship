@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../lib/apiClient';
-import { FileMetadata } from '../types/file'; // Create this type
+import type { FileMetadata } from '../types/file'; // Create this type
 
 interface PaginatedFiles {
   files: FileMetadata[];
@@ -19,7 +19,7 @@ interface UseFilesReturn {
 
 // Fetches files for a specific entity or by other criteria
 export const useFiles = (
-  entityType?: string, 
+  entityType?: string,
   entityId?: number | string, // number for int IDs, string for UUIDs
   bucketName?: string,
   uploaderUserId?: string,
@@ -30,7 +30,7 @@ export const useFiles = (
   const [totalFiles, setTotalFiles] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
-  
+
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [currentLimit, setCurrentLimit] = useState(initialLimit);
 
@@ -55,13 +55,17 @@ export const useFiles = (
     }
     if (bucketName) url += `&bucketName=${bucketName}`;
     if (uploaderUserId) url += `&uploader_user_id=${uploaderUserId}`;
-    
+
     try {
       const data = await apiClient.get<PaginatedFiles>(url);
       setFiles(prevFiles => page === 1 ? (data.files || []) : [...prevFiles, ...(data.files || [])]);
       setTotalFiles(data.total || 0);
-    } catch (err: any) {
-      setError(err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error('Unknown error occurred while fetching files.'));
+      }
       // Don't clear files on error if it's a subsequent page load error
       if (page === 1) {
         setFiles([]);
@@ -75,16 +79,16 @@ export const useFiles = (
   // Initial fetch when key identifiers change
   useEffect(() => {
     // Reset page to 1 when key identifiers change to avoid fetching wrong page with new filters
-    setCurrentPage(1); 
+    setCurrentPage(1);
     fetchFiles(1, currentLimit);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityType, entityId, bucketName, uploaderUserId, currentLimit]); // fetchFiles is memoized
 
-  return { 
-    files, 
-    totalFiles, 
-    loading, 
-    error, 
+  return {
+    files,
+    totalFiles,
+    loading,
+    error,
     fetchFiles
   };
 };

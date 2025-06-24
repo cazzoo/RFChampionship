@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../lib/apiClient';
-import { Profile } from '../types/profile'; // Assuming Profile includes role and other user details
+import type { Profile } from '../types/profile.ts'; // Assuming Profile includes role and other user details
 
 // The backend /api/users endpoint for admin returns Supabase Auth User object combined with profile
 // Adjust this type based on the actual structure returned by your /api/users (admin)
@@ -47,8 +47,8 @@ export const useAdminUsers = (initialPage: number = 1, initialLimit: number = 10
       const data = await apiClient.get<PaginatedAdminUsers>(`/api/users?page=${page}&limit=${limit}`);
       setUsers(data.users || []);
       setTotalUsers(data.total || 0);
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       setUsers([]);
       setTotalUsers(0);
     } finally {
@@ -71,20 +71,20 @@ export const useAdminUsers = (initialPage: number = 1, initialLimit: number = 10
       // await fetchUsers(); // Or refetch the current page
       setLoading(false);
       return response.user;
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       console.error(`Failed to update role for user ${userId}:`, err);
       setLoading(false);
       return null;
     }
   };
 
-  return { 
-    users, 
-    totalUsers, 
-    loading, 
-    error, 
-    fetchUsers, 
-    updateUserRole 
+  return {
+    users,
+    totalUsers,
+    loading,
+    error,
+    fetchUsers,
+    updateUserRole
   };
 };

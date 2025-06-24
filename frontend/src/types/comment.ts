@@ -1,4 +1,4 @@
-import { Profile } from './profile'; // Assuming Profile type exists
+import type { Profile } from './profile.ts'; // Use .ts extension for ESM compatibility
 
 export interface Comment {
   id: number;

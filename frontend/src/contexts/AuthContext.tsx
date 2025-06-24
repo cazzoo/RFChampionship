@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Session, User } from '@supabase/supabase-js';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { supabase } from '../lib/supabaseClient'; // Your Supabase client
-import { Profile } from '../types/profile'; // Assuming you have a Profile type
+import type { Session, User } from '@supabase/supabase-js';
+import type { Profile } from '../types/profile.ts'; // Use .ts extension for ESM compatibility
 
 // Define the shape of the AuthContext
 interface AuthContextType {
@@ -78,7 +79,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
         setLoading(false);
     };
-    
+
     getInitialSession();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
@@ -130,7 +131,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(false);
       throw signUpError;
     }
-    
+
     // After successful Supabase sign-up, if auto-confirm is on, user is logged in.
     // onAuthStateChange will handle session and trigger profile fetch.
     // If profile doesn't exist yet (trigger might be slow or fail), fetchUserProfile might return 404.

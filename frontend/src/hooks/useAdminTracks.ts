@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../lib/apiClient';
-import { Track, TrackCreationData, TrackUpdateData } from '../types/track';
+import type { Track, TrackCreationData, TrackUpdateData } from '../types/track.ts';
 
 interface PaginatedTracks {
   tracks: Track[];
@@ -41,8 +41,8 @@ export const useAdminTracks = (initialPage: number = 1, initialLimit: number = 1
       const data = await apiClient.get<PaginatedTracks>(`/api/tracks?page=${page}&limit=${limit}`);
       setTracks(data.tracks || []);
       setTotalTracks(data.total || 0);
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       setTracks([]);
       setTotalTracks(0);
     } finally {
@@ -60,15 +60,14 @@ export const useAdminTracks = (initialPage: number = 1, initialLimit: number = 1
       const newTrack = await apiClient.post<Track>('/api/tracks', trackData);
       setError(null);
       // Refetch or update list locally - for simplicity, refetching current page
-      await fetchTracks(); 
+      await fetchTracks();
       return newTrack;
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       console.error("Failed to add track:", err);
-      setLoading(false); // Ensure loading is false on error
+      setLoading(false);
       return null;
     }
-    // setLoading(false); // This was missing, handled by finally in fetchTracks if called
   };
 
   const updateTrack = async (id: number, trackData: TrackUpdateData): Promise<Track | null> => {
@@ -79,8 +78,8 @@ export const useAdminTracks = (initialPage: number = 1, initialLimit: number = 1
       // Refetch or update list locally
       await fetchTracks();
       return updatedTrack;
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       console.error(`Failed to update track ${id}:`, err);
       setLoading(false);
       return null;
@@ -95,8 +94,8 @@ export const useAdminTracks = (initialPage: number = 1, initialLimit: number = 1
       // Refetch or update list locally
       await fetchTracks(); // Refetch, could also filter out locally: setTracks(prev => prev.filter(t => t.id !== id));
       return true;
-    } catch (err: any) {
-      setError(err);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
       console.error(`Failed to delete track ${id}:`, err);
       setLoading(false);
       return false;

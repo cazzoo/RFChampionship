@@ -1,13 +1,13 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
+import type { ReactNode } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-// Using a subset of lucide-react icons for brevity, add others as needed
-import { 
-    Home, Shield, Trophy, CalendarDays, Car, Scale, Users, ListOrdered, 
-    BarChart3, Settings, UploadCloud, MessageSquare // Added UploadCloud, MessageSquare
-} from 'lucide-react'; 
+import {
+    Home, Shield, Trophy, CalendarDays, Car, Scale, Users, ListOrdered,
+    BarChart3, UploadCloud, MessageSquare // Removed Settings
+} from 'lucide-react';
 
 interface AdminLayoutProps {
-  children?: ReactNode; 
+  children?: ReactNode;
 }
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
@@ -19,7 +19,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     { href: '/admin/users', label: 'Users', icon: Users },
     { href: '/admin/championships', label: 'Championships', icon: Trophy },
     { href: '/admin/events', label: 'Events', icon: CalendarDays },
-    { href: '/admin/tracks', label: 'Tracks', icon: Car }, 
+    { href: '/admin/tracks', label: 'Tracks', icon: Car },
     { href: '/admin/vehicles', label: 'Vehicles', icon: Car },
     { href: '/admin/rules', label: 'Rules', icon: Scale },
     { href: '/admin/registrations', label: 'Registrations', icon: ListOrdered },
@@ -42,8 +42,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                     to={item.href}
                     className={`flex items-center space-x-3 p-2 rounded-md hover:bg-gray-700 transition-colors ${
                         // Check for active link, including sub-routes for parent items if desired
-                        (location.pathname === item.href || (item.href !== '/admin' && location.pathname.startsWith(item.href))) 
-                        ? 'bg-gray-900 font-semibold' 
+                        (location.pathname === item.href || (item.href !== '/admin' && location.pathname.startsWith(item.href)))
+                        ? 'bg-gray-900 font-semibold'
                         : ''
                     }`}
                     >
@@ -63,7 +63,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         </div>
       </aside>
       <main className="flex-1 p-6 lg:p-8 overflow-y-auto">
-        {children || <Outlet />} 
+        {children || <Outlet />}
       </main>
     </div>
   );
