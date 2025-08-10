@@ -1,0 +1,18 @@
+{
+  "name": "api",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "start": "bun run src/index.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "hono": "^4.5.1",
+    "@supabase/supabase-js": "^2.54.0",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/jsonwebtoken": "^9.0.5"
+  },
+  "module": "src/index.ts"
+}
