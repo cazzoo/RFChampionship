@@ -47,9 +47,26 @@ auth.post('/auth/login', async (c) => {
 })
 
 auth.use('/me', (c, next) => jwt({ secret: process.env.JWT_SECRET! })(c, next))
-auth.get('/me', (c) => {
+auth.get('/me', async (c) => {
     const payload = c.get('jwtPayload')
-    const user = { id: payload.sub, email: payload.email, aud: payload.aud }
+    if (!payload || !payload.sub) {
+        return c.json({ error: 'Unauthorized' }, 401)
+    }
+
+    const supabase = c.get('supabase')
+    const { data, error } = await supabase
+        .from('profiles')
+        .select('roles')
+        .eq('id', payload.sub)
+        .single()
+
+    if (error || !data) {
+        // Fallback for users who might not have a profile entry yet
+        const user = { id: payload.sub, email: payload.email, aud: payload.aud, roles: [] }
+        return c.json(user)
+    }
+
+    const user = { id: payload.sub, email: payload.email, aud: payload.aud, roles: data.roles || [] }
     return c.json(user)
 })
 
