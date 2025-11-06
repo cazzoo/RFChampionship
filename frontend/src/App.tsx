@@ -1,5 +1,3 @@
-import React from 'react';
-
 function App() {
   return (
     <div className="hero min-h-[80vh] bg-base-200">
